@@ -1,5 +1,5 @@
 <meta charset='utf-8'/><html><head><title>index.html</title><link rel=StyleSheet href='css/general.css' type='text/css' /></head><body><?php require('header.php') ?>
-    <div style="font-size:1.6em;line-height:1.6">
+    <div style="padding:1em;font-size:1.6em">
       Plange (plaːnd͡ʒ) is a project to create a revolutionary
       development environment, including a programming language,
       standard library, and runtime.
