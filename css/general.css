@@ -78,6 +78,7 @@
     border-left-width: 1px;
     border-left-style: solid;
     padding-left: 15px;
+    max-width: 800px;
 }
 
 #left-margin {
