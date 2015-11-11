@@ -1,4 +1,7 @@
-<meta charset='utf-8'/><html><head><title>
+<meta charset='utf-8'/><html><head><title>vector_norm.html</title><link rel=StyleSheet href='../../css/general.css' type='text/css' /></head><body><?php require('../../header.php') ?>
+
+
+
     ns the normalized vector of the specified vector expression.
     <div>
         <br>
@@ -17,10 +20,7 @@
             </br>
         </code>
     </div>
-</title><link rel=StyleSheet href='../../css/general.css' type='text/css' /></head><body><?php require('../../header.php') ?>
 
-
-vector_norm.html
 
 
 <?php require('../../footer.php') ?></body></html>

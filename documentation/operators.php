@@ -1,4 +1,7 @@
-<meta charset='utf-8'/><html><head><title>
+<meta charset='utf-8'/><html><head><title>operators.html</title><link rel=StyleSheet href='../css/general.css' type='text/css' /></head><body><?php require('../header.php') ?>
+
+
+
     <span style="white-space:pre">
         The properties of operators serve as useful bases for categorization in documentation:
     </span>
@@ -35,10 +38,7 @@
             transitive, commutative, distributive, etc properties
         </span>
     </li>
-</title><link rel=StyleSheet href='../css/general.css' type='text/css' /></head><body><?php require('../header.php') ?>
 
-
-operators.html
 
 
 <?php require('../footer.php') ?></body></html>

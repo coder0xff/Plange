@@ -1,4 +1,7 @@
-<meta charset='utf-8'/><html><head><title>
+<meta charset='utf-8'/><html><head><title>box.html</title><link rel=StyleSheet href='../../css/general.css' type='text/css' /></head><body><?php require('../../header.php') ?>
+
+
+
     ns an object of type Value that models the specified expression
     <h4>
         <a name="TOC-Notes">
@@ -29,10 +32,7 @@ x &lt;- box(7); //x is a concrete Value with a binary representation
     </div>
     <br>
     </br>
-</title><link rel=StyleSheet href='../../css/general.css' type='text/css' /></head><body><?php require('../../header.php') ?>
 
-
-box.html
 
 
 <?php require('../../footer.php') ?></body></html>

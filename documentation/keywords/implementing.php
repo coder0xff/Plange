@@ -1,4 +1,7 @@
-<meta charset='utf-8'/><html><head><title>
+<meta charset='utf-8'/><html><head><title>implementing.html</title><link rel=StyleSheet href='../../css/general.css' type='text/css' /></head><body><?php require('../../header.php') ?>
+
+
+
     with the type keyword to inherit the interface of the specified Type
     <div style="margin-top:12pt;margin-bottom:12pt;border-style:solid;border-width:1px">
         <p style="font-size:12pt;margin:0px;padding-left:6pt;background-color:#cda">
@@ -22,10 +25,7 @@
         <br>
         </br>
     </div>
-</title><link rel=StyleSheet href='../../css/general.css' type='text/css' /></head><body><?php require('../../header.php') ?>
 
-
-implementing.html
 
 
 <?php require('../../footer.php') ?></body></html>

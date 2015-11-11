@@ -1,4 +1,7 @@
-<meta charset='utf-8'/><html><head><title>
+<meta charset='utf-8'/><html><head><title>declaration.html</title><link rel=StyleSheet href='../../css/general.css' type='text/css' /></head><body><?php require('../../header.php') ?>
+
+
+
     style="margin-top:12pt;margin-bottom:12pt;border-style:solid;border-width:1px">
     <p style="font-size:12pt;margin:0px;padding-left:6pt;background-color:#cda">
         Syntax
@@ -11,10 +14,7 @@
             identifier
         </a>
     </pre>
-</title><link rel=StyleSheet href='../../css/general.css' type='text/css' /></head><body><?php require('../../header.php') ?>
 
-
-declaration.html
 
 
 <?php require('../../footer.php') ?></body></html>

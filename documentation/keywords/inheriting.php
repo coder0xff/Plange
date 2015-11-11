@@ -1,4 +1,7 @@
-<meta charset='utf-8'/><html><head><title>
+<meta charset='utf-8'/><html><head><title>inheriting.html</title><link rel=StyleSheet href='../../css/general.css' type='text/css' /></head><body><?php require('../../header.php') ?>
+
+
+
     with the type keyword to inherit other types.
     <div style="margin-top:12pt;margin-bottom:12pt;border-style:solid;border-width:1px">
         <p style="font-size:12pt;margin:0px;padding-left:6pt;background-color:#cda">
@@ -10,10 +13,7 @@
 }
         </pre>
     </div>
-</title><link rel=StyleSheet href='../../css/general.css' type='text/css' /></head><body><?php require('../../header.php') ?>
 
-
-inheriting.html
 
 
 <?php require('../../footer.php') ?></body></html>

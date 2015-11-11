@@ -1,4 +1,7 @@
-<meta charset='utf-8'/><html><head><title>
+<meta charset='utf-8'/><html><head><title>negation.html</title><link rel=StyleSheet href='../../css/general.css' type='text/css' /></head><body><?php require('../../header.php') ?>
+
+
+
     <div>
         <div class="sites-codeblock sites-codesnippet-block">
             <code>
@@ -8,10 +11,7 @@
         <br>
         </br>
     </div>
-</title><link rel=StyleSheet href='../../css/general.css' type='text/css' /></head><body><?php require('../../header.php') ?>
 
-
-negation.html
 
 
 <?php require('../../footer.php') ?></body></html>

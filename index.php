@@ -1,4 +1,7 @@
-<meta charset='utf-8'/><html><head><title>
+<meta charset='utf-8'/><html><head><title>index.html</title><link rel=StyleSheet href='css/general.css' type='text/css' /></head><body><?php require('header.php') ?>
+
+
+
     <span style="font-size:1.6em;line-height:1.6;background-color:transparent">
         Plange (plaːnd͡ʒ) is a project to create a revolutionary
       development environment, including a programming language,
@@ -613,10 +616,7 @@ print(get_age);
             </div>
         </div>
     </div>
-</title><link rel=StyleSheet href='css/general.css' type='text/css' /></head><body><?php require('header.php') ?>
 
-
-index.html
 
 
 <?php require('footer.php') ?></body></html>

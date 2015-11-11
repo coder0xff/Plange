@@ -1,4 +1,7 @@
-<meta charset='utf-8'/><html><head><title>
+<meta charset='utf-8'/><html><head><title>all.html</title><link rel=StyleSheet href='../../css/general.css' type='text/css' /></head><body><?php require('../../header.php') ?>
+
+
+
     <span style="font-size:13.3333330154419px;line-height:21.3333320617676px;white-space:pre">
         ∀"
         <a href="expression.php">
@@ -12,10 +15,7 @@
         <br>
         </br>
     </div>
-</title><link rel=StyleSheet href='../../css/general.css' type='text/css' /></head><body><?php require('../../header.php') ?>
 
-
-all.html
 
 
 <?php require('../../footer.php') ?></body></html>

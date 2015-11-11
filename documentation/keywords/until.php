@@ -1,4 +1,7 @@
-<meta charset='utf-8'/><html><head><title>
+<meta charset='utf-8'/><html><head><title>until.html</title><link rel=StyleSheet href='../../css/general.css' type='text/css' /></head><body><?php require('../../header.php') ?>
+
+
+
     e specified condition is not met, execute the following code block until that condition is met. See 
     <a href="do.php">
         do
@@ -8,10 +11,7 @@
         <br>
         </br>
     </div>
-</title><link rel=StyleSheet href='../../css/general.css' type='text/css' /></head><body><?php require('../../header.php') ?>
 
-
-until.html
 
 
 <?php require('../../footer.php') ?></body></html>

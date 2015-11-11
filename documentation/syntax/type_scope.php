@@ -1,4 +1,7 @@
-<meta charset='utf-8'/><html><head><title>
+<meta charset='utf-8'/><html><head><title>type_scope.html</title><link rel=StyleSheet href='../../css/general.css' type='text/css' /></head><body><?php require('../../header.php') ?>
+
+
+
     style="margin-top:0px;margin-bottom:0px;padding:3px;width:715px;max-height:500px;overflow:auto">
     <div style="font-family:Arial,Verdana,sans-serif;font-size:13.3333px;line-height:21.3333px;white-space:normal">
         when used in the
@@ -51,10 +54,7 @@
     <div>
         Any use of the assignment operator indicates an instance member declaration. Any use of the definition operator indicates a static member of the class, since it is immutable it will not vary between instances. Like statement_scope, an execution context is available and will execute any top-level statements inside the type.
     </div>
-</title><link rel=StyleSheet href='../../css/general.css' type='text/css' /></head><body><?php require('../../header.php') ?>
 
-
-type_scope.html
 
 
 <?php require('../../footer.php') ?></body></html>

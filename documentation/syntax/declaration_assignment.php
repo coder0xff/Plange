@@ -1,4 +1,7 @@
-<meta charset='utf-8'/><html><head><title>
+<meta charset='utf-8'/><html><head><title>declaration_assignment.html</title><link rel=StyleSheet href='../../css/general.css' type='text/css' /></head><body><?php require('../../header.php') ?>
+
+
+
     tement combining a variable declaration and an assignment
     <div style="margin-top:12pt;margin-bottom:12pt;border-style:solid;border-width:1px">
         <p style="font-size:12pt;margin:0px;padding-left:6pt;background-color:#cda">
@@ -43,10 +46,7 @@
         <br>
         </br>
     </div>
-</title><link rel=StyleSheet href='../../css/general.css' type='text/css' /></head><body><?php require('../../header.php') ?>
 
-
-declaration_assignment.html
 
 
 <?php require('../../footer.php') ?></body></html>

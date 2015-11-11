@@ -1,4 +1,7 @@
-<meta charset='utf-8'/><html><head><title>
+<meta charset='utf-8'/><html><head><title>invocation.html</title><link rel=StyleSheet href='../../css/general.css' type='text/css' /></head><body><?php require('../../header.php') ?>
+
+
+
     es the specified function, passing in the parameters specified between the parenthesis, or between angle brackets for parametric types and parametric functions, or between square brackets when all parameters belong to sets that are ordered and denumerable
     <div>
         <div style="font-size:13.3333330154419px;line-height:21.3333320617676px;margin-top:12pt;margin-bottom:12pt;border-style:solid;border-width:1px">
@@ -72,10 +75,7 @@
             </span>
         </div>
     </div>
-</title><link rel=StyleSheet href='../../css/general.css' type='text/css' /></head><body><?php require('../../header.php') ?>
 
-
-invocation.html
 
 
 <?php require('../../footer.php') ?></body></html>

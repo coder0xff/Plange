@@ -1,4 +1,7 @@
-<meta charset='utf-8'/><html><head><title>
+<meta charset='utf-8'/><html><head><title>type.html</title><link rel=StyleSheet href='../../css/general.css' type='text/css' /></head><body><?php require('../../header.php') ?>
+
+
+
     <div>
         <h4>
             <a name="TOC-See:-type-syntax-">
@@ -13,10 +16,7 @@
     </div>
     <div>
     </div>
-</title><link rel=StyleSheet href='../../css/general.css' type='text/css' /></head><body><?php require('../../header.php') ?>
 
-
-type.html
 
 
 <?php require('../../footer.php') ?></body></html>

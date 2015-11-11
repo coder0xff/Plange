@@ -1,4 +1,7 @@
-<meta charset='utf-8'/><html><head><title>
+<meta charset='utf-8'/><html><head><title>expression.html</title><link rel=StyleSheet href='../../css/general.css' type='text/css' /></head><body><?php require('../../header.php') ?>
+
+
+
     <div>
         An expression contains one or more values and zero or more operators. It evaluates to a value.
         <br>
@@ -150,10 +153,7 @@
             </a>
         </pre>
     </div>
-</title><link rel=StyleSheet href='../../css/general.css' type='text/css' /></head><body><?php require('../../header.php') ?>
 
-
-expression.html
 
 
 <?php require('../../footer.php') ?></body></html>

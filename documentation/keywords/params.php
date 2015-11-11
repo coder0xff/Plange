@@ -1,4 +1,7 @@
-<meta charset='utf-8'/><html><head><title>
+<meta charset='utf-8'/><html><head><title>params.html</title><link rel=StyleSheet href='../../css/general.css' type='text/css' /></head><body><?php require('../../header.php') ?>
+
+
+
     <span style="line-height:1.6;font-size:10pt;background-color:transparent">
         A
     </span>
@@ -24,10 +27,7 @@
         </a>
         .
     </span>
-</title><link rel=StyleSheet href='../../css/general.css' type='text/css' /></head><body><?php require('../../header.php') ?>
 
-
-params.html
 
 
 <?php require('../../footer.php') ?></body></html>

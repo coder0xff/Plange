@@ -1,4 +1,7 @@
-<meta charset='utf-8'/><html><head><title>
+<meta charset='utf-8'/><html><head><title>standard-library.html</title><link rel=StyleSheet href='../css/general.css' type='text/css' /></head><body><?php require('../header.php') ?>
+
+
+
     lange standard library is in the
     <code>
         Plange
@@ -287,10 +290,7 @@
         </a>
         Constants
     </h4>
-</title><link rel=StyleSheet href='../css/general.css' type='text/css' /></head><body><?php require('../header.php') ?>
 
-
-standard-library.html
 
 
 <?php require('../footer.php') ?></body></html>

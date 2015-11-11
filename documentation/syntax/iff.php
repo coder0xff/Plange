@@ -1,4 +1,7 @@
-<meta charset='utf-8'/><html><head><title>
+<meta charset='utf-8'/><html><head><title>iff.html</title><link rel=StyleSheet href='../../css/general.css' type='text/css' /></head><body><?php require('../../header.php') ?>
+
+
+
     es a relation indicating semantic equivalence between two
     <a href="expression.php">
         expression
@@ -20,10 +23,7 @@
             </pre>
         </div>
     </div>
-</title><link rel=StyleSheet href='../../css/general.css' type='text/css' /></head><body><?php require('../../header.php') ?>
 
-
-iff.html
 
 
 <?php require('../../footer.php') ?></body></html>

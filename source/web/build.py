@@ -36,7 +36,7 @@ def build(relative_filepath):
 
 	(temp, _) = os.path.split(relative_filepath);
 	treeDepth = len(relative_filepath) - len(relative_filepath.replace("/", ""))
-	text = decorate(treeDepth, text, os.path.basename(relative_filepath))
+	text = decorate(treeDepth, os.path.basename(relative_filepath), text)
 
 	#write out
 	directory = os.path.dirname(destPath)

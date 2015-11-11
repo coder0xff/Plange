@@ -1,4 +1,7 @@
-<meta charset='utf-8'/><html><head><title>
+<meta charset='utf-8'/><html><head><title>contribute.html</title><link rel=StyleSheet href='css/general.css' type='text/css' /></head><body><?php require('header.php') ?>
+
+
+
     e (a temporary name) is an ambitious computer science and engineering project, still in the earliest stages
     <span style="line-height:1.6;font-size:10pt;background-color:transparent">
         . As an open source and public effort, participation is enthusiastically encouraged. Contributions from any and all skill levels are necessary and
@@ -31,10 +34,7 @@
         <br>
         </br>
     </div>
-</title><link rel=StyleSheet href='css/general.css' type='text/css' /></head><body><?php require('header.php') ?>
 
-
-contribute.html
 
 
 <?php require('footer.php') ?></body></html>

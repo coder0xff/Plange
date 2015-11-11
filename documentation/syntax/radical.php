@@ -1,4 +1,7 @@
-<meta charset='utf-8'/><html><head><title>
+<meta charset='utf-8'/><html><head><title>radical.html</title><link rel=StyleSheet href='../../css/general.css' type='text/css' /></head><body><?php require('../../header.php') ?>
+
+
+
     x alternative to expression ^ 0.5
     <div>
         <br>
@@ -11,10 +14,7 @@
             </code>
         </div>
     </div>
-</title><link rel=StyleSheet href='../../css/general.css' type='text/css' /></head><body><?php require('../../header.php') ?>
 
-
-radical.html
 
 
 <?php require('../../footer.php') ?></body></html>

@@ -1,4 +1,7 @@
-<meta charset='utf-8'/><html><head><title>
+<meta charset='utf-8'/><html><head><title>args.html</title><link rel=StyleSheet href='../../css/general.css' type='text/css' /></head><body><?php require('../../header.php') ?>
+
+
+
     <a href="../standard-library.php">
         Array
     </a>
@@ -11,10 +14,7 @@
         params
     </a>
     .
-</title><link rel=StyleSheet href='../../css/general.css' type='text/css' /></head><body><?php require('../../header.php') ?>
 
-
-args.html
 
 
 <?php require('../../footer.php') ?></body></html>

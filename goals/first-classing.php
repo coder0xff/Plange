@@ -1,4 +1,7 @@
-<meta charset='utf-8'/><html><head><title>
+<meta charset='utf-8'/><html><head><title>first-classing.html</title><link rel=StyleSheet href='../css/general.css' type='text/css' /></head><body><?php require('../header.php') ?>
+
+
+
     <div>
         <p>
             It is increasingly common for languages to treat programming concepts as “first class.” For example,
@@ -96,10 +99,7 @@
     </table>
     <col width="*">
     </col>
-</title><link rel=StyleSheet href='../css/general.css' type='text/css' /></head><body><?php require('../header.php') ?>
 
-
-first-classing.html
 
 
 <?php require('../footer.php') ?></body></html>

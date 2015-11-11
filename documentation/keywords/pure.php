@@ -1,4 +1,7 @@
-<meta charset='utf-8'/><html><head><title>
+<meta charset='utf-8'/><html><head><title>pure.html</title><link rel=StyleSheet href='../../css/general.css' type='text/css' /></head><body><?php require('../../header.php') ?>
+
+
+
     used in the 
     <a href="../syntax/function.php">
         function
@@ -19,10 +22,7 @@
             function
         </a>
     </span>
-</title><link rel=StyleSheet href='../../css/general.css' type='text/css' /></head><body><?php require('../../header.php') ?>
 
-
-pure.html
 
 
 <?php require('../../footer.php') ?></body></html>
