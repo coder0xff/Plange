@@ -1,0 +1,657 @@
+<meta charset='utf-8'/>
+<html>
+<body>lange standard library is in the
+    <code>
+        Plange
+    </code>
+    namespace, which is the top-level (global) scope. The top-level
+    <a href="syntax/statement_scope.html">
+        statement_scope
+    </a>
+     of each source unit is within the Plange scope. As such, the following symbols are accessible immediately in a source unit.
+    <h4>
+        <a name="TOC-Functions">
+        </a>
+        Functions
+    </h4>
+    <div>
+        <ul>
+            <li>
+                &lt;(Void | String) -&gt; Void&gt; print
+            </li>
+            <li>
+                &lt;(Void | String) -&gt; Void&gt; error
+            </li>
+            <li>
+                &lt;(Void | String) -&gt; String&gt; input
+            </li>
+            <li>
+                &lt;String * FileMode -&gt; File&gt; open
+            </li>
+            <li>
+                &lt;File * Int -&gt; Array&lt;Byte&gt;&gt; read
+            </li>
+            <li>
+                &lt;File * Array&lt;Byte&gt; -&gt; Void&gt; write
+            </li>
+            <li>
+                &lt;File * Int * SeekOrigin -&gt; Void&gt; seek
+            </li>
+            <li>
+                &lt;File -&gt; Void&gt; flush
+            </li>
+            <li>
+                &lt;File -&gt; Void&gt; close
+            </li>
+            <li>
+                &lt;UInt8 -&gt; Char&gt; ansi_chr
+            </li>
+            <li>
+                &lt;Char -&gt; Maybe&lt;UInt8&gt;&gt; ansi_ord
+            </li>
+            <li>
+                &lt;Int32 -&gt; Char&gt; chr
+            </li>
+            <li>
+                &lt;Char -&gt; Int32&gt; ord
+            </li>
+            <li>
+                &lt;Any -&gt; String&gt; dump
+            </li>
+            <li>
+                &lt;(Void | String) -&gt; Void&gt; debug
+            </li>
+            <li>
+                &lt;Void -&gt; Void&gt; interrupt
+            </li>
+            <li>
+                &lt;String -&gt; Value&gt; eval
+            </li>
+            <li>
+                &lt;Any -&gt; Int32&gt; hash
+            </li>
+            <li>
+                &lt;Collection&lt;T&gt; -&gt; T&gt; | &lt;T^_ -&gt; T&gt; min
+            </li>
+            <li>
+                <span style="font-size:13.3333px;line-height:21.3333px">
+                    &lt;Collection&lt;T&gt; -&gt; T&gt; | &lt;T^_ -&gt; T&gt; 
+                </span>
+                max
+            </li>
+            <li>
+                &lt;&lt;T * T -&gt; T&gt; * Collection&lt;T&gt; -&gt; T&gt; reduce
+            </li>
+            <li>
+                <span style="font-size:13.3333px;line-height:21.3333px">
+                    &lt;&lt;T * T -&gt; T&gt; * Collection&lt;T&gt; -&gt; T&gt; 
+                </span>
+                reduce_r
+            </li>
+            <li>
+                &lt;&lt;T * U -&gt; U&gt; * Collection&lt;T&gt; * U -&gt; U&gt; fold
+            </li>
+            <li>
+                <span style="font-size:13.3333px;line-height:21.3333px">
+                    &lt;&lt;T * U -&gt; U&gt; * Collection&lt;T&gt; * U -&gt; U&gt; 
+                </span>
+                fold_r
+            </li>
+            <li>
+                <span style="font-size:13.3333px;line-height:21.3333px">
+                    &lt;&lt;T -&gt; U&gt; * Collection&lt;T&gt; -&gt; Collection&lt;U&gt;&gt; 
+                </span>
+                map
+            </li>
+            <li>
+                <span style="font-size:13.3333px;line-height:21.3333px">
+                    &lt;&lt;T -&gt; Bool U -&gt; U&gt; * Collection&lt;T&gt; * U -&gt; U&gt; 
+                </span>
+                filter
+            </li>
+            <li>
+                &lt;Collection&lt;T&gt; -&gt; Tuple&lt;T&gt;&gt; to_tuple - convert ordered collection or object to tuple
+            </li>
+            <li>
+                <span style="line-height:1.6;font-size:10pt;background-color:transparent">
+                    &lt;String -&gt; void&gt; | &lt;String * File * File * File -&gt; void&gt; shell - execute a command in the system shell
+                </span>
+            </li>
+            <li>
+                &lt;T -&gt; U&gt; 
+                <a href="standard-library/coerce.html">
+                    coerce
+                </a>
+                - convert a value to a different representation, possibly using lexographic algorithms
+            </li>
+            <li>
+                help - print help information for the given object or string
+            </li>
+            <li>
+                <br>
+                </br>
+            </li>
+        </ul>
+        <h4>
+            <a name="TOC-Types">
+            </a>
+            Types
+        </h4>
+        <div>
+            <ul>
+                <li>
+                    <span style="font-size:10pt;line-height:1.6;background-color:transparent">
+                        BitArray
+                    </span>
+                </li>
+                <li>
+                    <span style="font-size:10pt;line-height:1.6;background-color:transparent">
+                        Bool
+                    </span>
+                </li>
+                <li>
+                    <span style="font-size:13.3333px;line-height:21.3333px">
+                        <a href="standard-library/complex.html">
+                            Complex
+                        </a>
+                         - An element of 
+                    </span>
+                    <span style="font-size:13.3333px;line-height:21.3333px">
+                        ℂ, the complex numbers { &lt;Real&gt; r; &lt;Real&gt; i; }
+                    </span>
+                </li>
+                <li>
+                    <a href="standard-library/executioncontext.html">
+                        ExecutionContext
+                    </a>
+                    <br>
+                    </br>
+                </li>
+                <li>
+                    Float - An element of 
+                    <span style="font-size:13.3333px;line-height:21.3333px">
+                        ℚ, the rational numbers
+                    </span>
+                </li>
+                <li>
+                    <span style="line-height:1.6;font-size:10pt;background-color:transparent">
+                        Float16, Float32, Float64, Float128
+                    </span>
+                </li>
+                <li>
+                    <span style="line-height:21.3333px;font-size:13.3333px;background-color:transparent">
+                        Imaginary - An element of 
+                    </span>
+                    <span style="line-height:21.3333px;font-size:13.3333px;background-color:transparent">
+                        &#x1d540;
+                    </span>
+                </li>
+                <li>
+                    <a style="line-height:1.6;font-size:10pt;background-color:transparent" href="standard-library/int.html">
+                        Int
+                    </a>
+                    <span style="line-height:1.6;font-size:10pt;background-color:transparent">
+                        - 
+                    </span>
+                    <span style="line-height:21.3333px;font-size:13.3333px;background-color:transparent">
+                        An element of 
+                    </span>
+                    <span style="line-height:21.3333px;font-size:13.3333px;background-color:transparent">
+                        ℤ, the integers (big integer)
+                    </span>
+                </li>
+                <li>
+                    <span style="font-size:13.3333330154419px;line-height:21.3333320617676px">
+                        Int8, Int16, Int32, Int64, Int128, UInt8, UInt16, UInt32, UInt64, UInt128
+                    </span>
+                </li>
+                <li>
+                    Int16Set - a 65536-bit array for fast set operations
+                </li>
+                <li>
+                    <span style="line-height:1.6;font-size:10pt;background-color:transparent">
+                        Int8Set - a 256-bit array for fast set operations
+                    </span>
+                </li>
+                <li>
+                    <span style="line-height:1.6;font-size:10pt;background-color:transparent">
+                        Matrix&lt;r, c&gt; - An element of 
+                    </span>
+                    <span style="line-height:21.3333px;font-size:13.3333px;background-color:transparent">
+                        &#x1d544;(r, c)
+                    </span>
+                </li>
+                <li>
+                    <span style="line-height:1.6;font-size:10pt;background-color:transparent">
+                        Octonion - An element of 
+                    </span>
+                    <span style="line-height:21.3333px;font-size:13.3333px;background-color:transparent">
+                        &#x1d546;
+                    </span>
+                </li>
+                <li>
+                    <span style="font-size:10pt;line-height:1.6;background-color:transparent">
+                        Parameter
+                    </span>
+                </li>
+                <li>
+                    <span style="line-height:1.6;font-size:10pt;background-color:transparent">
+                        Quaternion - An element of ℍ
+                    </span>
+                </li>
+                <li>
+                    <a style="line-height:1.6;font-size:10pt;background-color:transparent" href="standard-library/real.html">
+                        Real
+                    </a>
+                    <span style="line-height:1.6;font-size:10pt;background-color:transparent">
+                        - An element of 
+                    </span>
+                    <span style="line-height:21.3333px;font-size:13.3333px;background-color:transparent">
+                        ℝ, the real numbers (can be coerced to BigFloat, storage is TBD and may be a relation)
+                    </span>
+                </li>
+                <li>
+                    <a style="font-size:13.3333px;line-height:21.3333px;background-color:transparent" href="standard-library/scope.html">
+                        Scope
+                    </a>
+                </li>
+                <li>
+                    <span style="font-size:10pt;line-height:1.6;background-color:transparent">
+                        String
+                    </span>
+                </li>
+                <li>
+                    <a href="standard-library/type.html">
+                        Type
+                    </a>
+                </li>
+                <li>
+                    <a style="line-height:1.6;font-size:10pt;background-color:transparent" href="standard-library/unit.html">
+                        Unit
+                    </a>
+                </li>
+                <li>
+                    <a style="line-height:1.6;font-size:10pt;background-color:transparent" href="standard-library/Value.html">
+                        Value
+                    </a>
+                </li>
+                <li>
+                    <a href="standard-library/void.html">
+                        Void
+                    </a>
+                </li>
+            </ul>
+            <h4>
+                <a name="TOC-Constants">
+                </a>
+                Constants
+            </h4>
+        </div>
+        <div>
+            <ul>
+                <li>
+                    <span style="font-size:13.3333330154419px;line-height:21.3333320617676px;background-color:transparent">
+                        &#x1d452; or e (
+                        <a href="../../../../external.html?link=http://www.fileformat.info/info/unicode/char/1d452/fontsupport.htm" rel="nofollow">
+                            MATHEMATICAL ITALIC SMALL E U+1D452
+                        </a>
+                        ) - e mathematical constant
+                    </span>
+                </li>
+                <li>
+                    <span style="font-size:13.3333330154419px;line-height:21.3333320617676px">
+                        π or pi (
+                        <a href="goog_930287754.html">
+                            GREEK SMALL LETTER PI U+03CO
+                        </a>
+                    </span>
+                    <span style="font-size:13.3333330154419px;line-height:21.3333320617676px">
+                        ) - pi mathematical constant
+                    </span>
+                </li>
+                <li>
+                    <span style="font-size:13.3333330154419px;line-height:21.3333320617676px">
+                        ℕ or NN (
+                    </span>
+                    <a href="../../../../external.html?link=http://www.fileformat.info/info/unicode/char/2115/index.htm" rel="nofollow">
+                        DOUBLE-STRUCK CAPITAL N U+2115
+                    </a>
+                    <span style="font-size:13.3333330154419px;line-height:21.3333320617676px">
+                        ) - natural numbers (non-negative integers)
+                    </span>
+                </li>
+                <li>
+                    <span style="font-size:13.3333330154419px;line-height:21.3333320617676px;background-color:transparent">
+                        ℂ or CC(
+                        <a href="../../../../external.html?link=http://www.fileformat.info/info/unicode/char/2102/index.htm" rel="nofollow">
+                            DOUBLE-STRUCK CAPITAL C U+2102
+                        </a>
+                        ) - complex numbers
+                    </span>
+                </li>
+                <li>
+                    <span style="font-size:13.3333330154419px;line-height:21.3333320617676px;background-color:transparent">
+                        ℚ or QQ (
+                        <a href="../../../../external.html?link=http://www.fileformat.info/info/unicode/char/211a/index.htm" rel="nofollow">
+                            DOUBLE-STRUCK CAPITAL Q U+211A
+                        </a>
+                        ) - rational numbers
+                    </span>
+                </li>
+                <li>
+                    <span style="font-size:13.3333330154419px;line-height:21.3333320617676px;background-color:transparent">
+                        ℝ or RR (
+                        <a href="../../../../external.html?link=http://www.fileformat.info/info/unicode/char/211d/index.htm" rel="nofollow">
+                            <span style="font-size:13.3333330154419px;line-height:21.3333320617676px">
+                                DOUBLE-STRUCK CAPITAL 
+                            </span>
+                            R U+211D
+                        </a>
+                        ) - real numbers
+                    </span>
+                </li>
+                <li>
+                    <span style="font-size:13.3333330154419px;line-height:21.3333320617676px;background-color:transparent">
+                        ℤ or ZZ (
+                        <a href="../../../../external.html?link=http://www.fileformat.info/info/unicode/char/2124/index.htm" rel="nofollow">
+                            <span style="font-size:13.3333330154419px;line-height:21.3333320617676px">
+                                DOUBLE-STRUCK CAPITAL 
+                            </span>
+                            Z U+2124
+                        </a>
+                        ) - integers
+                    </span>
+                </li>
+                <li>
+                    <span style="font-size:13.3333330154419px;line-height:21.3333320617676px;background-color:transparent">
+                        &#x1d539; or BB (
+                        <a href="../../../../external.html?link=http://www.fileformat.info/info/unicode/char/1d539/index.htm" rel="nofollow">
+                            MATHEMATICAL 
+                            <span style="font-size:13.3333330154419px;line-height:21.3333320617676px">
+                                DOUBLE-STRUCK CAPITAL 
+                            </span>
+                            B U+1D539
+                        </a>
+                        ) - booleans
+                    </span>
+                </li>
+                <li>
+                    <span style="font-size:13.3333330154419px;line-height:21.3333320617676px;background-color:transparent">
+                        &#x1d54e; or WW (
+                        <a href="../../../../external.html?link=http://www.fileformat.info/info/unicode/char/1d54e/index.htm" rel="nofollow">
+                            MATHEMATICAL 
+                            <span style="font-size:13.3333330154419px;line-height:21.3333320617676px">
+                                DOUBLE-STRUCK CAPITAL 
+                            </span>
+                            W U+1D54E
+                        </a>
+                        ) - whole numbers (positive integers)
+                    </span>
+                </li>
+                <li>
+                    <span style="font-size:13.3333330154419px;line-height:21.3333320617676px;background-color:transparent">
+                        ℍ or HH (
+                        <a href="../../../../external.html?link=http://www.fileformat.info/info/unicode/char/210d/index.htm" rel="nofollow">
+                            <span style="font-size:13.3333330154419px;line-height:21.3333320617676px">
+                                DOUBLE-STRUCK CAPITAL 
+                            </span>
+                            H U+210D
+                        </a>
+                        ) - quaternions
+                    </span>
+                </li>
+                <li>
+                    <span style="font-size:13.3333330154419px;line-height:21.3333320617676px;background-color:transparent">
+                        &#x1d546; or OO (
+                        <a href="../../../../external.html?link=http://www.fileformat.info/info/unicode/char/1d546/index.htm" rel="nofollow">
+                            MATHEMATICAL 
+                            <span style="font-size:13.3333330154419px;line-height:21.3333320617676px">
+                                DOUBLE-STRUCK CAPITAL 
+                            </span>
+                            O U+1D456
+                        </a>
+                        ) - octonions
+                    </span>
+                </li>
+                <li>
+                    <span style="font-size:13.3333330154419px;line-height:21.3333320617676px;background-color:transparent">
+                        &#x1d544;(m, n) or MM(m, n) (
+                        <a href="../../../../external.html?link=http://www.fileformat.info/info/unicode/char/1d544/index.htm" rel="nofollow">
+                            MATHEMATICAL 
+                            <span style="font-size:13.3333330154419px;line-height:21.3333320617676px">
+                                DOUBLE-STRUCK CAPITAL 
+                            </span>
+                            M U+1D544
+                        </a>
+                        ) - m x n matrices of reals
+                    </span>
+                </li>
+                <li>
+                    <span style="font-size:13.3333330154419px;line-height:21.3333320617676px;background-color:transparent">
+                        ⅈ or ii (
+                        <span style="font-size:13.3333330154419px;line-height:21.3333320617676px">
+                            <a href="../../../../external.html?link=http://www.fileformat.info/info/unicode/char/2148/index.htm" rel="nofollow">
+                                DOUBLE-STRUCK ITALIC SMALL I U+2148
+                            </a>
+                        </span>
+                        ) - imaginary unit
+                    </span>
+                </li>
+                <li>
+                    <span style="font-size:13.3333330154419px;line-height:21.3333320617676px;background-color:transparent">
+                        &#x1d540; or II(
+                        <a href="../../../../external.html?link=http://www.fileformat.info/info/unicode/char/1d540/index.htm" rel="nofollow">
+                            MATHEMATICAL 
+                            <span style="font-size:13.3333330154419px;line-height:21.3333320617676px">
+                                DOUBLE-STRUCK CAPITAL 
+                            </span>
+                            I U+1D540
+                        </a>
+                        ) - imaginary numbers
+                    </span>
+                </li>
+                <li>
+                    <span style="font-size:13.3333330154419px;line-height:21.3333320617676px;background-color:transparent">
+                        ∅ or {} (
+                        <a href="../../../../external.html?link=http://www.fileformat.info/info/unicode/char/2205/index.htm" rel="nofollow">
+                            EMPTY SET U+2205
+                        </a>
+                        ) - the empty set
+                    </span>
+                </li>
+                <li>
+                    <span style="font-size:13.3333330154419px;line-height:21.3333320617676px;background-color:transparent">
+                        ℵ(n) (
+                        <a href="../../../../external.html?link=http://www.fileformat.info/info/unicode/char/2135/index.htm" rel="nofollow">
+                            ALEF SYMBOL U+2135
+                        </a>
+                        ) - When n = 0, the cardinality of ℕ, |ℕ| 
+                    </span>
+                </li>
+                <li>
+                    env - the environment variables
+                </li>
+                <li>
+                    args - the command line arguments
+                </li>
+                <li>
+                    i - the primary axis' unit 2-vector or 3-vector
+                </li>
+                <li>
+                    j - the secondary axis' unit 2-vector or 3-vector
+                </li>
+                <li>
+                    k - the tertiary axis' unit 3-vector
+                </li>
+            </ul>
+        </div>
+        <h4>
+            <a name="TOC-Type-Functions">
+            </a>
+            Type Functions
+        </h4>
+        <div>
+            Notes: For parallel processing, "Ts" collections are thread safe, and "C" collections are concurrent. Concurrent collections provide an interface that differs from their non-concurrent counterparts. These interface variants facilitate provable correctness for some concurrent algorithms and should be preferred over other collections for such applications. Thread safe and concurrent collections are implemented with lock free algorithms whenever possible. Thread safe collections do not provide interfaces that encourage logical correctness, but they do guarantee that each operation executed by a thread appears atomic to all other threads.
+        </div>
+        <ul>
+            <li>
+                <a href="standard-library/const.html">
+                    Const
+                </a>
+            </li>
+            <li>
+                <a href="standard-library/function.html">
+                    Function
+                </a>
+            </li>
+            <li>
+                Enumerable
+            </li>
+            <li>
+                <a href="standard-library/accessor.html">
+                    Accessor
+                </a>
+            </li>
+            <li>
+                Complex
+            </li>
+            <li>
+                Quaternion
+            </li>
+            <li>
+                Octonion
+            </li>
+            <li>
+                Matrix
+            </li>
+            <li>
+                Pointer
+            </li>
+            <li>
+                Array, TsArray
+            </li>
+            <li>
+                List, TsList
+            </li>
+            <li>
+                Vector, TsVector
+            </li>
+            <li>
+                Stack, CStack
+            </li>
+            <li>
+                Queue, CQueue
+            </li>
+            <li>
+                Deque, TsDeque
+            </li>
+            <li>
+                Set, HashSet, TsSet, TsHashSet, CSet
+            </li>
+            <li>
+                Map, HashMap, TsMap, TsHashMap, CMap
+            </li>
+            <li>
+                Bimap, HashBimap TsBimap, TsHashBimap
+            </li>
+            <li>
+                Bag, CBag
+            </li>
+            <li>
+                BinNode, TsBinNode
+            </li>
+            <li>
+                KNode, TsKNode (a node of a K-ary tree)
+            </li>
+            <li>
+                <span style="line-height:1.6;font-size:10pt;background-color:transparent">
+                    MultiMap, TsMultiMap
+                </span>
+            </li>
+            <li>
+                MaxHeap, MinHeap, TsMaxHeap, TsMinHeap, CoalescingTsMaxHeap
+            </li>
+            <li>
+                <span style="line-height:1.6;font-size:10pt;background-color:transparent">
+                    Producer
+                </span>
+            </li>
+            <li>
+                Consumer
+            </li>
+            <li>
+                <span style="line-height:1.6;font-size:10pt;background-color:transparent">
+                    Collection, 
+                </span>
+                <span style="line-height:1.6;font-size:10pt;background-color:transparent">
+                    ReadOnlyCollection
+                </span>
+            </li>
+            <li>
+                <span style="line-height:1.6;font-size:10pt;background-color:transparent">
+                    Iterator
+                </span>
+            </li>
+            <li>
+                <span style="line-height:1.6;font-size:10pt;background-color:transparent">
+                    Enumerable
+                </span>
+            </li>
+            <li>
+                <span style="line-height:1.6;font-size:10pt;background-color:transparent">
+                    ThreadLocal
+                </span>
+            </li>
+            <li>
+                <span style="line-height:1.6;font-size:10pt;background-color:transparent">
+                    Predicate := (&lt;Type&gt; Operand) -&gt; { return Operand -&gt; Bool; };
+                    <br>
+                    </br>
+                </span>
+            </li>
+            <li>
+                BinaryRelation := (&lt;Type&gt; Left, &lt;Type&gt; Right) -&gt; { return Left * Right -&gt; Bool; };
+            </li>
+        </ul>
+        <h4>
+            <a name="TOC-Namespaces">
+            </a>
+            Namespaces
+        </h4>
+    </div>
+    <div>
+        <ul>
+            <li>
+                Gtk
+            </li>
+            <li>
+                OpenGL
+            </li>
+            <li>
+                OpenSL
+            </li>
+            <li>
+                Cas
+            </li>
+            <li>
+                Compiler
+            </li>
+            <li>
+                Parser
+            </li>
+            <li>
+                IO
+            </li>
+            <li>
+                Task
+            </li>
+            <li>
+                Units (dimensional analysis)
+            </li>
+            <li>
+                Runtime
+            </li>
+        </ul>
+    </div>
+</body>
+</html>

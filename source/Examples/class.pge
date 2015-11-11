@@ -1,0 +1,3 @@
+<type> myClass := class  {
+    public <int> aVariable;
+};

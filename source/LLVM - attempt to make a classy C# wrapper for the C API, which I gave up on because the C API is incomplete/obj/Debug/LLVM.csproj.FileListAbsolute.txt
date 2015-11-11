@@ -1,0 +1,6 @@
+C:\Users\coder_000\Dropbox\Plange\LLVM\bin\Debug\LLVM.dll
+C:\Users\coder_000\Dropbox\Plange\LLVM\bin\Debug\LLVM.pdb
+C:\Users\coder_000\Dropbox\Plange\LLVM\bin\Debug\LLVMSharp.dll
+C:\Users\coder_000\Dropbox\Plange\LLVM\obj\Debug\LLVM.csprojResolveAssemblyReference.cache
+C:\Users\coder_000\Dropbox\Plange\LLVM\obj\Debug\LLVM.dll
+C:\Users\coder_000\Dropbox\Plange\LLVM\obj\Debug\LLVM.pdb

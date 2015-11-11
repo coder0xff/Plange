@@ -1,0 +1,8 @@
+Vector2 := (Double, Double)
+
+projectilePosition := (Vector2 pos, Vector2 vel, Double drag, Double t) {
+    p'' := -drag * p';
+    p(0) = pos;
+    p'(0) = vel; //PDE symbollically integrated at compile time
+    return p(t);
+}

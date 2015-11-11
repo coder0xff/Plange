@@ -1,0 +1,14 @@
+C:\Users\coder_000\Dropbox\Plange\Plange\bin\Debug\Plange.dll
+C:\Users\coder_000\Dropbox\Plange\Plange\bin\Debug\Plange.pdb
+C:\Users\coder_000\Dropbox\Plange\Plange\obj\Debug\Plange.dll
+C:\Users\coder_000\Dropbox\Plange\Plange\obj\Debug\Plange.pdb
+C:\Users\coder_000\Dropbox\Plange\Plange\bin\Debug\Parlex.dll
+C:\Users\coder_000\Dropbox\Plange\Plange\bin\Debug\NondeterministicFiniteAutomata.dll
+C:\Users\coder_000\Dropbox\Plange\Plange\bin\Debug\Common.dll
+C:\Users\coder_000\Dropbox\Plange\Plange\bin\Debug\FastDelegate.Net.dll
+C:\Users\coder_000\Dropbox\Plange\Plange\bin\Debug\Parlex.pdb
+C:\Users\coder_000\Dropbox\Plange\Plange\bin\Debug\NondeterministicFiniteAutomata.pdb
+C:\Users\coder_000\Dropbox\Plange\Plange\bin\Debug\Common.pdb
+C:\Users\coder_000\Dropbox\Plange\Plange\bin\Debug\FastDelegate.Net.pdb
+C:\Users\coder_000\Dropbox\Plange\Plange\obj\Debug\Plange.csprojResolveAssemblyReference.cache
+C:\Users\coder_000\Dropbox\Plange\Plange\bin\Debug\LLVMSharp.dll

@@ -1,0 +1,58 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.31101.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Plange", "Plange\Plange.csproj", "{6C627BD0-A6BA-45D7-9665-3688C2D82B6C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "plc", "plc\plc.csproj", "{8F81C3A4-AD90-47CE-BAFB-9A0E1FC72AD7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "parlex", "..\parlex\Parlex\parlex.csproj", "{440D651A-2DE1-4AE1-B293-4C21D5ECC16A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Automata", "..\parlex\Automata\Automata.csproj", "{7862B8A9-EEBD-49B4-B604-EDC03CF90EF1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common", "..\parlex\Common\Common.csproj", "{225EE06C-3EC1-4D0C-919A-338DB9D77548}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IntegratedDevelopmentEnvironment", "..\parlex\IntegratedDevelopmentEnvironment\IntegratedDevelopmentEnvironment.csproj", "{5288A5FD-3A5A-4340-91EE-2D1E93440EF1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NUnitTests", "..\parlex\NUnitTests\NUnitTests.csproj", "{678552FE-E227-46C4-A3AC-E8A948759E32}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{6C627BD0-A6BA-45D7-9665-3688C2D82B6C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6C627BD0-A6BA-45D7-9665-3688C2D82B6C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6C627BD0-A6BA-45D7-9665-3688C2D82B6C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6C627BD0-A6BA-45D7-9665-3688C2D82B6C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8F81C3A4-AD90-47CE-BAFB-9A0E1FC72AD7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8F81C3A4-AD90-47CE-BAFB-9A0E1FC72AD7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8F81C3A4-AD90-47CE-BAFB-9A0E1FC72AD7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8F81C3A4-AD90-47CE-BAFB-9A0E1FC72AD7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{440D651A-2DE1-4AE1-B293-4C21D5ECC16A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{440D651A-2DE1-4AE1-B293-4C21D5ECC16A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{440D651A-2DE1-4AE1-B293-4C21D5ECC16A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{440D651A-2DE1-4AE1-B293-4C21D5ECC16A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7862B8A9-EEBD-49B4-B604-EDC03CF90EF1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7862B8A9-EEBD-49B4-B604-EDC03CF90EF1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7862B8A9-EEBD-49B4-B604-EDC03CF90EF1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7862B8A9-EEBD-49B4-B604-EDC03CF90EF1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{225EE06C-3EC1-4D0C-919A-338DB9D77548}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{225EE06C-3EC1-4D0C-919A-338DB9D77548}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{225EE06C-3EC1-4D0C-919A-338DB9D77548}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{225EE06C-3EC1-4D0C-919A-338DB9D77548}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5288A5FD-3A5A-4340-91EE-2D1E93440EF1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5288A5FD-3A5A-4340-91EE-2D1E93440EF1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5288A5FD-3A5A-4340-91EE-2D1E93440EF1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5288A5FD-3A5A-4340-91EE-2D1E93440EF1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{678552FE-E227-46C4-A3AC-E8A948759E32}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{678552FE-E227-46C4-A3AC-E8A948759E32}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{678552FE-E227-46C4-A3AC-E8A948759E32}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{678552FE-E227-46C4-A3AC-E8A948759E32}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

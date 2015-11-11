@@ -1,0 +1,1314 @@
+<meta charset='utf-8'/>
+<html>
+<body>
+        This document is a scratch pad of sorts. I put down my ideas regarding Plange here. Content may be introduced or hastily discarded at any time.
+        <br>
+        </br>
+    </div>
+    <div>
+        <div class="sites-embed-align-left-wrapping-off">
+            <div style="width:250px;" class="sites-embed-border-off sites-embed">
+                <div class="sites-embed-content sites-embed-type-toc">
+                    <div class="goog-toc sites-embed-toc-maxdepth-6">
+                        <p>
+                            Contents
+                        </p>
+                        <ol class="goog-toc">
+                            <li class="goog-toc">
+                                <a href="#TOC-Random-Precepts">
+                                    <strong>
+                                        1
+                                    </strong>
+                                    Random Precepts
+                                </a>
+                            </li>
+                            <li class="goog-toc">
+                                <a href="#TOC-Examples">
+                                    <strong>
+                                        2
+                                    </strong>
+                                    Examples
+                                </a>
+                            </li>
+                            <li class="goog-toc">
+                                <a href="#TOC-Arithmetic-relations">
+                                    <strong>
+                                        3
+                                    </strong>
+                                    Arithmetic relations
+                                </a>
+                            </li>
+                            <li class="goog-toc">
+                                <a href="#TOC-DAG-function-example-and-notes-on-commutative-operations">
+                                    <strong>
+                                        4
+                                    </strong>
+                                    DAG function example and notes on commutative operations
+                                </a>
+                            </li>
+                            <li class="goog-toc">
+                                <a href="#TOC-Synchronization-via-atomic">
+                                    <strong>
+                                        5
+                                    </strong>
+                                    Synchronization via atomic
+                                </a>
+                            </li>
+                            <li class="goog-toc">
+                                <a href="#TOC-Synchronization-via-transaction">
+                                    <strong>
+                                        6
+                                    </strong>
+                                    Synchronization via transaction
+                                </a>
+                            </li>
+                            <li class="goog-toc">
+                                <a href="#TOC-Generics">
+                                    <strong>
+                                        7
+                                    </strong>
+                                    Generics
+                                </a>
+                            </li>
+                            <li class="goog-toc">
+                                <a href="#TOC-typeof">
+                                    <strong>
+                                        8
+                                    </strong>
+                                    typeof
+                                </a>
+                            </li>
+                            <li class="goog-toc">
+                                <a href="#TOC-DSL-Integration">
+                                    <strong>
+                                        9
+                                    </strong>
+                                    DSL Integration
+                                </a>
+                            </li>
+                            <li class="goog-toc">
+                                <a href="#TOC-Axioms">
+                                    <strong>
+                                        10
+                                    </strong>
+                                    Axioms
+                                </a>
+                            </li>
+                            <li class="goog-toc">
+                                <a href="#TOC-Implementation-outline">
+                                    <strong>
+                                        11
+                                    </strong>
+                                    Implementation outline
+                                </a>
+                            </li>
+                            <li class="goog-toc">
+                                <a href="#TOC-Operators">
+                                    <strong>
+                                        12
+                                    </strong>
+                                    Operators
+                                </a>
+                                <ol class="goog-toc">
+                                    <li class="goog-toc">
+                                        <a href="#TOC-Binary-Infix-Operators">
+                                            <strong>
+                                                12.1
+                                            </strong>
+                                            Binary Infix Operators
+                                        </a>
+                                    </li>
+                                    <li class="goog-toc">
+                                        <a href="#TOC-Unary-Prefix-Operators">
+                                            <strong>
+                                                12.2
+                                            </strong>
+                                            Unary Prefix Operators
+                                        </a>
+                                    </li>
+                                    <li class="goog-toc">
+                                        <a href="#TOC-Unary-or-Ternary-Prefix-Operators">
+                                            <strong>
+                                                12.3
+                                            </strong>
+                                            Unary or Ternary Prefix Operators
+                                        </a>
+                                    </li>
+                                    <li class="goog-toc">
+                                        <a href="#TOC-Unary-Enclosing-Operators">
+                                            <strong>
+                                                12.4
+                                            </strong>
+                                            Unary Enclosing Operators
+                                        </a>
+                                    </li>
+                                    <li class="goog-toc">
+                                        <a href="#TOC-Unary-Postfix-Operators">
+                                            <strong>
+                                                12.5
+                                            </strong>
+                                            Unary Postfix Operators
+                                        </a>
+                                    </li>
+                                </ol>
+                            </li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div>
+        <h2>
+            <a name="TOC-Random-Precepts">
+            </a>
+            Random Precepts
+            <br>
+            </br>
+        </h2>
+        <ul>
+            <li>
+                5th generation general purpose
+            </li>
+            <li>
+                Primitive data types and object types, first class functions, string, integral types, floating point types, emulated numeric types (bigint, quad float, arbitrary precision), symbolic expressions,
+                <a href="../../../../external.html?link=http://en.wikipedia.org/wiki/Generalized_algebraic_data_type" rel="nofollow">
+                    generalized algebraic data types
+                </a>
+                and
+                <a href="../../../../external.html?link=http://www.haskell.org/ghc/docs/latest/html/users_guide/type-families.html" rel="nofollow">
+                    Type Families
+                </a>
+            </li>
+            <li>
+                Pattern matching
+            </li>
+            <li>
+                Allow pointer access in special contexts by pinning, or general use in imperative code.
+            </li>
+            <li>
+                statically typed with late binding using &lt;Any&gt;
+            </li>
+            <li>
+                static typing features in editor
+            </li>
+            <li>
+                functional and dag objects are deleted deterministically when possible. Otherwise, objects are garbage collected by default, but provisions are made for heap objects.
+            </li>
+            <li>
+                both parallel processing facilities, and lower level threading, primitive functions include atomic read/modify/write
+            </li>
+            <li>
+                functional, DAG (definition use chain), or imperative
+            </li>
+            <li>
+                Covariance and contravariance
+            </li>
+            <li>
+                Virtual methods with return type covariance, parameter contravariance
+            </li>
+            <li>
+                Tuples
+            </li>
+            <li>
+                continuations, lambdas, coroutines
+            </li>
+            <li>
+                List comprehension
+            </li>
+            <li>
+                Set comprehension allowing any predicate
+            </li>
+            <li>
+                Optional explicit ordering of data members, and alignments.
+            </li>
+            <li>
+                Reinterpret cast that preserves the def use chain
+            </li>
+            <li>
+                A code block is a &lt;void → void&gt; function object.
+            </li>
+            <li>
+                Algebraic types are defined using the or operator ‘|’.
+            </li>
+            <li>
+                Overloaded functions are defined using the or operator '|'.
+            </li>
+            <li>
+                If and only if an expression is enclosed in a pair of angle brackets ‘&lt; &gt;’ is it used as a type.
+            </li>
+            <li>
+                public, protected, internal, protected internal, private, static members
+            </li>
+            <li>
+                stable and unstable access modifiers - accessing unstable members results in a compile time warning, or a runtime exception.
+            </li>
+            <li>
+                fixed size arrays
+            </li>
+            <li>
+                domain specific language integration
+            </li>
+            <li>
+                Allow inline assembler for as many platforms as possible in both AT&amp;T and Intel syntax.
+            </li>
+            <li>
+                functions for common SIMD operations
+            </li>
+            <li>
+                iterative or symbolic integration of recursive definitions, and domain searches
+            </li>
+            <li>
+                integration with neural network trainers, computer vision, etc.
+            </li>
+            <li>
+                Void supports assignment and construction in generic contexts, pointer arithmetic is silently a no op.
+            </li>
+            <li>
+                API to generate, compile, and run code
+            </li>
+            <li>
+                API to dynamically compile from llvm data structures to binaries
+            </li>
+            <li>
+                API to spawn and use virtual Linux boxes
+            </li>
+            <li>
+                imperative keyword on a code block allows non-DAG code
+            </li>
+            <li>
+                functional keyword on a code block forces only functional code
+            </li>
+            <li>
+                default is DAG code
+            </li>
+            <li>
+                Can leave function and generic arguments blank, allowing default values in the middle.
+            </li>
+            <li>
+                all pass-by-value parameters are constant
+            </li>
+            <li>
+                Native dependency injection. An interface can be defined as a “service”, and it can be instantiated whenever a class that implements it is available. Additionally, an implementer can provide multiple interfaces, creating connections between multiple components. The implementer may also implement both sides of the same interface, to serve as a shim between two previously connected components. Software can choose from multiple possible implementers.
+            </li>
+            <li>
+                Blocks of code that can never be executed ( if (false) ) may contain any syntactically correct code.
+            </li>
+            <li>
+                the compiler takes arguments for creating definitions like DEBUG := true
+            </li>
+            <li>
+                Macros are functions that manipulate the syntax tree
+            </li>
+            <li>
+                extension instance methods
+            </li>
+            <li>
+                extension static methods
+            </li>
+            <li>
+                types are first class
+            </li>
+            <li>
+                functions are first class
+            </li>
+            <li>
+                evaluation contexts are first class
+            </li>
+            <li>
+                no syntactic ambiguity
+            </li>
+            <li>
+                Named parameters allow function calls where relations are created on the parameters, in arbitrary number and order, instead of "passing values" via definition.
+            </li>
+            <li>
+                When possible, infinitely recursive non-opaque functions are integrated, or an iterated convergence is performed at runtime, i.e. implicitly or explicitly integrate systems automatically.
+            </li>
+            <li>
+                tail recursion
+            </li>
+            <li>
+                implicit serialization wherever possible
+            </li>
+            <li>
+                transparent relational database access
+            </li>
+            <ul>
+                <li>
+                    special classes using the record keyword
+                </li>
+            </ul>
+            <li>
+                transparent key-value-store access
+            </li>
+            <li>
+                automatic use of Hadoop when available
+            </li>
+            <li>
+                strong exception semantics
+            </li>
+            <li>
+                structures for commonly useful mathematical concepts: complete/partial orders, vertices, matrices, quaternions, red black trees, automata, k-trees, bimap, graphs, more?
+            </li>
+            <li>
+                try, catch, finally.
+            </li>
+            <li>
+                fully integrated unit testing, profiling, code coverage, tracing, what else?
+            </li>
+            <li>
+                _llvm { }, _arch_x86 { }, _feature_neon { }, _ptr_64 {}, _android {}, customs can be set programmatically, which may cause things as severe as recompilation/optimization at runtime!
+            </li>
+            <li>
+                signed code and dependency signature checks
+            </li>
+            <li>
+                The domain of a function is computable.
+            </li>
+            <li>
+                interval arithmetic
+            </li>
+            <li>
+                pattern matching, except that domains can be programmatically specified and become part of the functions type
+            </li>
+            <li>
+                enums, continuous enums (generalized sets of values), parametric enums (functions that create enums)
+            </li>
+            <li>
+                strong ordering between all lockables, even when in a different process or computer. Each lockable has a uid, and each process&amp;machine has a uid. When a lockable is transmitted across process boundaries, it's process&amp;machine uid do not change. If its storage is moved, then the lockable must be searched for on the cluster. When found, a third uid field is cached (only locally) for the process&amp;machine that currently backs it. In this way, lockables can be relocated while maintaining their id and strict complete ordering.
+            </li>
+            <li>
+                Lockables stored on the heap are ordered by address. Can this work?
+            </li>
+            <li>
+                Cluster wide garbage collection.
+            </li>
+            <li>
+                Validation of an AST can be deferred with a ValidationDeferment object.
+            </li>
+            <li>
+                Referenceable
+            </li>
+            <li>
+                AsLockable
+            </li>
+            <li>
+                means to control temporal ordering of evaluation
+            </li>
+            <li>
+                Jobs can be dependent on each other for data - imperative tasks with functional interconnections
+            </li>
+            <ul>
+                <li>
+                    The temporal ordering of jobs can have relations created on them in the same way as any other variable.
+                </li>
+                <li>
+                    A global variable, T, for elapsed run time. T can be used as an implicit parameter/input to a system/evaluation context, on which generalized arithmetic expressions can be constructed. Time is a dimension and should be useable as such.
+                </li>
+            </ul>
+            <li>
+                Features like RTTI, exceptions, buffer checks, checked iterators, and more? can be disabled in performance critical code using language constructs.
+            </li>
+            <li>
+                Profile guided optimization DURING runtime.
+            </li>
+            <li>
+                Encryption and security primitives are as ubiquitous as serialization.
+            </li>
+            <li>
+                Signal processing primitives
+            </li>
+            <li>
+                JSON is syntactically valid
+            </li>
+            <li>
+                Haskell's where clause but with generalized expressions on both sides.
+            </li>
+            <li>
+                Numeric integration is easy to use, and is automatically used when appropriate.
+            </li>
+            <li>
+                Generalized arithmetic on types in function bodies enables type concepts, custom co/contravariance, compile/run time error checking, arithmetic controlled function overloading.
+            </li>
+            <li>
+                Application permissions are accessible through a static object.
+            </li>
+            <ul>
+                <li>
+                    Its members correspond to each permission, and are named as such.
+                </li>
+                <li>
+                    Relations can be created on the members to express the permissions required/used by an evaluation context.
+                </li>
+                <li>
+                    When a more elevated permission is needed, the runtime/os may block it entirely, automatically allow it, or prompt the user, based on system configuration.
+                </li>
+            </ul>
+            <li>
+                built in functions for bit rotate and shift, signed and unsigned, hamming weight, count leading/trailing zeros/ones, index of first 1 bit, etc, etc.
+            </li>
+            <li>
+                Relations can be created on individual bits via masking and bit twiddling.
+            </li>
+            <li>
+                If a pure function does not return a value, or an error occurs, the input is not in the domain of the function.
+            </li>
+            <li>
+                partial class definitions
+            </li>
+            <ul>
+                <li>
+                    Combined using the plus operator
+                </li>
+            </ul>
+            <li>
+                Types for and arithmetic on Power series, Taylor series, Maclaurin series, and arbitrary precision evaluations of such.
+            </li>
+            <li>
+                User defined verbs
+            </li>
+            <ul>
+                <li>
+                    Like a DSL for predicate logics
+                </li>
+                <li>
+                    Transitive and intransitive verbs
+                </li>
+                <li>
+                    A verb can be commutative, symmetric, transitive or any combination there of. More?
+                </li>
+                <li>
+                    Verbs can have relations
+                </li>
+                <li>
+                    Examples:
+                </li>
+                <ul>
+                    <li>
+                        A does precede to B ( A &lt; B)
+                    </li>
+                    <li>
+                        X does not converge
+                    </li>
+                    <li>
+                        succeed := ¬precede ∧¬equate
+                    </li>
+                    <li>
+                        A does precede to B ∧ B does precede to C ⇒A does proceed to C (declaration of the transitive property)
+                    </li>
+                </ul>
+            </ul>
+            <li>
+                automatic documentation generation and the necessary syntax to use it
+            </li>
+            <li>
+                dimensional analysis
+            </li>
+            <li>
+                operator precedence is defined using inequalities, not integer literals
+            </li>
+            <li>
+                custom operators, including fixity specification
+            </li>
+            <li>
+                thread solos - the debugger executes only one thread until it sleeps/waits/joins
+            </li>
+            <li>
+                separate debugger windows for separate threads (step buttons per thread)
+            </li>
+            <li>
+                Custom debug viewer
+            </li>
+            <li>
+                ternary conditional operator doesn't require the same type from each possibility
+            </li>
+            <li>
+                C interop
+            </li>
+            <li>
+                C++ interop
+            </li>
+            <ul>
+                <li>
+                    Load a DLL, detect name mangling, build interface
+                </li>
+                <li>
+                    Header files can be loaded
+                </li>
+            </ul>
+            <li>
+                observable collections
+            </li>
+            <ul>
+                <li>
+                    Array
+                </li>
+                <li>
+                    List
+                </li>
+                <li>
+                    Dictionary
+                </li>
+                <li>
+                    Set
+                </li>
+            </ul>
+            <li>
+                IArray for array abstractions
+            </li>
+            <li>
+                Compiler takes a flag indicating that the run time should be embedded in the executable.
+            </li>
+            <li>
+                Otherwise the executable should prompt the user and download it if needed.
+            </li>
+            <li>
+                And programs can trigger an install of the runtime.
+            </li>
+            <li>
+                Documentation accessible as part of reflection.
+            </li>
+            <li>
+                Extensible APIs are discoverable through reflection
+            </li>
+            <li>
+                API for the installation of extension
+            </li>
+            <li>
+                Assignable variables can have a looser type constraint than the value they store.
+            </li>
+            <li>
+                Adding the constraints of an expression to the evaluation context is called appension. Those constraints are called the appendant.
+            </li>
+            <li>
+                “Where” clauses are expressed as switch blocks. The “switch” portion is the left-hand-side operand (lhs.) The “case” portion is the right-hand-side operand (rhs.) Both are general expressions. If the rhs is semantically valid in the current evaluation context after appension of the lhs, and can therefore be evaluated, the rhs is also appended to the context. Then, the following code is evaluated.
+            </li>
+            <li>
+                property keyword
+            </li>
+            <li>
+                syntax for regular expressions
+            </li>
+            <li>
+                a call memoizer - the results from an expensive pure function are cached heuristically.
+                <br>
+                </br>
+            </li>
+            <li>
+                smart tabs in editor
+            </li>
+            <ul>
+                <li>
+                    tabs have no fixed width - only a minimum width
+                </li>
+                <li>
+                    adjacent lines with the same number of tabs before a substring will position those substrings the same
+                </li>
+                <li>
+                    a heuristic can be used to make lines that are not exactly adjacent sometimes match up
+                </li>
+            </ul>
+            <li>
+                slice syntax
+            </li>
+        </ul>
+        <h1 dir="ltr">
+            <a name="TOC-Examples">
+            </a>
+            Examples
+        </h1>
+        <p dir="ltr">
+            <span style="line-height:1.6;font-size:10pt;background-color:transparent">
+                The impure keyword before a function literal indicates that the function may have side effects, which limits the assumptions that can be made during parallelization and optimization. When a function block is made in code, the compiler makes a best effort to determine if it is pure (if it cannot, it is automatically impure). 
+            </span>
+        </p>
+        <p dir="ltr">
+            Function objects are able to return a list of variables that the function may read from, and a list of variables that the function may write to, based on the current evaluation context, and excluding parameters/return values. This allows the compiler to determine the complete set of involved variables. If the writes-to set is non-empty, the function is impure. If the reads-from set contains any references to non-constant values ( depends on state beyond the parameter list) the function is impure.
+            <br>
+            </br>
+        </p>
+        <p dir="ltr">
+            &lt;Double volatile&gt; a;
+        </p>
+        <p dir="ltr">
+            -the volatile keyword indicates that an object's value may change at any time due to external events. Volatile objects cannot be used in atomic blocks. A code block containing access to a volatile is impure. The address of a volatile can be determined in any context in which a volatile may be used.
+            <br>
+            </br>
+        </p>
+        <p dir="ltr">
+            &lt;void → void opaque&gt; (){};
+        </p>
+        <p dir="ltr">
+            The opaque keyword indicates that the function is impure, and may read or write data in an unknown location. It cannot be parallelized, and it may not be called in an atomic code block. Any code block that performs operations that the compiler cannot keep track of (direct memory writes, or device access as examples) are opaque. Any linked in functions that do not provide a read/write list are assumed to be opaque. Thus, c/c++ interop is always opaque. Any code block interacting with a volatile is opaque.The opaque qualifier can be removed using opaque_cast, which will cause its read-from and write-to lists to be empty, but still retain the impure qualifier. This, however, should be used sparingly - for interop when the behavior of the function is well known.
+            <br>
+            </br>
+        </p>
+        <h1 dir="ltr">
+            <a name="TOC-Arithmetic-relations">
+            </a>
+            Arithmetic relations
+        </h1>
+        <p dir="ltr">
+            The define operator and the equals operator are very similar, but their precedence differs. For example:
+            <br>
+            </br>
+        </p>
+        <p dir="ltr">
+            a = 0; //both lines are errors
+        </p>
+        <p dir="ltr">
+            a = 1; //because together they make a contradiction
+            <br>
+            </br>
+        </p>
+        <p dir="ltr">
+            a := 0; //both lines are errors
+        </p>
+        <p dir="ltr">
+            a := 0; //because a can only be defined once
+            <br>
+            </br>
+        </p>
+        <p dir="ltr">
+            a = 0; //this is an error, because it contradicts the next lines definition
+        </p>
+        <p dir="ltr">
+            a := 1; //definitions take precedence
+            <br>
+            </br>
+        </p>
+        <p dir="ltr">
+            Relational operators like ‘&lt;’ and ‘=’ neither define nor test relations between two expressions - not directly. The “return value” of these binary operations is a relation, not a value. When this relationship is coerced to a value, that relationship will be tested. When a primary statement results in a relation, it is assumed that the relation must be true. For example, the statement:
+            <br>
+            </br>
+        </p>
+        <p dir="ltr">
+            a &lt; b;
+            <br>
+            </br>
+        </p>
+        <p dir="ltr">
+            is, in a sense, saying:
+            <br>
+            </br>
+        </p>
+        <p dir="ltr">
+            a &lt; b must be true
+            <br>
+            </br>
+        </p>
+        <p dir="ltr">
+            Take, for example, the following:
+            <br>
+            </br>
+        </p>
+        <p dir="ltr">
+            a &lt; b; // a &lt; b must be true
+        </p>
+        <p dir="ltr">
+            c = b &lt; a; // coerced into a value - false
+        </p>
+        <p dir="ltr">
+            b &lt; a; // b &lt; a must be true, which contradicts the previous, resulting in a compile time error
+        </p>
+        <p dir="ltr">
+            ExecutionContext.addRelation(Relation("b &lt; a")); //again, an error
+            <br>
+            </br>
+        </p>
+        <h1 dir="ltr">
+            <a name="TOC-DAG-function-example-and-notes-on-commutative-operations">
+            </a>
+            DAG function example and notes on commutative operations
+        </h1>
+        <p dir="ltr">
+            &lt;&lt;:Double&gt;(&lt;&lt;Double&gt;(&lt;Double&gt; x)&gt; func, &lt;double&gt; domainMin, &lt;double&gt; domainMax, &lt;double&gt; rangeMin, &lt;double&gt; rangeMax, &lt;int&gt; sampleCount := 1000)&gt; monteCarlo := {
+        </p>
+        <p dir="ltr">
+                int inCount = 0;
+        </p>
+        <p dir="ltr">
+                for (sampleIndex in [0 ... sampleCount)) {
+        </p>
+        <p dir="ltr">
+                    x = Random([domainMin - domainMax]); //random value in the interval
+        </p>
+        <p dir="ltr">
+                    y = Random([rangeMin -  rangeMax]);
+        </p>
+        <p dir="ltr">
+                    if (func(x) &lt;= y) inCount++; // increment is atomic, see below
+        </p>
+        <p dir="ltr">
+                }
+        </p>
+        <p dir="ltr">
+               
+        </p>
+        <p dir="ltr">
+                return inCount * (domainMax - domainMin) * (rangeMax - rangeMin) / sampleCount;
+        </p>
+        <p dir="ltr">
+            }
+            <br>
+            </br>
+        </p>
+        <p dir="ltr">
+            This implementation can be parallelized, despite the fact that there would be a multithreaded-read multithreaded-write variable (volatile), inCount. The increment is atomic and increment operations are commutative. Essentially, the point is not that something can be read/modify/write, but it must be done in a way that is still a DAG even with multiple threads. The dependency partial-order in the DAG may not be known at compile time, but some of its elements (specifically the increments) can be reordered without affecting the result because atomic increment is commutative. Thusly, the compiler decides in which cases to make a code block atomic automatically, to facilitate parallelization, based on the DAGs commutative nature.
+            <br>
+            </br>
+        </p>
+        <h1 dir="ltr">
+            <a name="TOC-Synchronization-via-atomic">
+            </a>
+            Synchronization via atomic
+        </h1>
+        <p dir="ltr">
+            In imperative code, the user may explicitly make an operation atomic by enclosing it in an atomic code block. In transparent (non-opaque) code, the compiler handles this process. In opaque code, It is the responsibility of the programmer to ensure that it is in fact atomic.
+            <br>
+            </br>
+        </p>
+        <p dir="ltr">
+            atomic {
+        </p>
+        <p dir="ltr">
+                //do stuff;
+        </p>
+        <p dir="ltr">
+            }
+            <br>
+            </br>
+        </p>
+        <p dir="ltr">
+            any variable that may be involved in the transparent atomic code block is determined, including the read/write lists of called functions. Exclusive locks are taken on these datum.
+            <br>
+            </br>
+        </p>
+        <p dir="ltr">
+            All variables have a lazy strong ordering (though the order may change while not locked (the object shall not be moved in memory while locked)), and are all locked in this order, and unlocked in reverse order. In this way, locks regarding multiple datums cannot cause a deadlock. The compiler determines which variables are used in atomic operations and creates mutual-exclusion locks for each. For arrays, the scope of the mutual-exclusion lock may be per-item or per-array, determined at instantiation of the array (in the case of fixed size arrays, at compile time). Some heuristic regarding usage may be helpful. If the array indices cannot be determined statically, then the lock generality of the array is increased and the whole array must be locked,
+            <br>
+            </br>
+        </p>
+        <p dir="ltr">
+            The lock keyword can also be used to manually lock one or more ILockable objects. The read_lock and write_lock keywords can be used in the same way. Nested locks will all be acquired when the first level is entered. The read write lists of called functions also specify which data will have a lock, read_lock,  or write_lock, to detect nesting through calls. If the compiler/runtime can't determine statically which data will be locked before entering the first level of nested locks, an error is generated. The error is generated at compile time if it can be determined that the runtime will also not be able to resolve the nests.
+            <br>
+            </br>
+        </p>
+        <h1 dir="ltr">
+            <a name="TOC-Synchronization-via-transaction">
+            </a>
+            Synchronization via transaction
+        </h1>
+        <p dir="ltr">
+            In the case of transactions, execution continues until a variable that needs to be locked has not been. The transaction will reset, unlock everything, add the desired value to the lock list, re-lock all, and attempt to rerun the transaction. If,  in a subsequent attempt, an added lock was not reused (before the transaction fails again on another unlocked datum), it's removed from the list before the next attempt to re-run the transaction.
+            <br>
+            </br>
+        </p>
+        <p dir="ltr">
+            Even with this system, oscillatory external transactions could cause a transaction to never succeed. Therefore, if a transaction fail count exceeds a certain threshold, the additionally needed locks will no longer be removed, and the lock set will grow unbounded until the transaction succeeds. This threshold is based on some currently undecided heuristic.
+            <br>
+            </br>
+        </p>
+        <p dir="ltr">
+            If the lock set grows to consume a large portion of a collection,  then the whole collection will be locked in the next attempt. This will increase the lock generality for that collection, and it will be accessed by any other program through that upgraded level, until perhaps the runtime determines that the need for generalized locking on the collection has declined.
+            <br>
+            </br>
+        </p>
+        <h1 dir="ltr">
+            <a name="TOC-Generics">
+            </a>
+            Generics
+        </h1>
+        <p dir="ltr">
+            &lt;Type → Type&gt; myClass := (T) {
+        </p>
+        <p dir="ltr">
+                return class {
+        </p>
+        <p dir="ltr">
+                &lt;T&gt; value;
+        </p>
+        <p dir="ltr">
+                &lt;T&gt; anotherValue;
+        </p>
+        <p dir="ltr">
+               
+        </p>
+        <p dir="ltr">
+                VariadicFunction = { return; }
+        </p>
+        <p dir="ltr">
+                &lt;U, V... → void&gt; VariadicFunction = (headParam, tailParams...) {
+        </p>
+        <p dir="ltr">
+                    DoStuff(firstParam);
+        </p>
+        <p dir="ltr">
+                    VariadicFunction(tailParams...);
+        </p>
+        <p dir="ltr">
+                }
+        </p>
+        <p dir="ltr">
+            } //myClass is a function that returns a type
+            <br>
+            </br>
+        </p>
+        <p dir="ltr">
+            &lt;myClass(float)&gt; myClassInstance;
+            <br>
+            </br>
+        </p>
+        <p dir="ltr">
+            For multiple generic arguments in a class:
+        </p>
+        <p dir="ltr">
+            &lt;Type, Type → Type&gt; anotherGenericClass := (A, B) { // the parameters aren't Any
+        </p>
+        <p dir="ltr">
+                return class {
+        </p>
+        <p dir="ltr">
+                    &lt;A&gt; valueA; //because these declarations constrain them
+        </p>
+        <p dir="ltr">
+                    &lt;B&gt; valueB;
+        </p>
+        <p dir="ltr">
+                }
+        </p>
+        <p dir="ltr">
+            }
+            <br>
+            </br>
+        </p>
+        <p dir="ltr">
+            As classes are objects, un-instantiated generic classes are functions that take type objects as parameters, returning a new class object. This allows lambda calculus on generics:
+            <br>
+            </br>
+        </p>
+        <p dir="ltr">
+            &lt;Type → Type&gt; partialGenericInstantiation := (A) { return anotherGenericClass(int, A); };
+            <br>
+            </br>
+        </p>
+        <p dir="ltr">
+            The compiler/runtime attempts to constrain ‘Any’ typed members based on information provided in the context.
+            <br>
+            </br>
+        </p>
+        <p dir="ltr">
+            Function objects are a bit special because the compiler and the runtime can work with the code that defines them, allowing algebra on them at runtime. The code is data.
+            <br>
+            </br>
+        </p>
+        <p dir="ltr">
+            boolean operators "downcasts", "upcasts"
+            <br>
+            </br>
+        </p>
+        <p dir="ltr">
+            A = class {};
+        </p>
+        <p dir="ltr">
+            B = class inheriting A {};
+        </p>
+        <p dir="ltr">
+            B downcasts A = true
+            <br>
+            </br>
+        </p>
+        <p dir="ltr">
+            when an 'Any', algebraic type, or a generically typed value has its typed determined by a conditional, it is accessed as that type.
+            <br>
+            </br>
+        </p>
+        <p dir="ltr">
+            func := &lt;String(&lt;T&gt; a)&gt; {
+        </p>
+        <p dir="ltr">
+            if (a is Int) {
+        </p>
+        <p dir="ltr">
+                return (a &lt;&lt; 2).ToString(); //a is an Int in this context
+        </p>
+        <p dir="ltr">
+            } else if (a is String) {
+        </p>
+        <p dir="ltr">
+                return a; //a is a String in this context
+        </p>
+        <p dir="ltr">
+                }
+        </p>
+        <p dir="ltr">
+            };
+            <br>
+            </br>
+        </p>
+        <p dir="ltr">
+            If an expressions type is determined this way, all other expressions of the same type are also usable as that type. You can also do if(T = String).
+            <br>
+            </br>
+        </p>
+        <p dir="ltr">
+            Array rank reduction syntax, such as:
+        </p>
+        <p dir="ltr">
+            int[,] a = new int[5, 5];
+        </p>
+        <p dir="ltr">
+            typeof(a[3,]) = typeof(a[,3]) = typeof(int[])
+        </p>
+        <p dir="ltr">
+            IMPORTANT: which means that an array's element stride may not be the element size. However, the stride is an accessible constant member of an array.
+            <br>
+            </br>
+        </p>
+        <h1 dir="ltr">
+            <a name="TOC-typeof">
+            </a>
+            typeof
+        </h1>
+        <p dir="ltr">
+            typeof(a) does not (necessarily) return a concrete Type object. Instead, it references the relations on the type that a is constrained to. In many cases, this will result in a single type, but Any may also result, or any algebraic combination thereof.
+        </p>
+        <h1 dir="ltr">
+            <a name="TOC-DSL-Integration">
+            </a>
+            DSL Integration
+        </h1>
+        <p dir="ltr">
+            a block of code can be in another language - a DSL. The source code contains a grammar and an abstract syntax graph handler. At compile time, the code block is converted to an ASG. The syntax graph handler is charged with emitting a function object, which may be constructed programmatically using code as data concepts, or by whatever means desirable.Learn more about Jetbrains MPS to better solve this.
+            <br>
+            </br>
+        </p>
+        <p dir="ltr">
+            The toolchain has a built in GLR parser, which can take grammars in Wirth Syntax Notation, BNF, or EBNF grammars, or a serialized second-order NFA.
+        </p>
+        <h1 dir="ltr">
+            <a name="TOC-Axioms">
+            </a>
+            Axioms
+        </h1>
+        <p dir="ltr">
+            The set of real numbers is a constant, R. Elements of the reals have addition and multiplication, etc. R is innumerable, and has an infinite cardinality ℵ0.
+            <br>
+            </br>
+        </p>
+        <p dir="ltr">
+            Those are just a few of the basic "rules" on which the compiler, runtime, and program can create more sophisticated logic. Sets in programming should be the same, in every way possible, to mathematical sets. Sets can be open, closed, countable, have cardinalities, and have set comprehension on generalized mathematical expressions. The is useful because it allows programmers to tap into a more mathematical approach to programming. Imagine a closed but infinite set of date/time ranges. How might that be useful?
+            <br>
+            </br>
+        </p>
+        <p dir="ltr">
+            To imagine the goal of this language, start with Flow, add Haskell, give it the computational power of SAGE, the logic of Prolog, garbage collection AND a heap, c++ polymorphism, optimization opportunities and tools, and the flexibility to use (or create) a snuggly tailored interface to any other system.
+            <br>
+            </br>
+        </p>
+        <p dir="ltr">
+            If you want to use C calls, it should be easy. If you want to use JNI, it should be easy. If you want to use a hadoop cluster, it should be easy.
+            <br>
+            </br>
+        </p>
+        <p dir="ltr">
+            Examine the way that C calls affect symbol generation. It affects the output of the compiler based on an abstractable set of rules. What if the compiler could run source code during compilation that affected the data structures of the compiler, via this abstraction? You could #include a file with an OnCompile method, that makes unmangled C callable functions. You could make a profiler plugin that can tool the executable for collection of performance data.
+            <br>
+            </br>
+        </p>
+        <p dir="ltr">
+            Imagine there is no compiler. Just a continuous yet contained environment that programs spawn from, whether source code, jit, or other. Imagine a program that spawns other programs in the same way that baker's yeast buds. On a low level, this has been happening for decades, but the connections between processes could be more granular.
+            <br>
+            </br>
+        </p>
+        <p dir="ltr">
+            The bits of software that serve as the starting point for compilation, runtime,standard library, etc, are collectively called the toolchain. The goal of the toolchain is to expose every part of itself to manipulation while simultaneously being useful for creating programs. The toolchain is itself extensible, and compiles its own plugins. For thoroughness, an editor is included in the toolchain which is expected to uphold these ambitious goals. The entire toolchain should strive to build/run itself, as a necessary step to make a contained environment.
+            <br>
+            </br>
+        </p>
+        <h1 dir="ltr">
+            <a name="TOC-Implementation-outline">
+            </a>
+            Implementation outline
+        </h1>
+        <p dir="ltr">
+            Llvm can be modified to be a suitable backend for the toolchain. Since the language has strong ties to haskell, ghc is a good candidate starting point.
+            <br>
+            </br>
+        </p>
+        <p dir="ltr">
+            The first step is to make a suitable GLR parser in Haskell, that outputs an Abstract Syntax Graph. Then, create a grammar for haskell that can be expanded upon. The source code for Haskell is adapted to bootstrap the language, and features are incrementally added. The Haskell source code is incrementally replaced to take advantage of new features.
+            <br>
+            </br>
+        </p>
+        <p dir="ltr">
+            Next, SAGE and Prolog features are integrated into the standard library. Afterwards, language constructs are added, to more naturally work with these tools through the language's generalized arithmetic. Again, these new features are exploited in the source.
+            <br>
+            </br>
+        </p>
+        <p dir="ltr">
+            LLVM data structures and routines are made accessible in the standard library, then OnCompile and DSL integration are added.
+            <br>
+            </br>
+        </p>
+        <p dir="ltr">
+            Haskell is further adapted to build, optimize, and run DAG code, followed by imperative code. Opaque, impure, volatile, atomic and other qualifiers/keywords start to take shape.
+            <br>
+            </br>
+        </p>
+        <p dir="ltr">
+            Eval capabilities are added. Evaluation contexts are promoted to data structures. Functions, Types, Sets, and more now use their goal syntax.
+            <br>
+            </br>
+        </p>
+        <p dir="ltr">
+            Iterate the code base again, using newly available features.
+            <br>
+            </br>
+        </p>
+        <p dir="ltr">
+            Execution contexts, lambdas, continuations, and evaluation-context concatenation. Then evaluation contexts become de facto objects.
+            <br>
+            </br>
+        </p>
+        <p dir="ltr">
+            Iterate code base.
+            <br>
+            </br>
+        </p>
+        <p dir="ltr">
+            Add ILockable support. Improve parallelism of DAG code via dependency graph commutation. References can now point to other process spaces.
+            <br>
+            </br>
+        </p>
+        <p dir="ltr">
+            Compete implementation of atomic keyword, and other synchronization aids.
+            <br>
+            </br>
+        </p>
+        <p dir="ltr">
+            Implement transactions.
+            <br>
+            </br>
+        </p>
+        <p dir="ltr">
+            Implement blueprints and machines model. Time-as-a-domain features.
+            <br>
+            </br>
+        </p>
+        <p dir="ltr">
+            Libraries for interfacing with other software. Server for hosting libraries/features.
+            <br>
+            </br>
+        </p>
+        <p dir="ltr">
+            Close gaps to complete the self-containment process.
+            <br>
+            </br>
+        </p>
+        <p dir="ltr">
+            Optimization and profiling tools. Platform specific code blocks. SIMD and other intrinsics.
+            <br>
+            </br>
+        </p>
+        <p dir="ltr">
+            Inline assembly.
+            <br>
+            </br>
+        </p>
+        <p dir="ltr">
+            Heap, GC, pointer comprehension.
+            <br>
+            </br>
+        </p>
+        <p dir="ltr">
+            Duck typing, dynamicObject/expando.
+            <br>
+            </br>
+        </p>
+        <h1 dir="ltr">
+            <a name="TOC-Operators">
+            </a>
+            Operators
+        </h1>
+        <p dir="ltr">
+            A wider range of operators are supported by using Unicode characters. Alternatively, long form operators are recognized as synonyms for typing ease, and can be automatically replaced by editors.
+        </p>
+        <h2 dir="ltr">
+            <a name="TOC-Binary-Infix-Operators">
+            </a>
+            Binary Infix Operators
+        </h2>
+        <p dir="ltr">
+            = - equality
+        </p>
+        <p dir="ltr">
+            &lt; - less than
+        </p>
+        <p dir="ltr">
+            &gt; - greater than
+        </p>
+        <p dir="ltr">
+            &lt;= or ≤ - less than or equal to
+        </p>
+        <p dir="ltr">
+            &gt;= or ≥ - greater than or equal to
+        </p>
+        <p dir="ltr">
+            != or ≠ - inequality
+        </p>
+        <p dir="ltr">
+            ?? - null coalescing
+        </p>
+        <p dir="ltr">
+            ○ (ring) - function composition
+        </p>
+        <p dir="ltr">
+            → (arrow) - function, maps to
+        </p>
+        <p dir="ltr">
+            ± (plus minus) - typed as +-
+        </p>
+        <p dir="ltr">
+            · (middle dot) - multiplication, dot product
+        </p>
+        <p dir="ltr">
+            * (asterisk) - multiplication, conjugation
+        </p>
+        <p dir="ltr">
+            × - multiplication, cross product - typed as &gt;&lt;
+        </p>
+        <p dir="ltr">
+            ÷ or / - division
+        </p>
+        <p dir="ltr">
+            / - set difference
+        </p>
+        <p dir="ltr">
+            ∧or &amp; - logical conjunction, boolean and
+        </p>
+        <p dir="ltr">
+            ∨or || - logical disjunction, boolean or
+        </p>
+        <p dir="ltr">
+            ⊕ - exclusive disjunction, boolean xor
+        </p>
+        <p dir="ltr">
+            ^ - power
+        </p>
+        <p dir="ltr">
+            ∀- for all - typed as forall
+        </p>
+        <p dir="ltr">
+            ∃- there exists - typed as exists
+        </p>
+        <p dir="ltr">
+            ∃! - there exists exactly one
+        </p>
+        <p dir="ltr">
+            := - definition
+        </p>
+        <p dir="ltr">
+            ⇒ - implies - typed as =&gt;
+        </p>
+        <p dir="ltr">
+            ⇔ - iff - typed as &lt;=&gt;
+        </p>
+        <p dir="ltr">
+            ∈ - is an element of - typed as (-
+        </p>
+        <p dir="ltr">
+            ∉- is not  an element of - typed as /-)
+        </p>
+        <p dir="ltr">
+            ∋- contains as an element - typed as -)
+        </p>
+        <p dir="ltr">
+            ∌- does not contain as an element - typed as /-)
+        </p>
+        <p dir="ltr">
+            ⊆- subset - typed _(
+        </p>
+        <p dir="ltr">
+            ⊂ - proper subset
+        </p>
+        <p dir="ltr">
+            ⊇ - superset - typed _)
+        </p>
+        <p dir="ltr">
+            ⊃ - proper superset
+        </p>
+        <p dir="ltr">
+            ∪ - union
+        </p>
+        <p dir="ltr">
+            ∩ - intersection
+        </p>
+        <h2 dir="ltr">
+            <a name="TOC-Unary-Prefix-Operators">
+            </a>
+            Unary Prefix Operators
+        </h2>
+        <p dir="ltr">
+            - - negation
+        </p>
+        <p dir="ltr">
+            # - cardinality
+        </p>
+        <p dir="ltr">
+            ¬ or ~ - not, negation
+        </p>
+        <h2 dir="ltr">
+            <a name="TOC-Unary-or-Ternary-Prefix-Operators">
+            </a>
+            Unary or Ternary Prefix Operators
+        </h2>
+        <p dir="ltr">
+            Σ - sum over
+        </p>
+        <p dir="ltr">
+            ∏ - product over, product integral
+        </p>
+        <p dir="ltr">
+            ∫ - integral
+        </p>
+        <p dir="ltr">
+            ∮ - line integral
+        </p>
+        <h2 dir="ltr">
+            <a name="TOC-Unary-Enclosing-Operators">
+            </a>
+            Unary Enclosing Operators
+        </h2>
+        <p dir="ltr">
+            ( x ) - parenthetical
+        </p>
+        <p dir="ltr">
+            | x | - absolute value, magnitude, cardinality
+        </p>
+        <p dir="ltr">
+            ⌊ x ⌋ - floor
+        </p>
+        <p dir="ltr">
+            ⌈ x ⌉ - ceiling
+        </p>
+        <p dir="ltr">
+            || x ||, ⌊ x ⌉ - nearest integer
+            <br>
+            </br>
+        </p>
+        <h2 dir="ltr">
+            <a name="TOC-Unary-Postfix-Operators">
+            </a>
+            Unary Postfix Operators
+        </h2>
+        <p dir="ltr">
+            ! - factorial
+        </p>
+        <p dir="ltr">
+            <br>
+            </br>
+        </p>
+    </div>
+</body>
+</html>

@@ -1,0 +1,1377 @@
+<meta charset='utf-8'/>
+<html>
+<body>yle="border-style:solid;border-width:1px;padding:5px;color:rgb(128,0,0);background-color:rgb(204,204,204)">
+        The page and any subpages are a work in progress. Significant changes and additions are expected.
+    </p>
+    <div>
+        The syntax of plange is context free with extensions for
+        <a href="operators.html">
+            operator precedence and fixity
+        </a>
+        and the
+        <a href="quote-comment-embedding.html">
+            embedding
+        </a>
+        of data into a source file. The parser for plange is the purpose built
+        <a href="../../../../external.html?link=https://github.com/coder0xff/parlex" rel="nofollow">
+            parlex
+        </a>
+        project. The remainder of the syntax documentation is reference material.
+    </div>
+    <div>
+        <div jotId="sites-toc-undefined" style="display:block; margin:5px auto 5px 0; text-align:left; width:400px;" class="goog-toc sites-sidebar-nav" id="sites-toc-undefined">
+            <h4>
+                Subpage Listing
+            </h4>
+            <div style="text-align: left;" class="nav-toc-content" onclick="JOT_SUBPAGE_click(event)">
+                <ul jotId="navList">
+                    <li class="nav-first">
+                        <div style="padding-left: 5px;" dir="ltr">
+                            <a href="syntax/add_sub.html" jotId="wuid:gx:5be3e6d43c461232" class="sites-navigation-link">
+                                add_sub
+                            </a>
+                        </div>
+                    </li>
+                    <li>
+                        <div style="padding-left: 5px;" dir="ltr">
+                            <a href="syntax/addition.html" jotId="wuid:gx:7911e1901a4b0ee6" class="sites-navigation-link">
+                                addition
+                            </a>
+                        </div>
+                    </li>
+                    <li>
+                        <div style="padding-left: 5px;" dir="ltr">
+                            <a href="syntax/all.html" jotId="wuid:gx:e09b4dd11ed515b" class="sites-navigation-link">
+                                all
+                            </a>
+                        </div>
+                    </li>
+                    <li>
+                        <div style="padding-left: 5px;" dir="ltr">
+                            <a href="syntax/and.html" jotId="wuid:gx:3f9977e15310a1d8" class="sites-navigation-link">
+                                and
+                            </a>
+                        </div>
+                    </li>
+                    <li>
+                        <div style="padding-left: 5px;" dir="ltr">
+                            <a href="syntax/assignment.html" jotId="wuid:gx:27d2deef27beb513" class="sites-navigation-link">
+                                assignment
+                            </a>
+                        </div>
+                    </li>
+                    <li>
+                        <div style="padding-left: 5px;" dir="ltr">
+                            <a href="syntax/bijection.html" jotId="wuid:gx:554a6ef0a6df0930" class="sites-navigation-link">
+                                bijection
+                            </a>
+                        </div>
+                    </li>
+                    <li>
+                        <div style="padding-left: 5px;" dir="ltr">
+                            <a href="syntax/binary_arithmetic_op.html" jotId="wuid:gx:7d6c328bcfd60681" class="sites-navigation-link">
+                                binary_arithmetic_op
+                            </a>
+                        </div>
+                    </li>
+                    <li>
+                        <div style="padding-left: 5px;" dir="ltr">
+                            <a href="syntax/binary_logical_op.html" jotId="wuid:gx:fbaadc6cf13d211" class="sites-navigation-link">
+                                binary_logical_op
+                            </a>
+                        </div>
+                    </li>
+                    <li>
+                        <div style="padding-left: 5px;" dir="ltr">
+                            <a href="syntax/binary_op.html" jotId="wuid:gx:7f260561c8fdf93" class="sites-navigation-link">
+                                binary_op
+                            </a>
+                        </div>
+                    </li>
+                    <li>
+                        <div style="padding-left: 5px;" dir="ltr">
+                            <a href="syntax/bit_and.html" jotId="wuid:gx:5d02d613ed555c02" class="sites-navigation-link">
+                                bit_and
+                            </a>
+                        </div>
+                    </li>
+                    <li>
+                        <div style="padding-left: 5px;" dir="ltr">
+                            <a href="syntax/bit_or.html" jotId="wuid:gx:78ebd7055cc9ad93" class="sites-navigation-link">
+                                bit_or
+                            </a>
+                        </div>
+                    </li>
+                    <li>
+                        <div style="padding-left: 5px;" dir="ltr">
+                            <a href="syntax/bit_xor.html" jotId="wuid:gx:304a7a8bbdf0c066" class="sites-navigation-link">
+                                bit_xor
+                            </a>
+                        </div>
+                    </li>
+                    <li>
+                        <div style="padding-left: 5px;" dir="ltr">
+                            <a href="syntax/bitwise_op.html" jotId="wuid:gx:715c02545a0a7c7a" class="sites-navigation-link">
+                                bitwise_op
+                            </a>
+                        </div>
+                    </li>
+                    <li>
+                        <div style="padding-left: 5px;" dir="ltr">
+                            <a href="syntax/bool_constant.html" jotId="wuid:gx:5153e4105c3f16d1" class="sites-navigation-link">
+                                bool_constant
+                            </a>
+                        </div>
+                    </li>
+                    <li>
+                        <div style="padding-left: 5px;" dir="ltr">
+                            <a href="syntax/cardinality.html" jotId="wuid:gx:9efcd6bf8566ee3" class="sites-navigation-link">
+                                cardinality
+                            </a>
+                        </div>
+                    </li>
+                    <li>
+                        <div style="padding-left: 5px;" dir="ltr">
+                            <a href="syntax/ceiling.html" jotId="wuid:gx:52d256c55eb67c18" class="sites-navigation-link">
+                                ceiling
+                            </a>
+                        </div>
+                    </li>
+                    <li>
+                        <div style="padding-left: 5px;" dir="ltr">
+                            <a href="syntax/chunk.html" jotId="wuid:gx:2c8e14d3522e2a6b" class="sites-navigation-link">
+                                chunk
+                            </a>
+                        </div>
+                    </li>
+                    <li>
+                        <div style="padding-left: 5px;" dir="ltr">
+                            <a href="syntax/chunk_modulo.html" jotId="wuid:gx:1366fbd0acf72770" class="sites-navigation-link">
+                                chunk_modulo
+                            </a>
+                        </div>
+                    </li>
+                    <li>
+                        <div style="padding-left: 5px;" dir="ltr">
+                            <a href="syntax/collection_op.html" jotId="wuid:gx:4bcd7cd48f61f1c" class="sites-navigation-link">
+                                collection_op
+                            </a>
+                        </div>
+                    </li>
+                    <li>
+                        <div style="padding-left: 5px;" dir="ltr">
+                            <a href="syntax/composition.html" jotId="wuid:gx:6f0d667982fb26cc" class="sites-navigation-link">
+                                composition
+                            </a>
+                        </div>
+                    </li>
+                    <li>
+                        <div style="padding-left: 5px;" dir="ltr">
+                            <a href="syntax/conditional.html" jotId="wuid:gx:542c2086dc266b69" class="sites-navigation-link">
+                                conditional
+                            </a>
+                        </div>
+                    </li>
+                    <li>
+                        <div style="padding-left: 5px;" dir="ltr">
+                            <a href="syntax/constructive_op.html" jotId="wuid:gx:5e3804549c9ac0fb" class="sites-navigation-link">
+                                constructive_op
+                            </a>
+                        </div>
+                    </li>
+                    <li>
+                        <div style="padding-left: 5px;" dir="ltr">
+                            <a href="syntax/cross_product.html" jotId="wuid:gx:d7d5ff8c84a36ad" class="sites-navigation-link">
+                                cross_product
+                            </a>
+                        </div>
+                    </li>
+                    <li>
+                        <div style="padding-left: 5px;" dir="ltr">
+                            <a href="syntax/declaration.html" jotId="wuid:gx:315fe8b1cd26b522" class="sites-navigation-link">
+                                declaration
+                            </a>
+                        </div>
+                    </li>
+                    <li>
+                        <div style="padding-left: 5px;" dir="ltr">
+                            <a href="syntax/declaration_assignment.html" jotId="wuid:gx:206a43a09b5f109e" class="sites-navigation-link">
+                                declaration_assignment
+                            </a>
+                        </div>
+                    </li>
+                    <li>
+                        <div style="padding-left: 5px;" dir="ltr">
+                            <a href="syntax/definition.html" jotId="wuid:gx:1bb92f83de3b5c7c" class="sites-navigation-link">
+                                definition
+                            </a>
+                        </div>
+                    </li>
+                    <li>
+                        <div style="padding-left: 5px;" dir="ltr">
+                            <a href="syntax/difference.html" jotId="wuid:gx:358c0b0ef0a1debe" class="sites-navigation-link">
+                                difference
+                            </a>
+                        </div>
+                    </li>
+                    <li>
+                        <div style="padding-left: 5px;" dir="ltr">
+                            <a href="syntax/dimensional_analysis_op.html" jotId="wuid:gx:6778d69ef67798ac" class="sites-navigation-link">
+                                dimensional_analysis_op
+                            </a>
+                        </div>
+                    </li>
+                    <li>
+                        <div style="padding-left: 5px;" dir="ltr">
+                            <a href="syntax/dimensional_number.html" jotId="wuid:gx:7be1a9d99a8f59d2" class="sites-navigation-link">
+                                dimensional_number
+                            </a>
+                        </div>
+                    </li>
+                    <li>
+                        <div style="padding-left: 5px;" dir="ltr">
+                            <a href="syntax/division.html" jotId="wuid:gx:25b71e0cb1ded5da" class="sites-navigation-link">
+                                division
+                            </a>
+                        </div>
+                    </li>
+                    <li>
+                        <div style="padding-left: 5px;" dir="ltr">
+                            <a href="syntax/do.html" jotId="wuid:gx:34f0076f7e23db2d" class="sites-navigation-link">
+                                do
+                            </a>
+                        </div>
+                    </li>
+                    <li>
+                        <div style="padding-left: 5px;" dir="ltr">
+                            <a href="syntax/dot_product.html" jotId="wuid:gx:2875c96748aa5443" class="sites-navigation-link">
+                                dot_product
+                            </a>
+                        </div>
+                    </li>
+                    <li>
+                        <div style="padding-left: 5px;" dir="ltr">
+                            <a href="syntax/embedded_comment.html" jotId="wuid:gx:4719103bb7c90f6d" class="sites-navigation-link">
+                                embedded_comment
+                            </a>
+                        </div>
+                    </li>
+                    <li>
+                        <div style="padding-left: 5px;" dir="ltr">
+                            <a href="syntax/embedded_string.html" jotId="wuid:gx:547675660fae6e24" class="sites-navigation-link">
+                                embedded_string
+                            </a>
+                        </div>
+                    </li>
+                    <li>
+                        <div style="padding-left: 5px;" dir="ltr">
+                            <a href="syntax/equality.html" jotId="wuid:gx:450fa159854c930f" class="sites-navigation-link">
+                                equality
+                            </a>
+                        </div>
+                    </li>
+                    <li>
+                        <div style="padding-left: 5px;" dir="ltr">
+                            <a href="syntax/exists.html" jotId="wuid:gx:6f093b6a59fbe9d9" class="sites-navigation-link">
+                                exists
+                            </a>
+                        </div>
+                    </li>
+                    <li>
+                        <div style="padding-left: 5px;" dir="ltr">
+                            <a href="syntax/exists_one.html" jotId="wuid:gx:3c62c2a2695315" class="sites-navigation-link">
+                                exists_one
+                            </a>
+                        </div>
+                    </li>
+                    <li>
+                        <div style="padding-left: 5px;" dir="ltr">
+                            <a href="syntax/exponentiation.html" jotId="wuid:gx:6859ddfa5dc10666" class="sites-navigation-link">
+                                exponentiation
+                            </a>
+                        </div>
+                    </li>
+                    <li>
+                        <div style="padding-left: 5px;" dir="ltr">
+                            <a href="syntax/expression.html" jotId="wuid:gx:5702c2c0443789e9" class="sites-navigation-link">
+                                expression
+                            </a>
+                        </div>
+                    </li>
+                    <li>
+                        <div style="padding-left: 5px;" dir="ltr">
+                            <a href="syntax/factorial.html" jotId="wuid:gx:4cf3b83c06703328" class="sites-navigation-link">
+                                factorial
+                            </a>
+                        </div>
+                    </li>
+                    <li>
+                        <div style="padding-left: 5px;" dir="ltr">
+                            <a href="syntax/floor.html" jotId="wuid:gx:770212635bfc07c7" class="sites-navigation-link">
+                                floor
+                            </a>
+                        </div>
+                    </li>
+                    <li>
+                        <div style="padding-left: 5px;" dir="ltr">
+                            <a href="syntax/for.html" jotId="wuid:gx:5294c5d46d54fa40" class="sites-navigation-link">
+                                for
+                            </a>
+                        </div>
+                    </li>
+                    <li>
+                        <div style="padding-left: 5px;" dir="ltr">
+                            <a href="syntax/for_collection.html" jotId="wuid:gx:1f893d4b5384b9d2" class="sites-navigation-link">
+                                for_collection
+                            </a>
+                        </div>
+                    </li>
+                    <li>
+                        <div style="padding-left: 5px;" dir="ltr">
+                            <a href="syntax/function.html" jotId="wuid:gx:587920f724d0c40d" class="sites-navigation-link">
+                                function
+                            </a>
+                        </div>
+                    </li>
+                    <li>
+                        <div style="padding-left: 5px;" dir="ltr">
+                            <a href="syntax/greater_than.html" jotId="wuid:gx:4f5edfe866e3208b" class="sites-navigation-link">
+                                greater_than
+                            </a>
+                        </div>
+                    </li>
+                    <li>
+                        <div style="padding-left: 5px;" dir="ltr">
+                            <a href="syntax/has.html" jotId="wuid:gx:6a30030dc61b56c9" class="sites-navigation-link">
+                                has
+                            </a>
+                        </div>
+                    </li>
+                    <li>
+                        <div style="padding-left: 5px;" dir="ltr">
+                            <a href="syntax/symbol.html" jotId="wuid:gx:6dda65d9a31b76c4" class="sites-navigation-link">
+                                identifier
+                            </a>
+                        </div>
+                    </li>
+                    <li>
+                        <div style="padding-left: 5px;" dir="ltr">
+                            <a href="syntax/if.html" jotId="wuid:gx:191a34992d525c2f" class="sites-navigation-link">
+                                if
+                            </a>
+                        </div>
+                    </li>
+                    <li>
+                        <div style="padding-left: 5px;" dir="ltr">
+                            <a href="syntax/iff.html" jotId="wuid:gx:3d37e7f99cd40356" class="sites-navigation-link">
+                                iff
+                            </a>
+                        </div>
+                    </li>
+                    <li>
+                        <div style="padding-left: 5px;" dir="ltr">
+                            <a href="syntax/implication.html" jotId="wuid:gx:6d467b9f6e08796d" class="sites-navigation-link">
+                                implication
+                            </a>
+                        </div>
+                    </li>
+                    <li>
+                        <div style="padding-left: 5px;" dir="ltr">
+                            <a href="syntax/implicit_type_dereference.html" jotId="wuid:gx:4c2cb197fed677ca" class="sites-navigation-link">
+                                implicit_type_dereference
+                            </a>
+                        </div>
+                    </li>
+                    <li>
+                        <div style="padding-left: 5px;" dir="ltr">
+                            <a href="syntax/inequality.html" jotId="wuid:gx:f4c84c013ca3fda" class="sites-navigation-link">
+                                inequality
+                            </a>
+                        </div>
+                    </li>
+                    <li>
+                        <div style="padding-left: 5px;" dir="ltr">
+                            <a href="syntax/integer.html" jotId="wuid:gx:3d3b0a20df1da27" class="sites-navigation-link">
+                                integer
+                            </a>
+                        </div>
+                    </li>
+                    <li>
+                        <div style="padding-left: 5px;" dir="ltr">
+                            <a href="syntax/integer_division.html" jotId="wuid:gx:5a8e7135afea0abd" class="sites-navigation-link">
+                                integer_division
+                            </a>
+                        </div>
+                    </li>
+                    <li>
+                        <div style="padding-left: 5px;" dir="ltr">
+                            <a href="syntax/integral.html" jotId="wuid:gx:66ab3ae97268cf1f" class="sites-navigation-link">
+                                integral
+                            </a>
+                        </div>
+                    </li>
+                    <li>
+                        <div style="padding-left: 5px;" dir="ltr">
+                            <a href="syntax/intersection.html" jotId="wuid:gx:18208cc121ab2733" class="sites-navigation-link">
+                                intersection
+                            </a>
+                        </div>
+                    </li>
+                    <li>
+                        <div style="padding-left: 5px;" dir="ltr">
+                            <a href="syntax/invocation.html" jotId="wuid:gx:569126c32054c8a5" class="sites-navigation-link">
+                                invocation
+                            </a>
+                        </div>
+                    </li>
+                    <li>
+                        <div style="padding-left: 5px;" dir="ltr">
+                            <a href="syntax/kleene_star.html" jotId="wuid:gx:1a917b49a83d8c7e" class="sites-navigation-link">
+                                kleene_star
+                            </a>
+                        </div>
+                    </li>
+                    <li>
+                        <div style="padding-left: 5px;" dir="ltr">
+                            <a href="syntax/lesser_than.html" jotId="wuid:gx:4dabbf1996cb747f" class="sites-navigation-link">
+                                lesser_than
+                            </a>
+                        </div>
+                    </li>
+                    <li>
+                        <div style="padding-left: 5px;" dir="ltr">
+                            <a href="syntax/line_integral.html" jotId="wuid:gx:2a0ed611e6bdaac2" class="sites-navigation-link">
+                                line_integral
+                            </a>
+                        </div>
+                    </li>
+                    <li>
+                        <div style="padding-left: 5px;" dir="ltr">
+                            <a href="syntax/list.html" jotId="wuid:gx:215043ed5218e3d" class="sites-navigation-link">
+                                list
+                            </a>
+                        </div>
+                    </li>
+                    <li>
+                        <div style="padding-left: 5px;" dir="ltr">
+                            <a href="syntax/loop.html" jotId="wuid:gx:7b5819817d037115" class="sites-navigation-link">
+                                loop
+                            </a>
+                        </div>
+                    </li>
+                    <li>
+                        <div style="padding-left: 5px;" dir="ltr">
+                            <a href="syntax/magnitude.html" jotId="wuid:gx:11d6b2a09b0d8eea" class="sites-navigation-link">
+                                magnitude (absolute value, vector magnitude, cardinality)
+                            </a>
+                        </div>
+                    </li>
+                    <li>
+                        <div style="padding-left: 5px;" dir="ltr">
+                            <a href="syntax/map.html" jotId="wuid:gx:70c269fb2c51dd8c" class="sites-navigation-link">
+                                map
+                            </a>
+                        </div>
+                    </li>
+                    <li>
+                        <div style="padding-left: 5px;" dir="ltr">
+                            <a href="syntax/maps_to.html" jotId="wuid:gx:3d4bf76df7988221" class="sites-navigation-link">
+                                maps_to
+                            </a>
+                        </div>
+                    </li>
+                    <li>
+                        <div style="padding-left: 5px;" dir="ltr">
+                            <a href="syntax/modulation.html" jotId="wuid:gx:66112aa35673c709" class="sites-navigation-link">
+                                modulation
+                            </a>
+                        </div>
+                    </li>
+                    <li>
+                        <div style="padding-left: 5px;" dir="ltr">
+                            <a href="syntax/multiplicative_op.html" jotId="wuid:gx:31a33efe8cb21569" class="sites-navigation-link">
+                                multiplicative_op
+                            </a>
+                        </div>
+                    </li>
+                    <li>
+                        <div style="padding-left: 5px;" dir="ltr">
+                            <a href="syntax/nearest_integer.html" jotId="wuid:gx:5f020bf8b9c1e537" class="sites-navigation-link">
+                                nearest_integer
+                            </a>
+                        </div>
+                    </li>
+                    <li>
+                        <div style="padding-left: 5px;" dir="ltr">
+                            <a href="syntax/negation.html" jotId="wuid:gx:79ffbbf6ecd1e3f7" class="sites-navigation-link">
+                                negation
+                            </a>
+                        </div>
+                    </li>
+                    <li>
+                        <div style="padding-left: 5px;" dir="ltr">
+                            <a href="syntax/not.html" jotId="wuid:gx:15b02cbb0c877fa0" class="sites-navigation-link">
+                                not
+                            </a>
+                        </div>
+                    </li>
+                    <li>
+                        <div style="padding-left: 5px;" dir="ltr">
+                            <a href="syntax/not_greater_than.html" jotId="wuid:gx:3cb929133cc32ba5" class="sites-navigation-link">
+                                not_greater_than
+                            </a>
+                        </div>
+                    </li>
+                    <li>
+                        <div style="padding-left: 5px;" dir="ltr">
+                            <a href="syntax/not_has.html" jotId="wuid:gx:2887b110df61481d" class="sites-navigation-link">
+                                not_has
+                            </a>
+                        </div>
+                    </li>
+                    <li>
+                        <div style="padding-left: 5px;" dir="ltr">
+                            <a href="syntax/not_in.html" jotId="wuid:gx:56c979b1d1d5b1" class="sites-navigation-link">
+                                not_in
+                            </a>
+                        </div>
+                    </li>
+                    <li>
+                        <div style="padding-left: 5px;" dir="ltr">
+                            <a href="syntax/not_lesser_than.html" jotId="wuid:gx:8c0fb1205a2d3de" class="sites-navigation-link">
+                                not_lesser_than
+                            </a>
+                        </div>
+                    </li>
+                    <li>
+                        <div style="padding-left: 5px;" dir="ltr">
+                            <a href="syntax/null_coalesce.html" jotId="wuid:gx:181e9086c2f74659" class="sites-navigation-link">
+                                null_coalesce
+                            </a>
+                        </div>
+                    </li>
+                    <li>
+                        <div style="padding-left: 5px;" dir="ltr">
+                            <a href="syntax/number.html" jotId="wuid:gx:59b1cc48da6a36b4" class="sites-navigation-link">
+                                number
+                            </a>
+                        </div>
+                    </li>
+                    <li>
+                        <div style="padding-left: 5px;" dir="ltr">
+                            <a href="syntax/or.html" jotId="wuid:gx:7aa7793a940d2d82" class="sites-navigation-link">
+                                or
+                            </a>
+                        </div>
+                    </li>
+                    <li>
+                        <div style="padding-left: 5px;" dir="ltr">
+                            <a href="syntax/formal_parameter.html" jotId="wuid:gx:2f5e9d86dfeb575e" class="sites-navigation-link">
+                                parameter
+                            </a>
+                        </div>
+                    </li>
+                    <li>
+                        <div style="padding-left: 5px;" dir="ltr">
+                            <a href="syntax/parenthetical.html" jotId="wuid:gx:495f6bd250a4263e" class="sites-navigation-link">
+                                parenthetical
+                            </a>
+                        </div>
+                    </li>
+                    <li>
+                        <div style="padding-left: 5px;" dir="ltr">
+                            <a href="syntax/post_dec.html" jotId="wuid:gx:575a47cc427a5e3c" class="sites-navigation-link">
+                                post_dec
+                            </a>
+                        </div>
+                    </li>
+                    <li>
+                        <div style="padding-left: 5px;" dir="ltr">
+                            <a href="syntax/post_inc.html" jotId="wuid:gx:7f9b6a4d4d1f0d0c" class="sites-navigation-link">
+                                post_inc
+                            </a>
+                        </div>
+                    </li>
+                    <li>
+                        <div style="padding-left: 5px;" dir="ltr">
+                            <a href="syntax/pre_dec.html" jotId="wuid:gx:54abcb1368645d3a" class="sites-navigation-link">
+                                pre_dec
+                            </a>
+                        </div>
+                    </li>
+                    <li>
+                        <div style="padding-left: 5px;" dir="ltr">
+                            <a href="syntax/pre_inc.html" jotId="wuid:gx:12afed70c9ad1b42" class="sites-navigation-link">
+                                pre_inc
+                            </a>
+                        </div>
+                    </li>
+                    <li>
+                        <div style="padding-left: 5px;" dir="ltr">
+                            <a href="syntax/prepend.html" jotId="wuid:gx:3b2fca60854f8bf3" class="sites-navigation-link">
+                                prepend
+                            </a>
+                        </div>
+                    </li>
+                    <li>
+                        <div style="padding-left: 5px;" dir="ltr">
+                            <a href="syntax/proper_subset.html" jotId="wuid:gx:567ecc6628013ddc" class="sites-navigation-link">
+                                proper_subset
+                            </a>
+                        </div>
+                    </li>
+                    <li>
+                        <div style="padding-left: 5px;" dir="ltr">
+                            <a href="syntax/proper_superset.html" jotId="wuid:gx:56621ef579552bc1" class="sites-navigation-link">
+                                proper_superset
+                            </a>
+                        </div>
+                    </li>
+                    <li>
+                        <div style="padding-left: 5px;" dir="ltr">
+                            <a href="syntax/radical.html" jotId="wuid:gx:1d172bab63f749f9" class="sites-navigation-link">
+                                radical
+                            </a>
+                        </div>
+                    </li>
+                    <li>
+                        <div style="padding-left: 5px;" dir="ltr">
+                            <a href="syntax/range.html" jotId="wuid:gx:122a0e1c235d2f0" class="sites-navigation-link">
+                                range
+                            </a>
+                        </div>
+                    </li>
+                    <li>
+                        <div style="padding-left: 5px;" dir="ltr">
+                            <a href="syntax/record.html" jotId="wuid:gx:17983b3c11675fec" class="sites-navigation-link">
+                                record
+                            </a>
+                        </div>
+                    </li>
+                    <li>
+                        <div style="padding-left: 5px;" dir="ltr">
+                            <a href="syntax/relational_collection_op.html" jotId="wuid:gx:559d5f3361b18f06" class="sites-navigation-link">
+                                relational_collection_op
+                            </a>
+                        </div>
+                    </li>
+                    <li>
+                        <div style="padding-left: 5px;" dir="ltr">
+                            <a href="syntax/relational_op.html" jotId="wuid:gx:7421320c0112d165" class="sites-navigation-link">
+                                relational_op
+                            </a>
+                        </div>
+                    </li>
+                    <li>
+                        <div style="padding-left: 5px;" dir="ltr">
+                            <a href="syntax/set.html" jotId="wuid:gx:66ae1a0ff5b52db2" class="sites-navigation-link">
+                                set
+                            </a>
+                        </div>
+                    </li>
+                    <li>
+                        <div style="padding-left: 5px;" dir="ltr">
+                            <a href="syntax/set_comprehension.html" jotId="wuid:gx:49a1157528685f19" class="sites-navigation-link">
+                                set_comprehension
+                            </a>
+                        </div>
+                    </li>
+                    <li>
+                        <div style="padding-left: 5px;" dir="ltr">
+                            <a href="syntax/shiftl.html" jotId="wuid:gx:655d92f7cacac1d0" class="sites-navigation-link">
+                                shiftl
+                            </a>
+                        </div>
+                    </li>
+                    <li>
+                        <div style="padding-left: 5px;" dir="ltr">
+                            <a href="syntax/shiftr.html" jotId="wuid:gx:2b84ccf3c5000977" class="sites-navigation-link">
+                                shiftr
+                            </a>
+                        </div>
+                    </li>
+                    <li>
+                        <div style="padding-left: 5px;" dir="ltr">
+                            <a href="syntax/statement.html" jotId="wuid:gx:193cef1ddf4cdc70" class="sites-navigation-link">
+                                statement
+                            </a>
+                        </div>
+                    </li>
+                    <li>
+                        <div style="padding-left: 5px;" dir="ltr">
+                            <a href="syntax/statement_block.html" jotId="wuid:gx:6b1b6b0ae85dda35" class="sites-navigation-link">
+                                statement_block
+                            </a>
+                        </div>
+                    </li>
+                    <li>
+                        <div style="padding-left: 5px;" dir="ltr">
+                            <a href="syntax/statement_scope.html" jotId="wuid:gx:1c4ece2423cbc321" class="sites-navigation-link">
+                                statement_scope
+                            </a>
+                        </div>
+                    </li>
+                    <li>
+                        <div style="padding-left: 5px;" dir="ltr">
+                            <a href="syntax/string.html" jotId="wuid:gx:4b2c20b99644b87f" class="sites-navigation-link">
+                                string
+                            </a>
+                        </div>
+                    </li>
+                    <li>
+                        <div style="padding-left: 5px;" dir="ltr">
+                            <a href="syntax/subscript.html" jotId="wuid:gx:568dce6abce73aaa" class="sites-navigation-link">
+                                subscript
+                            </a>
+                        </div>
+                    </li>
+                    <li>
+                        <div style="padding-left: 5px;" dir="ltr">
+                            <a href="syntax/subset.html" jotId="wuid:gx:78f8809ed112c6b0" class="sites-navigation-link">
+                                subset
+                            </a>
+                        </div>
+                    </li>
+                    <li>
+                        <div style="padding-left: 5px;" dir="ltr">
+                            <a href="syntax/subtraction.html" jotId="wuid:gx:3115f74827a5e47" class="sites-navigation-link">
+                                subtraction
+                            </a>
+                        </div>
+                    </li>
+                    <li>
+                        <div style="padding-left: 5px;" dir="ltr">
+                            <a href="syntax/sum.html" jotId="wuid:gx:1510d4dab3399e46" class="sites-navigation-link">
+                                sum
+                            </a>
+                        </div>
+                    </li>
+                    <li>
+                        <div style="padding-left: 5px;" dir="ltr">
+                            <a href="syntax/superset.html" jotId="wuid:gx:6069ed5e5a037d7d" class="sites-navigation-link">
+                                superset
+                            </a>
+                        </div>
+                    </li>
+                    <li>
+                        <div style="padding-left: 5px;" dir="ltr">
+                            <a href="syntax/switch.html" jotId="wuid:gx:5c25e60663682e92" class="sites-navigation-link">
+                                switch (deprecated)
+                            </a>
+                        </div>
+                    </li>
+                    <li>
+                        <div style="padding-left: 5px;" dir="ltr">
+                            <a href="syntax/symmetric_disjunction.html" jotId="wuid:gx:19b74f981e3fccf3" class="sites-navigation-link">
+                                symmetric_disjunction
+                            </a>
+                        </div>
+                    </li>
+                    <li>
+                        <div style="padding-left: 5px;" dir="ltr">
+                            <a href="syntax/try.html" jotId="wuid:gx:4396c066d93ecfd8" class="sites-navigation-link">
+                                try
+                            </a>
+                        </div>
+                    </li>
+                    <li>
+                        <div style="padding-left: 5px;" dir="ltr">
+                            <a href="syntax/tuple.html" jotId="wuid:gx:1491655151c6af66" class="sites-navigation-link">
+                                tuple
+                            </a>
+                        </div>
+                    </li>
+                    <li>
+                        <div style="padding-left: 5px;" dir="ltr">
+                            <a href="syntax/type.html" jotId="wuid:gx:487d6ee0de835a25" class="sites-navigation-link">
+                                type
+                            </a>
+                        </div>
+                    </li>
+                    <li>
+                        <div style="padding-left: 5px;" dir="ltr">
+                            <a href="syntax/type_dereference.html" jotId="wuid:gx:36459447481117fa" class="sites-navigation-link">
+                                type_dereference
+                            </a>
+                        </div>
+                    </li>
+                    <li>
+                        <div style="padding-left: 5px;" dir="ltr">
+                            <a href="syntax/type_of.html" jotId="wuid:gx:693629de2dee3da0" class="sites-navigation-link">
+                                type_of
+                            </a>
+                        </div>
+                    </li>
+                    <li>
+                        <div style="padding-left: 5px;" dir="ltr">
+                            <a href="syntax/type_scope.html" jotId="wuid:gx:413b4c0366076f0" class="sites-navigation-link">
+                                type_scope
+                            </a>
+                        </div>
+                    </li>
+                    <li>
+                        <div style="padding-left: 5px;" dir="ltr">
+                            <a href="syntax/unary_arithmetic_op.html" jotId="wuid:gx:42065246b4b9298a" class="sites-navigation-link">
+                                unary_arithmetic_op
+                            </a>
+                        </div>
+                    </li>
+                    <li>
+                        <div style="padding-left: 5px;" dir="ltr">
+                            <a href="syntax/unary_logical_op.html" jotId="wuid:gx:2a5604665a51e032" class="sites-navigation-link">
+                                unary_logical_op
+                            </a>
+                        </div>
+                    </li>
+                    <li>
+                        <div style="padding-left: 5px;" dir="ltr">
+                            <a href="syntax/prefix_unary_operator_application.html" jotId="wuid:gx:118e0afe0479b428" class="sites-navigation-link">
+                                unary_op
+                            </a>
+                        </div>
+                    </li>
+                    <li>
+                        <div style="padding-left: 5px;" dir="ltr">
+                            <a href="syntax/union.html" jotId="wuid:gx:e75e004d4c3d8ce" class="sites-navigation-link">
+                                union
+                            </a>
+                        </div>
+                    </li>
+                    <li>
+                        <div style="padding-left: 5px;" dir="ltr">
+                            <a href="syntax/unit_division.html" jotId="wuid:gx:61ecdb263f51f981" class="sites-navigation-link">
+                                unit_division
+                            </a>
+                        </div>
+                    </li>
+                    <li>
+                        <div style="padding-left: 5px;" dir="ltr">
+                            <a href="syntax/unit_exponentiation.html" jotId="wuid:gx:120d3b4ce5c4547e" class="sites-navigation-link">
+                                unit_exponentiation
+                            </a>
+                        </div>
+                    </li>
+                    <li>
+                        <div style="padding-left: 5px;" dir="ltr">
+                            <a href="syntax/unit_multiplication.html" jotId="wuid:gx:4544e73c3ad49399" class="sites-navigation-link">
+                                unit_multiplication
+                            </a>
+                        </div>
+                    </li>
+                    <li>
+                        <div style="padding-left: 5px;" dir="ltr">
+                            <a href="syntax/vector_norm.html" jotId="wuid:gx:2e1397ef2da367fc" class="sites-navigation-link">
+                                vector_norm
+                            </a>
+                        </div>
+                    </li>
+                    <li>
+                        <div style="padding-left: 5px;" dir="ltr">
+                            <a href="syntax/whole_number.html" jotId="wuid:gx:cb212d2cb3864a8" class="sites-navigation-link">
+                                whole_number
+                            </a>
+                        </div>
+                    </li>
+                    <li>
+                        <div style="padding-left: 5px;" dir="ltr">
+                            <a href="syntax/xor.html" jotId="wuid:gx:7ef0de6a2c55d425" class="sites-navigation-link">
+                                xor
+                            </a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <br>
+    </br>
+</div><div style="padding-left: 5px;" dir="ltr">
+    <a href="syntax/add_sub.html" jotId="wuid:gx:5be3e6d43c461232" class="sites-navigation-link">
+        add_sub
+    </a>
+</div><div style="padding-left: 5px;" dir="ltr">
+    <a href="syntax/addition.html" jotId="wuid:gx:7911e1901a4b0ee6" class="sites-navigation-link">
+        addition
+    </a>
+</div><div style="padding-left: 5px;" dir="ltr">
+    <a href="syntax/all.html" jotId="wuid:gx:e09b4dd11ed515b" class="sites-navigation-link">
+        all
+    </a>
+</div><div style="padding-left: 5px;" dir="ltr">
+    <a href="syntax/and.html" jotId="wuid:gx:3f9977e15310a1d8" class="sites-navigation-link">
+        and
+    </a>
+</div><div style="padding-left: 5px;" dir="ltr">
+    <a href="syntax/assignment.html" jotId="wuid:gx:27d2deef27beb513" class="sites-navigation-link">
+        assignment
+    </a>
+</div><div style="padding-left: 5px;" dir="ltr">
+    <a href="syntax/bijection.html" jotId="wuid:gx:554a6ef0a6df0930" class="sites-navigation-link">
+        bijection
+    </a>
+</div><div style="padding-left: 5px;" dir="ltr">
+    <a href="syntax/binary_arithmetic_op.html" jotId="wuid:gx:7d6c328bcfd60681" class="sites-navigation-link">
+        binary_arithmetic_op
+    </a>
+</div><div style="padding-left: 5px;" dir="ltr">
+    <a href="syntax/binary_logical_op.html" jotId="wuid:gx:fbaadc6cf13d211" class="sites-navigation-link">
+        binary_logical_op
+    </a>
+</div><div style="padding-left: 5px;" dir="ltr">
+    <a href="syntax/binary_op.html" jotId="wuid:gx:7f260561c8fdf93" class="sites-navigation-link">
+        binary_op
+    </a>
+</div><div style="padding-left: 5px;" dir="ltr">
+    <a href="syntax/bit_and.html" jotId="wuid:gx:5d02d613ed555c02" class="sites-navigation-link">
+        bit_and
+    </a>
+</div><div style="padding-left: 5px;" dir="ltr">
+    <a href="syntax/bit_or.html" jotId="wuid:gx:78ebd7055cc9ad93" class="sites-navigation-link">
+        bit_or
+    </a>
+</div><div style="padding-left: 5px;" dir="ltr">
+    <a href="syntax/bit_xor.html" jotId="wuid:gx:304a7a8bbdf0c066" class="sites-navigation-link">
+        bit_xor
+    </a>
+</div><div style="padding-left: 5px;" dir="ltr">
+    <a href="syntax/bitwise_op.html" jotId="wuid:gx:715c02545a0a7c7a" class="sites-navigation-link">
+        bitwise_op
+    </a>
+</div><div style="padding-left: 5px;" dir="ltr">
+    <a href="syntax/bool_constant.html" jotId="wuid:gx:5153e4105c3f16d1" class="sites-navigation-link">
+        bool_constant
+    </a>
+</div><div style="padding-left: 5px;" dir="ltr">
+    <a href="syntax/cardinality.html" jotId="wuid:gx:9efcd6bf8566ee3" class="sites-navigation-link">
+        cardinality
+    </a>
+</div><div style="padding-left: 5px;" dir="ltr">
+    <a href="syntax/ceiling.html" jotId="wuid:gx:52d256c55eb67c18" class="sites-navigation-link">
+        ceiling
+    </a>
+</div><div style="padding-left: 5px;" dir="ltr">
+    <a href="syntax/chunk.html" jotId="wuid:gx:2c8e14d3522e2a6b" class="sites-navigation-link">
+        chunk
+    </a>
+</div><div style="padding-left: 5px;" dir="ltr">
+    <a href="syntax/chunk_modulo.html" jotId="wuid:gx:1366fbd0acf72770" class="sites-navigation-link">
+        chunk_modulo
+    </a>
+</div><div style="padding-left: 5px;" dir="ltr">
+    <a href="syntax/collection_op.html" jotId="wuid:gx:4bcd7cd48f61f1c" class="sites-navigation-link">
+        collection_op
+    </a>
+</div><div style="padding-left: 5px;" dir="ltr">
+    <a href="syntax/composition.html" jotId="wuid:gx:6f0d667982fb26cc" class="sites-navigation-link">
+        composition
+    </a>
+</div><div style="padding-left: 5px;" dir="ltr">
+    <a href="syntax/conditional.html" jotId="wuid:gx:542c2086dc266b69" class="sites-navigation-link">
+        conditional
+    </a>
+</div><div style="padding-left: 5px;" dir="ltr">
+    <a href="syntax/constructive_op.html" jotId="wuid:gx:5e3804549c9ac0fb" class="sites-navigation-link">
+        constructive_op
+    </a>
+</div><div style="padding-left: 5px;" dir="ltr">
+    <a href="syntax/cross_product.html" jotId="wuid:gx:d7d5ff8c84a36ad" class="sites-navigation-link">
+        cross_product
+    </a>
+</div><div style="padding-left: 5px;" dir="ltr">
+    <a href="syntax/declaration.html" jotId="wuid:gx:315fe8b1cd26b522" class="sites-navigation-link">
+        declaration
+    </a>
+</div><div style="padding-left: 5px;" dir="ltr">
+    <a href="syntax/declaration_assignment.html" jotId="wuid:gx:206a43a09b5f109e" class="sites-navigation-link">
+        declaration_assignment
+    </a>
+</div><div style="padding-left: 5px;" dir="ltr">
+    <a href="syntax/definition.html" jotId="wuid:gx:1bb92f83de3b5c7c" class="sites-navigation-link">
+        definition
+    </a>
+</div><div style="padding-left: 5px;" dir="ltr">
+    <a href="syntax/difference.html" jotId="wuid:gx:358c0b0ef0a1debe" class="sites-navigation-link">
+        difference
+    </a>
+</div><div style="padding-left: 5px;" dir="ltr">
+    <a href="syntax/dimensional_analysis_op.html" jotId="wuid:gx:6778d69ef67798ac" class="sites-navigation-link">
+        dimensional_analysis_op
+    </a>
+</div><div style="padding-left: 5px;" dir="ltr">
+    <a href="syntax/dimensional_number.html" jotId="wuid:gx:7be1a9d99a8f59d2" class="sites-navigation-link">
+        dimensional_number
+    </a>
+</div><div style="padding-left: 5px;" dir="ltr">
+    <a href="syntax/division.html" jotId="wuid:gx:25b71e0cb1ded5da" class="sites-navigation-link">
+        division
+    </a>
+</div><div style="padding-left: 5px;" dir="ltr">
+    <a href="syntax/do.html" jotId="wuid:gx:34f0076f7e23db2d" class="sites-navigation-link">
+        do
+    </a>
+</div><div style="padding-left: 5px;" dir="ltr">
+    <a href="syntax/dot_product.html" jotId="wuid:gx:2875c96748aa5443" class="sites-navigation-link">
+        dot_product
+    </a>
+</div><div style="padding-left: 5px;" dir="ltr">
+    <a href="syntax/embedded_comment.html" jotId="wuid:gx:4719103bb7c90f6d" class="sites-navigation-link">
+        embedded_comment
+    </a>
+</div><div style="padding-left: 5px;" dir="ltr">
+    <a href="syntax/embedded_string.html" jotId="wuid:gx:547675660fae6e24" class="sites-navigation-link">
+        embedded_string
+    </a>
+</div><div style="padding-left: 5px;" dir="ltr">
+    <a href="syntax/equality.html" jotId="wuid:gx:450fa159854c930f" class="sites-navigation-link">
+        equality
+    </a>
+</div><div style="padding-left: 5px;" dir="ltr">
+    <a href="syntax/exists.html" jotId="wuid:gx:6f093b6a59fbe9d9" class="sites-navigation-link">
+        exists
+    </a>
+</div><div style="padding-left: 5px;" dir="ltr">
+    <a href="syntax/exists_one.html" jotId="wuid:gx:3c62c2a2695315" class="sites-navigation-link">
+        exists_one
+    </a>
+</div><div style="padding-left: 5px;" dir="ltr">
+    <a href="syntax/exponentiation.html" jotId="wuid:gx:6859ddfa5dc10666" class="sites-navigation-link">
+        exponentiation
+    </a>
+</div><div style="padding-left: 5px;" dir="ltr">
+    <a href="syntax/expression.html" jotId="wuid:gx:5702c2c0443789e9" class="sites-navigation-link">
+        expression
+    </a>
+</div><div style="padding-left: 5px;" dir="ltr">
+    <a href="syntax/factorial.html" jotId="wuid:gx:4cf3b83c06703328" class="sites-navigation-link">
+        factorial
+    </a>
+</div><div style="padding-left: 5px;" dir="ltr">
+    <a href="syntax/floor.html" jotId="wuid:gx:770212635bfc07c7" class="sites-navigation-link">
+        floor
+    </a>
+</div><div style="padding-left: 5px;" dir="ltr">
+    <a href="syntax/for.html" jotId="wuid:gx:5294c5d46d54fa40" class="sites-navigation-link">
+        for
+    </a>
+</div><div style="padding-left: 5px;" dir="ltr">
+    <a href="syntax/for_collection.html" jotId="wuid:gx:1f893d4b5384b9d2" class="sites-navigation-link">
+        for_collection
+    </a>
+</div><div style="padding-left: 5px;" dir="ltr">
+    <a href="syntax/function.html" jotId="wuid:gx:587920f724d0c40d" class="sites-navigation-link">
+        function
+    </a>
+</div><div style="padding-left: 5px;" dir="ltr">
+    <a href="syntax/greater_than.html" jotId="wuid:gx:4f5edfe866e3208b" class="sites-navigation-link">
+        greater_than
+    </a>
+</div><div style="padding-left: 5px;" dir="ltr">
+    <a href="syntax/has.html" jotId="wuid:gx:6a30030dc61b56c9" class="sites-navigation-link">
+        has
+    </a>
+</div><div style="padding-left: 5px;" dir="ltr">
+    <a href="syntax/symbol.html" jotId="wuid:gx:6dda65d9a31b76c4" class="sites-navigation-link">
+        identifier
+    </a>
+</div><div style="padding-left: 5px;" dir="ltr">
+    <a href="syntax/if.html" jotId="wuid:gx:191a34992d525c2f" class="sites-navigation-link">
+        if
+    </a>
+</div><div style="padding-left: 5px;" dir="ltr">
+    <a href="syntax/iff.html" jotId="wuid:gx:3d37e7f99cd40356" class="sites-navigation-link">
+        iff
+    </a>
+</div><div style="padding-left: 5px;" dir="ltr">
+    <a href="syntax/implication.html" jotId="wuid:gx:6d467b9f6e08796d" class="sites-navigation-link">
+        implication
+    </a>
+</div><div style="padding-left: 5px;" dir="ltr">
+    <a href="syntax/implicit_type_dereference.html" jotId="wuid:gx:4c2cb197fed677ca" class="sites-navigation-link">
+        implicit_type_dereference
+    </a>
+</div><div style="padding-left: 5px;" dir="ltr">
+    <a href="syntax/inequality.html" jotId="wuid:gx:f4c84c013ca3fda" class="sites-navigation-link">
+        inequality
+    </a>
+</div><div style="padding-left: 5px;" dir="ltr">
+    <a href="syntax/integer.html" jotId="wuid:gx:3d3b0a20df1da27" class="sites-navigation-link">
+        integer
+    </a>
+</div><div style="padding-left: 5px;" dir="ltr">
+    <a href="syntax/integer_division.html" jotId="wuid:gx:5a8e7135afea0abd" class="sites-navigation-link">
+        integer_division
+    </a>
+</div><div style="padding-left: 5px;" dir="ltr">
+    <a href="syntax/integral.html" jotId="wuid:gx:66ab3ae97268cf1f" class="sites-navigation-link">
+        integral
+    </a>
+</div><div style="padding-left: 5px;" dir="ltr">
+    <a href="syntax/intersection.html" jotId="wuid:gx:18208cc121ab2733" class="sites-navigation-link">
+        intersection
+    </a>
+</div><div style="padding-left: 5px;" dir="ltr">
+    <a href="syntax/invocation.html" jotId="wuid:gx:569126c32054c8a5" class="sites-navigation-link">
+        invocation
+    </a>
+</div><div style="padding-left: 5px;" dir="ltr">
+    <a href="syntax/kleene_star.html" jotId="wuid:gx:1a917b49a83d8c7e" class="sites-navigation-link">
+        kleene_star
+    </a>
+</div><div style="padding-left: 5px;" dir="ltr">
+    <a href="syntax/lesser_than.html" jotId="wuid:gx:4dabbf1996cb747f" class="sites-navigation-link">
+        lesser_than
+    </a>
+</div><div style="padding-left: 5px;" dir="ltr">
+    <a href="syntax/line_integral.html" jotId="wuid:gx:2a0ed611e6bdaac2" class="sites-navigation-link">
+        line_integral
+    </a>
+</div><div style="padding-left: 5px;" dir="ltr">
+    <a href="syntax/list.html" jotId="wuid:gx:215043ed5218e3d" class="sites-navigation-link">
+        list
+    </a>
+</div><div style="padding-left: 5px;" dir="ltr">
+    <a href="syntax/loop.html" jotId="wuid:gx:7b5819817d037115" class="sites-navigation-link">
+        loop
+    </a>
+</div><div style="padding-left: 5px;" dir="ltr">
+    <a href="syntax/magnitude.html" jotId="wuid:gx:11d6b2a09b0d8eea" class="sites-navigation-link">
+        magnitude (absolute value, vector magnitude, cardinality)
+    </a>
+</div><div style="padding-left: 5px;" dir="ltr">
+    <a href="syntax/map.html" jotId="wuid:gx:70c269fb2c51dd8c" class="sites-navigation-link">
+        map
+    </a>
+</div><div style="padding-left: 5px;" dir="ltr">
+    <a href="syntax/maps_to.html" jotId="wuid:gx:3d4bf76df7988221" class="sites-navigation-link">
+        maps_to
+    </a>
+</div><div style="padding-left: 5px;" dir="ltr">
+    <a href="syntax/modulation.html" jotId="wuid:gx:66112aa35673c709" class="sites-navigation-link">
+        modulation
+    </a>
+</div><div style="padding-left: 5px;" dir="ltr">
+    <a href="syntax/multiplicative_op.html" jotId="wuid:gx:31a33efe8cb21569" class="sites-navigation-link">
+        multiplicative_op
+    </a>
+</div><div style="padding-left: 5px;" dir="ltr">
+    <a href="syntax/nearest_integer.html" jotId="wuid:gx:5f020bf8b9c1e537" class="sites-navigation-link">
+        nearest_integer
+    </a>
+</div><div style="padding-left: 5px;" dir="ltr">
+    <a href="syntax/negation.html" jotId="wuid:gx:79ffbbf6ecd1e3f7" class="sites-navigation-link">
+        negation
+    </a>
+</div><div style="padding-left: 5px;" dir="ltr">
+    <a href="syntax/not.html" jotId="wuid:gx:15b02cbb0c877fa0" class="sites-navigation-link">
+        not
+    </a>
+</div><div style="padding-left: 5px;" dir="ltr">
+    <a href="syntax/not_greater_than.html" jotId="wuid:gx:3cb929133cc32ba5" class="sites-navigation-link">
+        not_greater_than
+    </a>
+</div><div style="padding-left: 5px;" dir="ltr">
+    <a href="syntax/not_has.html" jotId="wuid:gx:2887b110df61481d" class="sites-navigation-link">
+        not_has
+    </a>
+</div><div style="padding-left: 5px;" dir="ltr">
+    <a href="syntax/not_in.html" jotId="wuid:gx:56c979b1d1d5b1" class="sites-navigation-link">
+        not_in
+    </a>
+</div><div style="padding-left: 5px;" dir="ltr">
+    <a href="syntax/not_lesser_than.html" jotId="wuid:gx:8c0fb1205a2d3de" class="sites-navigation-link">
+        not_lesser_than
+    </a>
+</div><div style="padding-left: 5px;" dir="ltr">
+    <a href="syntax/null_coalesce.html" jotId="wuid:gx:181e9086c2f74659" class="sites-navigation-link">
+        null_coalesce
+    </a>
+</div><div style="padding-left: 5px;" dir="ltr">
+    <a href="syntax/number.html" jotId="wuid:gx:59b1cc48da6a36b4" class="sites-navigation-link">
+        number
+    </a>
+</div><div style="padding-left: 5px;" dir="ltr">
+    <a href="syntax/or.html" jotId="wuid:gx:7aa7793a940d2d82" class="sites-navigation-link">
+        or
+    </a>
+</div><div style="padding-left: 5px;" dir="ltr">
+    <a href="syntax/formal_parameter.html" jotId="wuid:gx:2f5e9d86dfeb575e" class="sites-navigation-link">
+        parameter
+    </a>
+</div><div style="padding-left: 5px;" dir="ltr">
+    <a href="syntax/parenthetical.html" jotId="wuid:gx:495f6bd250a4263e" class="sites-navigation-link">
+        parenthetical
+    </a>
+</div><div style="padding-left: 5px;" dir="ltr">
+    <a href="syntax/post_dec.html" jotId="wuid:gx:575a47cc427a5e3c" class="sites-navigation-link">
+        post_dec
+    </a>
+</div><div style="padding-left: 5px;" dir="ltr">
+    <a href="syntax/post_inc.html" jotId="wuid:gx:7f9b6a4d4d1f0d0c" class="sites-navigation-link">
+        post_inc
+    </a>
+</div><div style="padding-left: 5px;" dir="ltr">
+    <a href="syntax/pre_dec.html" jotId="wuid:gx:54abcb1368645d3a" class="sites-navigation-link">
+        pre_dec
+    </a>
+</div><div style="padding-left: 5px;" dir="ltr">
+    <a href="syntax/pre_inc.html" jotId="wuid:gx:12afed70c9ad1b42" class="sites-navigation-link">
+        pre_inc
+    </a>
+</div><div style="padding-left: 5px;" dir="ltr">
+    <a href="syntax/prepend.html" jotId="wuid:gx:3b2fca60854f8bf3" class="sites-navigation-link">
+        prepend
+    </a>
+</div><div style="padding-left: 5px;" dir="ltr">
+    <a href="syntax/proper_subset.html" jotId="wuid:gx:567ecc6628013ddc" class="sites-navigation-link">
+        proper_subset
+    </a>
+</div><div style="padding-left: 5px;" dir="ltr">
+    <a href="syntax/proper_superset.html" jotId="wuid:gx:56621ef579552bc1" class="sites-navigation-link">
+        proper_superset
+    </a>
+</div><div style="padding-left: 5px;" dir="ltr">
+    <a href="syntax/radical.html" jotId="wuid:gx:1d172bab63f749f9" class="sites-navigation-link">
+        radical
+    </a>
+</div><div style="padding-left: 5px;" dir="ltr">
+    <a href="syntax/range.html" jotId="wuid:gx:122a0e1c235d2f0" class="sites-navigation-link">
+        range
+    </a>
+</div><div style="padding-left: 5px;" dir="ltr">
+    <a href="syntax/record.html" jotId="wuid:gx:17983b3c11675fec" class="sites-navigation-link">
+        record
+    </a>
+</div><div style="padding-left: 5px;" dir="ltr">
+    <a href="syntax/relational_collection_op.html" jotId="wuid:gx:559d5f3361b18f06" class="sites-navigation-link">
+        relational_collection_op
+    </a>
+</div><div style="padding-left: 5px;" dir="ltr">
+    <a href="syntax/relational_op.html" jotId="wuid:gx:7421320c0112d165" class="sites-navigation-link">
+        relational_op
+    </a>
+</div><div style="padding-left: 5px;" dir="ltr">
+    <a href="syntax/set.html" jotId="wuid:gx:66ae1a0ff5b52db2" class="sites-navigation-link">
+        set
+    </a>
+</div><div style="padding-left: 5px;" dir="ltr">
+    <a href="syntax/set_comprehension.html" jotId="wuid:gx:49a1157528685f19" class="sites-navigation-link">
+        set_comprehension
+    </a>
+</div><div style="padding-left: 5px;" dir="ltr">
+    <a href="syntax/shiftl.html" jotId="wuid:gx:655d92f7cacac1d0" class="sites-navigation-link">
+        shiftl
+    </a>
+</div><div style="padding-left: 5px;" dir="ltr">
+    <a href="syntax/shiftr.html" jotId="wuid:gx:2b84ccf3c5000977" class="sites-navigation-link">
+        shiftr
+    </a>
+</div><div style="padding-left: 5px;" dir="ltr">
+    <a href="syntax/statement.html" jotId="wuid:gx:193cef1ddf4cdc70" class="sites-navigation-link">
+        statement
+    </a>
+</div><div style="padding-left: 5px;" dir="ltr">
+    <a href="syntax/statement_block.html" jotId="wuid:gx:6b1b6b0ae85dda35" class="sites-navigation-link">
+        statement_block
+    </a>
+</div><div style="padding-left: 5px;" dir="ltr">
+    <a href="syntax/statement_scope.html" jotId="wuid:gx:1c4ece2423cbc321" class="sites-navigation-link">
+        statement_scope
+    </a>
+</div><div style="padding-left: 5px;" dir="ltr">
+    <a href="syntax/string.html" jotId="wuid:gx:4b2c20b99644b87f" class="sites-navigation-link">
+        string
+    </a>
+</div><div style="padding-left: 5px;" dir="ltr">
+    <a href="syntax/subscript.html" jotId="wuid:gx:568dce6abce73aaa" class="sites-navigation-link">
+        subscript
+    </a>
+</div><div style="padding-left: 5px;" dir="ltr">
+    <a href="syntax/subset.html" jotId="wuid:gx:78f8809ed112c6b0" class="sites-navigation-link">
+        subset
+    </a>
+</div><div style="padding-left: 5px;" dir="ltr">
+    <a href="syntax/subtraction.html" jotId="wuid:gx:3115f74827a5e47" class="sites-navigation-link">
+        subtraction
+    </a>
+</div><div style="padding-left: 5px;" dir="ltr">
+    <a href="syntax/sum.html" jotId="wuid:gx:1510d4dab3399e46" class="sites-navigation-link">
+        sum
+    </a>
+</div><div style="padding-left: 5px;" dir="ltr">
+    <a href="syntax/superset.html" jotId="wuid:gx:6069ed5e5a037d7d" class="sites-navigation-link">
+        superset
+    </a>
+</div><div style="padding-left: 5px;" dir="ltr">
+    <a href="syntax/switch.html" jotId="wuid:gx:5c25e60663682e92" class="sites-navigation-link">
+        switch (deprecated)
+    </a>
+</div><div style="padding-left: 5px;" dir="ltr">
+    <a href="syntax/symmetric_disjunction.html" jotId="wuid:gx:19b74f981e3fccf3" class="sites-navigation-link">
+        symmetric_disjunction
+    </a>
+</div><div style="padding-left: 5px;" dir="ltr">
+    <a href="syntax/try.html" jotId="wuid:gx:4396c066d93ecfd8" class="sites-navigation-link">
+        try
+    </a>
+</div><div style="padding-left: 5px;" dir="ltr">
+    <a href="syntax/tuple.html" jotId="wuid:gx:1491655151c6af66" class="sites-navigation-link">
+        tuple
+    </a>
+</div><div style="padding-left: 5px;" dir="ltr">
+    <a href="syntax/type.html" jotId="wuid:gx:487d6ee0de835a25" class="sites-navigation-link">
+        type
+    </a>
+</div><div style="padding-left: 5px;" dir="ltr">
+    <a href="syntax/type_dereference.html" jotId="wuid:gx:36459447481117fa" class="sites-navigation-link">
+        type_dereference
+    </a>
+</div><div style="padding-left: 5px;" dir="ltr">
+    <a href="syntax/type_of.html" jotId="wuid:gx:693629de2dee3da0" class="sites-navigation-link">
+        type_of
+    </a>
+</div><div style="padding-left: 5px;" dir="ltr">
+    <a href="syntax/type_scope.html" jotId="wuid:gx:413b4c0366076f0" class="sites-navigation-link">
+        type_scope
+    </a>
+</div><div style="padding-left: 5px;" dir="ltr">
+    <a href="syntax/unary_arithmetic_op.html" jotId="wuid:gx:42065246b4b9298a" class="sites-navigation-link">
+        unary_arithmetic_op
+    </a>
+</div><div style="padding-left: 5px;" dir="ltr">
+    <a href="syntax/unary_logical_op.html" jotId="wuid:gx:2a5604665a51e032" class="sites-navigation-link">
+        unary_logical_op
+    </a>
+</div><div style="padding-left: 5px;" dir="ltr">
+    <a href="syntax/prefix_unary_operator_application.html" jotId="wuid:gx:118e0afe0479b428" class="sites-navigation-link">
+        unary_op
+    </a>
+</div><div style="padding-left: 5px;" dir="ltr">
+    <a href="syntax/union.html" jotId="wuid:gx:e75e004d4c3d8ce" class="sites-navigation-link">
+        union
+    </a>
+</div><div style="padding-left: 5px;" dir="ltr">
+    <a href="syntax/unit_division.html" jotId="wuid:gx:61ecdb263f51f981" class="sites-navigation-link">
+        unit_division
+    </a>
+</div><div style="padding-left: 5px;" dir="ltr">
+    <a href="syntax/unit_exponentiation.html" jotId="wuid:gx:120d3b4ce5c4547e" class="sites-navigation-link">
+        unit_exponentiation
+    </a>
+</div><div style="padding-left: 5px;" dir="ltr">
+    <a href="syntax/unit_multiplication.html" jotId="wuid:gx:4544e73c3ad49399" class="sites-navigation-link">
+        unit_multiplication
+    </a>
+</div><div style="padding-left: 5px;" dir="ltr">
+    <a href="syntax/vector_norm.html" jotId="wuid:gx:2e1397ef2da367fc" class="sites-navigation-link">
+        vector_norm
+    </a>
+</div><div style="padding-left: 5px;" dir="ltr">
+    <a href="syntax/whole_number.html" jotId="wuid:gx:cb212d2cb3864a8" class="sites-navigation-link">
+        whole_number
+    </a>
+</div><div style="padding-left: 5px;" dir="ltr">
+    <a href="syntax/xor.html" jotId="wuid:gx:7ef0de6a2c55d425" class="sites-navigation-link">
+        xor
+    </a>
+</body>
+</html>

@@ -1,0 +1,94 @@
+<meta charset='utf-8'/>
+<html>
+<body>g embedding and comment embedding leverage recursive grammar features to make the embedding of raw data into code more convenient.
+    <br>
+    </br>
+    <h2>
+        <a name="TOC-String-Embedding">
+        </a>
+        String Embedding
+    </h2>
+    <p>
+        To address the problem of embedding unformatted and unescaped strings into code, string embedding defines 2 classes of delimiters. 
+        <span style="line-height:1.6;font-size:10pt;background-color:transparent">
+            A string literal is placed between the delimiters. An example:
+        </span>
+    </p>
+    <div style="margin-top:12pt;margin-bottom:12pt;border-style:solid;border-width:1px">
+        <p style="font-size:12pt;margin:0px;padding-left:6pt;background-color:#cda">
+            A string literal placed between matching delimiters
+        </p>
+        <pre style="margin:0px;padding:3px;font-family:Courier New;width:715px;max-height:500px;overflow-x:auto;overflow-y:auto">
+            text := """
+This is a string literal.
+We can use any characters in this literal aside from a sequence of three quotes.
+            <br>
+            </br>
+            One or two quotes "" is fine though.
+""";
+        </pre>
+    </div>
+    <p>
+        Embedding is used to lexographically isolate any string literal, regardless of how many double quote characters it has.
+    </p>
+    <div style="margin-top:12pt;margin-bottom:12pt;border-style:solid;border-width:1px">
+        <p style="font-size:12pt;margin:0px;padding-left:6pt;background-color:rgb(204,221,170)">
+            Example
+        </p>
+        <pre style="margin:0px;padding:3px;font-family:Courier New;width:715px;max-height:500px;overflow-x:auto;overflow-y:auto">
+            stringWithDoubleQuotes := """""
+The remainder of this is a string literal, excluding the
+            <span style="line-height:1.6;font-size:10pt;background-color:transparent">
+                5 double quotes at the very end.
+            </span>
+            <span style="line-height:1.6;font-size:10pt;background-color:transparent">
+                We can use four double quotes, like """", but not 5
+            </span>
+            <span style="line-height:1.6;font-size:10pt;background-color:transparent">
+                which is the number of quotes that
+start this string literal.
+            </span>
+            <span style="line-height:1.6;font-size:10pt;background-color:transparent">
+                If a string literal with 100 consecutive double quotes in it
+were desired,
+            </span>
+            <span style="line-height:1.6;font-size:10pt;background-color:transparent">
+                we would then use 101 double quotes to start and end the string literal.
+            </span>
+        </pre>
+        <pre style="margin:0px;padding:3px;font-family:Courier New;width:715px;max-height:500px;overflow-x:auto;overflow-y:auto">
+            <span style="line-height:1.6;font-size:10pt;background-color:transparent">
+                """""
+            </span>
+        </pre>
+    </div>
+    <p>
+        The opening delimiter must end with a single newline character, and the closing delimiter must start with one. However, any additional new lines (or any byte for that matter) will be part of the string literal.
+        <br>
+        </br>
+    </p>
+    <h2>
+        <a name="TOC-Comment-Embedding">
+        </a>
+        Comment Embedding
+    </h2>
+    <p>
+        A very similar feature exists for comments.
+        <br>
+        </br>
+    </p>
+    <div style="margin-top:12pt;margin-bottom:12pt;border-style:solid;border-width:1px">
+        <p style="font-size:12pt;margin:0px;padding-left:6pt;background-color:rgb(204,221,170)">
+            Example
+        </p>
+        <pre style="margin:0px;padding:3px;font-family:Courier New;width:715px;max-height:500px;overflow-x:auto;overflow-y:auto">
+            /**** this is an embedded_comment
+***/ the characters at the start of this line have no affect on this ongoing comment
+Embed blocks of code that themselves contain block comments:
+    /* Do the thing */
+    thing();
+No problem. Now, lets end this comment. ****/
+        </pre>
+    </div>
+</body>
+</html>
