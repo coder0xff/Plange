@@ -243,7 +243,7 @@ TextBox := type inheriting Widget {
     <h3>Algebraic Types</h3>
     <p>Types can be combined together to make algebraic Types using the |
       operator.</p>
-    <div>
+    <div class="code">
         <p>
             Example
         </p>
