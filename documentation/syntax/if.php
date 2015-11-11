@@ -13,7 +13,7 @@
         </a>
         that evaluates to true when coerced to a boolean, or the else case if none of them evaluate to true, assuming that the else case is present, otherwise returning void
     </span>
-../../css/general.css' type='text/css' /></head><body><?php require('../../header.php') ?>
+</title><link rel=StyleSheet href='../../css/general.css' type='text/css' /></head><body><?php require('../../header.php') ?>
 
 
 if.html

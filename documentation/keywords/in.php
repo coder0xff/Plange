@@ -12,7 +12,7 @@
     <a style="line-height:21.3333320617676px;font-size:13.3333330154419px;background-color:transparent" href="../syntax/expression.php">
         expression
     </a>
-../../css/general.css' type='text/css' /></head><body><?php require('../../header.php') ?>
+</title><link rel=StyleSheet href='../../css/general.css' type='text/css' /></head><body><?php require('../../header.php') ?>
 
 
 in.html

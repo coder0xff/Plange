@@ -6,7 +6,7 @@
     <pre style="margin:0px;padding:3px;font-family:Courier New;width:715px;max-height:500px;overflow-x:auto;overflow-y:auto">
         "\"\"\"" non_double_quote "\"\"\"" | "\"" stacked_string "\""
     </pre>
-../../css/general.css' type='text/css' /></head><body><?php require('../../header.php') ?>
+</title><link rel=StyleSheet href='../../css/general.css' type='text/css' /></head><body><?php require('../../header.php') ?>
 
 
 embedded_string.html

@@ -77,7 +77,7 @@ Recursive_function_t = Result_t, List&lt;Int * Int&gt; -&gt; Result_t;
     
 assert(listToTree(input) = expected);
     </pre>
-../css/general.css' type='text/css' /></head><body><?php require('../header.php') ?>
+</title><link rel=StyleSheet href='../css/general.css' type='text/css' /></head><body><?php require('../header.php') ?>
 
 
 comments---restructuring-version-information.html

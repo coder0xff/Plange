@@ -2,7 +2,7 @@
     es an algebraic value storing the simultaneous results of addition and subtraction
     <br>
     </br>
-../../css/general.css' type='text/css' /></head><body><?php require('../../header.php') ?>
+</title><link rel=StyleSheet href='../../css/general.css' type='text/css' /></head><body><?php require('../../header.php') ?>
 
 
 add_sub.html

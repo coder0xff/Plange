@@ -2,7 +2,7 @@
     g embedding and comment embedding leverage recursive grammar features to make the embedding of raw data into code more convenient.
     <br>
     </br>
-../css/general.css' type='text/css' /></head><body><?php require('../header.php') ?>
+</title><link rel=StyleSheet href='../css/general.css' type='text/css' /></head><body><?php require('../header.php') ?>
 
 
 quote-comment-embedding.html

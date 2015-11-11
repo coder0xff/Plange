@@ -7,7 +7,7 @@
         embedded_comment_interior:= newline payload newline | "*" embedded_comment_interior "*"
 embedded_comment:= newline "/*" embedded_comment_interior "*/" newline
     </pre>
-../../css/general.css' type='text/css' /></head><body><?php require('../../header.php') ?>
+</title><link rel=StyleSheet href='../../css/general.css' type='text/css' /></head><body><?php require('../../header.php') ?>
 
 
 embedded_comment.html

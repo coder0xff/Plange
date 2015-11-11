@@ -6,7 +6,7 @@
     , indicates to the static analyzer and callers that no exceptions will be thrown by this method
     <br>
     </br>
-../../css/general.css' type='text/css' /></head><body><?php require('../../header.php') ?>
+</title><link rel=StyleSheet href='../../css/general.css' type='text/css' /></head><body><?php require('../../header.php') ?>
 
 
 no_throw.html

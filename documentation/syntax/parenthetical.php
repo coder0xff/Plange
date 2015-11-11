@@ -3,7 +3,7 @@
     <code>
         "(" expression ")"
     </code>
-../../css/general.css' type='text/css' /></head><body><?php require('../../header.php') ?>
+</title><link rel=StyleSheet href='../../css/general.css' type='text/css' /></head><body><?php require('../../header.php') ?>
 
 
 parenthetical.html

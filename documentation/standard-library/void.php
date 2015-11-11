@@ -2,7 +2,7 @@
     mitive type with a size of zero with a single possible value Void()
     <br>
     </br>
-../../css/general.css' type='text/css' /></head><body><?php require('../../header.php') ?>
+</title><link rel=StyleSheet href='../../css/general.css' type='text/css' /></head><body><?php require('../../header.php') ?>
 
 
 void.html

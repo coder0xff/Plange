@@ -11,7 +11,7 @@
     <span style="font-size:13.3333px;line-height:21.3333px;background-color:transparent">
         the optional portion is omitted, in which case the function is invoked indefinitely
     </span>
-../../css/general.css' type='text/css' /></head><body><?php require('../../header.php') ?>
+</title><link rel=StyleSheet href='../../css/general.css' type='text/css' /></head><body><?php require('../../header.php') ?>
 
 
 do.html

@@ -29,7 +29,7 @@ x &lt;- box(7); //x is a concrete Value with a binary representation
     </div>
     <br>
     </br>
-../../css/general.css' type='text/css' /></head><body><?php require('../../header.php') ?>
+</title><link rel=StyleSheet href='../../css/general.css' type='text/css' /></head><body><?php require('../../header.php') ?>
 
 
 box.html

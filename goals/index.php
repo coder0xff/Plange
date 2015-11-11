@@ -177,7 +177,7 @@
         of clang's template error messages versus gcc's.
         </p>
     </div>
-../css/general.css' type='text/css' /></head><body><?php require('../header.php') ?>
+</title><link rel=StyleSheet href='../css/general.css' type='text/css' /></head><body><?php require('../header.php') ?>
 
 
 index.html

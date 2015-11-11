@@ -6,7 +6,7 @@
      syntax, causes the resulting function object to be stripped of introspection information
     <br>
     </br>
-../../css/general.css' type='text/css' /></head><body><?php require('../../header.php') ?>
+</title><link rel=StyleSheet href='../../css/general.css' type='text/css' /></head><body><?php require('../../header.php') ?>
 
 
 opaque.html

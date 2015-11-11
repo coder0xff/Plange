@@ -17,7 +17,7 @@ def strip(text):
 def decorate(treeDepth, name, text):
 	pathBacktrack = "../" * treeDepth
 	result = "<meta charset='utf-8'/><html><head><title>" + name
-	resul = result + "</title><link rel=StyleSheet href='"
+	result = result + "</title><link rel=StyleSheet href='"
 	result = result + pathBacktrack + "css/general.css' type='text/css' /></head><body><?php require('"
 	result = result + pathBacktrack + "header.php') ?>\n\n\n" + text + "\n\n\n<?php require('"
 	result = result + pathBacktrack + "footer.php') ?></body></html>"

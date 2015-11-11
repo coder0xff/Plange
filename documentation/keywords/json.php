@@ -2,7 +2,7 @@
     nal intent was to permit the creation of data structures using json syntax. Incidentally, plange syntax encompasses json.
     <br>
     </br>
-../../css/general.css' type='text/css' /></head><body><?php require('../../header.php') ?>
+</title><link rel=StyleSheet href='../../css/general.css' type='text/css' /></head><body><?php require('../../header.php') ?>
 
 
 json.html
