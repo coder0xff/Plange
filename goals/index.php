@@ -8,7 +8,7 @@
         <?php require('../header.php') ?>
 
         <big>The fundamental challenge:</big>
-        <div>
+        <div style="padding:24pt">
             <big>
                 <big>
                     <big>
