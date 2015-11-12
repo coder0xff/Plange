@@ -15,7 +15,7 @@
 .code>pre {
     padding-left:6pt;
     font-family:"Courier New";
-    width:715px;
+    
     max-height:500px;
     overflow-x:auto;
     overflow-y:auto
@@ -78,7 +78,7 @@
     border-left-width: 1px;
     border-left-style: solid;
     padding-left: 15px;
-    max-width: 800px;
+    max-width: 1000px;
 }
 
 #left-margin {

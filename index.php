@@ -169,13 +169,13 @@ print(doubler(5));</pre>
     <p>In definitions of constants, and declarations and
       assignments of variables, the angle brackets &lt; &gt; may be
       omitted entirely.</p>
-    <div>
+    <div class="code">
         <p>Example</p>
         <pre>doubler := (x) { return x * 2; };
 print(doubler(5));</pre>
     </div>
     <p>Type deduction is not limited to only simple cases.</p>
-    <div>
+    <div class="code">
         <p>Demonstration of more complex type deduction via pattern matching</p>
         <pre>return_type_getter := ( &lt;_ -&gt; x&gt; func ) { return x; };
 addFive := (&lt;Int&gt; x) { return x + 5; };
@@ -207,8 +207,8 @@ print(type_of(Color));        // output: Type</pre>
     <div class="code">
         <p>Example</p>
         <pre>Node := (&lt;Type&gt; valueType) { 
-	&lt;valueType&gt; v;
-	Pointer&lt;Node&gt; next;
+    &lt;valueType&gt; v;
+    Pointer&lt;Node&gt; next;
 }</pre>
     </div>
     <p>Functions that return Type objects can be called with the
