@@ -2,10 +2,10 @@
 <html>
 	<head>
 		<title>add_sub - Plange</title>
-		<link rel=StyleSheet href='..//css/general.css' type='text/css' />
+		<link rel=StyleSheet href='../../css/general.css' type='text/css' />
 	</head>
 	<body>
-		<?php require('..//header.php') ?>
+		<?php require('../../header.php') ?>
 
 
 es an algebraic value storing the simultaneous results of addition and subtraction
@@ -42,6 +42,6 @@ es an algebraic value storing the simultaneous results of addition and subtracti
 
 
 
-		<?php require('..//footer.php') ?>
+		<?php require('../../footer.php') ?>
 	</body>
 </html>

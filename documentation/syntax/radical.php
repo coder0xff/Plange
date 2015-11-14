@@ -2,10 +2,10 @@
 <html>
 	<head>
 		<title>radical - Plange</title>
-		<link rel=StyleSheet href='..//css/general.css' type='text/css' />
+		<link rel=StyleSheet href='../../css/general.css' type='text/css' />
 	</head>
 	<body>
-		<?php require('..//header.php') ?>
+		<?php require('../../header.php') ?>
 
 
 x alternative to expression ^ 0.5
@@ -24,6 +24,6 @@ x alternative to expression ^ 0.5
 
 
 
-		<?php require('..//footer.php') ?>
+		<?php require('../../footer.php') ?>
 	</body>
 </html>

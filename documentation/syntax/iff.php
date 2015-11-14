@@ -2,10 +2,10 @@
 <html>
 	<head>
 		<title>iff - Plange</title>
-		<link rel=StyleSheet href='..//css/general.css' type='text/css' />
+		<link rel=StyleSheet href='../../css/general.css' type='text/css' />
 	</head>
 	<body>
-		<?php require('..//header.php') ?>
+		<?php require('../../header.php') ?>
 
 
 es a relation indicating semantic equivalence between two
@@ -32,6 +32,6 @@ es a relation indicating semantic equivalence between two
 
 
 
-		<?php require('..//footer.php') ?>
+		<?php require('../../footer.php') ?>
 	</body>
 </html>

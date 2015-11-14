@@ -2,10 +2,10 @@
 <html>
 	<head>
 		<title>multiplicative_op - Plange</title>
-		<link rel=StyleSheet href='..//css/general.css' type='text/css' />
+		<link rel=StyleSheet href='../../css/general.css' type='text/css' />
 	</head>
 	<body>
-		<?php require('..//header.php') ?>
+		<?php require('../../header.php') ?>
 
 
 ef="../../system/errors/NodeNotFound0bf4.php?suri=wuid:gx:50b55d46dad496f3" class="disabled">
@@ -34,6 +34,6 @@ ef="../../system/errors/NodeNotFound0bf4.php?suri=wuid:gx:50b55d46dad496f3" clas
 
 
 
-		<?php require('..//footer.php') ?>
+		<?php require('../../footer.php') ?>
 	</body>
 </html>

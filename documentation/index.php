@@ -1,4 +1,4 @@
-<meta charset='utf-8'/><html><head><title>index.html</title><link rel=StyleSheet href='/css/general.css' type='text/css' /></head><body><?php require('/header.php') ?>
+<meta charset='utf-8'/><html><head><title>index.html</title><link rel=StyleSheet href='../css/general.css' type='text/css' /></head><body><?php require('../header.php') ?>
     <h4>
         Subpage Listing
     </h4>
@@ -13,4 +13,4 @@
         <li><a href="/documentation/syntax/">Syntax</a></li>
         <li><a href="/documentation/using-types.php">Type System</a></li>
     </ul>
-<?php require('/footer.php') ?></body></html>
+<?php require('../footer.php') ?></body></html>

@@ -2,10 +2,10 @@
 <html>
 	<head>
 		<title>definition - Plange</title>
-		<link rel=StyleSheet href='..//css/general.css' type='text/css' />
+		<link rel=StyleSheet href='../../css/general.css' type='text/css' />
 	</head>
 	<body>
-		<?php require('..//header.php') ?>
+		<?php require('../../header.php') ?>
 
 
 es an identifier to be an alias for the valuation of the specified expression
@@ -55,6 +55,6 @@ es an identifier to be an alias for the valuation of the specified expression
 
 
 
-		<?php require('..//footer.php') ?>
+		<?php require('../../footer.php') ?>
 	</body>
 </html>

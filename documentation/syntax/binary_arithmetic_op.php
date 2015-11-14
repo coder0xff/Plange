@@ -2,10 +2,10 @@
 <html>
 	<head>
 		<title>binary_arithmetic_op - Plange</title>
-		<link rel=StyleSheet href='..//css/general.css' type='text/css' />
+		<link rel=StyleSheet href='../../css/general.css' type='text/css' />
 	</head>
 	<body>
-		<?php require('..//header.php') ?>
+		<?php require('../../header.php') ?>
 
 
 ef="addition.php">
@@ -63,6 +63,6 @@ ef="addition.php">
 
 
 
-		<?php require('..//footer.php') ?>
+		<?php require('../../footer.php') ?>
 	</body>
 </html>

@@ -2,10 +2,10 @@
 <html>
 	<head>
 		<title>dynamic_cast - Plange</title>
-		<link rel=StyleSheet href='..//css/general.css' type='text/css' />
+		<link rel=StyleSheet href='../../css/general.css' type='text/css' />
 	</head>
 	<body>
-		<?php require('..//header.php') ?>
+		<?php require('../../header.php') ?>
 
 
 rt the specified pointer from a type A, to a type B, if B inherits A. Otherwise, the result is a null pointer.
@@ -194,6 +194,6 @@ rt the specified pointer from a type A, to a type B, if B inherits A. Otherwise,
 
 
 
-		<?php require('..//footer.php') ?>
+		<?php require('../../footer.php') ?>
 	</body>
 </html>

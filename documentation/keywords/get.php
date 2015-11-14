@@ -2,10 +2,10 @@
 <html>
 	<head>
 		<title>get - Plange</title>
-		<link rel=StyleSheet href='..//css/general.css' type='text/css' />
+		<link rel=StyleSheet href='../../css/general.css' type='text/css' />
 	</head>
 	<body>
-		<?php require('..//header.php') ?>
+		<?php require('../../header.php') ?>
 
 
 to creator the get accessor of a property.
@@ -14,6 +14,6 @@ to creator the get accessor of a property.
 
 
 
-		<?php require('..//footer.php') ?>
+		<?php require('../../footer.php') ?>
 	</body>
 </html>

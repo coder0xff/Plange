@@ -2,10 +2,10 @@
 <html>
 	<head>
 		<title>env - Plange</title>
-		<link rel=StyleSheet href='..//css/general.css' type='text/css' />
+		<link rel=StyleSheet href='../../css/general.css' type='text/css' />
 	</head>
 	<body>
-		<?php require('..//header.php') ?>
+		<?php require('../../header.php') ?>
 
 
 mutable collection of key-value pairs containing the environment variables, implementing Map
@@ -14,6 +14,6 @@ mutable collection of key-value pairs containing the environment variables, impl
 
 
 
-		<?php require('..//footer.php') ?>
+		<?php require('../../footer.php') ?>
 	</body>
 </html>

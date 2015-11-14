@@ -2,10 +2,10 @@
 <html>
 	<head>
 		<title>chunk - Plange</title>
-		<link rel=StyleSheet href='..//css/general.css' type='text/css' />
+		<link rel=StyleSheet href='../../css/general.css' type='text/css' />
 	</head>
 	<body>
-		<?php require('..//header.php') ?>
+		<?php require('../../header.php') ?>
 
 
 s the left hand side collection into a collection of collections, with right hand side elements
@@ -39,6 +39,6 @@ s the left hand side collection into a collection of collections, with right han
 
 
 
-		<?php require('..//footer.php') ?>
+		<?php require('../../footer.php') ?>
 	</body>
 </html>

@@ -1,4 +1,4 @@
-<meta charset='utf-8'/><html><head><title>properties.html</title><link rel=StyleSheet href='/css/general.css' type='text/css' /></head><body><?php require('/header.php') ?>
+<meta charset='utf-8'/><html><head><title>properties.html</title><link rel=StyleSheet href='../css/general.css' type='text/css' /></head><body><?php require('../header.php') ?>
 
 
 
@@ -10,4 +10,4 @@ caller (the code accessing the value), but only through code provided by
 
 
 
-<?php require('/footer.php') ?></body></html>
+<?php require('../footer.php') ?></body></html>

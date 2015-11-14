@@ -1,4 +1,4 @@
-<meta charset='utf-8'/><html><head><title>keywords.html</title><link rel=StyleSheet href='/css/general.css' type='text/css' /></head><body><?php require('/header.php') ?>
+<meta charset='utf-8'/><html><head><title>keywords.html</title><link rel=StyleSheet href='../css/general.css' type='text/css' /></head><body><?php require('../header.php') ?>
 
 <div id="sites-toc-undefined" jotid="sites-toc-undefined" style="display:block; margin:5px auto 5px 0; text-align:left; width:250px;" class="goog-toc sites-sidebar-nav">
 <h4 class="">Subpage Listing</h4>
@@ -131,4 +131,4 @@
 </ul>
 </div>
 </div>
-<?php require('/footer.php') ?></body></html>
+<?php require('../footer.php') ?></body></html>

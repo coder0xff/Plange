@@ -2,10 +2,10 @@
 <html>
 	<head>
 		<title>invocation - Plange</title>
-		<link rel=StyleSheet href='..//css/general.css' type='text/css' />
+		<link rel=StyleSheet href='../../css/general.css' type='text/css' />
 	</head>
 	<body>
-		<?php require('..//header.php') ?>
+		<?php require('../../header.php') ?>
 
 
 es the specified function, passing in the parameters specified between the parenthesis, or between angle brackets for parametric types and parametric functions, or between square brackets when all parameters belong to sets that are ordered and denumerable
@@ -126,6 +126,6 @@ es the specified function, passing in the parameters specified between the paren
 
 
 
-		<?php require('..//footer.php') ?>
+		<?php require('../../footer.php') ?>
 	</body>
 </html>

@@ -2,10 +2,10 @@
 <html>
 	<head>
 		<title>declaration_assignment - Plange</title>
-		<link rel=StyleSheet href='..//css/general.css' type='text/css' />
+		<link rel=StyleSheet href='../../css/general.css' type='text/css' />
 	</head>
 	<body>
-		<?php require('..//header.php') ?>
+		<?php require('../../header.php') ?>
 
 
 tement combining a variable declaration and an assignment
@@ -79,6 +79,6 @@ object &lt;- (x) { return x*2; }; //type Any
 
 
 
-		<?php require('..//footer.php') ?>
+		<?php require('../../footer.php') ?>
 	</body>
 </html>

@@ -2,10 +2,10 @@
 <html>
 	<head>
 		<title>box - Plange</title>
-		<link rel=StyleSheet href='..//css/general.css' type='text/css' />
+		<link rel=StyleSheet href='../../css/general.css' type='text/css' />
 	</head>
 	<body>
-		<?php require('..//header.php') ?>
+		<?php require('../../header.php') ?>
 
 
 ns an object of type Value that models the specified expression
@@ -41,6 +41,6 @@ x &lt;- box(7); //x is a concrete Value with a binary representation
 
 
 
-		<?php require('..//footer.php') ?>
+		<?php require('../../footer.php') ?>
 	</body>
 </html>

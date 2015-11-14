@@ -1,4 +1,4 @@
-<meta charset='utf-8'/><html><head><title>using-types.html</title><link rel=StyleSheet href='/css/general.css' type='text/css' /></head><body><?php require('/header.php') ?>
+<meta charset='utf-8'/><html><head><title>using-types.html</title><link rel=StyleSheet href='../css/general.css' type='text/css' /></head><body><?php require('../header.php') ?>
 
 
 
@@ -9,4 +9,4 @@
 
 
 
-<?php require('/footer.php') ?></body></html>
+<?php require('../footer.php') ?></body></html>

@@ -2,10 +2,10 @@
 <html>
 	<head>
 		<title>integer - Plange</title>
-		<link rel=StyleSheet href='..//css/general.css' type='text/css' />
+		<link rel=StyleSheet href='../../css/general.css' type='text/css' />
 	</head>
 	<body>
-		<?php require('..//header.php') ?>
+		<?php require('../../header.php') ?>
 
 
 ("1"|"2"|"3"|"4"|"5"|"6"|"7"|"8"|"9")
@@ -20,6 +20,6 @@
 
 
 
-		<?php require('..//footer.php') ?>
+		<?php require('../../footer.php') ?>
 	</body>
 </html>

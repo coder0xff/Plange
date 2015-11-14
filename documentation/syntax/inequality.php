@@ -2,10 +2,10 @@
 <html>
 	<head>
 		<title>inequality - Plange</title>
-		<link rel=StyleSheet href='..//css/general.css' type='text/css' />
+		<link rel=StyleSheet href='../../css/general.css' type='text/css' />
 	</head>
 	<body>
-		<?php require('..//header.php') ?>
+		<?php require('../../header.php') ?>
 
 
 yle="font-size:13.3333330154419px;line-height:21.3333320617676px" href="expression.php">
@@ -34,6 +34,6 @@ yle="font-size:13.3333330154419px;line-height:21.3333320617676px" href="expressi
 
 
 
-		<?php require('..//footer.php') ?>
+		<?php require('../../footer.php') ?>
 	</body>
 </html>
