@@ -13,7 +13,7 @@
                 <big>
                     <big>
                         Create a development environment that permits
-                the developer to do whatever they may conceive of.
+                the developer to do whatever they conceive.
                     </big>
                 </big>
             </big>

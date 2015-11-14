@@ -1,4 +1,4 @@
-<meta charset='utf-8'/><html><head><title>index.html</title><link rel=StyleSheet href='css/general.css' type='text/css' /></head><body><?php require('header.php') ?>
+<meta charset='utf-8'/><html><head><title>Plange</title><link rel=StyleSheet href='css/general.css' type='text/css' /></head><body><?php require('header.php') ?>
     <div style="padding:1em;font-size:1.6em">
       Plange (plaːnd͡ʒ) is a project to create a revolutionary
       development environment, including a programming language,
@@ -63,13 +63,12 @@
         <pre>print("My name is HAL 9000."); <font color="#ff0000">//only kidding!</font></pre>
     </div>
     <div class="code">
-        <p>Inline comments (red is comment text)</p>
-        <pre><font color="#ff0000">/* This function returns the time */</font>
-&lt;Void -&gt; Int <font color="#ff0000">/*unix time*/</font> &gt; now;</pre>
+        <p>Inline comments (red is comment text) <small><small><small><a href="https://www.xkcd.com/221/">source</a></small></small></small></p>
+        <pre>getRandomNumber := { return 4; <font color="#ff0000">/*choosen by fair dice roll*/</font> }; <font color="#ff0000">//guaranteed to be random</font></pre>
     </div>
     <h3>Constants and Variables</h3>
     <p>When a value is given a symbol to identify it, that symbol
-      is a constant. For example:
+      is a constant.
     </p>
     <div class="code">
         <p>Example</p>

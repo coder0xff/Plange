@@ -1,4 +1,3 @@
-<h1>Plange</h1>
 <hr>
 <div id="navigation">
 <h2>Contents</h2>
@@ -22,4 +21,4 @@
 </ul>
 </div>
 <div id="left-margin">
-	<div id="contents">
+	<div id="contents"></div>
