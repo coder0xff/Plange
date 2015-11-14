@@ -2,10 +2,10 @@
 <html>
 	<head>
 		<title>static - Plange</title>
-		<link rel=StyleSheet href='../../css/general.css' type='text/css' />
+		<link rel=StyleSheet href='..//css/general.css' type='text/css' />
 	</head>
 	<body>
-		<?php require('../../header.php') ?>
+		<?php require('..//header.php') ?>
 
 
         <a name="TOC-in-type_scope-indicates-that-a-member-function-field-or-property-is-not-an-instance-member-but-one-that-becomes-part-of-the-type-object-itself">
@@ -71,6 +71,6 @@
 
 
 
-		<?php require('../../footer.php') ?>
+		<?php require('..//footer.php') ?>
 	</body>
 </html>

@@ -2,10 +2,10 @@
 <html>
 	<head>
 		<title>_ (dont_care) - Plange</title>
-		<link rel=StyleSheet href='../../css/general.css' type='text/css' />
+		<link rel=StyleSheet href='..//css/general.css' type='text/css' />
 	</head>
 	<body>
-		<?php require('../../header.php') ?>
+		<?php require('..//header.php') ?>
 
 
 nderscore character '_', or "don't care" keyword is a place holder for an identifier, when the name of that identifier is irrelevant.
@@ -54,6 +54,6 @@ nderscore character '_', or "don't care" keyword is a place holder for an identi
 
 
 
-		<?php require('../../footer.php') ?>
+		<?php require('..//footer.php') ?>
 	</body>
 </html>

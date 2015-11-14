@@ -2,10 +2,10 @@
 <html>
 	<head>
 		<title>continue (removed) - Plange</title>
-		<link rel=StyleSheet href='../../css/general.css' type='text/css' />
+		<link rel=StyleSheet href='..//css/general.css' type='text/css' />
 	</head>
 	<body>
-		<?php require('../../header.php') ?>
+		<?php require('..//header.php') ?>
 
 
 n to the start of a do, while, until, for, or for_collection loop
@@ -131,6 +131,6 @@ n to the start of a do, while, until, for, or for_collection loop
 
 
 
-		<?php require('../../footer.php') ?>
+		<?php require('..//footer.php') ?>
 	</body>
 </html>

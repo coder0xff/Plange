@@ -2,10 +2,10 @@
 <html>
 	<head>
 		<title>subscript - Plange</title>
-		<link rel=StyleSheet href='../../css/general.css' type='text/css' />
+		<link rel=StyleSheet href='..//css/general.css' type='text/css' />
 	</head>
 	<body>
-		<?php require('../../header.php') ?>
+		<?php require('..//header.php') ?>
 
 
 s an array element, an offset from a pointer, or the subscript property of a value
@@ -20,6 +20,6 @@ s an array element, an offset from a pointer, or the subscript property of a val
 
 
 
-		<?php require('../../footer.php') ?>
+		<?php require('..//footer.php') ?>
 	</body>
 </html>

@@ -2,10 +2,10 @@
 <html>
 	<head>
 		<title>implementing - Plange</title>
-		<link rel=StyleSheet href='../../css/general.css' type='text/css' />
+		<link rel=StyleSheet href='..//css/general.css' type='text/css' />
 	</head>
 	<body>
-		<?php require('../../header.php') ?>
+		<?php require('..//header.php') ?>
 
 
 with the type keyword to inherit the interface of the specified Type
@@ -45,6 +45,6 @@ with the type keyword to inherit the interface of the specified Type
 
 
 
-		<?php require('../../footer.php') ?>
+		<?php require('..//footer.php') ?>
 	</body>
 </html>

@@ -2,10 +2,10 @@
 <html>
 	<head>
 		<title>embedded_comment - Plange</title>
-		<link rel=StyleSheet href='../../css/general.css' type='text/css' />
+		<link rel=StyleSheet href='..//css/general.css' type='text/css' />
 	</head>
 	<body>
-		<?php require('../../header.php') ?>
+		<?php require('..//header.php') ?>
 
 
 style="margin-top:12pt;margin-bottom:12pt;border-style:solid;border-width:1px">
@@ -39,6 +39,6 @@ No problem. Now, lets end this comment. ****/
 
 
 
-		<?php require('../../footer.php') ?>
+		<?php require('..//footer.php') ?>
 	</body>
 </html>

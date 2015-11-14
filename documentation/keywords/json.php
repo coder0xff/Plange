@@ -2,10 +2,10 @@
 <html>
 	<head>
 		<title>json (uneeded) - Plange</title>
-		<link rel=StyleSheet href='../../css/general.css' type='text/css' />
+		<link rel=StyleSheet href='..//css/general.css' type='text/css' />
 	</head>
 	<body>
-		<?php require('../../header.php') ?>
+		<?php require('..//header.php') ?>
 
 
 nal intent was to permit the creation of data structures using json syntax. Incidentally, plange syntax encompasses json.
@@ -14,6 +14,6 @@ nal intent was to permit the creation of data structures using json syntax. Inci
 
 
 
-		<?php require('../../footer.php') ?>
+		<?php require('..//footer.php') ?>
 	</body>
 </html>

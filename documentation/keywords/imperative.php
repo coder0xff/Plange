@@ -2,10 +2,10 @@
 <html>
 	<head>
 		<title>imperative - Plange</title>
-		<link rel=StyleSheet href='../../css/general.css' type='text/css' />
+		<link rel=StyleSheet href='..//css/general.css' type='text/css' />
 	</head>
 	<body>
-		<?php require('../../header.php') ?>
+		<?php require('..//header.php') ?>
 
 
 used in the function syntax, indicates that a functions behavior (side effects) is not tractable
@@ -22,6 +22,6 @@ used in the function syntax, indicates that a functions behavior (side effects) 
 
 
 
-		<?php require('../../footer.php') ?>
+		<?php require('..//footer.php') ?>
 	</body>
 </html>

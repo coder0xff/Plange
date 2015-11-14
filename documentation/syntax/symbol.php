@@ -2,10 +2,10 @@
 <html>
 	<head>
 		<title>identifier - Plange</title>
-		<link rel=StyleSheet href='../../css/general.css' type='text/css' />
+		<link rel=StyleSheet href='..//css/general.css' type='text/css' />
 	</head>
 	<body>
-		<?php require('../../header.php') ?>
+		<?php require('..//header.php') ?>
 
 
 e that uniquely identifies a constant or variable.
@@ -25,6 +25,6 @@ e that uniquely identifies a constant or variable.
 
 
 
-		<?php require('../../footer.php') ?>
+		<?php require('..//footer.php') ?>
 	</body>
 </html>

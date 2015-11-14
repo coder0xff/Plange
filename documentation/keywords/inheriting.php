@@ -2,10 +2,10 @@
 <html>
 	<head>
 		<title>inheriting - Plange</title>
-		<link rel=StyleSheet href='../../css/general.css' type='text/css' />
+		<link rel=StyleSheet href='..//css/general.css' type='text/css' />
 	</head>
 	<body>
-		<?php require('../../header.php') ?>
+		<?php require('..//header.php') ?>
 
 
 with the type keyword to inherit other types.
@@ -22,6 +22,6 @@ with the type keyword to inherit other types.
 
 
 
-		<?php require('../../footer.php') ?>
+		<?php require('..//footer.php') ?>
 	</body>
 </html>

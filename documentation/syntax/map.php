@@ -2,10 +2,10 @@
 <html>
 	<head>
 		<title>map - Plange</title>
-		<link rel=StyleSheet href='../../css/general.css' type='text/css' />
+		<link rel=StyleSheet href='..//css/general.css' type='text/css' />
 	</head>
 	<body>
-		<?php require('../../header.php') ?>
+		<?php require('..//header.php') ?>
 
 
 style="font-size:13.3333px;line-height:21.3333px">
@@ -46,6 +46,6 @@ style="font-size:13.3333px;line-height:21.3333px">
 
 
 
-		<?php require('../../footer.php') ?>
+		<?php require('..//footer.php') ?>
 	</body>
 </html>

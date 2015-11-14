@@ -2,10 +2,10 @@
 <html>
 	<head>
 		<title>ceiling - Plange</title>
-		<link rel=StyleSheet href='../../css/general.css' type='text/css' />
+		<link rel=StyleSheet href='..//css/general.css' type='text/css' />
 	</head>
 	<body>
-		<?php require('../../header.php') ?>
+		<?php require('..//header.php') ?>
 
 
 class="sites-codeblock sites-codesnippet-block">
@@ -28,6 +28,6 @@ class="sites-codeblock sites-codesnippet-block">
 
 
 
-		<?php require('../../footer.php') ?>
+		<?php require('..//footer.php') ?>
 	</body>
 </html>

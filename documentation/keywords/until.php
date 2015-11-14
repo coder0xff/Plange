@@ -2,10 +2,10 @@
 <html>
 	<head>
 		<title>until - Plange</title>
-		<link rel=StyleSheet href='../../css/general.css' type='text/css' />
+		<link rel=StyleSheet href='..//css/general.css' type='text/css' />
 	</head>
 	<body>
-		<?php require('../../header.php') ?>
+		<?php require('..//header.php') ?>
 
 
 e specified condition is not met, execute the following code block until that condition is met. See 
@@ -46,6 +46,6 @@ e specified condition is not met, execute the following code block until that co
 
 
 
-		<?php require('../../footer.php') ?>
+		<?php require('..//footer.php') ?>
 	</body>
 </html>

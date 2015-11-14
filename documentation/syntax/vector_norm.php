@@ -2,10 +2,10 @@
 <html>
 	<head>
 		<title>vector_norm - Plange</title>
-		<link rel=StyleSheet href='../../css/general.css' type='text/css' />
+		<link rel=StyleSheet href='..//css/general.css' type='text/css' />
 	</head>
 	<body>
-		<?php require('../../header.php') ?>
+		<?php require('..//header.php') ?>
 
 
 ns the normalized vector of the specified vector expression.
@@ -41,6 +41,6 @@ ns the normalized vector of the specified vector expression.
 
 
 
-		<?php require('../../footer.php') ?>
+		<?php require('..//footer.php') ?>
 	</body>
 </html>
