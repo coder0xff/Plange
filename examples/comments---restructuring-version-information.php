@@ -1,13 +1,19 @@
-<meta charset='utf-8'/><html><head><title>comments---restructuring-version-information.html</title><link rel=StyleSheet href='../css/general.css' type='text/css' /></head><body><?php require('../header.php') ?>
+<meta charset='utf-8'/>
+<html>
+	<head>
+		<title>~EXTRA COMMENTS - Restructuring Version Information - Plange</title>
+		<link rel=StyleSheet href='../css/general.css' type='text/css' />
+	</head>
+	<body>
+		<?php require('../header.php') ?>
 
 
-
-    style="margin-top:12pt;margin-bottom:12pt;border-style:solid;border-width:1px">
-    <p style="font-size:12pt;margin:0px;padding-left:6pt;background-color:#cda">
-        restructure-extra_comments.plg
-    </p>
-    <pre style="margin:0px;padding:3px;font-family:Courier New;width:715px;max-height:500px;overflow-x:auto;overflow-y:auto">
-        ///////////////////////////////////////////////////////////////////////////
+style="margin-top:12pt;margin-bottom:12pt;border-style:solid;border-width:1px">
+        <p style="font-size:12pt;margin:0px;padding-left:6pt;background-color:#cda">
+            restructure-extra_comments.plg
+        </p>
+        <pre style="margin:0px;padding:3px;font-family:Courier New;width:715px;max-height:500px;overflow-x:auto;overflow-y:auto">
+            ///////////////////////////////////////////////////////////////////////////
 // This code, written in Plange (which is a work in progress),
 // presents a heavily commented implementation of an algorithm
 // for manipulating data structures representing the
@@ -79,8 +85,11 @@ Recursive_function_t = Result_t, List&lt;Int * Int&gt; -&gt; Result_t;
     };
     
 assert(listToTree(input) = expected);
-    </pre>
+        </pre>
+    </div>
 
 
 
-<?php require('../footer.php') ?></body></html>
+		<?php require('../footer.php') ?>
+	</body>
+</html>

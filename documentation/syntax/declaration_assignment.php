@@ -1,8 +1,14 @@
-<meta charset='utf-8'/><html><head><title>declaration_assignment.html</title><link rel=StyleSheet href='../../css/general.css' type='text/css' /></head><body><?php require('../../header.php') ?>
+<meta charset='utf-8'/>
+<html>
+	<head>
+		<title>declaration_assignment - Plange</title>
+		<link rel=StyleSheet href='../../css/general.css' type='text/css' />
+	</head>
+	<body>
+		<?php require('../../header.php') ?>
 
 
-
-    tement combining a variable declaration and an assignment
+tement combining a variable declaration and an assignment
     <div style="margin-top:12pt;margin-bottom:12pt;border-style:solid;border-width:1px">
         <p style="font-size:12pt;margin:0px;padding-left:6pt;background-color:#cda">
             Syntax
@@ -46,7 +52,33 @@
         <br>
         </br>
     </div>
+    <div>
+        <div style="font-size:13.3333px;line-height:21.3333px;margin-top:12pt;margin-bottom:12pt;border-style:solid;border-width:1px">
+            <p style="font-size:12pt;margin:0px;padding-left:6pt;background-color:rgb(204,221,170)">
+                Example
+            </p>
+            <pre style="margin-top:0px;margin-bottom:0px;padding:3px;font-family:Courier New;width:715px;max-height:500px;overflow:auto">
+                object &lt;- { "employees":[
+    ("John", "Doe"),
+    ("Anna", "Smith"),
+    ("Peter", Jones")
+]}; //type Any (duck typed)
+
+object &lt;- (x) { return x*2; }; //type Any
+            </pre>
+        </div>
+    </div>
+    <div>
+        <br>
+        </br>
+    </div>
+    <div>
+        <br>
+        </br>
+    </div>
 
 
 
-<?php require('../../footer.php') ?></body></html>
+		<?php require('../../footer.php') ?>
+	</body>
+</html>

@@ -1,8 +1,14 @@
-<meta charset='utf-8'/><html><head><title>tuple.html</title><link rel=StyleSheet href='../../css/general.css' type='text/css' /></head><body><?php require('../../header.php') ?>
+<meta charset='utf-8'/>
+<html>
+	<head>
+		<title>tuple - Plange</title>
+		<link rel=StyleSheet href='../../css/general.css' type='text/css' />
+	</head>
+	<body>
+		<?php require('../../header.php') ?>
 
 
-
-    <a href="expression.php">
+   <a href="expression.php">
         expression
     </a>
     (", "
@@ -15,4 +21,6 @@
 
 
 
-<?php require('../../footer.php') ?></body></html>
+		<?php require('../../footer.php') ?>
+	</body>
+</html>

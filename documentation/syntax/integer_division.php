@@ -1,10 +1,37 @@
-<meta charset='utf-8'/><html><head><title>integer_division.html</title><link rel=StyleSheet href='../../css/general.css' type='text/css' /></head><body><?php require('../../header.php') ?>
+<meta charset='utf-8'/>
+<html>
+	<head>
+		<title>integer_division - Plange</title>
+		<link rel=StyleSheet href='../../css/general.css' type='text/css' />
+	</head>
+	<body>
+		<?php require('../../header.php') ?>
 
 
-
-    ef="expression.php">
+ef="expression.php">
         expression
+    </a>
+     "\" 
+    <a href="expression.php">
+        expression
+    </a>
+    <br>
+    </br>
+    <div>
+        <br>
+        </br>
+    </div>
+    <div>
+        <span style="font-size:13.3333px;line-height:21.3333px">
+            See: 
+        </span>
+        <a style="font-size:13.3333px;line-height:21.3333px" href="../operators.php">
+            Operators
+        </a>
+    </div>
 
 
 
-<?php require('../../footer.php') ?></body></html>
+		<?php require('../../footer.php') ?>
+	</body>
+</html>
