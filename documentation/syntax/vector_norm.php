@@ -8,36 +8,11 @@
 		<?php require('../../header.php') ?>
 
 
-ns the normalized vector of the specified vector expression.
-    <div>
-        <br>
-        </br>
-        <div>
-            <div style="font-size:13.3333330154419px" class="sites-codeblock sites-codesnippet-block">
-                <code>
-                    "|| " expression " ||"
-                </code>
-            </div>
+        <p>returns the normalized vector of the specified vector expression.</p>
+        <div class="code">
+            <p>Syntax</p>
+            <pre>"||" expression "||"</pre>
         </div>
-        <div>
-            <code>
-                <br>
-                </br>
-            </code>
-        </div>
-        <div>
-            <br>
-            </br>
-        </div>
-        <div>
-            <br>
-            </br>
-        </div>
-        <div>
-            <br>
-            </br>
-        </div>
-    </div>
 
 
 

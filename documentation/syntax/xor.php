@@ -7,19 +7,10 @@
 	<body>
 		<?php require('../../header.php') ?>
 
-
-yle="font-size:13.3333330154419px;line-height:21.3333320617676px" href="expression.php">
-        expression
-    </a>
-     ("
-    <span style="font-size:13.3333330154419px;line-height:21.3333320617676px;white-space:pre">
-        ⊕
-    </span>
-    "|"xor") 
-    <a style="font-size:13.3333330154419px;line-height:21.3333320617676px" href="expression.php">
-        expression
-    </a>
-
+        <div class="code">
+            <p>Syntax</p>
+            <pre><a href="expression.php">expression</a> ("⊕" |"xor") <a href="expression.php">expression</a></pre>
+        </div>
 
 
 		<?php require('../../footer.php') ?>

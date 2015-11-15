@@ -8,12 +8,10 @@
 		<?php require('../header.php') ?>
 
 
-style="margin-top:12pt;margin-bottom:12pt;border-style:solid;border-width:1px">
-        <p style="font-size:12pt;margin:0px;padding-left:6pt;background-color:#cda">
-            restructuring.plg
-        </p>
-        <pre style="margin:0px;padding:3px;font-family:Courier New;width:715px;max-height:500px;overflow-x:auto;overflow-y:auto">
-            ///////////////////////////////////////////////////////////////////////////
+
+        <div class="code">
+            <p>restructuring.plg</p>
+            <pre>///////////////////////////////////////////////////////////////////////////
 // This code, written in Plange (which is a work in progress),
 // presents a commented implementation of an algorithm
 // for manipulating data structures representing the
@@ -21,12 +19,12 @@ style="margin-top:12pt;margin-bottom:12pt;border-style:solid;border-width:1px">
 // a list of version pairs (tuples 'int * int', for major and
 // minor respectively):
 
-input = [ // start a list
-    (0,5),    // version 0.5
-    (1,0),    // version 1.0
-    (1,1),    // version 1.1
-    (2,0)     // version 2.0
-];        // finish the list
+input = [  // start a list
+    (0,5), // version 0.5
+    (1,0), // version 1.0
+    (1,1), // version 1.1
+    (2,0)  // version 2.0
+];         // finish the list
 
 expected = { 0:{5}, 1:{0,1}, 2:{0} };
 
@@ -50,9 +48,8 @@ Recursive_function_t = Result_t, List&lt;Int * Int&gt; -&gt; Result_t;
         return listToTree({}, version_pairs);
     };
     
-assert(listToTree(input) = expected);
-        </pre>
-    </div>
+assert(listToTree(input) = expected);</pre>
+        </div>
 
 
 
