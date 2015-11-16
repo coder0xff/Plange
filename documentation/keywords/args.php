@@ -8,19 +8,9 @@
 		<?php require('../../header.php') ?>
 
 
-  <a href="../standard-library.php">
-        Array
-    </a>
-    &lt;
-    <a href="../standard-library.php">
-        Object
-    </a>
-    &gt; containing the values of the current functions parameters. See
-    <a href="params.php">
-        params
-    </a>
-    .
+		<p><a href="../standard-library.php">Array</a>&lt;<a href="../standard-library.php">Object</a>&gt; containing the values of the current functions parameters.</p>
 
+		<p>See also: <a href="params.php">params</a>.</p>
 
 
 		<?php require('../../footer.php') ?>
