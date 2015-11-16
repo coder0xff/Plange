@@ -8,25 +8,7 @@
 		<?php require('../../header.php') ?>
 
 
-
-        <div>
-            <h4>
-                <a name="TOC-See:-type-syntax-">
-                </a>
-                <span style="line-height:1.6;font-size:10pt;background-color:transparent">
-                    See:
-                </span>
-                <a style="line-height:1.6;font-size:10pt;background-color:transparent" href="../syntax/type.php">
-                    type (syntax)
-                </a>
-            </h4>
-        </div>
-        <div>
-        </div>
-    </div>
-    <div>
-    </div>
-
+		<p>See: <a href="../syntax/type.php">type (syntax)</a></p>
 
 
 		<?php require('../../footer.php') ?>

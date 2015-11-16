@@ -8,22 +8,10 @@
 		<?php require('../../header.php') ?>
 
 
-ef="not.php">
-        not
-    </a>
-    |
-    <a href="all.php">
-        all
-    </a>
-    |
-    <a href="exists.php">
-        exists
-    </a>
-    |
-    <a href="exists_one.php">
-        exists_one
-    </a>
-
+		<div class="code">
+			<p>Syntax</p>
+			<pre><a href="not.php">not</a> | <a href="all.php">all</a> | <a href="exists.php">exists</a> | <a href="exists_one.php">exists_one</a></pre>
+		</div>
 
 
 		<?php require('../../footer.php') ?>

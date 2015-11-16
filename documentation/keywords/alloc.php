@@ -8,45 +8,17 @@
 		<?php require('../../header.php') ?>
 
 
-e a new value on the heap
-    <div>
-        <br>
-        </br>
-    </div>
-    <div>
-        Example:
-    </div>
-    <div>
-        <font color="#006000" face="monospace">
-            <div class="sites-codeblock sites-codesnippet-block">
-                Complex := class {
-                <br>
-                </br>
-                <span>
-                        Double real;
-                    <br>
-                    </br>
-                    <span>
-                            Double imaginary;
-                        <br>
-                        </br>
-                    </span>
-                    };
-                    <br>
-                    </br>
-                    <br>
-                    </br>
-                    &lt;Pointer&lt;Complex&gt;&gt; ptr := alloc(Complex);
-                </span>
-            </div>
-        </font>
-    </div>
-    Create a new value on the heap
-    <br>
-    </br>
-    <br>
-    </br>
+		<p>create a new value on the heap</p>
 
+		<div class="code">
+			<p>Example</p>
+			<pre>Complex := class {
+	Double real;
+	Double imaginary;
+};
+
+&lt;Pointer&lt;Complex&gt;&gt; ptr := <b>alloc(Complex)</b>; // create a new value on the heap</pre>
+		</div>
 
 
 		<?php require('../../footer.php') ?>

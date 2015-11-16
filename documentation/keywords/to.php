@@ -8,34 +8,11 @@
 		<?php require('../../header.php') ?>
 
 
-
-        <div>
-            following a "does" clause, creates a constraint such that the first operand and the third operand are parameters to the second operand, a binary relation function, for which the relation is true.
-            <br>
-            </br>
-            <br>
-            </br>
-        </div>
-        example:
-        <br>
-        </br>
-    </div>
-    <div class="sites-codeblock sites-codesnippet-block">
-        <code>
-            1
-            <b>
-                does
-            </b>
-            proceed
-            <b>
-                to
-            </b>
-            2;
-        </code>
-    </div>
-    <br>
-    </br>
-
+		<p>following a "does" clause, creates a constraint such that the first operand and the third operand are parameters to the second operand, a binary relation function, for which the relation is true.</p>
+		<div class="code">
+			<p>Example</p>
+			<pre>1 <b>does</b> proceed <b>to</b> 2;</pre>
+		</div>
 
 
 		<?php require('../../footer.php') ?>

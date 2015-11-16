@@ -8,88 +8,20 @@
 		<?php require('../../header.php') ?>
 
 
-
-    </div>
-    <div class="sites-codeblock sites-codesnippet-block">
-        <div>
-            <code>
-                Scope := type {
-            </code>
-        </div>
-        <div>
-            <span style="white-space:pre">
-            </span>
-            <code>
-                &lt;Array&lt;Relation&gt;&gt; relations;
-            </code>
-        </div>
-        <div>
-            <span style="white-space:pre">
-            </span>
-            <code>
-                &lt;Array&lt;Variable&gt;&gt; variables;
-            </code>
-        </div>
-        <div>
-            <span style="white-space:pre">
-            </span>
-            <code>
-                &lt;Array&lt;Statement&gt;&gt; statements;
-            </code>
-        </div>
-        <div>
-            <span style="white-space:pre">
-            </span>
-            <code>
-                &lt;Array&lt;Parameter&gt;&gt; parameters;
-            </code>
-        </div>
-        <div>
-            <span style="white-space:pre">
-            </span>
-            <code>
-                &lt;ExecutionContext&gt; instantiator;
-            </code>
-        </div>
-        <div>
-            <span style="white-space:pre">
-            </span>
-            <code>
-                &lt;SideEffectCollection&gt; sideEffects;
-            </code>
-        </div>
-        <div>
-            <span style="white-space:pre">
-            </span>
-            <code>
-                &lt;SourceCode&gt; sourceCode;
-            </code>
-        </div>
-        <div>
-            <span style="white-space:pre">
-            </span>
-            <code>
-                &lt;Bool&gt; isPure;
-            </code>
-        </div>
-        <div>
-            <span style="white-space:pre">
-            </span>
-            <code>
-                &lt;Bool&gt; isAtomic;
-            </code>
-        </div>
-        <div>
-            <code>
-                };
-            </code>
-        </div>
-        <div>
-        </div>
-    </div>
-    <br>
-    </br>
-
+		<div class="code">
+			<p>Outline</p>
+			<pre>Scope := type {
+	&lt;Array&lt;Relation&gt;&gt; relations;
+	&lt;Array&lt;Variable&gt;&gt; variables;
+	&lt;Array&lt;Statement&gt;&gt; statements;
+	&lt;Array&lt;Parameter&gt;&gt; parameters;
+	&lt;ExecutionContext&gt; instantiator;
+	&lt;SideEffectCollection&gt; sideEffects;
+	&lt;SourceCode&gt; sourceCode;
+	&lt;Bool&gt; isPure;
+	&lt;Bool&gt; isAtomic;
+};</pre>
+		</div>
 
 
 		<?php require('../../footer.php') ?>

@@ -1,28 +1,24 @@
 <meta charset='utf-8'/>
 <html>
 	<head>
-		<title>do - Plange</title>
+		<title>integral - Plange</title>
 		<link rel=StyleSheet href='../../css/general.css' type='text/css' />
 	</head>
 	<body>
 		<?php require('../../header.php') ?>
 
-
-		<h2>while</h2>
+		<div class="code">
+			<p>Usage</p>
+			<pre>"∫(" expression, identifier ("(-"|"∈") expression ")"</pre>
+		</div>
 		<div class="code">
 			<p>Example</p>
-			<pre>do {
-	gameLogic();
-} while (gameIsRunning);</pre>
+			<pre>1 = ∫(dirac_delta(x), x ∈ [-infinity to infinity]);</pre>
 		</div>
-		<h2>until</h2>
 		<div class="code">
 			<p>Example</p>
-			<pre>do {
-	gameLogic();
-} until (gameIsExiting);</pre>
+			<pre>pi := ∫(√(1 - i(0)^2 - i(1)^2), i ∈ [-1.0 to 1.0]^2) / (4/3);</pre>
 		</div>
-		<p>See: <a href="../syntax/do.php">do (syntax)</a></p>
 
 
 		<?php require('../../footer.php') ?>

@@ -8,18 +8,10 @@
 		<?php require('../../header.php') ?>
 
 
-style="font-size:13.3333330154419px" class="sites-codeblock sites-codesnippet-block">
-        <code>
-            "∏(" expression, identifier ("(-"|"∈") expression ")"
-        </code>
-    </div>
-    <div>
-        <code>
-            <br>
-            </br>
-        </code>
-    </div>
-
+        <div class="code">
+            <p>Usage</p>
+            <pre>"∏(" expression, identifier ("(-"|"∈") expression ")"</pre>
+        </div>
 
 
 		<?php require('../../footer.php') ?>

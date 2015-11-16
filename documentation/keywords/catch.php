@@ -8,107 +8,20 @@
 		<?php require('../../header.php') ?>
 
 
- any exceptions thrown within the preceding try block
-    <div>
-        <br>
-        </br>
-    </div>
-    <div>
-        Example:
-    </div>
-    <div>
-    </div>
-    <div class="sites-codeblock sites-codesnippet-block">
-        <div>
-            <code>
-                try {
-            </code>
-        </div>
-        <div>
-            <span>
-                <code>
-                        open("test.txt");
-                </code>
-            </span>
-            <br>
-            </br>
-        </div>
-        <div>
-            <span>
-                <code>
-                    } catch (File.NotFoundException) {
-                </code>
-            </span>
-        </div>
-        <div>
-            <span>
-                <span>
-                    <code>
-                        <span>
-                                print
-                        </span>
-                        ("test.txt was not found in the working directory);
-                    </code>
-                </span>
-                <br>
-                </br>
-            </span>
-        </div>
-        <div>
-            <span>
-                <code>
-                    } finally {
-                    <br>
-                    </br>
-                </code>
-            </span>
-        </div>
-        <div>
-            <span>
-                <code>
-                    <span>
-                           
-                    </span>
-                    <span>
-                        // todo: cleanup    
-                    </span>
-                    <span>
-                           
-                    </span>
-                    <br>
-                    </br>
-                </code>
-            </span>
-        </div>
-        <div>
-            <span>
-                <code>
-                    }
-                    <br>
-                    </br>
-                </code>
-            </span>
-        </div>
-    </div>
-    <div>
-        <br>
-        </br>
-    </div>
-    <div>
-        See: 
-        <a href="try.php">
-            try
-        </a>
-         
-        <a href="finally.php">
-            finally
-        </a>
-         See also:
-        <a href="../syntax/try.php">
-            try (syntax)
-        </a>
-    </div>
+		<p>handle any exceptions thrown within the preceding try block</p>
+		<div class="code">
+			<p>Example</p>
+			<pre>try {
+	open("test.txt");
+} catch (File.NotFoundException) {
+	print("test.txt was not found in the working directory);
+} finally {
+	print("done");
+}</pre>
+		</div>
 
+		<p>See: <a href="try.php">try</a>, <a href="finally.php">finally</a></p>
+		<p>See also: <a href="../syntax/try.php">try (syntax)</a></p>
 
 
 		<?php require('../../footer.php') ?>

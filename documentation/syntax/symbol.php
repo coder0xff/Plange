@@ -8,21 +8,11 @@
 		<?php require('../../header.php') ?>
 
 
-e that uniquely identifies a constant or variable.
-    <a href="../../system/errors/NodeNotFound1ee9.php?suri=wuid:gx:9fb98446ab8970c" class="disabled">
-        <br>
-        </br>
-    </a>
-    <div>
-        <br>
-        </br>
-    </div>
-    <div class="sites-codeblock sites-codesnippet-block">
-        <code>
-            [a-zA-Z][a-zA-Z0-9_]*
-        </code>
-    </div>
-
+        <p>text that uniquely identifies a constant or variable</p>
+        <div class="code">
+            <p>Regex</p>
+            <pre>[a-zA-Z][a-zA-Z0-9_]*</pre>
+        </div>
 
 
 		<?php require('../../footer.php') ?>

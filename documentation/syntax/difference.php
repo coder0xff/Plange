@@ -8,31 +8,12 @@
 		<?php require('../../header.php') ?>
 
 
-yle="font-size:13.3333330154419px;line-height:21.3333320617676px" href="expression.php">
-        expression
-    </a>
-     "/" 
-    <a style="font-size:13.3333330154419px;line-height:21.3333320617676px" href="expression.php">
-        expression
-    </a>
-    <br>
-    </br>
-    <br>
-    </br>
-    Note: this is collection difference, which is similar to set difference.
-    <div>
-        <br>
-        </br>
-    </div>
-    <div>
-        <span style="font-size:13.3333px;line-height:21.3333px">
-            See: 
-        </span>
-        <a style="font-size:13.3333px;line-height:21.3333px" href="../operators.php">
-            Operators
-        </a>
-    </div>
-
+		<div class="code">
+			<p>Syntax</p>
+			<pre><a href="expression.php">expression</a> "/" <a href="expression.php">expression</a></pre>
+		</div>
+		<h2>Notes</h2>
+		<p>This is collection difference, which is similar but different to set difference. Specifically, repeated elements are permitted in the collections specified in both the left and/or right hand operands.</p>
 
 
 		<?php require('../../footer.php') ?>

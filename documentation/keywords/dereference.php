@@ -8,43 +8,10 @@
 		<?php require('../../header.php') ?>
 
 
-s the value at a memory address specified by a Pointer.
-    <div>
-        <br>
-        </br>
-    </div>
-    <div>
-        Notes: 
-        <span style="font-size:13.3333px;line-height:21.3333px;background-color:transparent">
-            Use of the 
-        </span>
-        dereference
-        <span style="font-size:13.3333px;line-height:21.3333px;background-color:transparent">
-             keyword will often cause the containing code block to be implicitly 
-        </span>
-        <a style="font-size:13.3333px;line-height:21.3333px;background-color:transparent" href="imperative.php">
-            imperative
-        </a>
-        <span style="font-size:13.3333px;line-height:21.3333px;background-color:transparent">
-            . That is, static analysis may not be able to model the behavior of random memory access.
-        </span>
-    </div>
-    <div>
-        <span style="font-size:13.3333px;line-height:21.3333px;background-color:transparent">
-            <br>
-            </br>
-        </span>
-    </div>
-    <div>
-        Example:
-    </div>
-    <div>
-        see 
-        <a href="address_of.php">
-            address_of
-        </a>
-    </div>
-
+		<p>returns the value at a memory address specified by a <a href="documentation/standard-library/pointer.php">Pointer</a></p>
+		<h2>Notes</h2>
+		<p>Use of the dereference keyword will often cause the containing code block to be implicitly <a href="imperative.php">imperative</a>. That is, static analysis may not be able to model the behavior of random memory access.
+		<p>See also: <a href="address_of.php">address_of</a></p>
 
 
 		<?php require('../../footer.php') ?>

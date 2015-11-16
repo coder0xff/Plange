@@ -8,24 +8,10 @@
 		<?php require('../../header.php') ?>
 
 
- <span style="font-size:13.3333330154419px;line-height:21.3333320617676px;white-space:pre">
-        ∃!" expression
-    </span>
-    <div>
-        <span style="font-size:13.3333330154419px;line-height:21.3333320617676px;white-space:pre">
-            <br>
-            </br>
-        </span>
-    </div>
-    <div>
-        <span style="font-size:13.3333px;line-height:21.3333px">
-            See: 
-        </span>
-        <a style="font-size:13.3333px;line-height:21.3333px" href="../operators.php">
-            Operators
-        </a>
-    </div>
-
+		<div class="code">
+			<p>Syntax</p>
+			<pre>"∃!" <a href="expression.php">expression</a></pre>
+		</div>
 
 
 		<?php require('../../footer.php') ?>

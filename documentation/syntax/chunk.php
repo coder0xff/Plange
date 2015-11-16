@@ -8,35 +8,12 @@
 		<?php require('../../header.php') ?>
 
 
-s the left hand side collection into a collection of collections, with right hand side elements
-    <br>
-    </br>
-    <br>
-    </br>
-    <a style="font-size:13.3333330154419px;line-height:21.3333320617676px" href="expression.php">
-        expression
-    </a>
-     "/" 
-    <a style="font-size:13.3333330154419px;line-height:21.3333320617676px" href="expression.php">
-        expression
-    </a>
-    <div>
-        <br>
-        </br>
-    </div>
-    <div>
-        <span style="font-size:13.3333px;line-height:21.3333px">
-            See:
-            <a href="chunk_modulo.php">
-                chunk_modulo
-            </a>
-            , 
-        </span>
-        <a style="font-size:13.3333px;line-height:21.3333px" href="../operators.php">
-            Operators
-        </a>
-    </div>
-
+		<p>splits the left hand side collection into a collection of collections</p>
+		<div class="code">
+			<p>Syntax</p>
+			<pre><a href="expression.php">expression</a> "/" <a href="expression.php">expression</a></pre>
+		</div>
+		<p>See: <a href="chunk_modulo.php">chunk_modulo</a></p>
 
 
 		<?php require('../../footer.php') ?>

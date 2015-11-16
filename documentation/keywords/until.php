@@ -8,42 +8,14 @@
 		<?php require('../../header.php') ?>
 
 
-e specified condition is not met, execute the following code block until that condition is met. See 
-    <a href="do.php">
-        do
-    </a>
-     for an alternate meaning.
-    <div>
-        <br>
-        </br>
-    </div>
-    <div>
-        Example:
-    </div>
-    <div>
-    </div>
-    <div class="sites-codeblock sites-codesnippet-block">
-        <div>
-            <code>
-                until (asleep) {
-            </code>
-        </div>
-        <div>
-            <span>
-                <code>
-                        countSheep();
-                </code>
-            </span>
-            <br>
-            </br>
-        </div>
-        <div>
-            <code>
-                };
-            </code>
-        </div>
-    </div>
+		<p>if a specified condition is not met, execute the following code block until that condition is met</p>
 
+		<p>See: <a href="do.php">do</a> for an alternate usage.</p>
+		<div class="code">
+			<p>Example</p>
+			<pre>until (asleep) {
+	countSheep();
+};</pre>
 
 
 		<?php require('../../footer.php') ?>

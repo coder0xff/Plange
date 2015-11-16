@@ -8,17 +8,10 @@
 		<?php require('../../header.php') ?>
 
 
-   <a href="expression.php">
-        expression
-    </a>
-    (", "
-    <a href="expression.php">
-        expression
-    </a>
-    )* ")"
-    <br>
-    </br>
-
+        <div class="code">
+            <p>Syntax></p>
+            <pre><a href="expression.php">expression</a> (", " <a href="expression.php">expression</a> )* ")"</pre>
+        </div>
 
 
 		<?php require('../../footer.php') ?>

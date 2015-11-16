@@ -8,50 +8,22 @@
 		<?php require('../../header.php') ?>
 
 
-style="font-size:13.3333330154419px;line-height:21.3333320617676px">
-        <div class="sites-codeblock sites-codesnippet-block">
-            <code>
-                "[" [expression (", " expression)*] "]"
-            </code>
-        </div>
-        <br>
-        </br>
-    </div>
-    <div style="font-size:13.3333330154419px;line-height:21.3333320617676px">
-        examples:
-        <br>
-        </br>
-    </div>
-    <div style="font-size:13.3333330154419px;line-height:21.3333320617676px">
-        <div class="sites-codeblock sites-codesnippet-block">
-            <code>
-                []
-            </code>
-        </div>
-        <div class="sites-codeblock sites-codesnippet-block">
-            <code>
-                [1, 5, 2, 2, 2]
-            </code>
-        </div>
-        <div class="sites-codeblock sites-codesnippet-block">
-            <code>
-                short_days_of_week := 
-                <b>
-                    ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
-                </b>
-                ;
-            </code>
-        </div>
-        <div>
-            <code>
-                <br>
-                </br>
-            </code>
-        </div>
-    </div>
-    <div style="font-size:13.3333330154419px;line-height:21.3333320617676px">
-    </div>
-
+		<div class="code">
+			<p>Syntax</p>
+			<pre>"[" [expression (", " expression)*] "]"</pre>
+		</div>
+		<div class="code"> 
+			<p>Example (the empty list)</p>
+			<pre>[]</pre>
+		</div>
+		<div class="code"> 
+			<p>Example</p>
+			<pre>[1, 5, 2, 2, 2]</pre>
+		</div>
+		<div class="code"> 
+			<p>Example</p>
+			<pre>short_days_of_week := ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];</pre>
+		</div>
 
 
 		<?php require('../../footer.php') ?>

@@ -7,35 +7,9 @@
 	<body>
 		<?php require('../../header.php') ?>
 
-
-
-        <span style="line-height:1.6;font-size:10pt;background-color:transparent">
-            A
-        </span>
-        <a style="line-height:1.6;font-size:10pt;background-color:transparent" href="../standard-library.php">
-            Map
-        </a>
-        <span style="line-height:1.6;font-size:10pt;background-color:transparent">
-            &lt;
-        </span>
-        <a style="line-height:1.6;font-size:10pt;background-color:transparent" href="../standard-library.php">
-            Parameter
-        </a>
-        <span style="line-height:1.6;font-size:10pt;background-color:transparent">
-            -&gt;
-        </span>
-        <a style="line-height:1.6;font-size:10pt;background-color:transparent" href="../standard-library.php">
-            Object
-        </a>
-        <span style="line-height:1.6;font-size:10pt;background-color:transparent">
-            &gt; representing the formal parameters to the current function, and the values that were passed in the invocation. See
-            <a href="args.php">
-                args
-            </a>
-            .
-        </span>
-    </div>
-
+		
+		<p>a <a href="../standard-library.php">Map</a>&lt;<a href="../standard-library.php">Parameter</a> -&gt; <a href="../standard-library.php">Object</a>&gt; representing the formal parameters to the current function, and the values that were passed in the invocation.</p>
+		<p>See also: <a href="args.php">args</a>.</p>
 
 
 		<?php require('../../footer.php') ?>

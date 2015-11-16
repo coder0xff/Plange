@@ -8,29 +8,10 @@
 		<?php require('../../header.php') ?>
 
 
-style="font-size:13.3333330154419px" class="sites-codeblock sites-codesnippet-block">
-        <code>
-            <span style="font-size:13.3333330154419px;line-height:13.3333330154419px">
-                "⌊" expression "⌋" | 
-            </span>
-            "|_" expression "_|"
-        </code>
-    </div>
-    <div>
-        <span style="font-size:13.3333px;line-height:21.3333px">
-            <br>
-            </br>
-        </span>
-    </div>
-    <div>
-        <span style="font-size:13.3333px;line-height:21.3333px">
-            See: 
-        </span>
-        <a style="font-size:13.3333px;line-height:21.3333px" href="../operators.php">
-            Operators
-        </a>
-    </div>
-
+        <div class="code">
+            <p>Syntax</p>
+            <pre>( "⌊" expression "⌋" ) | ( "|_" expression "_|" )</pre>
+        </div>
 
 
 		<?php require('../../footer.php') ?>

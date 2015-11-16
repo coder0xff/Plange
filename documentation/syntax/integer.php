@@ -7,17 +7,12 @@
 	<body>
 		<?php require('../../header.php') ?>
 
-
-("1"|"2"|"3"|"4"|"5"|"6"|"7"|"8"|"9")
-    <span style="font-size:13.3333330154419px;line-height:21.3333320617676px">
-        ("0"|"1"|"2"|"3"|"4"|"5"|"6"|"7"|"8"|"9")*
-        <br>
-        </br>
-        <br>
-        </br>
-        Notes: The first digit may not be a zero
-    </span>
-
+		<div class="code">
+			<p>Syntax</p>
+			<pre>("1"|"2"|"3"|"4"|"5"|"6"|"7"|"8"|"9") ("0"|"1"|"2"|"3"|"4"|"5"|"6"|"7"|"8"|"9")*</pre>
+		</div>
+		<h2>Notes</h2>
+		<p>The first digit may not be a zero.</p>
 
 
 		<?php require('../../footer.php') ?>

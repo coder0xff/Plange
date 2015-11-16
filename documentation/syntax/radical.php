@@ -8,20 +8,11 @@
 		<?php require('../../header.php') ?>
 
 
-x alternative to expression ^ 0.5
-    <div>
-        <br>
-        </br>
-        <div>
-            <div class="sites-codeblock sites-codesnippet-block">
-                <code>
-                    "√(" expression ")"
-                </code>
-            </div>
-        </div>
-    </div>
-    special characters: U+221A
-
+		<p>a syntax alternative to <code>expression ^ 0.5</code></p>
+		<div class="code">
+			<p>Syntax</p>
+			<pre>"√(" expression ")"</pre>
+		</div>
 
 
 		<?php require('../../footer.php') ?>

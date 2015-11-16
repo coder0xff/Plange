@@ -8,97 +8,23 @@
 		<?php require('../../header.php') ?>
 
 
-
-        <div>
-            Create an open, closed, or half open Set containing a range. It may be either discreet or continuous.
-            <br>
-            </br>
-        </div>
-        <div>
-            <br>
-            </br>
-            <div class="sites-codeblock sites-codesnippet-block">
-                <code>
-                    "(" "..."
-                </code>
-                <a href="expression.php">
-                    <code>
-                        expression
-                    </code>
-                </a>
-                <code>
-                    ("]"|")") |
-                    <br>
-                    </br>
-                </code>
-                <br>
-                </br>
-                <code>
-                    ("["|"(")
-                </code>
-                <a href="expression.php">
-                    <code>
-                        expression
-                    </code>
-                </a>
-                <code>
-                    "..." ")" |
-                    <br>
-                    </br>
-                </code>
-                <br>
-                </br>
-                <code>
-                    ("("|"[")
-                </code>
-                <a href="expression.php">
-                    <code>
-                        expression
-                    </code>
-                </a>
-                <code>
-                    "..."
-                </code>
-                <a href="expression.php">
-                    <code>
-                        expression
-                    </code>
-                </a>
-                <code>
-                    ("]"|")")
-                </code>
-            </div>
-            <br>
-            </br>
-        </div>
-    </div>
-    <div>
-        examples:
-    </div>
-    <div>
-    </div>
-    <div class="sites-codeblock sites-codesnippet-block">
-        <div>
-            <code>
-                [ 0 ... ) // the non negative integers - the set is infinite and denumerable
-            </code>
-        </div>
-        <div>
-            <code>
-                [ 1 ... n ] // the integers 1 to n inclusive - the set is finite and denumerable
-            </code>
-        </div>
-        <div>
-            <code>
-                ( ... 0.0 ) // the negative real numbers - the set is infinite and nondenumerable
-            </code>
-        </div>
-    </div>
-    <div>
-        <br>
-        </br>
-    </div>
-
+		<p>creates an open, closed, or half open Set containing a range. It may be either discreet or continuous.</p>
+		<div class="code">
+			<p>Syntax</p>
+			<pre>"(" "..." <a href="expression.php">expression</a> ("]"|")") | ("["|"(") <a href="expression.php">expression</a> "..." ")" | ("("|"[") <a href="expression.php">expression</a> "..." <a href="expression.php">expression</a> ("]"|")")</pre>
+		</div>
+		<div class="code">
+			<p>Example</p>
+			<pre>[ 0 ... ) // the non negative integers - the set is infinite and denumerable</pre>
+		</div>
+		<div>
+			<p>Example</p>
+			<pre>[ 1 ... n ] // the integers 1 to n inclusive - the set is finite and denumerable</pre>
+		</div>
+		<div>
+			<p>Example</p>
+			<pre>( ... 0.0 ) // the negative real numbers - the set is infinite and nondenumerable</pre>
+		</div>
 
 
 		<?php require('../../footer.php') ?>

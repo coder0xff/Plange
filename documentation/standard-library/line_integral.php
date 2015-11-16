@@ -1,16 +1,16 @@
 <meta charset='utf-8'/>
 <html>
 	<head>
-		<title>addition - Plange</title>
+		<title>∮ (product integral) - Plange</title>
 		<link rel=StyleSheet href='../../css/general.css' type='text/css' />
 	</head>
 	<body>
 		<?php require('../../header.php') ?>
 
-		
+
 		<div class="code">
-			<p>Syntax</p>
-			<pre><a href="expression.php">expression</a> "+" <a href="expression.php">expression</a></pre>
+			<p>Usage</p>
+			<pre>"∮(" expression, identifier ("(-"|"∈") expression ")"</pre>
 		</div>
 
 
