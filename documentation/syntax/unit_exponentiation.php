@@ -8,14 +8,11 @@
 		<?php require('../../header.php') ?>
 
 
-yle="font-size:13.3333330154419px;line-height:21.3333320617676px" href="symbol.php">
-        identifier
-    </a>
-     "^"
-    <a href="integer.php">
-        integer
-    </a>
-
+		<p>used in <a href="dimensional_number.php">dimensional_number</a>
+		<div class="code">
+			<p>Syntax</p>
+			<pre><a href="symbol.php">identifier</a> "^" <a href="integer.php">integer</a></pre>
+		</div>
 
 
 		<?php require('../../footer.php') ?>

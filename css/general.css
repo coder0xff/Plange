@@ -84,3 +84,7 @@
 #left-margin {
     padding-left: 250px;
 }
+
+table, th, td {
+   border: 1px solid black;
+}

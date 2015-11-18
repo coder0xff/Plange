@@ -85,9 +85,9 @@
     <p>Variables are symbols which hold a value that can change.</p>
     <div class="code">
         <p>Example</p>
-        <pre>color &lt;- "Blue";
+        <pre>color ← "Blue";
 print(color);
-color &lt;- "Red";
+color ← "Red";
 print(color);</pre>
     </div>
     <p>The above program outputs the following text:</p>
