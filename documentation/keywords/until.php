@@ -8,9 +8,7 @@
 		<?php require('../../header.php') ?>
 
 
-		<p>if a specified condition is not met, execute the following code block until that condition is met</p>
-
-		<p>See: <a href="do.php">do</a> for an alternate usage.</p>
+		<p>if a specified condition is not met, execute the following code block until that condition is met (See <a href="do.php">do</a> for alternate use)</p>
 		<div class="code">
 			<p>Example</p>
 			<pre>until (asleep) {

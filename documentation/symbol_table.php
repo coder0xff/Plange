@@ -7,7 +7,6 @@
 	<body>
 		<?php require('../header.php') ?>
 		
-Test
 		<table>
 			<tbody>
 				<tr>
