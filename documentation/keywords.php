@@ -6,6 +6,7 @@
 	</head>
 	<body>
 		<?php require('../header.php') ?>
+		
 
 		<h2>Subpage Listing</h2>
 		<ul>

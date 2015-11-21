@@ -114,7 +114,7 @@
           statement. As such, functions for printing, manipulating files,
           and other basic operations are automatically in scope of each
           translation unit. See
-            <a href="../documentation/standard-library.php">Standard Library</a>. Further, the bar to entry must be low for provisioning
+            <a href="/documentation/standard-library.php">Standard Library</a>. Further, the bar to entry must be low for provisioning
           and for typical use. Accessibility is critical to good adoption.
         </div>
         <h2>

@@ -77,6 +77,7 @@
     <p>The symbol <code>π</code> is an identifier for the pi
       constant. It can be substituted in places where pi is needed, and
       provides arbitrarily high precision.</p>
+    <p>As you've probably noticed, there's no π key on your keyboard. That's ok. The plange editor will change " pi " (gotta have the spaces, but not the quotes) into π. It's just a <a href="http://www.fileformat.info/info/unicode/char/03c0/index.htm">UTF character</a>. If your editor doesn't auto-replace " pi ", that's ok too. The interpreter will know what you mean if you just write "pi".
     <p>Constants are created using the definition operator <code>:=</code></p>
     <div class="code">
         <p>Example</p>
