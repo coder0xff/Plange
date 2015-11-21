@@ -1,7 +1,7 @@
 <meta charset='utf-8'/>
 <html>
     <head>
-        <title>index.html</title>
+        <title>Goals - Plange</title>
         <link rel=StyleSheet href='../css/general.css' type='text/css' />
     </head>
     <body>
@@ -25,9 +25,7 @@
         discover new potential domains rather than boundaries. A small
         number of specific goals stem from this notion, and provide an
         outline for the project.
-        <h2>
-            Strongly-Connected Model of Computation
-        </h2>
+        <h2>Strongly-Connected Model of Computation</h2>
         A key concept for maximizing power and flexibility, and proof that
         plange does not obstruct any use case. See the
         <a href="strongly-connected-model-of-computation.php">main page</a>.
