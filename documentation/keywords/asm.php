@@ -8,7 +8,7 @@
         <?php require('../../header.php') ?>
         
 
-        <p>indicates that the following block of code enclosed in curly braces is assembler instructions, and creates a nullary void function object.</p>
+        <p>indicates that the following block of code enclosed in curly braces is assembler instructions, and creates a nullary void function object</p>
         <div class="code">
             <p>Example</p>
             <pre>&lt;Float32x3 * Float32x3 -&gt; Float32x3&gt; crossMultiply := (lhs, rhs) =&gt; {
