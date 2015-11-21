@@ -104,7 +104,7 @@
           differentials, and other problem domains are solved symbolically,
           or numeric methods are used at runtime. This is achieved through
           the integration of
-            <a href="../../../external.php?link=http://www.sagemath.org/" rel="nofollow">SageMath</a> and SAT solving into the tool chain.</p>
+            <a href="http://www.sagemath.org/" rel="nofollow">SageMath</a> and SAT solving into the tool chain.</p>
         <h2>
             Scripting friendly
         </h2>
