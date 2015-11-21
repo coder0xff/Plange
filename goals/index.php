@@ -38,7 +38,7 @@
         </h2>
         <p>
             Support semantics from each
-            <a href="../../../external.php?link=https://en.wikipedia.org/wiki/Programming_language_generations" rel="nofollow">generation of programming language</a>.</p>
+            <a href="https://en.wikipedia.org/wiki/Programming_language_generations" rel="nofollow">generation of programming language</a>.</p>
         <ul>
             <li>
                 Memory models
