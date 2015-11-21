@@ -14,7 +14,7 @@
 			<li><a href="/documentation/keywords/address_of.php">address_of</a></li>
 			<li><a href="/documentation/keywords/alloc.php">alloc</a></li>
 			<li><a href="/documentation/keywords/args.php">args</a></li>
-			<li><a href="/documentation/keywords/arm.php">asm</a></li>
+			<li><a href="/documentation/keywords/asm.php">asm</a></li>
 			<li><a href="/documentation/keywords/at.php">at</a></li>
 			<li><a href="/documentation/keywords/atomic.php">atomic</a></li>
 			<li><a href="/documentation/keywords/box.php">box</a></li>
