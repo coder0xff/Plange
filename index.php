@@ -270,6 +270,42 @@ Maybe := (t) { return Some&lt;t&gt; | None; };
 print(get_age);</pre>
 		</div>
 
+		<h2>Synthesis</h2>
+		<p>Constraints are solved using symbolic and numerical methods.</p>
+		<div class="code">
+			<p>Example</p>
+			<pre>damped_spring_curve := (startPos, startVel, stiffness, mass, damping, time) {
+				mass * f''(t) + damping * f'(t) + stiffness * f(t) = 0;
+				f(0) = startPos;
+				f'(0) = startVel;
+				return f(time); 
+			}</pre>
+		</div>
+		<p>Let's take these one at a time.</p>
+		<div class="code">
+			<pre>damped_spring_curve := (startPos, startVel, stiffness, mass, damping, time) {</pre>
+		</div>
+		<p>This line begins the creation of the function "damped_spring_curve." It models a weight attached to a spring and damper in one dimension. <small>(See: <a href="https://en.wikipedia.org/wiki/Damping#Example:_mass.E2.80.93spring.E2.80.93damper">Wikipedia</a>)</small> The <code>startPos</code> and <code>startVel</code> inputs define where the weight is (f), and what the weight's velocity is (f') at the start (t<sub>0</sub>). The stiffness, mass, and damping parameters describe the spring, weight, and damper respectively.</p>
+		<div class="code">
+			<pre>mass * f''(t) + damping * f'(t) + stiffness * f(t) = 0;</pre>
+		</div>
+		<p>The second order differential equation describing the system.</p>
+		<div class="code">
+			<pre>f(0) = startPos;
+f'(0) = startVel;</pre>
+		</div>
+		<p>These set the value of the function and its first derivative at t<sub>0</sub>, as required by the function. These three equations make a system of constraints.
+		<div class="code">
+			<pre>return f(time);</pre>
+		</div>
+		<p>Based on the preceeding lines, f is only known through constraints. These constraints form an <a href="https://en.wikipedia.org/wiki/Initial_value_problem">initial value problem</a>, a problem domain within the purview of computer algebra. By calling the function f, the closed form solution is computed.</p>
+		<div class="code">
+			temp0 := 
+			temp1 := 
+			temp2 := 
+			f = temp1 * e ^ (temp0 + time) + temp2 * e ^ (temp0 - time)
+		</div>
+
 		<?php require('footer.php') ?>
 	</body>
 </html>
