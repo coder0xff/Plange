@@ -1,0 +1,3 @@
+[submodule "source/parlex"]
+	path = source/parlex
+	url = https://github.com/coder0xff/parlex.git
