@@ -19,25 +19,25 @@
 // a list of version pairs (tuples 'int * int', for major and
 // minor respectively):
 
-input = [  // start a list
+input := [ // start a list
     (0,5), // version 0.5
     (1,0), // version 1.0
     (1,1), // version 1.1
     (2,0)  // version 2.0
 ];         // finish the list
 
-expected = { 0:{5}, 1:{0,1}, 2:{0} };
+expected := { 0 → {5}, 1 → {0,1}, 2 → {0} };
 
 // The structure of the result object - the tree above:
-Result_t = Map&lt;Int, Set&lt;Int&gt;&gt;;
+Result_t := Map&lt;Int, Set&lt;Int&gt;&gt;;
 
 // A signature for a tail recursive function that builds the result:
-Recursive_function_t = Result_t, List&lt;Int * Int&gt; -&gt; Result_t;
+Recursive_function_t := Result_t * List&lt;Int * Int&gt; → Result_t;
 
 // The algorithm
-&lt;Recursive_function_t&gt; listToTree =
+&lt;Recursive_function_t&gt; listToTree :=
     (state, ((major, minor):tail) {
-        &lt;Set&lt;Int&gt;&gt; s = state.get_or_add(major, Set&lt;Int&gt;());
+        &lt;Set&lt;Int&gt;&gt; s := state.get_or_add(major, Set&lt;Int&gt;());
         s.add(minor);
         return listToTree(state, tail);
     } |

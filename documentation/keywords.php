@@ -20,12 +20,10 @@
 			<li><a href="/documentation/keywords/atomic.php">atomic</a></li>
 			<li><a href="/documentation/keywords/box.php">box</a></li>
 			<li><a href="/documentation/keywords/break.php">break</a></li>
-			<li><a href="/documentation/keywords/case.php">case (deprecated)</a></li>
 			<li><a href="/documentation/keywords/casts.php">casts</a></li>
 			<li><a href="/documentation/keywords/catch.php">catch</a></li>
-			<li><a href="/documentation/keywords/const.php">const (deprecated)</a></li>
 			<li><a href="/documentation/keywords/context.php">context</a></li>
-			<li><a href="/documentation/keywords/continue.php">continue (removed)</a></li>
+			<li><a href="/documentation/keywords/continue.php">continue</a></li>
 			<li><a href="/documentation/keywords/ctor.php">ctor</a></li>
 			<li><a href="/documentation/keywords/dereference.php">dereference</a></li>
 			<li><a href="/documentation/keywords/do.php">do</a></li>
@@ -56,11 +54,9 @@
 			<li><a href="/documentation/keywords/protected_internal.php">protected_internal</a></li>
 			<li><a href="/documentation/keywords/public.php">public</a></li>
 			<li><a href="/documentation/keywords/pure.php">pure</a></li>
-			<li><a href="/documentation/keywords/record.php">record</a></li>
 			<li><a href="/documentation/keywords/reinterpret_cast.php">reinterpret_cast</a></li>
 			<li><a href="/documentation/keywords/stable.php">stable</a></li>
 			<li><a href="/documentation/keywords/static.php">static</a></li>
-			<li><a href="/documentation/keywords/switch.php">switch (deprecated)</a></li>
 			<li><a href="/documentation/keywords/this.php">this</a></li>
 			<li><a href="/documentation/keywords/this_type.php">this_type</a></li>
 			<li><a href="/documentation/keywords/throws.php">throws</a></li>

@@ -12,11 +12,7 @@
 		<li><a href="/documentation/standard-library.php">Standard Library</a></li>
 		<li><a href="/documentation/syntax.php">Syntax</a></li>
 		<li><a href="/documentation/glossary.php">Glossary</a></li>
-		<li><a href="/documentation/operators.php">Opeartors</a></li>
-		<li><a href="/documentation/properties.php">Properties</a></li>
-		<li><a href="/documentation/quote-comment-embedding.php">Embedding</a></li>
-		<li><a href="/documentation/reflection.php">Reflection</a></li>
-		<li><a href="/documentation/using-types.php">Type System</a></li>
+		<li><a href="/documentation/operators.php">Operators</a></li>
 	</ul>
 </li>
 <li><a href="/contribute.php">Contribute</a></li>

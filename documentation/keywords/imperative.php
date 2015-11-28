@@ -8,18 +8,9 @@
 		<?php require('../../header.php') ?>
 
 
-used in the function syntax, indicates that a functions behavior (side effects) is not tractable
-    <div>
-        <br>
-        </br>
-    </div>
-    <div>
-        Notes:
-    </div>
-    <div>
-        The imperative keyword indicates to the compiler that it should not attempt to model the behavior of the function for the purposes of optimization and introspection. Functions that cannot be statically analyzed in a predetermined time frame are assumed to be imperative. This hint avoids the computational cost involved, thereby improving performance.
-    </div>
-
+        <p>used in the function syntax, indicates that a functions behavior (side effects) is not tractable</p>
+        <h2>Notes</h2>
+        <p>The imperative keyword indicates to the compiler that it should not attempt to model the behavior of the function for the purposes of optimization and introspection. Functions that cannot be statically analyzed in a predetermined time frame are assumed to be imperative. This hint avoids the computational cost involved, thereby improving performance.</p>
 
 
 		<?php require('../../footer.php') ?>

@@ -85,7 +85,9 @@
 		</div>
 		<p>The symbol <code>π</code> is an identifier for the pi
 			constant. It can be substituted in places where pi is needed, and
-			provides arbitrarily high precision. As you've probably noticed, there's no π key on your keyboard. The plange editor will change <code>" pi "</code> (must have the spaces, but not the quotes) into π. It's just a <a href="http://www.fileformat.info/info/unicode/char/03c0/index.htm">UTF character</a>. If your editor doesn't auto-replace " pi ", that's ok too. The interpreter will know what you mean if you just write "pi".
+			provides arbitrarily high precision.</p>
+		
+		<p><span style="color: red">IMPORTANT!</span> As you've probably noticed, there's no π key on your keyboard. The plange editor will change <code>" pi "</code> (must have the spaces, but not the quotes) into π. It's just a <a href="http://www.fileformat.info/info/unicode/char/03c0/index.htm">UTF character</a>. If your editor of choice doesn't auto-replace " pi ", that's ok too. The interpreter will know what you mean if you just write "pi".</p>
 		<p>Constants are created using the definition operator <code>:=</code></p>
 		<div class="code">
 				<p>Example</p>

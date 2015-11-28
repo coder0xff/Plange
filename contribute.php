@@ -1,11 +1,11 @@
 <meta charset='utf-8'/>
 <html>
 	<head>
-		<title>add_sub - Plange</title>
-		<link rel=StyleSheet href='../../css/general.css' type='text/css' />
+		<title>Contribute - Plange</title>
+		<link rel=StyleSheet href='css/general.css' type='text/css' />
 	</head>
 	<body>
-		<?php require('../../header.php') ?>
+		<?php require('header.php') ?>
 
 
 		<p>Plange is an ambitious computer science and engineering project, still in the earliest stages.

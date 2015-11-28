@@ -92,7 +92,7 @@
 				</tr>
 			</tbody>
 		</table>
-		<p>See also: <a href="/goals/strongly-connected-model-of-computation">Strongly Connected Model Of Computation</a></p>
+		<p>See also: <a href="/goals/strongly-connected-model-of-computation.php">Strongly Connected Model Of Computation</a></p>
 
 
 		<?php require('../footer.php') ?>
