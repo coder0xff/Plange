@@ -35,7 +35,7 @@
 		<h4>parser</h4>
 		<div>a program that identifies the syntactic structure of a piece of text, using provided grammar rules</div>
 		<h4>platform</h4>
-		<div>the hardware, firmware, <b>software</b>, and data that make up the basic operational components of a <b>computer</b>, and more specifically the formal properties of its <b>implementation</b> and <b>behavior</b> (e.g. <b>memory model</b>, <b>instruction set</b>, <b>calling convention</b>, or <b>application binary interface</b>)</div>
+		<div>the hardware, firmware, <b>software</b>, and data that make up the basic operational components of a computer, and more specifically the formal properties of its <b>implementation</b> and <b>behavior</b> (e.g. <b>memory model</b>, <b>instruction set</b>, <b>calling convention</b>, or <b>application binary interface</b>)</div>
 		<h4>program</h4>
 		<div>formally, a representation of one or more <b>algorithms</b> that may be linearized (made sequential) and executed by a Turing machine, but colloquially any collection of <b>software</b> and&nbsp;data</div>
 		<h4>programming language</h4>
