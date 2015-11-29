@@ -10,9 +10,9 @@
 
         <h2>Subpage Listing</h2>
         <ul>
-            <li><a href="/documentation/keywords/">Keywords</a></li>
+            <li><a href="/documentation/keywords.php">Keywords</a></li>
             <li><a href="/documentation/standard-library/">Standard Library</a></li>
-            <li><a href="/documentation/syntax/">Syntax</a></li>
+            <li><a href="/documentation/syntax.php">Syntax</a></li>
             <li><a href="/documentation/glossary.php">Glossary</a></li>
             <li><a href="/documentation/operators.php">Operators</a></li>
             <li><a href="/documentation/using-types.php">Type System</a></li>
