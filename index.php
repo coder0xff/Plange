@@ -275,7 +275,7 @@ print(get_age);</pre>
 
 		<div class="code">
 			<p>Example</p>
-			<pre>projectilePosition := (Vector3 pos, Vector3 vel, Vector3 thrust, Double mass, Double drag, Vector3 gravity, Double t) {
+			<pre>projectilePosition := (Vector3 pos, Vector3 vel, Double mass, Double drag, Vector3 gravity, Double t) {
 	mass * p''(t) = -drag * p'(t) + mass * gravity;
 	p(0) = pos;
 	p'(0) = vel;
@@ -283,9 +283,10 @@ print(get_age);</pre>
 }</pre>
 		</div>
 
+		<p>The following program is functionaly equivalent.</p>
 		<div class="code">
-			<p>Example (continued)</p>
-			<pre>projectilePosition := (Vector3 pos, Vector3 vel, Vector3 thrust, Double mass, Double drag, Vector3 gravity, Double t) {
+			<p>Example</p>
+			<pre>projectilePosition := (Vector3 pos, Vector3 vel, Double mass, Double drag, Vector3 gravity, Double t) {
 	a := 𝑒^(drag*t/mass);
 	return (gravity * (mass-(mass*a + drag*t)) + pos*a*drag^2 + drag*mass*vel*(a-1)) / (a*drag^2);
 }</pre>
