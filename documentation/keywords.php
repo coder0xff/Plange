@@ -44,8 +44,6 @@
 			<li><a href="/documentation/keywords/inheriting.php">inheriting</a></li>
 			<li><a href="/documentation/keywords/internal.php">internal</a></li>
 			<li><a href="/documentation/keywords/is.php">is</a></li>
-			<li><a href="/documentation/keywords/json.php">json (uneeded)</a></li>
-			<li><a href="/documentation/keywords/lock.php">lock (deprecated)</a></li>
 			<li><a href="/documentation/keywords/no_throw.php">no_throw</a></li>
 			<li><a href="/documentation/keywords/opaque.php">opaque</a></li>
 			<li><a href="/documentation/keywords/params.php">params</a></li>
@@ -59,7 +57,6 @@
 			<li><a href="/documentation/keywords/static.php">static</a></li>
 			<li><a href="/documentation/keywords/this.php">this</a></li>
 			<li><a href="/documentation/keywords/this_type.php">this_type</a></li>
-			<li><a href="/documentation/keywords/throws.php">throws</a></li>
 			<li><a href="/documentation/keywords/to.php">to (binary relation builder)</a></li>
 			<li><a href="/documentation/keywords/try.php">try</a></li>
 			<li><a href="/documentation/keywords/type.php">type</a></li>
