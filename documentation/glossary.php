@@ -29,7 +29,7 @@
 		<h4>iterator</h4>
 		<div>a <b>value</b>&nbsp;used to enumerate the elements of a <b>collection</b></div>
 		<h4>native program</h4>
-		<div> a <b>program</b>&nbsp;encoded in the manner recognized by the&nbsp;<b>hardware</b>&nbsp;of the&nbsp;<b>computer</b></div>
+		<div> a <b>program</b>&nbsp;encoded in the manner recognized by the hardware of the computer</div>
 		<h4>operation</h4>
 		<div>a primitive action that reads, writes, or transforms (or some combination thereof) data utilizing the available hardware and software infrastructure</div>
 		<h4>parser</h4>
