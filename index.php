@@ -275,11 +275,19 @@ print(get_age);</pre>
 
 		<div class="code">
 			<p>Example</p>
-			<pre>projectilePosition := (Vector3 pos, Vector3 vel, Double mass, Double drag, Vector3 gravity, Double x) {
-	mass * p''(t) = -drag * p'(t) + mass * gravity;
-	p(0) = pos;
-	p'(0) = vel;
-	return p(x);
+			<pre>advanceProjectilePosition := (
+		Vector3 initialPos,
+		Vector3 initialVel,
+		Double mass,
+		Double drag,
+		Vector3 gravity,
+		Double delta_t
+) {
+	&lt;Double → Vector3&gt; p;                            // declare the position function
+	mass * p''(t) = -drag * p'(t) + mass * gravity;  // specify its model as a differential equation
+	p(0) = initialPos;                               // and the boundary conditions
+	p'(0) = initialVel;
+	return p(delta_t);                               // solve, substitute, evaluate
 }</pre>
 		</div>
 
