@@ -275,15 +275,15 @@ print(get_age);</pre>
 
 		<div class="code">
 			<p>Example</p>
-			<pre>projectilePosition := (Vector3 pos, Vector3 vel, Double mass, Double drag, Vector3 gravity, Double t) {
+			<pre>projectilePosition := (Vector3 pos, Vector3 vel, Double mass, Double drag, Vector3 gravity, Double x) {
 	mass * p''(t) = -drag * p'(t) + mass * gravity;
 	p(0) = pos;
 	p'(0) = vel;
-	return p(t); //p(t) symbollically integrated to closed form solution
+	return p(x);
 }</pre>
 		</div>
 
-		<p>The following program is functionaly equivalent.</p>
+		<p>A closed form solution for p is determined symbollically, such that the following program is functionally equivalent.</p>
 		<div class="code">
 			<p>Example</p>
 			<pre>projectilePosition := (Vector3 pos, Vector3 vel, Double mass, Double drag, Vector3 gravity, Double t) {
