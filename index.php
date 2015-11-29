@@ -275,14 +275,9 @@ print(get_age);</pre>
 
 		<div class="code">
 			<p>Example</p>
-			<pre>advanceProjectilePosition := (
-		Vector3 initialPos,
-		Vector3 initialVel,
-		Double mass,
-		Double drag,
-		Vector3 gravity,
-		Double delta_t
-) {
+			<pre>advanceProjectilePosition :=
+	(Vector3D initialPos, Vector3D initialVel, mass, drag, Vector3D gravity, delta_t)
+{
 	&lt;Double → Vector3&gt; p;                            // declare the position function
 	mass * p''(t) = -drag * p'(t) + mass * gravity;  // specify its model as a differential equation
 	p(0) = initialPos;                               // and the boundary conditions
@@ -294,9 +289,15 @@ print(get_age);</pre>
 		<p>A closed form solution for p is determined symbollically, such that the following program is functionally equivalent.</p>
 		<div class="code">
 			<p>Example</p>
-			<pre>projectilePosition := (Vector3 pos, Vector3 vel, Double mass, Double drag, Vector3 gravity, Double t) {
+			<pre>advanceProjectilePosition := 
+	(Vector3D initialPos, Vector3D initialVel, mass, drag, Vector3D gravity, delta_t)
+{
 	a := 𝑒^(drag*t/mass);
-	return (gravity * (mass-(mass*a + drag*t)) + pos*a*drag^2 + drag*mass*vel*(a-1)) / (a*drag^2);
+	return (
+		gravity * (mass-(mass*a + drag*delta_t)) + 
+		initialPos*a*drag^2 + 
+		drag*mass*initialVel*(a-1)
+	) / (a*drag^2);
 }</pre>
 		</div>
 
