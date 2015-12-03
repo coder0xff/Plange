@@ -1,3 +1,8 @@
+@font-face {
+    font-family: source_code_pro;
+    src: local(source_code_pro), url('/fonts/SourceCodePro-Regular.otf') format('opentype');
+}
+
 .code {
     margin:3pt;
     margin-left:12pt;
@@ -14,8 +19,8 @@
 }
 .code>pre {
     padding-left:6pt;
-    font-family:"Courier New";
-    
+    font-family:source_code_pro;
+    color: #4F4F31;
     max-height:500px;
     overflow-x:auto;
     overflow-y:auto
@@ -86,5 +91,10 @@
 }
 
 table, th, td {
-   border: 1px solid black;
+    border: 1px solid black;
+}
+
+code {
+    font-family:source_code_pro;
+    color: #4F4F31;
 }

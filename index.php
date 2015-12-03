@@ -13,9 +13,9 @@
 			development environment, including a programming language,
 			standard library, and runtime.
 		</div>
-		<p>This site is far from complete, but the <a href="goals/">Goals</a> page has a good amount of information that you may find interesting. Use the navigation bar to the left to browse the site. The <a href="documentation">Documentation</a> pages are the technical specifications and reference materials.</p>
+		<p>See the <a href="goals/">Goals</a> page for a high-level overview.</p>
 
-		<h2>Introduction</h2>
+		<h1>Introduction & Tutorial</h1>
 		<p>Plange began as a list of features and ideas. Existing languages were used as inspiration for this list - their successes and also their failings. Creating a language that picks and chooses the best features of many successful languages, integrates them, and has an expansive and robust runtime and standard library is an ambitious undertaking. Nonetheless, this is the goal for Plange.</p>
 
 		<p>A recurring trend in programming language development has been to focus on a small set of problems that other languages don’t currently address well, and design the language, its runtime, and its standard library with those few goals in mind. This drives not only the noticeable differences in syntax, but often different features in the standard library of the language, and in features of the language itself. Some examples:</p>
@@ -53,7 +53,7 @@
 
 		<p>The symbol <code>π</code> is an identifier for the pi constant. It can be substituted in places where pi is needed, and provides arbitrarily high precision.</p>
 		
-		<p><span style="color: red">IMPORTANT!</span> As you've probably noticed, there's no π key on your keyboard. The plange editor will change <code>" pi "</code> (must have the spaces, but not the quotes) into π. It's just a <a href="http://www.fileformat.info/info/unicode/char/03c0/index.htm">UTF character</a>. If your editor of choice doesn't auto-replace " pi ", that's ok too. The interpreter will know what you mean if you just write "pi".</p>
+		<p><span style="color: red">IMPORTANT!</span> As you've probably noticed, there's no π key on your keyboard. The plange editor will change "<code> pi </code>" (must have the spaces, but not the quotes) into π. It's just a <a href="http://www.fileformat.info/info/unicode/char/03c0/index.htm">UTF character</a>. If your editor of choice doesn't auto-replace "<code> pi </code>", that's ok too. The interpreter will know what you mean if you just write "<code>pi</code>".</p>
 
 		<p>Constants are created using the definition operator <code>:=</code></p>
 		<div class="code">
@@ -280,7 +280,7 @@ print(get_age);</pre>
 	) / (a*drag^2);
 }</pre>
 		</div>
-		
+
 
 		<?php require('footer.php') ?>
 	</body>
