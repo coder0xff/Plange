@@ -8,10 +8,10 @@
 		<?php require('../../header.php') ?>
 
 
-		<p>used in <a href="dimensional_number.php">dimensional_number</a>
+		<p>used in <a href="/documentation/syntax/dimensional_number.php">dimensional_number</a></p>
 		<div class="code">
 			<p>Syntax</p>
-			<pre><a href="symbol.php">identifier</a> "*" <a href="symbol.php">identifier</a></pre>
+            <pre><a href="/documentation/syntax/dimension.php">dimension</a> "*" <a href="/documentation/syntax/dimension.php">dimension</a></pre>
 		</div>
 
 

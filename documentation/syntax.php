@@ -37,6 +37,7 @@
 			<li><a href="/documentation/syntax/declaration_assignment.php">declaration_assignment</a></li>
 			<li><a href="/documentation/syntax/definition.php">definition</a></li>
 			<li><a href="/documentation/syntax/difference.php">difference</a></li>
+			<li><a href="/documentation/syntax/dimension.php">dimension</a></li>
 			<li><a href="/documentation/syntax/dimensional_analysis_op.php">dimensional_analysis_op</a></li>
 			<li><a href="/documentation/syntax/dimensional_number.php">dimensional_number</a></li>
 			<li><a href="/documentation/syntax/division.php">division</a></li>
@@ -56,7 +57,7 @@
 			<li><a href="/documentation/syntax/function.php">function</a></li>
 			<li><a href="/documentation/syntax/greater_than.php">greater_than</a></li>
 			<li><a href="/documentation/syntax/has.php">has</a></li>
-			<li><a href="/documentation/syntax/symbol.php">identifier</a></li>
+			<li><a href="/documentation/syntax/identifier.php">identifier</a></li>
 			<li><a href="/documentation/syntax/if.php">if</a></li>
 			<li><a href="/documentation/syntax/iff.php">iff</a></li>
 			<li><a href="/documentation/syntax/implication.php">implication</a></li>

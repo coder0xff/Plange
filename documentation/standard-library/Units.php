@@ -87,8 +87,8 @@
 			<li>foot_pounds</li>
 			<li>newton_meters</li>
 		</ul>
-		<p>* the SI base use of mass is the kilogram, but gram is used for the consistency it provides in semantics and evaluation
-		† the SI standard indicates that this is a dimensionless but nonetheless derived unit
+		<p>* the SI base unit of mass is the kilogram, but gram is used for the consistency it provides in semantics and evaluation<br>
+		† the SI standard indicates that this is a dimensionless but nonetheless derived unit<br>
 		‡ this is the preferred plural form in English as per http://physics.nist.gov/cuu/pdf/sp811.pdf</p>
 		
 		

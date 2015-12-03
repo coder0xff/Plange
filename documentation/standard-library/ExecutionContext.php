@@ -13,9 +13,12 @@
             <pre>ExecutionContext := type {
     &lt;Scope&gt; scope;
     &lt;Threading.Thread&gt; creatingThread;
-    &lt;Runtime.StackDump&gt; stack;
-    &lt;Void -&gt; Void&gt; continue;
-    &lt;Bool&gt; isReentrant;
+    &lt;Runtime.StackTrace&gt; stack;
+    &lt;Runtime.FunctionModel&gt; model;
+    &lt;Void → Void&gt; continue; //cooperative multithreading entrypoint
+    &lt;Bool&gt; isReentrant; //this execution context may be the target of a long jump
+    &lt;List&lt;Constant&gt;&gt; constants;
+    &lt;List&lt;Statements&gt;&gt; statements;
 };</pre>
         </div>
     

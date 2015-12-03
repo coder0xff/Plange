@@ -1,0 +1,37 @@
+<meta charset='utf-8'/>
+<html>
+	<head>
+		<title>Scope - Plange</title>
+		<link rel=StyleSheet href='../../css/general.css' type='text/css' />
+	</head>
+	<body>
+		<?php require('../../header.php') ?>
+
+
+		<p>provides an abstraction for code scopes, which are delimited by curly braces { }</p>
+		
+		<div class="code">
+			<p>Outline</p>
+			<pre>Scope := type {
+	&lt;Maybe&lt;Scope&gt;&gt; parent;
+	&lt;Array&lt;Scope&gt;&gt; children;
+	&lt;SourceCode&gt; sourceCode;
+	&lt;Array&lt;Constant&gt;&gt; constants;
+	&lt;Array&lt;Relation&gt;&gt; relations;
+	&lt;Array&lt;Statement&gt;&gt; statements;
+	&lt;Array&lt;Variable&gt;&gt; variables;
+	&lt;Array&lt;Parameter&gt;&gt; parameters; //includes captured variables
+	&lt;ExecutionContext&gt; instantiator;
+	&lt;Bool&gt; isPure;
+	&lt;Bool&gt; isAtomic;
+	&lt;FunctionModel&gt; model;
+	&lt;SideEffectSet&gt; sideEffects;
+	&lt;Scope → Bool&gt; is_descendent_of;
+	&lt;&lt;Void → Void&gt; → Bool&gt; can_execute; //based on symbol binding
+};</pre>
+		</div>
+
+
+		<?php require('../../footer.php') ?>
+	</body>
+</html>

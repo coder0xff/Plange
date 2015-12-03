@@ -46,14 +46,14 @@
 							<li><a href="/documentation/syntax/pre_dec.php">pre_dec</a><code>--</code></li>
 						</ul>
 					</li>
-				</ul>
-			</li>
-			<li><a href="/documentation/syntax/unary_logical_op.php">unary_logical_op</a>
-				<ul>
-					<li><a href="/documentation/syntax/not.php">not</a><code>¬</code></li>
-					<li><a href="/documentation/syntax/all.php">all</a><code>∀</code></li>
-					<li><a href="/documentation/syntax/exists.php">exists</a><code>∃</code></li>
-					<li><a href="/documentation/syntax/exists_one.php">exists_one</a><code>∃!</code></li>
+					<li><a href="/documentation/syntax/unary_logical_op.php">unary_logical_op</a>
+						<ul>
+							<li><a href="/documentation/syntax/not.php">not</a><code>¬</code></li>
+							<li><a href="/documentation/syntax/all.php">all</a><code>∀</code></li>
+							<li><a href="/documentation/syntax/exists.php">exists</a><code>∃</code></li>
+							<li><a href="/documentation/syntax/exists_one.php">exists_one</a><code>∃!</code></li>
+						</ul>
+					</li>
 				</ul>
 			</li>
 			<li><a href="/documentation/syntax/binary_op.php">binary_op</a>

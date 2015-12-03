@@ -1,13 +1,58 @@
-<meta charset='utf-8'/><html><head><title>properties.html</title><link rel=StyleSheet href='../css/general.css' type='text/css' /></head><body><?php require('../header.php') ?>
+<meta charset='utf-8'/>
+<html>
+	<head>
+		<title>Properties - Plange</title>
+		<link rel=StyleSheet href='../css/general.css' type='text/css' />
+	</head>
+	<body>
+		<?php require('../header.php') ?>
 
 
+		<p>A property is used like a variable.</p>
+		<div class="code">
+			<p>Example</p>
+			<pre>temp_f ← 70;</pre>
+		</div>
+		<p>The meaning of this single statement changes when some additional code is prepended.</p>
+		<div class="code">
+			<p>Example</p>
+			<pre>&lt;Real&gt; temp_celsius;
+temp_fahrenheit = temp_celsius * 9/5 + 32; //make an equality constraint
 
-    A property is a symbol representing a relation or get and set accessors defined in another execution context. A purely functional Property has no get or set accessors, but is defined using an expression. There are also imperative properties with explicitly implemented accessors.  Semantically, the defining Scope becomes accessible by the 
-caller (the code accessing the value), but only through code provided by
- that Scope.
-    <br>
-    </br>
+temp_fahrenheit ← 70; //assigns 190/9 to temp_celsius;</pre>
+		</div>
+		<div class="code">
+			<p>Example</p>
+			<pre>Angle := type {
+	&lt;Double&gt; radians;
+	&lt;Double&gt; degrees = radians / Math.pi * 180;
+};
+
+Angle right;
+right.degrees ← 90;
+print(right.radians); //prints 1.5707963268</pre>
+		</div>
+		<p>Each time a value is read from or written to a property additional processing occurs. This example above is the first of the two varities of property: 1) A constraint that can be modeled as an invertible function, 2) Functions called accessors are used for each read and write; the get accessor and set accessor respectively, such as the following:</p>
+		<div class="code">
+			<p>Example</p>
+			<pre>saved_username := {
+	get { return File.read_text("username.txt")); }
+	set { File.write_text(value); }
+};</pre>
+		</div>
+		<p>This is transparent to the program reading or writing the property.<sup>†</sup> Get and set accessors execute within their defining execution context. The space within the outermost curly braces { } also permits the definition of additional symbols, such as hidden value storage or helper functions.</p>
+		<div class="code">
+			<p>Example</p>
+			<pre>clamped := {
+	&lt;Double&gt; v;
+	get { return v; }
+	set { v ← value < 0 ? 0 : value > 1 ? 1 : value; }
+};</pre>
+		</div>
+
+		<p>† A caveat exists. When late binding is performed (such as coercing to foreign interfaces or dependency injection) this functionality is not be possible if metadata is stripped from executables and other binaries. This may be considered a security feature and/or a flaw.</p>
 
 
-
-<?php require('../footer.php') ?></body></html>
+		<?php require('../footer.php') ?>
+	</body>
+</html>
