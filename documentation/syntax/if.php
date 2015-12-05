@@ -12,7 +12,7 @@
 
 		<div class="code">
 			<p>Syntax</p>
-			<pre>"<a href="../keywords/if.php">if</a>"<a href="parenthetical.php">parenthetical</a> <a href="expression.php">expression</a> ( "<a href="../keywords/if.php">elif</a>" <a href="parenthetical.php">parenthetical</a> <a href="expression.php">expression</a> )* [ "<a href="../keywords/if.php">else</a>" <a href="expression.php">expression</a></pre>
+			<pre>"<a href="../keywords/if.php">if</a>" <a href="parenthetical.php">parenthetical</a> <a href="expression.php">expression</a> ( "<a href="../keywords/if.php">elif</a>" <a href="parenthetical.php">parenthetical</a> <a href="expression.php">expression</a> )* [ "<a href="../keywords/if.php">else</a>" <a href="expression.php">expression</a> ]</pre>
 		</div>
 
 		<div class="code">

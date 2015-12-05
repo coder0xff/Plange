@@ -12,7 +12,7 @@
             <p>Outline</p>
             <pre>Function := type implementing <a href="/documentation/standard-library/Scope.php">Scope</a> {
     &lt;Type&gt; returnType;
-    &lt;Array&lt;FormalParameter&gt;&gt; formalParameters;
+    &lt;Array&lt;Parameter&gt;&gt; parameters;
 };</pre>
         </div>
 

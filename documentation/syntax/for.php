@@ -8,9 +8,28 @@
 		<?php require('../../header.php') ?>
 
 
- "(" expression ";" expression ";" expression ")" expresssion
+		<div class="code">
+			<p>Syntax</p>
+ 			<pre>"for" "(" [ <a href="/documentation/syntax/statement_scope.php">statement_scope</a> ] expression ";" expression ")" expresssion</pre>
+ 		</div>
 
 
+ 		<div class="code">
+ 			<p>Example</p>
+ 			<pre>for (x ← 0; x < 100; x++) {
+ 				print(x);
+ 			};<pre>
+ 		</div>
+
+ 		<p>This next example demonstrates the optional statement_scope.</p>
+ 		<div class="code">
+ 			<p>Example</p>
+ 			<pre>spammer := (<UInt> count) {
+ 				for (count > 0; count--) {
+ 					print("SPAM!!!\n");
+ 				};
+ 			};</pre>
+ 		</div>
 
 		<?php require('../../footer.php') ?>
 	</body>

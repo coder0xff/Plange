@@ -19,8 +19,7 @@
 	&lt;Array&lt;Constant&gt;&gt; constants;
 	&lt;Array&lt;Relation&gt;&gt; relations;
 	&lt;Array&lt;Statement&gt;&gt; statements;
-	&lt;Array&lt;Variable&gt;&gt; variables;
-	&lt;Array&lt;Parameter&gt;&gt; parameters; //includes captured variables
+	&lt;Array&lt;Variable&gt;&gt; variables; //includes captures
 	&lt;ExecutionContext&gt; instantiator;
 	&lt;Bool&gt; isPure;
 	&lt;Bool&gt; isAtomic;
