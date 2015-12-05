@@ -1,0 +1,33 @@
+//TsList is the thread safe variant of List
+TsList := (t) {
+    Node := type {
+        <t> value;
+        <Maybe<this_type>> previous ← None;
+        <Maybe<this_type>> next ← None;
+
+        ctor := (<t> v) {
+            value ← v;
+        };
+    };
+
+    <Maybe<Node>> first ← None;
+    <Maybe<Node>> last ← None;
+
+    <t → Void> append := (item) atomic {
+        if (first = None) {
+            last ← first ← Node(item); //These assignments must be atomic
+        } else {
+            n := Node(item);
+            last.next ← n; //These assignments must be atomic
+            n.previous ← last;
+            last ← n;
+        }
+    };
+
+    size := {
+        get atomic {
+            <UInt> counter ← 0;
+            
+        }
+    }
+};
