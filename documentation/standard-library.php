@@ -47,6 +47,7 @@
 			<li>BitArray</li>
 			<li>Bool</li>
 			<li><a href="standard-library/Complex.php">Complex</a> - An element of ℂ (<a href="http://www.fileformat.info/info/unicode/char/2102/index.htm">DOUBLE-STRUCK CAPITAL C U+2102</a>), the complex numbers { &lt;Real&gt; r; &lt;Real&gt; i; }</li>
+			<li>Date, DateTime</li>
 			<li><a href="standard-library/ExecutionContext.php">ExecutionContext</a></li>
 			<li>Float - An element of ℚ (<a href="http://www.fileformat.info/info/unicode/char/211a/index.htm">DOUBLE-STRUCK CAPITAL Q U+211A</a>), the rational numbers</li>
 			<li>Float16, Float32, Float64, Float128</li>

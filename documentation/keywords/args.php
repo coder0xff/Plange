@@ -8,9 +8,9 @@
 		<?php require('../../header.php') ?>
 
 
-		<p><a href="../standard-library.php">Array</a>&lt;<a href="../standard-library.php">Object</a>&gt; containing the values of the current functions parameters.</p>
+		<p>An <a href="../standard-library.php">Array</a>&lt;<a href="../standard-library.php">String</a>&gt; containing the white space separated arguments given to the program at its start</p>
 
-		<p>See also: <a href="params.php">params</a>.</p>
+		<p>Not to be confused with: <a href="params.php">params</a>.</p>
 
 
 		<?php require('../../footer.php') ?>

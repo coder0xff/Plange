@@ -10,10 +10,16 @@
 
 		<div class="code">
 			<p>Syntax</p>
-			<pre><a href="expression.php">expression</a> ":" <a href="expression.php">expression</a></pre>
+			<pre><a href="expression.php">expression</a> "&" <a href="expression.php">expression</a></pre>
 		</div>
 
-
+		<div class="code">
+			<p>Example</p>
+			<pre>x := 1 &amp; [2, 3, 4, 5];
+y := [1, 2, 3, 4, 5];
+x = y;</pre>
+		</div>
+		
 		<?php require('../../footer.php') ?>
 	</body>
 </html>

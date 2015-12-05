@@ -69,7 +69,7 @@ color ← "Red";
 print(color);</pre>
 		</div>
 
-		<p>The ← character is typed <code>" <- "</code>. The above program outputs the following text:</p>
+		<p>The <code>←</code> character is typed <code>" <- "</code>. The above program outputs the following text:</p>
 
 		<div class="code">
 			<p>Output</p>
@@ -86,17 +86,17 @@ Red</pre>
 x ← 1.5; // error - can't assign a fractional Number to an integer</pre>
 		</div>
 
-		<p>"Int" is shorthand for <a href="">integer</a>. The first line constrains x to be an <code>Int</code>, which means it cannot be assigned a number with a decimal point. The second line demonstrates this restriction. See <a href="documentation/type-system.php">Type System</a>.</p>
+		<p>"Int" is shorthand for <a href="https://en.wikipedia.org/wiki/Integer">integer</a>. The first line constrains x to be an <code>Int</code>, which means it cannot be assigned a number with a decimal point. The second line demonstrates this restriction. See <a href="documentation/type-system.php">Type System</a>.</p>
 
 		<h2>Functions</h2>
-		<p>Create function types using the → operator, or <code>-&gt;</code>.</p>
+		<p>Create function types using the <code>→</code> operator, or <code>-&gt;</code>.</p>
 
 		<div class="code">
 			<p>Example</p>
 			<pre>&lt;Int → Int&gt; doubler;</pre>
 		</div>
 
-		<p>The above code defines a new constant <code>doubler</code>, which has a type of <code>Int → Int</code>. Simply, doubler is a function that takes an Int as an input, and returns an Int as a result."
+		<p>The above code defines a new symbol <code>doubler</code>, which has a type of <code>Int → Int</code>. Simply, doubler is a function that takes an Int as an input, and returns an Int as a result.</p>
 
 		<p>Create function implementations using parenthesis <code>( )</code> containing the parameter list, followed by curly braces <code>{ }</code> containing the implementation.</p>
 
@@ -124,13 +124,15 @@ print(doubler(5)); //test it out</pre>
 			<pre>&lt;Real * Real → Real&gt; geometric_mean := (&lt;Real&gt; x, &lt;Real&gt; y) { return (x * y)^(0.5); };</pre>
 		</div>
 
+		<p>See also:<a href="/documentation/standard-library/Function.php">Plange.Function</a>
+
 		<h2>Pattern Matching</h2>
 		<p>From functional programming, a recursive function to print the last element of a list:</p>
 
 		<div class="code">
 			<p>Example</p>
 			<pre>&lt;List&lt;_&gt; → Void&gt; printLast := 
-	(_:tail) { printLast(tail); } |
+	(_ &amp; tail) { printLast(tail); } |
 	(x) { print(x); };
 
 myList := [ 5, 12, 8, 9 ];
@@ -143,6 +145,8 @@ printLast(myList);</pre>
 		</div>
 
 		<p>Note the use of the underscore <code>_</code> character. It is substituted for a symbol (a named constant) when the code does not care about its value. In the first line of the example above, we are unconcerned with the type of the elements the input list contains, and only need to ensure that the input is a list of something. In the second line, we don't need to know the value of the head element. The underscore keyword is called <a href="documentation/keywords/dont_care.php">dont_care</a>.</p>
+
+		<p>This example also uses the prepend operator <code>&</code> which is similar to Haskell's "cons operator," the colon :, but is the ampersand to avoid confusion with other syntax (See: <a href="/documentation/syntax/prepend.php">prepend</a>). In the example above, it's working in reverse as pattern matching. That is, the first parameter to the function is being broken apart into two pieces.</p>
 
 		<h2>Type Deduction</h2>
 		<p>When the type of a constant or variable can be deduced, it is often possible to omit it.</p>
@@ -181,6 +185,8 @@ addFive := (&lt;Int&gt; x) { return x + 5; };
 print(get_return_type(addFive));  // output: Int</pre>
 		</div>
 
+		<a href="#Type_Constraints">More on this later</a>. 
+
 		<h2>Types</h2>
 		<p>The <a href="/documentation/keywords/type.php"><code>type</code></a> (not capitalized) keyword is used to make a new <a href="/documentation/standard-library/type.php"><code>Type</code></a> (capitalized) object. </p>
 		<div class="code">
@@ -207,10 +213,10 @@ print(type_of(Color));        // output: Type</pre>
 		&lt;valueType&gt; v;
 		Pointer&lt;Node&gt; next;
 	};
-}</pre>
+};</pre>
 		</div>
 
-		<p>Functions that return Type objects can be called with the angle bracket syntax:</p>
+		<p>Functions that return Type objects (<a href="/documentation/syntax/invocation.php">or another type function</a>) can be called with the angle bracket syntax:</p>
 		<div class="code">
 			<p>Example</p>
 			<pre>&lt;Node&lt;Int&gt;&gt; myNode;</pre>
@@ -245,7 +251,7 @@ Maybe := (t) { return Some&lt;t&gt; | None; };
 
 &lt;Void → Maybe&lt;Int&gt;&gt; get_age := {
 	return coerce(input("What's your age? You don't have to tell me."));
-}
+};
 
 print(get_age);</pre>
 		</div>
@@ -256,8 +262,9 @@ print(get_age);</pre>
 		<div class="code">
 			<p>Example</p>
 <pre>children := {| abe, dan, mary, sue |};
-ages := {| 3, 5, 6, 9 |}
+ages := {| 3, 5, 6, 9 |};
 children ↔ ages; // One child per one age (bijection operator)
+
 abe > dan; //abe is older than dan
 sue < mary; //sue is younger than mary
 sue = dan + 3; //sue's age is dan's age plus 3 years
@@ -281,12 +288,12 @@ sue = 6;</pre>
 			<pre>advanceProjectilePosition :=
 	(Vector3D initialPos, Vector3D initialVel, mass, drag, Vector3D gravity, delta_t)
 {
-	&lt;Real → Vector3&gt; p;                            // declare the position function, p
+	&lt;Real → Vector3&gt; p;                              // declare the position function, p
 	mass * p''(t) = -drag * p'(t) + mass * gravity;  // model p as a differential equation
 	p(0) = initialPos;                               // with boundary conditions
 	p'(0) = initialVel;
 	return p(delta_t);                               // solve, substitute, evaluate
-}</pre>
+};</pre>
 		</div>
 
 		<p>A closed form solution for p is determined symbollically, such that the following program is functionally equivalent.</p>
@@ -302,7 +309,25 @@ sue = 6;</pre>
 		initialPos*a*drag^2 + 
 		drag*mass*initialVel*(a-1)
 	) / (a*drag^2);
-}</pre>
+};</pre>
+		</div>
+
+		<h2>Type Constraints</h2><a name="Type_Constraints" />
+		<p>Since types are values, and values can be constrained, type constraints are realised.</p>
+
+		<div class="code">
+			<p>Example</p>
+			<pre>all := (Collection&lt;X&gt; items) {
+	Bool casts X; //values of type X must be castable to type Bool
+	result ← true;
+	for (item ∈ items) {
+		if (¬(Bool)item) {
+			result ← false;
+			break;
+		}
+	}
+	return result;
+};</pre>
 		</div>
 
 

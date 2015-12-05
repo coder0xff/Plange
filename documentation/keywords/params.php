@@ -8,8 +8,8 @@
 		<?php require('../../header.php') ?>
 
 		
-		<p>a <a href="../standard-library.php">Map</a>&lt;<a href="../standard-library.php">Parameter</a> -&gt; <a href="../standard-library.php">Object</a>&gt; representing the formal parameters to the current function, and the values that were passed in the invocation.</p>
-		<p>See also: <a href="args.php">args</a>.</p>
+		<p>a <code><a href="../standard-library.php">Map</a>&lt;<a href="../standard-library.php">Parameter</a> → <a href="../standard-library.php">Object</a>&gt;</code> representing the formal parameters to the current function, and the values that were passed in the invocation.</p>
+		<p>Not to be confused with: <a href="args.php">args</a>.</p>
 
 
 		<?php require('../../footer.php') ?>
