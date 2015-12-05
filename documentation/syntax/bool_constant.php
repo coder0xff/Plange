@@ -8,8 +8,11 @@
 		<?php require('../../header.php') ?>
 
 
-" | "false"
-
+		<p>either one of the two values that every instance of Bool is constrained to</p>
+		<div class="code">
+			<p>Syntax</p>
+			<pre>"true" | "false"</pre>
+		</div>
 
 
 		<?php require('../../footer.php') ?>

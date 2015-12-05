@@ -86,7 +86,7 @@ Red</pre>
 x ← 1.5; // error - can't assign a fractional Number to an integer</pre>
 		</div>
 
-		<p>"Int" is shorthand for "integer." The first line constrains x to be an <code>Int</code>, which means it cannot be assigned a number with a decimal point. The second line demonstrates this restriction. See <a href="documentation/type-system.php">Type System</a>.</p>
+		<p>"Int" is shorthand for <a href="">integer</a>. The first line constrains x to be an <code>Int</code>, which means it cannot be assigned a number with a decimal point. The second line demonstrates this restriction. See <a href="documentation/type-system.php">Type System</a>.</p>
 
 		<h2>Functions</h2>
 		<p>Create function types using the → operator, or <code>-&gt;</code>.</p>
@@ -251,16 +251,39 @@ print(get_age);</pre>
 		</div>
 
 		<h2>Constraint solving</h2>
-		<p>Many interesting problems may be constructed as one or more assertions regarding the relationships of values, using operators (arithmetic, set theoric, quantifiers, etc), and invocations such as calling the sin() function. One well studied domain is <a href="https://en.wikipedia.org/wiki/Initial_value_problem">initial value problems</a>.</p>
+		<p>Many interesting problems may be constructed as one or more assertions regarding the relationships of values, using operators (arithmetic, set theoric, quantifiers, etc), and invocations such as calling the sin() function.</p>
+
+		<div class="code">
+			<p>Example</p>
+<pre>children := {| abe, dan, mary, sue |};
+ages := {| 3, 5, 6, 9 |}
+children ↔ ages; // One child per one age (bijection operator)
+abe > dan; //abe is older than dan
+sue < mary; //sue is younger than mary
+sue = dan + 3; //sue's age is dan's age plus 3 years
+mary > abe; //mary is older than abe</pre>
+		</div>
+
+		<p>This code is semantically equivalent to the following:</p>
+
+		<div class="code">
+			<p>Example (continued)</p>
+			<pre>abe = 5;
+dan = 3;
+mary = 9;
+sue = 6;</pre>
+		</div>
+
+		<p>One well studied domain is <a href="https://en.wikipedia.org/wiki/Initial_value_problem">initial value problems</a>. If partial differential equations aren't your cup of tea, just read the comments.</p>
 
 		<div class="code">
 			<p>Example</p>
 			<pre>advanceProjectilePosition :=
 	(Vector3D initialPos, Vector3D initialVel, mass, drag, Vector3D gravity, delta_t)
 {
-	&lt;Double → Vector3&gt; p;                            // declare the position function
-	mass * p''(t) = -drag * p'(t) + mass * gravity;  // specify its model as a differential equation
-	p(0) = initialPos;                               // and the boundary conditions
+	&lt;Real → Vector3&gt; p;                            // declare the position function, p
+	mass * p''(t) = -drag * p'(t) + mass * gravity;  // model p as a differential equation
+	p(0) = initialPos;                               // with boundary conditions
 	p'(0) = initialVel;
 	return p(delta_t);                               // solve, substitute, evaluate
 }</pre>
@@ -268,10 +291,11 @@ print(get_age);</pre>
 
 		<p>A closed form solution for p is determined symbollically, such that the following program is functionally equivalent.</p>
 		<div class="code">
-			<p>Example</p>
+			<p>Example (continued)</p>
 			<pre>advanceProjectilePosition := 
 	(Vector3D initialPos, Vector3D initialVel, mass, drag, Vector3D gravity, delta_t)
 {
+	//closed form solution determined automatically
 	a := 𝑒^(drag*t/mass);
 	return (
 		gravity * (mass-(mass*a + drag*delta_t)) + 
