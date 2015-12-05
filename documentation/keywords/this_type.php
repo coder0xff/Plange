@@ -8,23 +8,22 @@
 		<?php require('../../header.php') ?>
 
 
-within type_scope (or a child scope of a type_scope), represents the Type of that class scope
-    <div>
-        <br>
-        </br>
-    </div>
-    <div>
-        Notes: Not to be confused with
-        <a href="type_of.php">
-            type_of
-        </a>
-        (
-        <a href="this.php">
-            this
-        </a>
-        ) which can only be used when "this" is valid
-    </div>
+		<p>an alias to the Type of the current type_scope, or the nearest ancestor type_scope, or an error if there is none</p>
 
+		<div class="code">
+			<p>Example</p>
+			<pre>// A node for a K-Ary tree
+KAryNode := (&lt;Int&gt; k, &lt;Type&gt; t) {
+	return type {
+		&lt;t&gt; value;
+		&lt;this_type&gt; nullNode := this_type();
+		Array&lt;k, this_type&gt; children = [nullNode]*k;
+	};
+};</pre>
+		</div>
+
+		<h2>Notes</h2>
+		<p>Since the <code><a href="/documentation/keywords/this.php">this</a></code> keyword is only valid inside member functions of a type, <code><a href="/documentation/keywords/type_of.php">type_of</a>(this)</code> is not viable for some constructions, such as the above example.</p>
 
 
 		<?php require('../../footer.php') ?>

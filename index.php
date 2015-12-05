@@ -211,7 +211,7 @@ print(type_of(Color));        // output: Type</pre>
 			<pre>Node := (&lt;Type&gt; valueType) {
 	return type {
 		&lt;valueType&gt; v;
-		Pointer&lt;Node&gt; next;
+		Maybe&lt;Node&lt;valueType&gt;&gt; next;
 	};
 };</pre>
 		</div>
@@ -330,6 +330,10 @@ sue = 6;</pre>
 };</pre>
 		</div>
 
+		<h2>Further reading</h2>
+		<ul>
+			<li><a href="http://plange.tech/documentation/syntax/if.php">if (syntax)</a></li>
+			<li><a href=""
 
 		<?php require('footer.php') ?>
 	</body>
