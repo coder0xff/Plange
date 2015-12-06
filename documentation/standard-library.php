@@ -54,6 +54,7 @@
 				<tr><td><a href="standard-library/Complex.php">Complex</a></td><td>An element of ℂ (<a href="http://www.fileformat.info/info/unicode/char/2102/index.htm">DOUBLE-STRUCK CAPITAL C U+2102</a>), the complex numbers { &lt;Real&gt; r; &lt;Real&gt; i; }</td></tr>
 				<tr><td>Date, DateTime</td></tr>
 				<tr><td><a href="standard-library/ExecutionContext.php">ExecutionContext</a></td></tr>
+				<tr><td>Expression</td></tr>
 				<tr><td>Float</td><td>An element of ℚ (<a href="http://www.fileformat.info/info/unicode/char/211a/index.htm">DOUBLE-STRUCK CAPITAL Q U+211A</a>), the rational numbers</td></tr>
 				<tr><td>Float16, Float32, Float64, Float128</td></tr>
 				<tr><td>Imaginary</td><td>An element of 𝕀 (<a href="http://www.fileformat.info/info/unicode/char/1d540/index.htm">MATHEMATICAL DOUBLE-STRUCK CAPITAL I U+1D540</a>)</td></tr>

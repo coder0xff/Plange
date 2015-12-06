@@ -8,7 +8,7 @@
 		<?php require('../../header.php') ?>
 
 
-		<p>a place holder for an identifier, when the name of that identifier is irrelevant.</p>
+		<p>a place holder for an identifier, when the name of that identifier is irrelevant</p>
 		<div class="code">
 			<p>Example</p>
 			<pre>(_, y) := myVector; //extract the y coordinate of a vector, ignoring the x coordinate</pre>

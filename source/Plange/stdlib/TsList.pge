@@ -1,4 +1,4 @@
-//TsList is the thread safe variant of List
+﻿//TsList is the thread safe variant of List
 TsList := (t) {
     Node := type {
         <t> value;

@@ -11,7 +11,8 @@
         <div class="code">
             <p>Outline</p>
             <pre>Type := type inheriting <a href="/documentation/standard-library/Scope.php">Scope</a> {
-    &lt;List&lt;Type.Member&gt;&gt; members; //todo
+    &lt;List&lt;Type.Member&gt;&gt; members;
+    &lt;String&gt; name;
 };</pre>
         </div>
 

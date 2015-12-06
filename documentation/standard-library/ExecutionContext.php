@@ -11,7 +11,7 @@
         <div class="code">
             <p>Outline</p>
             <pre>ExecutionContext := type {
-    &lt;Scope&gt; scope;
+    &lt;<a href="/documentation/standard-library/Scope.php">Scope</a>&gt; scope;
     &lt;Threading.Thread&gt; creatingThread;
     &lt;Runtime.StackTrace&gt; stack;
     &lt;Runtime.FunctionModel&gt; model;

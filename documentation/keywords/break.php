@@ -16,9 +16,9 @@ do {
 	&lt;String&gt; x := input();
 	if (x = "") {
 		break;
-	}
+	};
 	print(x);
-}</pre>
+};</pre>
 		</div>
 
 

@@ -10,9 +10,10 @@
 
         <div class="code">
             <p>Outline</p>
-            <pre>Function := type implementing <a href="/documentation/standard-library/Scope.php">Scope</a> {
+            <pre>Function := type inheriting <a href="/documentation/standard-library/Scope.php">Scope</a> {
     &lt;Type&gt; returnType;
     &lt;Array&lt;Parameter&gt;&gt; parameters;
+    &lt;String&gt; name;
 };</pre>
         </div>
 

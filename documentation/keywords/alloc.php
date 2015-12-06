@@ -13,11 +13,11 @@
 		<div class="code">
 			<p>Example</p>
 			<pre>Complex := class {
-	Double real;
-	Double imaginary;
+	&lt;Double&gt; real;
+	&lt;Double&gt; imaginary;
 };
 
-&lt;Pointer&lt;Complex&gt;&gt; ptr := <b>alloc(Complex)</b>; // create a new value on the heap</pre>
+&lt;Pointer&lt;Complex&gt;&gt; ptr := alloc(Complex); // create a new value on the heap</pre>
 		</div>
 
 

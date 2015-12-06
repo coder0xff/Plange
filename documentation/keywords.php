@@ -18,7 +18,6 @@
 			<li><a href="/documentation/keywords/asm.php">asm</a></li>
 			<li><a href="/documentation/keywords/at.php">at</a></li>
 			<li><a href="/documentation/keywords/atomic.php">atomic</a></li>
-			<li><a href="/documentation/keywords/box.php">box</a></li>
 			<li><a href="/documentation/keywords/break.php">break</a></li>
 			<li><a href="/documentation/keywords/casts.php">casts</a></li>
 			<li><a href="/documentation/keywords/catch.php">catch</a></li>
