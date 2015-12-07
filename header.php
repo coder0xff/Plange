@@ -1,4 +1,21 @@
-<h1>Plange</h1>
+<script>
+  (function() {
+    var cx = '010799772172995832082:w37iigi4wva';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//cse.google.com/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+
+<div id="search">
+	<gcse:search></gcse:search>
+</div>
+
+<h1><big>Plange</big></h1>
 <hr>
 <div id="navigation">
 <h2>Contents</h2>

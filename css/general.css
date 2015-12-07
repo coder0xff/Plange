@@ -26,6 +26,11 @@
     overflow-y:auto
 }
 
+#search {
+    width: 400px;
+    float: right;
+}
+
 #navigation {
     width: 200px;
     background-color: #223;
@@ -90,7 +95,15 @@
     padding-left: 250px;
 }
 
-table, th, td {
+.thick-table {
+    border: 1px solid black;
+}
+
+.thick-table>th {
+    border: 1px solid black;
+}
+
+.thick-table>td {
     border: 1px solid black;
 }
 
