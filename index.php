@@ -1,6 +1,7 @@
 <meta charset='utf-8'/>
 <html>
 	<head>
+		<meta name="google-site-verification" content="OKvej4xSIY4zxFPd7v6mor2L0hzDXUJaV2gzl5rKYJY" />
 		<title>Plange</title>
 		<link rel=StyleSheet href='css/general.css' type='text/css' />
 	</head>

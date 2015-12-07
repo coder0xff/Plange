@@ -23,7 +23,6 @@
 			<li><a href="/documentation/keywords/catch.php">catch</a></li>
 			<li><a href="/documentation/keywords/context.php">context</a></li>
 			<li><a href="/documentation/keywords/continue.php">continue</a></li>
-			<li><a href="/documentation/keywords/ctor.php">ctor</a></li>
 			<li><a href="/documentation/keywords/dereference.php">dereference</a></li>
 			<li><a href="/documentation/keywords/do.php">do</a></li>
 			<li><a href="/documentation/keywords/does.php">does (unary/binary relation builder)</a></li>
