@@ -10,7 +10,7 @@
 
 		<div class="code">
 			<p>Syntax</p>
-			<pre><a href="expression.php">expression</a> ("←"|"&lt;-") <a href="expression.php">expression</a></pre>
+			<pre>( <a href="expression.php">expression</a> ("←"|"&lt;-") *<a href="expression.php">expression</a></pre>
 		</div>
 		<div class="code">
 			<p>Example</p>
@@ -34,7 +34,13 @@
 		</div>
 		<p>The above example is contrived, but provides a simple segue to constraint based programming. When this statement is executed the value -1 is stored in <code>x</code>. Substituting -1 for x yields <code>(-1) + 1 = 0</code>.</p>
 
+		<p>Assignment operations can be chained together</p>
+		<div class="code">
+			<p>Example</p>
+			<pre>a ← b ← c;</pre>
+		</div>
 
+		
 		<?php require('../../footer.php') ?>
 	</body>
 </html>

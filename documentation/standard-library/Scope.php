@@ -17,7 +17,7 @@
 	&lt;Array&lt;Scope&gt;&gt; children;
 	&lt;SourceCode&gt; sourceCode;
 	&lt;Array&lt;Constant&gt;&gt; constants;
-	&lt;Array&lt;Relation&gt;&gt; relations;
+	&lt;Array&lt;Assertion&gt;&gt; assertions;
 	&lt;Array&lt;Statement&gt;&gt; statements;
 	&lt;Array&lt;Variable&gt;&gt; variables; //includes captures
 	&lt;ExecutionContext&gt; instantiator;

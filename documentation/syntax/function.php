@@ -11,7 +11,7 @@
 		<p>creates a function</p>
 		<div class="code">
 			<p>Syntax</p>
-			<pre>[ "(" [ <a href="formal_parameter.php">parameter</a> ("," <a href="formal_parameter.php">parameter</a> )* ] ")" ] ["no_throw"] ["atomic"] ["pure"|"imperative"|"opaque"] "{" <a href="statement_scope.php">statement_scope</a> "}"</pre>
+			<pre>[ "(" [ <a href="/documentation/syntax/formal_parameter.php">parameter</a> ("," <a href="/documentation/syntax/formal_parameter.php">parameter</a> )* ] ")" ] ["no_throw"] ["atomic"] ["pure"|"imperative"|"opaque"] "{" <a href="/documentation/syntax/statement_scope.php">statement_scope</a> "}"</pre>
 		</div>
 		<div class="code">
 			<p>Example</p>
@@ -19,11 +19,11 @@
 		</div>
 		<div class="code">
 			<p>Example</p>
-			<pre>&lt;int -&gt; int&gt; factorial := (x) { return x == 0 ? 1 : x * factorial(x - 1); };</pre>
+			<pre>&lt;int → int&gt; factorial := (x) { return x == 0 ? 1 : x * factorial(x - 1); };</pre>
 		</div>
 		<div class="code">
 			<p>Example</p>
-			<pre>&lt;Collection&lt;T&gt; -&gt; T&gt; head := (a:b) { return a; }</pre>
+			<pre>&lt;Collection&lt;T&gt; → T&gt; head := (a:b) { return a; }</pre>
 		</div>
 		<h2>Notes</h2>
 		<p>Function objects are invoked using the <a href="invocation.php">invocation</a> operator.</p>

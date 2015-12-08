@@ -19,11 +19,11 @@
 }</pre>
 		</div>
 
-		<p>The user is prompted to enter a number. If they answer, the first branch is executed printing "correct". Otherwise, "incorrect" is printed. If clauses can be chained together.</p>
+		<p>The user is prompted to enter a number. If they answer correctly, the code between the first set of braces { } is executed. Otherwise, the statements in the second set of braces is. Clauses can be chained together.</p>
 
 		<div class="code">
 			<p>Example</p>
-			<pre>choice := |input("Chose a number: ")|;
+			<pre>choice := | coerce(input("Chose a number: ")) |;
 if (choice < 100) {
 	print("That's a nice number.");
 } elif (choice < 10000) {
@@ -52,7 +52,7 @@ if (buffer != "") {
     		<pre>resultString := if (success) "All is well." else "Something went wrong.";</pre>
     	</div>
 
-    	<p>Further, the void-function evaluation of the earlier examples is not implied by the if. It's only implied by being in a statement_scope. That may be a bit confusing, so here is an example.</p>
+    	<p>Further, the void-function evaluation of the earlier examples is not implied by the if. It's only implied by being in a statement_scope. Another example is in order:</p>
 
     	<div class="code">
     		<p>Pseudocode</p>
@@ -60,16 +60,16 @@ if (buffer != "") {
 print(type_of(myFunction)); //prints "Void → Void"</pre>
 		</div>
 
-		<p>Note that the above program does not print ten or "ABC", because evaluation of the statements inside curly braces does not execute until:</p>
+		<p>Note that the above program does <b>not</b> print "10" or "ABC", because evaluation of the statements inside curly braces does not occur until:</p>
 
 		<div class="code">
 			<p>Pseudocode (continued)</p>
 			<pre><span style="color: #CCC;">myFunction := if (!override) { print(5 + 5); } else { print("ABC"); };
 print(type_of(myFunction)); //prints "Void → Void"</span>
-print(myFunction());</pre>
+myFunction();</pre>
 		</div>
 
-		<p>For more details on these evaluation rules see <a href="/documentation/syntax/statement_scope.php">statement_scope (syntax)</a>.
+		<p>This provides a nice segue into a discussion on <a href="/documentation/syntax/statement_scope.php">statement_scope (syntax)</a>, specifically that if a program statement is an expression that evaluates to a Void → Void function then that function is invoked as a step in evaluating the statement.</p>
 		</div>
 
 

@@ -8,8 +8,12 @@
 		<?php require('../../header.php') ?>
 
 
-    </br>
+    	<p>the base element in a statement_scope</p>
 
+    	<div class="code">
+    		<p>Syntax</p>
+    		<pre>( <a href="expression.php">expression</a> | <a href="declaration.php">declaration</a> | <a href="declaration_assignment.php">declaration_assignment</a> | <a href="assignment.php">assignment</a> | <a href="definition.php">definition</a> ) ";"</pre>
+    	</div>
 
 
 		<?php require('../../footer.php') ?>

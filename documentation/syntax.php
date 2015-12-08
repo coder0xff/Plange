@@ -107,7 +107,6 @@
 			<li><a href="/documentation/syntax/shiftl.php">shiftl</a></li>
 			<li><a href="/documentation/syntax/shiftr.php">shiftr</a></li>
 			<li><a href="/documentation/syntax/statement.php">statement</a></li>
-			<li><a href="/documentation/syntax/statement_block.php">statement_block</a></li>
 			<li><a href="/documentation/syntax/statement_scope.php">statement_scope</a></li>
 			<li><a href="/documentation/syntax/string.php">string</a></li>
 			<li><a href="/documentation/syntax/subscript.php">subscript</a></li>
