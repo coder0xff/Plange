@@ -8,8 +8,7 @@
 		<?php require('../../header.php') ?>
 
 
-    </br>
-
+		<p>See <a href="/documentation/syntax/for.php">for (syntax)</a>.</p>
 
 
 		<?php require('../../footer.php') ?>

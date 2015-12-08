@@ -333,8 +333,10 @@ sue = 6;</pre>
 
 		<h2>Further reading</h2>
 		<ul>
-			<li><a href="http://plange.tech/documentation/syntax/if.php">if (syntax)</a></li>
-			<li><a href="http://plange.tech/documentation/syntax/for.php">for (syntax)</a></li>
+			<li><a href="/documentation/syntax/if.php">if (syntax)</a></li>
+			<li><a href="/documentation/syntax/for.php">for (syntax)</a></li>
+			<li><a href="/documentation/syntax/statement_scope.php">statement_scope (syntax)</a></li>
+			<li><a href="/documentation/operators.php">operators</a></li>
 		</ul>
 
 		<?php require('footer.php') ?>
