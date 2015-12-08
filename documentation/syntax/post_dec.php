@@ -8,8 +8,10 @@
 		<?php require('../../header.php') ?>
 
 
-
-
+		<div class="code">
+			<p>Syntax</p>
+			<pre><a href="/documentation/syntax/expression.php">expression</a> "--"</pre>
+		</div>
 
 		<?php require('../../footer.php') ?>
 	</body>

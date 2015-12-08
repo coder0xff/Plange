@@ -11,7 +11,7 @@
 		<p>a syntax alternative to <code>expression ^ 0.5</code></p>
 		<div class="code">
 			<p>Syntax</p>
-			<pre>"√(" expression ")"</pre>
+			<pre>"√" expression</pre>
 		</div>
 
 

@@ -8,10 +8,8 @@
 		<?php require('../../header.php') ?>
 
 
-to creator the get accessor of a property.
-    <br>
-    </br>
-
+		<p>used to creator the get accessor of a property</p>
+		<p>See: <a href="/documentation/properties.php">properties</a></p>
 
 
 		<?php require('../../footer.php') ?>

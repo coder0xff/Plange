@@ -96,15 +96,27 @@
 }
 
 .thick-table {
-    border: 1px solid black;
+    border: 1px solid;
+    border-bottom-color: #444;
+    border-right-color: #444;
+    border-top-color: #CCC;
+    border-left-color: #CCC;
 }
 
-.thick-table>th {
-    border: 1px solid black;
+.thick-table th {
+    border: 1px solid;
+    border-bottom-color: #CCC;
+    border-right-color: #CCC;
+    border-top-color: #444;
+    border-left-color: #444;
 }
 
-.thick-table>td {
-    border: 1px solid black;
+.thick-table td {
+    border: 1px solid;
+    border-bottom-color: #CCC;
+    border-right-color: #CCC;
+    border-top-color: #444;
+    border-left-color: #444;
 }
 
 code {

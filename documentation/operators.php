@@ -23,7 +23,7 @@
 		<ul>
 			<li><a href="/documentation/syntax/definition.php">definition</a><sup>†</sup><code>:=</code></li>
 			<li><a href="/documentation/syntax/assignment.php">assignment</a><sup>†</sup><code>←</code></li>
-			<li><a href="/documentation/syntax/conditional.php">conditional</a><sup>*</sup><code>? :</code></li>
+			<li><a href="/documentation/syntax/conditional.php">conditional</a><sup>‡</sup><code>? :</code></li>
 			<li><a href="/documentation/syntax/dimensional_analysis_op.php">dimensional_analysis_op</a><sup>†</sup>
 				<ul>
 					<li><a href="/documentation/syntax/unit_division.php">unit_division</a><sup>†</sup><code>/</code></li>
@@ -31,18 +31,18 @@
 					<li><a href="/documentation/syntax/unit_exponentiation.php">unit_exponentiation</a><sup>†</sup><code>^</code></li>
 				</ul>
 			</li>
-			<li><a href="/documentation/syntax/prefix_unary_operator_application.php">unary_op</a>
+			<li><a href="/documentation/syntax/unary_op.php">unary_op</a>
 				<ul>
 					<li><a href="/documentation/syntax/cardinality.php">cardinality</a><code>#</code></li>
-					<li><a href="/documentation/syntax/kleene_star.php">kleene_star</a><sup>‡</sup><code>*</code></li>
+					<li><a href="/documentation/syntax/kleene_star.php">kleene_star</a><sup>*</sup><code>*</code></li>
 					<li><a href="/documentation/syntax/unary_arithmetic_op.php">unary_arithmetic_op</a>
 						<ul>
 							<li><a href="/documentation/syntax/negation.php">negation</a><code>-</code></li>
 							<li><a href="/documentation/syntax/radical.php">radical</a><code>√</code></li>
-							<li><a href="/documentation/syntax/factorial.php">factorial</a><sup>‡</sup><code>!</code></li>
-							<li><a href="/documentation/syntax/post_inc.php">post_inc</a><sup>‡</sup><code>++</code></li>
+							<li><a href="/documentation/syntax/factorial.php">factorial</a><sup>*</sup><code>!</code></li>
+							<li><a href="/documentation/syntax/post_inc.php">post_inc</a><sup>*</sup><code>++</code></li>
 							<li><a href="/documentation/syntax/pre_inc.php">pre_inc</a><code>++</code></li>
-							<li><a href="/documentation/syntax/post_dec.php">post_dec</a><sup>‡</sup><code>--</code></li>
+							<li><a href="/documentation/syntax/post_dec.php">post_dec</a><sup>*</sup><code>--</code></li>
 							<li><a href="/documentation/syntax/pre_dec.php">pre_dec</a><code>--</code></li>
 						</ul>
 					</li>
@@ -143,10 +143,10 @@
 					<td>†</td><td>These operators are not used in the syntax of an <a href="/documentation/syntax/expression.php">expression</a></td>
 				</tr>
 				<tr>
-					<td>*</td><td>These operators are turnary</td>
+					<td>‡</td><td>These operators are turnary</td>
 				</tr>
 				<tr>
-					<td>‡</td><td>These unary operators are postfix</td>
+					<td>*</td><td>These unary operators are postfix</td>
 				</tr>
 			</tbody>
 		</table>

@@ -46,17 +46,9 @@
 	};
 }</pre>
 		</div>
-	</div>
-	<h4>
-		<a name="TOC-Notes">
-		</a>
-		Notes
-		<br>
-		</br>
-	</h4>
-	The value of 'context' contains members for inspecting the current scope and its parents. It can be thought of as localized reflection. It can also be used as a re-entry point for cooperative multi-threading. In this capacity, it also increments a call counter, and stores a user object for passing in data during re-entry.
-	<br>
-	</br>
+
+	<h2>Notes</h2>
+	<p>The value of 'context' contains members for inspecting the current scope and its parents. It can be thought of as localized reflection. It can also be used as a re-entry point for cooperative multi-threading. In this capacity, it also increments a call counter, and stores a user object for passing in data during re-entry. See <a href="/documentation/standard-library/ExecutionContext.php">ExecutionContext</a></p>
 
 
 
