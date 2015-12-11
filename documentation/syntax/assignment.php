@@ -10,7 +10,7 @@
 
 		<div class="code">
 			<p>Syntax</p>
-			<pre>( <a href="expression.php">expression</a> ("←"|"&lt;-") *<a href="expression.php">expression</a></pre>
+			<pre>( <a href="expression.php">expression</a> ("←"|"&lt;-") )* <a href="expression.php">expression</a></pre>
 		</div>
 		<div class="code">
 			<p>Example</p>

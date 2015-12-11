@@ -43,7 +43,19 @@ Foat32x3 := Vector&lt;Float32, 3&gt;;                        // type def and a f
 &lt;Vector&lt;Float32, 3&gt;&gt; anotherVectorVariable;            // same type as previous line
 &lt;type_of(aVectorVariable)&gt; yetAnotherVectorVariable;   // contrived but doable</pre>
 		</div>
-		
+
+		<p>In the next example X is an unbound variable. The identity function returns any value it is passed while preserving type information.</p>
+		<div class="code">
+			<p>Example</p>
+			<pre>&lt;X → X&gt; identity := (&ltX&gt value) { return value; }; //A constraint is built upon X and identity</pre>		
+		</div>
+
+		<p>Or with less verbosity, simply:</p>
+		<div class="code">
+			<p>Example</p>
+			<pre>identity := (value) { return value; };</pre>
+		</div>
+
 		<h2>Notes</h2>
 		<p>The angle-bracket syntax is not required, since parenthesis can be used also. The convention is to use the angle-bracket syntax when the intent is use as a generic type. See <a href="/documentation/syntax/invocation">invocation</a></p>
 
@@ -125,6 +137,7 @@ ___.___    ~            _____________
 			<pre>List := type {Dynarray
 
 			} + (<Type> T) { return type { }};
+		</div>
 
 		<h2>Algebraic Types</h2>
 
