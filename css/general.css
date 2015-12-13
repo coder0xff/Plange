@@ -4,6 +4,7 @@
 }
 
 .code {
+    clear: right;
     margin:3pt;
     margin-left:12pt;
     margin-bottom:18pt;
@@ -122,4 +123,35 @@
 code {
     font-family:source_code_pro;
     color: #4F4F31;
+}
+
+#toc {
+    float: right;
+    background-color: #DDF;
+    padding: 12pt;
+    margin-right: 26pt;
+    margin-bottom: 12pt;
+    border-color: #334;
+    border-style: solid;
+    border-width: 1px;
+}
+
+#toc ul {
+    margin: 0px;
+    padding: 0px;
+    padding-left: 12pt;
+    list-style: none;
+}
+
+#toc ul li a {
+    display: block;
+}
+
+#toc ul li a:hover {
+    background-color: #6495ED;
+}
+
+#toc ul li ul {
+    padding-left: 12pt;
+    list-style: none;
 }

@@ -68,11 +68,11 @@
 			</li>
 		</ul>
 
-		<h4>: (prepend)</h4>
-		<p>makes a new collection by putting the left hand operand at the beginning of a new collection and the appending the collection in the right hand operand.</p>
+		<h4>& (prepend)</h4>
+		<p>The prepend operator creates a new collection, putting the left hand operand at the beginning and then appending the collection in the right hand operand</p>
 		<ul>
 			<li>as the denumerable constructor <a href="prepend.php">prepend</a>
-				Function signature: T × Denumerable&lt;T&gt; -&gt; Denumerable&lt;T&gt;
+				Function signature: T × Collection&lt;T&gt; -&gt; Collection&lt;T&gt;
 			</li>
 		</ul>
 

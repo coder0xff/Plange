@@ -16,6 +16,8 @@
 		</div>
 		<p>See the <a href="goals/">Goals</a> page for a high-level overview.</p>
 
+		<?php TableOfContents(2); ?>
+		
 		<h1>Introduction & Tutorial</h1>
 		<p>Plange began as a list of features and ideas. Existing languages were used as inspiration for this list - their successes and also their failings. Creating a language that picks and chooses the best features of many successful languages, integrates them, and has an expansive and robust runtime and standard library is an ambitious undertaking. Nonetheless, this is the goal for Plange.</p>
 
@@ -312,6 +314,20 @@ sue = 6;</pre>
 	) / (a*drag^2);
 };</pre>
 		</div>
+
+		<h3>Limitations</h3>
+		<p>Constraint solving is intractible in the general case. Therefore, it's necessary for the developer to familiarize themselves with the capabilities of the language, which are expected to expand over time as research provides new results. A demonstration of a semantically correct but nonfunctional program is in order.</p>
+
+		<div class="code">
+			<p>Counter Example</p>
+			<pre>&lt;Collection * BinaryRelation → Collection&gt; sort := (items, ordering) {
+	|result| = |items|; // same number of elements
+	result ↔ items; // result and items make a bijection
+	∀ { ordering(result[i - 1], result[i]) where i ∈ 𝕎 ∧ i &lt; |result| }; //the result has to be sorted
+	return result; // solve, substitute, and return
+};</pre>
+		</div>
+		<p>The above function, sort, is semantically equivalent to the sorting functions. However, this constraint based problem is not yet solvable using available techniques. Instead, a person must create these algorithms.</p>
 
 		<h2>Type Constraints</h2><a name="Type_Constraints" />
 		<p>Since types are values, and values can be constrained, type constraints are realised.</p>
