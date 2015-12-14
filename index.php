@@ -15,8 +15,6 @@
 			standard library, and runtime.
 		</div>
 		<p>See the <a href="goals/">Goals</a> page for a high-level overview.</p>
-
-		<?php TableOfContents(2); ?>
 		
 		<h1>Introduction & Tutorial</h1>
 		<p>Plange began as a list of features and ideas. Existing languages were used as inspiration for this list - their successes and also their failings. Creating a language that picks and chooses the best features of many successful languages, integrates them, and has an expansive and robust runtime and standard library is an ambitious undertaking. Nonetheless, this is the goal for Plange.</p>
