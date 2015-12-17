@@ -1,0 +1,51 @@
+#ifndef PRODUCER_HPP
+#define PRODUCER_HPP
+
+#include <list>
+#include <map>
+#include <vector>
+#include <set>
+#include <mutex>
+
+#include "details/context.hpp"
+#include "permutation.hpp"
+
+namespace parlex {
+
+class parser;
+
+namespace details {
+
+class job;
+
+class producer {
+public:
+	struct subscription {
+		int next_index;
+		context_ref const c;
+		int next_dfa_state;
+		inline subscription(context_ref const & c, int const nextDfaState) : next_index(0), c(c), next_dfa_state(nextDfaState) {}
+	};
+
+	void do_events();
+
+	job & owner;
+	recognizer const & r;
+	int const document_position;
+	bool completed;
+	std::list<subscription> consumers;
+	std::vector<match> matches;
+	std::map<match, std::set<permutation>> match_to_permutations;
+	std::mutex mutex;
+
+	friend class parlex::parser;
+	friend class parlex::details::job;
+	void add_subscription(context_ref const & c, int const nextDfaState);
+	producer(job & owner, recognizer const & r, int const documentPosition);
+	void enque_permutation(int consumedCharacterCount, permutation const & p);
+};
+
+}
+}
+
+#endif //PRODUCER_HPP
