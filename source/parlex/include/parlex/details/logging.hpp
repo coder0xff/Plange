@@ -2,39 +2,43 @@
 #define LOGGING_HPP
 
 #include <string>
-#include <iostream>
 #include <sstream>
+#include <thread>
 
+#ifndef NDEBUG
+#	define DBG(...) parlex::details::log_impl("DBG", __FILE__, __LINE__, __VA_ARGS__)
+#else
+#   define DBG(...)
+#endif
 
-#define DEBUG(...) logging::debug_impl(__VA_ARGS__)
+namespace parlex {
+namespace details {
 
-namespace logging {
+extern void log_enque(std::string const * const item);
 
-void print_endl(std::string s) {
-	std::cout << s << std::endl;
-}
-
+//variadic stringify function
 template<typename... Ts>
-std::string stringify(Ts... parameters);
+void stringify(std::stringstream & ss, Ts const & ...parameters);
 
 template<typename T, typename... Us>
-std::string stringify(T head, Us... tail) {
-	std::stringstream ss;
+void stringify(std::stringstream & ss, const T & head, const Us & ...tail) {
 	ss << head;
-	ss << stringify(tail...);
-	return ss.str();
+	stringify(ss, tail...);
 }
 
 template<>
-std::string stringify() {
-	return std::string();
-}
+void stringify(std::stringstream & ss);
 
 template<typename... Ts>
-void debug_impl(Ts... args) {
-	print_endl(stringify(args...));
+void log_impl(char const * const cat, char const * const file, int line, Ts const & ...args) {
+	std::stringstream ss;
+	ss << cat << " t:" << std::this_thread::get_id() << " (" << file << ":" << line << "): ";
+	stringify(ss, args...);
+	ss << std::endl;
+	log_enque(new std::string(ss.str()));
 }
 
+}
 }
 
 #endif
