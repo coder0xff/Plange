@@ -14,18 +14,18 @@ namespace parlex {
 parser::parser(int threadCount) : activeCount(0), terminating(false) {
 	for (; threadCount > 0; --threadCount) {
 		workers.emplace_back([=]() {
-			DEBUG("thread ", threadCount, " started");
+			DBG("thread ", threadCount, " started");
 			std::unique_lock<std::mutex> lock(mutex);
 			goto wait;
 			while (!terminating) {
 				{
-					DEBUG("thread ", threadCount, " popping item");
+					DBG("thread ", threadCount, " popping item");
 					std::tuple<details::context_ref, int> & item = work.front();
 					work.pop();
 					lock.unlock();
 					auto const & context = std::get<0>(item);
 					auto const nextDfaState = std::get<1>(item);
-					DEBUG("thread ", threadCount, " executing dfa state");
+					DBG("thread ", threadCount, " executing dfa state");
 					context.owner().machine.process(context, nextDfaState);
 					if (--activeCount == 0) {
 						halt_cv.notify_one();
@@ -53,24 +53,25 @@ abstract_syntax_graph parser::parse(recognizer const & r, std::u32string const &
 #ifndef FORCE_RECURSION
 	assert(activeCount > 0);
 #endif
-	while (activeCount != 0) {
-		halt_cv.wait(lock);
+	while (true) {
+		halt_cv.wait(lock, [this](){ return activeCount == 0; });
+		DBG("parser is idle; checking for deadlocks");
 		if (handle_deadlocks(j)) {
 			break;
 		}
 	};
+	assert(activeCount == 0);
 	return construct_result(j, match(match_class(r, 0), document.size()));
 }
 
 void parser::schedule(details::context_ref const & c, int nextDfaState) {
 #ifndef FORCE_RECURSION
-	DEBUG("scheduling");
 	activeCount++;
 	std::unique_lock<std::mutex> lock(mutex);
 	work.emplace(std::make_tuple(c, nextDfaState));
 	work_cv.notify_one();
 #else
-	std::string machineId = c.owner().machine.get_id();
+	DBG("scheduling machine '", c.owner().machine.get_id(), "' state ", nextDfaState, " for document position ", c.current_document_position());
 	c.owner().machine.process(c, nextDfaState);
 #endif
 }
@@ -89,6 +90,7 @@ abstract_syntax_graph parser::construct_result(details::job const & j, match con
 }
 
 bool parser::handle_deadlocks(details::job const & j) {
+	return true;
 	assert(activeCount == 0);
 	//build a dependency graph and detect cyclical portions that should be halted
 	//if no subjobs remain, return true

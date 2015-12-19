@@ -105,14 +105,14 @@ am__v_AR_1 =
 libparlex_a_AR = $(AR) $(ARFLAGS)
 libparlex_a_LIBADD =
 am_libparlex_a_OBJECTS = libparlex_a-abstract_syntax_graph.$(OBJEXT) \
-	libparlex_a-builtins.$(OBJEXT) libparlex_a-job.$(OBJEXT) \
-	libparlex_a-context.$(OBJEXT) \
+	libparlex_a-builtins.$(OBJEXT) libparlex_a-context.$(OBJEXT) \
+	libparlex_a-job.$(OBJEXT) libparlex_a-logging.$(OBJEXT) \
 	libparlex_a-match_class.$(OBJEXT) libparlex_a-parser.$(OBJEXT) \
 	libparlex_a-producer.$(OBJEXT) \
 	libparlex_a-recognizer.$(OBJEXT) \
 	libparlex_a-state_machine.$(OBJEXT) \
 	libparlex_a-subjob.$(OBJEXT) libparlex_a-token.$(OBJEXT) \
-	libparlex_a-uni_trunc.$(OBJEXT)
+	libparlex_a-uni_trunc.$(OBJEXT) libparlex_a-wirth.$(OBJEXT)
 libparlex_a_OBJECTS = $(am_libparlex_a_OBJECTS)
 AM_V_P = $(am__v_P_@AM_V@)
 am__v_P_ = $(am__v_P_@AM_DEFAULT_V@)
@@ -267,8 +267,8 @@ top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 noinst_LIBRARIES = libparlex.a
-libparlex_a_SOURCES = abstract_syntax_graph.cpp builtins.cpp job.cpp context.cpp match_class.cpp parser.cpp producer.cpp recognizer.cpp state_machine.cpp subjob.cpp token.cpp uni_trunc.cpp
-libparlex_a_CPPFLAGS = -std=c++11 -I../../include/parlex -I../../include/parlex/details -I../../include/extras
+libparlex_a_SOURCES = abstract_syntax_graph.cpp builtins.cpp context.cpp job.cpp logging.cpp match_class.cpp parser.cpp producer.cpp recognizer.cpp state_machine.cpp subjob.cpp token.cpp uni_trunc.cpp wirth.cpp
+libparlex_a_CPPFLAGS = -std=c++11 -I../../include/parlex -I../../include/parlex/builtins -I../../include/parlex/details -I../../include/parlex/extras
 all: all-am
 
 .SUFFIXES:
@@ -321,6 +321,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libparlex_a-builtins.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libparlex_a-context.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libparlex_a-job.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libparlex_a-logging.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libparlex_a-match_class.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libparlex_a-parser.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libparlex_a-producer.Po@am__quote@
@@ -329,6 +330,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libparlex_a-subjob.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libparlex_a-token.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libparlex_a-uni_trunc.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libparlex_a-wirth.Po@am__quote@
 
 .cpp.o:
 @am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXXCOMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<
@@ -372,6 +374,20 @@ libparlex_a-builtins.obj: builtins.cpp
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libparlex_a_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o libparlex_a-builtins.obj `if test -f 'builtins.cpp'; then $(CYGPATH_W) 'builtins.cpp'; else $(CYGPATH_W) '$(srcdir)/builtins.cpp'; fi`
 
+libparlex_a-context.o: context.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libparlex_a_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT libparlex_a-context.o -MD -MP -MF $(DEPDIR)/libparlex_a-context.Tpo -c -o libparlex_a-context.o `test -f 'context.cpp' || echo '$(srcdir)/'`context.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libparlex_a-context.Tpo $(DEPDIR)/libparlex_a-context.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='context.cpp' object='libparlex_a-context.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libparlex_a_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o libparlex_a-context.o `test -f 'context.cpp' || echo '$(srcdir)/'`context.cpp
+
+libparlex_a-context.obj: context.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libparlex_a_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT libparlex_a-context.obj -MD -MP -MF $(DEPDIR)/libparlex_a-context.Tpo -c -o libparlex_a-context.obj `if test -f 'context.cpp'; then $(CYGPATH_W) 'context.cpp'; else $(CYGPATH_W) '$(srcdir)/context.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libparlex_a-context.Tpo $(DEPDIR)/libparlex_a-context.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='context.cpp' object='libparlex_a-context.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libparlex_a_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o libparlex_a-context.obj `if test -f 'context.cpp'; then $(CYGPATH_W) 'context.cpp'; else $(CYGPATH_W) '$(srcdir)/context.cpp'; fi`
+
 libparlex_a-job.o: job.cpp
 @am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libparlex_a_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT libparlex_a-job.o -MD -MP -MF $(DEPDIR)/libparlex_a-job.Tpo -c -o libparlex_a-job.o `test -f 'job.cpp' || echo '$(srcdir)/'`job.cpp
 @am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libparlex_a-job.Tpo $(DEPDIR)/libparlex_a-job.Po
@@ -386,19 +402,19 @@ libparlex_a-job.obj: job.cpp
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libparlex_a_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o libparlex_a-job.obj `if test -f 'job.cpp'; then $(CYGPATH_W) 'job.cpp'; else $(CYGPATH_W) '$(srcdir)/job.cpp'; fi`
 
-libparlex_a-context.o: context.cpp
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libparlex_a_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT libparlex_a-context.o -MD -MP -MF $(DEPDIR)/libparlex_a-context.Tpo -c -o libparlex_a-context.o `test -f 'context.cpp' || echo '$(srcdir)/'`context.cpp
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libparlex_a-context.Tpo $(DEPDIR)/libparlex_a-context.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='context.cpp' object='libparlex_a-context.o' libtool=no @AMDEPBACKSLASH@
+libparlex_a-logging.o: logging.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libparlex_a_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT libparlex_a-logging.o -MD -MP -MF $(DEPDIR)/libparlex_a-logging.Tpo -c -o libparlex_a-logging.o `test -f 'logging.cpp' || echo '$(srcdir)/'`logging.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libparlex_a-logging.Tpo $(DEPDIR)/libparlex_a-logging.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='logging.cpp' object='libparlex_a-logging.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libparlex_a_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o libparlex_a-context.o `test -f 'context.cpp' || echo '$(srcdir)/'`context.cpp
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libparlex_a_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o libparlex_a-logging.o `test -f 'logging.cpp' || echo '$(srcdir)/'`logging.cpp
 
-libparlex_a-context.obj: context.cpp
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libparlex_a_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT libparlex_a-context.obj -MD -MP -MF $(DEPDIR)/libparlex_a-context.Tpo -c -o libparlex_a-context.obj `if test -f 'context.cpp'; then $(CYGPATH_W) 'context.cpp'; else $(CYGPATH_W) '$(srcdir)/context.cpp'; fi`
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libparlex_a-context.Tpo $(DEPDIR)/libparlex_a-context.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='context.cpp' object='libparlex_a-context.obj' libtool=no @AMDEPBACKSLASH@
+libparlex_a-logging.obj: logging.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libparlex_a_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT libparlex_a-logging.obj -MD -MP -MF $(DEPDIR)/libparlex_a-logging.Tpo -c -o libparlex_a-logging.obj `if test -f 'logging.cpp'; then $(CYGPATH_W) 'logging.cpp'; else $(CYGPATH_W) '$(srcdir)/logging.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libparlex_a-logging.Tpo $(DEPDIR)/libparlex_a-logging.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='logging.cpp' object='libparlex_a-logging.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libparlex_a_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o libparlex_a-context.obj `if test -f 'context.cpp'; then $(CYGPATH_W) 'context.cpp'; else $(CYGPATH_W) '$(srcdir)/context.cpp'; fi`
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libparlex_a_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o libparlex_a-logging.obj `if test -f 'logging.cpp'; then $(CYGPATH_W) 'logging.cpp'; else $(CYGPATH_W) '$(srcdir)/logging.cpp'; fi`
 
 libparlex_a-match_class.o: match_class.cpp
 @am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libparlex_a_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT libparlex_a-match_class.o -MD -MP -MF $(DEPDIR)/libparlex_a-match_class.Tpo -c -o libparlex_a-match_class.o `test -f 'match_class.cpp' || echo '$(srcdir)/'`match_class.cpp
@@ -511,6 +527,20 @@ libparlex_a-uni_trunc.obj: uni_trunc.cpp
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='uni_trunc.cpp' object='libparlex_a-uni_trunc.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libparlex_a_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o libparlex_a-uni_trunc.obj `if test -f 'uni_trunc.cpp'; then $(CYGPATH_W) 'uni_trunc.cpp'; else $(CYGPATH_W) '$(srcdir)/uni_trunc.cpp'; fi`
+
+libparlex_a-wirth.o: wirth.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libparlex_a_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT libparlex_a-wirth.o -MD -MP -MF $(DEPDIR)/libparlex_a-wirth.Tpo -c -o libparlex_a-wirth.o `test -f 'wirth.cpp' || echo '$(srcdir)/'`wirth.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libparlex_a-wirth.Tpo $(DEPDIR)/libparlex_a-wirth.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='wirth.cpp' object='libparlex_a-wirth.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libparlex_a_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o libparlex_a-wirth.o `test -f 'wirth.cpp' || echo '$(srcdir)/'`wirth.cpp
+
+libparlex_a-wirth.obj: wirth.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libparlex_a_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT libparlex_a-wirth.obj -MD -MP -MF $(DEPDIR)/libparlex_a-wirth.Tpo -c -o libparlex_a-wirth.obj `if test -f 'wirth.cpp'; then $(CYGPATH_W) 'wirth.cpp'; else $(CYGPATH_W) '$(srcdir)/wirth.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libparlex_a-wirth.Tpo $(DEPDIR)/libparlex_a-wirth.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='wirth.cpp' object='libparlex_a-wirth.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libparlex_a_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o libparlex_a-wirth.obj `if test -f 'wirth.cpp'; then $(CYGPATH_W) 'wirth.cpp'; else $(CYGPATH_W) '$(srcdir)/wirth.cpp'; fi`
 
 ID: $(am__tagged_files)
 	$(am__define_uniq_tagged_files); mkid -fID $$unique

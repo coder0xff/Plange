@@ -25,9 +25,7 @@ void producer::add_subscription(context_ref const & c, int nextDfaState) {
 void producer::do_events() {
 	std::unique_lock<std::mutex> lock(mutex);
 	for (auto & subscription : consumers) {
-		if (subscription.c.owner().completed) {
-			throw;
-		}
+		assert(!subscription.c.owner().completed)
 		while (subscription.next_index < match_to_permutations.size()) {
 			auto match = matches[subscription.next_index];
 			subscription.next_index++;

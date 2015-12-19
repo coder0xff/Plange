@@ -1,43 +1,43 @@
-#include <iostream>
 #include <cassert>
 
-#include "builtins.hpp"
-#include "state_machine.hpp"
-#include "parser.hpp"
 #include "abstract_syntax_graph.hpp"
+#include "builtins.hpp"
+#include "logging.hpp"
+#include "parser.hpp"
+#include "state_machine.hpp"
 
 void parser_test_1() {
-	std::cout << "************ parser_test_1 ************" << std::endl;
+	DBG("************ parser_test_1 ************");
 	parlex::state_machine s("machine", 1);
 	s.add_transition(0, parlex::builtins::any_character, 1);
 	parlex::parser p(1);
 	parlex::abstract_syntax_graph result = p.parse(s, U"a");
-	std::cout << result.to_dot() << std::endl;
+	DBG(result.to_dot());
 }
 
 
 void parser_test_2() {
-	std::cout << "************ parser_test_2 ************" << std::endl;
+	DBG("************ parser_test_2 ************");
 	parlex::state_machine s("machine", 1);
 	parlex::builtins::string_terminal helloWorld(U"Hello, world!");
 	s.add_transition(0, helloWorld, 1);
 	parlex::parser p(1);
 	parlex::abstract_syntax_graph result = p.parse(s, U"Hello, world!");
-	std::cout << result.to_dot() << std::endl;
+	DBG(result.to_dot());
 }
 
 void parser_test_3() {
-	std::cout << "************ parser_test_3 ************" << std::endl;
+	DBG("************ parser_test_3 ************");
 	parlex::state_machine s("machine", 1);
 	parlex::builtins::string_terminal foo(U"Foo");
 	s.add_transition(0, foo, 1);
 	parlex::parser p(1);
 	parlex::abstract_syntax_graph result = p.parse(s, U"bar");
-	std::cout << result.to_dot() << std::endl;
+	DBG(result.to_dot());
 }
 
 void parser_test_4() {
-	std::cout << "************ parser_test_4 ************" << std::endl;
+	DBG("************ parser_test_4 ************");
 	parlex::state_machine s("machine", 1);
 	parlex::builtins::string_terminal hello(U"Hello");
 	parlex::builtins::string_terminal world(U", world");
@@ -46,21 +46,21 @@ void parser_test_4() {
 	s.add_transition(2, parlex::builtins::any_character, 3);
 	parlex::parser p(1);
 	parlex::abstract_syntax_graph result = p.parse(s, U"Hello, world!");
-	std::cout << result.to_dot() << std::endl;
+	DBG(result.to_dot());
 }
 
 void parser_test_5() {
-	std::cout << "************ parser_test_5 ************" << std::endl;
+	DBG("************ parser_test_5 ************");
 	parlex::state_machine s("num", 1);
 	s.add_transition(0, parlex::builtins::decimal_digit, 1);
 	s.add_transition(1, parlex::builtins::decimal_digit, 1);
 	parlex::parser p(1);
 	parlex::abstract_syntax_graph result = p.parse(s, U"982874599127");
-	std::cout << result.to_dot() << std::endl;
+	DBG(result.to_dot());
 }
 
 void parser_test_6() {
-	std::cout << "************ parser_test_6 ************" << std::endl;
+	DBG("************ parser_test_6 ************");
 	parlex::state_machine num("num", 1);
 	num.add_transition(0, parlex::builtins::decimal_digit, 1);
 	num.add_transition(1, parlex::builtins::decimal_digit, 1);
@@ -72,12 +72,12 @@ void parser_test_6() {
 
 	parlex::parser p(1);
 	parlex::abstract_syntax_graph result = p.parse(csv, U"1,2");
-	std::cout << result.to_dot() << std::endl;
+	DBG(result.to_dot());
 }
 
 void parser_test_7() {
-	std::cout << "************ parser_test_7 ************" << std::endl;
-	parlex::state_machine ncsv("ncsv", 1);
+	DBG("************ parser_test_7 ************");
+	parlex::state_machine nested_csv("nested_csv", 1);
 
 	parlex::state_machine num("num", 1);
 	num.add_transition(0, parlex::builtins::decimal_digit, 1);
@@ -87,29 +87,29 @@ void parser_test_7() {
 	parlex::builtins::string_terminal open_paren(U"(");
 	parlex::builtins::string_terminal close_paren(U")");
 	paren.add_transition(0, open_paren, 1);
-	paren.add_transition(1, ncsv, 2);
+	paren.add_transition(1, nested_csv, 2);
 	paren.add_transition(2, close_paren, 3);
 
-	ncsv.add_transition(0, num, 2);
-	ncsv.add_transition(0, paren, 2);
+	nested_csv.add_transition(0, num, 2);
+	nested_csv.add_transition(0, paren, 2);
 	parlex::builtins::string_terminal comma(U",");
-	ncsv.add_transition(2, comma, 1);
-	ncsv.add_transition(1, num, 2);
-	ncsv.add_transition(1, paren, 2);
+	nested_csv.add_transition(2, comma, 1);
+	nested_csv.add_transition(1, num, 2);
+	nested_csv.add_transition(1, paren, 2);
 
 	for (int i = 0; i < 1000; i++) {
+		DBG("iteration ", i);
 		parlex::parser p(1);
-		parlex::abstract_syntax_graph result = p.parse(ncsv, U"12,(34,56),789");
+		parlex::abstract_syntax_graph result = p.parse(nested_csv, U"12,(34,56),789");
 		std::string dot = result.to_dot();
-		std::cout << dot << std::endl;
-		std::cout << "checking iteration " << i << std::endl;
+		DBG(dot);
 		assert(dot.length() > 100);
 	}
 }
 
 //direct left recursion
 void parser_test_8() {
-	std::cout << "************ parser_test_8 ************" << std::endl;
+	DBG("************ parser_test_8 ************");
 	parlex::state_machine expr("expr", 1);
 
 	parlex::state_machine factorial("factorial", 1);
@@ -122,7 +122,7 @@ void parser_test_8() {
 
 	parlex::parser p(1);
 	parlex::abstract_syntax_graph result = p.parse(expr, U"1!");
-	std::cout << result.to_dot() << std::endl;
+	DBG(result.to_dot());
 }
 
 //left recursion
@@ -173,7 +173,7 @@ void parser_test_100() {
 
 	parlex::parser p(1);
 	parlex::abstract_syntax_graph result = p.parse(expr, U"1+2");
-	std::cout << result.to_dot() << std::endl;
+	DBG(result.to_dot());
 }
 
 
@@ -182,8 +182,8 @@ int main(void) {
 	parser_test_2();
 	parser_test_3();
 	parser_test_4();
-	parser_test_5();*/
-	parser_test_6();
-	//parser_test_7();
+	parser_test_5();
+	parser_test_6();*/
+	parser_test_7();
 	//parser_test_8();
 }

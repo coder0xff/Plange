@@ -1,6 +1,6 @@
-#include <iostream>
 #include <string>
 
+#include "logging.hpp"
 #include "subjob.hpp"
 #include "context.hpp"
 #include "job.hpp"
@@ -19,7 +19,7 @@ subjob::subjob(
 	producer(owner, machine, documentPosition),
 	machine(machine)
 { 
-	std::cout << "started a subjob at " << documentPosition << " using " << machine.get_id() << std::endl;
+	DBG("started a subjob at document position ", documentPosition, " using machine '", machine, "'");
 }
 
 void subjob::start() {

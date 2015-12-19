@@ -1,7 +1,6 @@
-#include <iostream>
-
-#include "state_machine.hpp"
 #include "context.hpp"
+#include "logging.hpp"
+#include "state_machine.hpp"
 #include "subjob.hpp"
 
 namespace parlex {
@@ -22,14 +21,14 @@ void state_machine::start(details::subjob & sj, int const documentPosition) cons
 }
 
 void state_machine::process(details::context_ref const & c, int const s) const {
-	std::cout << "processing " << get_id() << " state " << s << " document position " << c.current_document_position() << std::endl;
+	DBG("processing '", get_id(), "' state ", s, " document position ", c.current_document_position());
 	if (s >= states.size() - accept_state_count) {
 		c.owner().accept(c);
 	}
 	for (auto const & kvp : states[s]) {
 		recognizer const & transition = kvp.first;
 		int const next_state = kvp.second;
-		std::cout << get_id() << " state " << s << " position " << c.owner().contexts.front().current_document_position << " subscribes to " << transition.get_id() << " position " << c.current_document_position() << std::endl;
+		DBG("'", get_id(), "' state ", s, " position ", c.current_document_position(), " subscribes to '", transition.get_id(), "' position ", c.current_document_position());
 		c.owner().on(c, transition, next_state);
 	}
 }

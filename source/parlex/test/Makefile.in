@@ -257,7 +257,7 @@ top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 test_SOURCES = test.cpp
-test_CPPFLAGS = -std=c++11 -I../../include/parlex -I../../include/parlex/extras
+test_CPPFLAGS = -std=c++11 -I../../include/parlex -I../../include/parlex/details -I../../include/parlex/extras
 test_LDADD = ../src/libparlex.a
 test_LDFLAGS = -pthread
 all: all-am

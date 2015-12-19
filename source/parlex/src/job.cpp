@@ -1,5 +1,4 @@
-#include <iostream>
-
+#include "logging.hpp"
 #include "state_machine.hpp"
 #include "job.hpp"
 #include "terminal.hpp"
@@ -15,7 +14,7 @@ job::job(parser & owner, std::u32string const & document, recognizer const & mai
   main(main),
   owner(owner)
 	{
-		std::cout << "starting job using " << main.get_id() << std::endl;
+		DBG("starting job using recognizer '", main, "'");
 
 		//similar to get_product, but different for constructor
 		match_class matchClass(main, 0);

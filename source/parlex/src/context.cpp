@@ -6,6 +6,7 @@
  */
 
 #include <cassert>
+#include <csignal>
 #include <iostream>
 
 #include "context.hpp"
@@ -88,8 +89,8 @@ bool context_ref::is_null() const {
 		return true;
 	} else {
 		if (!rc->c) {
-			std::cout << "ERROR: dangling ref id: " << id << ", context id: " << rc->id;
-			throw;
+			std::cerr << "ERROR: dangling ref id: " << id << ", context id: " << rc->id;
+			raise(SIGABRT);
 		}
 		return false;
 	}
