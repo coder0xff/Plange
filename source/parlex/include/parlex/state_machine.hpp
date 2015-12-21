@@ -4,10 +4,14 @@
 #include <memory>
 
 #include "recognizer.hpp"
-#include "details/context.hpp"
 #include "filter_function.hpp"
 
 namespace parlex {
+namespace details {
+
+class context_ref;
+
+}
 
 class parser;
 
