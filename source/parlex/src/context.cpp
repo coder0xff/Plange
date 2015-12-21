@@ -88,7 +88,7 @@ bool context_ref::is_null() const {
 	if (!rc) {
 		return true;
 	} else {
-		if (!(context*)rc->c) {
+		if (!rc->c) {
 			std::cerr << "ERROR: dangling ref id: " << id << ", context id: " << rc->id;
 			raise(SIGABRT);
 		}
