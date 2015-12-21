@@ -5,22 +5,22 @@
 
 namespace parlex {
 
-state_machine::state_machine(std::string id, int acceptStateCount) :
+state_machine::state_machine(std::string id, size_t acceptStateCount) :
 	id(id),
 	accept_state_count(acceptStateCount)
 {}
 
-state_machine::state_machine(std::string id, int acceptStateCount, filter_function filter) :
+state_machine::state_machine(std::string id, size_t acceptStateCount, filter_function filter) :
 	id(id),
 	accept_state_count(acceptStateCount),
 	filter(filter)
 {}
 
-void state_machine::start(details::subjob & sj, int const documentPosition) const {
+void state_machine::start(details::subjob & sj, size_t const documentPosition) const {
 	process(sj.construct_context(documentPosition), 0);
 }
 
-void state_machine::process(details::context_ref const & c, int const s) const {
+void state_machine::process(details::context_ref const & c, size_t const s) const {
 	DBG("processing '", get_id(), "' state ", s, " document position ", c.current_document_position());
 	if (s >= states.size() - accept_state_count) {
 		c.owner().accept(c);
@@ -41,8 +41,8 @@ filter_function state_machine::get_filter() const {
 	return filter;
 }
 
-void state_machine::add_transition(int fromState, recognizer const & recognizer, int toState) {
-	int impliedStateCount = std::max(fromState, toState) + 1;
+void state_machine::add_transition(size_t fromState, recognizer const & recognizer, size_t toState) {
+	size_t impliedStateCount = std::max(fromState, toState) + 1;
 	while (states.size() < impliedStateCount) {
 		states.emplace_back();
 	}

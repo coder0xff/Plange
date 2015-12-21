@@ -6,11 +6,11 @@
 namespace parlex {
 namespace details {
 
-bool any_character_t::test(std::u32string const & document, int documentPosition) const {
+bool any_character_t::test(std::u32string const & document, size_t documentPosition) const {
 	return documentPosition < document.length();
 }
 
-int any_character_t::get_length() const {
+size_t any_character_t::get_length() const {
 	return 1;
 }
 
@@ -26,11 +26,11 @@ parlex::details::any_character_t any_character;
 
 string_terminal::string_terminal(std::u32string const & s) : s(s), length(s.length()), id(uni_trunc(s)) {}
 
-bool string_terminal::test(std::u32string const & document, int const documentPosition) const {
+bool string_terminal::test(std::u32string const & document, size_t const documentPosition) const {
 	return document.compare(documentPosition, length, s) == 0;
 }
 
-int string_terminal::get_length() const {
+size_t string_terminal::get_length() const {
 	return length;
 }
 

@@ -11,7 +11,7 @@ namespace details {
 
 class token : public producer {
 public:
-	token(job & owner, terminal const & t, int documentPosition);
+	token(job & owner, terminal const & t, size_t documentPosition);
 };
 
 }

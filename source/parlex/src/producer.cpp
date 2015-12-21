@@ -8,13 +8,13 @@
 namespace parlex {
 namespace details {
 
-producer::producer(job & owner, recognizer const & r, int const documentPosition) :
+producer::producer(job & owner, recognizer const & r, size_t const documentPosition) :
 	owner(owner),
 	r(r),
 	document_position(documentPosition) {}
 
 
-void producer::add_subscription(context_ref const & c, int nextDfaState) {
+void producer::add_subscription(context_ref const & c, size_t nextDfaState) {
 	{
 		std::unique_lock<std::mutex> lock(mutex);
 		consumers.emplace_back(c, nextDfaState);
@@ -38,7 +38,7 @@ void producer::do_events() {
 	}
 }
 
-void producer::enque_permutation(int consumedCharacterCount, permutation const & p) {
+void producer::enque_permutation(size_t consumedCharacterCount, permutation const & p) {
 	//std::cout << "enque_permutation at " << (document_position) << " consuming " << consumedCharacterCount << std::endl;
 	bool newMatch = false;
 	{

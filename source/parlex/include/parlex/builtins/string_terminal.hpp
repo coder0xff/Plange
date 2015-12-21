@@ -10,8 +10,8 @@ namespace builtins {
 	public:
 		string_terminal(std::u32string const & s);
 		virtual ~string_terminal() = default;
-		virtual bool test(std::u32string const & document, int documentPosition) const final;
-		virtual int get_length() const final;
+		virtual bool test(std::u32string const & document, size_t documentPosition) const final;
+		virtual size_t get_length() const final;
 		virtual std::string get_id() const final;
 	private:
 		std::u32string const s;

@@ -7,9 +7,9 @@ class recognizer;
 
 struct match_class {
 	recognizer const & r;
-	int document_position;
+	size_t document_position;
 
-	match_class(recognizer const & r, int documentPosition);
+	match_class(recognizer const & r, size_t documentPosition);
 	match_class(match_class const & other) = default;
 	match_class(match_class&& move) = default;
 
