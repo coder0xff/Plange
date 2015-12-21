@@ -1,3 +1,5 @@
+#include <algorithm>
+
 #include "context.hpp"
 #include "logging.hpp"
 #include "state_machine.hpp"
