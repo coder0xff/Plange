@@ -25,9 +25,9 @@ public:
 	std::set<subjob*> consumers;
 	state_machine const & machine;
 	std::list<context> contexts;
-	std::list<permutation> queued_permutations;
+	std::list<permutation> queuedPermutations;
 	std::set<subjob*> producers;
-	int active_producer_counter;
+	int dependencyCounter;
 	std::mutex mutex;
 
 	subjob(job & owner, state_machine const & machine, int const documentPosition);

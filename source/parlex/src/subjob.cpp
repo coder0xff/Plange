@@ -53,7 +53,7 @@ void subjob::accept(context_ref const & c) {
 		enque_permutation(len, p);
 	} else {
 		std::unique_lock<std::mutex> lock(mutex);
-		queued_permutations.push_back(p);
+		queuedPermutations.push_back(p);
 	}
 }
 
