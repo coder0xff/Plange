@@ -1,10 +1,11 @@
 #include <cassert>
 #include <mutex>
 
+#include "job.hpp"
+#include "logging.hpp"
+#include "parser.hpp"
 #include "producer.hpp"
 #include "subjob.hpp"
-#include "job.hpp"
-#include "parser.hpp"
 
 namespace parlex {
 namespace details {
@@ -25,18 +26,47 @@ void producer::add_subscription(context_ref const & c, size_t nextDfaState) {
 }
 
 void producer::do_events() {
+	auto & parser = owner.owner;
 	std::unique_lock<std::mutex> lock(mutex);
-	for (auto & subscription : consumers) {
-		assert(!(bool)subscription.c.owner().completed);
+	start:
+	auto i = consumers.begin();
+	while (i != consumers.end()) {
+		auto subscription = *i;
+		auto & targetSubjob = subscription.c.owner();
+
+		{ //scope for lock on targetSubjob.mutex
+			std::unique_lock<std::mutex> targetLock(targetSubjob.mutex);
+			//if the subjob is completed
+			if (targetSubjob.completed) {
+				if (i == consumers.begin()) {
+					consumers.pop_front(); //remove the subscription
+					goto start; //and restart
+				} else {
+					auto j = i--; //save the iterator
+					consumers.erase(j); //remove the subscription
+					++i; //restore the iterator
+					continue;
+				}
+			}
+		}
+
 		while (subscription.next_index < match_to_permutations.size()) {
 			auto match = matches[subscription.next_index];
 			subscription.next_index++;
-			context_ref next = subscription.c.owner().construct_stepped_context(subscription.c, match);
-			owner.owner.schedule(next, subscription.next_dfa_state);
+			context_ref next = targetSubjob.construct_stepped_context(subscription.c, match);
+			parser.schedule(next, subscription.next_dfa_state);
 		};
-		if (completed) {
-
+		if (completed) { 
+			{
+				std::unique_lock<std::mutex> targetLock(targetSubjob.mutex);
+				if (--targetSubjob.subscriptionCounter == 0) {
+					DBG("halting the subjob at document position ", targetSubjob.documentPosition, " using machine '", targetSubjob.machine, "' ");
+					targetSubjob.completed = true;
+					targetSubjob.do_events();
+				}
+			}				
 		}
+		++i;
 	}
 }
 

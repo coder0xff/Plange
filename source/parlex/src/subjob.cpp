@@ -43,6 +43,10 @@ context_ref subjob::construct_stepped_context(context_ref const & prior, match f
 }
 
 void subjob::on(context_ref const & c, recognizer const & r, int nextDfaState) {
+	{
+		std::unique_lock<std::mutex> lock(mutex);
+		subscriptionCounter++;
+	}
 	owner.connect(match_class(r, c.current_document_position()), c, nextDfaState);
 }
 
