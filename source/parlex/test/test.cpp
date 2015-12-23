@@ -97,14 +97,11 @@ void parser_test_7() {
 	nested_csv.add_transition(1, num, 2);
 	nested_csv.add_transition(1, paren, 2);
 
-	for (int i = 0; i < 1000; i++) {
-		DBG("iteration ", i);
-		parlex::parser p(1);
-		parlex::abstract_syntax_graph result = p.parse(nested_csv, U"12,(34,56),789");
-		std::string dot = result.to_dot();
-		DBG(dot);
-		assert(dot.length() > 100);
-	}
+	parlex::parser p(1);
+	parlex::abstract_syntax_graph result = p.parse(nested_csv, U"12,(34,56),789");
+	std::string dot = result.to_dot();
+	DBG(dot);
+	assert(dot.length() > 100);
 }
 
 //direct left recursion
@@ -125,7 +122,7 @@ void parser_test_8() {
 	DBG(result.to_dot());
 }
 
-//left recursion
+//indirect left recursion
 void parser_test_100() {
 	parlex::state_machine num("num", 1);
 	num.add_transition(0, parlex::builtins::decimal_digit, 1);
@@ -178,12 +175,12 @@ void parser_test_100() {
 
 
 int main(void) {
-	/*parser_test_1();
+	parser_test_1();
 	parser_test_2();
 	parser_test_3();
 	parser_test_4();
 	parser_test_5();
-	parser_test_6();*/
+	parser_test_6();
 	parser_test_7();
-	//parser_test_8();
+	parser_test_8();
 }
