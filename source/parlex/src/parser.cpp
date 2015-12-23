@@ -135,7 +135,7 @@ bool parser::handle_deadlocks(details::job const & j) {
 		match_class const & matchClass = i.first;
 		details::subjob & sj = *(details::subjob*)&(j.producers.find(matchClass)->second);
 		if (i.second.count(matchClass) > 0) {
-			sj.halt_for_deadlock();
+			//sj.halt_for_deadlock();
 			anyHalted = true;
 		}
 	}

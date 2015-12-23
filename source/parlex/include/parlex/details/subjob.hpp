@@ -22,7 +22,6 @@ class job;
 
 class subjob : public producer {
 public:
-	std::set<subjob*> consumers;
 	state_machine const & machine;
 	std::list<context> contexts;
 	std::list<permutation> queuedPermutations;
@@ -35,11 +34,10 @@ public:
 	subjob(subjob&& move) = default;
 
 	void start();
-	context_ref step(context_ref const & prior, match const fromTransition);
+	context_ref construct_stepped_context(context_ref const & prior, match const fromTransition);
 	void on(context_ref const & c, recognizer const & r, int nextDfaState);
 	void accept(context_ref const & c);
-	context_ref construct_context(int documentPosition);
-	void halt_for_deadlock();
+	context_ref construct_start_state_context(int documentPosition);
 };
 
 }

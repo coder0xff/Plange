@@ -30,13 +30,13 @@ void subjob::start() {
 	machine.start(*this, document_position);
 }
 
-context_ref subjob::construct_context(int documentPosition) {
+context_ref subjob::construct_start_state_context(int documentPosition) {
 	std::unique_lock<std::mutex> lock(mutex);
 	contexts.emplace_back(*this, context_ref(), document_position, nullptr);
 	return contexts.back().get_ref();
 }
 
-context_ref subjob::step(context_ref const & prior, match fromTransition) {
+context_ref subjob::construct_stepped_context(context_ref const & prior, match fromTransition) {
 	std::unique_lock<std::mutex> lock(mutex);
 	contexts.emplace_back(*this, prior, prior.current_document_position() + fromTransition.consumed_character_count, &fromTransition);
 	return contexts.back().get_ref();
@@ -55,10 +55,6 @@ void subjob::accept(context_ref const & c) {
 		std::unique_lock<std::mutex> lock(mutex);
 		queuedPermutations.push_back(p);
 	}
-}
-
-void subjob::halt_for_deadlock() {
-	
 }
 
 }

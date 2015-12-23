@@ -35,7 +35,7 @@ job::job(parser & owner, std::u32string const & document, recognizer const & mai
 				std::forward_as_tuple(result)
 			);
 			//seed the parser with the root state
-			owner.work.emplace(std::make_tuple(result->construct_context(0), 0));
+			owner.work.emplace(std::make_tuple(result->construct_start_state_context(0), 0));
 			owner.activeCount++;
 			//give it a tickle!
 			owner.work_cv.notify_one(); //parser::parse has mutex locked

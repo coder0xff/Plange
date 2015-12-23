@@ -19,7 +19,7 @@ state_machine::state_machine(std::string id, size_t acceptStateCount, filter_fun
 {}
 
 void state_machine::start(details::subjob & sj, size_t const documentPosition) const {
-	process(sj.construct_context(documentPosition), 0);
+	process(sj.construct_start_state_context(documentPosition), 0);
 }
 
 void state_machine::process(details::context_ref const & c, size_t const s) const {
