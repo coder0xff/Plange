@@ -25,14 +25,14 @@ subjob::subjob(
 void subjob::start() {
 	{
 		std::unique_lock<std::mutex> lock(mutex);
-		contexts.emplace_back(*this, context_ref(), document_position, nullptr);
+		contexts.emplace_back(*this, context_ref(), documentPosition, nullptr);
 	}
-	machine.start(*this, document_position);
+	machine.start(*this, documentPosition);
 }
 
 context_ref subjob::construct_start_state_context(int documentPosition) {
 	std::unique_lock<std::mutex> lock(mutex);
-	contexts.emplace_back(*this, context_ref(), document_position, nullptr);
+	contexts.emplace_back(*this, context_ref(), documentPosition, nullptr);
 	return contexts.back().get_ref();
 }
 
@@ -49,7 +49,7 @@ void subjob::on(context_ref const & c, recognizer const & r, int nextDfaState) {
 void subjob::accept(context_ref const & c) {
 	permutation p = c.result();
 	if (!machine.get_filter()) {
-		int len = c.current_document_position() - c.owner().document_position;
+		int len = c.current_document_position() - c.owner().documentPosition;
 		enque_permutation(len, p);
 	} else {
 		std::unique_lock<std::mutex> lock(mutex);

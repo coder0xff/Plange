@@ -41,11 +41,11 @@ class context {
 public:
 	subjob & owner;
 	context_ref const prior;
-	int const current_document_position;
+	int const currentDocumentPosition;
 	int const id;
 
 	std::unique_ptr<match const> const from_transition;	//unique_ptr serves as optional
-	context(subjob & owner, context_ref const & prior, int document_position, match const * from_transition);
+	context(subjob & owner, context_ref const & prior, int documentPosition, match const * from_transition);
 	context(context const & other) = delete;
 	context(context&& move) = delete;
 	~context();

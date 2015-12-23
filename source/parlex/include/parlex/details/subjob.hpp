@@ -26,7 +26,7 @@ public:
 	std::list<context> contexts;
 	std::list<permutation> queuedPermutations;
 	std::set<subjob*> producers;
-	int dependencyCounter;
+	int subscriptionCounter;
 	std::mutex mutex;
 
 	subjob(job & owner, state_machine const & machine, int const documentPosition);

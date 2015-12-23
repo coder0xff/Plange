@@ -9,7 +9,7 @@ class recognizer;
 
 struct match_class {
 	recognizer const & r;
-	size_t document_position;
+	size_t documentPosition;
 
 	match_class(recognizer const & r, size_t documentPosition);
 	match_class(match_class const & other) = default;

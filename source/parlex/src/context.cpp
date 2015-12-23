@@ -35,7 +35,7 @@ struct context_ref_counter {
 
 context::context(subjob & owner, context_ref const & prior, int documentPosition, match const * fromTransition) :
  rc(*new context_ref_counter(this)), owner(owner), prior(prior),
- current_document_position(documentPosition), id (++contextIDCounter),
+ currentDocumentPosition(documentPosition), id (++contextIDCounter),
  from_transition(fromTransition != nullptr ? new match(*fromTransition) : nullptr)
 {
 	assert(&owner);
@@ -114,7 +114,7 @@ int context_ref::current_document_position() const {
 	assert(rc);
 	context* temp = rc->c;
 	assert(temp);
-	return temp->current_document_position;
+	return temp->currentDocumentPosition;
 }
 
 std::unique_ptr<match> context_ref::from_transition() const {
