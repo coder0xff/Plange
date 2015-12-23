@@ -12,7 +12,8 @@ namespace details {
 producer::producer(job & owner, recognizer const & r, size_t const documentPosition) :
 	owner(owner),
 	r(r),
-	document_position(documentPosition) {}
+	document_position(documentPosition),
+	completed(false) {}
 
 
 void producer::add_subscription(context_ref const & c, size_t nextDfaState) {
@@ -26,7 +27,7 @@ void producer::add_subscription(context_ref const & c, size_t nextDfaState) {
 void producer::do_events() {
 	std::unique_lock<std::mutex> lock(mutex);
 	for (auto & subscription : consumers) {
-		assert(!subscription.c.owner().completed);
+		assert(!(bool)subscription.c.owner().completed);
 		while (subscription.next_index < match_to_permutations.size()) {
 			auto match = matches[subscription.next_index];
 			subscription.next_index++;
