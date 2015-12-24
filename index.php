@@ -70,7 +70,7 @@ color ← "Red";
 print(color);</pre>
 		</div>
 
-		<p>The <code>←</code> character is typed <code>" <- "</code>. The above program outputs the following text:</p>
+		<p>The <code>←</code> character is typed <code>" &lt;- "</code>. The above program outputs the following text:</p>
 
 		<div class="code">
 			<p>Output</p>
@@ -319,13 +319,12 @@ sue = 6;</pre>
 		<div class="code">
 			<p>Counter Example</p>
 			<pre>&lt;Collection * BinaryRelation → Collection&gt; sort := (items, ordering) {
-	|result| = |items|; // same number of elements
 	result ↔ items; // result and items make a bijection
 	∀ { ordering(result[i - 1], result[i]) where i ∈ 𝕎 ∧ i &lt; |result| }; //the result has to be sorted
 	return result; // solve, substitute, and return
 };</pre>
 		</div>
-		<p>The above function, sort, is semantically equivalent to the sorting functions. However, this constraint based problem is not yet solvable using available techniques. Instead, a person must create these algorithms.</p>
+		<p>The above function, sort, is semantically equivalent to the sorting functions. However, this constraint based problem is not yet solvable using available techniques.</p>
 
 		<h2>Type Constraints</h2><a name="Type_Constraints" />
 		<p>Since types are values, and values can be constrained, type constraints are realised.</p>

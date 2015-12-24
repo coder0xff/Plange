@@ -77,6 +77,13 @@
 		<h2>Constants</h2>
 		<code>
 			<table style="width:2000px;">
+				<tr><td>args</td><td></td><td></td><td>the command line arguments</td></tr>
+				<tr><td>env</td><td></td><td></td><td>the environment variables</td></tr>
+				<tr><td>false</td><td></td><td></td><td>one of two values that a Bool may take, the other being true</td></tr>
+				<tr><td>i</td><td></td><td></td><td>the primary axis' unit 2-vector or 3-vector</td></tr>
+				<tr><td>j</td><td></td><td></td><td>the secondary axis' unit 2-vector or 3-vector</td></tr>
+				<tr><td>k</td><td></td><td></td><td>the tertiary axis' unit 3-vector</td></tr>
+				<tr><td>true</td><td></td><td></td><td>one of two values that a Bool may take, the other being false</td></tr>
 				<tr><td>π</td><td>pi</td><td>(<a href="http://www.fileformat.info/info/unicode/char/03c0/index.htm">GREEK SMALL LETTER PI U+03CO</a>)</td><td>pi mathematical constant</td></tr>
 				<tr><td>ℂ</td><td>CC</td><td>(<a href="http://www.fileformat.info/info/unicode/char/2102/index.htm">DOUBLE-STRUCK CAPITAL C U+2102</a>)</td><td>complex numbers</td></tr>
 				<tr><td>ℍ</td><td>HH</td><td>(<a href="http://www.fileformat.info/info/unicode/char/210d/index.htm">DOUBLE-STRUCK CAPITAL&nbsp;H U+210D</a>)</td><td>quaternions</td></tr>
@@ -93,11 +100,6 @@
 				<tr><td>𝕎</td><td>WW</td><td>(<a href="http://www.fileformat.info/info/unicode/char/1d54e/index.htm">MATHEMATICAL&nbsp;DOUBLE-STRUCK CAPITAL&nbsp;W U+1D54E</a>)</td><td>whole numbers (positive integers)</td></tr>
 				<tr><td>𝕀</td><td>II</td><td>(<a href="http://www.fileformat.info/info/unicode/char/1d540/index.htm">MATHEMATICAL&nbsp;DOUBLE-STRUCK CAPITAL&nbsp;I U+1D540</a>)</td><td>imaginary numbers</td></tr>
 				<tr><td>𝔹</td><td>BB</td><td>(<a href="http://www.fileformat.info/info/unicode/char/1d539/index.htm">MATHEMATICAL&nbsp;DOUBLE-STRUCK CAPITAL&nbsp;B U+1D539</a>)</td><td>booleans</td></tr>
-				<tr><td>env</td><td></td><td></td><td>the environment variables</td></tr>
-				<tr><td>args</td><td></td><td></td><td>the command line arguments</td></tr>
-				<tr><td>i</td><td></td><td></td><td>the primary axis' unit 2-vector or 3-vector</td></tr>
-				<tr><td>j</td><td></td><td></td><td>the secondary axis' unit 2-vector or 3-vector</td></tr>
-				<tr><td>k</td><td></td><td></td><td>the tertiary axis' unit 3-vector</td></tr>
 			</table>
 		</code>
 		<h2>Type Functions</h2>
