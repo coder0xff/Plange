@@ -8,10 +8,10 @@
 		<?php require('../../header.php') ?>
 
 
-        <div class="code">
-            <p>Syntax</p>
-            <pre><a href="/documentation/syntax/cardinality.php">cardinality</a> | <a href="kleene_star.php">kleene_star</a> | <a href="unary_arithmetic_op.php">unary_arithmetic_op</a> | <a href="unary_logical_op.php">unary_logical_op</a></pre>
-
+		<div class="code">
+			<p>Syntax</p>
+			<pre><a href="/documentation/syntax/cardinality.php">cardinality</a> | <a href="kleene_star.php">kleene_star</a> | <a href="unary_arithmetic_op.php">unary_arithmetic_op</a> | <a href="unary_logical_op.php">unary_logical_op</a></pre>
+		</div>
 
 
 		<?php require('../../footer.php') ?>
