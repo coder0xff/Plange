@@ -8,10 +8,10 @@
 		<?php require('../../header.php') ?>
 
 
-        <p>returns the normalized vector of the specified vector expression.</p>
+        <p>returns the normalized (unit-length) vector of the specified vector <a href="expression.php">expression</a></p>
         <div class="code">
             <p>Syntax</p>
-            <pre>"||" expression "||"</pre>
+            <pre>"||" <a href="expression.php">expression</a> "||"</pre>
         </div>
 
 
