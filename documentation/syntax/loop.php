@@ -8,22 +8,13 @@
 		<?php require('../../header.php') ?>
 
 
+        <p>executes a statement_block repeatedly while or until a parenthetical expression evaluates to true</p>
+        <div class="code">
+            <p>Syntax</p>
+            <pre>( "while" | "until" ) <a href="parenthetical.php">parenthetical</a> <a href="statement_block.php">statement_block</a></pre>
+        </div>
 
-        create a nullary void function that executes a statement_block repeatedly while or until a parenthetical expression evaluates to true
-    </div>
-    <div>
-        <br>
-        </br>
-    </div>
-    ( "while" | "until" ) 
-    <a href="parenthetical.php">
-        parenthetical
-    </a>
-     
-    <a href="statement_block.php">
-        statement_block
-    </a>
-
+        <p>See also: <a href="/documentation/syntax/do.php">do</a></p>
 
 
 		<?php require('../../footer.php') ?>
