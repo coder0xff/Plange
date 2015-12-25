@@ -10,7 +10,7 @@
 
 		<div class="code">
 			<p>Syntax (full Wirth Syntax Notation)</p>
-			<pre>embedded_comment_interior:= newline payload newline | "*" embedded_comment_interior "*" embedded_comment:= newline "/*" embedded_comment_interior "*/" newline</pre>
+			<pre>embedded_comment:= "/*" <a href="/documentation/syntax/embedded_comment_interior.php">embedded_comment_interior</a> "*/"</pre>
 		</div>
 		<h2>Notes</h2>
 		<p>This allows for commented code to be safely commented out completely by including a sufficient number of asterisks to serve as an opening and closing delimiter.</p>
