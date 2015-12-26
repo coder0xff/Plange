@@ -23,8 +23,8 @@
 			<li><a href="/documentation/syntax/bit_or.php">bit_or</a></li>
 			<li><a href="/documentation/syntax/bit_xor.php">bit_xor</a></li>
 			<li><a href="/documentation/syntax/bitwise_op.php">bitwise_op</a></li>
-			<li><a href="/documentation/syntax/bool_constant.php">bool_constant</a></li>
 			<li><a href="/documentation/syntax/cardinality.php">cardinality</a></li>
+			<li><a href="/documentation/syntax/cartesian_product.php">cartesian_product</a></li>
 			<li><a href="/documentation/syntax/ceiling.php">ceiling</a></li>
 			<li><a href="/documentation/syntax/chunk.php">chunk</a></li>
 			<li><a href="/documentation/syntax/chunk_modulo.php">chunk_modulo</a></li>
@@ -65,12 +65,10 @@
 			<li><a href="/documentation/syntax/inequality.php">inequality</a></li>
 			<li><a href="/documentation/syntax/integer.php">integer</a></li>
 			<li><a href="/documentation/syntax/integer_division.php">integer_division</a></li>
-			<li><a href="/documentation/syntax/integral.php">integral</a></li>
 			<li><a href="/documentation/syntax/intersection.php">intersection</a></li>
 			<li><a href="/documentation/syntax/invocation.php">invocation</a></li>
 			<li><a href="/documentation/syntax/kleene_star.php">kleene_star</a></li>
 			<li><a href="/documentation/syntax/lesser_than.php">lesser_than</a></li>
-			<li><a href="/documentation/syntax/line_integral.php">line_integral</a></li>
 			<li><a href="/documentation/syntax/list.php">list</a></li>
 			<li><a href="/documentation/syntax/loop.php">loop</a></li>
 			<li><a href="/documentation/syntax/magnitude.php">magnitude (absolute value, vector magnitude, cardinality)</a></li>
@@ -88,7 +86,7 @@
 			<li><a href="/documentation/syntax/null_coalesce.php">null_coalesce</a></li>
 			<li><a href="/documentation/syntax/number.php">number</a></li>
 			<li><a href="/documentation/syntax/or.php">or</a></li>
-			<li><a href="/documentation/syntax/formal_parameter.php">parameter</a></li>
+			<li><a href="/documentation/syntax/formal_parameter.php">formal_parameter</a></li>
 			<li><a href="/documentation/syntax/parenthetical.php">parenthetical</a></li>
 			<li><a href="/documentation/syntax/post_dec.php">post_dec</a></li>
 			<li><a href="/documentation/syntax/post_inc.php">post_inc</a></li>
@@ -109,10 +107,8 @@
 			<li><a href="/documentation/syntax/statement.php">statement</a></li>
 			<li><a href="/documentation/syntax/statement_scope.php">statement_scope</a></li>
 			<li><a href="/documentation/syntax/string.php">string</a></li>
-			<li><a href="/documentation/syntax/subscript.php">subscript</a></li>
 			<li><a href="/documentation/syntax/subset.php">subset</a></li>
 			<li><a href="/documentation/syntax/subtraction.php">subtraction</a></li>
-			<li><a href="/documentation/syntax/sum.php">sum</a></li>
 			<li><a href="/documentation/syntax/superset.php">superset</a></li>
 			<li><a href="/documentation/syntax/switch.php">switch (deprecated)</a></li>
 			<li><a href="/documentation/syntax/symmetric_disjunction.php">symmetric_disjunction</a></li>
