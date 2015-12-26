@@ -8,17 +8,17 @@
 		<?php require('../header.php') ?>
 
 
-		<p>String embedding and comment embedding leverage recursive grammar features to make the embedding of raw data into code more convenient.</p>
+		<p>String embedding and comment embedding leverage recursive and context sensitive grammar features to make the embedding of raw data into code more convenient.</p>
 		
 		<h2>String Embedding</h2>
-		<p>To address the problem of embedding unformatted and unescaped strings into code, string embedding defines 2 classes of delimiters. A string literal is placed between the delimiters. An example:</p>
+		<p>To address the problem of embedding unformatted and unescaped strings into code, string embedding defines 2 delimiter classes. A string literal is placed between matching delimiters:</p>
 
 		<div class="code">
-  			<p>A string literal placed between matching delimiters</p>
+  			<p>Example/p>
 			<pre>text := """
 This is a string literal.
 We can use any characters in this literal aside from a sequence of three quotes.
-One or two quotes "" is fine though.
+One or two quotes (like "") is fine though.
 """;</pre>
 		</div>
 

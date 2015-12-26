@@ -25,7 +25,6 @@
 			<li><a href="/documentation/keywords/continue.php">continue</a></li>
 			<li><a href="/documentation/keywords/dereference.php">dereference</a></li>
 			<li><a href="/documentation/keywords/do.php">do</a></li>
-			<li><a href="/documentation/keywords/does.php">does (unary/binary relation builder)</a></li>
 			<li><a href="/documentation/keywords/dynamic_cast.php">dynamic_cast</a></li>
 			<li><a href="/documentation/keywords/elif.php">elif</a></li>
 			<li><a href="/documentation/keywords/else.php">else</a></li>
@@ -56,7 +55,6 @@
 			<li><a href="/documentation/keywords/static.php">static</a></li>
 			<li><a href="/documentation/keywords/this.php">this</a></li>
 			<li><a href="/documentation/keywords/this_type.php">this_type</a></li>
-			<li><a href="/documentation/keywords/to.php">to (binary relation builder)</a></li>
 			<li><a href="/documentation/keywords/try.php">try</a></li>
 			<li><a href="/documentation/keywords/type.php">type</a></li>
 			<li><a href="/documentation/keywords/type_of.php">type_of</a></li>
