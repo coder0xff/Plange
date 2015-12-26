@@ -8,7 +8,10 @@
 		<?php require('../../header.php') ?>
 
 
-
+        <div class="code">
+            <p>Syntax</p>
+            <pre>"\"" (non_double_quote | escape_sequence)* "\""</pre>
+        </div>
 
 
 		<?php require('../../footer.php') ?>
