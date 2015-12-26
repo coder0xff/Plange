@@ -55,6 +55,7 @@
 			<li><a href="/documentation/syntax/floor.php">floor</a></li>
 			<li><a href="/documentation/syntax/for.php">for</a></li>
 			<li><a href="/documentation/syntax/for_collection.php">for_collection</a></li>
+			<li><a href="/documentation/syntax/formal_parameter.php">formal_parameter</a></li>
 			<li><a href="/documentation/syntax/function.php">function</a></li>
 			<li><a href="/documentation/syntax/greater_than.php">greater_than</a></li>
 			<li><a href="/documentation/syntax/has.php">has</a></li>
@@ -87,7 +88,6 @@
 			<li><a href="/documentation/syntax/null_coalesce.php">null_coalesce</a></li>
 			<li><a href="/documentation/syntax/number.php">number</a></li>
 			<li><a href="/documentation/syntax/or.php">or</a></li>
-			<li><a href="/documentation/syntax/formal_parameter.php">formal_parameter</a></li>
 			<li><a href="/documentation/syntax/parenthetical.php">parenthetical</a></li>
 			<li><a href="/documentation/syntax/post_dec.php">post_dec</a></li>
 			<li><a href="/documentation/syntax/post_inc.php">post_inc</a></li>
