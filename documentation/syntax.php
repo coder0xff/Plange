@@ -23,6 +23,7 @@
 			<li><a href="/documentation/syntax/bit_or.php">bit_or</a></li>
 			<li><a href="/documentation/syntax/bit_xor.php">bit_xor</a></li>
 			<li><a href="/documentation/syntax/bitwise_op.php">bitwise_op</a></li>
+			<li><a href="/documentation/syntax/bool_constant.php">bool_constant</a></li>
 			<li><a href="/documentation/syntax/cardinality.php">cardinality</a></li>
 			<li><a href="/documentation/syntax/cartesian_product.php">cartesian_product</a></li>
 			<li><a href="/documentation/syntax/ceiling.php">ceiling</a></li>
