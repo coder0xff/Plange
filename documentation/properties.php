@@ -50,7 +50,7 @@ print(right.radians); //prints 1.5707963268</pre>
 };</pre>
 		</div>
 
-		<p>† A caveat exists. When late binding is performed (such as coercing to foreign interfaces or dependency injection) this functionality is not be possible if metadata is stripped from executables and other binaries. This may be considered a security feature and/or a flaw.</p>
+		<p style="border-style:solid;border-width:1px;padding:6pt">† A caveat: dependency injection (and other late binding) is limited when the target binary is stripped. This may be considered a security feature and/or a design flaw.</p>
 
 
 		<?php require('../footer.php') ?>
