@@ -1,19 +1,18 @@
 <meta charset='utf-8'/>
 <html>
 	<head>
-		<title>bool - Plange</title>
+		<title>get - Plange</title>
 		<link rel=StyleSheet href='../../css/general.css' type='text/css' />
 	</head>
 	<body>
 		<?php require('../../header.php') ?>
 
 
-		<p>a literal of type Bool</p>
+		<p>used in the <a href="/documentation/syntax/property.php">property</a> syntax, creates a getter property</p>
 		<div class="code">
 			<p>Syntax</p>
-			<pre>"true" | "false"</pre>
+			<pre>get <a href="expression.php">expression</a></pre>
 		</div>
-		<p>These are included as syntax elements as they are literals, not constants.</p>
 
 
 		<?php require('../../footer.php') ?>

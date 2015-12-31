@@ -35,22 +35,21 @@ print(right.radians); //prints 1.5707963268</pre>
 		<p>Each time a value is read from or written to a property additional processing occurs. This example above is the first of the two varities of property: 1) A constraint that can be modeled as an invertible function, 2) Functions called accessors are used for each read and write; the get accessor and set accessor respectively, such as the following:</p>
 		<div class="code">
 			<p>Example</p>
-			<pre>saved_username := {
-	get { return File.read_text("username.txt")); }
-	set { File.write_text(value); }
+			<pre>Property&lt;&lt;String&gt;&gt; saved_username := {| get := { return File.read_text("username.txt"); }
+	set := { File.write_text("username.txt", value); }
 };</pre>
 		</div>
 		<p>This is transparent to the program reading or writing the property.<sup>†</sup> Get and set accessors execute within their defining execution context. The space within the outermost curly braces { } also permits the definition of additional symbols, such as hidden value storage or helper functions.</p>
 		<div class="code">
 			<p>Example</p>
-			<pre>clamped := {
+			<pre>&lt;Double&gt; clamped := {
 	&lt;Double&gt; v;
 	get { return v; }
-	set { v ← value < 0 ? 0 : value > 1 ? 1 : value; }
+	set { v ← value &lt; 0 ? 0 : value &gt; 1 ? 1 : value; }
 };</pre>
 		</div>
 
-		<p style="border-style:solid;border-width:1px;padding:6pt">† A caveat: dependency injection (and other late binding) is limited when the target binary is stripped. This may be considered a security feature and/or a design flaw.</p>
+		<p style="border-style:solid;border-width:1px;padding:6pt">† dependency injection (and other late binding) is limited when the target binary is stripped. This may be considered a security feature and/or a design flaw.</p>
 
 
 		<?php require('../footer.php') ?>

@@ -23,9 +23,10 @@
 			<li><a href="/documentation/syntax/bit_or.php">bit_or</a></li>
 			<li><a href="/documentation/syntax/bit_xor.php">bit_xor</a></li>
 			<li><a href="/documentation/syntax/bitwise_op.php">bitwise_op</a></li>
-			<li><a href="/documentation/syntax/bool_constant.php">bool_constant</a></li>
+			<li><a href="/documentation/syntax/bool.php">bool</a></li>
 			<li><a href="/documentation/syntax/cardinality.php">cardinality</a></li>
 			<li><a href="/documentation/syntax/cartesian_product.php">cartesian_product</a></li>
+			<li><a href="/documentation/syntax/cast.php">cast</a></li>
 			<li><a href="/documentation/syntax/ceiling.php">ceiling</a></li>
 			<li><a href="/documentation/syntax/chunk.php">chunk</a></li>
 			<li><a href="/documentation/syntax/chunk_modulo.php">chunk_modulo</a></li>
@@ -55,8 +56,8 @@
 			<li><a href="/documentation/syntax/floor.php">floor</a></li>
 			<li><a href="/documentation/syntax/for.php">for</a></li>
 			<li><a href="/documentation/syntax/for_collection.php">for_collection</a></li>
-			<li><a href="/documentation/syntax/formal_parameter.php">formal_parameter</a></li>
 			<li><a href="/documentation/syntax/function.php">function</a></li>
+			<li><a href="/documentation/syntax/get.php">get</a></li>
 			<li><a href="/documentation/syntax/greater_than.php">greater_than</a></li>
 			<li><a href="/documentation/syntax/has.php">has</a></li>
 			<li><a href="/documentation/syntax/identifier.php">identifier</a></li>
@@ -88,7 +89,9 @@
 			<li><a href="/documentation/syntax/null_coalesce.php">null_coalesce</a></li>
 			<li><a href="/documentation/syntax/number.php">number</a></li>
 			<li><a href="/documentation/syntax/or.php">or</a></li>
+			<li><a href="/documentation/syntax/parameter.php">parameter</a></li>
 			<li><a href="/documentation/syntax/parenthetical.php">parenthetical</a></li>
+			<li><a href="/documentation/syntax/payload.php">payload</a></li>
 			<li><a href="/documentation/syntax/post_dec.php">post_dec</a></li>
 			<li><a href="/documentation/syntax/post_inc.php">post_inc</a></li>
 			<li><a href="/documentation/syntax/pre_dec.php">pre_dec</a></li>
@@ -98,7 +101,6 @@
 			<li><a href="/documentation/syntax/proper_superset.php">proper_superset</a></li>
 			<li><a href="/documentation/syntax/radical.php">radical</a></li>
 			<li><a href="/documentation/syntax/range.php">range</a></li>
-			<li><a href="/documentation/syntax/record.php">record</a></li>
 			<li><a href="/documentation/syntax/relational_collection_op.php">relational_collection_op</a></li>
 			<li><a href="/documentation/syntax/relational_op.php">relational_op</a></li>
 			<li><a href="/documentation/syntax/set.php">set</a></li>
@@ -111,8 +113,8 @@
 			<li><a href="/documentation/syntax/subset.php">subset</a></li>
 			<li><a href="/documentation/syntax/subtraction.php">subtraction</a></li>
 			<li><a href="/documentation/syntax/superset.php">superset</a></li>
-			<li><a href="/documentation/syntax/switch.php">switch (deprecated)</a></li>
 			<li><a href="/documentation/syntax/symmetric_disjunction.php">symmetric_disjunction</a></li>
+			<li><a href="/documentation/syntax/throw.php">throw</a><li>
 			<li><a href="/documentation/syntax/try.php">try</a></li>
 			<li><a href="/documentation/syntax/tuple.php">tuple</a></li>
 			<li><a href="/documentation/syntax/type.php">type</a></li>

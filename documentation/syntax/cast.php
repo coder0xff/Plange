@@ -1,7 +1,7 @@
 <meta charset='utf-8'/>
 <html>
 	<head>
-		<title>bool_constant - Plange</title>
+		<title>cast - Plange</title>
 		<link rel=StyleSheet href='../../css/general.css' type='text/css' />
 	</head>
 	<body>
@@ -10,9 +10,8 @@
 
 		<div class="code">
 			<p>Syntax</p>
-			<pre>"true" | "false"</pre>
+			<pre><a href="/documentation/syntax/parenthetical.php">parenthetical</a> <a href="/documentation/syntax/expression.php">expression</a></pre>
 		</div>
-		<p>These are included as syntax elements because they are literals, not constants.</p>
 
 
 		<?php require('../../footer.php') ?>
