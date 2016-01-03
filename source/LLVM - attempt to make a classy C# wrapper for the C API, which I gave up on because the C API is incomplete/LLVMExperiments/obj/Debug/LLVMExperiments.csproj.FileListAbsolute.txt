@@ -1,7 +1,0 @@
-C:\Users\coder_000\Dropbox\Plange\LLVMExperiments\bin\Debug\LLVMExperiments.exe.config
-C:\Users\coder_000\Dropbox\Plange\LLVMExperiments\bin\Debug\LLVMExperiments.exe
-C:\Users\coder_000\Dropbox\Plange\LLVMExperiments\bin\Debug\LLVMExperiments.pdb
-C:\Users\coder_000\Dropbox\Plange\LLVMExperiments\bin\Debug\LLVMSharp.dll
-C:\Users\coder_000\Dropbox\Plange\LLVMExperiments\obj\Debug\LLVMExperiments.csprojResolveAssemblyReference.cache
-C:\Users\coder_000\Dropbox\Plange\LLVMExperiments\obj\Debug\LLVMExperiments.exe
-C:\Users\coder_000\Dropbox\Plange\LLVMExperiments\obj\Debug\LLVMExperiments.pdb
