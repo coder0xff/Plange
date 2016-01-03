@@ -11,19 +11,19 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{B568BE86-B6CD-43A4-BFE0-34C27051FBFD}</ProjectGuid>
+    <ProjectGuid>{56855EF8-8910-4017-B1AA-BFAEBFD998CB}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>parlex</RootNamespace>
+    <RootNamespace>parlex_test</RootNamespace>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
-    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v120</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
-    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v120</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
@@ -39,18 +39,23 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
-  <PropertyGroup />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <PrecompiledHeader>
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(MSBuildProjectDirectory)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(MSBuildProjectDirectory)\..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
-      <SubSystem>Windows</SubSystem>
+      <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
@@ -62,55 +67,22 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
-      <SubSystem>Windows</SubSystem>
+      <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="include\parlex\abstract_syntax_graph.hpp" />
-    <ClInclude Include="include\parlex\builtins.hpp" />
-    <ClInclude Include="include\parlex\builtins\any_character.hpp" />
-    <ClInclude Include="include\parlex\builtins\set_terminal.hpp" />
-    <ClInclude Include="include\parlex\builtins\string_terminal.hpp" />
-    <ClInclude Include="include\parlex\builtins\unicode.hpp" />
-    <ClInclude Include="include\parlex\details\context.hpp" />
-    <ClInclude Include="include\parlex\details\job.hpp" />
-    <ClInclude Include="include\parlex\details\logging.hpp" />
-    <ClInclude Include="include\parlex\details\producer.hpp" />
-    <ClInclude Include="include\parlex\details\subjob.hpp" />
-    <ClInclude Include="include\parlex\details\unicode.hpp" />
-    <ClInclude Include="include\parlex\extras\wirth.hpp" />
-    <ClInclude Include="include\parlex\filter_function.hpp" />
-    <ClInclude Include="include\parlex\grammar.hpp" />
-    <ClInclude Include="include\parlex\match.hpp" />
-    <ClInclude Include="include\parlex\match_class.hpp" />
-    <ClInclude Include="include\parlex\parser.hpp" />
-    <ClInclude Include="include\parlex\permutation.hpp" />
-    <ClInclude Include="include\parlex\recognizer.hpp" />
-    <ClInclude Include="include\parlex\state_machine.hpp" />
-    <ClInclude Include="include\parlex\terminal.hpp" />
-    <ClInclude Include="include\parlex\token.hpp" />
+    <ClCompile Include="test.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\abstract_syntax_graph.cpp" />
-    <ClCompile Include="src\builtins.cpp" />
-    <ClCompile Include="src\context.cpp" />
-    <ClCompile Include="src\job.cpp" />
-    <ClCompile Include="src\logging.cpp" />
-    <ClCompile Include="src\match_class.cpp" />
-    <ClCompile Include="src\parser.cpp" />
-    <ClCompile Include="src\producer.cpp" />
-    <ClCompile Include="src\recognizer.cpp" />
-    <ClCompile Include="src\state_machine.cpp" />
-    <ClCompile Include="src\subjob.cpp" />
-    <ClCompile Include="src\token.cpp" />
-    <ClCompile Include="src\unicode.cpp" />
-    <ClCompile Include="src\wirth.cpp" />
+    <ProjectReference Include="..\parlex.vcxproj">
+      <Project>{b568be86-b6cd-43a4-bfe0-34c27051fbfd}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

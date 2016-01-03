@@ -103,7 +103,7 @@ am_libparlex_a_OBJECTS = libparlex_a-abstract_syntax_graph.$(OBJEXT) \
 	libparlex_a-recognizer.$(OBJEXT) \
 	libparlex_a-state_machine.$(OBJEXT) \
 	libparlex_a-subjob.$(OBJEXT) libparlex_a-token.$(OBJEXT) \
-	libparlex_a-uni_trunc.$(OBJEXT) libparlex_a-wirth.$(OBJEXT)
+	libparlex_a-unicode.$(OBJEXT) libparlex_a-wirth.$(OBJEXT)
 libparlex_a_OBJECTS = $(am_libparlex_a_OBJECTS)
 AM_V_P = $(am__v_P_@AM_V@)
 am__v_P_ = $(am__v_P_@AM_DEFAULT_V@)
@@ -257,7 +257,7 @@ top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 noinst_LIBRARIES = libparlex.a
-libparlex_a_SOURCES = abstract_syntax_graph.cpp builtins.cpp context.cpp job.cpp logging.cpp match_class.cpp parser.cpp producer.cpp recognizer.cpp state_machine.cpp subjob.cpp token.cpp uni_trunc.cpp wirth.cpp
+libparlex_a_SOURCES = abstract_syntax_graph.cpp builtins.cpp context.cpp job.cpp logging.cpp match_class.cpp parser.cpp producer.cpp recognizer.cpp state_machine.cpp subjob.cpp token.cpp unicode.cpp wirth.cpp
 libparlex_a_CPPFLAGS = -std=c++11 -I../../include
 all: all-am
 
@@ -320,7 +320,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libparlex_a-state_machine.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libparlex_a-subjob.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libparlex_a-token.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libparlex_a-uni_trunc.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libparlex_a-unicode.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libparlex_a-wirth.Po@am__quote@
 
 .cpp.o:
@@ -505,19 +505,19 @@ libparlex_a-token.obj: token.cpp
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libparlex_a_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o libparlex_a-token.obj `if test -f 'token.cpp'; then $(CYGPATH_W) 'token.cpp'; else $(CYGPATH_W) '$(srcdir)/token.cpp'; fi`
 
-libparlex_a-uni_trunc.o: uni_trunc.cpp
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libparlex_a_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT libparlex_a-uni_trunc.o -MD -MP -MF $(DEPDIR)/libparlex_a-uni_trunc.Tpo -c -o libparlex_a-uni_trunc.o `test -f 'uni_trunc.cpp' || echo '$(srcdir)/'`uni_trunc.cpp
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libparlex_a-uni_trunc.Tpo $(DEPDIR)/libparlex_a-uni_trunc.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='uni_trunc.cpp' object='libparlex_a-uni_trunc.o' libtool=no @AMDEPBACKSLASH@
+libparlex_a-unicode.o: unicode.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libparlex_a_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT libparlex_a-unicode.o -MD -MP -MF $(DEPDIR)/libparlex_a-unicode.Tpo -c -o libparlex_a-unicode.o `test -f 'unicode.cpp' || echo '$(srcdir)/'`unicode.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libparlex_a-unicode.Tpo $(DEPDIR)/libparlex_a-unicode.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='unicode.cpp' object='libparlex_a-unicode.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libparlex_a_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o libparlex_a-uni_trunc.o `test -f 'uni_trunc.cpp' || echo '$(srcdir)/'`uni_trunc.cpp
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libparlex_a_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o libparlex_a-unicode.o `test -f 'unicode.cpp' || echo '$(srcdir)/'`unicode.cpp
 
-libparlex_a-uni_trunc.obj: uni_trunc.cpp
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libparlex_a_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT libparlex_a-uni_trunc.obj -MD -MP -MF $(DEPDIR)/libparlex_a-uni_trunc.Tpo -c -o libparlex_a-uni_trunc.obj `if test -f 'uni_trunc.cpp'; then $(CYGPATH_W) 'uni_trunc.cpp'; else $(CYGPATH_W) '$(srcdir)/uni_trunc.cpp'; fi`
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libparlex_a-uni_trunc.Tpo $(DEPDIR)/libparlex_a-uni_trunc.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='uni_trunc.cpp' object='libparlex_a-uni_trunc.obj' libtool=no @AMDEPBACKSLASH@
+libparlex_a-unicode.obj: unicode.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libparlex_a_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT libparlex_a-unicode.obj -MD -MP -MF $(DEPDIR)/libparlex_a-unicode.Tpo -c -o libparlex_a-unicode.obj `if test -f 'unicode.cpp'; then $(CYGPATH_W) 'unicode.cpp'; else $(CYGPATH_W) '$(srcdir)/unicode.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libparlex_a-unicode.Tpo $(DEPDIR)/libparlex_a-unicode.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='unicode.cpp' object='libparlex_a-unicode.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libparlex_a_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o libparlex_a-uni_trunc.obj `if test -f 'uni_trunc.cpp'; then $(CYGPATH_W) 'uni_trunc.cpp'; else $(CYGPATH_W) '$(srcdir)/uni_trunc.cpp'; fi`
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libparlex_a_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o libparlex_a-unicode.obj `if test -f 'unicode.cpp'; then $(CYGPATH_W) 'unicode.cpp'; else $(CYGPATH_W) '$(srcdir)/unicode.cpp'; fi`
 
 libparlex_a-wirth.o: wirth.cpp
 @am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libparlex_a_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT libparlex_a-wirth.o -MD -MP -MF $(DEPDIR)/libparlex_a-wirth.Tpo -c -o libparlex_a-wirth.o `test -f 'wirth.cpp' || echo '$(srcdir)/'`wirth.cpp

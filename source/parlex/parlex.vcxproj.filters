@@ -84,13 +84,13 @@
     <ClInclude Include="include\parlex\details\subjob.hpp">
       <Filter>Header Files\details</Filter>
     </ClInclude>
-    <ClInclude Include="include\parlex\details\uni_trunc.hpp">
-      <Filter>Header Files\details</Filter>
-    </ClInclude>
     <ClInclude Include="include\parlex\extras\wirth.hpp">
       <Filter>Header Files\extras</Filter>
     </ClInclude>
     <ClInclude Include="include\parlex\details\producer.hpp">
+      <Filter>Header Files\details</Filter>
+    </ClInclude>
+    <ClInclude Include="include\parlex\details\unicode.hpp">
       <Filter>Header Files\details</Filter>
     </ClInclude>
   </ItemGroup>
@@ -131,10 +131,10 @@
     <ClCompile Include="src\token.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\uni_trunc.cpp">
+    <ClCompile Include="src\wirth.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\wirth.cpp">
+    <ClCompile Include="src\unicode.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

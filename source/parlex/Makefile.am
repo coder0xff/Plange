@@ -1,1 +1,1 @@
-SUBDIRS = src test example
+SUBDIRS = src parlex_test example

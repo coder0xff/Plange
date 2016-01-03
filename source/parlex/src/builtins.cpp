@@ -1,7 +1,7 @@
 #include <sstream>
 
 #include "parlex/builtins.hpp"
-#include "parlex/details/uni_trunc.hpp"
+#include "parlex/details/unicode.hpp"
 
 namespace parlex {
 namespace details {
