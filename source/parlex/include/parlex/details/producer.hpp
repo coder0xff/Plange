@@ -7,8 +7,8 @@
 #include <set>
 #include <mutex>
 
-#include "details/context.hpp"
-#include "permutation.hpp"
+#include "parlex/details/context.hpp"
+#include "parlex/permutation.hpp"
 
 namespace parlex {
 
