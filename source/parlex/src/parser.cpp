@@ -1,11 +1,13 @@
 #include <cassert>
-#include "logging.hpp"
-#include "parser.hpp"
-#include "job.hpp"
-#include "context.hpp"
-#include "permutation.hpp"
-#include "state_machine.hpp"
-#include "producer.hpp"
+
+#include "parlex/details/subjob.hpp"
+#include "parlex/parser.hpp"
+#include "parlex/details/job.hpp"
+#include "parlex/details/context.hpp"
+#include "parlex/permutation.hpp"
+#include "parlex/state_machine.hpp"
+#include "parlex/details/producer.hpp"
+#include "parlex/details/logging.hpp"
 
 //#define FORCE_RECURSION
 

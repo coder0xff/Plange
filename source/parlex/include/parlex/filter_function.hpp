@@ -4,7 +4,7 @@
 //#include <functional>
 
 #include "details/subjob.hpp"
-#include "permutation.hpp"
+#include "parlex/permutation.hpp"
 
 namespace parlex {
 	//a function that takes a vector of permutations and returns

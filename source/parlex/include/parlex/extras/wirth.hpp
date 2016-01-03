@@ -1,7 +1,7 @@
 #ifndef WIRTH_HPP
 #define WIRTH_HPP
 
-#include "grammar.hpp"
+#include "parlex/grammar.hpp"
 
 namespace parlex {
 // https://en.wikipedia.org/wiki/Wirth_syntax_notation

@@ -6,7 +6,7 @@
 #include <atomic>
 #include <queue>
 
-#include "abstract_syntax_graph.hpp"
+#include "parlex/abstract_syntax_graph.hpp"
 #include "grammar.hpp"
 
 namespace parlex {

@@ -3,7 +3,7 @@
 
 #include <string>
 
-#include "recognizer.hpp"
+#include "parlex/recognizer.hpp"
 
 namespace parlex {
 namespace details {

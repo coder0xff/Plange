@@ -1,7 +1,7 @@
 #include <queue>
 
-#include "abstract_syntax_graph.hpp"
-#include "recognizer.hpp"
+#include "parlex/abstract_syntax_graph.hpp"
+#include "parlex/recognizer.hpp"
 
 std::string parlex::abstract_syntax_graph::to_dot() const {
 	std::string result = "digraph {\n";

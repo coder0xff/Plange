@@ -4,7 +4,7 @@
 #include <map>
 #include <string>
 
-#include "state_machine.hpp"
+#include "parlex/state_machine.hpp"
 
 namespace parlex {
 

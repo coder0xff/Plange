@@ -7,10 +7,10 @@
 #include <set>
 #include <atomic>
 
-#include "match.hpp"
-#include "permutation.hpp"
-#include "context.hpp"
-#include "producer.hpp"
+#include "parlex/match.hpp"
+#include "parlex/permutation.hpp"
+#include "parlex/details/context.hpp"
+#include "parlex/details/producer.hpp"
 
 namespace parlex {
 
@@ -31,7 +31,6 @@ public:
 
 	subjob(job & owner, state_machine const & machine, int const documentPosition);
 	subjob(subjob const & other) = delete;
-	subjob(subjob&& move) = default;
 
 	void start();
 	context_ref construct_stepped_context(context_ref const & prior, match const fromTransition);

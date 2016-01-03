@@ -1,5 +1,5 @@
-#include "wirth.hpp"
-#include "string_terminal.hpp"
+#include "parlex/extras/wirth.hpp"
+#include "parlex/builtins/string_terminal.hpp"
 
 namespace parlex {
 namespace wirth {

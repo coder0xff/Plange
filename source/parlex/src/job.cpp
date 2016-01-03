@@ -1,10 +1,11 @@
-#include "logging.hpp"
-#include "state_machine.hpp"
-#include "job.hpp"
-#include "terminal.hpp"
-#include "context.hpp"
-#include "parser.hpp"
-#include "token.hpp"
+#include "parlex/details/subjob.hpp"
+#include "parlex/state_machine.hpp"
+#include "parlex/details/job.hpp"
+#include "parlex/terminal.hpp"
+#include "parlex/details/context.hpp"
+#include "parlex/parser.hpp"
+#include "parlex/token.hpp"
+#include "parlex/details/logging.hpp"
 
 namespace parlex {
 namespace details {

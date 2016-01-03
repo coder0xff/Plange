@@ -5,9 +5,9 @@
 #include <vector>
 #include <atomic>
 
-#include "match.hpp"
-#include "match_class.hpp"
-#include "permutation.hpp"
+#include "parlex/match.hpp"
+#include "parlex/match_class.hpp"
+#include "parlex/permutation.hpp"
 
 namespace parlex {
 namespace details {

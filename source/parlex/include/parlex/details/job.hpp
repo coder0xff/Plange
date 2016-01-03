@@ -3,9 +3,9 @@
 
 #include <string>
 
-#include "match_class.hpp"
-#include "subjob.hpp"
-#include "abstract_syntax_graph.hpp"
+#include "parlex/match_class.hpp"
+#include "parlex/details/subjob.hpp"
+#include "parlex/abstract_syntax_graph.hpp"
 
 namespace parlex {
 

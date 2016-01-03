@@ -1,11 +1,12 @@
-#include "logging.hpp"
-
 #include <condition_variable>
 #include <deque>
 #include <iostream>
 #include <mutex>
 #include <sstream>
 #include <thread>
+
+#include "parlex/details/subjob.hpp"
+#include "parlex/details/logging.hpp"
 
 struct worker_t {
 	std::mutex mutex;

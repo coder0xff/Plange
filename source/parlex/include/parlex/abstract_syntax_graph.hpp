@@ -5,8 +5,8 @@
 #include <set>
 #include <string>
 
-#include "match.hpp"
-#include "permutation.hpp"
+#include "parlex/match.hpp"
+#include "parlex/permutation.hpp"
 
 namespace parlex {
 

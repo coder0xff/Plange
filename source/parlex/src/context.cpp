@@ -9,8 +9,8 @@
 #include <csignal>
 #include <iostream>
 
-#include "context.hpp"
-#include "subjob.hpp"
+#include "parlex/details/context.hpp"
+#include "parlex/details/subjob.hpp"
 
 std::atomic<int> refIDCounter(0);
 std::atomic<int> contextIDCounter(0);

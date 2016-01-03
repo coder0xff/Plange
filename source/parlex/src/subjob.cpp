@@ -1,12 +1,12 @@
 #include <string>
 
-#include "logging.hpp"
-#include "subjob.hpp"
-#include "context.hpp"
-#include "job.hpp"
-#include "recognizer.hpp"
-#include "parser.hpp"
-#include "state_machine.hpp"
+#include "parlex/details/logging.hpp"
+#include "parlex/details/subjob.hpp"
+#include "parlex/details/context.hpp"
+#include "parlex/details/job.hpp"
+#include "parlex/recognizer.hpp"
+#include "parlex/parser.hpp"
+#include "parlex/state_machine.hpp"
 
 namespace parlex {
 namespace details {

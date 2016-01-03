@@ -1,9 +1,9 @@
 #include <algorithm>
 
-#include "context.hpp"
-#include "logging.hpp"
-#include "state_machine.hpp"
-#include "subjob.hpp"
+#include "parlex/details/context.hpp"
+#include "parlex/details/logging.hpp"
+#include "parlex/state_machine.hpp"
+#include "parlex/details/subjob.hpp"
 
 namespace parlex {
 

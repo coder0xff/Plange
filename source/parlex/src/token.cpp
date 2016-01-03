@@ -1,7 +1,7 @@
-#include "job.hpp"
-#include "logging.hpp"
-#include "terminal.hpp"
-#include "token.hpp"
+#include "parlex/details/job.hpp"
+#include "parlex/details/logging.hpp"
+#include "parlex/terminal.hpp"
+#include "parlex/token.hpp"
 
 namespace parlex {
 namespace details {

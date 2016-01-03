@@ -1,7 +1,7 @@
 #ifndef UNICODE_HPP
 #define UNICODE_HPP
 
-#include "terminal.hpp"
+#include "parlex/terminal.hpp"
 
 namespace parlex {
 namespace details {

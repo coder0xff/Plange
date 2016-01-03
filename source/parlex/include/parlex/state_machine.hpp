@@ -3,7 +3,7 @@
 
 #include <memory>
 
-#include "recognizer.hpp"
+#include "parlex/recognizer.hpp"
 #include "filter_function.hpp"
 
 namespace parlex {

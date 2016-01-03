@@ -1,7 +1,7 @@
 #ifndef TOKEN_HPP
 #define TOKEN_HPP
 
-#include "producer.hpp"
+#include "parlex/details/producer.hpp"
 
 namespace parlex {
 

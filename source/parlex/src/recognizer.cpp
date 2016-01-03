@@ -1,8 +1,8 @@
-#include "recognizer.hpp"
+#include "parlex/recognizer.hpp"
 
-#include "context.hpp"
-#include "job.hpp"
-#include "subjob.hpp"
+#include "parlex/details/context.hpp"
+#include "parlex/details/job.hpp"
+#include "parlex/details/subjob.hpp"
 
 namespace parlex {
 
