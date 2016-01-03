@@ -1,10 +1,10 @@
 #include <cassert>
 
-#include "abstract_syntax_graph.hpp"
-#include "builtins.hpp"
-#include "logging.hpp"
-#include "parser.hpp"
-#include "state_machine.hpp"
+#include "parlex/abstract_syntax_graph.hpp"
+#include "parlex/builtins.hpp"
+#include "parlex/details/logging.hpp"
+#include "parlex/parser.hpp"
+#include "parlex/state_machine.hpp"
 
 void parser_test_1() {
 	DBG("************ parser_test_1 ************");
