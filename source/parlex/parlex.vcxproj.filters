@@ -1,0 +1,141 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Header Files\builtins">
+      <UniqueIdentifier>{cb0044f6-96db-44f6-bfed-9ded8e8dc257}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\details">
+      <UniqueIdentifier>{0754ee14-38c7-43ca-af65-c3b38d4d5aec}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\extras">
+      <UniqueIdentifier>{f4ac4d38-d3d8-4d1d-aa6d-d73c52da4b83}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="include\parlex\abstract_syntax_graph.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\parlex\builtins.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\parlex\filter_function.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\parlex\grammar.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\parlex\match.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\parlex\match_class.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\parlex\parser.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\parlex\permutation.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\parlex\recognizer.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\parlex\state_machine.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\parlex\terminal.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\parlex\token.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\parlex\builtins\any_character.hpp">
+      <Filter>Header Files\builtins</Filter>
+    </ClInclude>
+    <ClInclude Include="include\parlex\builtins\set_terminal.hpp">
+      <Filter>Header Files\builtins</Filter>
+    </ClInclude>
+    <ClInclude Include="include\parlex\builtins\string_terminal.hpp">
+      <Filter>Header Files\builtins</Filter>
+    </ClInclude>
+    <ClInclude Include="include\parlex\builtins\unicode.hpp">
+      <Filter>Header Files\builtins</Filter>
+    </ClInclude>
+    <ClInclude Include="include\parlex\details\context.hpp">
+      <Filter>Header Files\details</Filter>
+    </ClInclude>
+    <ClInclude Include="include\parlex\details\job.hpp">
+      <Filter>Header Files\details</Filter>
+    </ClInclude>
+    <ClInclude Include="include\parlex\details\logging.hpp">
+      <Filter>Header Files\details</Filter>
+    </ClInclude>
+    <ClInclude Include="include\parlex\details\subjob.hpp">
+      <Filter>Header Files\details</Filter>
+    </ClInclude>
+    <ClInclude Include="include\parlex\details\uni_trunc.hpp">
+      <Filter>Header Files\details</Filter>
+    </ClInclude>
+    <ClInclude Include="include\parlex\extras\wirth.hpp">
+      <Filter>Header Files\extras</Filter>
+    </ClInclude>
+    <ClInclude Include="include\parlex\details\producer.hpp">
+      <Filter>Header Files\details</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\abstract_syntax_graph.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\builtins.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\context.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\job.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\logging.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\match_class.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\parser.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\producer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\recognizer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\state_machine.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\subjob.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\token.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\uni_trunc.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\wirth.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>
