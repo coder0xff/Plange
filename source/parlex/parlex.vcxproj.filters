@@ -119,9 +119,6 @@
     <ClCompile Include="src\producer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\recognizer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\state_machine.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>

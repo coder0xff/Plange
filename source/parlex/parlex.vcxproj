@@ -106,7 +106,6 @@
     <ClCompile Include="src\match_class.cpp" />
     <ClCompile Include="src\parser.cpp" />
     <ClCompile Include="src\producer.cpp" />
-    <ClCompile Include="src\recognizer.cpp" />
     <ClCompile Include="src\state_machine.cpp" />
     <ClCompile Include="src\subjob.cpp" />
     <ClCompile Include="src\token.cpp" />

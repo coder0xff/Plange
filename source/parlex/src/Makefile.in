@@ -100,7 +100,6 @@ am_libparlex_a_OBJECTS = libparlex_a-abstract_syntax_graph.$(OBJEXT) \
 	libparlex_a-job.$(OBJEXT) libparlex_a-logging.$(OBJEXT) \
 	libparlex_a-match_class.$(OBJEXT) libparlex_a-parser.$(OBJEXT) \
 	libparlex_a-producer.$(OBJEXT) \
-	libparlex_a-recognizer.$(OBJEXT) \
 	libparlex_a-state_machine.$(OBJEXT) \
 	libparlex_a-subjob.$(OBJEXT) libparlex_a-token.$(OBJEXT) \
 	libparlex_a-unicode.$(OBJEXT) libparlex_a-wirth.$(OBJEXT)
@@ -257,7 +256,7 @@ top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 noinst_LIBRARIES = libparlex.a
-libparlex_a_SOURCES = abstract_syntax_graph.cpp builtins.cpp context.cpp job.cpp logging.cpp match_class.cpp parser.cpp producer.cpp recognizer.cpp state_machine.cpp subjob.cpp token.cpp unicode.cpp wirth.cpp
+libparlex_a_SOURCES = abstract_syntax_graph.cpp builtins.cpp context.cpp job.cpp logging.cpp match_class.cpp parser.cpp producer.cpp state_machine.cpp subjob.cpp token.cpp unicode.cpp wirth.cpp
 libparlex_a_CPPFLAGS = -std=c++11 -I../../include
 all: all-am
 
@@ -316,7 +315,6 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libparlex_a-match_class.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libparlex_a-parser.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libparlex_a-producer.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libparlex_a-recognizer.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libparlex_a-state_machine.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libparlex_a-subjob.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libparlex_a-token.Po@am__quote@
@@ -448,20 +446,6 @@ libparlex_a-producer.obj: producer.cpp
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='producer.cpp' object='libparlex_a-producer.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libparlex_a_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o libparlex_a-producer.obj `if test -f 'producer.cpp'; then $(CYGPATH_W) 'producer.cpp'; else $(CYGPATH_W) '$(srcdir)/producer.cpp'; fi`
-
-libparlex_a-recognizer.o: recognizer.cpp
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libparlex_a_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT libparlex_a-recognizer.o -MD -MP -MF $(DEPDIR)/libparlex_a-recognizer.Tpo -c -o libparlex_a-recognizer.o `test -f 'recognizer.cpp' || echo '$(srcdir)/'`recognizer.cpp
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libparlex_a-recognizer.Tpo $(DEPDIR)/libparlex_a-recognizer.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='recognizer.cpp' object='libparlex_a-recognizer.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libparlex_a_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o libparlex_a-recognizer.o `test -f 'recognizer.cpp' || echo '$(srcdir)/'`recognizer.cpp
-
-libparlex_a-recognizer.obj: recognizer.cpp
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libparlex_a_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT libparlex_a-recognizer.obj -MD -MP -MF $(DEPDIR)/libparlex_a-recognizer.Tpo -c -o libparlex_a-recognizer.obj `if test -f 'recognizer.cpp'; then $(CYGPATH_W) 'recognizer.cpp'; else $(CYGPATH_W) '$(srcdir)/recognizer.cpp'; fi`
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libparlex_a-recognizer.Tpo $(DEPDIR)/libparlex_a-recognizer.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='recognizer.cpp' object='libparlex_a-recognizer.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libparlex_a_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o libparlex_a-recognizer.obj `if test -f 'recognizer.cpp'; then $(CYGPATH_W) 'recognizer.cpp'; else $(CYGPATH_W) '$(srcdir)/recognizer.cpp'; fi`
 
 libparlex_a-state_machine.o: state_machine.cpp
 @am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libparlex_a_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT libparlex_a-state_machine.o -MD -MP -MF $(DEPDIR)/libparlex_a-state_machine.Tpo -c -o libparlex_a-state_machine.o `test -f 'state_machine.cpp' || echo '$(srcdir)/'`state_machine.cpp
