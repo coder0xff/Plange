@@ -2,11 +2,12 @@
 #define BUILTINS_HPP
 
 // Terminals
-#include "builtins/any_character.hpp"
-#include "builtins/set_terminal.hpp"
-#include "builtins/string_terminal.hpp"
-#include "builtins/unicode.hpp"
+#include "parlex/builtins/any_character.hpp"
+#include "parlex/builtins/set_terminal.hpp"
+#include "parlex/builtins/string_terminal.hpp"
+#include "parlex/builtins/unicode.hpp"
 
 // Filters
+#include "parlex/builtins/greedy.hpp"
 
 #endif

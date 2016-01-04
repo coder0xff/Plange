@@ -76,6 +76,7 @@
     <ClInclude Include="include\parlex\abstract_syntax_graph.hpp" />
     <ClInclude Include="include\parlex\builtins.hpp" />
     <ClInclude Include="include\parlex\builtins\any_character.hpp" />
+    <ClInclude Include="include\parlex\builtins\greedy.hpp" />
     <ClInclude Include="include\parlex\builtins\set_terminal.hpp" />
     <ClInclude Include="include\parlex\builtins\string_terminal.hpp" />
     <ClInclude Include="include\parlex\builtins\unicode.hpp" />

@@ -93,6 +93,9 @@
     <ClInclude Include="include\parlex\details\unicode.hpp">
       <Filter>Header Files\details</Filter>
     </ClInclude>
+    <ClInclude Include="include\parlex\builtins\greedy.hpp">
+      <Filter>Header Files\builtins</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\abstract_syntax_graph.cpp">

@@ -64,7 +64,7 @@ void producer::terminate() {
 		subjob & targetSubjob = subscription.c.owner();
 		targetSubjob.end_dependency();
 	}
-	owner.producer_terminated(*this);
 }
+
 }
 }

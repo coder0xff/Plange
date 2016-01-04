@@ -38,6 +38,26 @@ std::string string_terminal::get_id() const {
 	return id;
 }
 
+filter_function greedy = [] (std::vector<permutation> const & permutations) {
+	int selectedSize = 0;
+	for (permutation const & p : permutations) {
+		int size = p.back().documentPosition + p.back().consumed_character_count - p.front().documentPosition;
+		if (size > selectedSize) {
+			selectedSize = size;
+		}
+	}
+	std::set<int> result;
+	int counter = 0;
+	for (permutation const & p : permutations) {
+		int size = p.back().documentPosition + p.back().consumed_character_count - p.front().documentPosition;
+		if (size == selectedSize) {
+			result.insert(counter);
+		}
+		counter++;
+	}
+	return result;
+};
+
 details::all_t all;
 details::alphanumeric_t alphanumeric;
 details::close_punctuation_t close_punctuation;

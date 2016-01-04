@@ -16,7 +16,6 @@ void parser_test_1() {
 	DBG(result.to_dot());
 }
 
-
 void parser_test_2() {
 	DBG("************ parser_test_2 ************");
 	parlex::state_machine s("machine", 1);
@@ -124,7 +123,8 @@ void parser_test_8() {
 }
 
 //indirect left recursion
-void parser_test_100() {
+void parser_test_9() {
+	DBG("************ parser_test_9 ************");
 	parlex::state_machine num("num", 1);
 	num.add_transition(0, parlex::builtins::decimal_digit, 1);
 	num.add_transition(1, parlex::builtins::decimal_digit, 1);
@@ -174,9 +174,23 @@ void parser_test_100() {
 	DBG(result.to_dot());
 }
 
+void parser_test_10() {
+	DBG("************ parser_test_10 ************");
+	parlex::state_machine identifier("identifier", 1, parlex::builtins::greedy);
+	identifier.add_transition(0, parlex::builtins::letter, 1);
+	parlex::builtins::string_terminal underscore(uni_grow("_"));
+	identifier.add_transition(0, underscore, 1);
+	identifier.add_transition(1, parlex::builtins::letter, 1);
+	identifier.add_transition(1, underscore, 1);
+	identifier.add_transition(1, parlex::builtins::number, 1);
+
+	parlex::parser p(1);
+	parlex::abstract_syntax_graph result = p.parse(identifier, uni_grow("thisIsATestOfTheGreedyFilter"));
+	DBG(result.to_dot());
+}
 
 int main(void) {
-	parser_test_1();
+	/*parser_test_1();
 	parser_test_2();
 	parser_test_3();
 	parser_test_4();
@@ -184,4 +198,6 @@ int main(void) {
 	parser_test_6();
 	parser_test_7();
 	parser_test_8();
+	parser_test_9();*/
+	parser_test_10();
 }
