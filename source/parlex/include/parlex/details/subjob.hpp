@@ -25,9 +25,8 @@ public:
 	state_machine const & machine;
 	std::list<context> contexts;
 	std::list<permutation> queuedPermutations;
-	std::set<subjob*> producers;
-	int subscriptionCounter;
 	std::mutex mutex;
+	int dependencyCounter;
 
 	subjob(job & owner, state_machine const & machine, int const documentPosition);
 	subjob(subjob const & other) = delete;
@@ -37,6 +36,7 @@ public:
 	void on(context_ref const & c, recognizer const & r, int nextDfaState);
 	void accept(context_ref const & c);
 	context_ref construct_start_state_context(int documentPosition);
+	void end_dependency();
 };
 
 }

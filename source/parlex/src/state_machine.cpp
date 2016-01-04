@@ -49,7 +49,7 @@ void state_machine::add_transition(size_t fromState, recognizer const & recogniz
 		states.emplace_back();
 	}
 	if (!states[fromState].insert(decltype(states)::value_type::value_type(recognizer, toState)).second) {
-		throw "duplicate key";
+		throw std::logic_error("duplicate key");
 	}
 }
 

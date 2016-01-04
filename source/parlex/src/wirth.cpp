@@ -18,7 +18,7 @@ namespace {
 		parlex::state_machine identifierDfa("identifier", 1);
 		parlex::state_machine literalDfa("literal", 1);
 
-		throw "not implemented";
+		throw std::logic_error("not implemented");
 	}*/
 }
 

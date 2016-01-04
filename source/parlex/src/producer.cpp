@@ -29,27 +29,8 @@ void producer::add_subscription(context_ref const & c, size_t nextDfaState) {
 void producer::do_events() {
 	auto & parser = owner.owner;
 	std::unique_lock<std::mutex> lock(mutex);
-	start:
-	auto i = consumers.begin();
-	while (i != consumers.end()) {
-		auto subscription = *i;
-		auto & targetSubjob = subscription.c.owner();
-
-		{ //scope for lock on targetSubjob.mutex
-			std::unique_lock<std::mutex> targetLock(targetSubjob.mutex);
-			//if the subjob is completed
-			if (targetSubjob.completed) {
-				if (i == consumers.begin()) {
-					consumers.pop_front(); //remove the subscription
-					goto start; //and restart
-				} else {
-					auto j = i--; //save the iterator
-					consumers.erase(j); //remove the subscription
-					++i; //restore the iterator
-					continue;
-				}
-			}
-		}
+	for (subscription & subscription : consumers) {
+		subjob & targetSubjob = subscription.c.owner();
 
 		while (subscription.next_index < match_to_permutations.size()) {
 			auto match = matches[subscription.next_index];
@@ -57,17 +38,6 @@ void producer::do_events() {
 			context_ref next = targetSubjob.construct_stepped_context(subscription.c, match);
 			parser.schedule(next, subscription.next_dfa_state);
 		};
-		if (completed) { 
-			{
-				std::unique_lock<std::mutex> targetLock(targetSubjob.mutex);
-				if (--targetSubjob.subscriptionCounter == 0) {
-					DBG("halting the subjob at document position ", targetSubjob.documentPosition, " using machine '", targetSubjob.machine, "' ");
-					targetSubjob.completed = true;
-					targetSubjob.do_events();
-				}
-			}				
-		}
-		++i;
 	}
 }
 
@@ -88,5 +58,13 @@ void producer::enque_permutation(size_t consumedCharacterCount, permutation cons
 	}
 }
 
+void producer::terminate() {
+	//no lock on "mutex" is to be done because this method is logically exclusive
+	for (subscription & subscription : consumers) {
+		subjob & targetSubjob = subscription.c.owner();
+		targetSubjob.end_dependency();
+	}
+	owner.producer_terminated(*this);
+}
 }
 }

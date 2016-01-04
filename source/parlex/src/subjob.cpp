@@ -17,7 +17,8 @@ subjob::subjob(
 	int documentPosition
 ):
 	producer(owner, machine, documentPosition),
-	machine(machine)
+	machine(machine),
+	dependencyCounter(1) //start method will call end_dependency at the end of construction
 { 
 	DBG("started a subjob at document position ", documentPosition, " using machine '", machine, "'");
 }
@@ -28,6 +29,7 @@ void subjob::start() {
 		contexts.emplace_back(*this, context_ref(), documentPosition, nullptr);
 	}
 	machine.start(*this, documentPosition);
+	end_dependency();
 }
 
 context_ref subjob::construct_start_state_context(int documentPosition) {
@@ -45,7 +47,7 @@ context_ref subjob::construct_stepped_context(context_ref const & prior, match f
 void subjob::on(context_ref const & c, recognizer const & r, int nextDfaState) {
 	{
 		std::unique_lock<std::mutex> lock(mutex);
-		subscriptionCounter++;
+		dependencyCounter++;
 	}
 	owner.connect(match_class(r, c.current_document_position()), c, nextDfaState);
 }
@@ -58,6 +60,18 @@ void subjob::accept(context_ref const & c) {
 	} else {
 		std::unique_lock<std::mutex> lock(mutex);
 		queuedPermutations.push_back(p);
+	}
+}
+
+void subjob::end_dependency()
+{
+	bool doTerminate;
+	{
+		std::unique_lock<std::mutex> lock(mutex);
+		doTerminate = --dependencyCounter == 0;
+	}
+	if (doTerminate) {
+		terminate();
 	}
 }
 

@@ -16,13 +16,7 @@ namespace details {
 	};
 }
 
-// encapsulates all logic, including heuristics,
-// of detecting and parsing strings of a language,
-// given a document and a position in that document
-// the implementor can use the on method to listen for another match_class
-// for each match found in the match_class, "process" is invoked, forwarding "state"
-// accept is called by the implementor (from within process or halt)
-// to indicate that a permutation has been found
+//base class for terminal and state_machine
 class recognizer {
 public:
 	virtual ~recognizer() = default;
