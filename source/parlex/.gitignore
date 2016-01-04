@@ -1,3 +1,4 @@
 .deps/
 build/
 autom4te.cache/
+*.vcxproj.user
