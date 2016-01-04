@@ -8,6 +8,8 @@
 #include "parlex/details/subjob.hpp"
 #include "parlex/details/logging.hpp"
 
+#define IMMEDIATE_MODE
+
 struct worker_t {
 	std::mutex mutex;
 	std::deque<std::string const *> deque;
@@ -26,7 +28,7 @@ struct worker_t {
 	  			delete item;
 	  			lock.lock();
 	  		}
-	  		cv.wait(lock, [this](){ return deque.size() > 0 || exit; });
+	  		cv.wait(lock, [this](){ return deque.size() > 0 || this->exit; }); //"this->" desired by MSVC
 	  	}		
 	  })
 	{ 
@@ -52,7 +54,12 @@ void parlex::details::stringify(std::stringstream & ss) {}
 //the thread safe entry point
 void parlex::details::log_enque(std::string const * const item) {
 	std::unique_lock<std::mutex> lock(worker.mutex);
+#ifdef IMMEDIATE_MODE
+	std::cout << *item;
+	delete item;
+#else
 	worker.deque.emplace_back(item);
 	worker.cv.notify_one();
+#endif
 }
 
