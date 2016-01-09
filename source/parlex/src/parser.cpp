@@ -29,6 +29,7 @@ parser::parser(int threadCount) : activeCount(0), terminating(false) {
 					auto const nextDfaState = std::get<1>(item);
 					DBG("thread ", threadCount, " executing dfa state");
 					context.owner().machine.process(context, nextDfaState);
+					context.owner().end_dependency(); //reference code A
 					if (--activeCount == 0) {
 						halt_cv.notify_one();
 					}

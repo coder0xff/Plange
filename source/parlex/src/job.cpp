@@ -43,7 +43,9 @@ job::job(parser & owner, std::u32string const & document, recognizer const & mai
 		}
 	}
 
-
+job::~job() {
+	producers.clear();
+}
 
 void job::connect(match_class const & matchClass, context_ref const & c, int nextDfaState) {
 	get_producer(matchClass).add_subscription(c, nextDfaState);

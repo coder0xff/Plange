@@ -38,8 +38,6 @@ public:
 	std::map<match, std::set<permutation>> match_to_permutations;
 	std::mutex mutex;
 
-	friend class parlex::parser;
-	friend class parlex::details::job;
 	void add_subscription(context_ref const & c, size_t const nextDfaState);
 	producer(job & owner, recognizer const & r, size_t const documentPosition);
 	void enque_permutation(size_t consumedCharacterCount, permutation const & p);

@@ -38,7 +38,7 @@ std::string string_terminal::get_id() const {
 	return id;
 }
 
-filter_function greedy = [] (std::vector<permutation> const & permutations) {
+filter_function greedy = [] (std::list<permutation> const & permutations) {
 	int selectedSize = 0;
 	for (permutation const & p : permutations) {
 		int size = p.back().documentPosition + p.back().consumed_character_count - p.front().documentPosition;

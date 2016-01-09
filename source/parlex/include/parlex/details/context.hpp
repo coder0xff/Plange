@@ -17,7 +17,7 @@ struct context_ref_counter;
 
 //context_ref is a development and debugging structure
 //that implements a checked pointer and should
-//be optimized away to a simple pointer in release.
+//be *manually* reduced to a simple pointer at some time.
 class context_ref {
 	context_ref_counter * rc;
 public:
@@ -36,6 +36,7 @@ public:
 	permutation result() const;
 };
 
+//the parse context for some state_machine's state during one of its executions
 class context {
 	context_ref_counter & rc;
 public:

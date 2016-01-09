@@ -24,6 +24,7 @@ public:
 	std::mutex producers_mutex;
 
 	job(parser & owner, std::u32string const & document, recognizer const & main);
+	~job();
 	void connect(match_class const & matchClass, context_ref const & c, int nextState);
 private:
 	producer & get_producer(match_class const & matchClass);

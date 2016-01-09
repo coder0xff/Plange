@@ -33,7 +33,8 @@ private:
 
 	std::string const id;
 	size_t const accept_state_count; //must be greater than 0
-	std::vector<std::map<std::reference_wrapper<recognizer const>, size_t, details::recognizer_reference_comparer>> states;
+	typedef std::vector<std::map<std::reference_wrapper<recognizer const>, size_t, details::recognizer_reference_comparer>> states_t;
+	states_t states;
 	filter_function const filter;
 
 	void process(details::context_ref const & c, size_t dfaState) const;

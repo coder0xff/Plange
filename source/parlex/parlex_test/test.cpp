@@ -185,13 +185,13 @@ void parser_test_10() {
 	identifier.add_transition(1, parlex::builtins::number, 1);
 
 	parlex::parser p(1);
-	parlex::abstract_syntax_graph result = p.parse(identifier, uni_grow("thisIsATestOfTheGreedyFilter"));
+	parlex::abstract_syntax_graph result = p.parse(identifier, uni_grow("hi"));
 	DBG(result.to_dot());
 }
 
 int main(void) {
-	/*parser_test_1();
-	parser_test_2();
+	parser_test_1();
+	/*parser_test_2();
 	parser_test_3();
 	parser_test_4();
 	parser_test_5();
@@ -199,5 +199,5 @@ int main(void) {
 	parser_test_7();
 	parser_test_8();
 	parser_test_9();*/
-	parser_test_10();
+	//parser_test_10();
 }
