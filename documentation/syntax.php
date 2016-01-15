@@ -114,7 +114,7 @@
 			<li><a href="/documentation/syntax/subtraction.php">subtraction</a></li>
 			<li><a href="/documentation/syntax/superset.php">superset</a></li>
 			<li><a href="/documentation/syntax/symmetric_disjunction.php">symmetric_disjunction</a></li>
-			<li><a href="/documentation/syntax/throw.php">throw</a><li>
+			<li><a href="/documentation/syntax/throw.php">throw</a></li>
 			<li><a href="/documentation/syntax/try.php">try</a></li>
 			<li><a href="/documentation/syntax/tuple.php">tuple</a></li>
 			<li><a href="/documentation/syntax/type.php">type</a></li>
