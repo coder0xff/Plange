@@ -119,7 +119,6 @@
 			<li><a href="/documentation/syntax/tuple.php">tuple</a></li>
 			<li><a href="/documentation/syntax/type.php">type</a></li>
 			<li><a href="/documentation/syntax/type_dereference.php">type_dereference</a></li>
-			<li><a href="/documentation/syntax/type_of.php">type_of</a></li>
 			<li><a href="/documentation/syntax/type_scope.php">type_scope</a></li>
 			<li><a href="/documentation/syntax/unary_arithmetic_op.php">unary_arithmetic_op</a></li>
 			<li><a href="/documentation/syntax/unary_logical_op.php">unary_logical_op</a></li>
