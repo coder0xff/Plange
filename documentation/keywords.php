@@ -6,7 +6,7 @@
 	</head>
 	<body>
 		<?php require('../header.php') ?>
-		
+		<p>The keywords listing is provided purely for reference. Here "keyword" is very loosely defined. For example, the "type_of" keyword is implemented as a function in the standard library and has no special meaning. Nonetheless, it is listed as a keyword because it represents a language feature. On the other hand, keywords like "do" have definitions that are present in the syntax of the language and again represent a language feature. This is the guiding rule for selection of keywords.
 
 		<h2>Subpage Listing</h2>
 		<ul>
