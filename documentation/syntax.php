@@ -122,7 +122,7 @@
 			<li><a href="/documentation/syntax/type_scope.php">type_scope</a></li>
 			<li><a href="/documentation/syntax/unary_arithmetic_op.php">unary_arithmetic_op</a></li>
 			<li><a href="/documentation/syntax/unary_logical_op.php">unary_logical_op</a></li>
-			<li><a href="/documentation/syntax/prefix_unary_operator_application.php">unary_op</a></li>
+			<li><a href="/documentation/syntax/unary_op.php">unary_op</a></li>
 			<li><a href="/documentation/syntax/union.php">union</a></li>
 			<li><a href="/documentation/syntax/unit_division.php">unit_division</a></li>
 			<li><a href="/documentation/syntax/unit_exponentiation.php">unit_exponentiation</a></li>
