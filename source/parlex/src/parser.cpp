@@ -21,13 +21,13 @@ parser::parser(int threadCount) : activeCount(0), terminating(false) {
 			goto wait;
 			while (!terminating) {
 				{
-					DBG("thread ", threadCount, " popping item");
+					DBG("THREAD ", threadCount, " POPPING ITEM");
 					std::tuple<details::context_ref, int> & item = work.front();
 					work.pop();
 					lock.unlock();
 					auto const & context = std::get<0>(item);
 					auto const nextDfaState = std::get<1>(item);
-					DBG("thread ", threadCount, " executing dfa state");
+					//DBG("thread ", threadCount, " executing dfa state");
 					context.owner().machine.process(context, nextDfaState);
 					context.owner().end_dependency(); //reference code A
 					if (--activeCount == 0) {
@@ -68,13 +68,13 @@ abstract_syntax_graph parser::parse(recognizer const & r, std::u32string const &
 }
 
 void parser::schedule(details::context_ref const & c, int nextDfaState) {
+	DBG("scheduling m: ", c.owner().machine.get_id(), " b:", c.owner().documentPosition, " s:", nextDfaState, " p:", c.current_document_position());
 #ifndef FORCE_RECURSION
 	activeCount++;
 	std::unique_lock<std::mutex> lock(mutex);
 	work.emplace(std::make_tuple(c, nextDfaState));
 	work_cv.notify_one();
 #else
-	DBG("scheduling machine '", c.owner().machine.get_id(), "' state ", nextDfaState, " for document position ", c.current_document_position());
 	c.owner().machine.process(c, nextDfaState);
 #endif
 }
