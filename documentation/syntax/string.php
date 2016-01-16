@@ -13,6 +13,16 @@
             <pre>"\"" (non_double_quote | escape_sequence)* "\""</pre>
         </div>
 
+        <div class="code">
+        	<p>Sample</p>
+        	<pre>"Hello, world!"</pre>
+        </div>
+
+        <div class="code">
+        	<p>Example</p>
+        	<pre>print("Hello, world!")</pre>
+        </div>
+
 
 		<?php require('../../footer.php') ?>
 	</body>
