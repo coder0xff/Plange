@@ -65,6 +65,7 @@
 							<li><a href="/documentation/syntax/add_sub.php">add_sub</a><code>±</code></li>
 							<li><a href="/documentation/syntax/multiplicative_op.php">multiplicative_op</a>
 								<ul>
+									<li><a href="/documentation/syntax/multiplication.php">multiplication</a><code>*</code></li>
 									<li><a href="/documentation/syntax/dot_product.php">dot_product</a><code>⋅</code></li>
 									<li><a href="/documentation/syntax/cross_product.php">cross_product</a><code>×</code></li>
 								</ul>

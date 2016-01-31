@@ -11,7 +11,7 @@
         <p>returns a relation asserting that the left hand operand is a superset of the right hand operand</p>
         <div class="code">
             <p>Syntax</p>
-            <pre><a href="expression.php">expression</a> ("⊇"|"_sups_") <a href="expression.php">expression</a></pre>
+            <pre><a href="expression.php">expression</a> ("⊇"|"sups") <a href="expression.php">expression</a></pre>
         </div>
 
 

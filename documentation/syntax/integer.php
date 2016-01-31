@@ -10,7 +10,7 @@
 
 		<div class="code">
 			<p>Syntax</p>
-			<pre>("1"|"2"|"3"|"4"|"5"|"6"|"7"|"8"|"9") ("0"|"1"|"2"|"3"|"4"|"5"|"6"|"7"|"8"|"9")*</pre>
+			<pre><a href="/documentation/syntax/non_zero_decimal_digit.php">non_zero_decimal_digit</a> decimal_digit*</pre>
 		</div>
 		<h2>Notes</h2>
 		<p>The first digit may not be a zero.</p>

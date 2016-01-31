@@ -16,7 +16,7 @@
  		<div class="code">
  			<p>Example</p>
  			<pre>for (x ← 0; x < 100; x++) {
-	print(x + "\n");
+	print_line(x);
 };</pre>
 		</div>
 

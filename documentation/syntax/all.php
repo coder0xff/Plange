@@ -22,12 +22,7 @@ if (∀ { x >= 0 where x ∈ someNumbers}) {
 	print("None of the numbers are negative");
 } else {
 	print("Some of the numbers are negative");
-}</p>
-		</div>
-
-		<div class="code">
-			<p>Example</p>
-			<pre></pre>
+}</pre>
 		</div>
 
 		<h2>Notes</h2>

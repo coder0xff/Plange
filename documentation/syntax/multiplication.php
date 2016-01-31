@@ -1,7 +1,7 @@
 <meta charset='utf-8'/>
 <html>
 	<head>
-		<title>cross_product - Plange</title>
+		<title>multiplication - Plange</title>
 		<link rel=StyleSheet href='../../css/general.css' type='text/css' />
 	</head>
 	<body>
@@ -10,14 +10,10 @@
 
 		<div class="code">
 			<p>Syntax</p>
-			<pre><a href="expression.php">expression</a> ("×"|"_cross_") <a href="expression.php">expression</a></pre>
+			<pre><a href="expression.php">expression</a> "*" <a href="expression.php">expression</a></pre>
 		</div>
 
-		<ul>
-			<li>Number * Number → Number</li>
-			<li>Vector&lt;3, T&gt; * Vector&lt;3, T&gt; → </li>
-		</ul>
-		
+
 		<?php require('../../footer.php') ?>
 	</body>
 </html>

@@ -19,11 +19,13 @@
 <pre><> fibArray = [ 0, 1, 1, 2, 3, 5, 8, 13 ];
 for (element ∈ fibArray) {
 	print(element);
-}
-
-//print the squares of each item using pattern matching
-for (element ^ 0.5 ∈ fibArray) {
-	print(element);
+}</pre>
+		</div>
+		
+		<div class="code">
+			<p>Example</p>
+<pre>for ((key, value) ∈ myMap) {
+	//do something
 }</pre>
 		</div>
 

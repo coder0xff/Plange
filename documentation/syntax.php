@@ -56,10 +56,12 @@
 			<li><a href="/documentation/syntax/floor.php">floor</a></li>
 			<li><a href="/documentation/syntax/for.php">for</a></li>
 			<li><a href="/documentation/syntax/for_collection.php">for_collection</a></li>
+			<li><a href="/documentation/syntax/fractional.php">fractional</a></li>
 			<li><a href="/documentation/syntax/function.php">function</a></li>
 			<li><a href="/documentation/syntax/get.php">get</a></li>
 			<li><a href="/documentation/syntax/greater_than.php">greater_than</a></li>
 			<li><a href="/documentation/syntax/has.php">has</a></li>
+			<li><a href="/documentation/syntax/hex.php">hex</a></li>
 			<li><a href="/documentation/syntax/identifier.php">identifier</a></li>
 			<li><a href="/documentation/syntax/if.php">if</a></li>
 			<li><a href="/documentation/syntax/iff.php">iff</a></li>
@@ -81,6 +83,7 @@
 			<li><a href="/documentation/syntax/multiplicative_op.php">multiplicative_op</a></li>
 			<li><a href="/documentation/syntax/nearest_integer.php">nearest_integer</a></li>
 			<li><a href="/documentation/syntax/negation.php">negation</a></li>
+			<li><a href="/documentation/syntax/non_zero_decimal_digit.php">non_zero_decimal_digit</a></li>
 			<li><a href="/documentation/syntax/not.php">not</a></li>
 			<li><a href="/documentation/syntax/not_greater_than.php">not_greater_than</a></li>
 			<li><a href="/documentation/syntax/not_has.php">not_has</a></li>
@@ -88,6 +91,7 @@
 			<li><a href="/documentation/syntax/not_lesser_than.php">not_lesser_than</a></li>
 			<li><a href="/documentation/syntax/null_coalesce.php">null_coalesce</a></li>
 			<li><a href="/documentation/syntax/number.php">number</a></li>
+			<li><a href="/documentation/syntax/octal.php">octal</a></li>
 			<li><a href="/documentation/syntax/or.php">or</a></li>
 			<li><a href="/documentation/syntax/parameter.php">parameter</a></li>
 			<li><a href="/documentation/syntax/parenthetical.php">parenthetical</a></li>

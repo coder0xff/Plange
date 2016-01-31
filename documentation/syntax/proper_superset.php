@@ -10,7 +10,7 @@
 
         <div class="code">
             <p>Syntax</p>
-            <pre><a href="expression.php">expression</a> ("⊃"|"_psups_") <a href="expression.php">expression</a></pre>
+            <pre><a href="expression.php">expression</a> ("⊃"|"psups") <a href="expression.php">expression</a></pre>
         </div>
 
 

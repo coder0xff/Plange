@@ -1,7 +1,7 @@
 <meta charset='utf-8'/>
 <html>
 	<head>
-		<title>cartesian_product - Plange</title>
+		<title>fractional - Plange</title>
 		<link rel=StyleSheet href='../../css/general.css' type='text/css' />
 	</head>
 	<body>
@@ -9,8 +9,8 @@
 
 
 		<div class="code">
-			<p>Syntax</p>
-			<pre><a href="expression.php">expression</a> "*" <a href="expression.php">expression</a></pre>
+		    <p>Syntax</p>
+		    <pre>(decimal_digit decimal_digit* "." decimal_digit*) | ("." decimal_digit decimal_digit*)</pre>
 		</div>
 
 
