@@ -36,6 +36,7 @@
 				<tr><td>&lt;String * FileMode → File&gt; open</td></tr>
 				<tr><td>&lt;Char → Int32&gt; ord</td></tr>
 				<tr><td>&lt;_ → Void&gt; print</td></tr>
+				<tr><td>&lt;_ → Void&gt; print_line</td></tr>
 				<tr><td>&lt;File * Int → Array&lt;Byte&gt;&gt; read</td></tr>
 				<tr><td>&lt;&lt;T * T → T&gt; * Collection&lt;T&gt; → T&gt; reduce</td></tr>
 				<tr><td>&lt;&lt;T * T → T&gt; * Collection&lt;T&gt; → T&gt; reduce_r</td></tr>
@@ -127,7 +128,7 @@
 				<tr><td>MaxHeap, MinHeap, TsMaxHeap, TsMinHeap, CoalescingTsMaxHeap</td></tr>
 				<tr><td>MultiMap, TsMultiMap</span></td></tr>
 				<tr><td>Octonion</td></tr>
-				<tr><td>Pointer</td></tr>
+				<tr><td><a href="/documentation/standard-library/Pointer.php">Pointer</a></td></tr>
 				<tr><td>Predicate</td><td>(&lt;Type&gt; Operand) { return Operand → Bool; };</td></tr>
 				<tr><td>Producer</td></tr>
 				<tr><td>Quaternion</td></tr>

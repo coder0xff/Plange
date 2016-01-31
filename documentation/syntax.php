@@ -103,6 +103,7 @@
 			<li><a href="/documentation/syntax/range.php">range</a></li>
 			<li><a href="/documentation/syntax/relational_collection_op.php">relational_collection_op</a></li>
 			<li><a href="/documentation/syntax/relational_op.php">relational_op</a></li>
+			<li><a href="/documentation/syntax/return.php">return</a></li>
 			<li><a href="/documentation/syntax/set.php">set</a></li>
 			<li><a href="/documentation/syntax/set_comprehension.php">set_comprehension</a></li>
 			<li><a href="/documentation/syntax/shiftl.php">shiftl</a></li>

@@ -50,6 +50,7 @@
 			<li><a href="/documentation/keywords/public.php">public</a></li>
 			<li><a href="/documentation/keywords/pure.php">pure</a></li>
 			<li><a href="/documentation/keywords/reinterpret_cast.php">reinterpret_cast</a></li>
+			<li><a href="/documentation/keywords/return.php">return</a></li>
 			<li><a href="/documentation/keywords/set.php">set</a></li>
 			<li><a href="/documentation/keywords/stable.php">stable</a></li>
 			<li><a href="/documentation/keywords/static.php">static</a></li>

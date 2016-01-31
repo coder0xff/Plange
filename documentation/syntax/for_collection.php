@@ -8,12 +8,24 @@
 		<?php require('../../header.php') ?>
 
 
-		<p>creates a nullary void function that executes a given code block repeatedly, over the elements specified by the specified denumerable</p>
+		<p>creates a nullary void function that executes a given code block repeatedly, over the elements of the specified denumerable</p>
 		<div class="code">
 			<p>Syntax</p>
 			<pre>"for" "(" (([ <a href="type_dereference.php">type_dereference</a> | <a href="implicit_type_dereference.php">implicit_type_dereference</a> ] <a href="symbol.php">identifier</a> ) | <a href="expression.php">expression</a> ) ("in"|"∈") <a href="expression.php">expression</a> ")" <a href="statement_scope.php">statement_scope</a></pre>
 		</div>
 
+		<div class="code">
+			<p>Example</p>
+<pre><> fibArray = [ 0, 1, 1, 2, 3, 5, 8, 13 ];
+for (element ∈ fibArray) {
+	print(element);
+}
+
+//print the squares of each item using pattern matching
+for (element ^ 0.5 ∈ fibArray) {
+	print(element);
+}</pre>
+		</div>
 
 		<?php require('../../footer.php') ?>
 	</body>
