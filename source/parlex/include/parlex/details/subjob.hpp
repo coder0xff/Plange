@@ -26,10 +26,9 @@ public:
 	std::list<context> contexts;
 	std::list<permutation> queuedPermutations;
 	std::mutex mutex;
-	std::atomic<int> dependencyCounter;
+	std::atomic<int> lifetimeCounter;
 
 	subjob(job & owner, state_machine const & machine, int const documentPosition);
-	~subjob();
 	subjob(subjob const & other) = delete;
 
 	void start();
@@ -38,7 +37,10 @@ public:
 	void accept(context_ref const & c);
 	context_ref construct_start_state_context(int documentPosition);
 	void end_dependency();
-	void begin_dependency();
+	void finish_creation();
+	void decrement_lifetime();
+	void increment_lifetime();
+	void flush();
 };
 
 }

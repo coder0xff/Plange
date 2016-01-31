@@ -35,15 +35,18 @@ void producer::do_events() {
 			auto match = matches[subscription.next_index];
 			subscription.next_index++;
 			context_ref next = targetSubjob.construct_stepped_context(subscription.c, match);
-			targetSubjob.begin_dependency(); //reference code A - the target may not halt until this is handled
+			targetSubjob.increment_lifetime(); //reference code A - the target may not halt until this is handled
 			parser.schedule(next, subscription.next_dfa_state);
 		};
-		if (completed) {
-			targetSubjob.end_dependency();
-		}
 	}
 	if (completed) {
-		consumers.clear();
+		std::list<subscription> temp;
+		std::swap(temp, consumers);
+		lock.unlock();
+		for (subscription & subscription : temp) {
+			subjob & targetSubjob = subscription.c.owner();
+			targetSubjob.decrement_lifetime(); //reference code C
+		}
 	}
 }
 
@@ -66,12 +69,8 @@ void producer::enque_permutation(size_t consumedCharacterCount, permutation cons
 }
 
 void producer::terminate() {
-	std::unique_lock<std::mutex> lock(mutex);
 	completed = true;
-	for (subscription & subscription : consumers) {
-		subjob & targetSubjob = subscription.c.owner();
-		targetSubjob.end_dependency(); //reference code C
-	}
+	do_events();
 }
 
 }

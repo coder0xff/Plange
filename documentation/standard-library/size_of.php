@@ -8,6 +8,11 @@
 		<?php require('../../header.php') ?>
 
 
+		<p>returns the size of instances of the specified type</p>
+		<div class="code">
+			<p>Example</p>
+			<pre>print(size_of(Byte)); //prints 1</pre>
+		</div>
 
 
 		<?php require('../../footer.php') ?>

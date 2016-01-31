@@ -36,15 +36,13 @@ job::job(parser & owner, std::u32string const & document, recognizer const & mai
 				std::forward_as_tuple(result)
 			);
 			//seed the parser with the root state
+			result->increment_lifetime(); //reference code A
 			owner.work.emplace(std::make_tuple(result->construct_start_state_context(0), 0));
 			owner.activeCount++;
 			//give it a tickle!
 			owner.work_cv.notify_one(); //parser::parse has mutex locked
+			result->finish_creation();
 		}
-	}
-
-job::~job() {
-	producers.clear();
 }
 
 void job::connect(match_class const & matchClass, context_ref const & c, int nextDfaState) {
