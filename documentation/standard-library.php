@@ -8,7 +8,7 @@
 		<?php require('../header.php') ?>
 
 
-		<p>The plange standard library is in the <code>Plange</code> namespace, which is the top-level (global)scope. The top-level <a href="syntax/statement_scope.php">statement_scope</a> of each source unit is within the Plange scope. As such, the following symbols are accessible immediately in a source unit.
+		<p>The plange standard library is in the <code>Plange</code> namespace, which is the top-level (global) namespace. The top-level <a href="syntax/statement_scope.php">statement_scope</a> of each source unit is within the Plange namespace. As such, the following symbols are accessible immediately in a source unit.
 		<h2>Functions</h2>
 		<code>
 			<table style="width:2000px;">
@@ -17,20 +17,20 @@
 				<tr><td>&lt;Char → Maybe&lt;UInt8&gt;&gt; ansi_ord</td></tr>
 				<tr><td>&lt;Int32 → Char&gt; chr</td></tr>
 				<tr><td>&lt;File → Void&gt; close</td></tr>
-				<tr><td>&lt;T → U&gt; <a href="standard-library/coerce.php">coerce</a></td><td>convert a value to a different representation, possibly using lexographic algorithms</td></tr>
+				<tr><td>&lt;T → U&gt; <a href="/documentation/standard-library/coerce.php">coerce</a></td><td>convert a value to a different representation, possibly using lexographic algorithms</td></tr>
 				<tr><td>&lt;_ → Void&gt; debug</td></tr>
 				<tr><td>&lt;_ → String&gt; dump</td></tr>
 				<tr><td>&lt;_ → Void&gt; error</td></tr>
 				<tr><td>&lt;String → Value&gt; eval</td></tr>
 				<tr><td>&lt;File → Void&gt; flush</td></tr>
-				<tr><td>&lt;&lt;T → Maybe&lt;U&gt; * Collection&lt;T&gt; → Collection&lt;U&gt; filter</td></tr>
+				<tr><td>&lt;&lt;T → Maybe&lt;U&gt; * Collection&lt;T&gt; → Collection&lt;U&gt; filter</td></tr>
 				<tr><td>&lt;&lt;T * U → U&gt; * Collection&lt;T&gt; * U → U&gt; fold</td></tr>
-				<tr><td>&lt;&lt;T * U → U&gt; * Collection&lt;T&gt; * U → U&gt; fold_r</td></tr>
+				<tr><td>&lt;&lt;T * U → U&gt; * Collection&lt;T&gt; * U → U&gt; fold_r</td></tr>
 				<tr><td>&lt;_ → Int32&gt; hash</td></tr>
 				<tr><td>&lt;Void → Void&gt; help</td><td>print help information for the given object or string</td></tr>
 				<tr><td>&lt;_ → String&gt; input</td></tr>
 				<tr><td>&lt;Void → Void&gt; interrupt</td></tr>
-				<tr><td>&lt;&lt;T → U&gt; * Collection&lt;T&gt; → Collection&lt;U&gt;&gt; map</td></tr>
+				<tr><td>&lt;&lt;T → U&gt; * Collection&lt;T&gt; → Collection&lt;U&gt;&gt; map</td></tr>
 				<tr><td>&lt;(Collection&lt;T&gt; | T^_) → T&gt; max</td></tr>
 				<tr><td>&lt;(Collection&lt;T&gt; | T^_) → T&gt; min</td></tr>
 				<tr><td>&lt;String * FileMode → File&gt; open</td></tr>
@@ -39,7 +39,7 @@
 				<tr><td>&lt;_ → Void&gt; print_line</td></tr>
 				<tr><td>&lt;File * Int → Array&lt;Byte&gt;&gt; read</td></tr>
 				<tr><td>&lt;&lt;T * T → T&gt; * Collection&lt;T&gt; → T&gt; reduce</td></tr>
-				<tr><td>&lt;&lt;T * T → T&gt; * Collection&lt;T&gt; → T&gt; reduce_r</td></tr>
+				<tr><td>&lt;&lt;T * T → T&gt; * Collection&lt;T&gt; → T&gt; reduce_r</td></tr>
 				<tr><td>&lt;File * Int * SeekOrigin → Void&gt; seek</td></tr>
 				<tr><td>&lt;String → Int32&gt; | &lt;String * File * File * File → Int32&gt; shell</td><td>execute a command in the system shell</td></tr>
 				<tr><td>&lt;Collection&lt;T&gt; → Tuple&lt;T&gt;&gt; to_tuple</td><td>convert an ordered collection or object to tuple</td></tr>
@@ -52,27 +52,28 @@
 				<tr><th>Name</th><th>Comments</th></tr>
 				<tr><td>BitArray</td></tr>
 				<tr><td>Bool</td></tr>
-				<tr><td><a href="standard-library/Complex.php">Complex</a></td><td>An element of ℂ (<a href="http://www.fileformat.info/info/unicode/char/2102/index.htm">DOUBLE-STRUCK CAPITAL C U+2102</a>), the complex numbers { &lt;Real&gt; r; &lt;Real&gt; i; }</td></tr>
+				<tr><td><a href="/documentation/standard-library/Complex.php">Complex</a></td><td>An element of ℂ (<a href="http://www.fileformat.info/info/unicode/char/2102/index.htm">DOUBLE-STRUCK CAPITAL C U+2102</a>), the complex numbers { &lt;Real&gt; r; &lt;Real&gt; i; }</td></tr>
 				<tr><td>Date, DateTime</td></tr>
-				<tr><td><a href="standard-library/ExecutionContext.php">ExecutionContext</a></td></tr>
+				<tr><td><a href="/documentation/standard-library/ExecutionContext.php">ExecutionContext</a></td></tr>
 				<tr><td>Expression</td></tr>
-				<tr><td>Float</td><td>An element of ℚ (<a href="http://www.fileformat.info/info/unicode/char/211a/index.htm">DOUBLE-STRUCK CAPITAL Q U+211A</a>), the rational numbers</td></tr>
+				<tr><td>Float</td><td>An element of ℚ (<a href="http://www.fileformat.info/info/unicode/char/211a/index.htm">DOUBLE-STRUCK CAPITAL Q U+211A</a>), the rational numbers</td></tr>
 				<tr><td>Float16, Float32, Float64, Float128</td></tr>
-				<tr><td>Imaginary</td><td>An element of 𝕀 (<a href="http://www.fileformat.info/info/unicode/char/1d540/index.htm">MATHEMATICAL DOUBLE-STRUCK CAPITAL I U+1D540</a>)</td></tr>
-				<tr><td><a href="standard-library/Int.php">Int</a></td><td>An element of ℤ (<a href="http://www.fileformat.info/info/unicode/char/2124/index.htm">DOUBLE-STRUCK CAPITAL Z U+2124</a>) , the integers (<a href="https://en.wikipedia.org/wiki/Arbitrary-precision_arithmetic">big integer</a>)</td></tr>
+				<tr><td>Imaginary</td><td>An element of 𝕀 (<a href="http://www.fileformat.info/info/unicode/char/1d540/index.htm">MATHEMATICAL DOUBLE-STRUCK CAPITAL I U+1D540</a>)</td></tr>
+				<tr><td><a href="/documentation/standard-library/Int.php">Int</a></td><td>An element of ℤ (<a href="http://www.fileformat.info/info/unicode/char/2124/index.htm">DOUBLE-STRUCK CAPITAL Z U+2124</a>) , the integers (<a href="https://en.wikipedia.org/wiki/Arbitrary-precision_arithmetic">big integer</a>)</td></tr>
 				<tr><td>Int8, Int16, Int32, Int64, Int128, UInt8, UInt16, UInt32, UInt64, UInt128</td></tr>
 				<tr><td>Int16Set</td><td>a 65536-bit array for fast set operations</td></tr>
 				<tr><td>Int8Set</td><td>a 256-bit array for fast set operations</td></tr>
-				<tr><td>Octonion</td><td>An element of 𝕆 (<a href="http://www.fileformat.info/info/unicode/char/1d546/index.htm">MATHEMATICAL DOUBLE-STRUCK CAPITAL O U+1D546</a>)</td></tr>
+				<tr><td>Octonion</td><td>An element of 𝕆 (<a href="http://www.fileformat.info/info/unicode/char/1d546/index.htm">MATHEMATICAL DOUBLE-STRUCK CAPITAL O U+1D546</a>)</td></tr>
 				<tr><td>Parameter</td></tr>
-				<tr><td>Quaternion</td><td>An element of ℍ (<a href="http://www.fileformat.info/info/unicode/char/210d/index.htm">DOUBLE-STRUCK CAPITAL H U+210D</a>)</td></tr>
-				<tr><td><a href="standard-library/Real.php">Real</a></td><td>An element of ℝ (<a href="http://www.fileformat.info/info/unicode/char/211d/index.htm">DOUBLE-STRUCK CAPITAL R U+211D</a>), the real numbers (either BigFloat or an algebraic value)</td></tr>
-				<tr><td><a href="standard-library/Scope.php">Scope</a></td></tr>
+				<tr><td>Quaternion</td><td>An element of ℍ (<a href="http://www.fileformat.info/info/unicode/char/210d/index.htm">DOUBLE-STRUCK CAPITAL H U+210D</a>)</td></tr>
+				<tr><td><a href="/documentation/standard-library/Real.php">Real</a></td><td>An element of ℝ (<a href="http://www.fileformat.info/info/unicode/char/211d/index.htm">DOUBLE-STRUCK CAPITAL R U+211D</a>), the real numbers (either BigFloat or an algebraic value)</td></tr>
+				<tr><td><a href="/documentation/standard-library/Relation.php">Relation</a></td></tr>
+				<tr><td><a href="/documentation/standard-library/Scope.php">Scope</a></td></tr>
 				<tr><td>String</td></tr>
-				<tr><td><a href="standard-library/Type.php">Type</a></td></tr>
-				<tr><td><a href="standard-library/Unit.php">Unit</a></td></tr>
-				<tr><td><a href="standard-library/Value.php">Value</a></td></tr>
-				<tr><td><a href="standard-library/Void.php">Void</a></td></tr>
+				<tr><td><a href="/documentation/standard-library/Type.php">Type</a></td></tr>
+				<tr><td><a href="/documentation/standard-library/Unit.php">Unit</a></td></tr>
+				<tr><td><a href="/documentation/standard-library/Value.php">Value</a></td></tr>
+				<tr><td><a href="/documentation/standard-library/Void.php">Void</a></td></tr>
 			</table>
 		</code>
 		<h2>Constants</h2>
@@ -81,9 +82,7 @@
 				<tr><td>args</td><td></td><td></td><td>the command line arguments</td></tr>
 				<tr><td>env</td><td></td><td></td><td>the environment variables</td></tr>
 				<tr><td>false</td><td></td><td></td><td>one of two values that a Bool may take, the other being true</td></tr>
-				<tr><td>i</td><td></td><td></td><td>the primary axis' unit 2-vector or 3-vector</td></tr>
-				<tr><td>j</td><td></td><td></td><td>the secondary axis' unit 2-vector or 3-vector</td></tr>
-				<tr><td>k</td><td></td><td></td><td>the tertiary axis' unit 3-vector</td></tr>
+				<tr><td>null</td><td></td><td></td><td>theZnull pointer</td></tr>
 				<tr><td>true</td><td></td><td></td><td>one of two values that a Bool may take, the other being false</td></tr>
 				<tr><td>π</td><td>pi</td><td>(<a href="http://www.fileformat.info/info/unicode/char/03c0/index.htm">GREEK SMALL LETTER PI U+03CO</a>)</td><td>pi mathematical constant</td></tr>
 				<tr><td>ℂ</td><td>CC</td><td>(<a href="http://www.fileformat.info/info/unicode/char/2102/index.htm">DOUBLE-STRUCK CAPITAL C U+2102</a>)</td><td>complex numbers</td></tr>
@@ -144,6 +143,7 @@
 			<table style="width:2000px;">
 				<tr><td>Cas</td></tr>
 				<tr><td>Compiler</td></tr>
+				<tr><td><a href="/documentation/standard-library/Geometry.php">Geometry</a></td></tr>
 				<tr><td>Gtk</td></tr>
 				<tr><td>IO</td></tr>
 				<tr><td>OpenGL</td></tr>

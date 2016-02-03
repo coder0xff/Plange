@@ -8,7 +8,7 @@
 		<?php require('../../header.php') ?>
 
 
-		<p>construct an object that implements Map&lt;a -&gt; b&gt;</p>
+		<p>construct an object that implements <code>Map&lt;a → b&gt;</code></p>
 
 		<div class="code">
 			<p>Syntax</p>

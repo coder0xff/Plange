@@ -26,7 +26,7 @@ input := [ // start a list
     (2,0)  // version 2.0
 ];         // finish the list
 
-expected := { 0 → {5}, 1 → {0,1}, 2 → {0} };
+expected := { 0: {5}, 1: {0,1}, 2: {0} };
 
 // The structure of the result object - the tree above:
 Result_t := Map&lt;Int, Set&lt;Int&gt;&gt;;

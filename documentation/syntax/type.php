@@ -8,7 +8,7 @@
 		<?php require('../../header.php') ?>
 
 
-        <p>create a new <a href="../standard-library/type.php">Type</a></p>
+        <p>create a new <a href="../standard-library/Type.php">Type</a></p>
         <div class="code">
             <p>Syntax</p>
             <pre>"type" "{" <a href="type_scope.php">type_scope</a> "}"</pre>

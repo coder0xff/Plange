@@ -8,12 +8,10 @@
 		<?php require('../../header.php') ?>
 
 
-mitive type with a size of zero with a single possible value Void()
-    <br>
-    </br>
-    <br>
-    </br>
-    Notes: The semantics of Void are the same as other primitive types with the exception that Void() may not be coerced to another type (coercing to Void is permitted) and any value may be coerced to Void, which results in the Void() value.
+        <p>primitive type with a size of zero with a single possible value Void()</p>
+
+        <h2>Notes</h2>
+        <p>The semantics of Void are the same as other primitive types with the exception that Void() may not be coerced to another type (coercing to Void is permitted) and any value may be coerced to Void, which results in the Void() value.</p>
     <br>
     </br>
     <div>

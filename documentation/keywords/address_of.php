@@ -8,7 +8,7 @@
 		<?php require('../../header.php') ?>
 
 
-		<p>returns a value of type <a href="/documentation/standard-library/pointer.php">Pointer</a>&lt;T&gt;</p>
+		<p>returns a value of type <a href="/documentation/standard-library/Pointer.php">Pointer</a>&lt;T&gt;</p>
 		<div class="code">
 			<p>Example</p>
 			<pre>&lt;Int&gt; x = 0xABC123;

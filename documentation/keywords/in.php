@@ -10,9 +10,9 @@
 
 		<div class="code">
 			<p>Syntax</p>
-			<pre><a href="expression.php">expression</a> ("∈"|"in") <a href="../syntax/expression.php">expression</a></pre>
+			<pre><a href="/documentation/syntax/expression.php">expression</a> ("∈"|"in") <a href="/documentation/syntax/expression.php">expression</a></pre>
 		</div>
-		<p>See also: <a href="../syntax/for_collection.php">for_collection</a></p>
+		<p>See also: <a href="/documentation/syntax/for_collection.php">for_collection</a></p>
 
 
 		<?php require('../../footer.php') ?>

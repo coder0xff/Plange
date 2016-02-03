@@ -7,6 +7,8 @@
 	<body>
 		<?php require('../header.php') ?>
 
+		
+		<p>The root production of the grammar is "statement_scope."</p>
 
 		<h2>Subpage Listing</h2>
 		<ul>
@@ -25,7 +27,6 @@
 			<li><a href="/documentation/syntax/bitwise_op.php">bitwise_op</a></li>
 			<li><a href="/documentation/syntax/bool.php">bool</a></li>
 			<li><a href="/documentation/syntax/cardinality.php">cardinality</a></li>
-			<li><a href="/documentation/syntax/cartesian_product.php">cartesian_product</a></li>
 			<li><a href="/documentation/syntax/cast.php">cast</a></li>
 			<li><a href="/documentation/syntax/ceiling.php">ceiling</a></li>
 			<li><a href="/documentation/syntax/chunk.php">chunk</a></li>
@@ -80,6 +81,7 @@
 			<li><a href="/documentation/syntax/map.php">map</a></li>
 			<li><a href="/documentation/syntax/maps_to.php">maps_to</a></li>
 			<li><a href="/documentation/syntax/modulation.php">modulation</a></li>
+			<li><a href="/documentation/syntax/multiplication.php">multiplication</a></li>
 			<li><a href="/documentation/syntax/multiplicative_op.php">multiplicative_op</a></li>
 			<li><a href="/documentation/syntax/nearest_integer.php">nearest_integer</a></li>
 			<li><a href="/documentation/syntax/negation.php">negation</a></li>

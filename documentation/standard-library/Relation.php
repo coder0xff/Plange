@@ -9,15 +9,12 @@
 
 
 
-    <p>a non-polymorphic abstraction for manipulating values as first class object</p>
+    <p>Codifies a logical or mathematical relationship among two or more values.</p>
 
     <div class="code">
         <p>Outline</p>
-        <pre>Value := type {
-    &lt;List&lt;Relation&gt;&gt; typeConstraints;
-    &lt;Maybe&lt;Type*&gt;&gt; T;
-    &lt;List&lt;Relation&gt;&gt; constraints;
-    &lt;Maybe&lt;Pointer&lt;Any&gt;&gt;&gt; value;
+        <pre>Relation := type {
+    &lt;Expression&gt; expression;
 }</pre>
     </div>
 

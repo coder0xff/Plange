@@ -189,7 +189,7 @@ print(get_return_type(addFive));  // output: Int</pre>
 		<a href="#Type_Constraints">More on this later</a>. 
 
 		<h2>Types</h2>
-		<p>The <a href="/documentation/keywords/type.php"><code>type</code></a> (not capitalized) keyword is used to make a new <a href="/documentation/standard-library/type.php"><code>Type</code></a> (capitalized) object. </p>
+		<p>The <a href="/documentation/keywords/type.php"><code>type</code></a> (not capitalized) keyword is used to make a new <a href="/documentation/standard-library/Type.php"><code>Type</code></a> (capitalized) object. </p>
 		<div class="code">
 			<p>Example</p>
 			<pre>Color := type {
@@ -254,7 +254,7 @@ Maybe := (t) { return Some&lt;t&gt; | None; };
 	return coerce(input("What's your age? You don't have to tell me."));
 };
 
-print(get_age);</pre>
+print(get_age());</pre>
 		</div>
 
 		<h2>Constraint solving</h2>

@@ -57,7 +57,7 @@ Foat32x3 := Vector&lt;Float32, 3&gt;;                        // type def and a f
 		</div>
 
 		<h2>Notes</h2>
-		<p>The angle-bracket syntax is not required, since parenthesis can be used also. The convention is to use the angle-bracket syntax when the intent is use as a generic type. See <a href="/documentation/syntax/invocation">invocation</a></p>
+		<p>The angle-bracket syntax is not required, since parenthesis can be used also. The convention is to use the angle-bracket syntax when the intent is use as a generic type. See <a href="/documentation/syntax/invocation.php">invocation</a></p>
 
 		<h2>Covariance and Contravariance</h2>
 		<p>The inheritance graph is modeled and can be tested programmatically.</p>

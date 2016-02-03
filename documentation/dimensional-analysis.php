@@ -12,12 +12,11 @@
 
 		<div class="code">
 			<p>Example</p>
-			<pre>position <- (0m, 0m, 0m);
-velocity := (1.3 km/s, 0 km/s, 1 km/s);
+			<pre>position ← (0m, 0m, 0m);
+velocity := (1.3 cm/s, 0 cm/s, 1 cm/s);
 elapsed := 5s;
-position += velocity * elapsed;</pre>
+position ← position + velocity * elapsed;</pre>
 		</div>
-
 
 		<p>The syntax for this feature can be found in <a href="/documentation/syntax/dimensional_number.php">dimensional_number</a> and is referenced by the <a href="/documentation/syntax/expression.php">expression</a> syntax.</p>
 
