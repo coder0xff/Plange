@@ -12,7 +12,7 @@
 		<div class="code">
 			<p>Example</p>
 			<pre>&lt;Int&gt; a := 1;
-print(type_of(a)) = Int; //prints "true"</pre>
+print(type_of(a) = Int); //prints "true"</pre>
 		</div>
 
 

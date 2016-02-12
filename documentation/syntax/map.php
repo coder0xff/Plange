@@ -10,9 +10,9 @@
 
 		<p>construct an object that implements <code>Map&lt;a → b&gt;</code></p>
 
-		<div class="code">
-			<p>Syntax</p>
-			<pre>"{" expression ":" expression ("," expression ":" expression)* "}"</pre>
+		<div class="syntax">
+			<p>syntax</p>
+			<div>"{" expression ":" expression ("," expression ":" expression)* "}"</div>
 		</div>
 
 		<div class="code">

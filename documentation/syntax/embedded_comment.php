@@ -8,10 +8,11 @@
 		<?php require('../../header.php') ?>
 
 
-		<div class="code">
-			<p>Syntax (full Wirth Syntax Notation)</p>
-			<pre>"/*" <a href="/documentation/syntax/embedded_comment_interior.php">embedded_comment_interior</a> "*/"</pre>
+		<div class="syntax">
+			<p>syntax</p>
+			<div>"/*" <a href="/documentation/syntax/embedded_comment_interior.php">embedded_comment_interior</a> "*/"</div>
 		</div>
+		
 		<h2>Notes</h2>
 		<p>This allows for commented code to be safely commented out completely by including a sufficient number of asterisks to serve as an opening and closing delimiter.</p>
 

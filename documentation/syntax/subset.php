@@ -9,9 +9,9 @@
 
 
         <p>returns a relation asserting that the left hand operand is a superset of the right hand operand</p>
-        <div class="code">
-            <p>Syntax</p>
-            <pre><a href="expression.php">expression</a> ("⊆"|"subs") <a href="expression.php">expression</a></pre>
+		<div class="syntax">
+			<p>syntax</p>
+			<div><a href="expression.php">expression</a> ("⊆"|"subs") <a href="expression.php">expression</a></div>
         </div>
 
 

@@ -1,7 +1,7 @@
 <meta charset='utf-8'/>
 <html>
 	<head>
-		<title>∮ (product integral) - Plange</title>
+		<title>∮ (line integral) - Plange</title>
 		<link rel=StyleSheet href='../../css/general.css' type='text/css' />
 	</head>
 	<body>

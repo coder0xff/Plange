@@ -8,9 +8,9 @@
 		<?php require('../../header.php') ?>
 
 
-		<div class="code">
-			<p>Syntax</p>
-			<pre><a href="and.php">and</a> | <a href="or.php">or</a> | <a href="xor.php">xor</a> | <a href="implication.php">implication</a> | <a href="iff.php">iff</a> | <a href="maps_to.php">maps_to</a> | <a href="bijection.php">bijection</a></pre>
+		<div class="syntax">
+			<p>syntax</p>
+			<div><a href="and.php">and</a> | <a href="or.php">or</a> | <a href="xor.php">xor</a> | <a href="implication.php">implication</a> | <a href="iff.php">iff</a> | <a href="maps_to.php">maps_to</a> | <a href="bijection.php">bijection</a></div>
 		</div>
 
 

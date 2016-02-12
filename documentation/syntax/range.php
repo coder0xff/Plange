@@ -9,9 +9,9 @@
 
 
 		<p>creates an open, closed, or half open Set containing a range. It may be either discreet or continuous.</p>
-		<div class="code">
-			<p>Syntax</p>
-			<pre>"(" "..." <a href="expression.php">expression</a> ("]"|")") | ("["|"(") <a href="expression.php">expression</a> "..." ")" | ("("|"[") <a href="expression.php">expression</a> "..." <a href="expression.php">expression</a> ("]"|")")</pre>
+		<div class="syntax">
+			<p>syntax</p>
+			<div>"(" "..." <a href="expression.php">expression</a> ("]"|")") | ("["|"(") <a href="expression.php">expression</a> "..." ")" | ("("|"[") <a href="expression.php">expression</a> "..." <a href="expression.php">expression</a> ("]"|")")</div>
 		</div>
 		<div class="code">
 			<p>Example</p>

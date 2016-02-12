@@ -122,7 +122,7 @@ print(doubler(5)); //test it out</pre>
 		<p>Functions can have more than one parameter.</p>
 		<div class="code">
 			<p>Example</p>
-			<pre>&lt;Real * Real → Real&gt; geometric_mean := (&lt;Real&gt; x, &lt;Real&gt; y) { return (x * y)^(0.5); };</pre>
+			<pre>&lt;Real * Real → Real&gt; geometric_mean := (&lt;Real&gt; x, &lt;Real&gt; y) { return √(x * y); };</pre>
 		</div>
 
 		<p>See also:<a href="/documentation/standard-library/Function.php">Plange.Function</a>

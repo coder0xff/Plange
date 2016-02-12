@@ -9,9 +9,9 @@
 
 
 		<p>a literal of type Bool</p>
-		<div class="code">
-			<p>Syntax</p>
-			<pre>"true" | "false"</pre>
+		<div class="syntax">
+			<p>syntax</p>
+			<div>"true" | "false"</div>
 		</div>
 		<p>These are included as syntax elements as they are literals, not constants.</p>
 

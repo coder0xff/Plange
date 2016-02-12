@@ -8,9 +8,9 @@
 		<?php require('../../header.php') ?>
 
 
-        <div class="code">
-            <p>Syntax</p>
-            <pre><a href="/documentation/syntax/equality.php">equality</a> | <a href="/documentation/syntax/inequality.php">inequality</a> | <a href="/documentation/syntax/lesser_than.php">lesser_than</a> | <a href="/documentation/syntax/greater_than.php">greater_than</a> | <a href="/documentation/syntax/not_greater_than.php">not_greater_than</a> | <a href="/documentation/syntax/not_lesser_than.php">not_lesser_than</a> | <a href="/documentation/syntax/relational_collection_op.php">relational_collection_op</a></pre>
+		<div class="syntax">
+			<p>syntax</p>
+			<div><a href="/documentation/syntax/equality.php">equality</a> | <a href="/documentation/syntax/inequality.php">inequality</a> | <a href="/documentation/syntax/lesser_than.php">lesser_than</a> | <a href="/documentation/syntax/greater_than.php">greater_than</a> | <a href="/documentation/syntax/not_greater_than.php">not_greater_than</a> | <a href="/documentation/syntax/not_lesser_than.php">not_lesser_than</a> | <a href="/documentation/syntax/relational_collection_op.php">relational_collection_op</a></div>
         </div>
         <h2>Notice</h2>
         <p>This document represents a cross section of the

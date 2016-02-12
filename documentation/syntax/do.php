@@ -9,9 +9,9 @@
 
 
 		<p>invokes the nullary void function (expression) once and then repeatedly while or until the parenthetical evaluates to true (when coerced to bool), unless the optional portion is omitted, in which case the function is invoked indefinitely</p>
-		<div class="code">
-			<p>Syntax</p>
-			<pre>"do" <a href="expression.php">expression</a> [("while"|"until") <a href="parenthetical.php">parenthetical</a> ]</pre>
+		<div class="syntax">
+			<p>syntax</p>
+			<div>"do" <a href="expression.php">expression</a> [("while"|"until") <a href="parenthetical.php">parenthetical</a> ]</div>
 		</div>
 		<p>See also: <a href="../keywords/do.php">do (keyword)</a></p>
 

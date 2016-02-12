@@ -9,9 +9,9 @@
 
 
 		<p>creates a function</p>
-		<div class="code">
-			<p>Syntax</p>
-			<pre>[ "(" [ <a href="/documentation/syntax/parameter.php">parameter</a> ("," <a href="/documentation/syntax/parameter.php">parameter</a> )* ] ")" ] ["no_throw"] ["atomic"] ["pure"|"imperative"|"opaque"] "{" <a href="/documentation/syntax/statement_scope.php">statement_scope</a> "}"</pre>
+		<div class="syntax">
+			<p>syntax</p>
+			<div>[ "(" [ <a href="/documentation/syntax/parameter.php">parameter</a> ("," <a href="/documentation/syntax/parameter.php">parameter</a> )* ] ")" ] ["stable"|"unstable"] ["no_throw"] ["atomic"] ["pure"|"imperative"|"opaque"] "{" <a href="/documentation/syntax/statement_scope.php">statement_scope</a> "}"</div>
 		</div>
 		<div class="code">
 			<p>Example</p>

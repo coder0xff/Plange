@@ -30,6 +30,7 @@ public:
 
 	subjob(job & owner, state_machine const & machine, int const documentPosition);
 	subjob(subjob const & other) = delete;
+	~subjob();
 
 	void start();
 	context_ref construct_stepped_context(context_ref const & prior, match const fromTransition);

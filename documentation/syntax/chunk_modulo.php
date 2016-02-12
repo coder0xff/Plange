@@ -9,9 +9,9 @@
 
 
 		<p>returns a collection containing the elements that would not be consumed from the end of the left hand side by taking the chunk of the right hand side</p>
-		<div class="code">
-			<p>Syntax</p>
-			<pre><a href="expression.php">expression</a> "%" <a href="expression.php">expression</a></pre>
+		<div class="syntax">
+			<p>syntax</p>
+			<div><a href="expression.php">expression</a> "%" <a href="expression.php">expression</a></div>
 		</div>
 		<h2>Notes</h2>
 		<p>The returned collection always contains zero to N-1 elements, where N is the integer specified on the right hand side</p>

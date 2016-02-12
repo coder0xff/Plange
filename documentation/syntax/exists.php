@@ -9,9 +9,9 @@
 
 
 		<p>creates a constraint asserting that one or more elements of the Collection, specified by the expression, are true</p>
-		<div class="code">
-			<p>Syntax</p>
-			<pre>"∃" <a href="expression.php">expression</a></pre>
+		<div class="syntax">
+			<p>syntax</p>
+			<div>"∃" <a href="expression.php">expression</a></div>
 		</div>
 
 

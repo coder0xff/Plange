@@ -8,9 +8,9 @@
 		<?php require('../../header.php') ?>
 
 
-		<div class="code">
-		    <p>Syntax</p>
-		    <pre>(decimal_digit decimal_digit* "." decimal_digit*) | ("." decimal_digit decimal_digit*)</pre>
+		<div class="syntax">
+			<p>syntax</p>
+			<div>(decimal_digit decimal_digit* "." decimal_digit*) | ("." decimal_digit decimal_digit*)</div>
 		</div>
 
 

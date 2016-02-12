@@ -13,11 +13,11 @@
 		</div>
 		<div class="code">
 			<p>Example</p>
-			<pre>1 = ∫(dirac_delta(x), x ∈ [-infinity to infinity]);</pre>
+			<pre>1 = ∫(dirac_delta(x), x ∈ [-infinity to infinity]);</pre>
 		</div>
 		<div class="code">
 			<p>Example</p>
-			<pre>pi := ∫(√(1 - i(0)^2 - i(1)^2), i ∈ [-1.0 to 1.0]^2) / (4/3);</pre>
+			<pre>pi := ∫(√(1 - i(0)^2 - i(1)^2), i ∈ [-1.0 to 1.0]^2) / (4/3);</pre>
 		</div>
 
 

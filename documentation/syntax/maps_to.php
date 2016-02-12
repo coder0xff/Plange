@@ -9,9 +9,9 @@
 
 
 		<p>evaluates to an algebraic value that is both a relation and a function type.</p>
-		<div class="code">
-			<p>Syntax</p>
-			<pre><a href="expression.php">expression</a> ("→"|"-&gt;") <a href="expression.php">expression</a></pre>
+		<div class="syntax">
+			<p>syntax</p>
+			<div><a href="expression.php">expression</a> ("→"|"-&gt;") <a href="expression.php">expression</a></div>
 		</div>
 
 

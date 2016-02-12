@@ -59,7 +59,6 @@
 			<li><a href="/documentation/syntax/for_collection.php">for_collection</a></li>
 			<li><a href="/documentation/syntax/fractional.php">fractional</a></li>
 			<li><a href="/documentation/syntax/function.php">function</a></li>
-			<li><a href="/documentation/syntax/get.php">get</a></li>
 			<li><a href="/documentation/syntax/greater_than.php">greater_than</a></li>
 			<li><a href="/documentation/syntax/has.php">has</a></li>
 			<li><a href="/documentation/syntax/hex.php">hex</a></li>
@@ -68,6 +67,7 @@
 			<li><a href="/documentation/syntax/iff.php">iff</a></li>
 			<li><a href="/documentation/syntax/implication.php">implication</a></li>
 			<li><a href="/documentation/syntax/implicit_type_dereference.php">implicit_type_dereference</a></li>
+			<li><a href="/documentation/syntax/in.php">in</a></li>
 			<li><a href="/documentation/syntax/inequality.php">inequality</a></li>
 			<li><a href="/documentation/syntax/integer.php">integer</a></li>
 			<li><a href="/documentation/syntax/integer_division.php">integer_division</a></li>
@@ -110,7 +110,6 @@
 			<li><a href="/documentation/syntax/relational_collection_op.php">relational_collection_op</a></li>
 			<li><a href="/documentation/syntax/relational_op.php">relational_op</a></li>
 			<li><a href="/documentation/syntax/return.php">return</a></li>
-			<li><a href="/documentation/syntax/set.php">set</a></li>
 			<li><a href="/documentation/syntax/set_comprehension.php">set_comprehension</a></li>
 			<li><a href="/documentation/syntax/shiftl.php">shiftl</a></li>
 			<li><a href="/documentation/syntax/shiftr.php">shiftr</a></li>

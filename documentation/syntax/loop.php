@@ -9,9 +9,9 @@
 
 
         <p>executes a statement_block repeatedly while or until a parenthetical expression evaluates to true</p>
-        <div class="code">
-            <p>Syntax</p>
-            <pre>( "while" | "until" ) <a href="/documentation/syntax/parenthetical.php">parenthetical</a> <a href="/documentation/syntax/expression.php">expression</a></pre>
+		<div class="syntax">
+			<p>syntax</p>
+			<div>( "while" | "until" ) <a href="/documentation/syntax/parenthetical.php">parenthetical</a> <a href="/documentation/syntax/expression.php">expression</a></div>
         </div>
 
         <p>See also: <a href="/documentation/syntax/do.php">do</a></p>

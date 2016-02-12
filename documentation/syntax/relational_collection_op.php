@@ -8,9 +8,9 @@
 		<?php require('../../header.php') ?>
 
 
-        <div class="code">
-            <p>Syntax</p>
-            <pre><a href="subset.php">subset</a> | <a href="proper_subset.php">proper_subset</a> | <a href="superset.php">superset</a> | <a href="proper_superset.php">proper_superset</a> | <a href="../keywords/in.php">in</a> | <a href="not_in.php">not_in</a> | <a href="has.php">has</a> | <a href="not_has.php">not_has</a></pre>
+		<div class="syntax">
+			<p>syntax</p>
+			<div><a href="subset.php">subset</a> | <a href="proper_subset.php">proper_subset</a> | <a href="superset.php">superset</a> | <a href="proper_superset.php">proper_superset</a> | <a href="../keywords/in.php">in</a> | <a href="not_in.php">not_in</a> | <a href="has.php">has</a> | <a href="not_has.php">not_has</a></div>
         </div>
 
 

@@ -8,9 +8,9 @@
 		<?php require('../../header.php') ?>
 
 
-		<div class="code">
-			<p>Syntax</p>
-			<pre><a href="/documentation/syntax/multiplication.php">multiplication</a> | <a href="dot_product.php">dot_product</a> | <a href="cross_product.php">cross_product</a></pre>
+		<div class="syntax">
+			<p>syntax</p>
+			<div><a href="/documentation/syntax/multiplication.php">multiplication</a> | <a href="dot_product.php">dot_product</a> | <a href="cross_product.php">cross_product</a></div>
 		</div>
 
 		<p>See also: <a href="kleene_star.php">kleene_star</a></p>

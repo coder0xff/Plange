@@ -8,9 +8,9 @@
 		<?php require('../../header.php') ?>
 
 
-		<div class="code">
-			<p>Syntax</p>
-			<pre><a href="/documentation/syntax/type_dereference.php">type_dereference</a> <a href="/documentation/syntax/identifier.php">identifier</a></pre>
+		<div class="syntax">
+			<p>syntax</p>
+			<div><a href="/documentation/syntax/type_dereference.php">type_dereference</a> <a href="/documentation/syntax/identifier.php">identifier</a></div>
 		</div>
 
 

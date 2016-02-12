@@ -9,9 +9,9 @@
 
 
 		<p>used in <a href="/documentation/syntax/dimensional_number.php">dimensional_number</a></p>
-		<div class="code">
-			<p>Syntax</p>
-			<pre><a href="/documentation/syntax/dimension.php">dimension</a> "^" <a href="/documentation/syntax/integer.php">integer</a></pre>
+		<div class="syntax">
+			<p>syntax</p>
+			<div><a href="/documentation/syntax/dimension.php">dimension</a> "^" <a href="/documentation/syntax/integer.php">integer</a></div>
 		</div>
 
 

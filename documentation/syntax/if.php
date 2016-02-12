@@ -10,9 +10,9 @@
 
 		<p>returns the <a href="expression.php">expression</a> corresponding to the first <a href="parenthetical.php">parenthetical</a> that evaluates to true when coerced to a boolean, or the else case if none of them evaluate to true, assuming that the else case is present, otherwise returning void</p>
 
-		<div class="code">
-			<p>Syntax</p>
-			<pre>"<a href="../keywords/if.php">if</a>" <a href="parenthetical.php">parenthetical</a> <a href="expression.php">expression</a> ( "<a href="../keywords/if.php">elif</a>" <a href="parenthetical.php">parenthetical</a> <a href="expression.php">expression</a> )* [ "<a href="../keywords/if.php">else</a>" <a href="expression.php">expression</a> ]</pre>
+		<div class="syntax">
+			<p>syntax</p>
+			<div>"<a href="../keywords/if.php">if</a>" <a href="parenthetical.php">parenthetical</a> <a href="expression.php">expression</a> ( "<a href="../keywords/if.php">elif</a>" <a href="parenthetical.php">parenthetical</a> <a href="expression.php">expression</a> )* [ "<a href="../keywords/if.php">else</a>" <a href="expression.php">expression</a> ]</div>
 		</div>
 
 		<div class="code">

@@ -9,9 +9,9 @@
 		
 
 		<p>used in <a href="/documentation/syntax/dimensional_number.php">dimensional_number</a></p>
-		<div class="code">
-			<p>Syntax</p>
-			<pre><a href="/documentation/syntax/identifier.php">identifier</a> | <a href="/documentation/syntax/dimensional_analysis_op.php">dimensional_analysis_op</a></pre>
+		<div class="syntax">
+			<p>syntax</p>
+			<div><a href="/documentation/syntax/identifier.php">identifier</a> | <a href="/documentation/syntax/dimensional_analysis_op.php">dimensional_analysis_op</a></div>
 		</div>
 
 

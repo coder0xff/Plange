@@ -9,9 +9,9 @@
 
 
 		<p>a syntax alternative to <code>expression ^ 0.5</code></p>
-		<div class="code">
-			<p>Syntax</p>
-			<pre>"√" expression</pre>
+		<div class="syntax">
+			<p>syntax</p>
+			<div>"√" expression</div>
 		</div>
 
 

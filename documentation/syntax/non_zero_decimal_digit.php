@@ -8,9 +8,9 @@
 		<?php require('../../header.php') ?>
 
 
-		<div class="code">
-			<p>Syntax</p>
-			<pre>"1"|"2"|"3"|"4"|"5"|"6"|"7"|"8"|"9"</pre>
+		<div class="syntax">
+			<p>syntax</p>
+			<div>"1"|"2"|"3"|"4"|"5"|"6"|"7"|"8"|"9"</div>
 		</div>
 
 

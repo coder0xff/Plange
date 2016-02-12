@@ -8,9 +8,9 @@
 		<?php require('../../header.php') ?>
 
 
-		<div class="code">
-		    <p>Syntax</p>
-		    <pre>"0x" hex_digit*</pre>
+		<div class="syntax">
+			<p>syntax</p>
+			<div>"0x" hex_digit*</div>
 		</div>
 
 

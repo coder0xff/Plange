@@ -25,7 +25,7 @@ subjob::subjob(
 }
 
 subjob::~subjob() {
-	assert(dependencyCounter == 0);
+	assert(lifetimeCounter == 0);
 }
 
 void subjob::start() {

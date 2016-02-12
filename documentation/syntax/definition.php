@@ -9,9 +9,9 @@
 
 
 		<p>creates an identifier to be an alias for the valuation of the specified expression</p>
-		<div class="code">
-			<p>Syntax</p>
-			<pre>[ <a href="/documentation/syntax/type_dereference.php">type_dereference</a> | <a href="/documentation/syntax/implicit_type_dereference.php">implicit_type_dereference</a> ] <a href="/documentation/syntax/identifier.php">identifier</a> ":=" <a href="/documentation/syntax/expression.php">expression</a></pre>
+		<div class="syntax">
+			<p>syntax</p>
+			<div>[ <a href="/documentation/syntax/type_dereference.php">type_dereference</a> | <a href="/documentation/syntax/implicit_type_dereference.php">implicit_type_dereference</a> ] <a href="/documentation/syntax/identifier.php">identifier</a> ":=" <a href="/documentation/syntax/expression.php">expression</a></div>
 		</div>
 		<div class="code">
 			<p>Example</p>

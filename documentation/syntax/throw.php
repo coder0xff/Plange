@@ -9,9 +9,9 @@
 
 
 		<p>throws the specified expression which must implement Exception, or else be unspecified</p>
-		<div class="code">
-			<p>Syntax</p>
-			<pre>"throw" [<a href="/documentation/syntax/throw.php">expression</a>]</pre>
+		<div class="syntax">
+			<p>syntax</p>
+			<div>"throw" [<a href="/documentation/syntax/throw.php">expression</a>]</div>
 		</div>
 
 		<p>See also: <a href="/documentation/syntax/try.php">try</a></p>

@@ -9,9 +9,9 @@
 
 
 		<p>creates an algebraic value storing the simultaneous results of addition and subtraction</p>
-		<div class="code">
-			<p>Syntax</p>
-			<pre><a href="expression.php">expression</a> ("+-"|"±") <a href="expression.php">expression</a></pre>
+		<div class="syntax">
+			<p>syntax</p>
+			<div><a href="expression.php">expression</a> ("+-"|"±") <a href="expression.php">expression</a></div>
 		</div>
 
 

@@ -9,9 +9,9 @@
 
 
         <p>returns the set-theoretic union of the two given expressions</p>
-        <div class="code">
-            <p>Syntax</p>
-            <pre><a href="expression.php">expression</a> "∪" <a href="expression.php">expression</a></pre>
+		<div class="syntax">
+			<p>syntax</p>
+			<div><a href="expression.php">expression</a> "∪" <a href="expression.php">expression</a></div>
         </div>
 
 

@@ -8,9 +8,9 @@
 		<?php require('../../header.php') ?>
 
 
-		<div class="code">
-			<p>Syntax</p>
-			<pre><a href="bit_and.php">bit_and</a> | <a href="bit_or.php">bit_or</a> | <a href="bit_xor.php">bit_xor</a></pre>
+		<div class="syntax">
+			<p>syntax</p>
+			<div><a href="bit_and.php">bit_and</a> | <a href="bit_or.php">bit_or</a> | <a href="bit_xor.php">bit_xor</a></div>
 		</div>
 
 

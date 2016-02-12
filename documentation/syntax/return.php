@@ -9,9 +9,9 @@
 		
 
         <p>exit the current function, optionally returning a value</p>
-        <div class="code">
-            <p>Syntax</p>
-            <pre>"return" [ <a href="/documentation/syntax/expression.php">expression</a> ]</pre>
+		<div class="syntax">
+			<p>syntax</p>
+			<div>"return" [ <a href="/documentation/syntax/expression.php">expression</a> ]</div>
         </div>
         
         <p>See: <a href="/documentation/keywords/return.php">return (keyword)</a></p>

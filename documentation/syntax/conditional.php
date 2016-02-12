@@ -9,9 +9,9 @@
 
 
 		<p>if the first expression is true then evaluates to the second expression otherwise evaluates to the third expression</p>
-		<div class="code">
-			<p>Syntax</p>
-			<pre><a href="expression.php">expression</a> "?" <a href="expression.php">expression</a> ":" <a href="expression.php">expression</a></pre>
+		<div class="syntax">
+			<p>syntax</p>
+			<div><a href="expression.php">expression</a> "?" <a href="expression.php">expression</a> ":" <a href="expression.php">expression</a></div>
 		</div>
 
 

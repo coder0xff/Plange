@@ -8,9 +8,9 @@
 		<?php require('../../header.php') ?>
 
 
-		<div class="code">
-			<p>Syntax</p>
-			<pre>( "|'" expression "'|" ) | ("⌈" expression "⌉")</pre>
+		<div class="syntax">
+			<p>syntax</p>
+			<div>( "|'" <a href="/documentation/syntax/expression.php">expression</a> "'|" ) | ("⌈" <a href="/documentation/syntax/expression.php">expression</a> "⌉")</div>
 		</div>
 
 

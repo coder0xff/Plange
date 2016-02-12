@@ -97,11 +97,13 @@ void parser_test_7() {
 	nested_csv.add_transition(1, num, 2);
 	nested_csv.add_transition(1, paren, 2);
 
-	parlex::parser p(1);
-	parlex::abstract_syntax_graph result = p.parse(nested_csv, uni_grow("12,(34,56),789"));
-	std::string dot = result.to_dot();
-	DBG(dot);
-	assert(dot.length() > 100);
+	for (int i = 0; i < 10; i++) {
+		parlex::parser p(1);
+		parlex::abstract_syntax_graph result = p.parse(nested_csv, uni_grow("12,(34,56),789"));
+		std::string dot = result.to_dot();
+		DBG(dot);
+		assert(dot.length() > 100);
+	}
 }
 
 //direct left recursion
@@ -170,13 +172,13 @@ void parser_test_9() {
 	expr.add_transition(0, paren, 1);
 
 	parlex::parser p(1);
-	parlex::abstract_syntax_graph result = p.parse(expr, uni_grow("1+2"));
+	parlex::abstract_syntax_graph result = p.parse(expr, uni_grow("1-2-3-4"));
 	DBG(result.to_dot());
 }
 
 void parser_test_10() {
 	DBG("************ parser_test_10 ************");
-	parlex::state_machine identifier("identifier", 1, parlex::builtins::greedy);
+	parlex::state_machine identifier("identifier", 1);
 	identifier.add_transition(0, parlex::builtins::letter, 1);
 	parlex::builtins::string_terminal underscore(uni_grow("_"));
 	identifier.add_transition(0, underscore, 1);
@@ -190,8 +192,8 @@ void parser_test_10() {
 }
 
 int main(void) {
-	parser_test_1();
-	/*parser_test_2();
+	/*parser_test_1();
+	parser_test_2();
 	parser_test_3();
 	parser_test_4();
 	parser_test_5();
@@ -199,5 +201,5 @@ int main(void) {
 	parser_test_7();
 	parser_test_8();
 	parser_test_9();*/
-	//parser_test_10();
+	parser_test_10();
 }

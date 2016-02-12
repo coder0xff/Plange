@@ -8,13 +8,13 @@
 		<?php require('../../header.php') ?>
 
 
-		<div class="code">
-			<p>Syntax</p>
-			<pre>"{" expression "where" expression "}"</pre>
+		<div class="syntax">
+			<p>syntax</p>
+			<div>"{" <a href="/documentation/syntax/expression.php">expression</a> "where" <a href="/documentation/syntax/expression.php">expression</a> "}"</div>
 		</div>
 		<div class="code">
 			<p>Example</p>
-			<pre>{ x where x ∈ ℝ ∧ x &lt; 3 }</pre>
+			<pre>{ x where x ∈ ℝ ∧ x &lt; 3 }</pre>
 		</div>
 		<div class="code">
 			<p>Example</p>

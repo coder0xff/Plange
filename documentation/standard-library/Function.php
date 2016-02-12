@@ -10,11 +10,21 @@
 
         <div class="code">
             <p>Outline</p>
-            <pre>Function := type inheriting <a href="/documentation/standard-library/Scope.php">Scope</a> {
+            <pre>&lt;Type^n * ReturnType → Type&gt TypedFunction :=  {
+    return type inheriting GenericFunction {
+        &lt;Type&gt; returnType := params[params.length - 1];
+        &lt;Array&lt;Parameter&gt;&gt; parameters := { Parameter&lt;T&gt; where (_, T) ∈ params };
+    };
+};
+
+GenericFunction := type inheriting <a href="/documentation/standard-library/Scope.php">Scope</a> {
     &lt;Type&gt; returnType;
     &lt;Array&lt;Parameter&gt;&gt; parameters;
     &lt;String&gt; name;
-};</pre>
+}
+
+Function := TypedFunction + GenericFunction;
+</pre>
         </div>
 
 

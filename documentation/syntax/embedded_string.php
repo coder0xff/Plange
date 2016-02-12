@@ -9,9 +9,9 @@
 
 
 		<p>uses unbounded delimiters for embedding arbitrary data as a string</p>
-		<div class="code">
+		<div class="syntax">
 			<p>syntax</p>
-			<pre>("\"\"\"\n" any_character* "\n\"\"\"") | ("\"" embedded_string "\"")</pre>
+			<div>("\"\"\"\n" any_character* "\n\"\"\"") | ("\"\"\"" any_character* "\"\"\"") | ("\"" embedded_string "\"")</div>
 		</div>
 		<h2>Notes</h2>
 		<p>An embedded_string is similar to a regular string literal of the form:</p>

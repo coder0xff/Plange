@@ -9,9 +9,9 @@
 
 
 		<p>the permitted operators when constructing dimensioned reals</p>
-		<div class="code">
-			<p>Syntax</p>
-			<pre><a href="/documentation/syntax/unit_multiplication.php">unit_multiplication</a> | <a href="/documentation/syntax/unit_division.php">unit_division</a> | <a href="/documentation/syntax/unit_exponentiation.php">unit_exponentiation</a></pre>
+		<div class="syntax">
+			<p>syntax</p>
+			<div><a href="/documentation/syntax/unit_multiplication.php">unit_multiplication</a> | <a href="/documentation/syntax/unit_division.php">unit_division</a> | <a href="/documentation/syntax/unit_exponentiation.php">unit_exponentiation</a></div>
 		</div>
 
 

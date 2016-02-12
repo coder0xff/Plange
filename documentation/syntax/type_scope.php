@@ -11,11 +11,9 @@
         <p>
             when used in the <a href="type.php">type</a> syntax, the instance member declarations, static member definitions, constraint expressions, and static construction statements, between curly brackets, that define the resulting type
         </p>
-        <div class="code">
-            <p>
-                Syntax
-            </p>
-            <pre>((<a href="expression.php">expression</a> | (<a href="declaration_assignment.php">declaration_assignment</a> | <a href="declaration.php">declaration</a> ) ["<a href="../keywords/at.php">at</a>" <a href="whole_number.php">whole_number</a>]) | <a href="assignment.php">assignment</a> | <a href="definition.php">definition</a>) ";")*</pre>
+        <div class="syntax">
+            <p>syntax</p>
+            <div>((<a href="expression.php">expression</a> | (<a href="declaration_assignment.php">declaration_assignment</a> | <a href="declaration.php">declaration</a> ) ["<a href="../keywords/at.php">at</a>" <a href="whole_number.php">whole_number</a>]) | <a href="assignment.php">assignment</a> | <a href="definition.php">definition</a>) ";")*</div>
         </div>
         <h4>
             Notes

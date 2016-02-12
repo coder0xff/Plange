@@ -9,9 +9,9 @@
 
 
 		<p>creates a property object</p>
-        <div class="code">
-            <p>Syntax</p>
-            <pre><a href="/documentation/syntax/statement.php">statement</a>* (("get" expression) | ("set" expression) | ("get" expression "set" expression))</pre>
+		<div class="syntax">
+			<p>syntax</p>
+			<div><a href="/documentation/syntax/statement.php">statement</a>* (("get" expression) | ("set" expression) | ("get" expression "set" expression))</div>
         </div>
 
 

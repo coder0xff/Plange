@@ -127,7 +127,7 @@
 									<li><a href="/documentation/syntax/proper_subset.php">proper_subset</a><code>⊂</code></li>
 									<li><a href="/documentation/syntax/superset.php">superset</a><code>⊇</code></li>
 									<li><a href="/documentation/syntax/superset.php">proper_superset</a><code>⊃</code></li>
-									<li><a href="/documentation/keywords/in.php">in</a><code>∈</code></li>
+									<li><a href="/documentation/syntax/in.php">in</a><code>∈</code></li>
 									<li><a href="/documentation/syntax/not_in.php">not_in</a><code>∉</code></li>
 									<li><a href="/documentation/syntax/has.php">has</a><code>∋</code></li>
 									<li><a href="/documentation/syntax/not_has.php">not_has</a><code>∌</code></li>

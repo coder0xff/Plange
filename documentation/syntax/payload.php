@@ -8,9 +8,9 @@
 		<?php require('../../header.php') ?>
 
 
-		<div class="code">
-			<p>Syntax</p>
-			<pre><a href="/source/parlex/include/parlex/builtins/any_character.hpp">any_character</a>*</pre>
+		<div class="syntax">
+			<p>syntax</p>
+			<div><a href="/source/parlex/include/parlex/builtins/any_character.hpp">any_character</a>*</div>
 		</div>
 		<p>See: <a href="/documentation/syntax/embedded_comment.php">embedded_comment</a></p>
 

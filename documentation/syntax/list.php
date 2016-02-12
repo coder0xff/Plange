@@ -8,9 +8,9 @@
 		<?php require('../../header.php') ?>
 
 
-		<div class="code">
-			<p>Syntax</p>
-			<pre>"[" [expression (", " expression)*] "]"</pre>
+		<div class="syntax">
+			<p>syntax</p>
+			<div>"[" [expression (", " expression)*] "]"</div>
 		</div>
 		<div class="code"> 
 			<p>Example (the empty list)</p>

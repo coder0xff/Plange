@@ -8,9 +8,9 @@
 		<?php require('../../header.php') ?>
 
 
-		<div class="code">
-			<p>Syntax</p>
- 			<pre>"for" "(" [ <a href="/documentation/syntax/statement_scope.php">statement_scope</a> ] <a href="/documentation/syntax/expression.php">expression</a> ";" [ <a href="/documentation/syntax/assignment.php">assignment</a> | <a href="/documentation/syntax/expression.php">expression</a> ] ")" <a href="/documentation/syntax/expression.php">expression</a></pre>
+		<div class="syntax">
+			<p>syntax</p>
+			<div>"for" "(" [ <a href="/documentation/syntax/statement_scope.php">statement_scope</a> ] <a href="/documentation/syntax/expression.php">expression</a> ";" [ <a href="/documentation/syntax/assignment.php">assignment</a> | <a href="/documentation/syntax/expression.php">expression</a> ] ")" <a href="/documentation/syntax/expression.php">expression</a></div>
  		</div>
 
  		<div class="code">

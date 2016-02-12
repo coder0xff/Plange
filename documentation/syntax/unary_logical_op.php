@@ -8,9 +8,9 @@
 		<?php require('../../header.php') ?>
 
 
-		<div class="code">
-			<p>Syntax</p>
-			<pre><a href="not.php">not</a> | <a href="all.php">all</a> | <a href="exists.php">exists</a> | <a href="exists_one.php">exists_one</a></pre>
+		<div class="syntax">
+			<p>syntax</p>
+			<div><a href="not.php">not</a> | <a href="all.php">all</a> | <a href="exists.php">exists</a> | <a href="exists_one.php">exists_one</a></div>
 		</div>
 
 

@@ -8,9 +8,9 @@
 		<?php require('../../header.php') ?>
 
 
-        <div class="code">
-            <p>Syntax</p>
-            <pre>"\"" (non_double_quote | escape_sequence)* "\""</pre>
+		<div class="syntax">
+			<p>syntax</p>
+			<div>"\"" (non_double_quote | escape_sequence)* "\""</div>
         </div>
 
         <div class="code">

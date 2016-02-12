@@ -9,9 +9,9 @@
 
 
 		<p>creates a nullary void function that executes a given code block repeatedly, over the elements of the specified denumerable</p>
-		<div class="code">
-			<p>Syntax</p>
-			<pre>"for" "(" (([ <a href="/documentation/syntax/type_dereference.php">type_dereference</a> | <a href="/documentation/syntax/implicit_type_dereference.php">implicit_type_dereference</a> ] <a href="/documentation/syntax/identifier.php">identifier</a> ) | <a href="/documentation/syntax/expression.php">expression</a> ) ("in"|"∈") <a href="/documentation/syntax/expression.php">expression</a> ")" <a href="/documentation/syntax/statement_scope.php">statement_scope</a></pre>
+		<div class="syntax">
+			<p>syntax</p>
+			<div>"for" "(" (([ <a href="/documentation/syntax/type_dereference.php">type_dereference</a> | <a href="/documentation/syntax/implicit_type_dereference.php">implicit_type_dereference</a> ] <a href="/documentation/syntax/identifier.php">identifier</a> ) | <a href="/documentation/syntax/expression.php">expression</a> ) ("in"|"∈") <a href="/documentation/syntax/expression.php">expression</a> ")" <a href="/documentation/syntax/statement_scope.php">statement_scope</a></div>
 		</div>
 
 		<div class="code">

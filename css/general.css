@@ -26,7 +26,22 @@
     overflow-x:auto;
     overflow-y:auto
 }
-.code>div {
+.syntax {
+    clear: right;
+    margin:3pt;
+    margin-left:12pt;
+    margin-bottom:18pt;
+    border-style:solid;
+    border-width:1px;
+}
+.syntax>p {
+    font-size:16pt;
+    margin:0px;
+    padding:3pt;
+    padding-left:6pt;
+    background-color:#ada;
+}
+.syntax>div {
     padding-left:6pt;
     margin:3pt;
     font-family:source_code_pro;

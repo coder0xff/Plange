@@ -9,9 +9,9 @@
 
 
         <p>the top level syntax rule for a source file, and the rule used in the code block of function literals, where expressions may be evaluated, variables may be declared and assigned, constants may be defined, and relations asserted</p>
-        <div class="code">
-            <p>Syntax</p>
-            <pre><a href="/documentation/syntax/statement.php">statement</a>*</pre>
+		<div class="syntax">
+			<p>syntax</p>
+			<div><a href="/documentation/syntax/statement.php">statement</a>*</div>
         </div>
         <h2>Notes</h2>
         <p>

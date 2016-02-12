@@ -10,9 +10,9 @@
 
 		<p>construct a value for use in dimensional analysis</p>
 
-		<div class="code">
-			<p>Syntax</p>
-			<pre><a href="/documentation/syntax/number.php">number</a> <a href="/documentation/syntax/dimension.php">dimension</a></pre>
+		<div class="syntax">
+			<p>syntax</p>
+			<div><a href="/documentation/syntax/number.php">number</a> <a href="/documentation/syntax/dimension.php">dimension</a></div>
 		</div>
 
 

@@ -8,9 +8,9 @@
 		<?php require('../../header.php') ?>
 
 
-		<div class="code">
-			<p>Syntax</p>
-			<pre>"&lt;" "&gt;"</pre>
+		<div class="syntax">
+			<p>syntax</p>
+			<div>"&lt;" "&gt;"</div>
 		</div>
 
 

@@ -9,9 +9,9 @@
 
 
         <p>text that uniquely identifies a constant or variable</p>
-        <div class="code">
-            <p>Syntax</p>
-            <pre>(letter | "_") ( letter | number | "_")*</pre>
+		<div class="syntax">
+			<p>syntax</p>
+			<div>(letter | "_") ( letter | number | "_")*</div>
         </div>
 
 		<p>The first character must be a letter character. Note that the character groups "letter" and "number" are inclusive of many unicode characters.</p>

@@ -8,9 +8,9 @@
 		<?php require('../../header.php') ?>
 
 
-		<div class="code">
-		    <p>Syntax</p>
-		    <pre>"0" octal_digit*</pre>
+		<div class="syntax">
+			<p>syntax</p>
+			<div>"0" octal_digit*</div>
 		</div>
 
 

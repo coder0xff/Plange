@@ -9,9 +9,9 @@
 
 
         <p>create a new <a href="../standard-library/Type.php">Type</a></p>
-        <div class="code">
-            <p>Syntax</p>
-            <pre>"type" "{" <a href="type_scope.php">type_scope</a> "}"</pre>
+		<div class="syntax">
+			<p>syntax</p>
+			<div>"type" "{" <a href="type_scope.php">type_scope</a> "}"</div>
         </div>
         <div class="code">
             <p>Example</p>
