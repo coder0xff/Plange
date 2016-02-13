@@ -3,13 +3,7 @@
 
 #include "parlex/grammar.hpp"
 
-namespace parlex {
 // https://en.wikipedia.org/wiki/Wirth_syntax_notation
-namespace wirth {
-
-parlex::grammar grammar;
-
-}
-}
+extern parlex::state_machine wirth;
 
 #endif
