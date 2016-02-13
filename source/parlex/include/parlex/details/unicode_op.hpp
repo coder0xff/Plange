@@ -1,5 +1,5 @@
-#ifndef UNI_TRUNC_HPP
-#define UNI_TRUNC_HPP
+#ifndef UNICODE_OP_HPP
+#define UNICODE_OP_HPP
 
 #include <string>
 

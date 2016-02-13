@@ -5,7 +5,7 @@
 #include "parlex/details/logging.hpp"
 #include "parlex/parser.hpp"
 #include "parlex/state_machine.hpp"
-#include "parlex/details/unicode.hpp"
+#include "parlex/details/unicode_op.hpp"
 
 void parser_test_1() {
 	DBG("************ parser_test_1 ************");
