@@ -1,7 +1,7 @@
 #include <string>
 #include <sstream>
 
-#include "parlex/details/unicode.hpp"
+#include "parlex/details/unicode_op.hpp"
 
 //quick & dirty
 std::string uni_trunc(std::u32string const & s) {

@@ -1,4 +1,4 @@
-#include "parlex/extras/wirth.hpp"
+#include "parlex/builtins/wirth.hpp"
 #include "parlex/builtins/string_terminal.hpp"
 #include "parlex/details/unicode_op.hpp"
 #include "parlex/builtins.hpp"
@@ -18,23 +18,11 @@ namespace {
     parlex::builtins::string_terminal openCurly(uni_grow("{"));
     parlex::builtins::string_terminal closeCurly(uni_grow("}"));
 
-    class non_quote_t : public parlex::terminal {
-        virtual bool test(std::u32string const & document, size_t documentPosition) const final {
-            if (documentPosition >= document.length()) return false;
-            return document[documentPosition] != 34;
-        }
-
-        virtual size_t get_length() const final { return 1; }
-        virtual std::string get_id() const final { return "non_quote"; }
-    };
-    non_quote_t non_quote;
-
     parlex::state_machine productionDfa("production", 1);
     parlex::state_machine expressionDfa("expression", 1);
     parlex::state_machine termDfa("term", 1);
     parlex::state_machine factorDfa("factor", 1);
-    parlex::state_machine identifierDfa("identifier", 1);
-    parlex::state_machine literalDfa("literal", 1);
+    parlex::state_machine identifierDfa("identifier", 1, parlex::builtins::greedy);
 
     int build() {
         wirth.add_transition(0, productionDfa, 0);
@@ -51,7 +39,7 @@ namespace {
         termDfa.add_transition(1, factorDfa, 1);
 
         factorDfa.add_transition(0, identifierDfa, 7);
-        factorDfa.add_transition(0, literalDfa, 7);
+        factorDfa.add_transition(0, parlex::builtins::c_string, 7);
         factorDfa.add_transition(0, openSquare, 1);
         factorDfa.add_transition(1, expressionDfa, 2);
         factorDfa.add_transition(2, closeSquare, 7);
@@ -64,11 +52,6 @@ namespace {
 
         identifierDfa.add_transition(0, parlex::builtins::letter, 1);
         identifierDfa.add_transition(1, parlex::builtins::letter, 1);
-
-        literalDfa.add_transition(0, quote, 1);
-        literalDfa.add_transition(1, non_quote, 2);
-        literalDfa.add_transition(2, non_quote, 2);
-        literalDfa.add_transition(2, quote, 3);
 
         return 0;
     }

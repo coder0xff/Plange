@@ -10,4 +10,8 @@
 // Filters
 #include "parlex/builtins/greedy.hpp"
 
+// State Machines
+#include "parlex/builtins/c_string.hpp"
+#include "parlex/builtins/wirth.hpp"
+
 #endif

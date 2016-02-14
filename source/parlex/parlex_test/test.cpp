@@ -1,4 +1,6 @@
 #include <cassert>
+#include <iostream>
+#include <thread>
 
 #include "parlex/abstract_syntax_graph.hpp"
 #include "parlex/builtins.hpp"
@@ -191,6 +193,34 @@ void parser_test_10() {
 	DBG(result.to_dot());
 }
 
+void c_string_test_1() {
+    std::u32string const input = uni_grow("\"a");
+    parlex::parser p(1);
+    for (int i = 0; i < 14; i++) {
+        std::cout << std::string(50, '\n');
+        std::cout << i << std::endl;
+        std::this_thread::sleep_for(std::chrono::seconds(1));
+        parlex::abstract_syntax_graph result = p.parse(parlex::builtins::c_string, input);
+    }
+    //DBG(result.to_dot());
+}
+
+void parser_test_100() {
+    std::string wirth_in_itself = "\
+SYNTAX     = [WS] { PRODUCTION [WS] } . \
+PRODUCTION = IDENTIFIER [WS] \"=\" [WS] EXPRESSION [WS] \".\" . \
+EXPRESSION = TERM { [WS] \"|\" [WS] TERM } . \
+TERM       = FACTOR { WS FACTOR } . \
+FACTOR     = IDENTIFIER \
+           | LITERAL \
+           | \"[\" [WS] EXPRESSION [WS] \"]\" \
+           | \"(\" [WS] EXPRESSION [WS] \")\" \
+           | \"{\" [WS] EXPRESSION [WS] \"}\" . \
+IDENTIFIER = letter { letter } . \
+LITERAL    = \"\\\"\" character { character } \"\\\"\" .";
+
+}
+
 int main(void) {
 	/*parser_test_1();
 	parser_test_2();
@@ -200,6 +230,7 @@ int main(void) {
 	parser_test_6();
 	parser_test_7();
 	parser_test_8();
-	parser_test_9();*/
-	parser_test_10();
+	parser_test_9();
+	parser_test_10();*/
+	c_string_test_1();
 }

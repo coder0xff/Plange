@@ -13,6 +13,7 @@
 				<Option compiler="clang" />
 				<Compiler>
 					<Add option="-g" />
+					<Add directory="../include" />
 				</Compiler>
 			</Target>
 			<Target title="Release">
@@ -29,8 +30,17 @@
 			</Target>
 		</Build>
 		<Compiler>
-			<Add option="-Weverything" />
+			<Add option="-pedantic-errors" />
+			<Add option="-Werror" />
+			<Add option="-Wall" />
+			<Add option="-std=c++11" />
 		</Compiler>
+		<Linker>
+			<Add option="-pthread" />
+			<Add library="../bin/Debug/libparlex.a" />
+		</Linker>
+		<Unit filename="../include/parlex/builtins/c_string.hpp" />
+		<Unit filename="test.cpp" />
 		<Extensions>
 			<code_completion />
 			<debugger />

@@ -1,12 +1,13 @@
 # depslib dependency file v1.0
-1455326272 source:/home/rachel/Documents/Plange/source/parlex/parlex_test/test.cpp
+1455426084 source:/home/rachel/Documents/Plange/source/parlex/parlex_test/test.cpp
 	<cassert>
+	<iostream>
 	"parlex/abstract_syntax_graph.hpp"
 	"parlex/builtins.hpp"
 	"parlex/details/logging.hpp"
 	"parlex/parser.hpp"
 	"parlex/state_machine.hpp"
-	"parlex/details/unicode.hpp"
+	"parlex/details/unicode_op.hpp"
 
 1455326272 /home/rachel/Documents/Plange/source/parlex/include/parlex/abstract_syntax_graph.hpp
 	<map>
@@ -25,12 +26,14 @@
 	<vector>
 	"parlex/match.hpp"
 
-1455326272 /home/rachel/Documents/Plange/source/parlex/include/parlex/builtins.hpp
+1455403765 /home/rachel/Documents/Plange/source/parlex/include/parlex/builtins.hpp
 	"parlex/builtins/any_character.hpp"
 	"parlex/builtins/set_terminal.hpp"
 	"parlex/builtins/string_terminal.hpp"
 	"parlex/builtins/unicode.hpp"
 	"parlex/builtins/greedy.hpp"
+	"parlex/builtins/c_string.hpp"
+	"parlex/builtins/wirth.hpp"
 
 1455326272 /home/rachel/Documents/Plange/source/parlex/include/parlex/builtins/any_character.hpp
 	"parlex/terminal.hpp"
@@ -49,7 +52,7 @@
 1455326272 /home/rachel/Documents/Plange/source/parlex/include/parlex/builtins/string_terminal.hpp
 	"parlex/terminal.hpp"
 
-1455326272 /home/rachel/Documents/Plange/source/parlex/include/parlex/builtins/unicode.hpp
+1455380375 /home/rachel/Documents/Plange/source/parlex/include/parlex/builtins/unicode.hpp
 	"parlex/terminal.hpp"
 
 1455326272 /home/rachel/Documents/Plange/source/parlex/include/parlex/builtins/greedy.hpp
@@ -59,7 +62,7 @@
 	"details/subjob.hpp"
 	"parlex/permutation.hpp"
 
-1455326272 /home/rachel/Documents/Plange/source/parlex/include/parlex/details/subjob.hpp
+1455425770 /home/rachel/Documents/Plange/source/parlex/include/parlex/details/subjob.hpp
 	<list>
 	<map>
 	<mutex>
@@ -78,7 +81,7 @@
 	"parlex/match_class.hpp"
 	"parlex/permutation.hpp"
 
-1455326272 /home/rachel/Documents/Plange/source/parlex/include/parlex/details/producer.hpp
+1455425770 /home/rachel/Documents/Plange/source/parlex/include/parlex/details/producer.hpp
 	<list>
 	<map>
 	<vector>
@@ -112,4 +115,14 @@
 
 1455326272 /home/rachel/Documents/Plange/source/parlex/include/parlex/details/unicode.hpp
 	<string>
+
+1455334035 /home/rachel/Documents/Plange/source/parlex/include/parlex/details/unicode_op.hpp
+	<string>
+
+1455404009 /home/rachel/Documents/Plange/source/parlex/include/parlex/builtins/c_string.hpp
+	"parlex/state_machine.hpp"
+
+1455403894 /home/rachel/Documents/Plange/source/parlex/include/parlex/builtins/wirth.hpp
+	"parlex/grammar.hpp"
+	"parlex/state_machine.hpp"
 

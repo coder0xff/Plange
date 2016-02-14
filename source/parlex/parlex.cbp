@@ -8,22 +8,22 @@
 		<Build>
 			<Target title="Debug">
 				<Option output="bin/Debug/parlex" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="" />
 				<Option object_output="obj/Debug/" />
-				<Option type="1" />
+				<Option type="2" />
 				<Option compiler="clang" />
 				<Compiler>
 					<Add option="-ftrapv" />
+					<Add option="-Wall" />
 					<Add option="-g" />
-					<Add directory="include/libparlex" />
-					<Add directory="include/libparlex/builtins" />
-					<Add directory="include/libparlex/details" />
-					<Add directory="include/extras" />
+					<Add directory="include" />
 				</Compiler>
 			</Target>
 			<Target title="Release">
 				<Option output="bin/Release/parlex" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="" />
 				<Option object_output="obj/Release/" />
-				<Option type="1" />
+				<Option type="2" />
 				<Option compiler="clang" />
 				<Compiler>
 					<Add option="-O2" />
@@ -39,53 +39,57 @@
 			<Add option="-Wall" />
 			<Add option="-std=c++11" />
 		</Compiler>
+		<Linker>
+			<Add option="-pthread" />
+		</Linker>
 		<Unit filename="Makefile.am" />
 		<Unit filename="build/config.h" />
 		<Unit filename="configure.ac" />
 		<Unit filename="debug.sh" />
 		<Unit filename="example/Makefile.am" />
-		<Unit filename="include/extras/logging.hpp" />
-		<Unit filename="include/extras/wirth.hpp" />
-		<Unit filename="include/libparlex/abstract_syntax_graph.hpp" />
-		<Unit filename="include/libparlex/builtins.hpp" />
-		<Unit filename="include/libparlex/builtins/any_character.hpp" />
-		<Unit filename="include/libparlex/builtins/set_terminal.hpp" />
-		<Unit filename="include/libparlex/builtins/string_terminal.hpp" />
-		<Unit filename="include/libparlex/builtins/unicode.hpp" />
-		<Unit filename="include/libparlex/context.hpp" />
-		<Unit filename="include/libparlex/filter_function.hpp" />
-		<Unit filename="include/libparlex/grammar.hpp" />
-		<Unit filename="include/libparlex/job.hpp" />
-		<Unit filename="include/libparlex/match.hpp" />
-		<Unit filename="include/libparlex/match_class.hpp" />
-		<Unit filename="include/libparlex/parser.hpp" />
-		<Unit filename="include/libparlex/permutation.hpp" />
-		<Unit filename="include/libparlex/producer.hpp" />
-		<Unit filename="include/libparlex/recognizer.hpp" />
-		<Unit filename="include/libparlex/state_machine.hpp" />
-		<Unit filename="include/libparlex/subjob.hpp" />
-		<Unit filename="include/libparlex/terminal.hpp" />
-		<Unit filename="include/libparlex/token.hpp" />
-		<Unit filename="include/libparlex/uni_trunc.hpp" />
+		<Unit filename="include/parlex/abstract_syntax_graph.hpp" />
+		<Unit filename="include/parlex/builtins.hpp" />
+		<Unit filename="include/parlex/builtins/any_character.hpp" />
+		<Unit filename="include/parlex/builtins/c_string.hpp" />
+		<Unit filename="include/parlex/builtins/greedy.hpp" />
+		<Unit filename="include/parlex/builtins/set_terminal.hpp" />
+		<Unit filename="include/parlex/builtins/string_terminal.hpp" />
+		<Unit filename="include/parlex/builtins/unicode.hpp" />
+		<Unit filename="include/parlex/details/context.hpp" />
+		<Unit filename="include/parlex/details/job.hpp" />
+		<Unit filename="include/parlex/details/logging.hpp" />
+		<Unit filename="include/parlex/details/producer.hpp" />
+		<Unit filename="include/parlex/details/subjob.hpp" />
+		<Unit filename="include/parlex/details/unicode_op.hpp" />
+		<Unit filename="include/parlex/extras/c_string.hpp" />
+		<Unit filename="include/parlex/extras/wirth.hpp" />
+		<Unit filename="include/parlex/filter_function.hpp" />
+		<Unit filename="include/parlex/grammar.hpp" />
+		<Unit filename="include/parlex/match.hpp" />
+		<Unit filename="include/parlex/match_class.hpp" />
+		<Unit filename="include/parlex/parser.hpp" />
+		<Unit filename="include/parlex/permutation.hpp" />
+		<Unit filename="include/parlex/recognizer.hpp" />
+		<Unit filename="include/parlex/state_machine.hpp" />
+		<Unit filename="include/parlex/terminal.hpp" />
+		<Unit filename="include/parlex/token.hpp" />
 		<Unit filename="src/Makefile.am" />
 		<Unit filename="src/abstract_syntax_graph.cpp" />
 		<Unit filename="src/builtins.cpp" />
+		<Unit filename="src/c_string.cpp" />
 		<Unit filename="src/context.cpp" />
-		<Unit filename="src/extras/Makefile.am" />
 		<Unit filename="src/job.cpp" />
 		<Unit filename="src/libparlex/Makefile.am" />
 		<Unit filename="src/logging.cpp" />
 		<Unit filename="src/match_class.cpp" />
 		<Unit filename="src/parser.cpp" />
 		<Unit filename="src/producer.cpp" />
-		<Unit filename="src/recognizer.cpp" />
 		<Unit filename="src/state_machine.cpp" />
 		<Unit filename="src/subjob.cpp" />
 		<Unit filename="src/token.cpp" />
-		<Unit filename="src/uni_trunc.cpp" />
+		<Unit filename="src/unicode_op.cpp" />
 		<Unit filename="src/wirth.cpp" />
 		<Unit filename="test/Makefile.am" />
-		<Unit filename="test/test.cpp" />
 		<Extensions>
 			<envvars />
 			<code_completion />
