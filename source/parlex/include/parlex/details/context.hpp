@@ -38,14 +38,16 @@ public:
 
 //the parse context for some state_machine's state during one of its executions
 class context {
-	context_ref_counter & rc;
 public:
+	int const id;
 	subjob & owner;
 	context_ref const prior;
 	int const currentDocumentPosition;
-	int const id;
-
 	std::unique_ptr<match const> const from_transition;	//unique_ptr serves as optional
+private:
+	context_ref_counter & rc;
+
+public:
 	context(subjob & owner, context_ref const & prior, int documentPosition, match const * from_transition);
 	context(context const & other) = delete;
 	context(context&& move) = delete;

@@ -203,7 +203,7 @@
 	"parlex/details/context.hpp"
 	"parlex/details/producer.hpp"
 
-1455326272 /home/rachel/Documents/Plange/source/parlex/include/parlex/details/context.hpp
+1456093478 /home/rachel/Documents/Plange/source/parlex/include/parlex/details/context.hpp
 	<memory>
 	<vector>
 	<atomic>
@@ -223,12 +223,13 @@
 1455326272 /home/rachel/Documents/Plange/source/parlex/include/parlex/details/unicode.hpp
 	<string>
 
-1455326272 source:/home/rachel/Documents/Plange/source/parlex/src/context.cpp
+1456093232 source:/home/rachel/Documents/Plange/source/parlex/src/context.cpp
 	<cassert>
 	<csignal>
 	<iostream>
 	"parlex/details/context.hpp"
 	"parlex/details/subjob.hpp"
+	"parlex/details/logging.hpp"
 
 1455326272 source:/home/rachel/Documents/Plange/source/parlex/src/job.cpp
 	"parlex/details/subjob.hpp"
@@ -251,7 +252,7 @@
 	"parlex/details/subjob.hpp"
 	"parlex/abstract_syntax_graph.hpp"
 
-1455326272 /home/rachel/Documents/Plange/source/parlex/include/parlex/parser.hpp
+1456090117 /home/rachel/Documents/Plange/source/parlex/include/parlex/parser.hpp
 	<thread>
 	<condition_variable>
 	<atomic>
@@ -267,12 +268,12 @@
 1455326272 /home/rachel/Documents/Plange/source/parlex/include/parlex/token.hpp
 	"parlex/details/producer.hpp"
 
-1455326272 /home/rachel/Documents/Plange/source/parlex/include/parlex/details/logging.hpp
+1456086575 /home/rachel/Documents/Plange/source/parlex/include/parlex/details/logging.hpp
 	<string>
 	<sstream>
 	<thread>
 
-1455326272 source:/home/rachel/Documents/Plange/source/parlex/src/logging.cpp
+1456085175 source:/home/rachel/Documents/Plange/source/parlex/src/logging.cpp
 	<condition_variable>
 	<deque>
 	<iostream>
@@ -285,7 +286,7 @@
 1455326272 source:/home/rachel/Documents/Plange/source/parlex/src/match_class.cpp
 	"parlex/match_class.hpp"
 
-1455328654 source:/home/rachel/Documents/Plange/source/parlex/src/parser.cpp
+1456090628 source:/home/rachel/Documents/Plange/source/parlex/src/parser.cpp
 	<cassert>
 	"parlex/details/subjob.hpp"
 	"parlex/parser.hpp"
@@ -306,14 +307,14 @@
 	"parlex/details/subjob.hpp"
 	"parlex/details/logging.hpp"
 
-1455326272 source:/home/rachel/Documents/Plange/source/parlex/src/state_machine.cpp
+1456066377 source:/home/rachel/Documents/Plange/source/parlex/src/state_machine.cpp
 	<algorithm>
 	"parlex/details/context.hpp"
 	"parlex/details/logging.hpp"
 	"parlex/state_machine.hpp"
 	"parlex/details/subjob.hpp"
 
-1455406831 source:/home/rachel/Documents/Plange/source/parlex/src/subjob.cpp
+1455460562 source:/home/rachel/Documents/Plange/source/parlex/src/subjob.cpp
 	<string>
 	<cassert>
 	"parlex/details/logging.hpp"
