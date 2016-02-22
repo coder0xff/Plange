@@ -6,7 +6,7 @@
 
 namespace parlex {
 namespace builtins {
-parlex::state_machine c_string("c_string", 1);
+parlex::state_machine c_string("c_string", 1, parlex::builtins::greedy);
 }}
 
 namespace  {
@@ -48,9 +48,9 @@ int build() {
 
     parlex::builtins::c_string.add_transition(0, double_quote, 1);
     parlex::builtins::c_string.add_transition(1, non_double_quote, 1);
-    //parlex::builtins::c_string.add_transition(1, basic_escape_sequence, 1);
-    //parlex::builtins::c_string.add_transition(1, octal_escape_sequence, 1);
-    //parlex::builtins::c_string.add_transition(1, hex_escape_sequence, 1);
+    parlex::builtins::c_string.add_transition(1, basic_escape_sequence, 1);
+    parlex::builtins::c_string.add_transition(1, octal_escape_sequence, 1);
+    parlex::builtins::c_string.add_transition(1, hex_escape_sequence, 1);
     parlex::builtins::c_string.add_transition(1, double_quote, 2);
 
     return 0;
