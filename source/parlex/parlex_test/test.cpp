@@ -196,17 +196,12 @@ void parser_test_10() {
 void c_string_test_1() {
     std::u32string const input = uni_grow("\"a");
     parlex::parser p(1);
-    for (int i = 0; i < 14; i++) {
-        std::cout << std::string(50, '\n');
-        std::cout << i << std::endl;
-        std::this_thread::sleep_for(std::chrono::seconds(1));
-        parlex::abstract_syntax_graph result = p.parse(parlex::builtins::c_string, input);
-    }
-    //DBG(result.to_dot());
+    parlex::abstract_syntax_graph result = p.parse(parlex::builtins::c_string, input);
+    DBG(result.to_dot());
 }
 
 void parser_test_100() {
-    std::string wirth_in_itself = "\
+    std::string wirthInItself = "\
 SYNTAX     = [WS] { PRODUCTION [WS] } . \
 PRODUCTION = IDENTIFIER [WS] \"=\" [WS] EXPRESSION [WS] \".\" . \
 EXPRESSION = TERM { [WS] \"|\" [WS] TERM } . \

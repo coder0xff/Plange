@@ -83,7 +83,7 @@ context_ref::context_ref(context_ref&& other) : rc(other.rc), id(++refIDCounter)
 
 context_ref::~context_ref() {
 	if (rc) {
-        DBG("Destructing ref:", id, "to c:", rc->id);
+        DBG("Destructing ref:", id, " to c:", rc->id);
 		rc->dec();
     }
 }

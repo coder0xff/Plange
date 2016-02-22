@@ -22,7 +22,7 @@ parser::parser(int threadCount) : activeCount(0), terminating(false) {
 			while (!terminating) {
 				{
 					DBG("THREAD ", threadCount, " POPPING ITEM");
-					std::tuple<details::context_ref, int> & item = work.front();
+					std::tuple<details::context_ref, int> item = work.front();
 					work.pop();
 					lock.unlock();
 					auto const & context = std::get<0>(item);
