@@ -18,7 +18,7 @@ struct context_ref_counter {
 	int const id;
 
 	context_ref_counter(context * c) : c(c), counter(1), id(c->id) {
-        DBG("Constructed rc:", id);
+        //DBG("Constructed rc:", id);
 	}
 
 	void inc() { ++counter; }
@@ -36,14 +36,14 @@ context::context(subjob & owner, context_ref const & prior, int documentPosition
 {
 	assert(&owner);
 	assert(!prior.is_null() == (bool)from_transition);
-	DBG("constructed context ", id);
+	//DBG("constructed context ", id);
 }
 
 context::~context() {
 	context* self = rc.c.exchange(nullptr);
 	assert(self);
 	rc.dec();
-	DBG("descructed context ", id);
+	//DBG("descructed context ", id);
 }
 
 context_ref context::get_ref() const {
@@ -64,26 +64,26 @@ context_ref::context_ref() : rc(nullptr), id(++refIDCounter) { }
 
 context_ref::context_ref(context_ref_counter &rc_) : rc(&rc_), id(++refIDCounter) {
 	rc_.inc();
-    DBG("Constructed ref:", id, " to c:", rc_.id);
+    //DBG("Constructed ref:", id, " to c:", rc_.id);
 }
 
 context_ref::context_ref(context_ref const & other) : rc(other.rc), id(++refIDCounter) {
 	if (rc) {
 		rc->inc();
-        DBG("Constructed ref:", id, " to c:", rc->id);
+        //DBG("Constructed ref:", id, " to c:", rc->id);
     }
 }
 
 context_ref::context_ref(context_ref&& other) : rc(other.rc), id(++refIDCounter) {
 	if (rc) {
 		rc->inc();
-        DBG("Constructed ref:", id, " to c:", rc->id);
+        //DBG("Constructed ref:", id, " to c:", rc->id);
     }
 }
 
 context_ref::~context_ref() {
 	if (rc) {
-        DBG("Destructing ref:", id, " to c:", rc->id);
+        //DBG("Destructing ref:", id, " to c:", rc->id);
 		rc->dec();
     }
 }
@@ -102,7 +102,7 @@ bool context_ref::is_null() const {
 
 subjob & context_ref::owner() const {
 	assert(rc);
-    DBG("Dereferencing ref:", id, " to c:",rc->id);
+    //DBG("Dereferencing ref:", id, " to c:",rc->id);
 	context* temp = rc->c;
 	assert(temp);
 	return temp->owner;
@@ -110,7 +110,7 @@ subjob & context_ref::owner() const {
 
 context_ref context_ref::prior() const {
 	assert(rc);
-    DBG("Dereferencing ref:", id, " to c:",rc->id);
+    //DBG("Dereferencing ref:", id, " to c:",rc->id);
 	context* temp = rc->c;
 	assert(temp);
 	return temp->prior;
@@ -118,7 +118,7 @@ context_ref context_ref::prior() const {
 
 int context_ref::current_document_position() const {
 	assert(rc);
-    DBG("Dereferencing ref:", id, " to c:",rc->id);
+    //DBG("Dereferencing ref:", id, " to c:",rc->id);
 	context* temp = rc->c;
 	assert(temp);
 	return temp->currentDocumentPosition;
@@ -126,7 +126,7 @@ int context_ref::current_document_position() const {
 
 std::unique_ptr<match> context_ref::from_transition() const {
 	assert(rc);
-    DBG("Dereferencing ref:", id, " to c:",rc->id);
+    //DBG("Dereferencing ref:", id, " to c:",rc->id);
 	context* temp = rc->c;
 	assert(temp);
 	if (temp->from_transition) {

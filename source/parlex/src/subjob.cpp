@@ -20,11 +20,12 @@ subjob::subjob(
 	producer(owner, machine, documentPosition),
 	machine(machine),
 	lifetimeCounter(1) //see finish_creation
-{ 
-	DBG("started a subjob at document position ", documentPosition, " using machine '", machine, "'");
+{
+	DBG("constructed subjob b:", documentPosition, " m:", machine);
 }
 
 subjob::~subjob() {
+	DBG("destructing subjob b:", documentPosition, " m:", machine);
 	assert(lifetimeCounter == 0);
 }
 

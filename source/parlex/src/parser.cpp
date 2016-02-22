@@ -93,7 +93,6 @@ abstract_syntax_graph parser::construct_result(details::job const & j, match con
 }
 
 bool parser::handle_deadlocks(details::job const & j) {
-	return true;
 	assert(activeCount == 0);
 	//build a dependency graph and detect cyclical portions that should be halted
 	//if no subjobs remain, return true
@@ -136,9 +135,9 @@ bool parser::handle_deadlocks(details::job const & j) {
 	//halt subjobs that are subcribed to themselves (in)directly
 	for (auto const & i : all_subscriptions) {
 		match_class const & matchClass = i.first;
-		details::subjob & sj = *(details::subjob*)&(j.producers.find(matchClass)->second);
+		details::producer &p = *j.producers.find(matchClass)->second;
 		if (i.second.count(matchClass) > 0) {
-			sj.terminate();
+			p.terminate();
 			anyHalted = true;
 		}
 	}
