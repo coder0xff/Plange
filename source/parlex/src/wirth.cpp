@@ -22,8 +22,7 @@ namespace {
         virtual std::string get_id() const final { return "not_newline"; }
     } not_newline;
 
-    parlex::builtins::string_terminal space(uni_grow(" "));
-    parlex::builtins::string_terminal newline(uni_grow("\n"));
+	parlex::builtins::string_terminal newline(uni_grow("\n"));
     parlex::builtins::string_terminal hash(uni_grow("#"));
     parlex::builtins::string_terminal period(uni_grow("."));
     parlex::builtins::string_terminal equals(uni_grow("="));
@@ -34,7 +33,9 @@ namespace {
     parlex::builtins::string_terminal openParen(uni_grow("("));
     parlex::builtins::string_terminal closeParen(uni_grow(")"));
     parlex::builtins::string_terminal openCurly(uni_grow("{"));
-    parlex::builtins::string_terminal closeCurly(uni_grow("}"));
+	parlex::builtins::string_terminal closeCurly(uni_grow("}"));
+	parlex::builtins::string_terminal underscore(uni_grow("_"));
+
 
     parlex::state_machine whiteSpaceDfa("whiteSpace", 1, parlex::builtins::greedy);
     parlex::state_machine commentDfa("comment", 1);
@@ -49,10 +50,8 @@ namespace {
         parlex::builtins::wirth.add_transition(0, whiteSpaceDfa, 0);
         parlex::builtins::wirth.add_transition(0, commentDfa, 0);
 
-        whiteSpaceDfa.add_transition(0, space, 1);
-        whiteSpaceDfa.add_transition(0, newline, 1);
-		whiteSpaceDfa.add_transition(1, space, 1);
-		whiteSpaceDfa.add_transition(1, newline, 1);
+        whiteSpaceDfa.add_transition(0, parlex::builtins::white_space, 1);
+		whiteSpaceDfa.add_transition(1, parlex::builtins::white_space, 1);
 
         commentDfa.add_transition(0, hash, 1);
         commentDfa.add_transition(1, not_newline, 1);
@@ -111,6 +110,7 @@ namespace {
 
         identifierDfa.add_transition(0, parlex::builtins::letter, 1);
         identifierDfa.add_transition(1, parlex::builtins::letter, 1);
+		identifierDfa.add_transition(1, underscore, 1);
 
         return 0;
     }
