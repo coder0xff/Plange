@@ -20,6 +20,7 @@ class job;
 
 class producer {
 public:
+    virtual ~producer() = default;
 	struct subscription {
 		size_t next_index;
 		context_ref const c;

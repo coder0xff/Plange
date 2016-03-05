@@ -21,10 +21,9 @@ class context_ref;
 
 class parser {
 public:
-	parser(int thread_count = std::thread::hardware_concurrency());
+	parser(int threadCount = std::thread::hardware_concurrency());
 	~parser();
 	abstract_syntax_graph parse(recognizer const & g, std::u32string const & document);
-	abstract_syntax_graph parse(recognizer const & g, std::string const & document);
 private:
 	friend class details::job;
 	friend class details::subjob;

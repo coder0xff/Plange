@@ -129,3 +129,241 @@
 1448254518 /home/brent/Dropbox/Plange/source/parlex/include/libparlex/token.hpp
 	"producer.hpp"
 
+1455326272 source:/home/rachel/Documents/Plange/source/parlex/src/abstract_syntax_graph.cpp
+	<queue>
+	"parlex/abstract_syntax_graph.hpp"
+	"parlex/recognizer.hpp"
+
+1455326272 /home/rachel/Documents/Plange/source/parlex/include/parlex/abstract_syntax_graph.hpp
+	<map>
+	<set>
+	<string>
+	"parlex/match.hpp"
+	"parlex/permutation.hpp"
+
+1455326272 /home/rachel/Documents/Plange/source/parlex/include/parlex/match.hpp
+	"parlex/match_class.hpp"
+
+1455326272 /home/rachel/Documents/Plange/source/parlex/include/parlex/match_class.hpp
+	<cstdlib>
+
+1455326272 /home/rachel/Documents/Plange/source/parlex/include/parlex/permutation.hpp
+	<vector>
+	"parlex/match.hpp"
+
+1455326272 /home/rachel/Documents/Plange/source/parlex/include/parlex/recognizer.hpp
+	<string>
+
+1455380661 source:/home/rachel/Documents/Plange/source/parlex/src/builtins.cpp
+	<sstream>
+	"parlex/builtins.hpp"
+	"parlex/details/unicode_op.hpp"
+
+1455403765 /home/rachel/Documents/Plange/source/parlex/include/parlex/builtins.hpp
+	"parlex/builtins/any_character.hpp"
+	"parlex/builtins/set_terminal.hpp"
+	"parlex/builtins/string_terminal.hpp"
+	"parlex/builtins/unicode.hpp"
+	"parlex/builtins/greedy.hpp"
+	"parlex/builtins/c_string.hpp"
+	"parlex/builtins/wirth.hpp"
+
+1455326272 /home/rachel/Documents/Plange/source/parlex/include/parlex/builtins/any_character.hpp
+	"parlex/terminal.hpp"
+
+1455326272 /home/rachel/Documents/Plange/source/parlex/include/parlex/terminal.hpp
+	<string>
+	"parlex/recognizer.hpp"
+
+1455326272 /home/rachel/Documents/Plange/source/parlex/include/parlex/builtins/set_terminal.hpp
+	<set>
+	<string>
+
+1455326272 /home/rachel/Documents/Plange/source/parlex/include/parlex/builtins/string_terminal.hpp
+	"parlex/terminal.hpp"
+
+1455380375 /home/rachel/Documents/Plange/source/parlex/include/parlex/builtins/unicode.hpp
+	"parlex/terminal.hpp"
+
+1455326272 /home/rachel/Documents/Plange/source/parlex/include/parlex/builtins/greedy.hpp
+	"parlex/filter_function.hpp"
+
+1455326272 /home/rachel/Documents/Plange/source/parlex/include/parlex/filter_function.hpp
+	"details/subjob.hpp"
+	"parlex/permutation.hpp"
+
+1455425770 /home/rachel/Documents/Plange/source/parlex/include/parlex/details/subjob.hpp
+	<list>
+	<map>
+	<mutex>
+	<set>
+	<atomic>
+	"parlex/match.hpp"
+	"parlex/permutation.hpp"
+	"parlex/details/context.hpp"
+	"parlex/details/producer.hpp"
+
+1456101190 /home/rachel/Documents/Plange/source/parlex/include/parlex/details/context.hpp
+	<memory>
+	<vector>
+	<atomic>
+	"parlex/match.hpp"
+	"parlex/match_class.hpp"
+	"parlex/permutation.hpp"
+
+1455425770 /home/rachel/Documents/Plange/source/parlex/include/parlex/details/producer.hpp
+	<list>
+	<map>
+	<vector>
+	<set>
+	<mutex>
+	"parlex/details/context.hpp"
+	"parlex/permutation.hpp"
+
+1455326272 /home/rachel/Documents/Plange/source/parlex/include/parlex/details/unicode.hpp
+	<string>
+
+1456101572 source:/home/rachel/Documents/Plange/source/parlex/src/context.cpp
+	<cassert>
+	<csignal>
+	<iostream>
+	"parlex/details/context.hpp"
+	"parlex/details/subjob.hpp"
+	"parlex/details/logging.hpp"
+
+1455326272 source:/home/rachel/Documents/Plange/source/parlex/src/job.cpp
+	"parlex/details/subjob.hpp"
+	"parlex/state_machine.hpp"
+	"parlex/details/job.hpp"
+	"parlex/terminal.hpp"
+	"parlex/details/context.hpp"
+	"parlex/parser.hpp"
+	"parlex/token.hpp"
+	"parlex/details/logging.hpp"
+
+1455326272 /home/rachel/Documents/Plange/source/parlex/include/parlex/state_machine.hpp
+	<memory>
+	"parlex/recognizer.hpp"
+	"filter_function.hpp"
+
+1455326272 /home/rachel/Documents/Plange/source/parlex/include/parlex/details/job.hpp
+	<string>
+	"parlex/match_class.hpp"
+	"parlex/details/subjob.hpp"
+	"parlex/abstract_syntax_graph.hpp"
+
+1456713594 /home/rachel/Documents/Plange/source/parlex/include/parlex/parser.hpp
+	<thread>
+	<condition_variable>
+	<atomic>
+	<queue>
+	"parlex/abstract_syntax_graph.hpp"
+	"grammar.hpp"
+
+1455326272 /home/rachel/Documents/Plange/source/parlex/include/parlex/grammar.hpp
+	<map>
+	<string>
+	"parlex/state_machine.hpp"
+
+1455326272 /home/rachel/Documents/Plange/source/parlex/include/parlex/token.hpp
+	"parlex/details/producer.hpp"
+
+1456096169 /home/rachel/Documents/Plange/source/parlex/include/parlex/details/logging.hpp
+	<string>
+	<sstream>
+	<thread>
+
+1456085175 source:/home/rachel/Documents/Plange/source/parlex/src/logging.cpp
+	<condition_variable>
+	<deque>
+	<iostream>
+	<mutex>
+	<sstream>
+	<thread>
+	"parlex/details/subjob.hpp"
+	"parlex/details/logging.hpp"
+
+1455326272 source:/home/rachel/Documents/Plange/source/parlex/src/match_class.cpp
+	"parlex/match_class.hpp"
+
+1456103496 source:/home/rachel/Documents/Plange/source/parlex/src/parser.cpp
+	<cassert>
+	"parlex/details/subjob.hpp"
+	"parlex/parser.hpp"
+	"parlex/details/job.hpp"
+	"parlex/details/context.hpp"
+	"parlex/permutation.hpp"
+	"parlex/state_machine.hpp"
+	"parlex/details/producer.hpp"
+	"parlex/details/logging.hpp"
+
+1455326272 source:/home/rachel/Documents/Plange/source/parlex/src/producer.cpp
+	<cassert>
+	<mutex>
+	"parlex/details/job.hpp"
+	"parlex/details/subjob.hpp"
+	"parlex/parser.hpp"
+	"parlex/details/producer.hpp"
+	"parlex/details/subjob.hpp"
+	"parlex/details/logging.hpp"
+
+1456101109 source:/home/rachel/Documents/Plange/source/parlex/src/state_machine.cpp
+	<algorithm>
+	"parlex/details/context.hpp"
+	"parlex/details/logging.hpp"
+	"parlex/state_machine.hpp"
+	"parlex/details/subjob.hpp"
+
+1456101986 source:/home/rachel/Documents/Plange/source/parlex/src/subjob.cpp
+	<string>
+	<cassert>
+	"parlex/details/logging.hpp"
+	"parlex/details/subjob.hpp"
+	"parlex/details/context.hpp"
+	"parlex/details/job.hpp"
+	"parlex/recognizer.hpp"
+	"parlex/parser.hpp"
+	"parlex/state_machine.hpp"
+
+1455326272 source:/home/rachel/Documents/Plange/source/parlex/src/token.cpp
+	"parlex/details/job.hpp"
+	"parlex/details/logging.hpp"
+	"parlex/terminal.hpp"
+	"parlex/token.hpp"
+
+1455326272 source:/home/rachel/Documents/Plange/source/parlex/src/unicode.cpp
+	<string>
+	<sstream>
+	"parlex/details/unicode.hpp"
+
+1456713529 source:/home/rachel/Documents/Plange/source/parlex/src/wirth.cpp
+	"parlex/builtins/wirth.hpp"
+	"parlex/builtins/string_terminal.hpp"
+	"parlex/details/unicode_op.hpp"
+	"parlex/builtins.hpp"
+
+1455326272 /home/rachel/Documents/Plange/source/parlex/include/parlex/extras/wirth.hpp
+	"parlex/grammar.hpp"
+
+1455334035 /home/rachel/Documents/Plange/source/parlex/include/parlex/details/unicode_op.hpp
+	<string>
+
+1456104702 source:/home/rachel/Documents/Plange/source/parlex/src/c_string.cpp
+	"parlex/terminal.hpp"
+	"parlex/builtins.hpp"
+	"parlex/details/unicode_op.hpp"
+	"parlex/state_machine.hpp"
+	"parlex/builtins.hpp"
+
+1455380678 source:/home/rachel/Documents/Plange/source/parlex/src/unicode_op.cpp
+	<string>
+	<sstream>
+	"parlex/details/unicode_op.hpp"
+
+1455404009 /home/rachel/Documents/Plange/source/parlex/include/parlex/builtins/c_string.hpp
+	"parlex/state_machine.hpp"
+
+1455403894 /home/rachel/Documents/Plange/source/parlex/include/parlex/builtins/wirth.hpp
+	"parlex/grammar.hpp"
+	"parlex/state_machine.hpp"
+

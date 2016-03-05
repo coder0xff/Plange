@@ -15,7 +15,7 @@ struct worker_t {
 	std::deque<std::string const *> deque;
 	std::condition_variable cv;
 
-	worker_t() : 
+	worker_t() :
 	  exit(false),
 	  thread([&]() {
 	  	std::unique_lock<std::mutex> lock(mutex);
@@ -29,9 +29,9 @@ struct worker_t {
 	  			lock.lock();
 	  		}
 	  		cv.wait(lock, [this](){ return deque.size() > 0 || this->exit; }); //"this->" desired by MSVC
-	  	}		
+	  	}
 	  })
-	{ 
+	{
 		DBG("Debug logging is enabled");
 	}
 
@@ -46,18 +46,21 @@ private:
 	std::thread thread;
 };
 
+#ifndef IMMEDIATE_MODE
 worker_t worker;
+#endif // IMMEDIATE_MODE
 
 template<>
 void parlex::details::stringify(std::stringstream & ss) {}
 
 //the thread safe entry point
 void parlex::details::log_enque(std::string const * const item) {
-	std::unique_lock<std::mutex> lock(worker.mutex);
 #ifdef IMMEDIATE_MODE
 	std::cout << *item;
+	std::cout.flush();
 	delete item;
 #else
+	std::unique_lock<std::mutex> lock(worker.mutex);
 	worker.deque.emplace_back(item);
 	worker.cv.notify_one();
 #endif

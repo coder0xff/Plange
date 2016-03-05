@@ -23,7 +23,7 @@ void state_machine::start(details::subjob & sj, size_t const documentPosition) c
 }
 
 void state_machine::process(details::context_ref const & c, size_t const s) const {
-	DBG("processing '", get_id(), "' state ", s, " document position ", c.current_document_position());
+	DBG("processing '", get_id(), "' s:", s, " p:", c.current_document_position());
 	if (s >= states.size() - accept_state_count) {
 		c.owner().accept(c);
 	}

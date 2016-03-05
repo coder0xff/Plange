@@ -1,11 +1,13 @@
 #include <cassert>
+#include <iostream>
+#include <thread>
 
 #include "parlex/abstract_syntax_graph.hpp"
 #include "parlex/builtins.hpp"
 #include "parlex/details/logging.hpp"
 #include "parlex/parser.hpp"
 #include "parlex/state_machine.hpp"
-#include "parlex/details/unicode.hpp"
+#include "parlex/details/unicode_op.hpp"
 
 void parser_test_1() {
 	DBG("************ parser_test_1 ************");
@@ -191,6 +193,32 @@ void parser_test_10() {
 	DBG(result.to_dot());
 }
 
+void c_string_test_1() {
+    std::u32string const input = uni_grow("\"abc123\\\"\"");
+    parlex::parser p(1);
+    parlex::abstract_syntax_graph result = p.parse(parlex::builtins::c_string, input);
+    DBG(result.to_dot());
+}
+
+void parser_test_100() {
+    std::string wirthInItself = "\
+syntax     = [ws] { PRODUCTION [WS] } . \
+PRODUCTION = IDENTIFIER [WS] \"=\" [WS] EXPRESSION [WS] \".\" . \
+EXPRESSION = TERM { [WS] \"|\" [WS] TERM } . \
+TERM       = FACTOR { WS FACTOR } . \
+FACTOR     = IDENTIFIER \
+           | c_string \
+           | \"[\" [WS] EXPRESSION [WS] \"]\" \
+           | \"(\" [WS] EXPRESSION [WS] \")\" \
+           | \"{\" [WS] EXPRESSION [WS] \"}\" . \
+IDENTIFIER = letter { letter } . \
+LITERAL    = \"\\\"\" character { character } \"\\\"\" .";
+
+    parlex::parser p(1);
+    parlex::abstract_syntax_graph result = p.parse(parlex::builtins::wirth, uni_grow(wirthInItself));
+    DBG(result.to_dot());
+}
+
 int main(void) {
 	/*parser_test_1();
 	parser_test_2();
@@ -200,6 +228,8 @@ int main(void) {
 	parser_test_6();
 	parser_test_7();
 	parser_test_8();
-	parser_test_9();*/
+	parser_test_9();
 	parser_test_10();
+	c_string_test_1();*/
+	parser_test_100();
 }

@@ -1,7 +1,7 @@
 #include <sstream>
 
 #include "parlex/builtins.hpp"
-#include "parlex/details/unicode.hpp"
+#include "parlex/details/unicode_op.hpp"
 
 namespace parlex {
 namespace details {
@@ -81,6 +81,7 @@ details::modifier_letter_t modifier_letter;
 details::modifier_symbol_t modifier_symbol;
 details::nonspacing_mark_t nonspacing_mark;
 details::number_t number;
+details::octal_digit_t octal_digit;
 details::open_punctuation_t open_punctuation;
 details::other_letter_t other_letter;
 details::other_number_t other_number;

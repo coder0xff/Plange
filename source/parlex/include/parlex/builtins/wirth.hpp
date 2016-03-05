@@ -2,12 +2,12 @@
 #define WIRTH_HPP
 
 #include "parlex/grammar.hpp"
+#include "parlex/state_machine.hpp"
 
 namespace parlex {
+namespace builtins {
 // https://en.wikipedia.org/wiki/Wirth_syntax_notation
-namespace wirth {
-
-parlex::grammar grammar;
+extern state_machine wirth;
 
 }
 }

@@ -22,7 +22,7 @@ parser::parser(int threadCount) : activeCount(0), terminating(false) {
 			while (!terminating) {
 				{
 					DBG("THREAD ", threadCount, " POPPING ITEM");
-					std::tuple<details::context_ref, int> & item = work.front();
+					std::tuple<details::context_ref, int> item = work.front();
 					work.pop();
 					lock.unlock();
 					auto const & context = std::get<0>(item);
@@ -93,7 +93,6 @@ abstract_syntax_graph parser::construct_result(details::job const & j, match con
 }
 
 bool parser::handle_deadlocks(details::job const & j) {
-	return true;
 	assert(activeCount == 0);
 	//build a dependency graph and detect cyclical portions that should be halted
 	//if no subjobs remain, return true
@@ -136,9 +135,9 @@ bool parser::handle_deadlocks(details::job const & j) {
 	//halt subjobs that are subcribed to themselves (in)directly
 	for (auto const & i : all_subscriptions) {
 		match_class const & matchClass = i.first;
-		details::subjob & sj = *(details::subjob*)&(j.producers.find(matchClass)->second);
+		details::producer &p = *j.producers.find(matchClass)->second;
 		if (i.second.count(matchClass) > 0) {
-			//sj.halt_for_deadlock();
+			p.terminate();
 			anyHalted = true;
 		}
 	}

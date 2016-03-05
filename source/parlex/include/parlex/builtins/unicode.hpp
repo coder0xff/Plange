@@ -138,6 +138,18 @@ public:
 	inline std::string get_id() const final { return "format"; }
 };
 
+class octal_digit_t : public terminal {
+public:
+	inline virtual bool test(std::u32string const & document, size_t documentPosition) const final {
+		if (documentPosition >= document.length()) return false;
+		auto const & i = document[documentPosition];
+		return false  || (i >= 48 && i <= 55);
+	}
+
+	inline virtual size_t get_length() const final { return 1; }
+	inline std::string get_id() const final { return "octal_digit"; }
+};
+
 class hexadecimal_digit_t : public terminal {
 public:
 	inline virtual bool test(std::u32string const & document, size_t documentPosition) const final {
@@ -489,6 +501,7 @@ extern details::modifier_letter_t modifier_letter;
 extern details::modifier_symbol_t modifier_symbol;
 extern details::nonspacing_mark_t nonspacing_mark;
 extern details::number_t number;
+extern details::octal_digit_t octal_digit;
 extern details::open_punctuation_t open_punctuation;
 extern details::other_letter_t other_letter;
 extern details::other_number_t other_number;
