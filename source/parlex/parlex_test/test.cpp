@@ -202,18 +202,21 @@ void c_string_test_1() {
 
 void parser_test_100() {
     std::string wirthInItself = "\
-SYNTAX     = [WS] { PRODUCTION [WS] } . \
+syntax     = [ws] { PRODUCTION [WS] } . \
 PRODUCTION = IDENTIFIER [WS] \"=\" [WS] EXPRESSION [WS] \".\" . \
 EXPRESSION = TERM { [WS] \"|\" [WS] TERM } . \
 TERM       = FACTOR { WS FACTOR } . \
 FACTOR     = IDENTIFIER \
-           | LITERAL \
+           | c_string \
            | \"[\" [WS] EXPRESSION [WS] \"]\" \
            | \"(\" [WS] EXPRESSION [WS] \")\" \
            | \"{\" [WS] EXPRESSION [WS] \"}\" . \
 IDENTIFIER = letter { letter } . \
 LITERAL    = \"\\\"\" character { character } \"\\\"\" .";
 
+    parlex::parser p(1);
+    parlex::abstract_syntax_graph result = p.parse(parlex::builtins::wirth, uni_grow(wirthInItself));
+    DBG(result.to_dot());
 }
 
 int main(void) {
@@ -226,6 +229,7 @@ int main(void) {
 	parser_test_7();
 	parser_test_8();
 	parser_test_9();
-	parser_test_10();*/
-	c_string_test_1();
+	parser_test_10();
+	c_string_test_1();*/
+	parser_test_100();
 }
