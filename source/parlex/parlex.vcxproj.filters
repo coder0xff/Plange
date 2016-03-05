@@ -96,6 +96,12 @@
     <ClInclude Include="include\parlex\builtins\greedy.hpp">
       <Filter>Header Files\builtins</Filter>
     </ClInclude>
+    <ClInclude Include="include\parlex\builtins\c_string.hpp">
+      <Filter>Header Files\builtins</Filter>
+    </ClInclude>
+    <ClInclude Include="include\parlex\builtins\wirth.hpp">
+      <Filter>Header Files\builtins</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\abstract_syntax_graph.cpp">
@@ -134,7 +140,10 @@
     <ClCompile Include="src\wirth.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\unicode.cpp">
+    <ClCompile Include="src\c_string.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\unicode_op.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

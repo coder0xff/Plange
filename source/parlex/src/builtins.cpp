@@ -41,16 +41,16 @@ std::string string_terminal::get_id() const {
 filter_function greedy = [] (std::list<permutation> const & permutations) {
 	int selectedSize = 0;
 	for (permutation const & p : permutations) {
-		int size = p.back().documentPosition + p.back().consumed_character_count - p.front().documentPosition;
-		if (size > selectedSize) {
-			selectedSize = size;
+		int len = p.size() > 0 ? p.back().documentPosition + p.back().consumed_character_count - p.front().documentPosition : 0;
+		if (len > selectedSize) {
+			selectedSize = len;
 		}
 	}
 	std::set<int> result;
 	int counter = 0;
 	for (permutation const & p : permutations) {
-		int size = p.back().documentPosition + p.back().consumed_character_count - p.front().documentPosition;
-		if (size == selectedSize) {
+		int len = p.size() > 0 ? p.back().documentPosition + p.back().consumed_character_count - p.front().documentPosition : 0;
+		if (len == selectedSize) {
 			result.insert(counter);
 		}
 		counter++;

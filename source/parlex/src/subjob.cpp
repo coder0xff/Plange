@@ -101,7 +101,7 @@ void subjob::flush() {
 		int counter = 0;
 		for (auto const & permutation : queuedPermutations) {
 			if (selections.count(counter) > 0) {
-				int len = permutation.back().documentPosition + permutation.back().consumed_character_count - documentPosition;
+				int len = permutation.size() > 0 ? permutation.back().documentPosition + permutation.back().consumed_character_count - documentPosition : 0;
 				enque_permutation(len, permutation);
 			}
 			counter++;
