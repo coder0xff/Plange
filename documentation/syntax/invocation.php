@@ -11,10 +11,7 @@
         <p>creates the specified function, passing in the parameters specified between the parenthesis, or between angle brackets for parametric types and parametric functions, or between square brackets when all parameters belong to sets that are ordered and denumerable</p>
         <div class="syntax">
             <p>syntax</p>
-            <div><a href="expression.php">expression</a>(
-    ( "(" [ <a href="expression.php">expression</a> ["," <a href="expression.php">expression</a> ]* ] ")" ) |
-    ( "&lt;" [ <a href="expression.php">expression</a> ["," <a href="expression.php">expression</a> ]* ] "&gt;" ) |
-    ( "[" [ <a href="expression.php">expression</a> ["," <a href="expression.php">expression</a> ]* ] "]" ) )</div>
+            <div><a href="expression.php">expression</a>(( "(" [ <a href="expression.php">expression</a> ["," <a href="expression.php">expression</a> ]* ] ")" ) | ( "&lt;" [ <a href="expression.php">expression</a> ["," <a href="expression.php">expression</a> ]* ] "&gt;" ) | ( "[" [ <a href="expression.php">expression</a> ["," <a href="expression.php">expression</a> ]* ] "]" ) )</div>
         </div>
         <div class="code">
             <p>Example</p>

@@ -9,9 +9,9 @@
 
 
 		<p>a sequence of one or more punctuation (and special) characters representing an infix operator</p>
-		<div class="code">
+		<div class="syntax">
 			<p>Syntax</p>
-			<div><a href="/documentation/syntax/binary_arithmetic_op.php">binary_arithmetic_op</a> | <a href="/documentation/syntax/bitwise_op.php">bitwise_op</a> | <a href="/documentation/syntax/collection_op.php">collection_op</a> | <a href="/documentation/syntax/constructive_op.php">constructive_op</a> | <a href="/documentation/syntax/binary_logical_op.php">binary_logical_op</a> | <a href="/documentation/syntax/multiplicative_op.php">multiplicative_op</a> | <a href="/documentation/syntax/relational_op.php">relational_op</a></div>
+			<div><a href="/documentation/syntax/binary_arithmetic_op.php">binary_arithmetic_op</a> | <a href="/documentation/syntax/bitwise_op.php">bitwise_op</a> | <a href="/documentation/syntax/collection_op.php">collection_op</a> | <a href="/documentation/syntax/constructive_op.php">constructive_op</a> | <a href="/documentation/syntax/binary_logical_op.php">binary_logical_op</a> | <a href="/documentation/syntax/relational_op.php">relational_op</a></div>
 		</div>
 
 		<h2>Notes</h2>

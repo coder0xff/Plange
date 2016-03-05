@@ -8,9 +8,9 @@
 		<?php require('../../header.php') ?>
 
 
-		<div class="code">
+		<div class="syntax">
 			<p>Syntax></p>
-			<pre>"(" <a href="expression.php">expression</a> (", " <a href="expression.php">expression</a> )* ")"</pre>
+			<div>"(" <a href="expression.php">expression</a> (", " <a href="expression.php">expression</a> )* ")"</div>
 		</div>
 
 
