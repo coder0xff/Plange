@@ -11,14 +11,14 @@ parlex::state_machine c_string("c_string", 1, parlex::builtins::greedy);
 
 namespace  {
 
-class non_double_quote_t : public parlex::terminal {
+class content_t : public parlex::terminal {
     virtual bool test(std::u32string const & document, size_t documentPosition) const final {
         if (documentPosition >= document.length()) return false;
-        return document[documentPosition] != 34;
+        return document[documentPosition] != 34 && document[documentPosition] != 92;
     }
     virtual size_t get_length() const final { return 1; }
     virtual std::string get_id() const final { return "non_double_quote"; }
-} non_double_quote;
+} content;
 
 class basic_escape_sequence_t : public parlex::terminal {
     virtual bool test(std::u32string const & document, size_t documentPosition) const final {
@@ -47,7 +47,7 @@ int build() {
     hex_escape_sequence.add_transition(2, parlex::builtins::hexadecimal_digit, 2);
 
     parlex::builtins::c_string.add_transition(0, double_quote, 1);
-    parlex::builtins::c_string.add_transition(1, non_double_quote, 1);
+    parlex::builtins::c_string.add_transition(1, content, 1);
     parlex::builtins::c_string.add_transition(1, basic_escape_sequence, 1);
     parlex::builtins::c_string.add_transition(1, octal_escape_sequence, 1);
     parlex::builtins::c_string.add_transition(1, hex_escape_sequence, 1);
