@@ -164,7 +164,7 @@
     <ClCompile Include="src\grammar.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="include\parlex\builtins\unicode.cpp">
+    <ClCompile Include="src\unicode.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

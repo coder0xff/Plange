@@ -104,7 +104,6 @@
     <ClInclude Include="include\parlex\token.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="include\parlex\builtins\unicode.cpp" />
     <ClCompile Include="src\abstract_syntax_graph.cpp" />
     <ClCompile Include="src\behavior.cpp" />
     <ClCompile Include="src\builtins.cpp" />
@@ -120,6 +119,7 @@
     <ClCompile Include="src\state_machine.cpp" />
     <ClCompile Include="src\subjob.cpp" />
     <ClCompile Include="src\token.cpp" />
+    <ClCompile Include="src\unicode.cpp" />
     <ClCompile Include="src\unicode_op.cpp" />
     <ClCompile Include="src\wirth.cpp" />
   </ItemGroup>
