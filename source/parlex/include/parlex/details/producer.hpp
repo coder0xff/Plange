@@ -39,8 +39,8 @@ public:
 	std::map<match, std::set<permutation>> match_to_permutations;
 	std::mutex mutex;
 
-	void add_subscription(context_ref const & c, size_t const nextDfaState);
 	producer(job & owner, recognizer const & r, size_t const documentPosition);
+	void add_subscription(context_ref const & c, size_t const nextDfaState);
 	void enque_permutation(size_t consumedCharacterCount, permutation const & p);
 	void terminate();
 };

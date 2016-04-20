@@ -26,14 +26,17 @@ public:
 	void start(details::subjob & sj, size_t documentPosition) const;
 	void add_transition(size_t fromState, recognizer const & recognizer, size_t toState);
 	virtual std::string get_id() const final;
+	int get_accept_state_count() const;
 	filter_function get_filter() const;
+
+	typedef std::vector<std::map<std::reference_wrapper<recognizer const>, size_t, details::recognizer_reference_comparer>> states_t;
+    states_t get_states() const;
 
 private:
 	friend class parser;
 
 	std::string const id;
 	size_t const accept_state_count; //must be greater than 0
-	typedef std::vector<std::map<std::reference_wrapper<recognizer const>, size_t, details::recognizer_reference_comparer>> states_t;
 	states_t states;
 	filter_function const filter;
 

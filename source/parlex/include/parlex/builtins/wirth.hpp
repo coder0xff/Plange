@@ -6,8 +6,10 @@
 
 namespace parlex {
 namespace builtins {
-// https://en.wikipedia.org/wiki/Wirth_syntax_notation
+
+	// https://en.wikipedia.org/wiki/Wirth_syntax_notation
 extern state_machine wirth;
+grammar parse_wirth(std::string nameOfMain, std::u32string const & document);
 
 }
 }

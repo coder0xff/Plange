@@ -57,7 +57,7 @@ producer & job::get_producer(match_class const & matchClass) {
 		lock.unlock();
 		if (matchClass.r.is_terminal()) {
 			terminal const * t = static_cast<terminal const *>(&matchClass.r);
-			token * result = new token(*this, *t, matchClass.documentPosition);
+			token * result = new token(*this, *t, matchClass.document_position);
 			lock.lock();
 			producers.emplace(
 				std::piecewise_construct,
@@ -66,7 +66,7 @@ producer & job::get_producer(match_class const & matchClass) {
 			);
 		} else {
 			state_machine const * machine = static_cast<state_machine const *>(&matchClass.r);
-			subjob * result = new subjob(*this, *machine, matchClass.documentPosition);
+			subjob * result = new subjob(*this, *machine, matchClass.document_position);
 			lock.lock();
 			bool didEmplace = producers.emplace(
 				std::piecewise_construct,

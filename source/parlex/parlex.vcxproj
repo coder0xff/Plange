@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
       <Configuration>Debug</Configuration>
@@ -19,13 +19,13 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v120</PlatformToolset>
+    <PlatformToolset>v140</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v120</PlatformToolset>
+    <PlatformToolset>v140</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
@@ -82,12 +82,15 @@
     <ClInclude Include="include\parlex\builtins\string_terminal.hpp" />
     <ClInclude Include="include\parlex\builtins\unicode.hpp" />
     <ClInclude Include="include\parlex\builtins\wirth.hpp" />
+    <ClInclude Include="include\parlex\details\auto_map.hpp" />
+    <ClInclude Include="include\parlex\details\behavior.hpp" />
     <ClInclude Include="include\parlex\details\context.hpp" />
     <ClInclude Include="include\parlex\details\job.hpp" />
     <ClInclude Include="include\parlex\details\logging.hpp" />
+    <ClInclude Include="include\parlex\details\nfa.hpp" />
     <ClInclude Include="include\parlex\details\producer.hpp" />
     <ClInclude Include="include\parlex\details\subjob.hpp" />
-    <ClInclude Include="include\parlex\details\unicode.hpp" />
+    <ClInclude Include="include\parlex\details\unicode_op.hpp" />
     <ClInclude Include="include\parlex\extras\wirth.hpp" />
     <ClInclude Include="include\parlex\filter_function.hpp" />
     <ClInclude Include="include\parlex\grammar.hpp" />
@@ -101,13 +104,17 @@
     <ClInclude Include="include\parlex\token.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="include\parlex\builtins\unicode.cpp" />
     <ClCompile Include="src\abstract_syntax_graph.cpp" />
+    <ClCompile Include="src\behavior.cpp" />
     <ClCompile Include="src\builtins.cpp" />
     <ClCompile Include="src\context.cpp" />
     <ClCompile Include="src\c_string.cpp" />
+    <ClCompile Include="src\grammar.cpp" />
     <ClCompile Include="src\job.cpp" />
     <ClCompile Include="src\logging.cpp" />
     <ClCompile Include="src\match_class.cpp" />
+    <ClCompile Include="src\nfa.cpp" />
     <ClCompile Include="src\parser.cpp" />
     <ClCompile Include="src\producer.cpp" />
     <ClCompile Include="src\state_machine.cpp" />

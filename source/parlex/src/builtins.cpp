@@ -24,7 +24,7 @@ namespace builtins {
 
 parlex::details::any_character_t any_character;
 
-string_terminal::string_terminal(std::u32string const & s) : s(s), length(s.length()), id(uni_trunc(s)) {}
+string_terminal::string_terminal(std::u32string const & s) : s(s), length(s.length()), id(to_utf8(s)) {}
 
 bool string_terminal::test(std::u32string const & document, size_t const documentPosition) const {
 	return document.compare(documentPosition, length, s) == 0;
@@ -41,7 +41,7 @@ std::string string_terminal::get_id() const {
 filter_function greedy = [] (std::list<permutation> const & permutations) {
 	int selectedSize = 0;
 	for (permutation const & p : permutations) {
-		int len = p.size() > 0 ? p.back().documentPosition + p.back().consumed_character_count - p.front().documentPosition : 0;
+		int len = p.size() > 0 ? p.back().document_position + p.back().consumed_character_count - p.front().document_position : 0;
 		if (len > selectedSize) {
 			selectedSize = len;
 		}
@@ -49,7 +49,7 @@ filter_function greedy = [] (std::list<permutation> const & permutations) {
 	std::set<int> result;
 	int counter = 0;
 	for (permutation const & p : permutations) {
-		int len = p.size() > 0 ? p.back().documentPosition + p.back().consumed_character_count - p.front().documentPosition : 0;
+		int len = p.size() > 0 ? p.back().document_position + p.back().consumed_character_count - p.front().document_position : 0;
 		if (len == selectedSize) {
 			result.insert(counter);
 		}

@@ -3,7 +3,7 @@
 
 #include <string>
 
-std::string uni_trunc(std::u32string const & s);
-std::u32string uni_grow(std::string const & s);
+std::string to_utf8(const std::u32string &s);
+std::u32string to_utf32(const std::string &s);
 
 #endif

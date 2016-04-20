@@ -23,20 +23,24 @@ void state_machine::start(details::subjob & sj, size_t const documentPosition) c
 }
 
 void state_machine::process(details::context_ref const & c, size_t const s) const {
-	DBG("processing '", get_id(), "' s:", s, " p:", c.current_document_position());
+	//DBG("processing '", get_id(), "' s:", s, " p:", c.current_document_position());
 	if (s >= states.size() - accept_state_count) {
 		c.owner().accept(c);
 	}
 	for (auto const & kvp : states[s]) {
 		recognizer const & transition = kvp.first;
 		int const next_state = kvp.second;
-		DBG("'", get_id(), "' state ", s, " position ", c.current_document_position(), " subscribes to '", transition.get_id(), "' position ", c.current_document_position());
+		//DBG("'", get_id(), "' state ", s, " position ", c.current_document_position(), " subscribes to '", transition.get_id(), "' position ", c.current_document_position());
 		c.owner().on(c, transition, next_state);
 	}
 }
 
 std::string state_machine::get_id() const {
 	return id;
+}
+
+int state_machine::get_accept_state_count() const {
+    return accept_state_count;
 }
 
 filter_function state_machine::get_filter() const {
@@ -51,6 +55,10 @@ void state_machine::add_transition(size_t fromState, recognizer const & recogniz
 	if (!states[fromState].insert(states_t::value_type::value_type(recognizer, toState)).second) {
 		throw std::logic_error("duplicate key");
 	}
+}
+
+state_machine::states_t state_machine::get_states() const {
+    return states;
 }
 
 }

@@ -90,9 +90,6 @@
     <ClInclude Include="include\parlex\details\producer.hpp">
       <Filter>Header Files\details</Filter>
     </ClInclude>
-    <ClInclude Include="include\parlex\details\unicode.hpp">
-      <Filter>Header Files\details</Filter>
-    </ClInclude>
     <ClInclude Include="include\parlex\builtins\greedy.hpp">
       <Filter>Header Files\builtins</Filter>
     </ClInclude>
@@ -101,6 +98,18 @@
     </ClInclude>
     <ClInclude Include="include\parlex\builtins\wirth.hpp">
       <Filter>Header Files\builtins</Filter>
+    </ClInclude>
+    <ClInclude Include="include\parlex\details\unicode_op.hpp">
+      <Filter>Header Files\details</Filter>
+    </ClInclude>
+    <ClInclude Include="include\parlex\details\nfa.hpp">
+      <Filter>Header Files\details</Filter>
+    </ClInclude>
+    <ClInclude Include="include\parlex\details\behavior.hpp">
+      <Filter>Header Files\details</Filter>
+    </ClInclude>
+    <ClInclude Include="include\parlex\details\auto_map.hpp">
+      <Filter>Header Files\details</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -144,6 +153,18 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\unicode_op.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\behavior.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\nfa.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\grammar.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="include\parlex\builtins\unicode.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

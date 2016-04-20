@@ -21,11 +21,11 @@ subjob::subjob(
 	machine(machine),
 	lifetimeCounter(1) //see finish_creation
 {
-	DBG("constructed subjob b:", documentPosition, " m:", machine);
+	//DBG("constructed subjob b:", documentPosition, " m:", machine);
 }
 
 subjob::~subjob() {
-	DBG("destructing subjob b:", documentPosition, " m:", machine);
+	//DBG("destructing subjob b:", documentPosition, " m:", machine);
 	assert(lifetimeCounter == 0);
 }
 
@@ -68,7 +68,7 @@ void subjob::accept(context_ref const & c) {
 
 void subjob::decrement_lifetime() {
 	int temp = --lifetimeCounter;
-	DBG("decrement_lifetime m:", machine, " b:", documentPosition, " r:", temp);
+	//DBG("decrement_lifetime m:", machine, " b:", documentPosition, " r:", temp);
 	if (temp > 0) {
 		return;
 	}
@@ -78,30 +78,30 @@ void subjob::decrement_lifetime() {
 
 void subjob::end_dependency()
 {
-	DBG("end_dependency m:", machine, " b:", documentPosition);
+	//DBG("end_dependency m:", machine, " b:", documentPosition);
 	decrement_lifetime();
 }
 
 void subjob::finish_creation() {
-	DBG("finish_creation m:", machine, " b:", documentPosition);
+	//DBG("finish_creation m:", machine, " b:", documentPosition);
 	decrement_lifetime();
 }
 
 void subjob::increment_lifetime() {
 	int temp = ++lifetimeCounter;
 	assert(temp > 1);
-	DBG("increment_lifetime m:", machine, " b:", documentPosition, " r:", temp);
+	//DBG("increment_lifetime m:", machine, " b:", documentPosition, " r:", temp);
 }
 
 void subjob::flush() {
-	DBG("flush m:", machine, " b:", documentPosition);
+	//DBG("flush m:", machine, " b:", documentPosition);
 	if (machine.get_filter()) {
 		std::unique_lock<std::mutex> lock(mutex);
 		std::set<int> selections = machine.get_filter()(queuedPermutations);
 		int counter = 0;
 		for (auto const & permutation : queuedPermutations) {
 			if (selections.count(counter) > 0) {
-				int len = permutation.size() > 0 ? permutation.back().documentPosition + permutation.back().consumed_character_count - documentPosition : 0;
+				int len = permutation.size() > 0 ? permutation.back().document_position + permutation.back().consumed_character_count - documentPosition : 0;
 				enque_permutation(len, permutation);
 			}
 			counter++;
