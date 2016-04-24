@@ -109,7 +109,7 @@ bool parser::handle_deadlocks(details::job const & j) {
 		}
 		for (auto const & subscription : p.consumers) {
 			details::context_ref const & c = subscription.c;
-			match_class temp(c.owner().machine, c.current_document_position());
+			match_class temp(c.owner().machine, c.owner().documentPosition);
 			all_subscriptions[matchClass].insert(temp);
 		}
 		growing.insert(matchClass);
@@ -132,7 +132,7 @@ bool parser::handle_deadlocks(details::job const & j) {
 	}
 
     bool anyHalted = false;
-	//halt subjobs that are subcribed to themselves (in)directly
+	//halt subjobs that are subscribed to themselves (in)directly
 	for (auto const & i : all_subscriptions) {
 		match_class const & matchClass = i.first;
 		details::producer &p = *j.producers.find(matchClass)->second;

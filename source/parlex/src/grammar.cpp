@@ -4,10 +4,11 @@
 #include <iostream>
 
 #include "parlex/details/behavior.hpp"
+#include "parlex/builtins/greedy.hpp"
 
 namespace parlex {
 
-grammar::grammar(std::string nameOfMain, std::map<std::string, std::shared_ptr<details::behavior_node>> const & trees) : main_production_name(nameOfMain)
+grammar::grammar(std::string nameOfMain, std::map<std::string, std::shared_ptr<details::behavior_node>> const & trees, std::set<std::string> greedyNames) : main_production_name(nameOfMain)
 {
 	std::map<std::string, details::intermediate_nfa> intermediate_nfas;
 	for (auto const & nameAndBehaviorNode : trees) {
@@ -23,7 +24,11 @@ grammar::grammar(std::string nameOfMain, std::map<std::string, std::shared_ptr<d
 	for (auto const & nameAndIntermediateNfa : intermediate_nfas) {
         std::string const & name = nameAndIntermediateNfa.first;
         details::intermediate_nfa const & intermediate_nfa = nameAndIntermediateNfa.second;
-        productions.emplace(std::piecewise_construct, std::forward_as_tuple(name), std::forward_as_tuple(name, intermediate_nfa.acceptStates.size()));
+		if (greedyNames.count(name) > 0) {
+			productions.emplace(std::piecewise_construct, std::forward_as_tuple(name), std::forward_as_tuple(name, intermediate_nfa.acceptStates.size(), builtins::greedy));
+		} else {
+			productions.emplace(std::piecewise_construct, std::forward_as_tuple(name), std::forward_as_tuple(name, intermediate_nfa.acceptStates.size()));
+		}
 	}
 
 	for (auto const & nameAndIntermediateNfa : intermediate_nfas) {

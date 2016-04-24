@@ -242,32 +242,32 @@ void wirth_test_3() {
 }
 
 void wirth_test_4() {
-	auto grammar = parlex::builtins::parse_wirth("syntax", to_utf32(wirthInItself));
+	auto grammar = parlex::builtins::parse_wirth("syntax", to_utf32(wirthInItself), {});
 }
 
 void wirth_test_5() {
-	auto grammar = parlex::builtins::parse_wirth("syntax", U"syntax = \"a\".");
+	auto grammar = parlex::builtins::parse_wirth("syntax", U"syntax = \"a\".", {});
 	parlex::parser p;
 	parlex::abstract_syntax_graph result = p.parse(grammar.get_main_production(), U"b");
 	std::string dot = result.to_dot();
 }
 
 void wirth_test_6() {
-	auto grammar = parlex::builtins::parse_wirth("syntax", U"syntax = letter number.");
+	auto grammar = parlex::builtins::parse_wirth("syntax", U"syntax = letter number.", {});
 	parlex::parser p;
 	parlex::abstract_syntax_graph result = p.parse(grammar.get_main_production(), U"a1");
 	std::string dot = result.to_dot();
 }
 
 void wirth_test_7() {
-	auto grammar = parlex::builtins::parse_wirth("syntax", U"syntax = letter { number }.");
+	auto grammar = parlex::builtins::parse_wirth("syntax", U"syntax = letter { number }.", {});
 	parlex::parser p;
 	parlex::abstract_syntax_graph result = p.parse(grammar.get_main_production(), U"a1234");
 	std::string dot = result.to_dot();
 }
 
 void wirth_test_8() {
-	auto grammar = parlex::builtins::parse_wirth("syntax", U"syntax = letter [ number ].");
+	auto grammar = parlex::builtins::parse_wirth("syntax", U"syntax = letter [ number ].", {});
 	parlex::parser p;
 	parlex::abstract_syntax_graph result1 = p.parse(grammar.get_main_production(), U"a");
 	std::string dot1 = result1.to_dot();
@@ -276,7 +276,7 @@ void wirth_test_8() {
 }
 
 void wirth_test_9() {
-	auto grammar = parlex::builtins::parse_wirth("syntax", U"syntax = letter ( number | c_string ).");
+	auto grammar = parlex::builtins::parse_wirth("syntax", U"syntax = letter ( number | c_string ).", {});
 	parlex::parser p;
 	parlex::abstract_syntax_graph result1 = p.parse(grammar.get_main_production(), U"a1");
 	std::string dot1 = result1.to_dot();
@@ -288,7 +288,7 @@ void wirth_test_10() {
 	auto grammar = parlex::builtins::parse_wirth("ARRAY", U"\
 ARRAY = \"[\" {IC} [EXPRESSION {{IC} \", \" {IC} EXPRESSION} {IC} ] \"]\".\
 IC = \"IC\".\
-EXPRESSION = \"EXPRESSION\".");
+EXPRESSION = \"EXPRESSION\".", {});
 	parlex::parser p;
 	parlex::abstract_syntax_graph result = p.parse(grammar.get_main_production(), U"[]");
 	std::string dot = result.to_dot();
@@ -298,7 +298,7 @@ void wirth_test_11() {
 	auto grammar = parlex::builtins::parse_wirth("STATEMENT_SCOPE", U"\
 STATEMENT_SCOPE = {IC | STATEMENT}. \
 IC = \"IC\".\
-STATEMENT = \"STATEMENT\".");
+STATEMENT = \"STATEMENT\".", {});
 }
 
 void plange_test_1() {
@@ -316,7 +316,7 @@ void plange_test_2() {
 	std::stringstream buffer;
 	t.seekg(3);
 	buffer << t.rdbuf();
-	auto grammar = parlex::builtins::parse_wirth("STATEMENT_SCOPE", to_utf32(buffer.str()));
+	auto grammar = parlex::builtins::parse_wirth("STATEMENT_SCOPE", to_utf32(buffer.str()), { "IDENTIFIER" });
 }
 
 void plange_test_3() {
@@ -325,14 +325,32 @@ void plange_test_3() {
 	std::stringstream buffer;
 	t.seekg(3);
 	buffer << t.rdbuf();
-	auto grammar = parlex::builtins::parse_wirth("STATEMENT_SCOPE", to_utf32(buffer.str()));
+	auto grammar = parlex::builtins::parse_wirth("STATEMENT_SCOPE", to_utf32(buffer.str()), { "IDENTIFIER" });
 
 	//try parsing a simple program
 	parlex::parser p(1);
 	std::u32string input = U"print(\"Hello, world!\");";
-	std::cout << "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n";
 	parlex::abstract_syntax_graph result = p.parse(grammar.get_main_production(), input);
 	std::string dot = result.to_dot();
+}
+
+void plange_test_4() {
+	//load Plange grammar
+	std::ifstream t("C:\\Users\\Brent\\Dropbox\\Plange\\documentation\\syntax.wsn");
+	std::stringstream buffer;
+	t.seekg(3);
+	buffer << t.rdbuf();
+	auto grammar = parlex::builtins::parse_wirth("STATEMENT_SCOPE", to_utf32(buffer.str()), { "IDENTIFIER" });
+
+	std::ifstream u("C:\\Users\\Brent\\Dropbox\\Plange\\source\\Examples\\intToString.pge");
+	std::string str((std::istreambuf_iterator<char>(u)),
+		std::istreambuf_iterator<char>());
+
+	parlex::parser p(1);
+	std::u32string input = to_utf32(str);
+	parlex::abstract_syntax_graph result = p.parse(grammar.get_main_production(), input);
+	//std::string dot = result.to_dot();
+
 }
 
 int main(void) {
@@ -361,5 +379,6 @@ int main(void) {
 	//wirth_test_11();
 	//plange_test_1();
 	//plange_test_2();
-	plange_test_3();
+	//plange_test_3();
+	plange_test_4();
 }

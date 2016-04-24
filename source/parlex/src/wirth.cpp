@@ -231,7 +231,7 @@ std::shared_ptr<parlex::details::behavior_node> process_production(std::u32strin
 namespace parlex {
 namespace builtins {
 
-grammar parse_wirth(std::string nameOfMain, std::u32string const & document) {
+grammar parse_wirth(std::string nameOfMain, std::u32string const & document, std::set<std::string> greedyNames) {
 	parser p(1);
 	abstract_syntax_graph asg = p.parse(wirth, document);
 	std::string check = asg.to_dot();
@@ -250,7 +250,7 @@ grammar parse_wirth(std::string nameOfMain, std::u32string const & document) {
 			trees[name] = behavior;
 		}
 	}
-	return grammar(nameOfMain, trees);
+	return grammar(nameOfMain, trees, greedyNames);
 }
 
 }
