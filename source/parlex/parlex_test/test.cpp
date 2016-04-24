@@ -294,6 +294,13 @@ EXPRESSION = \"EXPRESSION\".");
 	std::string dot = result.to_dot();
 }
 
+void wirth_test_11() {
+	auto grammar = parlex::builtins::parse_wirth("STATEMENT_SCOPE", U"\
+STATEMENT_SCOPE = {IC | STATEMENT}. \
+IC = \"IC\".\
+STATEMENT = \"STATEMENT\".");
+}
+
 void plange_test_1() {
 	std::ifstream t("C:\\Users\\Brent\\Dropbox\\Plange\\documentation\\syntax.wsn");
 	std::stringstream buffer;
@@ -310,6 +317,22 @@ void plange_test_2() {
 	t.seekg(3);
 	buffer << t.rdbuf();
 	auto grammar = parlex::builtins::parse_wirth("STATEMENT_SCOPE", to_utf32(buffer.str()));
+}
+
+void plange_test_3() {
+	//load Plange grammar
+	std::ifstream t("C:\\Users\\Brent\\Dropbox\\Plange\\documentation\\syntax.wsn");
+	std::stringstream buffer;
+	t.seekg(3);
+	buffer << t.rdbuf();
+	auto grammar = parlex::builtins::parse_wirth("STATEMENT_SCOPE", to_utf32(buffer.str()));
+
+	//try parsing a simple program
+	parlex::parser p(1);
+	std::u32string input = U"print(\"Hello, world!\");";
+	std::cout << "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n";
+	parlex::abstract_syntax_graph result = p.parse(grammar.get_main_production(), input);
+	std::string dot = result.to_dot();
 }
 
 int main(void) {
@@ -335,6 +358,8 @@ int main(void) {
 	wirth_test_8();
 	wirth_test_9();
 	wirth_test_10();*/
+	//wirth_test_11();
 	//plange_test_1();
-	plange_test_2();
+	//plange_test_2();
+	plange_test_3();
 }

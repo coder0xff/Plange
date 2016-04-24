@@ -14,7 +14,7 @@ AND = EXPRESSION {IC} ("∧"|"and") {IC} EXPRESSION.
 ARRAY = "[" {IC} [EXPRESSION {{IC} "," {IC} EXPRESSION} {IC} ] "]".
 
 #place the given value into the given variable
-ASSIGNMENT = EXPRESSION {IC} ("←"|"<-") {IC} {EXPRESSION {IC} ("←"|"<-") [IC]} EXPRESSION.
+ASSIGNMENT = EXPRESSION {IC} ("←"|"<-") {IC} {EXPRESSION {IC} ("←"|"<-") {IC}} EXPRESSION.
 
 #a bijection exists between the left and right hand operands
 BIJECTION = EXPRESSION {IC} ("↔"|"<->") {IC} EXPRESSION.
@@ -69,13 +69,13 @@ CONSTRUCTIVE_OP = COMPOSITION | PREPEND | NULL_COALESCE.
 CROSS_PRODUCT = EXPRESSION {IC} ("×"|"_cross_") {IC} EXPRESSION.
 
 #declare a variable, see: statement
-DECLARATION = [XML_DOC_STRING [IC]] ["extern" [IC]] (TYPE_DEREFERENCE | VOLATILE_TYPE_DEREFERENCE) {IC} IDENTIFIER.
+DECLARATION = [XML_DOC_STRING {IC}] ["extern" {IC}] (TYPE_DEREFERENCE | VOLATILE_TYPE_DEREFERENCE) {IC} IDENTIFIER.
 
 #declare a variable and assign a value to it, see: statement
-DECLARATION_ASSIGNMENT = [XML_DOC_STRING [IC]] [ (TYPE_DEREFERENCE | IMPLICIT_TYPE_DEREFERENCE | VOLATILE_IMPLICIT_TYPE_DEREFERENCE | VOLATILE_TYPE_DEREFERENCE) {IC} ] IDENTIFIER "<-" EXPRESSION.
+DECLARATION_ASSIGNMENT = [XML_DOC_STRING {IC}] [ (TYPE_DEREFERENCE | IMPLICIT_TYPE_DEREFERENCE | VOLATILE_IMPLICIT_TYPE_DEREFERENCE | VOLATILE_TYPE_DEREFERENCE) {IC} ] IDENTIFIER "<-" EXPRESSION.
 
 #define a constant, see: statement
-DEFINITION = [XML_DOC_STRING [IC]] [ (TYPE_DEREFERENCE | IMPLICIT_TYPE_DEREFERENCE) {IC} ] IDENTIFIER {IC} ":=" {IC} EXPRESSION.
+DEFINITION = [XML_DOC_STRING {IC}] [ (TYPE_DEREFERENCE | IMPLICIT_TYPE_DEREFERENCE) {IC} ] IDENTIFIER {IC} ":=" {IC} EXPRESSION.
 
 #collection difference (similar to set difference)
 DIFFERENCE = EXPRESSION {IC} "/" {IC} EXPRESSION.
@@ -118,7 +118,7 @@ EXISTS_ONE = "∃!" {IC} EXPRESSION.
 EXPONENTIATION = EXPRESSION {IC} "^" {IC} EXPRESSION.
 
 #a linearization of an evaluation tree containing constants, variables, operators, invocations, and sub EXPRESSIONs
-EXPRESSION = ALLOCATION | BINARY_OP | BOOL | c_string | CAST | CEILING | CONDITIONAL | DIMENSIONAL_NUMBER | EMBEDDED_STRING | FACTORIAL | FLOOR | FUNCTION | SET | INVOCATION | LIST | MAGNITUDE | MAP | MEMBER_ACCESS | NEAREST_INTEGER | NEGATION | NUMBER | PARENTHETICAL | RADICAL | RANGE | SET_COMPREHENSION | TUPLE | TYPE | UNARY_OP | VECTOR_NORM | "null" | "this" | "this_type".
+EXPRESSION = ALLOCATION | BINARY_OP | BOOL | c_string | CAST | CEILING | CONDITIONAL | DIMENSIONAL_NUMBER | EMBEDDED_STRING | FACTORIAL | FLOOR | FUNCTION | SET | IDENTIFIER | INVOCATION | LIST | MAGNITUDE | MAP | MEMBER_ACCESS | NEAREST_INTEGER | NEGATION | NUMBER | PARENTHETICAL | RADICAL | RANGE | SET_COMPREHENSION | TUPLE | TYPE | UNARY_OP | VECTOR_NORM | "null" | "this" | "this_type".
 
 FACTORIAL = EXPRESSION {IC} "!".
 
@@ -136,7 +136,7 @@ FRACTIONAL = (decimal_digit {decimal_digit} "." {decimal_digit}) | ("." decimal_
 FREE = "free" {IC} EXPRESSION.
 
 #create a function
-FUNCTION = [ "(" {IC} [ PARAMETER {[IC] "," {IC} PARAMETER} {IC} ] ")" {IC} ] [("stable"|"unstable") {IC} ] ["no_throw" {IC} ] ["atomic" {IC} ] {PLATFORM [IC]} [("pure"|"imperative"|"opaque") {IC} ] "{" STATEMENT_SCOPE "}".
+FUNCTION = [ "(" {IC} [ PARAMETER {{IC} "," {IC} PARAMETER} {IC} ] ")" {IC} ] [("stable"|"unstable") {IC} ] ["no_throw" {IC} ] ["atomic" {IC} ] {PLATFORM {IC}} [("pure"|"imperative"|"opaque") {IC} ] "{" STATEMENT_SCOPE "}".
 
 GREATER_THAN = EXPRESSION {IC} ">" {IC} EXPRESSION.
 
@@ -153,7 +153,7 @@ IC = COMMENT | EMBEDDED_COMMENT | END_OF_LINE_COMMENT | white_space.
 IDENTIFIER = (letter | "_") {letter | number | "_"}.
 
 #returns the expression corresponding to the first parenthetical that evaluates to true when coerced to a boolean, or the else case if none of them evaluate to true, assuming that the else case is present, otherwise returning void
-IF = "if" {IC} PARENTHETICAL {IC} EXPRESSION {[IC] "elif" {IC} PARENTHETICAL {IC} EXPRESSION} [ {IC} "else" {IC} EXPRESSION ].
+IF = "if" {IC} PARENTHETICAL {IC} EXPRESSION {{IC} "elif" {IC} PARENTHETICAL {IC} EXPRESSION} [ {IC} "else" {IC} EXPRESSION ].
 
 #semantic equivalence
 IFF = EXPRESSION {IC} ("⇔"|"<=>") {IC} EXPRESSION.
@@ -169,7 +169,7 @@ IN = EXPRESSION {IC} ("∈"|"in") {IC} EXPRESSION.
 INEQUALITY = EXPRESSION {IC} ("≠"|"/=") {IC} EXPRESSION.
 
 #see: type
-INHERITANCE_LIST=[VISIBILITY_MODIFIER [IC]] EXPRESSION {[IC] "," {IC} [VISIBILITY_MODIFIER [IC]] EXPRESSION}.
+INHERITANCE_LIST=[VISIBILITY_MODIFIER {IC}] EXPRESSION {{IC} "," {IC} [VISIBILITY_MODIFIER {IC}] EXPRESSION}.
 
 INTEGER = NON_ZERO_DECIMAL_DIGIT {decimal_digit}.
 
@@ -180,7 +180,7 @@ INTEGER_DIVISION = EXPRESSION {IC} "\\" {IC} EXPRESSION.
 INTERSECTION = EXPRESSION {IC} "∩" {IC} EXPRESSION.
 
 #invoke a function, type-function or array-function
-INVOCATION = EXPRESSION(( "(" {IC} [ EXPRESSION {[IC] "," {IC} EXPRESSION} {IC} ] ")" ) | ( "<" {IC} [ EXPRESSION {[IC] "," {IC} EXPRESSION} {IC} ] ">" ) | ( "[" {IC} [ EXPRESSION {[IC] "," {IC} EXPRESSION} {IC} ] "]" ) ).
+INVOCATION = EXPRESSION(( "(" {IC} [ EXPRESSION {{IC} "," {IC} EXPRESSION} {IC} ] ")" ) | ( "<" {IC} [ EXPRESSION {{IC} "," {IC} EXPRESSION} {IC} ] ">" ) | ( "[" {IC} [ EXPRESSION {{IC} "," {IC} EXPRESSION} {IC} ] "]" ) ).
 
 IMPORT = "import" {IC} EXPRESSION.
 
@@ -190,7 +190,7 @@ KLEENE_STAR = EXPRESSION {IC} "*".
 LESSER_THAN = EXPRESSION {IC} "<" {IC} EXPRESSION.
 
 #a Collection of items
-LIST = "[|" {IC} [EXPRESSION {[IC] ", " {IC} EXPRESSION} {IC} ] "|]".
+LIST = "[|" {IC} [EXPRESSION {{IC} ", " {IC} EXPRESSION} {IC} ] "|]".
 
 #evaluate an expression repeatedly while or until a parenthetical evaluates to true
 LOOP = ( "while" | "until" ) {IC} PARENTHETICAL {IC} EXPRESSION.
@@ -199,7 +199,7 @@ LOOP = ( "while" | "until" ) {IC} PARENTHETICAL {IC} EXPRESSION.
 MAGNITUDE = "|" {IC} EXPRESSION {IC} "|".
 
 #an associative Collection
-MAP = "{" {IC} EXPRESSION {IC} ":" {IC} EXPRESSION {[IC] "," {IC} EXPRESSION {IC} ":" {IC} EXPRESSION} {IC} "}".
+MAP = "{" {IC} EXPRESSION {IC} ":" {IC} EXPRESSION {{IC} "," {IC} EXPRESSION {IC} ":" {IC} EXPRESSION} {IC} "}".
 
 #function type builder
 MAPS_TO = EXPRESSION {IC} ("→"|"->") {IC} EXPRESSION.
@@ -285,7 +285,7 @@ RELATIONAL_OP = EQUALITY | INEQUALITY | LESSER_THAN | GREATER_THAN | NOT_GREATER
 #exit the current function, optionally returning a value
 RETURN = "return" [ {IC} EXPRESSION ].
 
-SET = "{|" {IC} [EXPRESSION {[IC] "," {IC} EXPRESSION} [IC]] "|}".
+SET = "{|" {IC} [EXPRESSION {{IC} "," {IC} EXPRESSION} {IC}] "|}".
 
 #create a Collection, substituting variables bound in the right hand side into the left hand side
 SET_COMPREHENSION = "{" {IC} EXPRESSION {IC} "where" {IC} EXPRESSION {IC} "}".
@@ -300,7 +300,7 @@ SHIFTR = EXPRESSION {IC} ">>" {IC} EXPRESSION.
 STATEMENT = ( ASSIGNMENT | DECLARATION | DECLARATION_ASSIGNMENT | DEFINITION | DO | EXPRESSION | FOR | FOR_COLLECTION | IF | IMPORT | LOOP | RETURN | THROW | TRY | "break" | "continue" ) {IC} ";".
 
 #zero or more statements
-STATEMENT_SCOPE = {IC} {STATEMENT [IC]}.
+STATEMENT_SCOPE = {IC | STATEMENT}.
 
 SUBSET = EXPRESSION {IC} ("⊆"|"subs") {IC} EXPRESSION.
 
@@ -312,25 +312,25 @@ SUPERSET = EXPRESSION {IC} ("⊇"|"sups") {IC} EXPRESSION.
 SYMMETRIC_DIFFERENCE = EXPRESSION {IC} "⊖" {IC} EXPRESSION.
 
 #raise an exception
-THROW = "throw" [[IC] EXPRESSION].
+THROW = "throw" [{IC} EXPRESSION].
 
 #executes the specified nullary void function of the first expression, catching exceptions that pattern match the function(s) of the second expression, and then executes the third expression unconditionally
-TRY = "try" {IC} EXPRESSION {IC} "catch" {IC} EXPRESSION {"catch" {IC} EXPRESSION} [[IC] "finally" {IC} EXPRESSION].
+TRY = "try" {IC} EXPRESSION {IC} "catch" {IC} EXPRESSION {"catch" {IC} EXPRESSION} [{IC} "finally" {IC} EXPRESSION].
 
 #create a finite ordered list of elements
-TUPLE = "(" {IC} EXPRESSION {[IC] ", " {IC} EXPRESSION} {IC} ")".
+TUPLE = "(" {IC} EXPRESSION {{IC} ", " {IC} EXPRESSION} {IC} ")".
 
 #create a type
-TYPE = "type" {IC} ["inheriting" {IC} INHERITANCE_LIST [IC]] ["implementing" {IC} INHERITANCE_LIST [IC]] "{" TYPE_SCOPE "}".
+TYPE = "type" {IC} ["inheriting" {IC} INHERITANCE_LIST {IC}] ["implementing" {IC} INHERITANCE_LIST {IC}] "{" TYPE_SCOPE "}".
 
 #use a variable/constant as a typename
 TYPE_DEREFERENCE = "<" {IC} EXPRESSION {IC} ">".
 
 #zero or more statements or member declarations/definitions
-TYPE_SCOPE = {IC} {TYPE_STATEMENT [IC]}.
+TYPE_SCOPE = {IC} {TYPE_STATEMENT {IC}}.
 
 #top-level type syntax
-TYPE_STATEMENT = (VISIBILITY_MODIFIER {IC} ":") | (["static" [IC]] (DECLARATION_ASSIGNMENT | DECLARATION ) {IC} "at" {IC} WHOLE_NUMBER) | STATEMENT.
+TYPE_STATEMENT = (VISIBILITY_MODIFIER {IC} ":") | (["static" {IC}] (DECLARATION_ASSIGNMENT | DECLARATION ) {IC} "at" {IC} WHOLE_NUMBER) | STATEMENT.
 
 UNARY_ARITHMETIC_OP = FACTORIAL | NEGATION | POST_DEC | POST_INC | PRE_DEC | PRE_INC | RADICAL.
 

@@ -38,7 +38,7 @@ grammar::grammar(std::string nameOfMain, std::map<std::string, std::shared_ptr<d
 			stateMap[i] = stateMap.size();
 		}
 		for (unsigned int i = 0; i < intermediate_nfa.states.size(); ++i) {
-			if (intermediate_nfa.acceptStates.count(i) > 0) {
+			if (intermediate_nfa.acceptStates.count(i) > 0 && intermediate_nfa.startStates.count(i) == 0) {
 				stateMap[i] = stateMap.size();
 			}
 		}
@@ -46,7 +46,6 @@ grammar::grammar(std::string nameOfMain, std::map<std::string, std::shared_ptr<d
 		auto transitions = intermediate_nfa.get_transitions();
         for (auto const & t : transitions) {
             recognizer const & r = t.symbol->get_recognizer(productions, literals, literalsMap);
-			if (dynamic_cast<state_machine const *>(&r) != nullptr)
             sm.add_transition(stateMap[t.from], r, stateMap[t.to]);
         }
 	}

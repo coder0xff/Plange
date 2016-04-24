@@ -196,7 +196,9 @@ namespace details {
 
                 //P := {F, Q \ F};
                 std::vector<state_indices_t> P;
-                P.push_back(acceptStates);
+				if (acceptStates.size() > 0) {
+					P.push_back(acceptStates);
+				}
                 {
                     std::set<int> QLessF;
                     for (unsigned int i = 0; i < states.size(); ++i) {
@@ -204,7 +206,9 @@ namespace details {
                             QLessF.insert(i);
                         }
                     }
-                    P.push_back(QLessF);
+					if (QLessF.size() > 0) {
+						P.push_back(QLessF);
+					}
                 }
 
                 //W := {F};
