@@ -19,9 +19,6 @@
     <Filter Include="Header Files\details">
       <UniqueIdentifier>{0754ee14-38c7-43ca-af65-c3b38d4d5aec}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\extras">
-      <UniqueIdentifier>{f4ac4d38-d3d8-4d1d-aa6d-d73c52da4b83}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\parlex\abstract_syntax_graph.hpp">
@@ -83,9 +80,6 @@
     </ClInclude>
     <ClInclude Include="include\parlex\details\subjob.hpp">
       <Filter>Header Files\details</Filter>
-    </ClInclude>
-    <ClInclude Include="include\parlex\extras\wirth.hpp">
-      <Filter>Header Files\extras</Filter>
     </ClInclude>
     <ClInclude Include="include\parlex\details\producer.hpp">
       <Filter>Header Files\details</Filter>

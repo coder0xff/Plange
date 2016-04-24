@@ -98,5 +98,75 @@ details::uppercase_letter_t uppercase_letter;
 details::white_space_t white_space;
 details::white_space_control_t white_space_control;
 
+namespace {
+	std::map<std::string, recognizer *> generate() {
+		recognizer * table_initializer[] = {
+			&all,
+			&alphanumeric,
+			&c_string,
+			&close_punctuation,
+			&connector_punctuation,
+			&control,
+			&currency_symbol,
+			&dash_punctuation,
+			&decimal_digit,
+			&enclosing_mark,
+			&final_quote_punctuation,
+			&format,
+			&octal_digit,
+			&hexadecimal_digit,
+			&initial_quote_punctuation,
+			&latin_digit,
+			&letter_number,
+			&letter,
+			&line_separator,
+			&lowercase_letter,
+			&math_symbol,
+			&modifier_letter,
+			&modifier_symbol,
+			&nonspacing_mark,
+			&number,
+			&open_punctuation,
+			&other_letter,
+			&other_number,
+			&other_punctuation,
+			&other_symbol,
+			&paragraph_separator,
+			&printable,
+			&public_use,
+			&space_separator,
+			&spacing_combining_mark,
+			&surrogate,
+			&titlecase_letter,
+			&uppercase_letter,
+			&white_space,
+			&white_space_control
+		};
+
+		std::map<std::string, recognizer *> result;
+		unsigned int count = sizeof(table_initializer) / sizeof(*table_initializer);
+		for (unsigned int i = 0; i < count; ++i) {
+			recognizer * item = table_initializer[i];
+			std::string const name = item->get_id();
+			result[name] = item;
+		}
+		return result;
+	}
+}
+
+bool resolve_builtin(std::string const & name, parlex::recognizer const *& ptr)
+{
+	static std::map<std::string, recognizer *> builtins_table = generate();
+	auto i = builtins_table.find(name);
+	if (i == builtins_table.end()) {
+		return false;
+	}
+	else {
+		ptr = i->second;
+		return true;
+	}
+}
+
 }
 }
+

@@ -1,6 +1,7 @@
 #include "parlex/grammar.hpp"
 
 #include <cassert>
+#include <iostream>
 
 #include "parlex/details/behavior.hpp"
 
@@ -10,17 +11,19 @@ grammar::grammar(std::string nameOfMain, std::map<std::string, std::shared_ptr<d
 {
 	std::map<std::string, details::intermediate_nfa> intermediate_nfas;
 	for (auto const & nameAndBehaviorNode : trees) {
-		intermediate_nfas[nameAndBehaviorNode.first] = nameAndBehaviorNode.second->to_intermediate_nfa().minimal_dfa().relabel();
+		auto temp = nameAndBehaviorNode.second->to_intermediate_nfa().minimal_dfa().relabel();
+		intermediate_nfas[nameAndBehaviorNode.first] = temp;
+		std::string check = parlex::details::to_dot(temp);
 	}
 
 	assert(intermediate_nfas.count(main_production_name) == 1);
 
-	std::map<std::u32string, int> literalsMap;
+	std::map<std::u32string, builtins::string_terminal *> literalsMap;
 
 	for (auto const & nameAndIntermediateNfa : intermediate_nfas) {
         std::string const & name = nameAndIntermediateNfa.first;
         details::intermediate_nfa const & intermediate_nfa = nameAndIntermediateNfa.second;
-        productions.emplace(std::piecewise_construct, std::forward_as_tuple(nameAndIntermediateNfa.first), std::forward_as_tuple(name, intermediate_nfa.acceptStates.size()));
+        productions.emplace(std::piecewise_construct, std::forward_as_tuple(name), std::forward_as_tuple(name, intermediate_nfa.acceptStates.size()));
 	}
 
 	for (auto const & nameAndIntermediateNfa : intermediate_nfas) {
@@ -28,29 +31,32 @@ grammar::grammar(std::string nameOfMain, std::map<std::string, std::shared_ptr<d
         details::intermediate_nfa const & intermediate_nfa = nameAndIntermediateNfa.second;
 		std::map<int, int> stateMap;
 		stateMap[*intermediate_nfa.startStates.begin()] = 0;
-		for (int i = 0; i < intermediate_nfa.states.size(); ++i) {
+		for (unsigned int i = 0; i < intermediate_nfa.states.size(); ++i) {
 			if (intermediate_nfa.startStates.count(i) > 0 || intermediate_nfa.acceptStates.count(i) > 0) {
 				continue;
 			}
 			stateMap[i] = stateMap.size();
 		}
-		for (int i = 0; i < intermediate_nfa.states.size(); ++i) {
+		for (unsigned int i = 0; i < intermediate_nfa.states.size(); ++i) {
 			if (intermediate_nfa.acceptStates.count(i) > 0) {
 				stateMap[i] = stateMap.size();
 			}
 		}
-        for (auto const & t : intermediate_nfa.get_transitions()) {
+		state_machine & sm = productions.find(name)->second;
+		auto transitions = intermediate_nfa.get_transitions();
+        for (auto const & t : transitions) {
             recognizer const & r = t.symbol->get_recognizer(productions, literals, literalsMap);
-            productions.find(name)->second.add_transition(stateMap[t.from], r, stateMap[t.to]);
+			if (dynamic_cast<state_machine const *>(&r) != nullptr)
+            sm.add_transition(stateMap[t.from], r, stateMap[t.to]);
         }
-    }
+	}
 }
 
 grammar::grammar(grammar const & other) : main_production_name(other.main_production_name), literals(other.literals) {
-    std::map<recognizer const *, recognizer const *> recognizersMap;
-    for (unsigned int i = 0; i < literals.size(); ++i) {
-        recognizersMap[(recognizer *)&other.literals[i]] = (recognizer *)&literals[i];
-    }
+	std::map<recognizer const *, recognizer const *> recognizersMap;
+	for (std::list<parlex::builtins::string_terminal>::const_iterator i = other.literals.begin(), j = literals.begin(); j != literals.end();) {
+		recognizersMap[(recognizer *)&(*i)] = (recognizer *)&(*j);
+	}
 
     for (auto const & nameAndStateMachine : other.productions) {
         auto emplaceResult = productions.emplace(

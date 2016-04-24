@@ -224,9 +224,8 @@ IDENTIFIER = letter { letter } . \
 LITERAL    = \"\\\"\" character { character } \"\\\"\" .";
 
 void wirth_test_1() {
-	std::string input = "a=x.";
 	parlex::parser p(1);
-	parlex::abstract_syntax_graph result = p.parse(parlex::builtins::wirth, to_utf32(input));
+	parlex::abstract_syntax_graph result = p.parse(parlex::builtins::wirth, U"a=x.");
 	DBG(result.to_dot());
 }
 
@@ -237,9 +236,8 @@ void wirth_test_2() {
 }
 
 void wirth_test_3() {
-	std::string testString = "a=\"\\\\\".b=\"\"."; // unescaped: a="\\".b="".
 	parlex::parser p;
-	parlex::abstract_syntax_graph result = p.parse(parlex::builtins::wirth, to_utf32(testString));
+	parlex::abstract_syntax_graph result = p.parse(parlex::builtins::wirth, U"a=\"\\\\\".b=\"\".");
 	std::string dot = result.to_dot();
 }
 
@@ -248,25 +246,52 @@ void wirth_test_4() {
 }
 
 void wirth_test_5() {
-	auto grammar = parlex::builtins::parse_wirth("syntax", to_utf32("syntax = \"a\"."));
+	auto grammar = parlex::builtins::parse_wirth("syntax", U"syntax = \"a\".");
 	parlex::parser p;
 	parlex::abstract_syntax_graph result = p.parse(grammar.get_main_production(), U"b");
 	std::string dot = result.to_dot();
 }
 
-void wirth_test_5() {
-	auto grammar = parlex::builtins::parse_wirth("syntax", to_utf32("syntax = any_character \"+\" any_character"));
+void wirth_test_6() {
+	auto grammar = parlex::builtins::parse_wirth("syntax", U"syntax = letter number.");
 	parlex::parser p;
-	parlex::abstract_syntax_graph result = p.parse(grammar.get_main_production(), U"b");
+	parlex::abstract_syntax_graph result = p.parse(grammar.get_main_production(), U"a1");
 	std::string dot = result.to_dot();
+}
+
+void wirth_test_7() {
+	auto grammar = parlex::builtins::parse_wirth("syntax", U"syntax = letter { number }.");
+	parlex::parser p;
+	parlex::abstract_syntax_graph result = p.parse(grammar.get_main_production(), U"a1234");
+	std::string dot = result.to_dot();
+}
+
+void wirth_test_8() {
+	auto grammar = parlex::builtins::parse_wirth("syntax", U"syntax = letter [ number ].");
+	parlex::parser p;
+	parlex::abstract_syntax_graph result1 = p.parse(grammar.get_main_production(), U"a");
+	std::string dot1 = result1.to_dot();
+	parlex::abstract_syntax_graph result2 = p.parse(grammar.get_main_production(), U"a1");
+	std::string dot2 = result2.to_dot();
+}
+
+void wirth_test_9() {
+	auto grammar = parlex::builtins::parse_wirth("syntax", U"syntax = letter ( number | c_string ).");
+	parlex::parser p;
+	parlex::abstract_syntax_graph result1 = p.parse(grammar.get_main_production(), U"a1");
+	std::string dot1 = result1.to_dot();
+	parlex::abstract_syntax_graph result2 = p.parse(grammar.get_main_production(), U"a\"test\"");
+	std::string dot2 = result2.to_dot();
 }
 
 void wirth_test_10() {
-	std::ifstream t("C:\\Users\\Brent\\Dropbox\\Plange\\documentation\\syntax.wsn");
-	std::stringstream buffer;
-	t.seekg(3);
-	buffer << t.rdbuf();
-	auto grammar = parlex::builtins::parse_wirth("statement_scope", to_utf32(buffer.str()));
+	auto grammar = parlex::builtins::parse_wirth("ARRAY", U"\
+ARRAY = \"[\" {IC} [EXPRESSION {{IC} \", \" {IC} EXPRESSION} {IC} ] \"]\".\
+IC = \"IC\".\
+EXPRESSION = \"EXPRESSION\".");
+	parlex::parser p;
+	parlex::abstract_syntax_graph result = p.parse(grammar.get_main_production(), U"[]");
+	std::string dot = result.to_dot();
 }
 
 void plange_test_1() {
@@ -277,6 +302,14 @@ void plange_test_1() {
 	parlex::parser p(1);
 	parlex::abstract_syntax_graph result = p.parse(parlex::builtins::wirth, to_utf32(buffer.str()));
 	std::string dot = result.to_dot();
+}
+
+void plange_test_2() {
+	std::ifstream t("C:\\Users\\Brent\\Dropbox\\Plange\\documentation\\syntax.wsn");
+	std::stringstream buffer;
+	t.seekg(3);
+	buffer << t.rdbuf();
+	auto grammar = parlex::builtins::parse_wirth("STATEMENT_SCOPE", to_utf32(buffer.str()));
 }
 
 int main(void) {
@@ -296,7 +329,12 @@ int main(void) {
 	wirth_test_2();
 	wirth_test_3();
 	wirth_test_4();
-	wirth_test_5();*/
+	wirth_test_5();
 	wirth_test_6();
+	wirth_test_7();
+	wirth_test_8();
+	wirth_test_9();
+	wirth_test_10();*/
 	//plange_test_1();
+	plange_test_2();
 }

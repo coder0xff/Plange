@@ -2,9 +2,13 @@
 
 #include <cassert>
 #include <iterator>
+#include <sstream>
+#include <string>
 
 #include "parlex/builtins/string_terminal.hpp"
 #include "parlex/state_machine.hpp"
+#include "parlex/builtins.hpp"
+#include "parlex/details/unicode_op.hpp"
 
 namespace parlex {
 namespace details {
@@ -31,13 +35,20 @@ intermediate_nfa literal::to_intermediate_nfa() const
 	return result;
 }
 
-recognizer const & literal::get_recognizer(std::map<std::string, parlex::state_machine> const & productions, std::vector<builtins::string_terminal> & literals, std::map<std::u32string, int> literals_map) const {
-    auto const status = literals_map.insert(std::pair<std::u32string, int>(contents, literals.size()));
-    if (status.second) {
-        literals.push_back(contents);
-    }
-    return literals[status.first->second];
+recognizer const & literal::get_recognizer(std::map<std::string, parlex::state_machine> const & productions, std::list<builtins::string_terminal> & literals, std::map<std::u32string, builtins::string_terminal*> & literals_map) const {
+	auto i = literals_map.find(contents);
+	if (i == literals_map.end()) {
+		literals.emplace_back(contents);
+		return *(literals_map[contents] = &literals.back());
+	} else {
+		return *i->second;
+	}
 }
+
+std::string literal::get_id() const {
+	return to_utf8(contents);
+}
+
 
 optional::optional(std::shared_ptr<behavior_node> && child) : child(std::move(child)) { child.reset(); }
 
@@ -63,9 +74,18 @@ intermediate_nfa production::to_intermediate_nfa() const
 	return result;
 }
 
-recognizer const & production::get_recognizer(std::map<std::string, state_machine> const & productions, std::vector<builtins::string_terminal> & literals, std::map<std::u32string, int> literals_map) const {
+recognizer const & production::get_recognizer(std::map<std::string, state_machine> const & productions, std::list<builtins::string_terminal> & literals, std::map<std::u32string, builtins::string_terminal*> & literals_map) const {
+	recognizer const * builtin_ptr;
+	if (builtins::resolve_builtin(name, builtin_ptr)) {
+		return *builtin_ptr;
+	}
     assert(productions.count(name) == 1);
-    return productions.find(name)->second;
+	recognizer const & result = productions.find(name)->second;
+    return result;
+}
+
+std::string production::get_id() const {
+	return name;
 }
 
 repetition::repetition(std::shared_ptr<behavior_node> && child) : child(std::move(child)) { child.reset(); }
@@ -74,9 +94,9 @@ intermediate_nfa repetition::to_intermediate_nfa() const
 {
 	intermediate_nfa result = child->to_intermediate_nfa();
 	auto originalTransitions = result.get_transitions();
-	for (int acceptStateIndex : result.acceptStates) {
 
-		//copy transitions (accept_state, symbol, to_state) to (start_state, symbol, to_state) for each start_state
+	//copy transitions (accept_state, symbol, to_state) to (start_state, symbol, to_state) for each start_state
+	for (int acceptStateIndex : result.acceptStates) {
 		for (auto & symbolAndToStates : result.states[acceptStateIndex].out_transitions) {
 			for (int toState : symbolAndToStates.second) {
 				for (int startState : result.startStates) {
@@ -84,50 +104,24 @@ intermediate_nfa repetition::to_intermediate_nfa() const
 				}
 			}
 		}
-
-		//copy transitions (from_state, symbol, accept_state) to (from_state, symbol, start_state) for each start_state
-		for (intermediate_nfa::state fromState : result.states) {
-			for (auto & symbolAndToStatesIndices : result.states[acceptStateIndex].out_transitions) {
-				for (int toStateIndex : symbolAndToStatesIndices.second) {
-					if (result.acceptStates.count(toStateIndex)) {
-						for (int startState : result.startStates) {
-							fromState.out_transitions[symbolAndToStatesIndices.first].insert(startState);
-						}
-					}
-				}
-			}
-		}
-
-		//remove original accepts states, and all incoming/outgoing transitions to/from them
-
-		//make a map from original indices to new indices where accept states have been removed
-		std::vector<int> indexMap;
-		for (unsigned int newIndex = 0, originalIndex = 0; originalIndex < result.states.size(); ++originalIndex) {
-			if (result.acceptStates.count(originalIndex)) {
-				result.states.erase(result.states.begin() + originalIndex); //remove state
-			} else {
-				indexMap.push_back(newIndex++); //add map element and increment counter
-			}
-		}
-
-		result.acceptStates.clear();
-
-		//update all to-state indices using the indexMap
-		for (intermediate_nfa::state & fromState : result.states) {
-			for (auto i = fromState.out_transitions.begin(); i != fromState.out_transitions.end(); ++i) {
-				std::set<int> temp;
-				temp.swap(i->second);
-				for (unsigned int toStateIndex : temp) {
-					if (toStateIndex < indexMap.size()) {
-						i->second.insert(indexMap[toStateIndex]);
-					}
-				}
-			}
-		}
-
-		result.acceptStates = result.startStates;
-
 	}
+
+	//copy transitions (from_state, symbol, accept_state) to (from_state, symbol, start_state) for each start_state
+	for (intermediate_nfa::state & fromState : result.states) {
+		for (auto & symbolAndToStatesIndices : fromState.out_transitions) {
+			std::set<int> temp = symbolAndToStatesIndices.second;
+			for (int toStateIndex : temp) {
+				if (result.acceptStates.count(toStateIndex)) {
+					for (int startState : result.startStates) {
+						fromState.out_transitions[symbolAndToStatesIndices.first].insert(startState);
+					}
+				}
+			}
+		}
+	}
+
+	result.acceptStates.insert(result.startStates.begin(), result.startStates.end());
+
 	return result;
 }
 
@@ -194,6 +188,27 @@ intermediate_nfa sequence::to_intermediate_nfa() const
 	return result;
 }
 
+std::string to_dot(intermediate_nfa const & nfa) {
+	std::stringstream result;
+	result << "digraph nfa {\n";
+	result << "\trankdir=LR;\n";
+	result << "\tsize=\"8,5\";\n";
+	result << "\tnode[shape = point]; start;";
+	result << "\tnode [shape = doublecircle];";
+	for (int acceptState : nfa.acceptStates) {
+		result << " " << std::to_string(acceptState);
+	}
+	result << ";\n";
+	result << "\tnode [shape = circle];\n";
+	for (int startState : nfa.startStates) {
+		result << "\tstart -> " << std::to_string(startState) << ";\n";
+	}
+	for (auto t : nfa.get_transitions()) {
+		result << "\t" << std::to_string(t.from) << " -> " << std::to_string(t.to) << " [ label = \"" << t.symbol->get_id() << "\" ];\n";
+	}
+	result << "}\n";
+	return result.str();
+}
 
 }
 }

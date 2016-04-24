@@ -91,7 +91,6 @@
     <ClInclude Include="include\parlex\details\producer.hpp" />
     <ClInclude Include="include\parlex\details\subjob.hpp" />
     <ClInclude Include="include\parlex\details\unicode_op.hpp" />
-    <ClInclude Include="include\parlex\extras\wirth.hpp" />
     <ClInclude Include="include\parlex\filter_function.hpp" />
     <ClInclude Include="include\parlex\grammar.hpp" />
     <ClInclude Include="include\parlex\match.hpp" />

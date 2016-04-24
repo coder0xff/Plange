@@ -14,6 +14,12 @@
 #include "parlex/builtins/c_string.hpp"
 #include "parlex/builtins/wirth.hpp"
 
+namespace parlex {
+namespace builtins {
 
+bool resolve_builtin(std::string const & name, parlex::recognizer const *& ptr);
+
+}
+}
 
 #endif

@@ -20,6 +20,8 @@ class behavior_leaf;
 
 typedef nfa<std::shared_ptr<const behavior_leaf>, int> intermediate_nfa;
 
+std::string to_dot(intermediate_nfa const & nfa);
+
 class behavior_node {
 public:
 	virtual intermediate_nfa to_intermediate_nfa() const = 0;
@@ -27,7 +29,8 @@ public:
 
 class behavior_leaf : public behavior_node, public std::enable_shared_from_this<behavior_leaf> {
 public:
-	virtual recognizer const & get_recognizer(std::map<std::string, state_machine> const & productions, std::vector<builtins::string_terminal> & literals, std::map<std::u32string, int> literals_map) const = 0;
+	virtual recognizer const & get_recognizer(std::map<std::string, state_machine> const & productions, std::list<builtins::string_terminal> & literals, std::map<std::u32string, builtins::string_terminal*> & literals_map) const = 0;
+	virtual std::string get_id() const = 0;
 };
 
 class choice : public behavior_node {
@@ -41,7 +44,8 @@ public:
 	std::u32string contents;
 	literal(std::u32string contents);
 	intermediate_nfa to_intermediate_nfa() const;
-	recognizer const & get_recognizer(std::map<std::string, state_machine> const & productions, std::vector<builtins::string_terminal> & literals, std::map<std::u32string, int> literals_map) const;
+	recognizer const & get_recognizer(std::map<std::string, state_machine> const & productions, std::list<builtins::string_terminal> & literals, std::map<std::u32string, builtins::string_terminal*> & literals_map) const final;
+	std::string get_id() const final;
 };
 
 class optional : public behavior_node {
@@ -56,7 +60,8 @@ public:
 	std::string name;
 	production(std::string name);
 	intermediate_nfa to_intermediate_nfa() const;
-	recognizer const & get_recognizer(std::map<std::string, state_machine> const & productions, std::vector<builtins::string_terminal> & literals, std::map<std::u32string, int> literals_map) const;
+	recognizer const & get_recognizer(std::map<std::string, state_machine> const & productions, std::list<builtins::string_terminal> & literals, std::map<std::u32string, builtins::string_terminal*> & literals_map) const;
+	std::string get_id() const final;
 };
 
 class repetition : public behavior_node {

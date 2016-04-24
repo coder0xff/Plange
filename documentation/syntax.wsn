@@ -1,365 +1,367 @@
 ﻿#creates an algebraic value storing the simultaneous results of addition and subtraction
-add_sub = expression [ic] ("±"|"+-") [ic] expression.
+ADD_SUB = EXPRESSION {IC} ("±"|"+-") {IC} EXPRESSION.
 
-addition = expression [ic] "+" [ic] expression.
+ADDITION = EXPRESSION {IC} "+" {IC} EXPRESSION.
 
-#constrain all elements of a Collection to be true
-all = "∀" [ic] expression.
+#constrain ALL elements of a Collection to be true
+ALL = "∀" {IC} EXPRESSION.
 
 #create an object on the heap
-allocation = "alloc" [ic] invocation.
+ALLOCATION = "alloc" {IC} INVOCATION.
 
-and = expression [ic] ("∧"|"and") [ic] expression.
+AND = EXPRESSION {IC} ("∧"|"and") {IC} EXPRESSION.
 
-array = "[" [ic] [expression {[ic] "," [ic] expression} [ic] ] "]".
+ARRAY = "[" {IC} [EXPRESSION {{IC} "," {IC} EXPRESSION} {IC} ] "]".
 
 #place the given value into the given variable
-assignment = expression [ic] ("←"|"<-") [ic] {expression [ic] ("←"|"<-") [ic]} expression.
+ASSIGNMENT = EXPRESSION {IC} ("←"|"<-") {IC} {EXPRESSION {IC} ("←"|"<-") [IC]} EXPRESSION.
 
 #a bijection exists between the left and right hand operands
-bijection = expression [ic] ("↔"|"<->") [ic] expression.
+BIJECTION = EXPRESSION {IC} ("↔"|"<->") {IC} EXPRESSION.
 
 #the collection of binary operators that work on numbers (among other things)
-binary_arithmetic_op = addition | subtraction | add_sub | multiplicative_op | division | integer_division | exponentiation | modulation | shiftl | shiftr.
+BINARY_ARITHMETIC_OP = ADDITION | SUBTRACTION | ADD_SUB | MULTIPLICATIVE_OP | DIVISION | INTEGER_DIVISION | EXPONENTIATION | MODULATION | SHIFTL | SHIFTR.
 
-binary_logical_op = and | or | xor | implication | iff | maps_to | bijection.
+BINARY_LOGICAL_OP = AND | OR | XOR | IMPLICATION | IFF | MAPS_TO | BIJECTION.
 
-binary_op = binary_arithmetic_op | bitwise_op | collection_op | constructive_op | binary_logical_op | relational_op.
+BINARY_OP = BINARY_ARITHMETIC_OP | BITWISE_OP | COLLECTION_OP | CONSTRUCTIVE_OP | BINARY_LOGICAL_OP | RELATIONAL_OP.
 
-bit_and = expression [ic] "&&" [ic] expression.
+BIT_AND = EXPRESSION {IC} "&&" {IC} EXPRESSION.
 
-bit_or = expression [ic] "||" [ic] expression.
+BIT_OR = EXPRESSION {IC} "||" {IC} EXPRESSION.
 
-bit_xor = expression [ic] "^^" [ic] expression.
+BIT_XOR = EXPRESSION {IC} "^^" {IC} EXPRESSION.
 
-bitwise_op = bit_and | bit_or | bit_xor.
+BITWISE_OP = BIT_AND | BIT_OR | BIT_XOR.
 
 #the two ordinals of the Bool type
-bool = "true" | "false".
+BOOL = "true" | "false".
 
-cardinality = "#" [ic] expression.
+CARDINALITY = "#" {IC} EXPRESSION.
 
 #change the type of the specified expression to the parenthesized type
-cast = parenthetical [ic] expression.
+CAST = PARENTHETICAL {IC} EXPRESSION.
 
-ceiling = ("⌈" [ic] expression [ic] "⌉") | ( "|'" [ic] expression [ic] "'|" ).
+CEILING = ("⌈" {IC} EXPRESSION {IC} "⌉") | ( "|'" {IC} EXPRESSION {IC} "'|" ).
 
 #splits the left hand side collection into a collection of collections each the size of the right hand side
-chunk = expression [ic] "/" [ic] expression.
+CHUNK = EXPRESSION {IC} "/" {IC} EXPRESSION.
 
 #returns a collection containing the elements that would not be consumed from the end of the left hand side by taking the chunk of the right hand side
-chunk_modulo = expression [ic] "%" [ic] expression.
+CHUNK_MODULO = EXPRESSION {IC} "%" {IC} EXPRESSION.
 
 #the set construction and collections operators
-collection_op = chunk | chunk_modulo | difference | intersection | symmetric_difference | union.
+COLLECTION_OP = CHUNK | CHUNK_MODULO | DIFFERENCE | INTERSECTION | SYMMETRIC_DIFFERENCE | UNION.
 
 #an inline comment
-comment = "/*" {any_character} "*/".
+COMMENT = "/*" {all} "*/".
 
 #function composition operator
-composition = expression [ic] ("∘"|"_o_") [ic] expression.
+COMPOSITION = EXPRESSION {IC} ("∘"|"_o_") {IC} EXPRESSION.
 
 #ternary conditional
-conditional = expression [ic] "?" [ic] expression [ic] ":" [ic] expression.
+CONDITIONAL = EXPRESSION {IC} "?" {IC} EXPRESSION {IC} ":" {IC} EXPRESSION.
 
 #operators that are constructive for making values 
-constructive_op = composition | prepend | null_coalesce.
+CONSTRUCTIVE_OP = COMPOSITION | PREPEND | NULL_COALESCE.
 
 #scalar multiplication or Vector<3, N> cross product
-cross_product = expression [ic] ("×"|"_cross_") [ic] expression.
+CROSS_PRODUCT = EXPRESSION {IC} ("×"|"_cross_") {IC} EXPRESSION.
 
 #declare a variable, see: statement
-declaration = [xml_doc_string [ic]] ["extern" [ic]] (type_dereference | volatile_type_dereference) [ic] identifier.
+DECLARATION = [XML_DOC_STRING [IC]] ["extern" [IC]] (TYPE_DEREFERENCE | VOLATILE_TYPE_DEREFERENCE) {IC} IDENTIFIER.
 
 #declare a variable and assign a value to it, see: statement
-declaration_assignment = [xml_doc_string [ic]] [ (type_dereference | implicit_type_dereference | volatile_implicit_type_dereference | volatile_type_dereference) [ic] ] identifier "<-" expression.
+DECLARATION_ASSIGNMENT = [XML_DOC_STRING [IC]] [ (TYPE_DEREFERENCE | IMPLICIT_TYPE_DEREFERENCE | VOLATILE_IMPLICIT_TYPE_DEREFERENCE | VOLATILE_TYPE_DEREFERENCE) {IC} ] IDENTIFIER "<-" EXPRESSION.
 
 #define a constant, see: statement
-definition = [xml_doc_string [ic]] [ (type_dereference | implicit_type_dereference) [ic] ] identifier [ic] ":=" [ic] expression.
+DEFINITION = [XML_DOC_STRING [IC]] [ (TYPE_DEREFERENCE | IMPLICIT_TYPE_DEREFERENCE) {IC} ] IDENTIFIER {IC} ":=" {IC} EXPRESSION.
 
 #collection difference (similar to set difference)
-difference = expression [ic] "/" [ic] expression.
+DIFFERENCE = EXPRESSION {IC} "/" {IC} EXPRESSION.
 
 #a dimension used in dimensional analysis
-dimension = identifier | dimensional_analysis_op.
+DIMENSION = IDENTIFIER | DIMENSIONAL_ANALYSIS_OP.
 
 #operators in a dimension
-dimensional_analysis_op = unit_multiplication | unit_division | unit_exponentiation.
+DIMENSIONAL_ANALYSIS_OP = UNIT_MULTIPLICATION | UNIT_DIVISION | UNIT_EXPONENTIATION.
 
 #a number with a trailing dimension
-dimensional_number = number dimension.
+DIMENSIONAL_NUMBER = NUMBER DIMENSION.
 
-division = expression [ic] ("÷"|"/" ) [ic] expression.
+DIVISION = EXPRESSION {IC} ("÷"|"/" ) {IC} EXPRESSION.
 
 #a do while/until loop
-do = "do" [ic] expression [ [ic] ("while"|"until") [ic] parenthetical ].
+DO = "do" {IC} EXPRESSION [ {IC} ("while"|"until") {IC} PARENTHETICAL ].
 
 #scalar multiplication or Vector<D, N> inner product
-dot_product = expression [ic] ("⋅"|"_dot_") [ic] expression.
+DOT_PRODUCT = EXPRESSION {IC} ("⋅"|"_dot_") {IC} EXPRESSION.
 
 #a comment bounded by arbirtrarily-sized delimiters
-embedded_comment = "/*" embedded_comment_interior "*/".
+EMBEDDED_COMMENT = "/*" EMBEDDED_COMMENT_INTERIOR "*/".
+
+EMBEDDED_COMMENT_INTERIOR = PAYLOAD | "*" EMBEDDED_COMMENT_INTERIOR "*".
 
 #a string bounded by arbirtrarily-sized delimiters
-embedded_string = ("\"\"\"\n" {any_character} "\n\"\"\"") | ("\"\"\"" {any_character} "\"\"\"") | ("\"" embedded_string "\"").
+EMBEDDED_STRING = ("\"\"\"\n" {all} "\n\"\"\"") | ("\"\"\"" {all} "\"\"\"") | ("\"" EMBEDDED_STRING "\"").
 
-end_of_line_comment = "//" {any_character} "\n".
+END_OF_LINE_COMMENT = "//" {all} "\n".
 
-equality = expression [ic] "=" [ic] expression.
+EQUALITY = EXPRESSION {IC} "=" {IC} EXPRESSION.
 
 #a constraint asserting that at least one element of the specified Collection are true
-exists = "∃" [ic] expression.
+EXISTS = "∃" {IC} EXPRESSION.
 
 #a constraint asserting that exactly one element of the specified Collection are true
-exists_one = "∃!" [ic] expression.
+EXISTS_ONE = "∃!" {IC} EXPRESSION.
 
-exponentiation = expression [ic] "^" [ic] expression.
+EXPONENTIATION = EXPRESSION {IC} "^" {IC} EXPRESSION.
 
-#a linearization of an evaluation tree containing constants, variables, operators, invocations, and sub expressions
-expression = allocation | binary_op | bool | c_string | cast | ceiling | conditional | dimensional_number | embedded_string | factorial | floor | function | finite_set | invocation | list | magnitude | map | member_access | nearest_integer | number | parenthetical | radical | range | set_comprehension | tuple | type | unary_op | vector_norm | "null" | "this" | "this_type".
+#a linearization of an evaluation tree containing constants, variables, operators, invocations, and sub EXPRESSIONs
+EXPRESSION = ALLOCATION | BINARY_OP | BOOL | c_string | CAST | CEILING | CONDITIONAL | DIMENSIONAL_NUMBER | EMBEDDED_STRING | FACTORIAL | FLOOR | FUNCTION | SET | INVOCATION | LIST | MAGNITUDE | MAP | MEMBER_ACCESS | NEAREST_INTEGER | NEGATION | NUMBER | PARENTHETICAL | RADICAL | RANGE | SET_COMPREHENSION | TUPLE | TYPE | UNARY_OP | VECTOR_NORM | "null" | "this" | "this_type".
 
-factorial = expression [ic] "!".
+FACTORIAL = EXPRESSION {IC} "!".
 
-floor = ( "⌊" [ic] expression [ic] "⌋" ) | ( "|_" [ic] expression [ic] "_|" ).
+FLOOR = ( "⌊" {IC} EXPRESSION {IC} "⌋" ) | ( "|_" {IC} EXPRESSION {IC} "_|" ).
 
-#evaluate the second expression repeatedly while the second expression is true, all after evaluating the optional statement_scope
-for = "for" [ic] "(" [ic] [ statement_scope [ic] ] expression [ic] ";" [ic] [ (assignment | expression) [ic] ] ")" [ic] expression.
+#evaluate the second expression repeatedly while the second expression is true, all after evaluating the optional STATEMENT_SCOPE
+FOR = "for" {IC} "(" {IC} [ STATEMENT_SCOPE {IC} ] EXPRESSION {IC} ";" {IC} [ (ASSIGNMENT | EXPRESSION) {IC} ] ")" {IC} EXPRESSION.
 
 #evaluate the last expression repeatedly while iterating over the items of the specified Collection
-for_collection = "for" [ic] "(" [ic] (([ (type_dereference | implicit_type_dereference) [ic] ] identifier ) | expression ) [ic] ("in"|"∈") [ic] expression [ic] ")" [ic] expression.
+FOR_COLLECTION = "for" {IC} "(" {IC} (([ (TYPE_DEREFERENCE | IMPLICIT_TYPE_DEREFERENCE) {IC} ] IDENTIFIER ) | EXPRESSION ) {IC} ("in"|"∈") {IC} EXPRESSION {IC} ")" {IC} EXPRESSION.
 
 #a number with a decimal point
-fractional = (decimal_digit {decimal_digit} "." {decimal_digit}) | ("." decimal_digit {decimal_digit}).
+FRACTIONAL = (decimal_digit {decimal_digit} "." {decimal_digit}) | ("." decimal_digit {decimal_digit}).
 
-free = "free" [ic] expression.
+FREE = "free" {IC} EXPRESSION.
 
 #create a function
-function = [ "(" [ic] [ parameter {[ic] "," [ic] parameter} [ic] ] ")" [ic] ] [("stable"|"unstable") [ic] ] ["no_throw" [ic] ] ["atomic" [ic] ] {platform [ic]} [("pure"|"imperative"|"opaque") [ic] ] "{" statement_scope "}".
+FUNCTION = [ "(" {IC} [ PARAMETER {[IC] "," {IC} PARAMETER} {IC} ] ")" {IC} ] [("stable"|"unstable") {IC} ] ["no_throw" {IC} ] ["atomic" {IC} ] {PLATFORM [IC]} [("pure"|"imperative"|"opaque") {IC} ] "{" STATEMENT_SCOPE "}".
 
-greater_than = expression [ic] ">" [ic] expression.
+GREATER_THAN = EXPRESSION {IC} ">" {IC} EXPRESSION.
 
 #the in operator, backward
-has = expression [ic] ("∋"|"has") [ic] expression.
+HAS = EXPRESSION {IC} ("∋"|"has") {IC} EXPRESSION.
 
 #a hexidecimal number
-hex = "0x" hex_digit {hex_digit}.
+HEX = "0x" hexadecimal_digit {hexadecimal_digit}.
 
 #intermediary content - regions that whitespaces and comments can go
-ic = {comment | embedded_comment | end_of_line_comment | whitespace}.
+IC = COMMENT | EMBEDDED_COMMENT | END_OF_LINE_COMMENT | white_space.
 
 #the name of a variable or constant 
-identifier = (letter | "_") {letter | number | "_"}.
+IDENTIFIER = (letter | "_") {letter | number | "_"}.
 
 #returns the expression corresponding to the first parenthetical that evaluates to true when coerced to a boolean, or the else case if none of them evaluate to true, assuming that the else case is present, otherwise returning void
-if = "if" [ic] parenthetical [ic] expression {[ic] "elif" [ic] parenthetical [ic] expression} [ [ic] "else" [ic] expression ].
+IF = "if" {IC} PARENTHETICAL {IC} EXPRESSION {[IC] "elif" {IC} PARENTHETICAL {IC} EXPRESSION} [ {IC} "else" {IC} EXPRESSION ].
 
 #semantic equivalence
-iff = expression [ic] ("⇔"|"<=>") [ic] expression.
+IFF = EXPRESSION {IC} ("⇔"|"<=>") {IC} EXPRESSION.
 
-implication = expression [ic] ("⇒"|"=>") [ic] expression.
+IMPLICATION = EXPRESSION {IC} ("⇒"|"=>") {IC} EXPRESSION.
 
 #use the type inferred on the right hand side
-implicit_type_dereference = "<" [ic] ">".
+IMPLICIT_TYPE_DEREFERENCE = "<" {IC} ">".
 
 #Collection membership
-in = expression [ic] ("∈"|"in") [ic] expression.
+IN = EXPRESSION {IC} ("∈"|"in") {IC} EXPRESSION.
 
-inequality = expression [ic] ("≠"|"/=") [ic] expression.
+INEQUALITY = EXPRESSION {IC} ("≠"|"/=") {IC} EXPRESSION.
 
 #see: type
-inheritance_list=[visibility_modifier [ic]] expression {[ic] "," [ic] [visibility_modifier [ic]] expression}.
+INHERITANCE_LIST=[VISIBILITY_MODIFIER [IC]] EXPRESSION {[IC] "," {IC} [VISIBILITY_MODIFIER [IC]] EXPRESSION}.
 
-integer = non_zero_decimal_digit {decimal_digit}.
+INTEGER = NON_ZERO_DECIMAL_DIGIT {decimal_digit}.
 
 #same as ⌊x/y⌋
-integer_division = expression [ic] "\\" [ic] expression.
+INTEGER_DIVISION = EXPRESSION {IC} "\\" {IC} EXPRESSION.
 
 #Collection intersection
-intersection = expression [ic] "∩" [ic] expression.
+INTERSECTION = EXPRESSION {IC} "∩" {IC} EXPRESSION.
 
 #invoke a function, type-function or array-function
-invocation = expression(( "(" [ic] [ expression {[ic] "," [ic] expression} [ic] ] ")" ) | ( "<" [ic] [ expression {[ic] "," [ic] expression} [ic] ] ">" ) | ( "[" [ic] [ expression {[ic] "," [ic] expression} [ic] ] "]" ) ).
+INVOCATION = EXPRESSION(( "(" {IC} [ EXPRESSION {[IC] "," {IC} EXPRESSION} {IC} ] ")" ) | ( "<" {IC} [ EXPRESSION {[IC] "," {IC} EXPRESSION} {IC} ] ">" ) | ( "[" {IC} [ EXPRESSION {[IC] "," {IC} EXPRESSION} {IC} ] "]" ) ).
 
-import = "import" [ic] expression.
+IMPORT = "import" {IC} EXPRESSION.
 
 #the free monoid operator
-kleene_star = expression [ic] "*".
+KLEENE_STAR = EXPRESSION {IC} "*".
 
-lesser_than = expression [ic] "<" [ic] expression.
+LESSER_THAN = EXPRESSION {IC} "<" {IC} EXPRESSION.
 
 #a Collection of items
-list = "[|" [ic] [expression {[ic] ", " [ic] expression} [ic] ] "|]".
+LIST = "[|" {IC} [EXPRESSION {[IC] ", " {IC} EXPRESSION} {IC} ] "|]".
 
 #evaluate an expression repeatedly while or until a parenthetical evaluates to true
-loop = ( "while" | "until" ) [ic] parenthetical [ic] expression.
+LOOP = ( "while" | "until" ) {IC} PARENTHETICAL {IC} EXPRESSION.
 
 #absolute value, vector magnitude, cardinality
-magnitude = "|" [ic] expression [ic] "|".
+MAGNITUDE = "|" {IC} EXPRESSION {IC} "|".
 
 #an associative Collection
-map = "{" [ic] expression [ic] ":" [ic] expression {[ic] "," [ic] expression [ic] ":" [ic] expression} [ic] "}".
+MAP = "{" {IC} EXPRESSION {IC} ":" {IC} EXPRESSION {[IC] "," {IC} EXPRESSION {IC} ":" {IC} EXPRESSION} {IC} "}".
 
 #function type builder
-maps_to = expression [ic] ("→"|"->") [ic] expression.
+MAPS_TO = EXPRESSION {IC} ("→"|"->") {IC} EXPRESSION.
 
-member_access = expression [ic] "." [ic] identifier.
+MEMBER_ACCESS = EXPRESSION {IC} "." {IC} IDENTIFIER.
 
 #mod operator
-modulation = expression [ic] "%" [ic] expression.
+MODULATION = EXPRESSION {IC} "%" {IC} EXPRESSION.
 
 #scalar multiplication, cartesian product
-multiplication = expression [ic] "*" [ic] expression.
+MULTIPLICATION = EXPRESSION {IC} "*" {IC} EXPRESSION.
 
-multiplicative_op = multiplication | dot_product | cross_product.
+MULTIPLICATIVE_OP = MULTIPLICATION | DOT_PRODUCT | CROSS_PRODUCT.
 
 #round to the nearest integer
-nearest_integer = ( "⌊" [ic] expression [ic] "⌉" ) | ("|_" [ic] expression [ic] "'|" ).
+NEAREST_INTEGER = ( "⌊" {IC} EXPRESSION {IC} "⌉" ) | ("|_" {IC} EXPRESSION {IC} "'|" ).
 
-#negation = "-" [ic] expression.
+NEGATION = "-" {IC} EXPRESSION.
 
 #used for constructing number
-non_zero_decimal_digit = "1"|"2"|"3"|"4"|"5"|"6"|"7"|"8"|"9".
+NON_ZERO_DECIMAL_DIGIT = "1"|"2"|"3"|"4"|"5"|"6"|"7"|"8"|"9".
 
 #boolean not
-not = ("¬"|"~") [ic] expression.
+NOT = ("¬"|"~") {IC} EXPRESSION.
 
-not_greater_than = expression [ic] ("≤"|"<=") [ic] expression.
+NOT_GREATER_THAN = EXPRESSION {IC} ("≤"|"<=") {IC} EXPRESSION.
 
 #not_in, backward
-not_has = expression [ic] ("∌"|"/has") [ic] expression.
+NOT_HAS = EXPRESSION {IC} ("∌"|"/has") {IC} EXPRESSION.
 
 #Collection anti-membership
-not_in = expression [ic] ("∉"|"/in") [ic] expression.
+NOT_IN = EXPRESSION {IC} ("∉"|"/in") {IC} EXPRESSION.
 
-not_lesser_than = expression [ic] ("≥"|">=") [ic] expression.
+NOT_LESSER_THAN = EXPRESSION {IC} ("≥"|">=") {IC} EXPRESSION.
 
 #return the first expression if non-null otherwise return the second expression
-null_coalesce = expression [ic] "??" [ic] expression.
+NULL_COALESCE = EXPRESSION {IC} "??" {IC} EXPRESSION.
 
-number = integer | fractional | hex | octal.
+NUMBER = INTEGER | FRACTIONAL | HEX | OCTAL.
 
 #octal number
-octal = "0" octal_digit {octal_digit}.
+OCTAL = "0" octal_digit {octal_digit}.
 
-or = expression [ic] ("∨"|"or") [ic] expression.
+OR = EXPRESSION {IC} ("∨"|"or") {IC} EXPRESSION.
 
 #declares a formal argument of a function
-parameter = ([ type_dereference [ic] ] identifier) | ([ (type_dereference | implicit_type_dereference) [ic] ] identifier [ic] "=" [ic] expression | expression [ [ic] "=" [ic] expression ]).
+PARAMETER = ([ TYPE_DEREFERENCE {IC} ] IDENTIFIER) | ([ (TYPE_DEREFERENCE | IMPLICIT_TYPE_DEREFERENCE) {IC} ] IDENTIFIER {IC} "=" {IC} EXPRESSION | EXPRESSION [ {IC} "=" {IC} EXPRESSION ]).
 
 #an expression in parenthesis
-parenthetical = "(" [ic] expression [ic] ")".
+PARENTHETICAL = "(" {IC} EXPRESSION {IC} ")".
 
 #used in embedded_string
-payload = {any_character}.
+PAYLOAD = {all}.
 
 #see: function
-platform = "_" {letter | number | "_"}.
+PLATFORM = "_" {letter | number | "_"}.
 
-post_dec = expression [ic] "--".
+POST_DEC = EXPRESSION {IC} "--".
 
-post_inc = expression [ic] "++".
+POST_INC = EXPRESSION {IC} "++".
 
-pre_dec = "--" [ic] expression.
+PRE_DEC = "--" {IC} EXPRESSION.
 
-pre_inc = "++" [ic] expression.
+PRE_INC = "++" {IC} EXPRESSION.
 
 #create a new Collection starting with the left hand side followed by the elements of the right hand side Collection
-prepend = expression [ic] "&" [ic] expression.
+PREPEND = EXPRESSION {IC} "&" {IC} EXPRESSION.
 
-proper_subset = expression [ic] ("⊂"|"psubs") [ic] expression.
+PROPER_SUBSET = EXPRESSION {IC} ("⊂"|"psubs") {IC} EXPRESSION.
 
-proper_superset = expression [ic] ("⊃"|"psups") [ic] expression.
+PROPER_SUPERSET = EXPRESSION {IC} ("⊃"|"psups") {IC} EXPRESSION.
 
-radical = "√" [ic] expression.
+RADICAL = "√" {IC} EXPRESSION.
 
 #create a totally-ordered open/closed/half-open discreet/continuous Collection
-range = "(" [ic] "..." [ic] expression [ic] ("]"|")") | ("["|"(") [ic] expression [ic] "..." [ic] ")" | ("("|"[") [ic] expression [ic] "..." [ic] expression [ic] ("]"|")").
+RANGE = "(" {IC} "..." {IC} EXPRESSION {IC} ("]"|")") | ("["|"(") {IC} EXPRESSION {IC} "..." {IC} ")" | ("("|"[") {IC} EXPRESSION {IC} "..." {IC} EXPRESSION {IC} ("]"|")").
 
 #relational operators on collections
-relational_collection_op = subset | proper_subset | superset | proper_superset | in | not_in | has | not_has.
+RELATIONAL_COLLECTION_OP = SUBSET | PROPER_SUBSET | SUPERSET | PROPER_SUPERSET | IN | NOT_IN | HAS | NOT_HAS.
 
-relational_op = equality | inequality | lesser_than | greater_than | not_greater_than | not_lesser_than | relational_collection_op.
+RELATIONAL_OP = EQUALITY | INEQUALITY | LESSER_THAN | GREATER_THAN | NOT_GREATER_THAN | NOT_LESSER_THAN | RELATIONAL_COLLECTION_OP.
 
 #exit the current function, optionally returning a value
-return = "return" [ [ic] expression ].
+RETURN = "return" [ {IC} EXPRESSION ].
 
-set = "{|" [ic] [expression {[ic] "," [ic] expression} [ic]] "|}".
+SET = "{|" {IC} [EXPRESSION {[IC] "," {IC} EXPRESSION} [IC]] "|}".
 
 #create a Collection, substituting variables bound in the right hand side into the left hand side
-set_comprehension = "{" [ic] expression [ic] "where" [ic] expression [ic] "}".
+SET_COMPREHENSION = "{" {IC} EXPRESSION {IC} "where" {IC} EXPRESSION {IC} "}".
 
 #shift left
-shiftl = expression [ic] "<<" [ic] expression.
+SHIFTL = EXPRESSION {IC} "<<" {IC} EXPRESSION.
 
 #shift right
-shiftr = expression [ic] ">>" [ic] expression.
+SHIFTR = EXPRESSION {IC} ">>" {IC} EXPRESSION.
 
 #top-level statement syntax
-statement = ( assignment | declaration | declaration_assignment | definition | do | expression | for | for_collection | if | import | loop | return | throw | try | "break" | "continue" ) [ic] ";".
+STATEMENT = ( ASSIGNMENT | DECLARATION | DECLARATION_ASSIGNMENT | DEFINITION | DO | EXPRESSION | FOR | FOR_COLLECTION | IF | IMPORT | LOOP | RETURN | THROW | TRY | "break" | "continue" ) {IC} ";".
 
 #zero or more statements
-statement_scope = [ic] {statement [ic]}.
+STATEMENT_SCOPE = {IC} {STATEMENT [IC]}.
 
-subset = expression [ic] ("⊆"|"subs") [ic] expression.
+SUBSET = EXPRESSION {IC} ("⊆"|"subs") {IC} EXPRESSION.
 
-subtraction = expression [ic] "-" [ic] expression.
+SUBTRACTION = EXPRESSION {IC} "-" {IC} EXPRESSION.
 
-#superset = expression [ic] ("⊇"|"sups") [ic] expression.
+SUPERSET = EXPRESSION {IC} ("⊇"|"sups") {IC} EXPRESSION.
 
 #the xor of Collections
-symmetric_difference = expression [ic] "⊖" [ic] expression.
+SYMMETRIC_DIFFERENCE = EXPRESSION {IC} "⊖" {IC} EXPRESSION.
 
 #raise an exception
-throw = "throw" [[ic] expression].
+THROW = "throw" [[IC] EXPRESSION].
 
 #executes the specified nullary void function of the first expression, catching exceptions that pattern match the function(s) of the second expression, and then executes the third expression unconditionally
-try = "try" [ic] expression [ic] "catch" [ic] expression {"catch" [ic] expression} [[ic] "finally" [ic] expression].
+TRY = "try" {IC} EXPRESSION {IC} "catch" {IC} EXPRESSION {"catch" {IC} EXPRESSION} [[IC] "finally" {IC} EXPRESSION].
 
 #create a finite ordered list of elements
-tuple = "(" [ic] expression {[ic] ", " [ic] expression} [ic] ")".
+TUPLE = "(" {IC} EXPRESSION {[IC] ", " {IC} EXPRESSION} {IC} ")".
 
 #create a type
-type = "type" [ic] ["inheriting" [ic] inheritance_list [ic]] ["implementing" [ic] inheritance_list [ic]] "{" type_scope "}".
+TYPE = "type" {IC} ["inheriting" {IC} INHERITANCE_LIST [IC]] ["implementing" {IC} INHERITANCE_LIST [IC]] "{" TYPE_SCOPE "}".
 
 #use a variable/constant as a typename
-type_dereference = "<" [ic] expression [ic] ">".
+TYPE_DEREFERENCE = "<" {IC} EXPRESSION {IC} ">".
 
 #zero or more statements or member declarations/definitions
-type_scope = [ic] {type_statement [ic]}.
+TYPE_SCOPE = {IC} {TYPE_STATEMENT [IC]}.
 
 #top-level type syntax
-type_statement = (visibility_modifier [ic] ":") | (["static" [ic]] (declaration_assignment | declaration ) [ic] "at" [ic] whole_number) | statement.
+TYPE_STATEMENT = (VISIBILITY_MODIFIER {IC} ":") | (["static" [IC]] (DECLARATION_ASSIGNMENT | DECLARATION ) {IC} "at" {IC} WHOLE_NUMBER) | STATEMENT.
 
-unary_arithmetic_op = factorial | negation | post_dec | post_inc | pre_dec | pre_inc | radical.
+UNARY_ARITHMETIC_OP = FACTORIAL | NEGATION | POST_DEC | POST_INC | PRE_DEC | PRE_INC | RADICAL.
 
-unary_logical_op = not | all | exists | exists_one.
+UNARY_LOGICAL_OP = NOT | ALL | EXISTS | EXISTS_ONE.
 
-unary_op = cardinality | kleene_star | unary_arithmetic_op | unary_logical_op.
+UNARY_OP = CARDINALITY | KLEENE_STAR | UNARY_ARITHMETIC_OP | UNARY_LOGICAL_OP.
 
 #Collection union
-union = expression [ic] "∪" [ic] expression.
+UNION = EXPRESSION {IC} "∪" {IC} EXPRESSION.
 
 #dimensional analysis "per"
-unit_division = dimension "/" dimension.
+UNIT_DIVISION = DIMENSION "/" DIMENSION.
 
 #dimensional analysis square units, cubed units, etc
-unit_exponentiation = dimension "^" integer.
+UNIT_EXPONENTIATION = DIMENSION "^" INTEGER.
 
 #dimensional analysis "by"
-unit_multiplication = dimension "*" dimension.
+UNIT_MULTIPLICATION = DIMENSION "*" DIMENSION.
 
 #create a Vector<D, N> normalized to unit length
-vector_norm = "||" [ic] expression [ic] "||".
+VECTOR_NORM = "||" {IC} EXPRESSION {IC} "||".
 
-visibility_modifier = ("public"|"protected"|"protected internal"|"internal"|"private").
+VISIBILITY_MODIFIER = ("public"|"protected"|"protected internal"|"internal"|"private").
 
-volatile_implicit_type_dereference = "<" [ic] "volatile" [ic] ">".
+VOLATILE_IMPLICIT_TYPE_DEREFERENCE = "<" {IC} "volatile" {IC} ">".
 
-volatile_type_dereference = "<" [ic] "volatile" [ic] expression [ic] ">".
+VOLATILE_TYPE_DEREFERENCE = "<" {IC} "volatile" {IC} EXPRESSION {IC} ">".
 
-whole_number = ("1"|"2"|"3"|"4"|"5"|"6"|"7"|"8"|"9") {"0"|"1"|"2"|"3"|"4"|"5"|"6"|"7"|"8"|"9"}.
+WHOLE_NUMBER = ("1"|"2"|"3"|"4"|"5"|"6"|"7"|"8"|"9") {"0"|"1"|"2"|"3"|"4"|"5"|"6"|"7"|"8"|"9"}.
 
 #documentation string bounded by arbirtrarily-sized delimiters
-xml_doc_string=("```" {any} "```") | ("`" xml_doc_string "`").
+XML_DOC_STRING=("```" {all} "```") | ("`" XML_DOC_STRING "`").
 
-xor = expression [ic] ("⊕" |"xor") [ic] expression.
+XOR = EXPRESSION {IC} ("⊕" |"xor") {IC} EXPRESSION.

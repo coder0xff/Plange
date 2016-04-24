@@ -145,7 +145,7 @@ namespace details {
 
 				//perform subset construction
 				for (unsigned int processCounter = 0; processCounter < result.states.size(); ++processCounter) {
-					state_indices_t const & fromIndices = result.states[processCounter].label;
+					state_indices_t fromIndices = result.states[processCounter].label; //must be copied due to modifying result.states
 					std::set<alphabet_t> out_symbols;
 					for (int fromIndex : fromIndices) {
 						for (std::pair<alphabet_t, state_indices_t> trans : states[fromIndex].out_transitions) {
@@ -261,9 +261,10 @@ namespace details {
                                     *j = XIntersectY;
                                     ++j;
                                     W.insert(j, YLessX);
-                                    ++j;
                                     continue;
-                                }
+                                } else {
+									++j;
+								}
                             }
                             //else
                             //if |X ∩ Y| <= |Y \ X|
@@ -453,7 +454,7 @@ namespace details {
 			}
 
 		public:
-			static nfa union_(std::vector<nfa> nfas) {
+			static nfa union_(std::vector<nfa> const & nfas) {
 				nfa result;
 				for (nfa const & n : nfas) {
 					int indexTranslation = result.states.size();
@@ -462,7 +463,7 @@ namespace details {
 						result.states.emplace_back(oldFrom.label);
 						state &newFrom = result.states.back();
 						for (auto const & transitionAndTos : oldFrom.out_transitions) {
-							auto newOutTransitions = newFrom.out_transitions[transitionAndTos.first];
+							auto & newOutTransitions = newFrom.out_transitions[transitionAndTos.first];
 							for (int to : transitionAndTos.second) {
 								newOutTransitions.insert(to + indexTranslation);
 							}
