@@ -1,16 +1,16 @@
 <Int → String> intToString := (i) {
-    <Int> register <- i;
+    <Int> register ← i;
     if (i < 0) {
-        register <- -i;
+        register ← -i;
     };
-    <String> result <- "";
+    <String> result ← "";
     while (register > 0) {
         digit := register  % 10;
-        result <- chr(digit + 48) + result;
-        register <- register / 10;
+        result ← chr(digit + 48) + result;
+        register ← register / 10;
     };
     if (i < 0) {
-        result <- "-" + result;
+        result ← "-" + result;
     };
     return result;
 };
