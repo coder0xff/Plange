@@ -1,4 +1,5 @@
 #include <cassert>
+#include <stack>
 
 #include "parlex/details/subjob.hpp"
 #include "parlex/parser.hpp"
@@ -8,7 +9,6 @@
 #include "parlex/state_machine.hpp"
 #include "parlex/details/producer.hpp"
 #include "parlex/details/logging.hpp"
-
 //#define FORCE_RECURSION
 
 namespace parlex {
@@ -98,9 +98,11 @@ bool parser::handle_deadlocks(details::job const & j) {
 	//if no subjobs remain, return true
 	//otherwise return false (still work to be done)
 
+	std::stack<std::pair<match_class, match_class>> s;
+
 	//Examine subscriptions from one subjob to another to construct the graph
+	std::map<match_class, std::set<match_class>> direct_subscriptions;
 	std::map<match_class, std::set<match_class>> all_subscriptions;
-	std::set<match_class> growing;
 	for (auto const & i : j.producers) {
 		match_class const & matchClass = i.first;
 		details::producer const & p = *i.second;
@@ -111,24 +113,20 @@ bool parser::handle_deadlocks(details::job const & j) {
 			details::context_ref const & c = subscription.c;
 			match_class temp(c.owner().machine, c.owner().documentPosition);
 			all_subscriptions[matchClass].insert(temp);
+			direct_subscriptions[matchClass].insert(temp);
+			s.push(std::pair<match_class, match_class>(matchClass, temp));
 		}
-		growing.insert(matchClass);
 	}
 
 	//Apply transitivity to the graph
-	while (growing.size() > 0) {
-		std::set<match_class> nextGrowing;
-		for (auto const & i : all_subscriptions) {
-			match_class const & matchClassA = i.first;
-			for (auto const & matchClassB : i.second) {
-				for (auto const & matchClassC : all_subscriptions[matchClassB]) {
-					if (all_subscriptions[matchClassA].insert(matchClassC).second) {
-                        nextGrowing.insert(matchClassA);
-					}
-				}
-			}
+	while (s.size() > 0) {
+		std::pair<match_class, match_class> entry = s.top();
+		s.pop();
+		for (auto const & next : direct_subscriptions[entry.first]) {
+			if (all_subscriptions[entry.first].insert(next).second) {
+				s.push(std::pair<match_class, match_class>(entry.first, next));
+			};
 		}
-		std::swap(growing, nextGrowing);
 	}
 
     bool anyHalted = false;

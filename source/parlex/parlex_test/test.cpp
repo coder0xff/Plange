@@ -346,7 +346,7 @@ void plange_test_4() {
 	std::string str((std::istreambuf_iterator<char>(u)),
 		std::istreambuf_iterator<char>());
 
-	parlex::parser p(1);
+	parlex::parser p;
 	std::u32string input = to_utf32(str);
 	parlex::abstract_syntax_graph result = p.parse(grammar.get_main_production(), input);
 	//std::string dot = result.to_dot();

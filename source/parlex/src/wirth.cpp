@@ -232,7 +232,7 @@ namespace parlex {
 namespace builtins {
 
 grammar parse_wirth(std::string nameOfMain, std::u32string const & document, std::set<std::string> greedyNames) {
-	parser p(1);
+	parser p;
 	abstract_syntax_graph asg = p.parse(wirth, document);
 	std::string check = asg.to_dot();
 	permutation const & top = *asg.table[asg.root].begin();
