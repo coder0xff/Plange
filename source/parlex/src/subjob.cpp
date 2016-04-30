@@ -26,7 +26,6 @@ subjob::subjob(
 
 subjob::~subjob() {
 	//DBG("destructing subjob b:", documentPosition, " m:", machine);
-	assert(lifetimeCounter == 0);
 }
 
 void subjob::start() {

@@ -211,17 +211,16 @@ void c_string_test_2() {
 }
 
     std::string wirthInItself = "\
-syntax     = [ws] { PRODUCTION [WS] } . \
-PRODUCTION = IDENTIFIER [WS] \"=\" [WS] EXPRESSION [WS] \".\" . \
-EXPRESSION = TERM { [WS] \"|\" [WS] TERM } . \
-TERM       = FACTOR { [WS] FACTOR } . \
+SYNTAX     = {white_space} { PRODUCTION {white_space} } . \
+PRODUCTION = IDENTIFIER {white_space} \"=\" {white_space} EXPRESSION {white_space} \".\" . \
+EXPRESSION = TERM { {white_space} \"|\" {white_space} TERM } . \
+TERM       = FACTOR { {white_space} FACTOR } . \
 FACTOR     = IDENTIFIER \
            | c_string \
-           | \"[\" [WS] EXPRESSION [WS] \"]\" \
-           | \"(\" [WS] EXPRESSION [WS] \")\" \
-           | \"{\" [WS] EXPRESSION [WS] \"}\" . \
-IDENTIFIER = letter { letter } . \
-LITERAL    = \"\\\"\" character { character } \"\\\"\" .";
+           | \"[\" {white_space} EXPRESSION {white_space} \"]\" \
+           | \"(\" {white_space} EXPRESSION {white_space} \")\" \
+           | \"{\" {white_space} EXPRESSION {white_space} \"}\" . \
+IDENTIFIER = letter { letter } .";
 
 void wirth_test_1() {
 	parlex::parser p(1);
@@ -242,32 +241,32 @@ void wirth_test_3() {
 }
 
 void wirth_test_4() {
-	auto grammar = parlex::builtins::parse_wirth("syntax", to_utf32(wirthInItself), {});
+	auto grammar = parlex::builtins::parse_wirth("SYNTAX", to_utf32(wirthInItself), {});
 }
 
 void wirth_test_5() {
-	auto grammar = parlex::builtins::parse_wirth("syntax", U"syntax = \"a\".", {});
+	auto grammar = parlex::builtins::parse_wirth("SYNTAX", U"SYNTAX = \"a\".", {});
 	parlex::parser p;
 	parlex::abstract_syntax_graph result = p.parse(grammar.get_main_production(), U"b");
 	std::string dot = result.to_dot();
 }
 
 void wirth_test_6() {
-	auto grammar = parlex::builtins::parse_wirth("syntax", U"syntax = letter number.", {});
+	auto grammar = parlex::builtins::parse_wirth("SYNTAX", U"SYNTAX = letter number.", {});
 	parlex::parser p;
 	parlex::abstract_syntax_graph result = p.parse(grammar.get_main_production(), U"a1");
 	std::string dot = result.to_dot();
 }
 
 void wirth_test_7() {
-	auto grammar = parlex::builtins::parse_wirth("syntax", U"syntax = letter { number }.", {});
+	auto grammar = parlex::builtins::parse_wirth("SYNTAX", U"SYNTAX = letter { number }.", {});
 	parlex::parser p;
 	parlex::abstract_syntax_graph result = p.parse(grammar.get_main_production(), U"a1234");
 	std::string dot = result.to_dot();
 }
 
 void wirth_test_8() {
-	auto grammar = parlex::builtins::parse_wirth("syntax", U"syntax = letter [ number ].", {});
+	auto grammar = parlex::builtins::parse_wirth("SYNTAX", U"SYNTAX = letter [ number ].", {});
 	parlex::parser p;
 	parlex::abstract_syntax_graph result1 = p.parse(grammar.get_main_production(), U"a");
 	std::string dot1 = result1.to_dot();
@@ -276,7 +275,7 @@ void wirth_test_8() {
 }
 
 void wirth_test_9() {
-	auto grammar = parlex::builtins::parse_wirth("syntax", U"syntax = letter ( number | c_string ).", {});
+	auto grammar = parlex::builtins::parse_wirth("SYNTAX", U"SYNTAX = letter ( number | c_string ).", {});
 	parlex::parser p;
 	parlex::abstract_syntax_graph result1 = p.parse(grammar.get_main_production(), U"a1");
 	std::string dot1 = result1.to_dot();
@@ -354,7 +353,7 @@ void plange_test_4() {
 }
 
 int main(void) {
-	/*parser_test_1();
+	parser_test_1();
 	parser_test_2();
 	parser_test_3();
 	parser_test_4();
@@ -375,10 +374,10 @@ int main(void) {
 	wirth_test_7();
 	wirth_test_8();
 	wirth_test_9();
-	wirth_test_10();*/
-	//wirth_test_11();
-	//plange_test_1();
-	//plange_test_2();
-	//plange_test_3();
+	wirth_test_10();
+	wirth_test_11();
+	plange_test_1();
+	plange_test_2();
+	plange_test_3();
 	plange_test_4();
 }
