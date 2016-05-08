@@ -9,6 +9,8 @@
 #include "parlex/state_machine.hpp"
 #include "parlex/details/producer.hpp"
 #include "parlex/details/logging.hpp"
+#include "parlex/details/perf_timer.hpp"
+
 //#define FORCE_RECURSION
 
 namespace parlex {
@@ -51,6 +53,7 @@ parser::~parser() {
 }
 
 abstract_syntax_graph parser::parse(recognizer const & r, std::u32string const & document) {
+	perf_timer timer("parse");
 	std::unique_lock<std::mutex> lock(mutex); //use the lock to make sure we see activeCount != 0
 	details::job j(*this, document, r);
 #ifndef FORCE_RECURSION
@@ -80,6 +83,7 @@ void parser::schedule(details::context_ref const & c, int nextDfaState) {
 }
 
 abstract_syntax_graph parser::construct_result(details::job const & j, match const & match) {
+	perf_timer timer("construct_result");
 	abstract_syntax_graph result(match);
 	for (auto const & pair : j.producers) {
 		details::producer const & producer = *pair.second;
@@ -94,6 +98,8 @@ abstract_syntax_graph parser::construct_result(details::job const & j, match con
 
 bool parser::handle_deadlocks(details::job const & j) {
 	assert(activeCount == 0);
+	perf_timer timer("handle_deadlocks");
+
 	//build a dependency graph and detect cyclical portions that should be halted
 	//if no subjobs remain, return true
 	//otherwise return false (still work to be done)

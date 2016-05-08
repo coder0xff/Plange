@@ -88,6 +88,7 @@
     <ClInclude Include="include\parlex\details\job.hpp" />
     <ClInclude Include="include\parlex\details\logging.hpp" />
     <ClInclude Include="include\parlex\details\nfa.hpp" />
+    <ClInclude Include="include\parlex\details\perf_timer.hpp" />
     <ClInclude Include="include\parlex\details\producer.hpp" />
     <ClInclude Include="include\parlex\details\subjob.hpp" />
     <ClInclude Include="include\parlex\details\unicode_op.hpp" />
@@ -115,6 +116,7 @@
     <ClCompile Include="src\match_class.cpp" />
     <ClCompile Include="src\nfa.cpp" />
     <ClCompile Include="src\parser.cpp" />
+    <ClCompile Include="src\perf_timer.cpp" />
     <ClCompile Include="src\producer.cpp" />
     <ClCompile Include="src\state_machine.cpp" />
     <ClCompile Include="src\subjob.cpp" />

@@ -147,7 +147,7 @@ HAS = EXPRESSION {IC} ("∋"|"has") {IC} EXPRESSION.
 HEX = "0x" hexadecimal_digit {hexadecimal_digit}.
 
 #intermediary content - regions that whitespaces and comments can go
-IC = COMMENT | EMBEDDED_COMMENT | END_OF_LINE_COMMENT | white_space.
+IC = COMMENT | EMBEDDED_COMMENT | END_OF_LINE_COMMENT | WS.
 
 #the name of a variable or constant 
 IDENTIFIER = (letter | "_") {letter | number | "_"}.
@@ -360,6 +360,8 @@ VOLATILE_IMPLICIT_TYPE_DEREFERENCE = "<" {IC} "volatile" {IC} ">".
 VOLATILE_TYPE_DEREFERENCE = "<" {IC} "volatile" {IC} EXPRESSION {IC} ">".
 
 WHOLE_NUMBER = ("1"|"2"|"3"|"4"|"5"|"6"|"7"|"8"|"9") {"0"|"1"|"2"|"3"|"4"|"5"|"6"|"7"|"8"|"9"}.
+
+WS = white_space {white_space}.
 
 #documentation string bounded by arbirtrarily-sized delimiters
 XML_DOC_STRING=("```" {all} "```") | ("`" XML_DOC_STRING "`").
