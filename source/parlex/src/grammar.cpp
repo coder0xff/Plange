@@ -2,9 +2,11 @@
 
 #include <cassert>
 #include <iostream>
+#include <sstream>
 
+#include "parlex/builtins.hpp"
 #include "parlex/details/behavior.hpp"
-#include "parlex/builtins/greedy.hpp"
+#include "parlex/details/utils.hpp"
 
 namespace parlex {
 
@@ -89,6 +91,53 @@ state_machine const & grammar::get_main_production() const {
 	auto i = productions.find(main_production_name);
 	assert(i != productions.end());
 	return i->second;
+}
+
+void grammar::generate_cpp(std::string grammarName, std::ostream & cpp, std::ostream & hpp) const {
+
+	std::map<recognizer *, std::string> recognizerToStringMap;
+	for (auto const & entry : builtins::get_builtins_table()) {
+		recognizerToStringMap[entry.second] = entry.first;
+	}
+
+	cpp << "grammar const & get_" << grammarName << "() {\n";
+
+	int i = 0;
+	for (parlex::builtins::string_terminal const & literal : literals) {
+		std::ostringstream nameStream;
+		nameStream << "literal" << i;
+		cpp << "\tstatic parlex::builtins::string_terminal " << nameStream.str() << "(U" << escape(to_utf8(literal.get_content())) << ");\n";
+		recognizerToStringMap[(recognizer *)&literal] = nameStream.str();
+		i++;
+	}
+	cpp << "\n";
+
+	for (auto const & production : productions) {
+		std::string const & id = production.first;
+		state_machine const & sm = production.second;
+		if (&sm.get_filter() == &builtins::greedy) {
+			cpp << "\tstatic parlex::state_machine " << id << "(\"" << id << "\"" << sm.get_accept_state_count() << ", builtins::greedy);\n";
+		} else {
+			cpp << "\tstatic parlex::state_machine " << id << "(\"" << id << "\"" << sm.get_accept_state_count() << ");\n";
+		}
+		recognizerToStringMap[(recognizer *)&sm] = id;
+	}
+
+	for (auto const & production : productions) {
+		cpp << "\n";
+		std::string const & id = production.first;
+		state_machine const & sm = production.second;
+		auto const states = sm.get_states();
+		for (unsigned int i = 0; i < states.size(); ++i) {
+			auto const & state = states[i];
+			for (auto const & transitionAndToState : state) {
+				recognizer const & transition = transitionAndToState.first;
+				auto const & toState = transitionAndToState.second;
+				cpp << "\t" << id << ".add_transition(" << i << ", " << recognizerToStringMap[const_cast<recognizer *>(&transition)] << ", " << toState << ");\n";
+			}
+		}
+	}
+
 }
 
 }

@@ -1,6 +1,6 @@
 #include "parlex/builtins/wirth.hpp"
 #include "parlex/builtins/string_terminal.hpp"
-#include "parlex/details/unicode_op.hpp"
+#include "parlex/details/utils.hpp"
 #include "parlex/builtins.hpp"
 #include "parlex/parser.hpp"
 #include "parlex/details/behavior.hpp"

@@ -1,6 +1,11 @@
 #ifndef UTILS_HPP
 #define UTILS_HPP
 
-std::string escape_for_dot(std::string s);
+#include <string>
+
+std::string to_utf8(const std::u32string &s);
+std::u32string to_utf32(const std::string &s);
+
+std::string escape(std::string s);
 
 #endif

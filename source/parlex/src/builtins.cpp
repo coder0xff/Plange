@@ -1,7 +1,7 @@
 #include <sstream>
 
 #include "parlex/builtins.hpp"
-#include "parlex/details/unicode_op.hpp"
+#include "parlex/details/utils.hpp"
 
 namespace parlex {
 namespace details {
@@ -36,6 +36,10 @@ size_t string_terminal::get_length() const {
 
 std::string string_terminal::get_id() const {
 	return id;
+}
+
+std::u32string string_terminal::get_content() const {
+	return s;
 }
 
 filter_function greedy = [] (std::list<permutation> const & permutations) {
@@ -98,8 +102,9 @@ details::uppercase_letter_t uppercase_letter;
 details::white_space_t white_space;
 details::white_space_control_t white_space_control;
 
-namespace {
-	std::map<std::string, recognizer *> generate() {
+std::map<std::string, recognizer *> const & get_builtins_table() {
+	static std::map<std::string, recognizer *> result;
+	if (result.size() == 0) {
 		recognizer * table_initializer[] = {
 			&all,
 			&alphanumeric,
@@ -143,20 +148,19 @@ namespace {
 			&white_space_control
 		};
 
-		std::map<std::string, recognizer *> result;
 		unsigned int count = sizeof(table_initializer) / sizeof(*table_initializer);
 		for (unsigned int i = 0; i < count; ++i) {
 			recognizer * item = table_initializer[i];
 			std::string const name = item->get_id();
 			result[name] = item;
 		}
-		return result;
 	}
+	return result;
 }
 
 bool resolve_builtin(std::string const & name, parlex::recognizer const *& ptr)
 {
-	static std::map<std::string, recognizer *> builtins_table = generate();
+	static std::map<std::string, recognizer *> builtins_table = get_builtins_table();
 	auto i = builtins_table.find(name);
 	if (i == builtins_table.end()) {
 		return false;

@@ -21,6 +21,7 @@ public:
     grammar(grammar const & other);
 	state_machine const & get_main_production() const;
 	grammar& operator=(grammar const &) = delete;
+	void generate_cpp(std::string grammarName, std::ostream & cpp, std::ostream & hpp) const;
 private:
 	std::string main_production_name;
 	std::map<std::string, state_machine> productions;

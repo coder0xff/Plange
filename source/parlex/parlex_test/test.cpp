@@ -10,7 +10,7 @@
 #include "parlex/details/logging.hpp"
 #include "parlex/parser.hpp"
 #include "parlex/state_machine.hpp"
-#include "parlex/details/unicode_op.hpp"
+#include "parlex/details/utils.hpp"
 
 void parser_test_1() {
 	DBG("************ parser_test_1 ************");
@@ -348,7 +348,7 @@ void plange_test_4() {
 	parlex::parser p;
 	std::u32string input = to_utf32(str);
 	parlex::abstract_syntax_graph result = p.parse(grammar.get_main_production(), input);
-	//std::string dot = result.to_dot();
+	std::string dot = result.to_dot();
 }
 
 void plange_test_5() {
@@ -390,8 +390,22 @@ void plange_test_6() {
 	parlex::abstract_syntax_graph result2 = p.parse(grammar.get_main_production(), input2);
 }
 
+void generate_test_1() {
+	std::ifstream t("C:\\Users\\Brent\\Dropbox\\Plange\\documentation\\syntax.wsn");
+	std::stringstream buffer;
+	t.seekg(3);
+	buffer << t.rdbuf();
+	auto grammar = parlex::builtins::parse_wirth("STATEMENT_SCOPE", to_utf32(buffer.str()), { "IDENTIFIER", "WS" });
+	std::ostringstream cppStream, hppStream;
+	grammar.generate_cpp("plange", cppStream, hppStream);
+	std::cout << "\n******************** cpp *******************\n";
+	std::cout << cppStream.str() << "\n";
+	std::cout << "\n******************** hpp *******************\n";
+	std::cout << hppStream.str() << "\n";
+}
+
 int main(void) {
-	parser_test_1();
+	/*parser_test_1();
 	parser_test_2();
 	parser_test_3();
 	parser_test_4();
@@ -419,5 +433,6 @@ int main(void) {
 	plange_test_3();
 	plange_test_4();
 	plange_test_5();
-	plange_test_6();
+	plange_test_6();*/
+	generate_test_1();
 }

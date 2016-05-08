@@ -91,7 +91,6 @@
     <ClInclude Include="include\parlex\details\perf_timer.hpp" />
     <ClInclude Include="include\parlex\details\producer.hpp" />
     <ClInclude Include="include\parlex\details\subjob.hpp" />
-    <ClInclude Include="include\parlex\details\unicode_op.hpp" />
     <ClInclude Include="include\parlex\details\utils.hpp" />
     <ClInclude Include="include\parlex\filter_function.hpp" />
     <ClInclude Include="include\parlex\grammar.hpp" />
@@ -122,7 +121,6 @@
     <ClCompile Include="src\subjob.cpp" />
     <ClCompile Include="src\token.cpp" />
     <ClCompile Include="src\unicode.cpp" />
-    <ClCompile Include="src\unicode_op.cpp" />
     <ClCompile Include="src\utils.cpp" />
     <ClCompile Include="src\wirth.cpp" />
   </ItemGroup>

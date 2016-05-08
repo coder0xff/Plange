@@ -93,9 +93,6 @@
     <ClInclude Include="include\parlex\builtins\wirth.hpp">
       <Filter>Header Files\builtins</Filter>
     </ClInclude>
-    <ClInclude Include="include\parlex\details\unicode_op.hpp">
-      <Filter>Header Files\details</Filter>
-    </ClInclude>
     <ClInclude Include="include\parlex\details\nfa.hpp">
       <Filter>Header Files\details</Filter>
     </ClInclude>
@@ -150,9 +147,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\c_string.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\unicode_op.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\behavior.cpp">
