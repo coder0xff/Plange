@@ -10,7 +10,7 @@
 #include "parlex/details/logging.hpp"
 #include "parlex/parser.hpp"
 #include "parlex/state_machine.hpp"
-#include "parlex/details/utils.hpp"
+#include "utils.hpp"
 
 void parser_test_1() {
 	DBG("************ parser_test_1 ************");
@@ -336,17 +336,14 @@ void plange_test_3() {
 void plange_test_4() {
 	//load Plange grammar
 	std::ifstream t("C:\\Users\\Brent\\Dropbox\\Plange\\documentation\\syntax.wsn");
-	std::stringstream buffer;
-	t.seekg(3);
-	buffer << t.rdbuf();
-	auto grammar = parlex::builtins::parse_wirth("STATEMENT_SCOPE", to_utf32(buffer.str()), { "IDENTIFIER", "WS" });
+	auto grammar = parlex::builtins::parse_wirth("STATEMENT_SCOPE", read_with_bom(t), { "IDENTIFIER", "WS" });
+	t.clear();
 
 	std::ifstream u("C:\\Users\\Brent\\Dropbox\\Plange\\source\\Examples\\intToString.pge");
-	std::string str((std::istreambuf_iterator<char>(u)),
-		std::istreambuf_iterator<char>());
+	std::u32string input = read_with_bom(u);
+	u.close();
 
 	parlex::parser p;
-	std::u32string input = to_utf32(str);
 	parlex::abstract_syntax_graph result = p.parse(grammar.get_main_production(), input);
 	std::string dot = result.to_dot();
 }
@@ -441,10 +438,10 @@ int main(void) {
 	wirth_test_11();
 	plange_test_1();
 	plange_test_2();
-	plange_test_3();
+	plange_test_3();*/
 	plange_test_4();
-	plange_test_5();
+	/*plange_test_5();
 	plange_test_6();
 	generate_test_1();*/
-	generate_test_2();
+	//generate_test_2();
 }

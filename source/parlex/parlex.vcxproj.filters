@@ -102,9 +102,6 @@
     <ClInclude Include="include\parlex\details\auto_map.hpp">
       <Filter>Header Files\details</Filter>
     </ClInclude>
-    <ClInclude Include="include\parlex\details\utils.hpp">
-      <Filter>Header Files\details</Filter>
-    </ClInclude>
     <ClInclude Include="include\parlex\details\perf_timer.hpp">
       <Filter>Header Files\details</Filter>
     </ClInclude>
@@ -159,9 +156,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\unicode.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\utils.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\perf_timer.cpp">

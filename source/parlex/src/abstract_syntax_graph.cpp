@@ -2,7 +2,7 @@
 
 #include "parlex/abstract_syntax_graph.hpp"
 #include "parlex/recognizer.hpp"
-#include "parlex/details/utils.hpp"
+#include "utils.hpp"
 
 std::string parlex::abstract_syntax_graph::to_dot() const {
 	std::string result = "digraph {\n";

@@ -1,10 +1,11 @@
 #include "parlex/builtins/wirth.hpp"
 #include "parlex/builtins/string_terminal.hpp"
-#include "parlex/details/utils.hpp"
 #include "parlex/builtins.hpp"
 #include "parlex/parser.hpp"
 #include "parlex/details/behavior.hpp"
 #include "parlex/builtins/c_string.hpp"
+
+#include "utils.hpp"
 
 namespace parlex {
 namespace builtins {

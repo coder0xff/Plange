@@ -1,7 +1,7 @@
 #include <sstream>
 
 #include "parlex/builtins.hpp"
-#include "parlex/details/utils.hpp"
+#include "utils.hpp"
 
 namespace parlex {
 namespace details {
