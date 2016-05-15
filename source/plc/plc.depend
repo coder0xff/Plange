@@ -1,0 +1,112 @@
+# depslib dependency file v1.0
+1463327097 source:/home/brent/Dropbox/Plange/source/plc/main.cpp
+	<iostream>
+	"plange_grammar.hpp"
+
+1463323533 /home/brent/Dropbox/Plange/source/plc/plange_grammar.hpp
+	"parlex/grammar.hpp"
+	"parlex/builtins.hpp"
+
+1463323193 /home/brent/Dropbox/Plange/source/parlex/include/parlex/grammar.hpp
+	<map>
+	<string>
+	"parlex/state_machine.hpp"
+	"parlex/builtins/string_terminal.hpp"
+
+1462732479 /home/brent/Dropbox/Plange/source/parlex/include/parlex/state_machine.hpp
+	<memory>
+	"parlex/recognizer.hpp"
+	"filter_function.hpp"
+
+1451884680 /home/brent/Dropbox/Plange/source/parlex/include/parlex/recognizer.hpp
+	<string>
+
+1451986760 /home/brent/Dropbox/Plange/source/parlex/include/parlex/filter_function.hpp
+	"details/subjob.hpp"
+	"parlex/permutation.hpp"
+
+1457192695 /home/brent/Dropbox/Plange/source/parlex/include/parlex/details/subjob.hpp
+	<list>
+	<map>
+	<mutex>
+	<set>
+	<atomic>
+	"parlex/match.hpp"
+	"parlex/permutation.hpp"
+	"parlex/details/context.hpp"
+	"parlex/details/producer.hpp"
+
+1451847817 /home/brent/Dropbox/Plange/source/parlex/include/parlex/match.hpp
+	"parlex/match_class.hpp"
+
+1458488167 /home/brent/Dropbox/Plange/source/parlex/include/parlex/match_class.hpp
+	<cstdlib>
+
+1451847573 /home/brent/Dropbox/Plange/source/parlex/include/parlex/permutation.hpp
+	<vector>
+	"parlex/match.hpp"
+
+1457192695 /home/brent/Dropbox/Plange/source/parlex/include/parlex/details/context.hpp
+	<memory>
+	<vector>
+	<atomic>
+	"parlex/match.hpp"
+	"parlex/match_class.hpp"
+	"parlex/permutation.hpp"
+
+1457665018 /home/brent/Dropbox/Plange/source/parlex/include/parlex/details/producer.hpp
+	<list>
+	<map>
+	<vector>
+	<set>
+	<mutex>
+	"parlex/details/context.hpp"
+	"parlex/permutation.hpp"
+
+1462728471 /home/brent/Dropbox/Plange/source/parlex/include/parlex/builtins/string_terminal.hpp
+	"parlex/terminal.hpp"
+
+1451847886 /home/brent/Dropbox/Plange/source/parlex/include/parlex/terminal.hpp
+	<string>
+	"parlex/recognizer.hpp"
+
+1462730382 /home/brent/Dropbox/Plange/source/parlex/include/parlex/builtins.hpp
+	"parlex/builtins/any_character.hpp"
+	"parlex/builtins/set_terminal.hpp"
+	"parlex/builtins/string_terminal.hpp"
+	"parlex/builtins/unicode.hpp"
+	"parlex/builtins/greedy.hpp"
+	"parlex/builtins/c_string.hpp"
+	"parlex/builtins/wirth.hpp"
+
+1451848208 /home/brent/Dropbox/Plange/source/parlex/include/parlex/builtins/any_character.hpp
+	"parlex/terminal.hpp"
+
+1450636869 /home/brent/Dropbox/Plange/source/parlex/include/parlex/builtins/set_terminal.hpp
+	<set>
+	<string>
+
+1461118554 /home/brent/Dropbox/Plange/source/parlex/include/parlex/builtins/unicode.hpp
+	"parlex/terminal.hpp"
+
+1451890274 /home/brent/Dropbox/Plange/source/parlex/include/parlex/builtins/greedy.hpp
+	"parlex/filter_function.hpp"
+
+1458484094 /home/brent/Dropbox/Plange/source/parlex/include/parlex/builtins/c_string.hpp
+	"parlex/state_machine.hpp"
+	"parlex/abstract_syntax_graph.hpp"
+
+1451847589 /home/brent/Dropbox/Plange/source/parlex/include/parlex/abstract_syntax_graph.hpp
+	<map>
+	<set>
+	<string>
+	"parlex/match.hpp"
+	"parlex/permutation.hpp"
+
+1461510614 /home/brent/Dropbox/Plange/source/parlex/include/parlex/builtins/wirth.hpp
+	"parlex/grammar.hpp"
+	"parlex/state_machine.hpp"
+
+1463323646 source:/home/brent/Dropbox/Plange/source/plc/plange_grammar.cpp
+	"plange_grammar.hpp"
+

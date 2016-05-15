@@ -71,14 +71,14 @@ std::u32string to_utf32(const std::string &s)
 
 std::string to_utf8(const std::u32string &s)
 {
-	std::wstring_convert<std::codecvt_utf8<__int32>, __int32> conv;
+	std::wstring_convert<std::codecvt_utf8<char32_t>, char32_t> conv;
 	return conv.to_bytes(s);
 	throw;
 }
 
 std::u32string to_utf32(const std::string &s)
 {
-	std::wstring_convert<std::codecvt_utf8<__int32>, __int32> conv;
+	std::wstring_convert<std::codecvt_utf8<char32_t>, char32_t> conv;
 	return conv.from_bytes(s);
 }
 
