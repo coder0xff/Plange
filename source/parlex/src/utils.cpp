@@ -5,7 +5,7 @@
 
 #include "parlex/details/utils.hpp"
 
-std::string escape(std::string s) {
+std::string enquote(std::string s) {
 	std::ostringstream result;
 	result << "\"";
 	for (char c : s) {

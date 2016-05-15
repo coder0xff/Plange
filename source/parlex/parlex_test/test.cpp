@@ -397,11 +397,22 @@ void generate_test_1() {
 	buffer << t.rdbuf();
 	auto grammar = parlex::builtins::parse_wirth("STATEMENT_SCOPE", to_utf32(buffer.str()), { "IDENTIFIER", "WS" });
 	std::ostringstream cppStream, hppStream;
-	grammar.generate_cpp("plange", cppStream, hppStream);
+	grammar.generate_cpp("plange", "STATEMENT_SCOPE", cppStream, hppStream);
 	std::cout << "\n******************** cpp *******************\n";
 	std::cout << cppStream.str() << "\n";
 	std::cout << "\n******************** hpp *******************\n";
 	std::cout << hppStream.str() << "\n";
+}
+
+void generate_test_2() {
+	std::ifstream t("C:\\Users\\Brent\\Dropbox\\Plange\\documentation\\syntax.wsn");
+	std::stringstream buffer;
+	t.seekg(3);
+	buffer << t.rdbuf();
+	auto grammar = parlex::builtins::parse_wirth("STATEMENT_SCOPE", to_utf32(buffer.str()), { "IDENTIFIER", "WS" });
+	std::ofstream cppStream("C:\\Users\\Brent\\Dropbox\\Plange\\source\\plc\\plange_grammar.cpp");
+	std::ofstream hppStream("C:\\Users\\Brent\\Dropbox\\Plange\\source\\plc\\plange_grammar.hpp");
+	grammar.generate_cpp("plange", "STATEMENT_SCOPE", cppStream, hppStream);
 }
 
 int main(void) {
@@ -433,6 +444,7 @@ int main(void) {
 	plange_test_3();
 	plange_test_4();
 	plange_test_5();
-	plange_test_6();*/
-	generate_test_1();
+	plange_test_6();
+	generate_test_1();*/
+	generate_test_2();
 }

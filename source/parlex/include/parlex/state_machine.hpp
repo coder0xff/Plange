@@ -21,13 +21,13 @@ class parser;
 class state_machine : public recognizer {
 public:
 	state_machine(std::string id, size_t acceptStateCount);
-	state_machine(std::string id, size_t acceptStateCount, filter_function filter);
+	state_machine(std::string id, size_t acceptStateCount, filter_function const & filter);
 	virtual ~state_machine() = default;
 	void start(details::subjob & sj, size_t documentPosition) const;
 	void add_transition(size_t fromState, recognizer const & recognizer, size_t toState);
 	virtual std::string get_id() const final;
 	int get_accept_state_count() const;
-	filter_function get_filter() const;
+	filter_function const * get_filter() const;
 
 	typedef std::vector<std::map<std::reference_wrapper<recognizer const>, size_t, details::recognizer_reference_comparer>> states_t;
     states_t get_states() const;
@@ -38,7 +38,7 @@ private:
 	std::string const id;
 	size_t const accept_state_count; //must be greater than 0
 	states_t states;
-	filter_function const filter;
+	filter_function const * const filter;
 
 	void process(details::context_ref const & c, size_t dfaState) const;
 };

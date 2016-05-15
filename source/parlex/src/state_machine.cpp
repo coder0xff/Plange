@@ -9,13 +9,14 @@ namespace parlex {
 
 state_machine::state_machine(std::string id, size_t acceptStateCount) :
 	id(id),
-	accept_state_count(acceptStateCount)
+	accept_state_count(acceptStateCount),
+	filter(nullptr)
 {}
 
-state_machine::state_machine(std::string id, size_t acceptStateCount, filter_function filter) :
+state_machine::state_machine(std::string id, size_t acceptStateCount, filter_function const & filter) :
 	id(id),
 	accept_state_count(acceptStateCount),
-	filter(filter)
+	filter(&filter)
 {}
 
 void state_machine::start(details::subjob & sj, size_t const documentPosition) const {
@@ -43,7 +44,7 @@ int state_machine::get_accept_state_count() const {
     return accept_state_count;
 }
 
-filter_function state_machine::get_filter() const {
+filter_function const * state_machine::get_filter() const {
 	return filter;
 }
 
