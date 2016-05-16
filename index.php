@@ -282,18 +282,18 @@ mary = 9;
 sue = 6;</pre>
 		</div>
 
-		<p>One well studied domain is <a href="https://en.wikipedia.org/wiki/Initial_value_problem">initial value problems</a>. If partial differential equations aren't your cup of tea, just read the comments.</p>
+		<p>One well studied domain is <a href="https://en.wikipedia.org/wiki/Initial_value_problem">initial value problems</a>. If differential equations aren't your cup of tea, just read the comments.</p>
 
 		<div class="code">
 			<p>Example</p>
 			<pre>advanceProjectilePosition :=
 	(Vector3D initialPos, Vector3D initialVel, mass, drag, Vector3D gravity, delta_t)
 {
-	&lt;Real → Vector3&gt; p;                              // declare the position function, p
-	mass * p''(t) = -drag * p'(t) + mass * gravity;  // model p as a differential equation
-	p(0) = initialPos;                               // with boundary conditions
-	p'(0) = initialVel;
-	return p(delta_t);                               // solve, substitute, evaluate
+	&lt;Real → Vector3&gt; p;                                      // declare the position function, p
+	mass * Δ^2p(t)/Δt^2 = -drag * Δp(t)/Δt + mass * gravity; // model p as a differential equation
+	p(0) = initialPos;                                       // with boundary conditions
+	Δp(0)/Δt = initialVel;
+	return p(delta_t);                                       // solve, substitute, evaluate
 };</pre>
 		</div>
 
@@ -324,7 +324,7 @@ sue = 6;</pre>
 	return result; // solve, substitute, and return
 };</pre>
 		</div>
-		<p>The above function, sort, is semantically equivalent to the sorting functions. However, this constraint based problem is not yet solvable using available techniques.</p>
+		<p>The above function, sort, is functionaly equivalent to the sorting functions. However, this constraint based problem is not yet solvable using available techniques.</p>
 
 		<h2>Type Constraints</h2><a name="Type_Constraints" />
 		<p>Since types are values, and values can be constrained, type constraints are realised.</p>
@@ -333,14 +333,12 @@ sue = 6;</pre>
 			<p>Example</p>
 			<pre>all := (Collection&lt;X&gt; items) {
 	Bool casts X; //values of type X must be castable to type Bool
-	result ← true;
 	for (item ∈ items) {
 		if (¬(Bool)item) {
-			result ← false;
-			break;
+			return false;
 		}
 	}
-	return result;
+	return true;
 };</pre>
 		</div>
 
