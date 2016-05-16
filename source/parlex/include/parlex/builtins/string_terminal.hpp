@@ -13,6 +13,7 @@ namespace builtins {
 		virtual bool test(std::u32string const & document, size_t documentPosition) const final;
 		virtual size_t get_length() const final;
 		virtual std::string get_id() const final;
+		std::u32string get_content() const;
 	private:
 		std::u32string const s;
 		int const length;

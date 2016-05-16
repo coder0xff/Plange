@@ -15,6 +15,7 @@
 #include <algorithm>
 #include <list>
 #include <iterator>
+#include <assert.h>
 
 #include "parlex/details/auto_map.hpp"
 

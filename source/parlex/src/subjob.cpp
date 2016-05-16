@@ -94,9 +94,9 @@ void subjob::increment_lifetime() {
 
 void subjob::flush() {
 	//DBG("flush m:", machine, " b:", documentPosition);
-	if (machine.get_filter()) {
+	if (machine.get_filter() != nullptr) {
 		std::unique_lock<std::mutex> lock(mutex);
-		std::set<int> selections = machine.get_filter()(queuedPermutations);
+		std::set<int> selections = (*machine.get_filter())(queuedPermutations);
 		int counter = 0;
 		for (auto const & permutation : queuedPermutations) {
 			if (selections.count(counter) > 0) {

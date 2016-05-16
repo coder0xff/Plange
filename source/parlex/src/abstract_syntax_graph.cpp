@@ -2,7 +2,7 @@
 
 #include "parlex/abstract_syntax_graph.hpp"
 #include "parlex/recognizer.hpp"
-#include "parlex/details/utils.hpp"
+#include "utils.hpp"
 
 std::string parlex::abstract_syntax_graph::to_dot() const {
 	std::string result = "digraph {\n";
@@ -22,7 +22,7 @@ std::string parlex::abstract_syntax_graph::to_dot() const {
 		for (permutation const & j : l->second) {
 			for (match const & k : j) {
 				std::string to_name = k.r.get_id() + ":" + std::to_string(k.document_position) + ":" + std::to_string(k.consumed_character_count);
-				result += "\t" + escape_for_dot(from_name) + " -> " + escape_for_dot(to_name) + "\n";				
+				result += "\t" + enquote(from_name) + " -> " + enquote(to_name) + "\n";				
 				if (completed.count(k) == 0) {
 					pending.push(k);
 				}

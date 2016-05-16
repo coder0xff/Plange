@@ -3,7 +3,7 @@
 
 #include "parlex/terminal.hpp"
 #include "parlex/builtins.hpp"
-#include "parlex/details/unicode_op.hpp"
+#include "utils.hpp"
 #include "parlex/state_machine.hpp"
 #include "parlex/builtins.hpp"
 #include "parlex/abstract_syntax_graph.hpp"

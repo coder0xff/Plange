@@ -93,9 +93,6 @@
     <ClInclude Include="include\parlex\builtins\wirth.hpp">
       <Filter>Header Files\builtins</Filter>
     </ClInclude>
-    <ClInclude Include="include\parlex\details\unicode_op.hpp">
-      <Filter>Header Files\details</Filter>
-    </ClInclude>
     <ClInclude Include="include\parlex\details\nfa.hpp">
       <Filter>Header Files\details</Filter>
     </ClInclude>
@@ -103,9 +100,6 @@
       <Filter>Header Files\details</Filter>
     </ClInclude>
     <ClInclude Include="include\parlex\details\auto_map.hpp">
-      <Filter>Header Files\details</Filter>
-    </ClInclude>
-    <ClInclude Include="include\parlex\details\utils.hpp">
       <Filter>Header Files\details</Filter>
     </ClInclude>
     <ClInclude Include="include\parlex\details\perf_timer.hpp">
@@ -152,9 +146,6 @@
     <ClCompile Include="src\c_string.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\unicode_op.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\behavior.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -165,9 +156,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\unicode.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\utils.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\perf_timer.cpp">

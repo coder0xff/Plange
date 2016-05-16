@@ -47,7 +47,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(MSBuildProjectDirectory)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\utilities;$(MSBuildProjectDirectory)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -63,7 +63,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(MSBuildProjectDirectory)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\utilities;$(MSBuildProjectDirectory)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -91,8 +91,6 @@
     <ClInclude Include="include\parlex\details\perf_timer.hpp" />
     <ClInclude Include="include\parlex\details\producer.hpp" />
     <ClInclude Include="include\parlex\details\subjob.hpp" />
-    <ClInclude Include="include\parlex\details\unicode_op.hpp" />
-    <ClInclude Include="include\parlex\details\utils.hpp" />
     <ClInclude Include="include\parlex\filter_function.hpp" />
     <ClInclude Include="include\parlex\grammar.hpp" />
     <ClInclude Include="include\parlex\match.hpp" />
@@ -122,9 +120,12 @@
     <ClCompile Include="src\subjob.cpp" />
     <ClCompile Include="src\token.cpp" />
     <ClCompile Include="src\unicode.cpp" />
-    <ClCompile Include="src\unicode_op.cpp" />
-    <ClCompile Include="src\utils.cpp" />
     <ClCompile Include="src\wirth.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\utilities\utilities.vcxproj">
+      <Project>{c7981695-8ab9-4b6f-8179-a7195f6d992c}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
