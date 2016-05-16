@@ -297,7 +297,7 @@ sue = 6;</pre>
 };</pre>
 		</div>
 
-		<p>A closed form solution for p is determined symbollically, such that the following program is functionally equivalent.</p>
+		<p>A closed form solution for x is determined symbollically, such that the following program is functionally equivalent.</p>
 		<div class="code">
 			<p>Example (continued)</p>
 			<pre>advanceProjectilePosition := 
