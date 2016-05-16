@@ -289,11 +289,11 @@ sue = 6;</pre>
 			<pre>advanceProjectilePosition :=
 	(Vector3D initialPos, Vector3D initialVel, mass, drag, Vector3D gravity, delta_t)
 {
-	&lt;Real → Vector3&gt; p;                                      // declare the position function, p
-	mass * Δ^2p(t)/Δt^2 = -drag * Δp(t)/Δt + mass * gravity; // model p as a differential equation
-	p(0) = initialPos;                                       // with boundary conditions
-	Δp(0)/Δt = initialVel;
-	return p(delta_t);                                       // solve, substitute, evaluate
+	&lt;Real → Vector3&gt; x;                                      // declare the position function, x
+	mass * Δ^2x(t)/Δt^2 = -drag * Δx(t)/Δt + mass * gravity; // model x as a differential equation
+	x(0) = initialPos;                                       // with boundary conditions
+	Δx(0)/Δt = initialVel;
+	return x(delta_t);                                       // solve, substitute, evaluate
 };</pre>
 		</div>
 
