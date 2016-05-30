@@ -6,7 +6,7 @@
 #include "parlex/parser.hpp"
 #include "parlex/details/producer.hpp"
 #include "parlex/details/subjob.hpp"
-#include "parlex/details/logging.hpp"
+#include "logging.hpp"
 
 namespace parlex {
 namespace details {

@@ -5,8 +5,7 @@
 #include <sstream>
 #include <thread>
 
-#include "parlex/details/subjob.hpp"
-#include "parlex/details/logging.hpp"
+#include "logging.hpp"
 
 #define IMMEDIATE_MODE
 
@@ -51,10 +50,10 @@ worker_t worker;
 #endif // IMMEDIATE_MODE
 
 template<>
-void parlex::details::stringify(std::stringstream & ss) {}
+void logging::stringify(std::stringstream & ss) {}
 
 //the thread safe entry point
-void parlex::details::log_enque(std::string const * const item) {
+void logging::log_enque(std::string const * const item) {
 #ifdef IMMEDIATE_MODE
 	std::cout << *item;
 	std::cout.flush();

@@ -4,7 +4,14 @@
 #include "parlex/recognizer.hpp"
 #include "utils.hpp"
 
-std::string parlex::abstract_syntax_graph::to_dot() const {
+namespace parlex {
+
+bool abstract_syntax_graph::is_rooted() const {
+	auto i = table.find(root);
+	return i != table.end() && i->second.size() > 0;
+}
+
+std::string abstract_syntax_graph::to_dot() const {
 	std::string result = "digraph {\n";
 	std::set<match> completed;
 	std::queue<match> pending;
@@ -31,4 +38,6 @@ std::string parlex::abstract_syntax_graph::to_dot() const {
 	}
 	result += "}";
 	return result;
+}
+
 }

@@ -8,8 +8,8 @@
 #include "parlex/permutation.hpp"
 #include "parlex/state_machine.hpp"
 #include "parlex/details/producer.hpp"
-#include "parlex/details/logging.hpp"
-#include "parlex/details/perf_timer.hpp"
+#include "logging.hpp"
+#include "perf_timer.hpp"
 
 //#define FORCE_RECURSION
 
@@ -29,7 +29,7 @@ parser::parser(int threadCount) : activeCount(0), terminating(false) {
 					lock.unlock();
 					auto const & context = std::get<0>(item);
 					auto const nextDfaState = std::get<1>(item);
-					////DBG("thread ", threadCount, " executing dfa state");
+					//DBG("thread ", threadCount, " executing dfa state");
 					context.owner().machine.process(context, nextDfaState);
 					context.owner().end_dependency(); //reference code A
 					if (--activeCount == 0) {
@@ -52,8 +52,9 @@ parser::~parser() {
 	}
 }
 
-abstract_syntax_graph parser::parse(recognizer const & r, std::u32string const & document) {
+abstract_syntax_graph parser::parse(grammar const & g, std::u32string const & document) {
 	perf_timer timer("parse");
+	recognizer const & r = g.get_main_production();
 	std::unique_lock<std::mutex> lock(mutex); //use the lock to make sure we see activeCount != 0
 	details::job j(*this, document, r);
 #ifndef FORCE_RECURSION
@@ -80,6 +81,10 @@ void parser::schedule(details::context_ref const & c, int nextDfaState) {
 #else
 	c.owner().machine.process(c, nextDfaState);
 #endif
+}
+
+void parser::apply_associativity_and_precedence(abstract_syntax_graph & asg) {
+
 }
 
 abstract_syntax_graph parser::construct_result(details::job const & j, match const & match) {

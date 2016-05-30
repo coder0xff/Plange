@@ -14,48 +14,86 @@ grammar::grammar(std::string nameOfMain) : main_production_name(nameOfMain) {}
 
 grammar::grammar(std::string nameOfMain, std::map<std::string, std::shared_ptr<details::behavior_node>> const & trees, std::set<std::string> greedyNames) : main_production_name(nameOfMain)
 {
-	std::map<std::string, details::intermediate_nfa> intermediate_nfas;
+	std::map<std::string, details::intermediate_nfa> dfas;
 	for (auto const & nameAndBehaviorNode : trees) {
 		auto temp = nameAndBehaviorNode.second->to_intermediate_nfa().minimal_dfa().relabel();
-		intermediate_nfas[nameAndBehaviorNode.first] = temp;
-		std::string check = parlex::details::to_dot(temp);
+		dfas[nameAndBehaviorNode.first] = temp;
+		//std::string check = parlex::details::to_dot(temp);
 	}
 
-	assert(intermediate_nfas.count(main_production_name) == 1);
+	assert(dfas.count(main_production_name) == 1);
 
-	std::map<std::u32string, builtins::string_terminal *> literalsMap;
+	std::map<std::string, details::intermediate_nfa> reorderedDfas;
 
-	for (auto const & nameAndIntermediateNfa : intermediate_nfas) {
-        std::string const & name = nameAndIntermediateNfa.first;
-        details::intermediate_nfa const & intermediate_nfa = nameAndIntermediateNfa.second;
-		if (greedyNames.count(name) > 0) {
-			productions.emplace(std::piecewise_construct, std::forward_as_tuple(name), std::forward_as_tuple(name, intermediate_nfa.acceptStates.size(), builtins::greedy));
-		} else {
-			productions.emplace(std::piecewise_construct, std::forward_as_tuple(name), std::forward_as_tuple(name, intermediate_nfa.acceptStates.size()));
-		}
-	}
-
-	for (auto const & nameAndIntermediateNfa : intermediate_nfas) {
-        std::string const & name = nameAndIntermediateNfa.first;
-        details::intermediate_nfa const & intermediate_nfa = nameAndIntermediateNfa.second;
+	for (auto const & nameAndDfa : dfas) {
+		std::string const & name = nameAndDfa.first;
+		details::intermediate_nfa const & dfa = nameAndDfa.second;
+		//construct a map from dfa states to reordered states
 		std::map<int, int> stateMap;
-		stateMap[*intermediate_nfa.startStates.begin()] = 0;
-		for (unsigned int i = 0; i < intermediate_nfa.states.size(); ++i) {
-			if (intermediate_nfa.startStates.count(i) > 0 || intermediate_nfa.acceptStates.count(i) > 0) {
-				continue;
-			}
-			stateMap[i] = stateMap.size();
+		int startState = *dfa.startStates.begin();
+		bool startIsAccept = dfa.acceptStates.count(startState) > 0;
+		if (!startIsAccept) {
+			stateMap[*dfa.startStates.begin()] = 0;
 		}
-		for (unsigned int i = 0; i < intermediate_nfa.states.size(); ++i) {
-			if (intermediate_nfa.acceptStates.count(i) > 0 && intermediate_nfa.startStates.count(i) == 0) {
+		for (unsigned int i = 0; i < dfa.states.size(); ++i) {
+			//all the un-added non-accept states
+			if (i != startState && dfa.acceptStates.count(i) == 0) {
 				stateMap[i] = stateMap.size();
 			}
 		}
+		if (startIsAccept) {
+			stateMap[*dfa.startStates.begin()] = stateMap.size();
+		}
+		for (unsigned int i = 0; i < dfa.states.size(); ++i) {
+			//all the un-added accept states
+			if (i != startState && dfa.acceptStates.count(i) > 0) {
+				stateMap[i] = stateMap.size();
+			}
+		}
+
+		//it's a bimap, construct reverse lookup
+		std::map<int, int> stateMapDual;
+		for (auto const & i: stateMap) {
+			stateMapDual[i.second] = i.first;
+		}
+
+		//construct the reordered dfa
+		details::intermediate_nfa reordered;
+		unsigned int firstAcceptState = dfa.states.size() - dfa.acceptStates.size();
+		for (unsigned int i = 0; i < dfa.states.size(); ++i) {
+			int const dual = stateMapDual[i];
+			details::intermediate_nfa::state const & dfa_state = dfa.states[dual];
+			reordered.add_state(i, i >= firstAcceptState, dual == startState);
+			details::intermediate_nfa::state & reordered_state = reordered.states[i];
+			for (auto out_transition : dfa_state.out_transitions) {
+				reordered_state.out_transitions[out_transition.first] = { stateMap[*out_transition.second.begin()] };
+			}
+		}
+
+		reorderedDfas[name] = reordered;
+	}
+
+	//construct all the productions, without transitions
+	for (auto const & nameAndDfa : reorderedDfas) {
+        std::string const & name = nameAndDfa.first;
+        details::intermediate_nfa const & dfa = nameAndDfa.second;
+		if (greedyNames.count(name) > 0) {
+			productions.emplace(std::piecewise_construct, std::forward_as_tuple(name), std::forward_as_tuple(name, *dfa.startStates.begin(), dfa.acceptStates.size(), builtins::greedy));
+		} else {
+			productions.emplace(std::piecewise_construct, std::forward_as_tuple(name), std::forward_as_tuple(name, *dfa.startStates.begin(), dfa.acceptStates.size()));
+		}
+	}
+
+	//add transitions, linking productions
+	for (auto const & nameAndDfa : reorderedDfas) {
+        std::string const & name = nameAndDfa.first;
+        details::intermediate_nfa const & dfa = nameAndDfa.second;
 		state_machine & sm = productions.find(name)->second;
-		auto transitions = intermediate_nfa.get_transitions();
+		auto transitions = dfa.get_transitions();
+		std::map<std::u32string, builtins::string_terminal *> literalsMap;
         for (auto const & t : transitions) {
             recognizer const & r = t.symbol->get_recognizer(productions, literals, literalsMap);
-            sm.add_transition(stateMap[t.from], r, stateMap[t.to]);
+            sm.add_transition(t.from, r, t.to);
         }
 	}
 }
@@ -63,20 +101,32 @@ grammar::grammar(std::string nameOfMain, std::map<std::string, std::shared_ptr<d
 grammar::grammar(grammar const & other) : main_production_name(other.main_production_name), literals(other.literals) {
 	std::map<recognizer const *, recognizer const *> recognizersMap;
 	for (std::list<parlex::builtins::string_terminal>::const_iterator i = other.literals.begin(), j = literals.begin(); j != literals.end();) {
-		recognizersMap[(recognizer *)&(*i)] = (recognizer *)&(*j);
+		recognizersMap[(recognizer *)&(*(i++))] = (recognizer *)&(*(j++));
 	}
 
     for (auto const & nameAndStateMachine : other.productions) {
-        auto emplaceResult = productions.emplace(
-                std::piecewise_construct,
-                std::forward_as_tuple(nameAndStateMachine.first),
-                std::forward_as_tuple(nameAndStateMachine.first, nameAndStateMachine.second.get_accept_state_count()));
-        recognizersMap[(recognizer *)&nameAndStateMachine.second] = (recognizer *)&(emplaceResult.first->second);
-    }
+		std::string name = nameAndStateMachine.first;
+		state_machine const & sm = nameAndStateMachine.second;
+		std::pair<std::map<std::string, state_machine>::iterator, bool> emplaceResult;
+		if (sm.get_filter() != nullptr) {
+			emplaceResult = productions.emplace(
+				std::piecewise_construct,
+				std::forward_as_tuple(name),
+				std::forward_as_tuple(name, sm.get_start_state(), sm.get_accept_state_count(), *sm.get_filter(), sm.get_associativity()));
+		}
+		else {
+			emplaceResult = productions.emplace(
+				std::piecewise_construct,
+				std::forward_as_tuple(name),
+				std::forward_as_tuple(name, sm.get_accept_state_count(), sm.get_associativity()));
+		}
+		recognizersMap[(recognizer *)&sm] = (recognizer *)&(emplaceResult.first->second);
+	}
 
 	for (auto const & nameAndStateMachine : other.productions) {
+		state_machine const & sm = nameAndStateMachine.second;
 		state_machine & outProduction = productions.find(nameAndStateMachine.first)->second;
-		state_machine::states_t const & othersStates = nameAndStateMachine.second.get_states();
+		state_machine::states_t const & othersStates = sm.get_states();
 		for (unsigned int j = 0; j < othersStates.size(); ++j) {
 			for (auto const & symbolAndToState : othersStates[j]) {
 				recognizer const * mappedSymbol = &symbolAndToState.first.get();
@@ -104,12 +154,12 @@ builtins::string_terminal & grammar::add_literal(std::u32string contents) {
 	return literals.back();
 }
 
-state_machine & grammar::add_production(std::string id, size_t acceptStateCount) {
-	return productions.emplace(std::piecewise_construct, std::forward_as_tuple(id), std::forward_as_tuple(id, acceptStateCount)).first->second;
+state_machine & grammar::add_production(std::string id, size_t startState, size_t acceptStateCount, associativity assoc) {
+	return productions.emplace(std::piecewise_construct, std::forward_as_tuple(id), std::forward_as_tuple(id, startState, acceptStateCount, assoc)).first->second;
 }
 
-state_machine & grammar::add_production(std::string id, size_t acceptStateCount, filter_function const & filter) {
-	return productions.emplace(std::piecewise_construct, std::forward_as_tuple(id), std::forward_as_tuple(id, acceptStateCount, filter)).first->second;
+state_machine & grammar::add_production(std::string id, size_t startState, size_t acceptStateCount, filter_function const & filter, associativity assoc) {
+	return productions.emplace(std::piecewise_construct, std::forward_as_tuple(id), std::forward_as_tuple(id, startState, acceptStateCount, filter, assoc)).first->second;
 }
 
 void grammar::generate_cpp(std::string grammarName, std::string nameOfMain, std::ostream & cpp, std::ostream & hpp) const {
@@ -152,9 +202,9 @@ void grammar::generate_cpp(std::string grammarName, std::string nameOfMain, std:
 		std::string const & id = production.first;
 		state_machine const & sm = production.second;
 		if (sm.get_filter() == &builtins::greedy) {
-			cpp << "\tstatic parlex::state_machine & " << id << " = g.add_production(\"" << id << "\", " << sm.get_accept_state_count() << ", parlex::builtins::greedy);\n";
+			cpp << "\tstatic parlex::state_machine & " << id << " = g.add_production(\"" << id << "\", " << sm.get_start_state() << ", " << sm.get_accept_state_count() << ", parlex::builtins::greedy);\n";
 		} else {
-			cpp << "\tstatic parlex::state_machine & " << id << " = g.add_production(\"" << id << "\", " << sm.get_accept_state_count() << ");\n";
+			cpp << "\tstatic parlex::state_machine & " << id << " = g.add_production(\"" << id << "\", " << sm.get_start_state() << ", " << sm.get_accept_state_count() << ");\n";
 		}
 		recognizerToStringMap[(recognizer *)&sm] = id;
 	}

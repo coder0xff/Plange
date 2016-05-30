@@ -10,7 +10,7 @@
 namespace parlex {
 namespace builtins {
 
-parlex::state_machine wirth("wirth", 1);
+parlex::grammar wirth("root");
 
 }
 }
@@ -27,32 +27,35 @@ public:
 	virtual std::string get_id() const final { return "not_newline"; }
 } not_newline;
 
-parlex::builtins::string_terminal newline(to_utf32("\n"));
-parlex::builtins::string_terminal hash(to_utf32("#"));
-parlex::builtins::string_terminal period(to_utf32("."));
-parlex::builtins::string_terminal equals(to_utf32("="));
-parlex::builtins::string_terminal quote(to_utf32("\""));
-parlex::builtins::string_terminal pipe(to_utf32("|"));
-parlex::builtins::string_terminal openSquare(to_utf32("["));
-parlex::builtins::string_terminal closeSquare(to_utf32("]"));
-parlex::builtins::string_terminal openParen(to_utf32("("));
-parlex::builtins::string_terminal closeParen(to_utf32(")"));
-parlex::builtins::string_terminal openCurly(to_utf32("{"));
-parlex::builtins::string_terminal closeCurly(to_utf32("}"));
-parlex::builtins::string_terminal underscore(to_utf32("_"));
 
-parlex::state_machine whiteSpaceDfa("whiteSpace", 1, parlex::builtins::greedy);
-parlex::state_machine commentDfa("comment", 1);
-parlex::state_machine productionDfa("production", 1);
-parlex::state_machine expressionDfa("expression", 1);
-parlex::state_machine termDfa("term", 1);
-parlex::state_machine factorDfa("factor", 1);
-parlex::state_machine identifierDfa("identifier", 1, parlex::builtins::greedy);
+parlex::builtins::string_terminal & newline = parlex::builtins::wirth.add_literal(U"\n");
+parlex::builtins::string_terminal & hash = parlex::builtins::wirth.add_literal(U"#");
+parlex::builtins::string_terminal & period = parlex::builtins::wirth.add_literal(U".");
+parlex::builtins::string_terminal & equals = parlex::builtins::wirth.add_literal(U"=");
+parlex::builtins::string_terminal & quote = parlex::builtins::wirth.add_literal(U"\"");
+parlex::builtins::string_terminal & pipe = parlex::builtins::wirth.add_literal(U"|");
+parlex::builtins::string_terminal & openSquare = parlex::builtins::wirth.add_literal(U"[");
+parlex::builtins::string_terminal & closeSquare = parlex::builtins::wirth.add_literal(U"]");
+parlex::builtins::string_terminal & openParen = parlex::builtins::wirth.add_literal(U"(");
+parlex::builtins::string_terminal & closeParen = parlex::builtins::wirth.add_literal(U")");
+parlex::builtins::string_terminal & openCurly = parlex::builtins::wirth.add_literal(U"{");
+parlex::builtins::string_terminal & closeCurly = parlex::builtins::wirth.add_literal(U"}");
+parlex::builtins::string_terminal & underscore = parlex::builtins::wirth.add_literal(U"_");
+
+
+parlex::state_machine & whiteSpaceDfa = parlex::builtins::wirth.add_production("whiteSpace", 0, 1, parlex::builtins::greedy);
+parlex::state_machine & commentDfa = parlex::builtins::wirth.add_production("comment", 0, 1);
+parlex::state_machine & productionDfa = parlex::builtins::wirth.add_production("production", 0, 1);
+parlex::state_machine & expressionDfa = parlex::builtins::wirth.add_production("expression", 0, 1);
+parlex::state_machine & termDfa = parlex::builtins::wirth.add_production("term", 0, 1);
+parlex::state_machine & factorDfa = parlex::builtins::wirth.add_production("factor", 0, 1);
+parlex::state_machine & identifierDfa = parlex::builtins::wirth.add_production("identifier", 0, 1, parlex::builtins::greedy);
+parlex::state_machine & root = parlex::builtins::wirth.add_production("root", 0, 1);
 
 int build() {
-	parlex::builtins::wirth.add_transition(0, productionDfa, 0);
-	parlex::builtins::wirth.add_transition(0, whiteSpaceDfa, 0);
-	parlex::builtins::wirth.add_transition(0, commentDfa, 0);
+	root.add_transition(0, productionDfa, 0);
+	root.add_transition(0, whiteSpaceDfa, 0);
+	root.add_transition(0, commentDfa, 0);
 
 	whiteSpaceDfa.add_transition(0, parlex::builtins::white_space, 1);
 	whiteSpaceDfa.add_transition(1, parlex::builtins::white_space, 1);
@@ -235,7 +238,7 @@ namespace builtins {
 grammar parse_wirth(std::string nameOfMain, std::u32string const & document, std::set<std::string> greedyNames) {
 	parser p;
 	abstract_syntax_graph asg = p.parse(wirth, document);
-	std::string check = asg.to_dot();
+	//std::string check = asg.to_dot();
 	permutation const & top = *asg.table[asg.root].begin();
 	std::vector<state_machine> machines;
 	std::map<std::string, std::shared_ptr<details::behavior_node>> trees;

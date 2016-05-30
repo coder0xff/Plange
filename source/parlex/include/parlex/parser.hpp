@@ -23,7 +23,7 @@ class parser {
 public:
 	parser(int threadCount = std::thread::hardware_concurrency());
 	~parser();
-	abstract_syntax_graph parse(recognizer const & g, std::u32string const & document);
+	abstract_syntax_graph parse(grammar const & g, std::u32string const & document);
 private:
 	friend class details::job;
 	friend class details::subjob;
@@ -52,6 +52,8 @@ private:
 
 	//Construct an ASG, and if a solution was found, prunes unreachable nodes
 	abstract_syntax_graph construct_result(details::job const & j, match const & match);
+
+	void apply_associativity_and_precedence(abstract_syntax_graph & asg);
 };
 
 }

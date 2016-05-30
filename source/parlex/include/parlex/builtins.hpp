@@ -6,6 +6,7 @@
 #include "parlex/builtins/set_terminal.hpp"
 #include "parlex/builtins/string_terminal.hpp"
 #include "parlex/builtins/unicode.hpp"
+#include "parlex/builtins/not_double_quote.hpp"
 
 // Filters
 #include "parlex/builtins/greedy.hpp"

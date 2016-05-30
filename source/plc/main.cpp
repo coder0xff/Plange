@@ -6,7 +6,6 @@
 #include "utils.hpp"
 
 int main(int argc, const char* argv[]) {
-	parlex::grammar const & g = get_plange();
 	std::vector<std::string> filenames;
 	try {
 		TCLAP::CmdLine cmd("Plange compiler", ' ', "0.1");
@@ -20,6 +19,7 @@ int main(int argc, const char* argv[]) {
 	}
 
 	parlex::parser p;
+	parlex::grammar const & g = get_plange();
 
 	for (std::string filename : filenames) {
 		std::ifstream ifs(filename, std::ios::binary);
@@ -28,7 +28,11 @@ int main(int argc, const char* argv[]) {
 			throw std::exception(("Could not open file: " + filename).c_str());
 		}
 		std::u32string s = read_with_bom(ifs);
-		parlex::abstract_syntax_graph asg = p.parse(g.get_main_production(), s);
+		parlex::abstract_syntax_graph asg = p.parse(g, s);
+		if (!asg.is_rooted()) {
+			std::cerr << (filename + " could not be parsed.\n");
+			throw std::exception((filename + " could not be parsed.\n").c_str());
+		}
 	}
 
 	return 0;

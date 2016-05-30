@@ -130,11 +130,31 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Assertion.h" />
+    <ClInclude Include="Constant.h" />
+    <ClInclude Include="ExecutionContext.h" />
+    <ClInclude Include="FunctionModel.h" />
     <ClInclude Include="plange_grammar.hpp" />
+    <ClInclude Include="Scope.h" />
+    <ClInclude Include="SideEffect.h" />
+    <ClInclude Include="SourceCode.h" />
+    <ClInclude Include="Statement.h" />
+    <ClInclude Include="Thread.h" />
+    <ClInclude Include="Variable.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Assertion.cpp" />
+    <ClCompile Include="Constant.cpp" />
+    <ClCompile Include="ExecutionContext.cpp" />
+    <ClCompile Include="FunctionModel.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="plange_grammar.cpp" />
+    <ClCompile Include="Scope.cpp" />
+    <ClCompile Include="SideEffect.cpp" />
+    <ClCompile Include="SourceCode.cpp" />
+    <ClCompile Include="Statement.cpp" />
+    <ClCompile Include="Thread.cpp" />
+    <ClCompile Include="Variable.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

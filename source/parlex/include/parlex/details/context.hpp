@@ -30,7 +30,7 @@ public:
 
 	bool is_null() const;
 	subjob & owner() const;
-	context_ref prior() const;
+	context_ref const & prior() const;
 	int current_document_position() const;
 	std::unique_ptr<match> from_transition() const; //unique_ptr serves as optional
 	permutation result() const;

@@ -5,7 +5,7 @@
 #include "parlex/details/context.hpp"
 #include "parlex/parser.hpp"
 #include "parlex/token.hpp"
-#include "parlex/details/logging.hpp"
+#include "logging.hpp"
 
 namespace parlex {
 namespace details {
@@ -15,7 +15,7 @@ job::job(parser & owner, std::u32string const & document, recognizer const & mai
   main(main),
   owner(owner)
 	{
-		DBG("starting job using recognizer '", main, "'");
+		//DBG("starting job using recognizer '", main, "'");
 
 		//similar to get_product, but different for constructor
 		match_class matchClass(main, 0);

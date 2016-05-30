@@ -1,5 +1,5 @@
 #include "parlex/details/job.hpp"
-#include "parlex/details/logging.hpp"
+#include "logging.hpp"
 #include "parlex/terminal.hpp"
 #include "parlex/token.hpp"
 

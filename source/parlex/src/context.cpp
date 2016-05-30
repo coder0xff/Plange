@@ -4,7 +4,7 @@
 
 #include "parlex/details/context.hpp"
 #include "parlex/details/subjob.hpp"
-#include "parlex/details/logging.hpp"
+#include "logging.hpp"
 
 std::atomic<int> refIDCounter(0);
 std::atomic<int> contextIDCounter(0);
@@ -51,13 +51,14 @@ context_ref context::get_ref() const {
 }
 
 std::vector<match> context::result() const {
-	if (prior.is_null()) {
-		return std::vector<match>();
-	} else {
-		auto result = prior.result();
-		result.push_back(*from_transition);
-		return result;
+	std::vector<match> result;
+	context_ref start = get_ref();
+	context_ref const * current = &start;
+	while (!current->prior().is_null()) {
+		result.push_back(*current->from_transition());
+		current = &current->prior();
 	}
+	return std::vector<match>(result.rbegin(), result.rend());
 }
 
 context_ref::context_ref() : rc(nullptr), id(++refIDCounter) { }
@@ -108,7 +109,7 @@ subjob & context_ref::owner() const {
 	return temp->owner;
 }
 
-context_ref context_ref::prior() const {
+context_ref const & context_ref::prior() const {
 	assert(rc);
     //DBG("Dereferencing ref:", id, " to c:",rc->id);
 	context* temp = rc->c;

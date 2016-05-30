@@ -75,9 +75,6 @@
     <ClInclude Include="include\parlex\details\job.hpp">
       <Filter>Header Files\details</Filter>
     </ClInclude>
-    <ClInclude Include="include\parlex\details\logging.hpp">
-      <Filter>Header Files\details</Filter>
-    </ClInclude>
     <ClInclude Include="include\parlex\details\subjob.hpp">
       <Filter>Header Files\details</Filter>
     </ClInclude>
@@ -102,8 +99,11 @@
     <ClInclude Include="include\parlex\details\auto_map.hpp">
       <Filter>Header Files\details</Filter>
     </ClInclude>
-    <ClInclude Include="include\parlex\details\perf_timer.hpp">
-      <Filter>Header Files\details</Filter>
+    <ClInclude Include="include\parlex\associativity.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\parlex\builtins\not_double_quote.hpp">
+      <Filter>Header Files\builtins</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -117,9 +117,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\job.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\logging.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\match_class.cpp">
@@ -158,7 +155,7 @@
     <ClCompile Include="src\unicode.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\perf_timer.cpp">
+    <ClCompile Include="src\match.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

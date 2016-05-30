@@ -6,13 +6,14 @@
 #include <thread>
 
 #ifndef NDEBUG
-#	define DBG(...) parlex::details::log_impl("DBG", __FILE__, __LINE__, __VA_ARGS__)
+#	define DBG(...) logging::log_impl("DBG", __FILE__, __LINE__, __VA_ARGS__)
 #else
 #   define DBG(...)
 #endif
 
-namespace parlex {
-namespace details {
+#define INF(...) logging::log_impl("INF", __FILE__, __LINE__, __VA_ARGS__)
+
+namespace logging {
 
 extern void log_enque(std::string const * const item);
 
@@ -38,7 +39,6 @@ void log_impl(char const * const cat, char const * const file, int line, Ts cons
 	log_enque(new std::string(ss.str()));
 }
 
-}
 }
 
 #endif

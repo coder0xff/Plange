@@ -41,8 +41,8 @@ parlex::builtins::string_terminal backslash(to_utf32("\\"));
 parlex::builtins::string_terminal double_quote(to_utf32("\""));
 parlex::builtins::string_terminal x(to_utf32("x"));
 
-parlex::state_machine octal_escape_sequence("octal_escape_sequence", 3, parlex::builtins::greedy);
-parlex::state_machine hex_escape_sequence("hex_escape_sequence", 1, parlex::builtins::greedy);
+parlex::state_machine octal_escape_sequence("octal_escape_sequence", 0, 3, parlex::builtins::greedy);
+parlex::state_machine hex_escape_sequence("hex_escape_sequence", 0, 1, parlex::builtins::greedy);
 
 int build() {
     octal_escape_sequence.add_transition(0, backslash, 1);
@@ -71,7 +71,7 @@ int dont_care = build();
 namespace parlex {
 	namespace builtins {
 
-		c_string_t::c_string_t() : state_machine("c_string", 1, parlex::builtins::greedy) { }
+		c_string_t::c_string_t() : state_machine("c_string", 0, 1, parlex::builtins::greedy) { }
 
 		std::u32string c_string_t::extract(std::u32string document, match const & m, abstract_syntax_graph const & asg)
 		{

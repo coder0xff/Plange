@@ -24,14 +24,14 @@ public:
 	grammar& operator=(grammar const &) = delete;
 	void generate_cpp(std::string grammarName, std::string nameOfMain, std::ostream & cpp, std::ostream & hpp) const;
 	std::map<std::string, state_machine> const & get_productions() const;
-	state_machine & add_production(std::string id, size_t acceptStateCount);
-	state_machine & add_production(std::string id, size_t acceptStateCount, filter_function const & filter);
+	state_machine & add_production(std::string id, size_t startState, size_t acceptStateCount, associativity assoc = associativity::none);
+	state_machine & add_production(std::string id, size_t startState, size_t acceptStateCount, filter_function const & filter, associativity assoc = associativity::none);
 	builtins::string_terminal & add_literal(std::u32string contents);
 private:
 	std::string main_production_name;
 	std::map<std::string, state_machine> productions;
 	std::list<builtins::string_terminal> literals;
-
+	std::vector<std::set<state_machine const *>> precedence;
 };
 
 }

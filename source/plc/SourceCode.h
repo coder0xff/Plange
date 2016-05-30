@@ -6,7 +6,7 @@
 class SourceCode
 {
 public:
-	SourceCode();
+	SourceCode(parlex::abstract_syntax_graph graph);
 	~SourceCode();
 	parlex::abstract_syntax_graph graph;
 };

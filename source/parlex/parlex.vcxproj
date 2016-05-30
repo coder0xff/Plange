@@ -74,10 +74,12 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="include\parlex\abstract_syntax_graph.hpp" />
+    <ClInclude Include="include\parlex\associativity.hpp" />
     <ClInclude Include="include\parlex\builtins.hpp" />
     <ClInclude Include="include\parlex\builtins\any_character.hpp" />
     <ClInclude Include="include\parlex\builtins\c_string.hpp" />
     <ClInclude Include="include\parlex\builtins\greedy.hpp" />
+    <ClInclude Include="include\parlex\builtins\not_double_quote.hpp" />
     <ClInclude Include="include\parlex\builtins\set_terminal.hpp" />
     <ClInclude Include="include\parlex\builtins\string_terminal.hpp" />
     <ClInclude Include="include\parlex\builtins\unicode.hpp" />
@@ -86,9 +88,7 @@
     <ClInclude Include="include\parlex\details\behavior.hpp" />
     <ClInclude Include="include\parlex\details\context.hpp" />
     <ClInclude Include="include\parlex\details\job.hpp" />
-    <ClInclude Include="include\parlex\details\logging.hpp" />
     <ClInclude Include="include\parlex\details\nfa.hpp" />
-    <ClInclude Include="include\parlex\details\perf_timer.hpp" />
     <ClInclude Include="include\parlex\details\producer.hpp" />
     <ClInclude Include="include\parlex\details\subjob.hpp" />
     <ClInclude Include="include\parlex\filter_function.hpp" />
@@ -110,11 +110,10 @@
     <ClCompile Include="src\c_string.cpp" />
     <ClCompile Include="src\grammar.cpp" />
     <ClCompile Include="src\job.cpp" />
-    <ClCompile Include="src\logging.cpp" />
+    <ClCompile Include="src\match.cpp" />
     <ClCompile Include="src\match_class.cpp" />
     <ClCompile Include="src\nfa.cpp" />
     <ClCompile Include="src\parser.cpp" />
-    <ClCompile Include="src\perf_timer.cpp" />
     <ClCompile Include="src\producer.cpp" />
     <ClCompile Include="src\state_machine.cpp" />
     <ClCompile Include="src\subjob.cpp" />

@@ -14,6 +14,7 @@ struct abstract_syntax_graph {
 	inline abstract_syntax_graph(match root) : root(root) {}
 	std::map<match, std::set<permutation>> table;
 	match root;
+	bool is_rooted() const;
 	std::string to_dot() const;
 };
 

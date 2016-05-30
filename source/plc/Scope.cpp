@@ -1,11 +1,9 @@
 #include "Scope.h"
 
 
-
-Scope::Scope()
+Scope::Scope(SourceCode & source) : sourceCode(source)
 {
 }
-
 
 Scope::~Scope()
 {

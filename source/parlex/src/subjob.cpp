@@ -1,7 +1,7 @@
 #include <string>
 #include <cassert>
 
-#include "parlex/details/logging.hpp"
+#include "logging.hpp"
 #include "parlex/details/subjob.hpp"
 #include "parlex/details/context.hpp"
 #include "parlex/details/job.hpp"
@@ -55,7 +55,9 @@ void subjob::on(context_ref const & c, recognizer const & r, int nextDfaState) {
 }
 
 void subjob::accept(context_ref const & c) {
+	assert(&c.owner() == this);
 	permutation p = c.result();
+	//DBG("Accepting r:", r.get_id(), " p:", documentPosition, " l:", c.current_document_position() - documentPosition);
 	if (!machine.get_filter()) {
 		int len = c.current_document_position() - c.owner().documentPosition;
 		enque_permutation(len, p);
@@ -93,7 +95,7 @@ void subjob::increment_lifetime() {
 }
 
 void subjob::flush() {
-	//DBG("flush m:", machine, " b:", documentPosition);
+	///DBG("flush m:", machine, " b:", documentPosition);
 	if (machine.get_filter() != nullptr) {
 		std::unique_lock<std::mutex> lock(mutex);
 		std::set<int> selections = (*machine.get_filter())(queuedPermutations);

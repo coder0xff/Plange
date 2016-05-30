@@ -74,13 +74,13 @@ DECLARATION = [XML_DOC_STRING {IC}] ["extern" {IC}] (TYPE_DEREFERENCE | VOLATILE
 #declare a variable and assign a value to it, see: statement
 DECLARATION_ASSIGNMENT = [XML_DOC_STRING {IC}] [ (TYPE_DEREFERENCE | IMPLICIT_TYPE_DEREFERENCE | VOLATILE_IMPLICIT_TYPE_DEREFERENCE | VOLATILE_TYPE_DEREFERENCE) {IC} ] IDENTIFIER {IC} ("←"|"<-") {IC} EXPRESSION.
 
-DELTA = ("Δ"|"_delta_") ["^" WHOLE_NUMBER] expression
+DELTA = ("Δ"|"_delta_") ["^" WHOLE_NUMBER] EXPRESSION.
 
 #define a constant
 DEFINITION = [XML_DOC_STRING {IC}] [ (TYPE_DEREFERENCE | IMPLICIT_TYPE_DEREFERENCE) {IC} ] IDENTIFIER {IC} ":=" {IC} EXPRESSION.
 
 #collection difference (similar to set difference)
-DIFFERENCE = EXPRESSION {IC} "/" {IC} EXPRESSION.
+DIFFERENCE = EXPRESSION {IC} "\\" {IC} EXPRESSION.
 
 #a dimension used in dimensional analysis
 DIMENSION = IDENTIFIER | DIMENSIONAL_ANALYSIS_OP.
@@ -111,10 +111,10 @@ END_OF_LINE_COMMENT = "//" {all} "\n".
 
 EQUALITY = EXPRESSION {IC} "=" {IC} EXPRESSION.
 
-#a constraint asserting that at least one element of the specified Collection are true
+#a constraint asserting that at least one element of the specified Collection is true
 EXISTS = "∃" {IC} EXPRESSION.
 
-#a constraint asserting that exactly one element of the specified Collection are true
+#a constraint asserting that exactly one element of the specified Collection is true
 EXISTS_ONE = "∃!" {IC} EXPRESSION.
 
 EXPONENTIATION = EXPRESSION {IC} "^" {IC} EXPRESSION.
@@ -253,7 +253,7 @@ PARAMETER = ([ TYPE_DEREFERENCE {IC} ] IDENTIFIER) | ([ (TYPE_DEREFERENCE | IMPL
 #an expression in parenthesis
 PARENTHETICAL = "(" {IC} EXPRESSION {IC} ")".
 
-#used in embedded_string
+#used in EMBEDDED_COMMENT_INTERIOR
 PAYLOAD = {all}.
 
 #see: function
