@@ -238,7 +238,7 @@ namespace builtins {
 grammar parse_wirth(std::string nameOfMain, std::u32string const & document, std::set<std::string> greedyNames) {
 	parser p;
 	abstract_syntax_graph asg = p.parse(wirth, document);
-	//std::string check = asg.to_dot();
+	std::string check = asg.to_dot();
 	permutation const & top = *asg.table[asg.root].begin();
 	std::vector<state_machine> machines;
 	std::map<std::string, std::shared_ptr<details::behavior_node>> trees;

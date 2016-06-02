@@ -80,6 +80,8 @@
     <ClInclude Include="include\parlex\builtins\c_string.hpp" />
     <ClInclude Include="include\parlex\builtins\greedy.hpp" />
     <ClInclude Include="include\parlex\builtins\not_double_quote.hpp" />
+    <ClInclude Include="include\parlex\builtins\not_newline.hpp" />
+    <ClInclude Include="include\parlex\builtins\precedence_grammar.hpp" />
     <ClInclude Include="include\parlex\builtins\set_terminal.hpp" />
     <ClInclude Include="include\parlex\builtins\string_terminal.hpp" />
     <ClInclude Include="include\parlex\builtins\unicode.hpp" />
@@ -114,6 +116,7 @@
     <ClCompile Include="src\match_class.cpp" />
     <ClCompile Include="src\nfa.cpp" />
     <ClCompile Include="src\parser.cpp" />
+    <ClCompile Include="src\precedence_grammar.cpp" />
     <ClCompile Include="src\producer.cpp" />
     <ClCompile Include="src\state_machine.cpp" />
     <ClCompile Include="src\subjob.cpp" />

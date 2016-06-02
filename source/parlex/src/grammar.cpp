@@ -154,6 +154,11 @@ builtins::string_terminal & grammar::add_literal(std::u32string contents) {
 	return literals.back();
 }
 
+void grammar::add_precedence(state_machine const & productionA, state_machine const & productionB)
+{
+	precedence[&productionA].insert(&productionB);
+}
+
 state_machine & grammar::add_production(std::string id, size_t startState, size_t acceptStateCount, associativity assoc) {
 	return productions.emplace(std::piecewise_construct, std::forward_as_tuple(id), std::forward_as_tuple(id, startState, acceptStateCount, assoc)).first->second;
 }

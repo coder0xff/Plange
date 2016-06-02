@@ -105,6 +105,12 @@
     <ClInclude Include="include\parlex\builtins\not_double_quote.hpp">
       <Filter>Header Files\builtins</Filter>
     </ClInclude>
+    <ClInclude Include="include\parlex\builtins\not_newline.hpp">
+      <Filter>Header Files\builtins</Filter>
+    </ClInclude>
+    <ClInclude Include="include\parlex\builtins\precedence_grammar.hpp">
+      <Filter>Header Files\builtins</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\abstract_syntax_graph.cpp">
@@ -156,6 +162,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\match.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\precedence_grammar.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

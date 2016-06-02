@@ -30,12 +30,24 @@ std::string not_double_quote_t::get_id() const {
 	return "not_double_quote";
 }
 
+bool not_newline_t::test(std::u32string const & document, size_t documentPosition) const {
+	return documentPosition < document.length() && document[documentPosition] != U'\n';
+}
+
+size_t not_newline_t::get_length() const {
+	return 1;
+}
+
+std::string not_newline_t::get_id() const {
+	return "not_newline";
+}
 }
 
 namespace builtins {
 
 parlex::details::any_character_t any_character;
 parlex::details::not_double_quote_t not_double_quote;
+parlex::details::not_newline_t not_newline;
 
 string_terminal::string_terminal(std::u32string const & s) : s(s), length(s.length()), id(to_utf8(s)) {}
 
@@ -141,6 +153,7 @@ std::map<std::string, recognizer *> const & get_builtins_table() {
 			&line_separator,
 			&lowercase_letter,
 			&not_double_quote,
+			&not_newline,
 			&math_symbol,
 			&modifier_letter,
 			&modifier_symbol,

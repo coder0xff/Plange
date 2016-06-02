@@ -440,6 +440,30 @@ void generate_test_2() {
 	grammar.generate_cpp("plange", "STATEMENT_SCOPE", cppStream, hppStream);
 }
 
+void generate_test_3() {
+	std::u32string precedenceDefinitions = read_with_bom(std::ifstream("C:\\Users\\Brent\\Dropbox\\Plange\\documentation\\operator-precedence.txt"));
+}
+
+void generate_precedence_parser() {
+	std::u32string grammarString = read_with_bom(std::ifstream("C:\\Users\\Brent\\Dropbox\\Plange\\documentation\\precedence.wsn"));
+	auto grammar = parlex::builtins::parse_wirth("SYNTAX", grammarString, { "IDENTIFIER" });
+
+	std::ofstream cppStream("C:\\Users\\Brent\\Dropbox\\Plange\\source\\parlex\\src\\precedence_grammar.cpp");
+	assert(cppStream);
+
+	std::ofstream hppStream("C:\\Users\\Brent\\Dropbox\\Plange\\source\\parlex\\include\\parlex\\builtins\\precedence_grammar.hpp");
+	assert(hppStream);
+
+	grammar.generate_cpp("precedence", "SYNTAX", cppStream, hppStream);
+}
+
+void precedence_test_1() {
+	parlex::parser p;
+	auto asg = p.parse(get_precedence(), read_with_bom(std::ifstream("C:\\Users\\Brent\\Dropbox\\Plange\\documentation\\operator-precedence.txt")));
+	auto check = asg.to_dot();
+	assert(asg.is_rooted());
+}
+
 int main(void) {
 
 #define RUN_TEST(name) \
@@ -447,7 +471,7 @@ int main(void) {
 	name(); \
 	std::cout << "********** " << #name << " completed **********\n";
 
-	RUN_TEST(parser_test_1);
+	/*RUN_TEST(parser_test_1);
 	RUN_TEST(parser_test_2);
 	RUN_TEST(parser_test_3);
 	RUN_TEST(parser_test_4);
@@ -476,6 +500,8 @@ int main(void) {
 	RUN_TEST(plange_test_4);
 	RUN_TEST(plange_test_5);
 	RUN_TEST(plange_test_6);
-	//RUN_TEST(generate_test_1);
-	RUN_TEST(generate_test_2);
+	RUN_TEST(generate_test_1);
+	RUN_TEST(generate_test_2);*/
+	//RUN_TEST(generate_precedence_parser);
+	RUN_TEST(precedence_test_1);
 }

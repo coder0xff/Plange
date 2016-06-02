@@ -3,6 +3,7 @@
 
 #include <map>
 #include <string>
+#include <set>
 
 #include "parlex/state_machine.hpp"
 #include "parlex/builtins/string_terminal.hpp"
@@ -27,11 +28,12 @@ public:
 	state_machine & add_production(std::string id, size_t startState, size_t acceptStateCount, associativity assoc = associativity::none);
 	state_machine & add_production(std::string id, size_t startState, size_t acceptStateCount, filter_function const & filter, associativity assoc = associativity::none);
 	builtins::string_terminal & add_literal(std::u32string contents);
+	void add_precedence(state_machine const & productionA, state_machine const & productionB);
 private:
 	std::string main_production_name;
 	std::map<std::string, state_machine> productions;
 	std::list<builtins::string_terminal> literals;
-	std::vector<std::set<state_machine const *>> precedence;
+	std::map<state_machine const *, std::set<state_machine const *>> precedence;
 };
 
 }

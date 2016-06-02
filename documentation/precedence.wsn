@@ -1,0 +1,5 @@
+﻿IDENTIFIER = (letter | "_") {letter | number | "_"}.
+ENTRY = IDENTIFIER ":" IDENTIFIER NEWLINE.
+COMMENT = "#" {not_newline} NEWLINE.
+SYNTAX = {ENTRY | COMMENT}.
+NEWLINE = "\n".
