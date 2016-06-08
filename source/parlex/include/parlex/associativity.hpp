@@ -4,6 +4,7 @@
 namespace parlex {
 	enum associativity {
 		none,
+		any,
 		left,
 		right
 	};

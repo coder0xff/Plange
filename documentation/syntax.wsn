@@ -7,11 +7,13 @@ ADDITION = EXPRESSION {IC} "+" {IC} EXPRESSION.
 ALL = "∀" {IC} EXPRESSION.
 
 #create an object on the heap
-ALLOCATION = "alloc" {IC} INVOCATION.
+ALLOCATION = "alloc" {IC} PARENTHETICAL_INVOCATION.
 
 AND = EXPRESSION {IC} ("∧"|"and") {IC} EXPRESSION.
 
 ARRAY = "[" {IC} [EXPRESSION {{IC} "," {IC} EXPRESSION} {IC} ] "]".
+
+ARRAY_INVOCATION = EXPRESSION "[" [{IC} (EXPRESSION|SLICE)] {{IC} "," [{IC} (EXPRESSION|SLICE)]} {IC} "]".
 
 #place the given value into the given variable
 ASSIGNMENT = EXPRESSION {IC} ("←"|"<-") {IC} {EXPRESSION {IC} ("←"|"<-") {IC}} EXPRESSION.
@@ -72,16 +74,17 @@ CONSTRUCTIVE_OP = COMPOSITION | PREPEND | NULL_COALESCE.
 #scalar multiplication or Vector<3, N> cross product
 CROSS_PRODUCT = EXPRESSION {IC} ("×"|"_x_") {IC} EXPRESSION.
 
-#declare a variable, see: statement
-DECLARATION = [XML_DOC_STRING {IC}] ["extern" {IC}] (TYPE_DEREFERENCE | VOLATILE_TYPE_DEREFERENCE) {IC} IDENTIFIER.
-
 #declare a variable and assign a value to it, see: statement
-DECLARATION_ASSIGNMENT = [XML_DOC_STRING {IC}] [ (TYPE_DEREFERENCE | IMPLICIT_TYPE_DEREFERENCE | VOLATILE_IMPLICIT_TYPE_DEREFERENCE | VOLATILE_TYPE_DEREFERENCE) {IC} ] IDENTIFIER {IC} ("←"|"<-") {IC} EXPRESSION.
+DECLARATION = [XML_DOC_STRING {IC}] ["extern" {IC}] (TYPE_DEREFERENCE | IMPLICIT_TYPE_DEREFERENCE | VOLATILE_IMPLICIT_TYPE_DEREFERENCE | VOLATILE_TYPE_DEREFERENCE) {IC} DECLARATION_PART {{IC} "," {IC} DECLARATION_PART}.
 
-DELTA = ("Δ"|"_delta_") ["^" WHOLE_NUMBER] EXPRESSION.
+DECLARATION_PART = IDENTIFIER [{IC} ("←"|"<-") {IC} EXPRESSION].
 
 #define a constant
-DEFINITION = [XML_DOC_STRING {IC}] [ (TYPE_DEREFERENCE | IMPLICIT_TYPE_DEREFERENCE) {IC} ] IDENTIFIER {IC} ":=" {IC} EXPRESSION.
+DEFINITION = [XML_DOC_STRING {IC}] [ (TYPE_DEREFERENCE | IMPLICIT_TYPE_DEREFERENCE) {IC} ] DEFINITION_PART {{IC} "," {IC} DEFINITION_PART}.
+
+DEFINITION_PART = IDENTIFIER {IC} ":=" {IC} EXPRESSION.
+
+DELTA = ("Δ"|"_delta_") ["^" WHOLE_NUMBER] EXPRESSION.
 
 #collection difference (similar to set difference)
 DIFFERENCE = EXPRESSION {IC} "\\" {IC} EXPRESSION.
@@ -109,7 +112,7 @@ EMBEDDED_COMMENT = "/*" EMBEDDED_COMMENT_INTERIOR "*/".
 EMBEDDED_COMMENT_INTERIOR = PAYLOAD | "*" EMBEDDED_COMMENT_INTERIOR "*".
 
 #a string bounded by arbirtrarily-sized delimiters
-EMBEDDED_STRING = ("\"\"\"\n" {all} "\n\"\"\"") | ("\"\"\"" {all} "\"\"\"") | ("\"" EMBEDDED_STRING "\"").
+EMBEDDED_STRING = ("\"\"\"\n" {all} "\n\"\"\"") | ("\"\"\"" not_double_quote {all} "\"\"\"") | ("\"" EMBEDDED_STRING "\"").
 
 END_OF_LINE_COMMENT = "//" {all} "\n".
 
@@ -141,8 +144,23 @@ FRACTIONAL = (decimal_digit {decimal_digit} "." {decimal_digit}) | ("." decimal_
 
 FREE = "free" {IC} EXPRESSION.
 
+#The FUNCTION_MODIFIER_* rules model:
+#	["stable" | "unstable"] ["no_throw"] ["atomic"] {PLATFORM} ["pure"|"imperative"|"opaque"]
+#with the caveat that there has to be an IC between any modifier and the next (if there is a next)
+FUNCTION_MODIFIER = [FUNCTION_MODIFIER_STABILITY|FUNCTION_MODIFIER_NO_THROW|FUNCTION_MODIFIER_ATOMIC|FUNCTION_MODIFIER_PLATFORM|FUNCTION_MODIFIER_MODEL] {IC}.
+
+FUNCTION_MODIFIER_ATOMIC = "atomic" [ICR (FUNCTION_MODIFIER_PLATFORM|FUNCTION_MODIFIER_MODEL)].
+
+FUNCTION_MODIFIER_MODEL = "pure" | "imperative" | "opaque".
+
+FUNCTION_MODIFIER_NO_THROW = "no_throw" [ICR (FUNCTION_MODIFIER_ATOMIC|FUNCTION_MODIFIER_PLATFORM|FUNCTION_MODIFIER_MODEL)].
+
+FUNCTION_MODIFIER_PLATFORM = PLATFORM {ICR PLATFORM} [ICR FUNCTION_MODIFIER_MODEL].
+
+FUNCTION_MODIFIER_STABILITY = ("stable" | "unstable") [ICR (FUNCTION_MODIFIER_NO_THROW | FUNCTION_MODIFIER_ATOMIC | FUNCTION_MODIFIER_PLATFORM | FUNCTION_MODIFIER_MODEL)].
+
 #create a function
-FUNCTION = [ "(" {IC} [ PARAMETER {{IC} "," {IC} PARAMETER} {IC} ] ")" {IC} ] [("stable"|"unstable") {IC} ] ["no_throw" {IC} ] ["atomic" {IC} ] {PLATFORM {IC}} [("pure"|"imperative"|"opaque") {IC} ] "{" STATEMENT_SCOPE "}".
+FUNCTION = [ "(" {IC} [ PARAMETER {{IC} "," {IC} PARAMETER} {IC} ] ")" {IC} ] [FUNCTION_MODIFIER] "{" STATEMENT_SCOPE "}".
 
 GREATER_THAN = EXPRESSION {IC} ">" {IC} EXPRESSION.
 
@@ -154,6 +172,9 @@ HEX = "0x" hexadecimal_digit {hexadecimal_digit}.
 
 #intermediary content - regions that whitespaces and comments can go
 IC = COMMENT | EMBEDDED_COMMENT | END_OF_LINE_COMMENT | WS.
+
+#intermediary content that is required
+ICR = IC {IC}.
 
 #the name of a variable or constant 
 IDENTIFIER = (letter | "_") {letter | number | "_"}.
@@ -175,7 +196,7 @@ IN = EXPRESSION {IC} ("∈"|"in") {IC} EXPRESSION.
 INEQUALITY = EXPRESSION {IC} ("≠"|"/=") {IC} EXPRESSION.
 
 #see: type
-INHERITANCE_LIST=[VISIBILITY_MODIFIER {IC}] EXPRESSION {{IC} "," {IC} [VISIBILITY_MODIFIER {IC}] EXPRESSION}.
+INHERITANCE_LIST = [VISIBILITY_MODIFIER {IC}] EXPRESSION {{IC} "," {IC} [VISIBILITY_MODIFIER {IC}] EXPRESSION}.
 
 INTEGER = (NON_ZERO_DECIMAL_DIGIT {decimal_digit}) | "0".
 
@@ -186,7 +207,7 @@ INTEGER_DIVISION = EXPRESSION {IC} "\\" {IC} EXPRESSION.
 INTERSECTION = EXPRESSION {IC} "∩" {IC} EXPRESSION.
 
 #invoke a function, type-function or array-function
-INVOCATION = EXPRESSION(( "(" {IC} [ EXPRESSION {{IC} "," {IC} EXPRESSION} {IC} ] ")" ) | ( "<" {IC} [ EXPRESSION {{IC} "," {IC} EXPRESSION} {IC} ] ">" ) | ( "[" {IC} [ EXPRESSION {{IC} "," {IC} EXPRESSION} {IC} ] "]" ) ).
+INVOCATION = PARENTHETICAL_INVOCATION | ARRAY_INVOCATION | TYPE_INVOCATION.
 
 IMPORT = "import" {IC} EXPRESSION.
 
@@ -256,16 +277,18 @@ OCTAL = "0" octal_digit {octal_digit}.
 OR = EXPRESSION {IC} ("∨"|"or") {IC} EXPRESSION.
 
 #declares a formal argument of a function
-PARAMETER = ([ TYPE_DEREFERENCE {IC} ] IDENTIFIER) | ([ (TYPE_DEREFERENCE | IMPLICIT_TYPE_DEREFERENCE) {IC} ] IDENTIFIER {IC} "=" {IC} EXPRESSION | EXPRESSION [ {IC} "=" {IC} EXPRESSION ]).
+PARAMETER = ([ TYPE_DEREFERENCE {IC} ] IDENTIFIER) | ([ (TYPE_DEREFERENCE | IMPLICIT_TYPE_DEREFERENCE) {IC} ] IDENTIFIER {IC} "=" {IC} EXPRESSION) | (EXPRESSION [ {IC} "=" {IC} EXPRESSION ]).
 
 #an expression in parenthesis
 PARENTHETICAL = "(" {IC} EXPRESSION {IC} ")".
+
+PARENTHETICAL_INVOCATION = EXPRESSION {IC} "(" [{IC} EXPRESSION] {{IC} "," [{IC} EXPRESSION]} {IC} ")".
 
 #used in EMBEDDED_COMMENT_INTERIOR
 PAYLOAD = {all}.
 
 #see: function
-PLATFORM = "_" {letter | number | "_"}.
+PLATFORM = "_" {letter | number | PLATFORM}.
 
 POST_DEC = EXPRESSION {IC} "--".
 
@@ -306,8 +329,11 @@ SHIFTL = EXPRESSION {IC} "<<" {IC} EXPRESSION.
 #shift right
 SHIFTR = EXPRESSION {IC} ">>" {IC} EXPRESSION.
 
+#creates an ascending collection of integers as start:count
+SLICE = EXPRESSION {IC} ":" {IC} EXPRESSION.
+
 #top-level statement syntax
-STATEMENT = ( ASSIGNMENT | DECLARATION | DECLARATION_ASSIGNMENT | DEFINITION | DO | EXPRESSION | FOR | FOR_COLLECTION | IF | IMPORT | LOOP | RETURN | THROW | TRY | "break" | "continue" ) {IC} ";".
+STATEMENT = ( ASSIGNMENT | DECLARATION | DEFINITION | DO | EXPRESSION | FOR | FOR_COLLECTION | FREE | IF | IMPORT | LOOP | RETURN | THROW | TRY | "break" | "continue" ) {IC} ";".
 
 #zero or more statements
 STATEMENT_SCOPE = {IC | STATEMENT}.
@@ -336,11 +362,13 @@ TYPE = "type" {IC} ["inheriting" {IC} INHERITANCE_LIST {IC}] ["implementing" {IC
 #use a variable/constant as a typename
 TYPE_DEREFERENCE = "<" {IC} EXPRESSION {IC} ">".
 
+TYPE_INVOCATION = EXPRESSION ( "<" [{IC} EXPRESSION] {{IC} "," [{IC} EXPRESSION]} {IC} ">" ).
+
 #zero or more statements or member declarations/definitions
 TYPE_SCOPE = {IC} {TYPE_STATEMENT {IC}}.
 
 #top-level type syntax
-TYPE_STATEMENT = (VISIBILITY_MODIFIER {IC} ":") | (["static" {IC}] (DECLARATION_ASSIGNMENT | DECLARATION ) {IC} "at" {IC} WHOLE_NUMBER) | STATEMENT.
+TYPE_STATEMENT = (VISIBILITY_MODIFIER {IC} ":") | (["static" {IC}] DECLARATION {IC} "at" {IC} WHOLE_NUMBER) | STATEMENT.
 
 UNARY_ARITHMETIC_OP = FACTORIAL | NEGATION | POST_DEC | POST_INC | PRE_DEC | PRE_INC | RADICAL.
 
@@ -355,7 +383,7 @@ UNION = EXPRESSION {IC} "∪" {IC} EXPRESSION.
 UNIT_DIVISION = DIMENSION "/" DIMENSION.
 
 #dimensional analysis square units, cubed units, etc
-UNIT_EXPONENTIATION = DIMENSION "^" INTEGER.
+UNIT_EXPONENTIATION = DIMENSION "^" (["-"] INTEGER).
 
 #dimensional analysis "by"
 UNIT_MULTIPLICATION = DIMENSION "*" DIMENSION.
@@ -374,6 +402,6 @@ WHOLE_NUMBER = ("1"|"2"|"3"|"4"|"5"|"6"|"7"|"8"|"9") {"0"|"1"|"2"|"3"|"4"|"5"|"6
 WS = white_space {white_space}.
 
 #documentation string bounded by arbirtrarily-sized delimiters
-XML_DOC_STRING=("```" {all} "```") | ("`" XML_DOC_STRING "`").
+XML_DOC_STRING = ("```" {all} "```") | ("`" XML_DOC_STRING "`").
 
 XOR = EXPRESSION {IC} ("⊕" |"xor") {IC} EXPRESSION.

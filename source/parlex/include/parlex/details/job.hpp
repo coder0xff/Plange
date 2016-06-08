@@ -11,6 +11,7 @@ namespace parlex {
 
 class parser;
 class state_machine;
+class grammar;
 
 namespace details {
 
@@ -19,11 +20,12 @@ namespace details {
 class job {
 public:
 	std::u32string const document;
+	grammar const & g;
 	recognizer const & main;
 	std::map<match_class, std::unique_ptr<producer>> producers;
 	std::mutex producers_mutex;
 
-	job(parser & owner, std::u32string const & document, recognizer const & main);
+	job(parser & owner, std::u32string const & document, grammar const & g, recognizer const & main);
 	void connect(match_class const & matchClass, context_ref const & c, int nextState);
 private:
 	producer & get_producer(match_class const & matchClass);

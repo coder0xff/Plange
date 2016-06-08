@@ -111,6 +111,12 @@
     <ClInclude Include="include\parlex\builtins\precedence_grammar.hpp">
       <Filter>Header Files\builtins</Filter>
     </ClInclude>
+    <ClInclude Include="include\parlex\precedence_collection.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\parlex\builtins\associativity_grammar.hpp">
+      <Filter>Header Files\builtins</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\abstract_syntax_graph.cpp">
@@ -165,6 +171,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\precedence_grammar.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\associativity_grammar.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

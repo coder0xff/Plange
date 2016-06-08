@@ -134,15 +134,15 @@ std::shared_ptr<parlex::details::behavior_node> process_factor(std::u32string do
 		std::string name = to_utf8(document.substr(factor.document_position, factor.consumed_character_count));
 
 		auto i = productionNodes.find(name);
-		std::shared_ptr<parlex::details::production> p;
+		std::shared_ptr<parlex::details::production> q;
 		if (i == productionNodes.end()) {
-			p.reset(new parlex::details::production(name));
-			productionNodes[name] = p;
+			q.reset(new parlex::details::production(name));
+			productionNodes[name] = q;
 		}
 		else {
-			p = i->second;
+			q = i->second;
 		}
-		return p;
+		return q;
 	}
 	else if (underlying == &parlex::builtins::c_string) {
 		std::u32string temp = parlex::builtins::c_string_t::extract(document, p[0], asg);
@@ -233,11 +233,10 @@ std::shared_ptr<parlex::details::behavior_node> process_production(std::u32strin
 }
 
 namespace parlex {
-namespace builtins {
 
-grammar parse_wirth(std::string nameOfMain, std::u32string const & document, std::set<std::string> greedyNames) {
+grammar load_grammar(std::string const & nameOfMain, std::u32string const & document, std::map<std::string, parlex::associativity> const & associativities, std::set<std::string> const & greedyNames) {
 	parser p;
-	abstract_syntax_graph asg = p.parse(wirth, document);
+	abstract_syntax_graph asg = p.parse(builtins::wirth, document);
 	std::string check = asg.to_dot();
 	permutation const & top = *asg.table[asg.root].begin();
 	std::vector<state_machine> machines;
@@ -249,14 +248,13 @@ grammar parse_wirth(std::string nameOfMain, std::u32string const & document, std
 			std::string name = to_utf8(document.substr(namePart.document_position, namePart.consumed_character_count));
 			recognizer const * dontCare;
 			if (builtins::resolve_builtin(name, dontCare)) {
-				throw; // name is reserved for a builtin
+				throw std::exception((name + " is a reserved name.").c_str()); // name is reserved for a builtin
 			}
 			trees[name] = behavior;
 		}
 	}
-	return grammar(nameOfMain, trees, greedyNames);
+	return grammar(nameOfMain, trees, associativities, greedyNames);
 }
 
-}
 }
 

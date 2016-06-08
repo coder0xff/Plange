@@ -9,9 +9,11 @@ namespace builtins {
 
 	// https://en.wikipedia.org/wiki/Wirth_syntax_notation
 extern grammar wirth;
-grammar parse_wirth(std::string nameOfMain, std::u32string const & document, std::set<std::string> greedyNames);
 
 }
+
+grammar load_grammar(std::string const & nameOfMain, std::u32string const & document, std::map<std::string, parlex::associativity> const & associativities, std::set<std::string> const & greedyNames);
+
 }
 
 #endif

@@ -5,13 +5,15 @@
 #include "parlex/details/context.hpp"
 #include "parlex/parser.hpp"
 #include "parlex/token.hpp"
+#include "parlex/grammar.hpp"
 #include "logging.hpp"
 
 namespace parlex {
 namespace details {
 
-job::job(parser & owner, std::u32string const & document, recognizer const & main) :
+job::job(parser & owner, std::u32string const & document, parlex::grammar const & g, recognizer const & main) :
   document(document),
+  g(g),
   main(main),
   owner(owner)
 	{

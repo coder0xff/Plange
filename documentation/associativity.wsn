@@ -1,0 +1,3 @@
+ENTRY = IDENTIFIER ":" ("a"|"l"|"r") "\n".
+IDENTIFIER = (letter | "_") {letter | number | "_"}.
+SYNTAX = {ENTRY}.

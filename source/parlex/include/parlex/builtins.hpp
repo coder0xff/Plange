@@ -18,6 +18,7 @@
 // Grammars
 #include "parlex/builtins/wirth.hpp"
 #include "parlex/builtins/precedence_grammar.hpp"
+#include "parlex/builtins/associativity_grammar.hpp"
 
 namespace parlex {
 namespace builtins {

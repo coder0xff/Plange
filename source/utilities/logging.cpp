@@ -50,7 +50,7 @@ worker_t worker;
 #endif // IMMEDIATE_MODE
 
 template<>
-void logging::stringify(std::stringstream & ss) {}
+void logging::stringify(std::stringstream &) {}
 
 //the thread safe entry point
 void logging::log_enque(std::string const * const item) {
