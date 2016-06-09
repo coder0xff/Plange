@@ -118,9 +118,10 @@ struct node_props_t {
 	std::set<match> allAncestors;
 	std::set<match> allDescendentsAndAncestors;
 	std::set<match> allIntersections;
-	bool pruned;
+	bool selected;
 
-	inline node_props_t(abstract_syntax_graph & asg, match const & m) : m(m), r(m.r), permutations(asg.table[m]), children(getChildren(asg, m)), height(0), pruned(false) {}
+
+	inline node_props_t(abstract_syntax_graph & asg, match const & m) : m(m), r(m.r), permutations(asg.table[m]), children(getChildren(asg, m)), height(0), selected(false) {}
 };
 
 void prune(abstract_syntax_graph & asg, std::map<match, node_props_t> & nodes, node_props_t & props) {
@@ -174,35 +175,22 @@ void prune(abstract_syntax_graph & asg, std::map<match, node_props_t> & nodes, n
 }
 
 void construct_nodes(abstract_syntax_graph & asg, std::map<match, node_props_t> & nodes, std::vector<std::set<node_props_t *>> & flattened) {
-	std::queue<node_props_t *> propertyConstructQueue;
-	std::set<node_props_t *> constructedProps;
 	for (auto const & entry : asg.table) {
 		match const & m = entry.first;
 		node_props_t & nodeProps = nodes.emplace(std::piecewise_construct, std::forward_as_tuple(m), std::forward_as_tuple(asg, m)).first->second;
-		constructedProps.insert(&nodeProps);
-		propertyConstructQueue.push(&nodeProps);
-	}
-	while (!propertyConstructQueue.empty()) {
-		node_props_t & props = *propertyConstructQueue.front();
-		propertyConstructQueue.pop();
-		if (props.permutations.empty()) {
-			props.height = 0;
-		}
 
-		for (std::set<permutation>::iterator i = props.permutations.begin(); i != props.permutations.end(); ++i) {
-			permutation const & perm = *i;
+		for (permutation const & perm : nodeProps.permutations) {
 			for (match const & child : perm) {
 				node_props_t & childProps = nodes.emplace(std::piecewise_construct, std::forward_as_tuple(child), std::forward_as_tuple(asg, child)).first->second;
-				childProps.parentPermutationsByMatch[props.m].insert(perm);
-				if (constructedProps.insert(&childProps).second) {
-					propertyConstructQueue.push(&childProps);
-				};
+				if (childProps.permutations.empty()) {
+					childProps.height = 0;
+				}
+				childProps.parentPermutationsByMatch[nodeProps.m].insert(perm);
 			}
 		}
-
-		size_t const afterIndex = props.m.document_position + props.m.consumed_character_count;
-		for (size_t i = props.m.document_position; i < afterIndex; ++i) {
-			flattened[i].insert(&props);
+		size_t const afterIndex = nodeProps.m.document_position + nodeProps.m.consumed_character_count;
+		for (size_t i = nodeProps.m.document_position; i < afterIndex; ++i) {
+			flattened[i].insert(&nodeProps);
 		}
 	}
 }
@@ -244,21 +232,41 @@ void resolve_nodes(std::map<match, node_props_t> & nodes) {
 
 void compute_intersections(std::vector<std::set<node_props_t *>> const & flattened) {
 	for (size_t i = 0; i < flattened.size(); ++i) {
-		for (std::set<node_props_t *>::iterator j = flattened[i].begin(); j != flattened[i].end(); ++j) {
+		std::set<node_props_t *>::iterator iterEnd = flattened[i].end();
+		for (std::set<node_props_t *>::iterator j = flattened[i].begin(); j != iterEnd; ++j) {
 			node_props_t & left = **j;
 			std::set<node_props_t *>::iterator k = j;
 			++k;
-			for (; k != flattened[i].end(); ++k) {
+			for (; k != iterEnd; ++k) {
 				node_props_t & right = **k;
-				if (&left == &right) {
-					continue;
-				}
 				if (left.allDescendentsAndAncestors.count(right.m) == 0) {
 					left.allIntersections.insert(right.m);
 					right.allIntersections.insert(left.m);
 				}
 			}
 		}
+	}
+}
+
+void prune_detached(int documentLength, abstract_syntax_graph & asg) {
+	std::set<match> unconnecteds;
+	for (auto const & entry : asg.table) {
+		unconnecteds.insert(entry.first);
+	}
+	std::queue<match> pending;
+	pending.push(asg.root);
+	while (!pending.empty()) {
+		match m = pending.front();
+		pending.pop();
+		unconnecteds.erase(m);
+		for (auto const & permutation : asg.table[m]) {
+			for (auto const & child : permutation) {
+				pending.push(child);
+			}
+		}
+	}
+	for (auto const & unconnected : unconnecteds) {
+		asg.table.erase(unconnected);
 	}
 }
 
@@ -274,61 +282,88 @@ std::vector<std::set<match>> ordered_matches_by_height(std::map<match, node_prop
 	return orderedMatchesByHeight;
 }
 
-void apply_test(abstract_syntax_graph & asg, grammar const & g, std::map<match, node_props_t> & nodes, std::vector<std::set<match>> orderedMatchesByHeight, std::function<bool(grammar const &, node_props_t &, node_props_t &)> test) {
-	for (size_t height = 0; height < orderedMatchesByHeight.size(); ++height) {
-		std::set<match> const & matches = orderedMatchesByHeight[height];
-		for (auto & aMatch : matches) {
-			auto i = nodes.find(aMatch);
-			if (i == nodes.end()) { //check if it has been deleted since we generated orderedMatchesByHeight
-				continue;
-			}
-			node_props_t & aProps = i->second;
-			if (aProps.m.r.is_terminal()) {
-				continue;
-			}
-			state_machine & aStateMachine = *(state_machine *)&aProps.m.r;
-			for (match const & bMatch : aProps.allIntersections) {
-				auto j = nodes.find(bMatch);
-				if (j == nodes.end()) { //check if it has been deleted since we generated orderedMatchesByHeight
-					continue;
-				}
-				node_props_t & bProps = j->second;
-				if (bProps.m.r.is_terminal()) {
-					continue;
-				}
-				state_machine & bStateMachine = *(state_machine *)&bProps.m.r;
-				if (test(g, aProps, bProps)) {
-					prune(asg, nodes, aProps);
-					break;
-				}
-			}
-		}
-	}
-}
-
 bool precedence_test(grammar const & g, node_props_t & a, node_props_t & b)
 {
 	if (&a.m.r == &b.m.r) {
 		return false;
 	}
-	return g.test_precedence(*(state_machine*)&b.m.r, *(state_machine*)&a.m.r);
+	return g.test_precedence(*(state_machine*)&a.m.r, *(state_machine*)&b.m.r);
 }
 
 bool associativity_test(grammar const & g, node_props_t & a, node_props_t & b) {
-	if (&a != &b) {
+	if (&a.m.r != &b.m.r) {
 		return false;
 	}
 	associativity const assoc = ((state_machine*)&a.m.r)->get_associativity();
 	switch (assoc) {
 	case associativity::left:
 	case associativity::any:
-		return a.m.document_position > b.m.document_position;
-	case associativity::right:
 		return a.m.document_position < b.m.document_position;
+	case associativity::right:
+		return a.m.document_position > b.m.document_position;
 	case associativity::none:
 		return false;
 	}
 	throw std::exception("Invalid associativity value");
+}
+
+void select_trees(abstract_syntax_graph & asg, grammar const & g, std::map<match, node_props_t> & nodes, std::vector<std::set<match>> orderedMatchesByHeight) {
+	for (std::set<match> const & matches : orderedMatchesByHeight) {
+		for (match const & m : matches) {
+			std::set<match> preservedIntersections; //used towards the end, be needs to be initialized before "goto matchLoop"
+			auto const & i = nodes.find(m);
+			if (i == nodes.end()) {
+				goto matchLoop;
+			}
+			node_props_t & a = i->second;
+			if (a.r.is_terminal()) {
+				a.selected = true;
+				continue;
+			}
+			//are any of those permutations comprised of selected children?
+			bool anyPermutationSelected = false;
+			for (permutation const & p : a.permutations) {
+				bool permutationSelected = true;
+				for (match const & child : p) {
+					node_props_t const & childProps = nodes.find(child)->second;
+					if (!childProps.selected) {
+						permutationSelected = false;
+						break;
+					}
+				}
+				if (permutationSelected) {
+					anyPermutationSelected = true;
+					break;
+				}
+			}
+			if (!anyPermutationSelected) {
+				goto matchLoop;
+			}
+			//is it possibly preempted by another match that it intersects with?
+			for (match const & intersected : a.allIntersections) {
+				node_props_t & b = nodes.find(intersected)->second;
+				if (precedence_test(g, b, a) || associativity_test(g, b, a)) {
+					goto matchLoop;
+				}
+			}
+
+			a.selected = true;
+			preservedIntersections = a.allIntersections;
+			for (match const & intersected : preservedIntersections) {
+				auto const & i = nodes.find(intersected);
+				if (i == nodes.end()) {
+					continue;
+				}
+				node_props_t & b = i->second;
+				if (precedence_test(g, a, b) || associativity_test(g, a, b)) {
+					//if it must be selected, then precedence and associativity must remove preempted intersections
+					prune(asg, nodes, b);
+				}
+			}
+		matchLoop:
+			;
+		}
+	}
 }
 
 abstract_syntax_graph & apply_precedence_and_associativity(grammar const & g, abstract_syntax_graph & asg) {
@@ -342,8 +377,7 @@ abstract_syntax_graph & apply_precedence_and_associativity(grammar const & g, ab
 	resolve_nodes(nodes);
 	compute_intersections(flattened);
 	std::vector<std::set<match>> orderedMatchesByHeight = ordered_matches_by_height(nodes);
-	apply_test(asg, g, nodes, orderedMatchesByHeight, precedence_test);
-	apply_test(asg, g, nodes, orderedMatchesByHeight, associativity_test);
+	select_trees(asg, g, nodes, orderedMatchesByHeight);
 
 	return asg;
 }
@@ -359,10 +393,8 @@ abstract_syntax_graph parser::construct_result(details::job const & j, match con
 			step1.table[match] = permutations;
 		}
 	}
-	std::string check = step1.to_dot();
-	abstract_syntax_graph step2 = step1.is_rooted() ? apply_precedence_and_associativity(j.g, step1) : step1;
-	std::string check2 = step2.to_dot();
-	return step2;
+	prune_detached(j.document.length(), step1);
+	return step1.is_rooted() ? apply_precedence_and_associativity(j.g, step1) : step1;
 }
 
 bool parser::handle_deadlocks(details::job const & j) {

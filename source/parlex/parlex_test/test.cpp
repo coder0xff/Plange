@@ -537,7 +537,7 @@ void precedence_test_2() {
 		U"POW:NEG\n"
 	);
 	parlex::parser p;
-	auto asg = p.parse(g, U"1+3*5^7");
+	auto asg = p.parse(g, U"3*5^7^9+2");
 	auto check = asg.to_dot();
 	assert(asg.is_rooted());
 }
