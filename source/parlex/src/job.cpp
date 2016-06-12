@@ -69,18 +69,19 @@ producer & job::get_producer(match_class const & matchClass) {
 			).first->second.get();
 		} else {
 			state_machine const * machine = static_cast<state_machine const *>(&matchClass.r);
-			subjob * result = new subjob(*this, *machine, matchClass.document_position);
+			subjob * sj = new subjob(*this, *machine, matchClass.document_position);
 			lock.lock();
 			auto temp = producers.emplace(
 				std::piecewise_construct,
 				std::forward_as_tuple(matchClass),
-				std::forward_as_tuple(result)
+				std::forward_as_tuple(sj)
 			);
+			subjob * result = (subjob*)temp.first->second.get();
 			lock.unlock();
 			if (temp.second) {
 				result->start();
 			}
-			return *temp.first->second.get();
+			return *result;
 		}
 	}
 }
