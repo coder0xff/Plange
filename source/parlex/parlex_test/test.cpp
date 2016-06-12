@@ -11,6 +11,9 @@
 #include "parlex/parser.hpp"
 #include "parlex/state_machine.hpp"
 #include "utils.hpp"
+#include "perf_timer.hpp"
+
+#define PLANGE_ROOT "C:\\Users\\Brent\\Dropbox\\Plange\\"
 
 void parser_test_1() {
 	//DBG("************ parser_test_1 ************");
@@ -22,7 +25,9 @@ void parser_test_1() {
 
 	parlex::parser p(1);
 	parlex::abstract_syntax_graph result = p.parse(g, U"a");
-	assert(result.is_rooted());
+	if (!result.is_rooted()) {
+		throw std::exception("Test failed");
+	}
 }
 
 void parser_test_2() {
@@ -37,7 +42,9 @@ void parser_test_2() {
 
 	parlex::parser p(1);
 	parlex::abstract_syntax_graph result = p.parse(g, U"Hello, world!");
-	assert(result.is_rooted());
+	if (!result.is_rooted()) {
+		throw std::exception("Test failed");
+	}
 }
 
 void parser_test_3() {
@@ -52,7 +59,9 @@ void parser_test_3() {
 
 	parlex::parser p(1);
 	parlex::abstract_syntax_graph result = p.parse(g, U"bar");
-	assert(!result.is_rooted());
+	if (result.is_rooted()) {
+		throw std::exception("Test failed");
+	}
 }
 
 void parser_test_4() {
@@ -70,7 +79,9 @@ void parser_test_4() {
 
 	parlex::parser p(1);
 	parlex::abstract_syntax_graph result = p.parse(g, U"Hello, world!");
-	assert(result.is_rooted());
+	if (!result.is_rooted()) {
+		throw std::exception("Test failed");
+	}
 }
 
 void parser_test_5() {
@@ -83,7 +94,9 @@ void parser_test_5() {
 
 	parlex::parser p(1);
 	parlex::abstract_syntax_graph result = p.parse(g, U"982874599127");
-	assert(result.is_rooted());
+	if (!result.is_rooted()) {
+		throw std::exception("Test failed");
+	}
 }
 
 void parser_test_6() {
@@ -103,7 +116,9 @@ void parser_test_6() {
 
 	parlex::parser p(1);
 	parlex::abstract_syntax_graph result = p.parse(g, U"1,2");
-	assert(result.is_rooted());
+	if (!result.is_rooted()) {
+		throw std::exception("Test failed");
+	}
 }
 
 void parser_test_7() {
@@ -134,7 +149,9 @@ void parser_test_7() {
 	for (int i = 0; i < 10; i++) {
 		parlex::parser p(1);
 		parlex::abstract_syntax_graph result = p.parse(g, U"12,(34,56),789");
-		assert(result.is_rooted());
+		if (!result.is_rooted()) {
+			throw std::exception("Test failed");
+		}
 	}
 }
 
@@ -156,7 +173,9 @@ void parser_test_8() {
 
 	parlex::parser p(1);
 	parlex::abstract_syntax_graph result = p.parse(g, U"1!");
-	assert(result.is_rooted());
+	if (!result.is_rooted()) {
+		throw std::exception("Test failed");
+	}
 }
 
 //indirect left recursion
@@ -211,7 +230,9 @@ void parser_test_9() {
 
 	parlex::parser p(1);
 	parlex::abstract_syntax_graph result = p.parse(g, U"1-2-3-4");
-	assert(result.is_rooted());
+	if (!result.is_rooted()) {
+		throw std::exception("Test failed");
+	}
 }
 
 void parser_test_10() {
@@ -230,7 +251,9 @@ void parser_test_10() {
 
 	parlex::parser p(1);
 	parlex::abstract_syntax_graph result = p.parse(g, U"hi");
-	assert(result.is_rooted());
+	if (!result.is_rooted()) {
+		throw std::exception("Test failed");
+	}
 }
 
 void c_string_test_1() {
@@ -242,7 +265,9 @@ void c_string_test_1() {
 
     parlex::parser p(1);
     parlex::abstract_syntax_graph result = p.parse(g, U"\"abc123\\\"\"");
-	assert(result.is_rooted());
+	if (!result.is_rooted()) {
+		throw std::exception("Test failed");
+	}
 }
 
 void c_string_test_2() {
@@ -254,7 +279,9 @@ void c_string_test_2() {
 
 	parlex::parser p(1);
 	parlex::abstract_syntax_graph result = p.parse(g, U"\"\\\\\"");
-	assert(result.is_rooted());
+	if (!result.is_rooted()) {
+		throw std::exception("Test failed");
+	}
 }
 
     std::string wirthInItself = "\
@@ -272,19 +299,25 @@ IDENTIFIER = letter { letter } .";
 void wirth_test_1() {
 	parlex::parser p(1);
 	parlex::abstract_syntax_graph result = p.parse(parlex::builtins::wirth, U"a=x.");
-	assert(result.is_rooted());
+	if (!result.is_rooted()) {
+		throw std::exception("Test failed");
+	}
 }
 
 void wirth_test_2() {
     parlex::parser p;
     parlex::abstract_syntax_graph result = p.parse(parlex::builtins::wirth, to_utf32(wirthInItself));
-	assert(result.is_rooted());
+	if (!result.is_rooted()) {
+		throw std::exception("Test failed");
+	}
 }
 
 void wirth_test_3() {
 	parlex::parser p;
 	parlex::abstract_syntax_graph result = p.parse(parlex::builtins::wirth, U"a=\"\\\\\".b=\"\".");
-	assert(result.is_rooted());
+	if (!result.is_rooted()) {
+		throw std::exception("Test failed");
+	}
 }
 
 void wirth_test_4() {
@@ -295,39 +328,53 @@ void wirth_test_5() {
 	auto grammar = parlex::load_grammar("SYNTAX", U"SYNTAX = \"a\".", {}, {});
 	parlex::parser p;
 	parlex::abstract_syntax_graph result = p.parse(grammar, U"b");
-	assert(!result.is_rooted());
+	if (result.is_rooted()) {
+		throw std::exception("Test failed");
+	}
 }
 
 void wirth_test_6() {
 	auto grammar = parlex::load_grammar("SYNTAX", U"SYNTAX = letter number.", {}, {});
 	parlex::parser p;
 	parlex::abstract_syntax_graph result = p.parse(grammar, U"a1");
-	assert(result.is_rooted());
+	if (!result.is_rooted()) {
+		throw std::exception("Test failed");
+	}
 }
 
 void wirth_test_7() {
 	auto grammar = parlex::load_grammar("SYNTAX", U"SYNTAX = letter { number }.", {}, {});
 	parlex::parser p;
 	parlex::abstract_syntax_graph result = p.parse(grammar, U"a1234");
-	assert(result.is_rooted());
+	if (!result.is_rooted()) {
+		throw std::exception("Test failed");
+	}
 }
 
 void wirth_test_8() {
 	auto grammar = parlex::load_grammar("SYNTAX", U"SYNTAX = letter [ number ].", {}, {});
 	parlex::parser p;
 	parlex::abstract_syntax_graph result1 = p.parse(grammar, U"a");
-	assert(result1.is_rooted());
+	if (!result1.is_rooted()) {
+		throw std::exception("Test failed");
+	}
 	parlex::abstract_syntax_graph result2 = p.parse(grammar, U"a1");
-	assert(result2.is_rooted());
+	if (!result2.is_rooted()) {
+		throw std::exception("Test failed");
+	}
 }
 
 void wirth_test_9() {
 	auto grammar = parlex::load_grammar("SYNTAX", U"SYNTAX = letter ( number | c_string ).", {}, {});
 	parlex::parser p;
 	parlex::abstract_syntax_graph result1 = p.parse(grammar, U"a1");
-	assert(result1.is_rooted());
+	if (!result1.is_rooted()) {
+		throw std::exception("Test failed");
+	}
 	parlex::abstract_syntax_graph result2 = p.parse(grammar, U"a\"test\"");
-	assert(result2.is_rooted());
+	if (!result2.is_rooted()) {
+		throw std::exception("Test failed");
+	}
 }
 
 void wirth_test_10() {
@@ -337,7 +384,9 @@ IC = \"IC\".\
 EXPRESSION = \"EXPRESSION\".", {}, {});
 	parlex::parser p;
 	parlex::abstract_syntax_graph result = p.parse(grammar, U"[]");
-	assert(result.is_rooted());
+	if (!result.is_rooted()) {
+		throw std::exception("Test failed");
+	}
 }
 
 void wirth_test_11() {
@@ -348,79 +397,95 @@ STATEMENT = \"STATEMENT\".", {}, {});
 }
 
 void plange_test_1() {
-	std::u32string contents = read_with_bom(std::ifstream("C:\\Users\\Brent\\Dropbox\\Plange\\documentation\\syntax.wsn"));
+	std::u32string contents = read_with_bom(std::ifstream(PLANGE_ROOT "documentation\\syntax.wsn"));
 	parlex::parser p(1);
 	parlex::abstract_syntax_graph result = p.parse(parlex::builtins::wirth, contents);
-	assert(result.is_rooted());
+	if (!result.is_rooted()) {
+		throw std::exception("Test failed");
+	}
 }
 
 void plange_test_2() {
-	std::u32string contents = read_with_bom(std::ifstream("C:\\Users\\Brent\\Dropbox\\Plange\\documentation\\syntax.wsn"));
+	std::u32string contents = read_with_bom(std::ifstream(PLANGE_ROOT "documentation\\syntax.wsn"));
 	auto grammar = parlex::load_grammar("STATEMENT_SCOPE", contents, {}, { "IDENTIFIER", "WS" });
 }
 
 void plange_test_3() {
 	//load Plange grammar
-	std::u32string contents = read_with_bom(std::ifstream("C:\\Users\\Brent\\Dropbox\\Plange\\documentation\\syntax.wsn"));
+	std::u32string contents = read_with_bom(std::ifstream(PLANGE_ROOT "documentation\\syntax.wsn"));
 	auto grammar = parlex::load_grammar("STATEMENT_SCOPE", contents, {}, { "IDENTIFIER", "WS" });
 
 	//try parsing a simple program
 	parlex::parser p(1);
 	parlex::abstract_syntax_graph result = p.parse(grammar, U"print(\"Hello, world!\");");
-	assert(result.is_rooted());
+	if (!result.is_rooted()) {
+		throw std::exception("Test failed");
+	}
 }
 
 void plange_test_4() {
 	//load Plange grammar
-	std::u32string contents = read_with_bom(std::ifstream("C:\\Users\\Brent\\Dropbox\\Plange\\documentation\\syntax.wsn"));
+	std::u32string contents = read_with_bom(std::ifstream(PLANGE_ROOT "documentation\\syntax.wsn"));
 	auto grammar = parlex::load_grammar("STATEMENT_SCOPE", contents, {}, { "IDENTIFIER", "WS" });
 
-	std::u32string input = read_with_bom(std::ifstream("C:\\Users\\Brent\\Dropbox\\Plange\\source\\Examples\\intToString.pge"));
+	std::u32string input = read_with_bom(std::ifstream(PLANGE_ROOT "examples\\restructuring.pge"));
 
 	parlex::parser p;
 	parlex::abstract_syntax_graph result = p.parse(grammar, input);
-	assert(result.is_rooted());
+	if (!result.is_rooted()) {
+		throw std::exception("Test failed");
+	}
 }
 
 void plange_test_5() {
-	std::u32string contents = read_with_bom(std::ifstream("C:\\Users\\Brent\\Dropbox\\Plange\\documentation\\syntax.wsn"));
+	std::u32string contents = read_with_bom(std::ifstream(PLANGE_ROOT "documentation\\syntax.wsn"));
 	auto grammar = parlex::load_grammar("STATEMENT_SCOPE", contents, {}, { "IDENTIFIER", "WS" });
 
 	parlex::parser p;
 
-	std::ifstream u("C:\\Users\\Brent\\Dropbox\\Plange\\source\\Examples\\intToString.pge");
+	std::ifstream u(PLANGE_ROOT "source\\Examples\\intToString.pge");
 	std::u32string str = read_with_bom(u);
 
 	std::u32string input1 = str + str;
 	parlex::abstract_syntax_graph result1 = p.parse(grammar, input1);
-	assert(result1.is_rooted());
+	if (!result1.is_rooted()) {
+		throw std::exception("Test failed");
+	}
 
 	std::u32string input2 = str + str + str;
 	parlex::abstract_syntax_graph result2 = p.parse(grammar, input2);
-	assert(result2.is_rooted());
+	if (!result2.is_rooted()) {
+		throw std::exception("Test failed");
+	}
 
 	std::u32string input3 = str + str + str + str;
 	parlex::abstract_syntax_graph result3 = p.parse(grammar, input3);
-	assert(result3.is_rooted());
+	if (!result3.is_rooted()) {
+		throw std::exception("Test failed");
+	}
 }
 
 void plange_test_6() {
-	std::u32string contents = read_with_bom(std::ifstream("C:\\Users\\Brent\\Dropbox\\Plange\\documentation\\syntax.wsn"));
+	std::u32string contents = read_with_bom(std::ifstream(PLANGE_ROOT "documentation\\syntax.wsn"));
 	auto grammar = parlex::load_grammar("STATEMENT_SCOPE", contents, {}, { "IDENTIFIER", "WS" });
 
 	parlex::parser p;
 
 	std::u32string input1 = U"1+2+3;\n1+2+3;\n1+2+3;\n1+2+3;\n1+2+3;\n1+2+3;\n1+2+3;\n1+2+3;\n1+2+3;\n1+2+3;";
 	parlex::abstract_syntax_graph result1 = p.parse(grammar, input1);
-	assert(result1.is_rooted());
+	if (!result1.is_rooted()) {
+		throw std::exception("Test failed");
+	}
 
 	std::u32string input2 = U"1+2+3;\n1+2+3;\n1+2+3;\n1+2+3;\n1+2+3;\n1+2+3;\n1+2+3;\n1+2+3;\n1+2+3;\n1+2+3;\n1+2+3;\n1+2+3;\n1+2+3;\n1+2+3;\n1+2+3;\n1+2+3;\n1+2+3;\n1+2+3;\n1+2+3;\n1+2+3;";
 	parlex::abstract_syntax_graph result2 = p.parse(grammar, input2);
-	assert(result2.is_rooted());
+	if (!result2.is_rooted()) {
+		throw std::exception("Test failed");
+	}
 }
 
 void generate_test_1() {
-	std::u32string contents = read_with_bom(std::ifstream("C:\\Users\\Brent\\Dropbox\\Plange\\documentation\\syntax.wsn"));
+	std::u32string contents = read_with_bom(std::ifstream(PLANGE_ROOT "documentation\\syntax.wsn"));
 	auto grammar = parlex::load_grammar("STATEMENT_SCOPE", contents, {}, { "IDENTIFIER", "WS" });
 
 	std::ostringstream cppStream, hppStream;
@@ -432,33 +497,33 @@ void generate_test_1() {
 }
 
 void generate_test_2() {
-	std::u32string contents = read_with_bom(std::ifstream("C:\\Users\\Brent\\Dropbox\\Plange\\documentation\\syntax.wsn"));
+	std::u32string contents = read_with_bom(std::ifstream(PLANGE_ROOT "documentation\\syntax.wsn"));
 	auto grammar = parlex::load_grammar("STATEMENT_SCOPE", contents, {}, { "IDENTIFIER", "WS" });
-	std::ofstream cppStream("C:\\Users\\Brent\\Dropbox\\Plange\\source\\plc\\plange_grammar.cpp");
-	std::ofstream hppStream("C:\\Users\\Brent\\Dropbox\\Plange\\source\\plc\\plange_grammar.hpp");
+	std::ofstream cppStream(PLANGE_ROOT "source\\plc\\plange_grammar.cpp");
+	std::ofstream hppStream(PLANGE_ROOT "source\\plc\\plange_grammar.hpp");
 	grammar.generate_cpp("plange", "STATEMENT_SCOPE", cppStream, hppStream);
 }
 
 void generate_test_3() {
-	std::u32string associativityString = read_with_bom(std::ifstream("C:\\Users\\Brent\\Dropbox\\Plange\\documentation\\operator-associativity.txt"));
+	std::u32string associativityString = read_with_bom(std::ifstream(PLANGE_ROOT "documentation\\operator-associativity.txt"));
 	std::map<std::string, parlex::associativity> associativities = parlex::load_associativities(associativityString);
-	std::u32string grammarString = read_with_bom(std::ifstream("C:\\Users\\Brent\\Dropbox\\Plange\\documentation\\syntax.wsn"));
+	std::u32string grammarString = read_with_bom(std::ifstream(PLANGE_ROOT "documentation\\syntax.wsn"));
 	auto grammar = parlex::load_grammar("STATEMENT_SCOPE", grammarString, associativities, { "IDENTIFIER", "WS" });
-	parlex::load_precedence(grammar, read_with_bom(std::ifstream("C:\\Users\\Brent\\Dropbox\\Plange\\documentation\\operator-precedence.txt")));
-	std::ofstream cppStream("C:\\Users\\Brent\\Dropbox\\Plange\\source\\plc\\plange_grammar.cpp");
-	std::ofstream hppStream("C:\\Users\\Brent\\Dropbox\\Plange\\source\\plc\\plange_grammar.hpp");
+	parlex::load_precedence(grammar, read_with_bom(std::ifstream(PLANGE_ROOT "documentation\\operator-precedence.txt")));
+	std::ofstream cppStream(PLANGE_ROOT "source\\plc\\plange_grammar.cpp");
+	std::ofstream hppStream(PLANGE_ROOT "source\\plc\\plange_grammar.hpp");
 	grammar.generate_cpp("plange", "STATEMENT_SCOPE", cppStream, hppStream);
 }
 
 //This code is destructive. Use with care.
 /*void generate_associativity_parser() {
-	std::u32string grammarString = read_with_bom(std::ifstream("C:\\Users\\Brent\\Dropbox\\Plange\\documentation\\associativity.wsn"));
+	std::u32string grammarString = read_with_bom(std::ifstream(PLANGE_ROOT "documentation\\associativity.wsn"));
 	auto grammar = parlex::load_grammar("SYNTAX", grammarString, { "IDENTIFIER" });
 
-	std::ofstream cppStream("C:\\Users\\Brent\\Dropbox\\Plange\\source\\parlex\\src\\associativity_grammar.cpp");
+	std::ofstream cppStream(PLANGE_ROOT "source\\parlex\\src\\associativity_grammar.cpp");
 	assert(cppStream);
 
-	std::ofstream hppStream("C:\\Users\\Brent\\Dropbox\\Plange\\source\\parlex\\include\\parlex\\builtins\\associativity_grammar.hpp");
+	std::ofstream hppStream(PLANGE_ROOT "source\\parlex\\include\\parlex\\builtins\\associativity_grammar.hpp");
 	assert(hppStream);
 
 	grammar.generate_cpp("associativity", "SYNTAX", cppStream, hppStream, "parlex/builtins/");
@@ -466,13 +531,13 @@ void generate_test_3() {
 
 //This code is destructive. Use with care.
 /*void generate_precedence_parser() {
-	std::u32string grammarString = read_with_bom(std::ifstream("C:\\Users\\Brent\\Dropbox\\Plange\\documentation\\precedence.wsn"));
+	std::u32string grammarString = read_with_bom(std::ifstream(PLANGE_ROOT "documentation\\precedence.wsn"));
 	auto grammar = parlex::load_grammar("SYNTAX", grammarString, { "IDENTIFIER" });
 
-	std::ofstream cppStream("C:\\Users\\Brent\\Dropbox\\Plange\\source\\parlex\\src\\precedence_grammar.cpp");
+	std::ofstream cppStream(PLANGE_ROOT "source\\parlex\\src\\precedence_grammar.cpp");
 	assert(cppStream);
 
-	std::ofstream hppStream("C:\\Users\\Brent\\Dropbox\\Plange\\source\\parlex\\include\\parlex\\builtins\\precedence_grammar.hpp");
+	std::ofstream hppStream(PLANGE_ROOT "source\\parlex\\include\\parlex\\builtins\\precedence_grammar.hpp");
 	assert(hppStream);
 
 	grammar.generate_cpp("precedence", "SYNTAX", cppStream, hppStream, "parlex/builtins/");
@@ -539,26 +604,51 @@ void precedence_test_2() {
 	parlex::parser p;
 	auto asg = p.parse(g, U"3*5^7^9+2");
 	auto check = asg.to_dot();
-	assert(asg.is_rooted());
+	if (!asg.is_rooted()) {
+		throw std::exception("Test failed");
+	}
 }
 
 
-void precedence_test_10() {
+void precedence_test_3() {
 	parlex::parser p;
-	auto asg = p.parse(parlex::builtins::get_precedence_grammar(), read_with_bom(std::ifstream("C:\\Users\\Brent\\Dropbox\\Plange\\documentation\\operator-precedence.txt")));
+	auto asg = p.parse(parlex::builtins::get_precedence_grammar(), read_with_bom(std::ifstream(PLANGE_ROOT "documentation\\operator-precedence.txt")));
 	auto check = asg.to_dot();
-	assert(asg.is_rooted());
+	if (!asg.is_rooted()) {
+		throw std::exception("Test failed");
+	}
 }
 
-void precedence_test_11() {
-}
-
-void associativity_test_10() {
+void associativity_test_1() {
 	parlex::parser p;
-	std::u32string document = read_with_bom(std::ifstream("C:\\Users\\Brent\\Dropbox\\Plange\\documentation\\operator-associativity.txt"));
-	auto asg = p.parse(parlex::builtins::get_precedence_grammar(), document);
+	std::u32string document = read_with_bom(std::ifstream(PLANGE_ROOT "documentation\\operator-associativity.txt"));
+	auto asg = p.parse(parlex::builtins::get_associativity_grammar(), document);
 	auto check = asg.to_dot();
-	assert(asg.is_rooted());
+	if (!asg.is_rooted()) {
+		throw std::exception("Test failed");
+	}
+}
+
+void full_test_1() {
+	{
+		//perf_timer perf("full_test_1");
+		auto assocs = parlex::load_associativities(read_with_bom(std::ifstream(PLANGE_ROOT "documentation\\operator-associativity.txt")));
+		parlex::grammar g = parlex::load_grammar("STATEMENT_SCOPE", read_with_bom(std::ifstream(PLANGE_ROOT "documentation\\syntax.wsn")), assocs, { "IDENTIFIER", "WS" });
+		parlex::load_precedence(g, read_with_bom(std::ifstream(PLANGE_ROOT "documentation\\operator-precedence.txt")));
+		parlex::parser p;
+		//p.set_update_progress_handler(parlex::builtins::progress_bar);
+		std::u32string document = read_with_bom(std::ifstream(PLANGE_ROOT "examples\\restructuring.pge"));
+		std::unique_ptr<parlex::abstract_syntax_graph> asg;
+		for (int i = 0; i < 1; ++i) {
+			//std::cout << "\n";
+			auto res = p.parse(g, document);
+			asg.reset(new parlex::abstract_syntax_graph(res));
+		};
+		auto check = asg->to_dot();
+		if (!asg->is_rooted()) {
+			throw std::exception("test failed");
+		}
+	}
 }
 
 int main(void) {
@@ -568,7 +658,7 @@ int main(void) {
 	name(); \
 	std::cout << "********** " << #name << " completed **********\n";
 
-	/*RUN_TEST(parser_test_1);
+	RUN_TEST(parser_test_1);
 	RUN_TEST(parser_test_2);
 	RUN_TEST(parser_test_3);
 	RUN_TEST(parser_test_4);
@@ -598,11 +688,13 @@ int main(void) {
 	RUN_TEST(plange_test_5);
 	RUN_TEST(plange_test_6);
 	RUN_TEST(generate_test_1);
-	RUN_TEST(generate_test_2);*/
-	//RUN_TEST(generate_test_3);
+	RUN_TEST(generate_test_2);
+	RUN_TEST(generate_test_3);
 	//RUN_TEST(generate_precedence_parser);
 	//RUN_TEST(generate_associativity_parser);
-	//RUN_TEST(precedence_test_1);
+	RUN_TEST(precedence_test_1);
 	RUN_TEST(precedence_test_2);
-	//RUN_TEST(associativity_test_1);
+	RUN_TEST(precedence_test_3);
+	RUN_TEST(associativity_test_1);
+	RUN_TEST(full_test_1);
 }

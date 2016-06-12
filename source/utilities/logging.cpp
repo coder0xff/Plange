@@ -55,9 +55,9 @@ void logging::stringify(std::stringstream &) {}
 //the thread safe entry point
 void logging::log_enque(std::string const * const item) {
 #ifdef IMMEDIATE_MODE
+	std::unique_ptr<std::string const> ptr(item);
 	std::cout << *item;
 	std::cout.flush();
-	delete item;
 #else
 	std::unique_lock<std::mutex> lock(worker.mutex);
 	worker.deque.emplace_back(item);

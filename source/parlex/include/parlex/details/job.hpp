@@ -24,6 +24,7 @@ public:
 	recognizer const & main;
 	std::map<match_class, std::unique_ptr<producer>> producers;
 	std::mutex producers_mutex;
+	std::atomic<int> progress;
 
 	job(parser & owner, std::u32string const & document, grammar const & g, recognizer const & main);
 	void connect(match_class const & matchClass, context_ref const & c, int nextState);

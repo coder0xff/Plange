@@ -170,6 +170,11 @@ bool grammar::test_precedence(state_machine const & productionA, state_machine c
 	return i->second.count(&productionB) > 0;
 }
 
+precedence_collection const & grammar::get_precedences() const
+{
+	return precedences;
+}
+
 state_machine & grammar::add_production(std::string id, size_t startState, size_t acceptStateCount, associativity assoc) {
 	return productions.emplace(std::piecewise_construct, std::forward_as_tuple(id), std::forward_as_tuple(id, startState, acceptStateCount, assoc)).first->second;
 }

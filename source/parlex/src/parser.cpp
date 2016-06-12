@@ -30,7 +30,20 @@ parser::parser(int threadCount) : activeCount(0), terminating(false) {
 					lock.unlock();
 					auto const & context = std::get<0>(item);
 					auto const nextDfaState = std::get<1>(item);
-					//DBG("thread ", threadCount, " executing dfa state");
+					if (update_progress_handler) {
+						std::atomic<int> & progress = context.owner().owner.progress;
+						int oldProgress;
+						bool didSet = false;
+						int const docPos = context.current_document_position();
+						while (docPos > (oldProgress = progress)) {
+							didSet = progress.compare_exchange_weak(oldProgress, docPos);
+						}
+						if (didSet) {
+							int const docLen = context.owner().owner.document.length();
+							update_progress_handler(docPos, docLen + 1);
+						}
+					}
+					//INF("thread ", threadCount, " executing dfa state");
 					context.owner().machine.process(context, nextDfaState);
 					context.owner().end_dependency(); //reference code A
 					if (--activeCount == 0) {
@@ -54,7 +67,7 @@ parser::~parser() {
 }
 
 abstract_syntax_graph parser::parse(grammar const & g, recognizer const & r, std::u32string const & document) {
-	perf_timer timer("parse");
+	//perf_timer timer("parse");
 	std::unique_lock<std::mutex> lock(mutex); //use the lock to make sure we see activeCount != 0
 	details::job j(*this, document, g, r);
 #ifndef FORCE_RECURSION
@@ -68,6 +81,9 @@ abstract_syntax_graph parser::parse(grammar const & g, recognizer const & r, std
 		}
 	};
 	assert(activeCount == 0);
+	if (update_progress_handler) {
+		update_progress_handler(document.length() + 1, document.length() + 1);
+	}
 	return construct_result(j, match(match_class(r, 0), document.size()));
 }
 
@@ -85,6 +101,63 @@ void parser::schedule(details::context_ref const & c, int nextDfaState) {
 #else
 	c.owner().machine.process(c, nextDfaState);
 #endif
+}
+
+void parser::set_update_progress_handler(std::function<void(int /*done*/, int /*total*/)> func)
+{
+	update_progress_handler = func;
+}
+
+bool parser::handle_deadlocks(details::job const & j) {
+	assert(activeCount == 0);
+	//perf_timer timer("handle_deadlocks");
+
+	//build a dependency graph and detect cyclical portions that should be halted
+	//if no subjobs remain, return true
+	//otherwise return false (still work to be done)
+
+	std::stack<std::pair<match_class, match_class>> s;
+
+	//Examine subscriptions from one subjob to another to construct the graph
+	std::map<match_class, std::set<match_class>> direct_subscriptions;
+	std::map<match_class, std::set<match_class>> all_subscriptions;
+	for (auto const & i : j.producers) {
+		match_class const & matchClass = i.first;
+		details::producer const & p = *i.second;
+		if (p.r.is_terminal() || p.completed) {
+			continue;
+		}
+		for (auto const & subscription : p.consumers) {
+			details::context_ref const & c = subscription.c;
+			match_class temp(c.owner().machine, c.owner().documentPosition);
+			all_subscriptions[matchClass].insert(temp);
+			direct_subscriptions[matchClass].insert(temp);
+			s.push(std::pair<match_class, match_class>(matchClass, temp));
+		}
+	}
+
+	//Apply transitivity to the graph
+	while (s.size() > 0) {
+		std::pair<match_class, match_class> entry = s.top();
+		s.pop();
+		for (auto const & next : direct_subscriptions[entry.first]) {
+			if (all_subscriptions[entry.first].insert(next).second) {
+				s.push(std::pair<match_class, match_class>(entry.first, next));
+			};
+		}
+	}
+
+	bool anyHalted = false;
+	//halt subjobs that are subscribed to themselves (in)directly
+	for (auto const & i : all_subscriptions) {
+		match_class const & matchClass = i.first;
+		details::producer &p = *j.producers.find(matchClass)->second;
+		if (i.second.count(matchClass) > 0) {
+			p.terminate();
+			anyHalted = true;
+		}
+	}
+	return !anyHalted;
 }
 
 bool matches_intersect(parlex::match const & left, parlex::match const & right) {
@@ -108,7 +181,7 @@ std::set<match> getChildren(abstract_syntax_graph const & asg, match const & m) 
 }
 
 struct node_props_t {
-	match const & m;
+	match const m;
 	recognizer const & r;
 	std::set<permutation> & permutations;
 	std::set<match> children;
@@ -139,7 +212,9 @@ void prune(abstract_syntax_graph & asg, std::map<match, node_props_t> & nodes, n
 		toPrune.pop();
 		for (auto const & parentMatchAndPermutations : props.parentPermutationsByMatch) {
 			match const & parentMatch = parentMatchAndPermutations.first;
-			node_props_t & parentProps = nodes.find(parentMatch)->second;
+			auto const i = nodes.find(parentMatch);
+			assert(i != nodes.end());
+			node_props_t & parentProps = i->second;
 			std::set<permutation> const & parentPermutations = parentMatchAndPermutations.second;
 			for (permutation const & perm : parentPermutations) {
 				parentProps.permutations.erase(perm);
@@ -149,7 +224,9 @@ void prune(abstract_syntax_graph & asg, std::map<match, node_props_t> & nodes, n
 			}
 		}
 		for (match const & descendentMatch : props.allDescendents) {
-			node_props_t & descendent = nodes.find(descendentMatch)->second;
+			auto const i = nodes.find(descendentMatch);
+			assert(i != nodes.end());
+			node_props_t & descendent = i->second;
 			descendent.allAncestors.erase(thisMatch);
 			if (descendent.allAncestors.empty()) {
 				add(descendentMatch);
@@ -158,19 +235,24 @@ void prune(abstract_syntax_graph & asg, std::map<match, node_props_t> & nodes, n
 			descendent.parentPermutationsByMatch.erase(thisMatch);
 		}
 		for (match const & ancestorMatch : props.allAncestors) {
-			node_props_t & ancestor = nodes.find(ancestorMatch)->second;
+			auto const i = nodes.find(ancestorMatch);
+			assert(i != nodes.end());
+			node_props_t & ancestor = i->second;
 			ancestor.allDescendents.erase(thisMatch);
 			ancestor.allDescendentsAndAncestors.erase(thisMatch);
 			ancestor.children.erase(thisMatch);
 		}
 		for (match const & intersectorMatch : props.allIntersections) {
-			node_props_t & intersector = nodes.find(intersectorMatch)->second;
+			auto const i = nodes.find(intersectorMatch);
+			assert(i != nodes.end());
+			node_props_t & intersector = i->second;
 			intersector.allIntersections.erase(thisMatch);
 		}
 	}
+
 	for (match const & i : completed) {
-		asg.table.erase(i);
 		nodes.erase(i);
+		asg.table.erase(i);
 	}
 }
 
@@ -254,14 +336,16 @@ void prune_detached(int documentLength, abstract_syntax_graph & asg) {
 		unconnecteds.insert(entry.first);
 	}
 	std::queue<match> pending;
+	unconnecteds.erase(asg.root);
 	pending.push(asg.root);
 	while (!pending.empty()) {
 		match m = pending.front();
 		pending.pop();
-		unconnecteds.erase(m);
 		for (auto const & permutation : asg.table[m]) {
 			for (auto const & child : permutation) {
-				pending.push(child);
+				if (unconnecteds.erase(child) > 0) {
+					pending.push(child);
+				}
 			}
 		}
 	}
@@ -310,7 +394,7 @@ bool associativity_test(grammar const & g, node_props_t & a, node_props_t & b) {
 void select_trees(abstract_syntax_graph & asg, grammar const & g, std::map<match, node_props_t> & nodes, std::vector<std::set<match>> orderedMatchesByHeight) {
 	for (std::set<match> const & matches : orderedMatchesByHeight) {
 		for (match const & m : matches) {
-			std::set<match> preservedIntersections; //used towards the end, be needs to be initialized before "goto matchLoop"
+			std::set<match> preservedIntersections; //used towards the end, but needs to be initialized before "goto matchLoop"
 			auto const & i = nodes.find(m);
 			if (i == nodes.end()) {
 				goto matchLoop;
@@ -341,7 +425,9 @@ void select_trees(abstract_syntax_graph & asg, grammar const & g, std::map<match
 			}
 			//is it possibly preempted by another match that it intersects with?
 			for (match const & intersected : a.allIntersections) {
-				node_props_t & b = nodes.find(intersected)->second;
+				auto i = nodes.find(intersected);
+				assert(i != nodes.end());
+				node_props_t & b = i->second;
 				if (precedence_test(g, b, a) || associativity_test(g, b, a)) {
 					goto matchLoop;
 				}
@@ -367,6 +453,14 @@ void select_trees(abstract_syntax_graph & asg, grammar const & g, std::map<match
 }
 
 abstract_syntax_graph & apply_precedence_and_associativity(grammar const & g, abstract_syntax_graph & asg) {
+	//short circuit if no rules are given
+	bool anyAssociativities = false;
+	for (auto const & entry : g.get_productions()) {
+		anyAssociativities = entry.second.get_associativity() != associativity::none;
+	}
+	if (g.get_precedences().size() == 0 && !anyAssociativities) {
+		return asg;
+	}
 
 	std::map<match, node_props_t> nodes;
 	//a per-character table of matches
@@ -378,75 +472,26 @@ abstract_syntax_graph & apply_precedence_and_associativity(grammar const & g, ab
 	compute_intersections(flattened);
 	std::vector<std::set<match>> orderedMatchesByHeight = ordered_matches_by_height(nodes);
 	select_trees(asg, g, nodes, orderedMatchesByHeight);
-
 	return asg;
 }
 
 abstract_syntax_graph parser::construct_result(details::job const & j, match const & match) {
-	perf_timer timer("construct_result");
-	abstract_syntax_graph step1(match);
+	//perf_timer timer("construct_result");
+	abstract_syntax_graph result(match);
 	for (auto const & pair : j.producers) {
 		details::producer const & producer = *pair.second;
 		for (auto const & pair2 : producer.match_to_permutations) {
 			struct match const & match = pair2.first;
 			std::set<permutation> const & permutations = pair2.second;
-			step1.table[match] = permutations;
+			result.table[match] = permutations;
 		}
 	}
-	prune_detached(j.document.length(), step1);
-	return step1.is_rooted() ? apply_precedence_and_associativity(j.g, step1) : step1;
-}
-
-bool parser::handle_deadlocks(details::job const & j) {
-	assert(activeCount == 0);
-	perf_timer timer("handle_deadlocks");
-
-	//build a dependency graph and detect cyclical portions that should be halted
-	//if no subjobs remain, return true
-	//otherwise return false (still work to be done)
-
-	std::stack<std::pair<match_class, match_class>> s;
-
-	//Examine subscriptions from one subjob to another to construct the graph
-	std::map<match_class, std::set<match_class>> direct_subscriptions;
-	std::map<match_class, std::set<match_class>> all_subscriptions;
-	for (auto const & i : j.producers) {
-		match_class const & matchClass = i.first;
-		details::producer const & p = *i.second;
-		if (p.r.is_terminal() || p.completed) {
-			continue;
-		}
-		for (auto const & subscription : p.consumers) {
-			details::context_ref const & c = subscription.c;
-			match_class temp(c.owner().machine, c.owner().documentPosition);
-			all_subscriptions[matchClass].insert(temp);
-			direct_subscriptions[matchClass].insert(temp);
-			s.push(std::pair<match_class, match_class>(matchClass, temp));
-		}
+	prune_detached(j.document.length(), result);
+	if (result.is_rooted()) {
+		return apply_precedence_and_associativity(j.g, result);
+	} else {
+		return result;
 	}
-
-	//Apply transitivity to the graph
-	while (s.size() > 0) {
-		std::pair<match_class, match_class> entry = s.top();
-		s.pop();
-		for (auto const & next : direct_subscriptions[entry.first]) {
-			if (all_subscriptions[entry.first].insert(next).second) {
-				s.push(std::pair<match_class, match_class>(entry.first, next));
-			};
-		}
-	}
-
-    bool anyHalted = false;
-	//halt subjobs that are subscribed to themselves (in)directly
-	for (auto const & i : all_subscriptions) {
-		match_class const & matchClass = i.first;
-		details::producer &p = *j.producers.find(matchClass)->second;
-		if (i.second.count(matchClass) > 0) {
-			p.terminate();
-			anyHalted = true;
-		}
-	}
-	return !anyHalted;
 }
 
 }

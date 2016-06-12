@@ -32,10 +32,10 @@ struct context_ref_counter {
 context::context(subjob & owner, context_ref const & prior, int documentPosition, match const * fromTransition) :
  id (++contextIDCounter), owner(owner), prior(prior),
  currentDocumentPosition(documentPosition),
- from_transition(fromTransition != nullptr ? new match(*fromTransition) : nullptr), rc(*new context_ref_counter(this))
+ fromTransition(fromTransition != nullptr ? new match(*fromTransition) : nullptr), rc(*new context_ref_counter(this))
 {
 	assert(&owner);
-	assert(!prior.is_null() == (bool)from_transition);
+	assert(!prior.is_null() == (fromTransition != nullptr));
 	//DBG("constructed context ", id);
 }
 
@@ -130,8 +130,8 @@ std::unique_ptr<match> context_ref::from_transition() const {
     //DBG("Dereferencing ref:", id, " to c:",rc->id);
 	context* temp = rc->c;
 	assert(temp);
-	if (temp->from_transition) {
-		return std::unique_ptr<match>(new match(*temp->from_transition));
+	if (temp->fromTransition) {
+		return std::unique_ptr<match>(new match(*temp->fromTransition));
 	} else {
 		return std::unique_ptr<match>();
 	}

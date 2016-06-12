@@ -5,10 +5,16 @@
 #include <sstream>
 #include <thread>
 
-#ifndef NDEBUG
+//#define RELEASE_LOGGING
+
+#ifdef RELEASE_LOGGING
 #	define DBG(...) logging::log_impl("DBG", __FILE__, __LINE__, __VA_ARGS__)
 #else
-#   define DBG(...)
+#	ifndef NDEBUG
+#		define DBG(...) logging::log_impl("DBG", __FILE__, __LINE__, __VA_ARGS__)
+#	else
+#		define DBG(...)
+#	endif
 #endif
 
 #define INF(...) logging::log_impl("INF", __FILE__, __LINE__, __VA_ARGS__)

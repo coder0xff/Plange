@@ -20,6 +20,9 @@
 #include "parlex/builtins/precedence_grammar.hpp"
 #include "parlex/builtins/associativity_grammar.hpp"
 
+// Misc
+#include "parlex/builtins/progress_bar.hpp"
+
 namespace parlex {
 namespace builtins {
 

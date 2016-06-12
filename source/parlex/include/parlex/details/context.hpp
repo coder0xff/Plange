@@ -43,7 +43,7 @@ public:
 	subjob & owner;
 	context_ref const prior;
 	int const currentDocumentPosition;
-	std::unique_ptr<match const> const from_transition;	//unique_ptr serves as optional
+	std::unique_ptr<match const> const fromTransition;	//unique_ptr serves as optional
 private:
 	context_ref_counter & rc;
 

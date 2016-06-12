@@ -117,6 +117,9 @@
     <ClInclude Include="include\parlex\builtins\associativity_grammar.hpp">
       <Filter>Header Files\builtins</Filter>
     </ClInclude>
+    <ClInclude Include="include\parlex\builtins\progress_bar.hpp">
+      <Filter>Header Files\builtins</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\abstract_syntax_graph.cpp">

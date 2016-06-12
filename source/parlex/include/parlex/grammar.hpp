@@ -31,6 +31,7 @@ public:
 	builtins::string_terminal & add_literal(std::u32string contents);
 	void add_precedence(state_machine const & productionA, state_machine const & productionB);
 	bool test_precedence(state_machine const & productionA, state_machine const & productionB) const;
+	precedence_collection const & get_precedences() const;
 private:
 	std::string main_production_name;
 	std::map<std::string, state_machine> productions;

@@ -15,7 +15,8 @@ job::job(parser & owner, std::u32string const & document, parlex::grammar const 
   document(document),
   g(g),
   main(main),
-  owner(owner)
+  owner(owner),
+  progress(0)
 	{
 		//DBG("starting job using recognizer '", main, "'");
 
@@ -81,7 +82,11 @@ producer & job::get_producer(match_class const & matchClass) {
 			}
 		}
 	}
-	return *producers[matchClass];
+	producer * ptr = producers[matchClass].get();
+	if (ptr == nullptr) {
+		throw std::exception("Unexpected error");
+	}
+	return *ptr;
 }
 
 

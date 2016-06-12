@@ -27,6 +27,7 @@ public:
 	~parser();
 	abstract_syntax_graph parse(grammar const & g, recognizer const & overrideMain, std::u32string const & document);
 	abstract_syntax_graph parse(grammar const & g, std::u32string const & document);
+	void set_update_progress_handler(std::function<void(int /*done*/, int /*total*/)>);
 private:
 	friend class details::job;
 	friend class details::subjob;
@@ -39,6 +40,7 @@ private:
 	std::vector<std::thread> workers;
 	std::queue<std::tuple<details::context_ref, int>> work;
 	std::condition_variable work_cv;
+	std::function<void(int, int)> update_progress_handler;
 
 	void schedule(details::context_ref const & c, int nextDfaState);
 

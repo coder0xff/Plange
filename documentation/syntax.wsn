@@ -57,6 +57,8 @@ CHUNK_MODULO = EXPRESSION {IC} "%" {IC} EXPRESSION.
 #the set construction and collections operators
 COLLECTION_OP = CHUNK | CHUNK_MODULO | DIFFERENCE | INTERSECTION | SYMMETRIC_DIFFERENCE | UNION | COMPLEMENT.
 
+COMBINATION = EXPRESSION {IC} "|" {IC} EXPRESSION.
+
 #an inline comment
 COMMENT = "/*" {all} "*/".
 
@@ -114,7 +116,7 @@ EMBEDDED_COMMENT_INTERIOR = PAYLOAD | "*" EMBEDDED_COMMENT_INTERIOR "*".
 #a string bounded by arbirtrarily-sized delimiters
 EMBEDDED_STRING = ("\"\"\"\n" {all} "\n\"\"\"") | ("\"\"\"" not_double_quote {all} "\"\"\"") | ("\"" EMBEDDED_STRING "\"").
 
-END_OF_LINE_COMMENT = "//" {all} "\n".
+END_OF_LINE_COMMENT = "//" {not_newline} "\n".
 
 EQUALITY = EXPRESSION {IC} "=" {IC} EXPRESSION.
 
@@ -127,7 +129,7 @@ EXISTS_ONE = "∃!" {IC} EXPRESSION.
 EXPONENTIATION = EXPRESSION {IC} "^" {IC} EXPRESSION.
 
 #a linearization of an evaluation tree containing constants, variables, operators, invocations, and sub EXPRESSIONs
-EXPRESSION = ALLOCATION | BINARY_OP | BOOL | c_string | CAST | CEILING | CONDITIONAL | DELTA | DIMENSIONAL_NUMBER | EMBEDDED_STRING | FACTORIAL | FLOOR | FUNCTION | SET | IDENTIFIER | INVOCATION | LIST | MAGNITUDE | MAP | MEMBER_ACCESS | NEAREST_INTEGER | NEGATION | NUMBER | PARENTHETICAL | RADICAL | RANGE | SET_COMPREHENSION | TUPLE | TYPE | UNARY_OP | VECTOR_NORM | "null" | "this" | "this_type".
+EXPRESSION = ALLOCATION | ARRAY | BINARY_OP | BOOL | c_string | CAST | CEILING | COMBINATION | CONDITIONAL | DELTA | DIMENSIONAL_NUMBER | EMBEDDED_STRING | FACTORIAL | FLOOR | FUNCTION | SET | IDENTIFIER | INVOCATION | LIST | MAGNITUDE | MAP | MEMBER_ACCESS | NEAREST_INTEGER | NEGATION | NUMBER | PARENTHETICAL | RADICAL | RANGE | SET_COMPREHENSION | TUPLE | TYPE | UNARY_OP | VECTOR_NORM | "null" | "this" | "this_type".
 
 FACTORIAL = EXPRESSION {IC} "!".
 
@@ -147,7 +149,7 @@ FREE = "free" {IC} EXPRESSION.
 #The FUNCTION_MODIFIER_* rules model:
 #	["stable" | "unstable"] ["no_throw"] ["atomic"] {PLATFORM} ["pure"|"imperative"|"opaque"]
 #with the caveat that there has to be an IC between any modifier and the next (if there is a next)
-FUNCTION_MODIFIER = [FUNCTION_MODIFIER_STABILITY|FUNCTION_MODIFIER_NO_THROW|FUNCTION_MODIFIER_ATOMIC|FUNCTION_MODIFIER_PLATFORM|FUNCTION_MODIFIER_MODEL] {IC}.
+FUNCTION_MODIFIER = (FUNCTION_MODIFIER_STABILITY|FUNCTION_MODIFIER_NO_THROW|FUNCTION_MODIFIER_ATOMIC|FUNCTION_MODIFIER_PLATFORM|FUNCTION_MODIFIER_MODEL) {IC}.
 
 FUNCTION_MODIFIER_ATOMIC = "atomic" [ICR (FUNCTION_MODIFIER_PLATFORM|FUNCTION_MODIFIER_MODEL)].
 
@@ -226,7 +228,7 @@ LOOP = ( "while" | "until" ) {IC} PARENTHETICAL {IC} EXPRESSION.
 MAGNITUDE = "|" {IC} EXPRESSION {IC} "|".
 
 #an associative Collection
-MAP = "{" {IC} EXPRESSION {IC} ":" {IC} EXPRESSION {{IC} "," {IC} EXPRESSION {IC} ":" {IC} EXPRESSION} {IC} "}".
+MAP = "{" [{IC} EXPRESSION {IC} ":" {IC} EXPRESSION {{IC} "," {IC} EXPRESSION {IC} ":" {IC} EXPRESSION}] {IC} "}".
 
 #function type builder
 MAPS_TO = EXPRESSION {IC} ("→"|"->") {IC} EXPRESSION.
@@ -354,7 +356,7 @@ THROW = "throw" [{IC} EXPRESSION].
 TRY = "try" {IC} EXPRESSION {IC} "catch" {IC} EXPRESSION {"catch" {IC} EXPRESSION} [{IC} "finally" {IC} EXPRESSION].
 
 #create a finite ordered list of elements
-TUPLE = "(" {IC} EXPRESSION {{IC} ", " {IC} EXPRESSION} {IC} ")".
+TUPLE = "(|" {IC} EXPRESSION {{IC} "," {IC} EXPRESSION} {IC} "|)".
 
 #create a type
 TYPE = "type" {IC} ["inheriting" {IC} INHERITANCE_LIST {IC}] ["implementing" {IC} INHERITANCE_LIST {IC}] "{" TYPE_SCOPE "}".

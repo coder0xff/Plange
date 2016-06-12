@@ -48,6 +48,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>..\utilities;$(MSBuildProjectDirectory)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <TreatWarningAsError>true</TreatWarningAsError>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -83,6 +84,7 @@
     <ClInclude Include="include\parlex\builtins\not_double_quote.hpp" />
     <ClInclude Include="include\parlex\builtins\not_newline.hpp" />
     <ClInclude Include="include\parlex\builtins\precedence_grammar.hpp" />
+    <ClInclude Include="include\parlex\builtins\progress_bar.hpp" />
     <ClInclude Include="include\parlex\builtins\set_terminal.hpp" />
     <ClInclude Include="include\parlex\builtins\string_terminal.hpp" />
     <ClInclude Include="include\parlex\builtins\unicode.hpp" />
