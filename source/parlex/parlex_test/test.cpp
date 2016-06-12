@@ -496,25 +496,6 @@ void generate_test_1() {
 	std::cout << hppStream.str() << "\n";
 }
 
-void generate_test_2() {
-	std::u32string contents = read_with_bom(std::ifstream(PLANGE_ROOT "documentation\\syntax.wsn"));
-	auto grammar = parlex::load_grammar("STATEMENT_SCOPE", contents, {}, { "IDENTIFIER", "WS" });
-	std::ofstream cppStream(PLANGE_ROOT "source\\plc\\plange_grammar.cpp");
-	std::ofstream hppStream(PLANGE_ROOT "source\\plc\\plange_grammar.hpp");
-	grammar.generate_cpp("plange", "STATEMENT_SCOPE", cppStream, hppStream);
-}
-
-void generate_test_3() {
-	std::u32string associativityString = read_with_bom(std::ifstream(PLANGE_ROOT "documentation\\operator-associativity.txt"));
-	std::map<std::string, parlex::associativity> associativities = parlex::load_associativities(associativityString);
-	std::u32string grammarString = read_with_bom(std::ifstream(PLANGE_ROOT "documentation\\syntax.wsn"));
-	auto grammar = parlex::load_grammar("STATEMENT_SCOPE", grammarString, associativities, { "IDENTIFIER", "WS" });
-	parlex::load_precedence(grammar, read_with_bom(std::ifstream(PLANGE_ROOT "documentation\\operator-precedence.txt")));
-	std::ofstream cppStream(PLANGE_ROOT "source\\plc\\plange_grammar.cpp");
-	std::ofstream hppStream(PLANGE_ROOT "source\\plc\\plange_grammar.hpp");
-	grammar.generate_cpp("plange", "STATEMENT_SCOPE", cppStream, hppStream);
-}
-
 //This code is destructive. Use with care.
 /*void generate_associativity_parser() {
 	std::u32string grammarString = read_with_bom(std::ifstream(PLANGE_ROOT "documentation\\associativity.wsn"));
@@ -639,7 +620,7 @@ void full_test_1() {
 		//p.set_update_progress_handler(parlex::builtins::progress_bar);
 		std::u32string document = read_with_bom(std::ifstream(PLANGE_ROOT "examples\\restructuring.pge"));
 		std::unique_ptr<parlex::abstract_syntax_graph> asg;
-		for (int i = 0; i < 1; ++i) {
+		for (int i = 0; i < 100; ++i) {
 			//std::cout << "\n";
 			auto res = p.parse(g, document);
 			asg.reset(new parlex::abstract_syntax_graph(res));
@@ -649,6 +630,17 @@ void full_test_1() {
 			throw std::exception("test failed");
 		}
 	}
+}
+
+void generate_plange_parser() {
+	std::u32string associativityString = read_with_bom(std::ifstream(PLANGE_ROOT "documentation\\operator-associativity.txt"));
+	std::map<std::string, parlex::associativity> associativities = parlex::load_associativities(associativityString);
+	std::u32string grammarString = read_with_bom(std::ifstream(PLANGE_ROOT "documentation\\syntax.wsn"));
+	auto grammar = parlex::load_grammar("STATEMENT_SCOPE", grammarString, associativities, { "IDENTIFIER", "WS" });
+	parlex::load_precedence(grammar, read_with_bom(std::ifstream(PLANGE_ROOT "documentation\\operator-precedence.txt")));
+	std::ofstream cppStream(PLANGE_ROOT "source\\plc\\plange_grammar.cpp");
+	std::ofstream hppStream(PLANGE_ROOT "source\\plc\\plange_grammar.hpp");
+	grammar.generate_cpp("plange", "STATEMENT_SCOPE", cppStream, hppStream);
 }
 
 int main(void) {
@@ -688,8 +680,6 @@ int main(void) {
 	RUN_TEST(plange_test_5);
 	RUN_TEST(plange_test_6);
 	RUN_TEST(generate_test_1);
-	RUN_TEST(generate_test_2);
-	RUN_TEST(generate_test_3);
 	//RUN_TEST(generate_precedence_parser);
 	//RUN_TEST(generate_associativity_parser);
 	RUN_TEST(precedence_test_1);
@@ -697,4 +687,5 @@ int main(void) {
 	RUN_TEST(precedence_test_3);
 	RUN_TEST(associativity_test_1);
 	RUN_TEST(full_test_1);
+	//RUN_TEST(generate_plange_parser);
 }

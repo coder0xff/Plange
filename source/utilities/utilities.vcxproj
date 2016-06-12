@@ -113,11 +113,13 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="logging.hpp" />
+    <ClInclude Include="one_shot.hpp" />
     <ClInclude Include="perf_timer.hpp" />
     <ClInclude Include="utils.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="logging.cpp" />
+    <ClCompile Include="one_shot.cpp" />
     <ClCompile Include="perf_timer.cpp" />
     <ClCompile Include="utils.cpp" />
   </ItemGroup>

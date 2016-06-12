@@ -13,9 +13,9 @@ struct match : match_class {
 
 	bool operator <(match const & rhs) const;
 
-	bool operator !=(match const & rhs) const;
+	/*bool operator !=(match const & rhs) const;
 
-	bool operator ==(match const & rhs) const;
+	bool operator ==(match const & rhs) const;*/
 };
 
 }

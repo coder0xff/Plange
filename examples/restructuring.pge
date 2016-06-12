@@ -1,4 +1,4 @@
-///////////////////////////////////////////////////////////////////////////
+﻿///////////////////////////////////////////////////////////////////////////
 // This code, written in Plange (which is a work in progress),
 // presents a commented implementation of an algorithm
 // for manipulating data structures representing the
@@ -34,5 +34,5 @@ Recursive_function_t := Result_t * List<Int * Int> → Result_t;
     (<List<Int * Int>> version_pairs) {
         return listToTree({}, version_pairs);
     };
-    
+
 assert(listToTree(input) = expected);

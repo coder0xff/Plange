@@ -20,7 +20,7 @@ producer::producer(job & owner, recognizer const & r, size_t const documentPosit
 
 void producer::add_subscription(context_ref const & c, size_t nextDfaState) {
 	{
-		std::unique_lock<std::mutex> lock(mutex); //TODO: sometimes getting crashes here
+		std::unique_lock<std::mutex> lock(mutex);
 		consumers.emplace_back(c, nextDfaState);
 	}  //release the lock
 	do_events();

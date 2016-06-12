@@ -62,31 +62,27 @@ producer & job::get_producer(match_class const & matchClass) {
 			terminal const * t = static_cast<terminal const *>(&matchClass.r);
 			token * result = new token(*this, *t, matchClass.document_position);
 			lock.lock();
-			producers.emplace(
+			return *producers.emplace(
 				std::piecewise_construct,
 				std::forward_as_tuple(matchClass),
 				std::forward_as_tuple(result)
-			);
+			).first->second.get();
 		} else {
 			state_machine const * machine = static_cast<state_machine const *>(&matchClass.r);
 			subjob * result = new subjob(*this, *machine, matchClass.document_position);
 			lock.lock();
-			bool didEmplace = producers.emplace(
+			auto temp = producers.emplace(
 				std::piecewise_construct,
 				std::forward_as_tuple(matchClass),
 				std::forward_as_tuple(result)
-			).second;
+			);
 			lock.unlock();
-			if (didEmplace) {
+			if (temp.second) {
 				result->start();
 			}
+			return *temp.first->second.get();
 		}
 	}
-	producer * ptr = producers[matchClass].get();
-	if (ptr == nullptr) {
-		throw std::exception("Unexpected error");
-	}
-	return *ptr;
 }
 
 
