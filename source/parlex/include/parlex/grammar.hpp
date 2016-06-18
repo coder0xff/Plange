@@ -19,8 +19,8 @@ class behavior_node;
 
 class grammar {
 public:
-	grammar(std::string nameOfMain);
-    grammar(std::string nameOfMain, std::map<std::string, std::shared_ptr<details::behavior_node>> const & trees, std::map<std::string, parlex::associativity> associativities, std::set<std::string> greedyNames);
+	grammar(std::string const & nameOfMain);
+    grammar(std::string const & nameOfMain, std::map<std::string, std::shared_ptr<details::behavior_node>> const & trees, std::map<std::string, parlex::associativity> const & associativities, std::set<std::string> const & greedyNames);
     grammar(grammar const & other);
 	state_machine const & get_main_production() const;
 	grammar& operator=(grammar const &) = delete;

@@ -407,13 +407,13 @@ void plange_test_1() {
 
 void plange_test_2() {
 	std::u32string contents = read_with_bom(std::ifstream(PLANGE_ROOT "documentation\\syntax.wsn"));
-	auto grammar = parlex::load_grammar("STATEMENT_SCOPE", contents, {}, { "IDENTIFIER", "WS" });
+	auto grammar = parlex::load_grammar("STATEMENT_SCOPE", contents, {}, { "IDENTIFIER", "WS", "NUMBER" });
 }
 
 void plange_test_3() {
 	//load Plange grammar
 	std::u32string contents = read_with_bom(std::ifstream(PLANGE_ROOT "documentation\\syntax.wsn"));
-	auto grammar = parlex::load_grammar("STATEMENT_SCOPE", contents, {}, { "IDENTIFIER", "WS" });
+	auto grammar = parlex::load_grammar("STATEMENT_SCOPE", contents, {}, { "IDENTIFIER", "WS", "NUMBER" });
 
 	//try parsing a simple program
 	parlex::parser p(1);
@@ -426,7 +426,7 @@ void plange_test_3() {
 void plange_test_4() {
 	//load Plange grammar
 	std::u32string contents = read_with_bom(std::ifstream(PLANGE_ROOT "documentation\\syntax.wsn"));
-	auto grammar = parlex::load_grammar("STATEMENT_SCOPE", contents, {}, { "IDENTIFIER", "WS" });
+	auto grammar = parlex::load_grammar("STATEMENT_SCOPE", contents, {}, { "IDENTIFIER", "WS", "NUMBER" });
 
 	std::u32string input = read_with_bom(std::ifstream(PLANGE_ROOT "examples\\restructuring.pge"));
 
@@ -439,7 +439,7 @@ void plange_test_4() {
 
 void plange_test_5() {
 	std::u32string contents = read_with_bom(std::ifstream(PLANGE_ROOT "documentation\\syntax.wsn"));
-	auto grammar = parlex::load_grammar("STATEMENT_SCOPE", contents, {}, { "IDENTIFIER", "WS" });
+	auto grammar = parlex::load_grammar("STATEMENT_SCOPE", contents, {}, { "IDENTIFIER", "WS", "NUMBER" });
 
 	parlex::parser p;
 
@@ -467,7 +467,7 @@ void plange_test_5() {
 
 void plange_test_6() {
 	std::u32string contents = read_with_bom(std::ifstream(PLANGE_ROOT "documentation\\syntax.wsn"));
-	auto grammar = parlex::load_grammar("STATEMENT_SCOPE", contents, {}, { "IDENTIFIER", "WS" });
+	auto grammar = parlex::load_grammar("STATEMENT_SCOPE", contents, {}, { "IDENTIFIER", "WS", "NUMBER" });
 
 	parlex::parser p;
 
@@ -486,7 +486,7 @@ void plange_test_6() {
 
 void generate_test_1() {
 	std::u32string contents = read_with_bom(std::ifstream(PLANGE_ROOT "documentation\\syntax.wsn"));
-	auto grammar = parlex::load_grammar("STATEMENT_SCOPE", contents, {}, { "IDENTIFIER", "WS" });
+	auto grammar = parlex::load_grammar("STATEMENT_SCOPE", contents, {}, { "IDENTIFIER", "WS", "NUMBER" });
 
 	std::ostringstream cppStream, hppStream;
 	grammar.generate_cpp("plange", "STATEMENT_SCOPE", cppStream, hppStream);
@@ -614,13 +614,13 @@ void full_test_1() {
 	{
 		//perf_timer perf("full_test_1");
 		auto assocs = parlex::load_associativities(read_with_bom(std::ifstream(PLANGE_ROOT "documentation\\operator-associativity.txt")));
-		parlex::grammar g = parlex::load_grammar("STATEMENT_SCOPE", read_with_bom(std::ifstream(PLANGE_ROOT "documentation\\syntax.wsn")), assocs, { "IDENTIFIER", "WS" });
+		parlex::grammar g = parlex::load_grammar("STATEMENT_SCOPE", read_with_bom(std::ifstream(PLANGE_ROOT "documentation\\syntax.wsn")), assocs, { "IDENTIFIER", "WS", "NUMBER" });
 		parlex::load_precedence(g, read_with_bom(std::ifstream(PLANGE_ROOT "documentation\\operator-precedence.txt")));
 		parlex::parser p;
 		//p.set_update_progress_handler(parlex::builtins::progress_bar);
 		std::u32string document = read_with_bom(std::ifstream(PLANGE_ROOT "examples\\restructuring.pge"));
 		std::unique_ptr<parlex::abstract_syntax_graph> asg;
-		for (int i = 0; i < 100; ++i) {
+		for (int i = 0; i < 10; ++i) {
 			//std::cout << "\n";
 			auto res = p.parse(g, document);
 			asg.reset(new parlex::abstract_syntax_graph(res));
@@ -636,7 +636,7 @@ void generate_plange_parser() {
 	std::u32string associativityString = read_with_bom(std::ifstream(PLANGE_ROOT "documentation\\operator-associativity.txt"));
 	std::map<std::string, parlex::associativity> associativities = parlex::load_associativities(associativityString);
 	std::u32string grammarString = read_with_bom(std::ifstream(PLANGE_ROOT "documentation\\syntax.wsn"));
-	auto grammar = parlex::load_grammar("STATEMENT_SCOPE", grammarString, associativities, { "IDENTIFIER", "WS" });
+	auto grammar = parlex::load_grammar("STATEMENT_SCOPE", grammarString, associativities, { "IDENTIFIER", "WS", "NUMBER" });
 	parlex::load_precedence(grammar, read_with_bom(std::ifstream(PLANGE_ROOT "documentation\\operator-precedence.txt")));
 	std::ofstream cppStream(PLANGE_ROOT "source\\plc\\plange_grammar.cpp");
 	std::ofstream hppStream(PLANGE_ROOT "source\\plc\\plange_grammar.hpp");

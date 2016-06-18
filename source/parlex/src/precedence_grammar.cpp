@@ -54,8 +54,8 @@ parlex::grammar const & get_precedence_grammar() {
 namespace {
 
 std::pair<std::string, std::string> process_entry(std::u32string const & document, abstract_syntax_graph const & asg, parlex::match const & m) {
-	assert(asg.table.find(m) != asg.table.end());
-	permutation const & entryPerm = *asg.table.find(m)->second.begin();
+	assert(asg.permutations.find(m) != asg.permutations.end());
+	permutation const & entryPerm = *asg.permutations.find(m)->second.begin();
 	assert(entryPerm.size() >= 3);
 	auto const & left = entryPerm[0];
 	auto const & right = entryPerm[2];
@@ -76,7 +76,7 @@ void load_precedence(grammar & g, std::u32string const & document)
 	}
 
 	state_machine const * entryMachine = &(builtins::get_precedence_grammar().get_productions().find("ENTRY")->second);
-	for (match const & part : *asg.table[asg.root].begin()) {
+	for (match const & part : *asg.permutations[asg.root].begin()) {
 		if (&part.r == entryMachine) {
 			auto pair = process_entry(document, asg, part);
 			auto leftIter = g.get_productions().find(pair.first);

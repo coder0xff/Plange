@@ -32,7 +32,7 @@ private:
 	friend class details::job;
 	friend class details::subjob;
 	friend class details::producer;
-	std::mutex mutex;
+	mutable std::mutex mutex;
 	std::condition_variable halt_cv;
 	std::atomic<int> activeCount;
 	bool terminating;
@@ -53,10 +53,10 @@ private:
 	//halt the subjobs, and then resume. If stalling occurs and there
 	//are no deadlocks in the dependency digraph (implying that it is also disconnected) then there is
 	//no more work to be done. The job is finished.
-	bool handle_deadlocks(details::job const & j);
+	bool handle_deadlocks(details::job const & j) const;
 
 	//Construct an ASG, and if a solution was found, prunes unreachable nodes
-	abstract_syntax_graph construct_result(details::job const & j, match const & match);
+	abstract_syntax_graph construct_result(details::job const & j, match const & match) const;
 };
 
 }

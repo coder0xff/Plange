@@ -1,9 +1,32 @@
 #include <fstream>
+#include <stdlib.h>
+#include <iostream>
 
 #include "parlex/parser.hpp"
 #include "plange_grammar.hpp"
 #include "tclap/CmdLine.h"
 #include "utils.hpp"
+#include "Errors.h"
+#include "Warnings.h"
+#include "SourceCode.h"
+
+#pragma warning(push, 0)
+#include "llvm/IR/Module.h"
+#pragma warning(pop)
+
+std::string realpath(std::string fileName) {
+	struct free_delete
+	{
+		void operator()(char * x) { free((void *)x); }
+	};
+
+#ifdef _MSC_VER
+	std::unique_ptr<char, free_delete> buffer(_fullpath(nullptr, fileName.c_str(), _MAX_PATH));
+#else
+	std::unique_ptr<char, free_delete> buffer(realpath(fileName.c_str(), nullptr));
+#endif
+	return buffer.get();
+}
 
 int main(int argc, const char* argv[]) {
 	std::vector<std::string> filenames;
@@ -18,20 +41,41 @@ int main(int argc, const char* argv[]) {
 		std::cerr << "error: " << e.error() << " for arg " << e.argId() << std::endl;
 	}
 
-	parlex::parser p;
-	parlex::grammar const & g = get_plange();
-
+	std::vector<std::string> realpaths;
 	for (std::string filename : filenames) {
+		realpaths.push_back(realpath(filename));
+	}
+
+	parlex::parser p;
+	std::map<std::string, std::unique_ptr<SourceCode>> parses;
+
+	for (std::string filename : realpaths) {
+		if (parses.count(filename)) {
+			emit_DuplicateFileIgnored(filename);
+			continue;
+		}
+
 		std::ifstream ifs(filename, std::ios::binary);
 		if (!ifs) {
-			std::cerr << ("Could not open file: " + filename);
-			throw std::exception(("Could not open file: " + filename).c_str());
+			emit_CouldNotOpenFile(filename);
 		}
 		std::u32string s = read_with_bom(ifs);
-		parlex::abstract_syntax_graph asg = p.parse(g, s);
-		if (!asg.is_rooted()) {
-			std::cerr << (filename + " could not be parsed.\n");
-			throw std::exception((filename + " could not be parsed.\n").c_str());
+
+		bool inserted = parses.emplace(std::piecewise_construct, std::forward_as_tuple(filename), std::forward_as_tuple(new SourceCode(filename, s, p))).second;
+		assert(inserted);
+	}
+
+	std::unique_ptr<llvm::Module> module(new llvm::Module("module", llvm::getGlobalContext()));
+
+	for (auto const & nameAndParse : parses) {
+		std::string const & pathname = nameAndParse.first;
+		SourceCode const & source = *nameAndParse.second;
+		parlex::abstract_syntax_graph const & asg = source.graph;
+		parlex::state_machine const & statementProduction = get_plange().get_productions().find("STATEMENT")->second;
+		for (parlex::match const & m : *asg.permutations.find(asg.root)->second.begin()) {
+			if (&m.r == &statementProduction) {
+				asg.permutations.find(m)->second.begin();
+			}
 		}
 	}
 

@@ -203,10 +203,8 @@ parlex::grammar const & get_plange() {
 	static parlex::state_machine & CARDINALITY = g.add_production("CARDINALITY", 0, 1, parlex::associativity::none);
 	static parlex::state_machine & CAST = g.add_production("CAST", 0, 1, parlex::associativity::none);
 	static parlex::state_machine & CEILING = g.add_production("CEILING", 0, 1, parlex::associativity::none);
-	static parlex::state_machine & CHUNK = g.add_production("CHUNK", 0, 1, parlex::associativity::left);
-	static parlex::state_machine & CHUNK_MODULO = g.add_production("CHUNK_MODULO", 0, 1, parlex::associativity::left);
 	static parlex::state_machine & COLLECTION_OP = g.add_production("COLLECTION_OP", 0, 1, parlex::associativity::none);
-	static parlex::state_machine & COMBINATION = g.add_production("COMBINATION", 0, 1, parlex::associativity::none);
+	static parlex::state_machine & COMBINATION = g.add_production("COMBINATION", 0, 1, parlex::associativity::left);
 	static parlex::state_machine & COMMENT = g.add_production("COMMENT", 0, 1, parlex::associativity::none);
 	static parlex::state_machine & COMPLEMENT = g.add_production("COMPLEMENT", 0, 1, parlex::associativity::none);
 	static parlex::state_machine & COMPOSITION = g.add_production("COMPOSITION", 0, 1, parlex::associativity::any);
@@ -246,7 +244,7 @@ parlex::grammar const & get_plange() {
 	static parlex::state_machine & FUNCTION_MODIFIER_MODEL = g.add_production("FUNCTION_MODIFIER_MODEL", 0, 1, parlex::associativity::none);
 	static parlex::state_machine & FUNCTION_MODIFIER_NO_THROW = g.add_production("FUNCTION_MODIFIER_NO_THROW", 0, 2, parlex::associativity::none);
 	static parlex::state_machine & FUNCTION_MODIFIER_PLATFORM = g.add_production("FUNCTION_MODIFIER_PLATFORM", 0, 2, parlex::associativity::none);
-	static parlex::state_machine & FUNCTION_MODIFIER_STABILITY = g.add_production("FUNCTION_MODIFIER_STABILITY", 0, 1, parlex::associativity::none);
+	static parlex::state_machine & FUNCTION_MODIFIER_STABILITY = g.add_production("FUNCTION_MODIFIER_STABILITY", 0, 2, parlex::associativity::none);
 	static parlex::state_machine & GREATER_THAN = g.add_production("GREATER_THAN", 0, 1, parlex::associativity::any);
 	static parlex::state_machine & HAS = g.add_production("HAS", 0, 1, parlex::associativity::left);
 	static parlex::state_machine & HEX = g.add_production("HEX", 0, 1, parlex::associativity::none);
@@ -287,10 +285,12 @@ parlex::grammar const & get_plange() {
 	static parlex::state_machine & NOT_IN = g.add_production("NOT_IN", 0, 1, parlex::associativity::left);
 	static parlex::state_machine & NOT_LESSER_THAN = g.add_production("NOT_LESSER_THAN", 0, 1, parlex::associativity::any);
 	static parlex::state_machine & NULL_COALESCE = g.add_production("NULL_COALESCE", 0, 1, parlex::associativity::left);
-	static parlex::state_machine & NUMBER = g.add_production("NUMBER", 0, 1, parlex::associativity::none);
+	static parlex::state_machine & NUMBER = g.add_production("NUMBER", 0, 1, parlex::builtins::greedy, parlex::associativity::none);
 	static parlex::state_machine & OCTAL = g.add_production("OCTAL", 0, 1, parlex::associativity::none);
 	static parlex::state_machine & OR = g.add_production("OR", 0, 1, parlex::associativity::left);
-	static parlex::state_machine & PARAMETER = g.add_production("PARAMETER", 0, 3, parlex::associativity::none);
+	static parlex::state_machine & PARAMETER = g.add_production("PARAMETER", 0, 1, parlex::associativity::none);
+	static parlex::state_machine & PARAMETER_ALGEBRAIC = g.add_production("PARAMETER_ALGEBRAIC", 0, 2, parlex::associativity::none);
+	static parlex::state_machine & PARAMETER_NORMAL = g.add_production("PARAMETER_NORMAL", 0, 2, parlex::associativity::none);
 	static parlex::state_machine & PARENTHETICAL = g.add_production("PARENTHETICAL", 0, 1, parlex::associativity::none);
 	static parlex::state_machine & PARENTHETICAL_INVOCATION = g.add_production("PARENTHETICAL_INVOCATION", 0, 1, parlex::associativity::none);
 	static parlex::state_machine & PAYLOAD = g.add_production("PAYLOAD", 0, 1, parlex::associativity::none);
@@ -319,7 +319,7 @@ parlex::grammar const & get_plange() {
 	static parlex::state_machine & SUPERSET = g.add_production("SUPERSET", 0, 1, parlex::associativity::any);
 	static parlex::state_machine & SYMMETRIC_DIFFERENCE = g.add_production("SYMMETRIC_DIFFERENCE", 0, 1, parlex::associativity::left);
 	static parlex::state_machine & THROW = g.add_production("THROW", 0, 2, parlex::associativity::none);
-	static parlex::state_machine & TRY = g.add_production("TRY", 0, 2, parlex::associativity::none);
+	static parlex::state_machine & TRY = g.add_production("TRY", 0, 3, parlex::associativity::none);
 	static parlex::state_machine & TUPLE = g.add_production("TUPLE", 0, 1, parlex::associativity::none);
 	static parlex::state_machine & TYPE = g.add_production("TYPE", 0, 1, parlex::associativity::none);
 	static parlex::state_machine & TYPE_DEREFERENCE = g.add_production("TYPE_DEREFERENCE", 0, 1, parlex::associativity::none);
@@ -345,18 +345,18 @@ parlex::grammar const & get_plange() {
 	static one_shot oneShot;
 	oneShot.go([&](){
 
-		ADDITION.add_transition(0, EXPRESSION, 2);
-		ADDITION.add_transition(1, EXPRESSION, 3);
+		ADDITION.add_transition(0, EXPRESSION, 1);
 		ADDITION.add_transition(1, IC, 1);
+		ADDITION.add_transition(1, literal16, 2);
+		ADDITION.add_transition(2, EXPRESSION, 3);
 		ADDITION.add_transition(2, IC, 2);
-		ADDITION.add_transition(2, literal16, 1);
 
-		ADD_SUB.add_transition(0, EXPRESSION, 2);
-		ADD_SUB.add_transition(1, EXPRESSION, 3);
+		ADD_SUB.add_transition(0, EXPRESSION, 1);
 		ADD_SUB.add_transition(1, IC, 1);
+		ADD_SUB.add_transition(1, literal136, 2);
+		ADD_SUB.add_transition(1, literal18, 2);
+		ADD_SUB.add_transition(2, EXPRESSION, 3);
 		ADD_SUB.add_transition(2, IC, 2);
-		ADD_SUB.add_transition(2, literal136, 1);
-		ADD_SUB.add_transition(2, literal18, 1);
 
 		ALL.add_transition(0, literal148, 1);
 		ALL.add_transition(1, EXPRESSION, 2);
@@ -366,54 +366,55 @@ parlex::grammar const & get_plange() {
 		ALLOCATION.add_transition(1, IC, 1);
 		ALLOCATION.add_transition(1, PARENTHETICAL_INVOCATION, 2);
 
-		AND.add_transition(0, EXPRESSION, 2);
-		AND.add_transition(1, EXPRESSION, 3);
+		AND.add_transition(0, EXPRESSION, 1);
 		AND.add_transition(1, IC, 1);
+		AND.add_transition(1, literal157, 2);
+		AND.add_transition(1, literal74, 2);
+		AND.add_transition(2, EXPRESSION, 3);
 		AND.add_transition(2, IC, 2);
-		AND.add_transition(2, literal157, 1);
-		AND.add_transition(2, literal74, 1);
 
-		ARRAY.add_transition(0, literal59, 2);
+		ARRAY.add_transition(0, literal59, 1);
+		ARRAY.add_transition(1, EXPRESSION, 2);
 		ARRAY.add_transition(1, IC, 1);
-		ARRAY.add_transition(1, literal19, 3);
 		ARRAY.add_transition(1, literal62, 4);
-		ARRAY.add_transition(2, EXPRESSION, 1);
 		ARRAY.add_transition(2, IC, 2);
+		ARRAY.add_transition(2, literal19, 3);
 		ARRAY.add_transition(2, literal62, 4);
-		ARRAY.add_transition(3, EXPRESSION, 1);
+		ARRAY.add_transition(3, EXPRESSION, 2);
 		ARRAY.add_transition(3, IC, 3);
 
-		ARRAY_INVOCATION.add_transition(0, EXPRESSION, 2);
-		ARRAY_INVOCATION.add_transition(1, EXPRESSION, 1);
-		ARRAY_INVOCATION.add_transition(1, IC, 1);
-		ARRAY_INVOCATION.add_transition(1, SLICE, 1);
-		ARRAY_INVOCATION.add_transition(1, literal19, 1);
-		ARRAY_INVOCATION.add_transition(1, literal62, 3);
-		ARRAY_INVOCATION.add_transition(2, literal59, 1);
+		ARRAY_INVOCATION.add_transition(0, EXPRESSION, 1);
+		ARRAY_INVOCATION.add_transition(1, literal59, 2);
+		ARRAY_INVOCATION.add_transition(2, EXPRESSION, 3);
+		ARRAY_INVOCATION.add_transition(2, IC, 2);
+		ARRAY_INVOCATION.add_transition(2, SLICE, 3);
+		ARRAY_INVOCATION.add_transition(2, literal19, 2);
+		ARRAY_INVOCATION.add_transition(2, literal62, 4);
+		ARRAY_INVOCATION.add_transition(3, IC, 3);
+		ARRAY_INVOCATION.add_transition(3, literal19, 2);
+		ARRAY_INVOCATION.add_transition(3, literal62, 4);
 
-		ASSIGNMENT.add_transition(0, EXPRESSION, 2);
-		ASSIGNMENT.add_transition(1, EXPRESSION, 3);
+		ASSIGNMENT.add_transition(0, EXPRESSION, 1);
 		ASSIGNMENT.add_transition(1, IC, 1);
+		ASSIGNMENT.add_transition(1, literal141, 2);
+		ASSIGNMENT.add_transition(1, literal47, 2);
+		ASSIGNMENT.add_transition(2, EXPRESSION, 3);
 		ASSIGNMENT.add_transition(2, IC, 2);
-		ASSIGNMENT.add_transition(2, literal141, 1);
-		ASSIGNMENT.add_transition(2, literal47, 1);
-		ASSIGNMENT.add_transition(3, IC, 2);
-		ASSIGNMENT.add_transition(3, literal141, 1);
-		ASSIGNMENT.add_transition(3, literal47, 1);
+		ASSIGNMENT.add_transition(3, IC, 1);
+		ASSIGNMENT.add_transition(3, literal141, 2);
+		ASSIGNMENT.add_transition(3, literal47, 2);
 
-		BIJECTION.add_transition(0, EXPRESSION, 2);
-		BIJECTION.add_transition(1, EXPRESSION, 3);
+		BIJECTION.add_transition(0, EXPRESSION, 1);
 		BIJECTION.add_transition(1, IC, 1);
+		BIJECTION.add_transition(1, literal145, 2);
+		BIJECTION.add_transition(1, literal48, 2);
+		BIJECTION.add_transition(2, EXPRESSION, 3);
 		BIJECTION.add_transition(2, IC, 2);
-		BIJECTION.add_transition(2, literal145, 1);
-		BIJECTION.add_transition(2, literal48, 1);
 
 		BINARY_ARITHMETIC_OP.add_transition(0, ADDITION, 1);
 		BINARY_ARITHMETIC_OP.add_transition(0, ADD_SUB, 1);
 		BINARY_ARITHMETIC_OP.add_transition(0, DIVISION, 1);
 		BINARY_ARITHMETIC_OP.add_transition(0, EXPONENTIATION, 1);
-		BINARY_ARITHMETIC_OP.add_transition(0, INTEGER_DIVISION, 1);
-		BINARY_ARITHMETIC_OP.add_transition(0, MODULATION, 1);
 		BINARY_ARITHMETIC_OP.add_transition(0, MULTIPLICATIVE_OP, 1);
 		BINARY_ARITHMETIC_OP.add_transition(0, SHIFTL, 1);
 		BINARY_ARITHMETIC_OP.add_transition(0, SHIFTR, 1);
@@ -434,33 +435,35 @@ parlex::grammar const & get_plange() {
 		BINARY_OP.add_transition(0, BITWISE_OP, 1);
 		BINARY_OP.add_transition(0, COLLECTION_OP, 1);
 		BINARY_OP.add_transition(0, CONSTRUCTIVE_OP, 1);
+		BINARY_OP.add_transition(0, INTEGER_DIVISION, 1);
+		BINARY_OP.add_transition(0, MODULATION, 1);
 		BINARY_OP.add_transition(0, RELATIONAL_OP, 1);
 
 		BITWISE_OP.add_transition(0, BIT_AND, 1);
 		BITWISE_OP.add_transition(0, BIT_OR, 1);
 		BITWISE_OP.add_transition(0, BIT_XOR, 1);
 
-		BIT_AND.add_transition(0, EXPRESSION, 2);
-		BIT_AND.add_transition(1, EXPRESSION, 3);
+		BIT_AND.add_transition(0, EXPRESSION, 1);
 		BIT_AND.add_transition(1, IC, 1);
+		BIT_AND.add_transition(1, literal9, 2);
+		BIT_AND.add_transition(2, EXPRESSION, 3);
 		BIT_AND.add_transition(2, IC, 2);
-		BIT_AND.add_transition(2, literal9, 1);
 
 		BIT_NOT.add_transition(0, literal134, 1);
 		BIT_NOT.add_transition(1, EXPRESSION, 2);
 		BIT_NOT.add_transition(1, IC, 1);
 
-		BIT_OR.add_transition(0, EXPRESSION, 2);
-		BIT_OR.add_transition(1, EXPRESSION, 3);
+		BIT_OR.add_transition(0, EXPRESSION, 1);
 		BIT_OR.add_transition(1, IC, 1);
+		BIT_OR.add_transition(1, literal130, 2);
+		BIT_OR.add_transition(2, EXPRESSION, 3);
 		BIT_OR.add_transition(2, IC, 2);
-		BIT_OR.add_transition(2, literal130, 1);
 
-		BIT_XOR.add_transition(0, EXPRESSION, 2);
-		BIT_XOR.add_transition(1, EXPRESSION, 3);
+		BIT_XOR.add_transition(0, EXPRESSION, 1);
 		BIT_XOR.add_transition(1, IC, 1);
+		BIT_XOR.add_transition(1, literal64, 2);
+		BIT_XOR.add_transition(2, EXPRESSION, 3);
 		BIT_XOR.add_transition(2, IC, 2);
-		BIT_XOR.add_transition(2, literal64, 1);
 
 		BOOL.add_transition(0, literal115, 1);
 		BOOL.add_transition(0, literal84, 1);
@@ -473,42 +476,28 @@ parlex::grammar const & get_plange() {
 		CAST.add_transition(1, EXPRESSION, 2);
 		CAST.add_transition(1, IC, 1);
 
-		CEILING.add_transition(0, literal126, 4);
-		CEILING.add_transition(0, literal171, 3);
+		CEILING.add_transition(0, literal126, 2);
+		CEILING.add_transition(0, literal171, 1);
+		CEILING.add_transition(1, EXPRESSION, 3);
 		CEILING.add_transition(1, IC, 1);
-		CEILING.add_transition(1, literal172, 5);
+		CEILING.add_transition(2, EXPRESSION, 4);
 		CEILING.add_transition(2, IC, 2);
-		CEILING.add_transition(2, literal10, 5);
-		CEILING.add_transition(3, EXPRESSION, 1);
 		CEILING.add_transition(3, IC, 3);
-		CEILING.add_transition(4, EXPRESSION, 2);
+		CEILING.add_transition(3, literal172, 5);
 		CEILING.add_transition(4, IC, 4);
+		CEILING.add_transition(4, literal10, 5);
 
-		CHUNK.add_transition(0, EXPRESSION, 2);
-		CHUNK.add_transition(1, EXPRESSION, 3);
-		CHUNK.add_transition(1, IC, 1);
-		CHUNK.add_transition(2, IC, 2);
-		CHUNK.add_transition(2, literal26, 1);
-
-		CHUNK_MODULO.add_transition(0, EXPRESSION, 2);
-		CHUNK_MODULO.add_transition(1, EXPRESSION, 3);
-		CHUNK_MODULO.add_transition(1, IC, 1);
-		CHUNK_MODULO.add_transition(2, IC, 2);
-		CHUNK_MODULO.add_transition(2, literal7, 1);
-
-		COLLECTION_OP.add_transition(0, CHUNK, 1);
-		COLLECTION_OP.add_transition(0, CHUNK_MODULO, 1);
 		COLLECTION_OP.add_transition(0, COMPLEMENT, 1);
 		COLLECTION_OP.add_transition(0, DIFFERENCE, 1);
 		COLLECTION_OP.add_transition(0, INTERSECTION, 1);
 		COLLECTION_OP.add_transition(0, SYMMETRIC_DIFFERENCE, 1);
 		COLLECTION_OP.add_transition(0, UNION, 1);
 
-		COMBINATION.add_transition(0, EXPRESSION, 2);
-		COMBINATION.add_transition(1, EXPRESSION, 3);
+		COMBINATION.add_transition(0, EXPRESSION, 1);
 		COMBINATION.add_transition(1, IC, 1);
+		COMBINATION.add_transition(1, literal125, 2);
+		COMBINATION.add_transition(2, EXPRESSION, 3);
 		COMBINATION.add_transition(2, IC, 2);
-		COMBINATION.add_transition(2, literal125, 1);
 
 		COMMENT.add_transition(0, literal27, 1);
 		COMMENT.add_transition(1, literal15, 2);
@@ -518,55 +507,55 @@ parlex::grammar const & get_plange() {
 		COMPLEMENT.add_transition(1, IC, 1);
 		COMPLEMENT.add_transition(1, literal140, 2);
 
-		COMPOSITION.add_transition(0, EXPRESSION, 2);
-		COMPOSITION.add_transition(1, EXPRESSION, 3);
+		COMPOSITION.add_transition(0, EXPRESSION, 1);
 		COMPOSITION.add_transition(1, IC, 1);
+		COMPOSITION.add_transition(1, literal155, 2);
+		COMPOSITION.add_transition(1, literal68, 2);
+		COMPOSITION.add_transition(2, EXPRESSION, 3);
 		COMPOSITION.add_transition(2, IC, 2);
-		COMPOSITION.add_transition(2, literal155, 1);
-		COMPOSITION.add_transition(2, literal68, 1);
 
-		CONDITIONAL.add_transition(0, EXPRESSION, 4);
-		CONDITIONAL.add_transition(1, EXPRESSION, 5);
+		CONDITIONAL.add_transition(0, EXPRESSION, 1);
 		CONDITIONAL.add_transition(1, IC, 1);
+		CONDITIONAL.add_transition(1, literal57, 2);
+		CONDITIONAL.add_transition(2, EXPRESSION, 3);
 		CONDITIONAL.add_transition(2, IC, 2);
-		CONDITIONAL.add_transition(2, literal43, 1);
-		CONDITIONAL.add_transition(3, EXPRESSION, 2);
 		CONDITIONAL.add_transition(3, IC, 3);
+		CONDITIONAL.add_transition(3, literal43, 4);
+		CONDITIONAL.add_transition(4, EXPRESSION, 5);
 		CONDITIONAL.add_transition(4, IC, 4);
-		CONDITIONAL.add_transition(4, literal57, 3);
 
 		CONSTRUCTIVE_OP.add_transition(0, COMPOSITION, 1);
 		CONSTRUCTIVE_OP.add_transition(0, NULL_COALESCE, 1);
 		CONSTRUCTIVE_OP.add_transition(0, PREPEND, 1);
 
-		CROSS_PRODUCT.add_transition(0, EXPRESSION, 2);
-		CROSS_PRODUCT.add_transition(1, EXPRESSION, 3);
+		CROSS_PRODUCT.add_transition(0, EXPRESSION, 1);
 		CROSS_PRODUCT.add_transition(1, IC, 1);
+		CROSS_PRODUCT.add_transition(1, literal137, 2);
+		CROSS_PRODUCT.add_transition(1, literal69, 2);
+		CROSS_PRODUCT.add_transition(2, EXPRESSION, 3);
 		CROSS_PRODUCT.add_transition(2, IC, 2);
-		CROSS_PRODUCT.add_transition(2, literal137, 1);
-		CROSS_PRODUCT.add_transition(2, literal69, 1);
 
-		DECLARATION.add_transition(0, IMPLICIT_TYPE_DEREFERENCE, 1);
-		DECLARATION.add_transition(0, TYPE_DEREFERENCE, 1);
-		DECLARATION.add_transition(0, VOLATILE_IMPLICIT_TYPE_DEREFERENCE, 1);
-		DECLARATION.add_transition(0, VOLATILE_TYPE_DEREFERENCE, 1);
-		DECLARATION.add_transition(0, XML_DOC_STRING, 2);
-		DECLARATION.add_transition(0, literal83, 3);
-		DECLARATION.add_transition(1, DECLARATION_PART, 4);
+		DECLARATION.add_transition(0, IMPLICIT_TYPE_DEREFERENCE, 2);
+		DECLARATION.add_transition(0, TYPE_DEREFERENCE, 2);
+		DECLARATION.add_transition(0, VOLATILE_IMPLICIT_TYPE_DEREFERENCE, 2);
+		DECLARATION.add_transition(0, VOLATILE_TYPE_DEREFERENCE, 2);
+		DECLARATION.add_transition(0, XML_DOC_STRING, 3);
+		DECLARATION.add_transition(0, literal83, 1);
 		DECLARATION.add_transition(1, IC, 1);
+		DECLARATION.add_transition(1, IMPLICIT_TYPE_DEREFERENCE, 2);
+		DECLARATION.add_transition(1, TYPE_DEREFERENCE, 2);
+		DECLARATION.add_transition(1, VOLATILE_IMPLICIT_TYPE_DEREFERENCE, 2);
+		DECLARATION.add_transition(1, VOLATILE_TYPE_DEREFERENCE, 2);
+		DECLARATION.add_transition(2, DECLARATION_PART, 4);
 		DECLARATION.add_transition(2, IC, 2);
-		DECLARATION.add_transition(2, IMPLICIT_TYPE_DEREFERENCE, 1);
-		DECLARATION.add_transition(2, TYPE_DEREFERENCE, 1);
-		DECLARATION.add_transition(2, VOLATILE_IMPLICIT_TYPE_DEREFERENCE, 1);
-		DECLARATION.add_transition(2, VOLATILE_TYPE_DEREFERENCE, 1);
-		DECLARATION.add_transition(2, literal83, 3);
 		DECLARATION.add_transition(3, IC, 3);
-		DECLARATION.add_transition(3, IMPLICIT_TYPE_DEREFERENCE, 1);
-		DECLARATION.add_transition(3, TYPE_DEREFERENCE, 1);
-		DECLARATION.add_transition(3, VOLATILE_IMPLICIT_TYPE_DEREFERENCE, 1);
-		DECLARATION.add_transition(3, VOLATILE_TYPE_DEREFERENCE, 1);
+		DECLARATION.add_transition(3, IMPLICIT_TYPE_DEREFERENCE, 2);
+		DECLARATION.add_transition(3, TYPE_DEREFERENCE, 2);
+		DECLARATION.add_transition(3, VOLATILE_IMPLICIT_TYPE_DEREFERENCE, 2);
+		DECLARATION.add_transition(3, VOLATILE_TYPE_DEREFERENCE, 2);
+		DECLARATION.add_transition(3, literal83, 1);
 		DECLARATION.add_transition(4, IC, 4);
-		DECLARATION.add_transition(4, literal19, 1);
+		DECLARATION.add_transition(4, literal19, 2);
 
 		DECLARATION_PART.add_transition(0, IDENTIFIER, 2);
 		DECLARATION_PART.add_transition(1, EXPRESSION, 3);
@@ -575,32 +564,37 @@ parlex::grammar const & get_plange() {
 		DECLARATION_PART.add_transition(2, literal141, 1);
 		DECLARATION_PART.add_transition(2, literal47, 1);
 
-		DEFINITION.add_transition(0, DEFINITION_PART, 1);
-		DEFINITION.add_transition(0, IC, 0);
-		DEFINITION.add_transition(0, IMPLICIT_TYPE_DEREFERENCE, 0);
-		DEFINITION.add_transition(0, TYPE_DEREFERENCE, 0);
-		DEFINITION.add_transition(0, XML_DOC_STRING, 0);
+		DEFINITION.add_transition(0, DEFINITION_PART, 3);
+		DEFINITION.add_transition(0, IMPLICIT_TYPE_DEREFERENCE, 2);
+		DEFINITION.add_transition(0, TYPE_DEREFERENCE, 2);
+		DEFINITION.add_transition(0, XML_DOC_STRING, 1);
+		DEFINITION.add_transition(1, DEFINITION_PART, 3);
 		DEFINITION.add_transition(1, IC, 1);
-		DEFINITION.add_transition(1, literal19, 0);
+		DEFINITION.add_transition(1, IMPLICIT_TYPE_DEREFERENCE, 2);
+		DEFINITION.add_transition(1, TYPE_DEREFERENCE, 2);
+		DEFINITION.add_transition(2, DEFINITION_PART, 3);
+		DEFINITION.add_transition(2, IC, 2);
+		DEFINITION.add_transition(3, IC, 3);
+		DEFINITION.add_transition(3, literal19, 2);
 
-		DEFINITION_PART.add_transition(0, IDENTIFIER, 2);
-		DEFINITION_PART.add_transition(1, EXPRESSION, 3);
+		DEFINITION_PART.add_transition(0, IDENTIFIER, 1);
 		DEFINITION_PART.add_transition(1, IC, 1);
+		DEFINITION_PART.add_transition(1, literal44, 2);
+		DEFINITION_PART.add_transition(2, EXPRESSION, 3);
 		DEFINITION_PART.add_transition(2, IC, 2);
-		DEFINITION_PART.add_transition(2, literal44, 1);
 
 		DELTA.add_transition(0, literal139, 1);
 		DELTA.add_transition(0, literal66, 1);
 		DELTA.add_transition(1, EXPRESSION, 4);
-		DELTA.add_transition(1, literal63, 3);
-		DELTA.add_transition(2, EXPRESSION, 4);
-		DELTA.add_transition(3, WHOLE_NUMBER, 2);
+		DELTA.add_transition(1, literal63, 2);
+		DELTA.add_transition(2, WHOLE_NUMBER, 3);
+		DELTA.add_transition(3, EXPRESSION, 4);
 
-		DIFFERENCE.add_transition(0, EXPRESSION, 2);
-		DIFFERENCE.add_transition(1, EXPRESSION, 3);
+		DIFFERENCE.add_transition(0, EXPRESSION, 1);
 		DIFFERENCE.add_transition(1, IC, 1);
+		DIFFERENCE.add_transition(1, literal61, 2);
+		DIFFERENCE.add_transition(2, EXPRESSION, 3);
 		DIFFERENCE.add_transition(2, IC, 2);
-		DIFFERENCE.add_transition(2, literal61, 1);
 
 		DIMENSION.add_transition(0, DIMENSIONAL_ANALYSIS_OP, 1);
 		DIMENSION.add_transition(0, IDENTIFIER, 1);
@@ -612,58 +606,58 @@ parlex::grammar const & get_plange() {
 		DIMENSIONAL_NUMBER.add_transition(0, NUMBER, 1);
 		DIMENSIONAL_NUMBER.add_transition(1, DIMENSION, 2);
 
-		DIVISION.add_transition(0, EXPRESSION, 2);
-		DIVISION.add_transition(1, EXPRESSION, 3);
+		DIVISION.add_transition(0, EXPRESSION, 1);
 		DIVISION.add_transition(1, IC, 1);
+		DIVISION.add_transition(1, literal138, 2);
+		DIVISION.add_transition(1, literal26, 2);
+		DIVISION.add_transition(2, EXPRESSION, 3);
 		DIVISION.add_transition(2, IC, 2);
-		DIVISION.add_transition(2, literal138, 1);
-		DIVISION.add_transition(2, literal26, 1);
 
-		DO.add_transition(0, literal80, 2);
+		DO.add_transition(0, literal80, 1);
+		DO.add_transition(1, EXPRESSION, 3);
 		DO.add_transition(1, IC, 1);
-		DO.add_transition(1, PARENTHETICAL, 4);
-		DO.add_transition(2, EXPRESSION, 3);
 		DO.add_transition(2, IC, 2);
+		DO.add_transition(2, PARENTHETICAL, 4);
 		DO.add_transition(3, IC, 3);
-		DO.add_transition(3, literal119, 1);
-		DO.add_transition(3, literal121, 1);
+		DO.add_transition(3, literal119, 2);
+		DO.add_transition(3, literal121, 2);
 
-		DOT_PRODUCT.add_transition(0, EXPRESSION, 2);
-		DOT_PRODUCT.add_transition(1, EXPRESSION, 3);
+		DOT_PRODUCT.add_transition(0, EXPRESSION, 1);
 		DOT_PRODUCT.add_transition(1, IC, 1);
+		DOT_PRODUCT.add_transition(1, literal170, 2);
+		DOT_PRODUCT.add_transition(1, literal67, 2);
+		DOT_PRODUCT.add_transition(2, EXPRESSION, 3);
 		DOT_PRODUCT.add_transition(2, IC, 2);
-		DOT_PRODUCT.add_transition(2, literal170, 1);
-		DOT_PRODUCT.add_transition(2, literal67, 1);
 
-		EMBEDDED_COMMENT.add_transition(0, literal27, 2);
-		EMBEDDED_COMMENT.add_transition(1, literal15, 3);
-		EMBEDDED_COMMENT.add_transition(2, EMBEDDED_COMMENT_INTERIOR, 1);
+		EMBEDDED_COMMENT.add_transition(0, literal27, 1);
+		EMBEDDED_COMMENT.add_transition(1, EMBEDDED_COMMENT_INTERIOR, 2);
+		EMBEDDED_COMMENT.add_transition(2, literal15, 3);
 
 		EMBEDDED_COMMENT_INTERIOR.add_transition(0, PAYLOAD, 3);
-		EMBEDDED_COMMENT_INTERIOR.add_transition(0, literal14, 2);
-		EMBEDDED_COMMENT_INTERIOR.add_transition(1, literal14, 3);
-		EMBEDDED_COMMENT_INTERIOR.add_transition(2, EMBEDDED_COMMENT_INTERIOR, 1);
+		EMBEDDED_COMMENT_INTERIOR.add_transition(0, literal14, 1);
+		EMBEDDED_COMMENT_INTERIOR.add_transition(1, EMBEDDED_COMMENT_INTERIOR, 2);
+		EMBEDDED_COMMENT_INTERIOR.add_transition(2, literal14, 3);
 
-		EMBEDDED_STRING.add_transition(0, literal3, 5);
-		EMBEDDED_STRING.add_transition(0, literal4, 4);
+		EMBEDDED_STRING.add_transition(0, literal3, 1);
+		EMBEDDED_STRING.add_transition(0, literal4, 3);
 		EMBEDDED_STRING.add_transition(0, literal5, 2);
-		EMBEDDED_STRING.add_transition(1, literal4, 6);
-		EMBEDDED_STRING.add_transition(1, parlex::builtins::all, 1);
+		EMBEDDED_STRING.add_transition(1, EMBEDDED_STRING, 4);
 		EMBEDDED_STRING.add_transition(2, literal1, 6);
 		EMBEDDED_STRING.add_transition(2, parlex::builtins::all, 2);
-		EMBEDDED_STRING.add_transition(3, literal3, 6);
-		EMBEDDED_STRING.add_transition(4, parlex::builtins::not_double_quote, 1);
-		EMBEDDED_STRING.add_transition(5, EMBEDDED_STRING, 3);
+		EMBEDDED_STRING.add_transition(3, parlex::builtins::not_double_quote, 5);
+		EMBEDDED_STRING.add_transition(4, literal3, 6);
+		EMBEDDED_STRING.add_transition(5, literal4, 6);
+		EMBEDDED_STRING.add_transition(5, parlex::builtins::all, 5);
 
 		END_OF_LINE_COMMENT.add_transition(0, literal28, 1);
 		END_OF_LINE_COMMENT.add_transition(1, literal0, 2);
 		END_OF_LINE_COMMENT.add_transition(1, parlex::builtins::not_newline, 1);
 
-		EQUALITY.add_transition(0, EXPRESSION, 2);
-		EQUALITY.add_transition(1, EXPRESSION, 3);
+		EQUALITY.add_transition(0, EXPRESSION, 1);
 		EQUALITY.add_transition(1, IC, 1);
+		EQUALITY.add_transition(1, literal52, 2);
+		EQUALITY.add_transition(2, EXPRESSION, 3);
 		EQUALITY.add_transition(2, IC, 2);
-		EQUALITY.add_transition(2, literal52, 1);
 
 		EXISTS.add_transition(0, literal149, 1);
 		EXISTS.add_transition(1, EXPRESSION, 2);
@@ -673,11 +667,11 @@ parlex::grammar const & get_plange() {
 		EXISTS_ONE.add_transition(1, EXPRESSION, 2);
 		EXISTS_ONE.add_transition(1, IC, 1);
 
-		EXPONENTIATION.add_transition(0, EXPRESSION, 2);
-		EXPONENTIATION.add_transition(1, EXPRESSION, 3);
+		EXPONENTIATION.add_transition(0, EXPRESSION, 1);
 		EXPONENTIATION.add_transition(1, IC, 1);
+		EXPONENTIATION.add_transition(1, literal63, 2);
+		EXPONENTIATION.add_transition(2, EXPRESSION, 3);
 		EXPONENTIATION.add_transition(2, IC, 2);
-		EXPONENTIATION.add_transition(2, literal63, 1);
 
 		EXPRESSION.add_transition(0, ALLOCATION, 1);
 		EXPRESSION.add_transition(0, ARRAY, 1);
@@ -700,7 +694,6 @@ parlex::grammar const & get_plange() {
 		EXPRESSION.add_transition(0, MAP, 1);
 		EXPRESSION.add_transition(0, MEMBER_ACCESS, 1);
 		EXPRESSION.add_transition(0, NEAREST_INTEGER, 1);
-		EXPRESSION.add_transition(0, NEGATION, 1);
 		EXPRESSION.add_transition(0, NUMBER, 1);
 		EXPRESSION.add_transition(0, PARENTHETICAL, 1);
 		EXPRESSION.add_transition(0, RADICAL, 1);
@@ -720,53 +713,55 @@ parlex::grammar const & get_plange() {
 		FACTORIAL.add_transition(1, IC, 1);
 		FACTORIAL.add_transition(1, literal2, 2);
 
-		FLOOR.add_transition(0, literal129, 4);
-		FLOOR.add_transition(0, literal173, 3);
+		FLOOR.add_transition(0, literal129, 1);
+		FLOOR.add_transition(0, literal173, 2);
+		FLOOR.add_transition(1, EXPRESSION, 3);
 		FLOOR.add_transition(1, IC, 1);
-		FLOOR.add_transition(1, literal174, 5);
+		FLOOR.add_transition(2, EXPRESSION, 4);
 		FLOOR.add_transition(2, IC, 2);
-		FLOOR.add_transition(2, literal70, 5);
-		FLOOR.add_transition(3, EXPRESSION, 1);
 		FLOOR.add_transition(3, IC, 3);
-		FLOOR.add_transition(4, EXPRESSION, 2);
+		FLOOR.add_transition(3, literal70, 5);
 		FLOOR.add_transition(4, IC, 4);
+		FLOOR.add_transition(4, literal174, 5);
 
-		FOR.add_transition(0, literal86, 6);
-		FOR.add_transition(1, EXPRESSION, 7);
+		FOR.add_transition(0, literal86, 1);
 		FOR.add_transition(1, IC, 1);
-		FOR.add_transition(2, ASSIGNMENT, 3);
-		FOR.add_transition(2, EXPRESSION, 3);
+		FOR.add_transition(1, literal11, 2);
+		FOR.add_transition(2, EXPRESSION, 4);
 		FOR.add_transition(2, IC, 2);
-		FOR.add_transition(2, literal13, 1);
+		FOR.add_transition(2, STATEMENT_SCOPE, 3);
+		FOR.add_transition(3, EXPRESSION, 4);
 		FOR.add_transition(3, IC, 3);
-		FOR.add_transition(3, literal13, 1);
 		FOR.add_transition(4, IC, 4);
-		FOR.add_transition(4, literal45, 2);
-		FOR.add_transition(5, EXPRESSION, 4);
+		FOR.add_transition(4, literal45, 5);
+		FOR.add_transition(5, ASSIGNMENT, 6);
+		FOR.add_transition(5, EXPRESSION, 6);
 		FOR.add_transition(5, IC, 5);
-		FOR.add_transition(5, STATEMENT_SCOPE, 5);
+		FOR.add_transition(5, literal13, 7);
 		FOR.add_transition(6, IC, 6);
-		FOR.add_transition(6, literal11, 5);
+		FOR.add_transition(6, literal13, 7);
+		FOR.add_transition(7, EXPRESSION, 8);
+		FOR.add_transition(7, IC, 7);
 
-		FOR_COLLECTION.add_transition(0, literal86, 7);
-		FOR_COLLECTION.add_transition(1, EXPRESSION, 8);
+		FOR_COLLECTION.add_transition(0, literal86, 1);
 		FOR_COLLECTION.add_transition(1, IC, 1);
+		FOR_COLLECTION.add_transition(1, literal11, 2);
+		FOR_COLLECTION.add_transition(2, EXPRESSION, 4);
 		FOR_COLLECTION.add_transition(2, IC, 2);
-		FOR_COLLECTION.add_transition(2, literal13, 1);
-		FOR_COLLECTION.add_transition(3, EXPRESSION, 2);
+		FOR_COLLECTION.add_transition(2, IDENTIFIER, 4);
+		FOR_COLLECTION.add_transition(2, IMPLICIT_TYPE_DEREFERENCE, 3);
+		FOR_COLLECTION.add_transition(2, TYPE_DEREFERENCE, 3);
 		FOR_COLLECTION.add_transition(3, IC, 3);
+		FOR_COLLECTION.add_transition(3, IDENTIFIER, 4);
 		FOR_COLLECTION.add_transition(4, IC, 4);
-		FOR_COLLECTION.add_transition(4, literal151, 3);
-		FOR_COLLECTION.add_transition(4, literal93, 3);
-		FOR_COLLECTION.add_transition(5, EXPRESSION, 4);
+		FOR_COLLECTION.add_transition(4, literal151, 5);
+		FOR_COLLECTION.add_transition(4, literal93, 5);
+		FOR_COLLECTION.add_transition(5, EXPRESSION, 6);
 		FOR_COLLECTION.add_transition(5, IC, 5);
-		FOR_COLLECTION.add_transition(5, IDENTIFIER, 4);
-		FOR_COLLECTION.add_transition(5, IMPLICIT_TYPE_DEREFERENCE, 6);
-		FOR_COLLECTION.add_transition(5, TYPE_DEREFERENCE, 6);
 		FOR_COLLECTION.add_transition(6, IC, 6);
-		FOR_COLLECTION.add_transition(6, IDENTIFIER, 4);
+		FOR_COLLECTION.add_transition(6, literal13, 7);
+		FOR_COLLECTION.add_transition(7, EXPRESSION, 8);
 		FOR_COLLECTION.add_transition(7, IC, 7);
-		FOR_COLLECTION.add_transition(7, literal11, 5);
 
 		FRACTIONAL.add_transition(0, literal24, 1);
 		FRACTIONAL.add_transition(0, parlex::builtins::decimal_digit, 2);
@@ -779,23 +774,23 @@ parlex::grammar const & get_plange() {
 		FREE.add_transition(1, EXPRESSION, 2);
 		FREE.add_transition(1, IC, 1);
 
-		FUNCTION.add_transition(0, FUNCTION_MODIFIER, 4);
-		FUNCTION.add_transition(0, literal11, 6);
-		FUNCTION.add_transition(0, literal123, 2);
-		FUNCTION.add_transition(1, literal132, 8);
-		FUNCTION.add_transition(2, STATEMENT_SCOPE, 1);
-		FUNCTION.add_transition(3, FUNCTION_MODIFIER, 4);
+		FUNCTION.add_transition(0, FUNCTION_MODIFIER, 2);
+		FUNCTION.add_transition(0, literal11, 3);
+		FUNCTION.add_transition(0, literal123, 1);
+		FUNCTION.add_transition(1, STATEMENT_SCOPE, 4);
+		FUNCTION.add_transition(2, literal123, 1);
 		FUNCTION.add_transition(3, IC, 3);
-		FUNCTION.add_transition(3, literal123, 2);
-		FUNCTION.add_transition(4, literal123, 2);
+		FUNCTION.add_transition(3, PARAMETER, 6);
+		FUNCTION.add_transition(3, literal13, 5);
+		FUNCTION.add_transition(4, literal132, 8);
+		FUNCTION.add_transition(5, FUNCTION_MODIFIER, 2);
 		FUNCTION.add_transition(5, IC, 5);
-		FUNCTION.add_transition(5, literal13, 3);
-		FUNCTION.add_transition(5, literal19, 7);
+		FUNCTION.add_transition(5, literal123, 1);
 		FUNCTION.add_transition(6, IC, 6);
-		FUNCTION.add_transition(6, PARAMETER, 5);
-		FUNCTION.add_transition(6, literal13, 3);
+		FUNCTION.add_transition(6, literal13, 5);
+		FUNCTION.add_transition(6, literal19, 7);
 		FUNCTION.add_transition(7, IC, 7);
-		FUNCTION.add_transition(7, PARAMETER, 5);
+		FUNCTION.add_transition(7, PARAMETER, 6);
 
 		FUNCTION_MODIFIER.add_transition(0, FUNCTION_MODIFIER_ATOMIC, 1);
 		FUNCTION_MODIFIER.add_transition(0, FUNCTION_MODIFIER_MODEL, 1);
@@ -826,24 +821,24 @@ parlex::grammar const & get_plange() {
 
 		FUNCTION_MODIFIER_STABILITY.add_transition(0, literal108, 2);
 		FUNCTION_MODIFIER_STABILITY.add_transition(0, literal118, 2);
-		FUNCTION_MODIFIER_STABILITY.add_transition(1, FUNCTION_MODIFIER_ATOMIC, 2);
-		FUNCTION_MODIFIER_STABILITY.add_transition(1, FUNCTION_MODIFIER_MODEL, 2);
-		FUNCTION_MODIFIER_STABILITY.add_transition(1, FUNCTION_MODIFIER_NO_THROW, 2);
-		FUNCTION_MODIFIER_STABILITY.add_transition(1, FUNCTION_MODIFIER_PLATFORM, 2);
+		FUNCTION_MODIFIER_STABILITY.add_transition(1, FUNCTION_MODIFIER_ATOMIC, 3);
+		FUNCTION_MODIFIER_STABILITY.add_transition(1, FUNCTION_MODIFIER_MODEL, 3);
+		FUNCTION_MODIFIER_STABILITY.add_transition(1, FUNCTION_MODIFIER_NO_THROW, 3);
+		FUNCTION_MODIFIER_STABILITY.add_transition(1, FUNCTION_MODIFIER_PLATFORM, 3);
 		FUNCTION_MODIFIER_STABILITY.add_transition(2, ICR, 1);
 
-		GREATER_THAN.add_transition(0, EXPRESSION, 2);
-		GREATER_THAN.add_transition(1, EXPRESSION, 3);
+		GREATER_THAN.add_transition(0, EXPRESSION, 1);
 		GREATER_THAN.add_transition(1, IC, 1);
+		GREATER_THAN.add_transition(1, literal54, 2);
+		GREATER_THAN.add_transition(2, EXPRESSION, 3);
 		GREATER_THAN.add_transition(2, IC, 2);
-		GREATER_THAN.add_transition(2, literal54, 1);
 
-		HAS.add_transition(0, EXPRESSION, 2);
-		HAS.add_transition(1, EXPRESSION, 3);
+		HAS.add_transition(0, EXPRESSION, 1);
 		HAS.add_transition(1, IC, 1);
+		HAS.add_transition(1, literal153, 2);
+		HAS.add_transition(1, literal88, 2);
+		HAS.add_transition(2, EXPRESSION, 3);
 		HAS.add_transition(2, IC, 2);
-		HAS.add_transition(2, literal153, 1);
-		HAS.add_transition(2, literal88, 1);
 
 		HEX.add_transition(0, literal33, 1);
 		HEX.add_transition(1, parlex::builtins::hexadecimal_digit, 2);
@@ -863,30 +858,30 @@ parlex::grammar const & get_plange() {
 		IDENTIFIER.add_transition(1, parlex::builtins::letter, 1);
 		IDENTIFIER.add_transition(1, parlex::builtins::number, 1);
 
-		IF.add_transition(0, literal89, 3);
-		IF.add_transition(1, EXPRESSION, 5);
+		IF.add_transition(0, literal89, 1);
 		IF.add_transition(1, IC, 1);
+		IF.add_transition(1, PARENTHETICAL, 2);
 		IF.add_transition(2, EXPRESSION, 4);
 		IF.add_transition(2, IC, 2);
+		IF.add_transition(3, EXPRESSION, 5);
 		IF.add_transition(3, IC, 3);
-		IF.add_transition(3, PARENTHETICAL, 2);
 		IF.add_transition(4, IC, 4);
-		IF.add_transition(4, literal81, 3);
-		IF.add_transition(4, literal82, 1);
+		IF.add_transition(4, literal81, 1);
+		IF.add_transition(4, literal82, 3);
 
-		IFF.add_transition(0, EXPRESSION, 2);
-		IFF.add_transition(1, EXPRESSION, 3);
+		IFF.add_transition(0, EXPRESSION, 1);
 		IFF.add_transition(1, IC, 1);
+		IFF.add_transition(1, literal147, 2);
+		IFF.add_transition(1, literal51, 2);
+		IFF.add_transition(2, EXPRESSION, 3);
 		IFF.add_transition(2, IC, 2);
-		IFF.add_transition(2, literal147, 1);
-		IFF.add_transition(2, literal51, 1);
 
-		IMPLICATION.add_transition(0, EXPRESSION, 2);
-		IMPLICATION.add_transition(1, EXPRESSION, 3);
+		IMPLICATION.add_transition(0, EXPRESSION, 1);
 		IMPLICATION.add_transition(1, IC, 1);
+		IMPLICATION.add_transition(1, literal146, 2);
+		IMPLICATION.add_transition(1, literal53, 2);
+		IMPLICATION.add_transition(2, EXPRESSION, 3);
 		IMPLICATION.add_transition(2, IC, 2);
-		IMPLICATION.add_transition(2, literal146, 1);
-		IMPLICATION.add_transition(2, literal53, 1);
 
 		IMPLICIT_TYPE_DEREFERENCE.add_transition(0, literal46, 1);
 		IMPLICIT_TYPE_DEREFERENCE.add_transition(1, IC, 1);
@@ -896,41 +891,45 @@ parlex::grammar const & get_plange() {
 		IMPORT.add_transition(1, EXPRESSION, 2);
 		IMPORT.add_transition(1, IC, 1);
 
-		IN.add_transition(0, EXPRESSION, 2);
-		IN.add_transition(1, EXPRESSION, 3);
+		IN.add_transition(0, EXPRESSION, 1);
 		IN.add_transition(1, IC, 1);
+		IN.add_transition(1, literal151, 2);
+		IN.add_transition(1, literal93, 2);
+		IN.add_transition(2, EXPRESSION, 3);
 		IN.add_transition(2, IC, 2);
-		IN.add_transition(2, literal151, 1);
-		IN.add_transition(2, literal93, 1);
 
-		INEQUALITY.add_transition(0, EXPRESSION, 2);
-		INEQUALITY.add_transition(1, EXPRESSION, 3);
+		INEQUALITY.add_transition(0, EXPRESSION, 1);
 		INEQUALITY.add_transition(1, IC, 1);
+		INEQUALITY.add_transition(1, literal161, 2);
+		INEQUALITY.add_transition(1, literal29, 2);
+		INEQUALITY.add_transition(2, EXPRESSION, 3);
 		INEQUALITY.add_transition(2, IC, 2);
-		INEQUALITY.add_transition(2, literal161, 1);
-		INEQUALITY.add_transition(2, literal29, 1);
 
-		INHERITANCE_LIST.add_transition(0, EXPRESSION, 1);
-		INHERITANCE_LIST.add_transition(0, IC, 0);
-		INHERITANCE_LIST.add_transition(0, VISIBILITY_MODIFIER, 0);
+		INHERITANCE_LIST.add_transition(0, EXPRESSION, 3);
+		INHERITANCE_LIST.add_transition(0, VISIBILITY_MODIFIER, 1);
+		INHERITANCE_LIST.add_transition(1, EXPRESSION, 3);
 		INHERITANCE_LIST.add_transition(1, IC, 1);
-		INHERITANCE_LIST.add_transition(1, literal19, 0);
+		INHERITANCE_LIST.add_transition(2, EXPRESSION, 3);
+		INHERITANCE_LIST.add_transition(2, IC, 2);
+		INHERITANCE_LIST.add_transition(2, VISIBILITY_MODIFIER, 1);
+		INHERITANCE_LIST.add_transition(3, IC, 3);
+		INHERITANCE_LIST.add_transition(3, literal19, 2);
 
 		INTEGER.add_transition(0, NON_ZERO_DECIMAL_DIGIT, 1);
 		INTEGER.add_transition(0, literal32, 2);
 		INTEGER.add_transition(1, parlex::builtins::decimal_digit, 1);
 
-		INTEGER_DIVISION.add_transition(0, EXPRESSION, 2);
-		INTEGER_DIVISION.add_transition(1, EXPRESSION, 3);
+		INTEGER_DIVISION.add_transition(0, EXPRESSION, 1);
 		INTEGER_DIVISION.add_transition(1, IC, 1);
+		INTEGER_DIVISION.add_transition(1, literal61, 2);
+		INTEGER_DIVISION.add_transition(2, EXPRESSION, 3);
 		INTEGER_DIVISION.add_transition(2, IC, 2);
-		INTEGER_DIVISION.add_transition(2, literal61, 1);
 
-		INTERSECTION.add_transition(0, EXPRESSION, 2);
-		INTERSECTION.add_transition(1, EXPRESSION, 3);
+		INTERSECTION.add_transition(0, EXPRESSION, 1);
 		INTERSECTION.add_transition(1, IC, 1);
+		INTERSECTION.add_transition(1, literal159, 2);
+		INTERSECTION.add_transition(2, EXPRESSION, 3);
 		INTERSECTION.add_transition(2, IC, 2);
-		INTERSECTION.add_transition(2, literal159, 1);
 
 		INVOCATION.add_transition(0, ARRAY_INVOCATION, 1);
 		INVOCATION.add_transition(0, PARENTHETICAL_INVOCATION, 1);
@@ -940,94 +939,94 @@ parlex::grammar const & get_plange() {
 		KLEENE_STAR.add_transition(1, IC, 1);
 		KLEENE_STAR.add_transition(1, literal14, 2);
 
-		LESSER_THAN.add_transition(0, EXPRESSION, 2);
-		LESSER_THAN.add_transition(1, EXPRESSION, 3);
+		LESSER_THAN.add_transition(0, EXPRESSION, 1);
 		LESSER_THAN.add_transition(1, IC, 1);
+		LESSER_THAN.add_transition(1, literal46, 2);
+		LESSER_THAN.add_transition(2, EXPRESSION, 3);
 		LESSER_THAN.add_transition(2, IC, 2);
-		LESSER_THAN.add_transition(2, literal46, 1);
 
-		LIST.add_transition(0, literal60, 2);
+		LIST.add_transition(0, literal60, 1);
+		LIST.add_transition(1, EXPRESSION, 2);
 		LIST.add_transition(1, IC, 1);
 		LIST.add_transition(1, literal128, 4);
-		LIST.add_transition(1, literal20, 3);
-		LIST.add_transition(2, EXPRESSION, 1);
 		LIST.add_transition(2, IC, 2);
 		LIST.add_transition(2, literal128, 4);
-		LIST.add_transition(3, EXPRESSION, 1);
+		LIST.add_transition(2, literal20, 3);
+		LIST.add_transition(3, EXPRESSION, 2);
 		LIST.add_transition(3, IC, 3);
 
-		LOOP.add_transition(0, literal119, 2);
-		LOOP.add_transition(0, literal121, 2);
-		LOOP.add_transition(1, EXPRESSION, 3);
+		LOOP.add_transition(0, literal119, 1);
+		LOOP.add_transition(0, literal121, 1);
 		LOOP.add_transition(1, IC, 1);
+		LOOP.add_transition(1, PARENTHETICAL, 2);
+		LOOP.add_transition(2, EXPRESSION, 3);
 		LOOP.add_transition(2, IC, 2);
-		LOOP.add_transition(2, PARENTHETICAL, 1);
 
-		MAGNITUDE.add_transition(0, literal125, 2);
+		MAGNITUDE.add_transition(0, literal125, 1);
+		MAGNITUDE.add_transition(1, EXPRESSION, 2);
 		MAGNITUDE.add_transition(1, IC, 1);
-		MAGNITUDE.add_transition(1, literal125, 3);
-		MAGNITUDE.add_transition(2, EXPRESSION, 1);
 		MAGNITUDE.add_transition(2, IC, 2);
+		MAGNITUDE.add_transition(2, literal125, 3);
 
-		MAP.add_transition(0, literal123, 2);
+		MAP.add_transition(0, literal123, 1);
+		MAP.add_transition(1, EXPRESSION, 2);
 		MAP.add_transition(1, IC, 1);
 		MAP.add_transition(1, literal132, 6);
-		MAP.add_transition(1, literal19, 5);
-		MAP.add_transition(2, EXPRESSION, 4);
 		MAP.add_transition(2, IC, 2);
-		MAP.add_transition(2, literal132, 6);
-		MAP.add_transition(3, EXPRESSION, 1);
+		MAP.add_transition(2, literal43, 3);
+		MAP.add_transition(3, EXPRESSION, 4);
 		MAP.add_transition(3, IC, 3);
 		MAP.add_transition(4, IC, 4);
-		MAP.add_transition(4, literal43, 3);
-		MAP.add_transition(5, EXPRESSION, 4);
+		MAP.add_transition(4, literal132, 6);
+		MAP.add_transition(4, literal19, 5);
+		MAP.add_transition(5, EXPRESSION, 2);
 		MAP.add_transition(5, IC, 5);
 
-		MAPS_TO.add_transition(0, EXPRESSION, 2);
-		MAPS_TO.add_transition(1, EXPRESSION, 3);
+		MAPS_TO.add_transition(0, EXPRESSION, 1);
 		MAPS_TO.add_transition(1, IC, 1);
+		MAPS_TO.add_transition(1, literal143, 2);
+		MAPS_TO.add_transition(1, literal23, 2);
+		MAPS_TO.add_transition(2, EXPRESSION, 3);
 		MAPS_TO.add_transition(2, IC, 2);
-		MAPS_TO.add_transition(2, literal143, 1);
-		MAPS_TO.add_transition(2, literal23, 1);
 
-		MEMBER_ACCESS.add_transition(0, EXPRESSION, 2);
+		MEMBER_ACCESS.add_transition(0, EXPRESSION, 1);
 		MEMBER_ACCESS.add_transition(1, IC, 1);
-		MEMBER_ACCESS.add_transition(1, IDENTIFIER, 3);
+		MEMBER_ACCESS.add_transition(1, literal24, 2);
 		MEMBER_ACCESS.add_transition(2, IC, 2);
-		MEMBER_ACCESS.add_transition(2, literal24, 1);
+		MEMBER_ACCESS.add_transition(2, IDENTIFIER, 3);
 
-		MODULATION.add_transition(0, EXPRESSION, 2);
-		MODULATION.add_transition(1, EXPRESSION, 3);
+		MODULATION.add_transition(0, EXPRESSION, 1);
 		MODULATION.add_transition(1, IC, 1);
+		MODULATION.add_transition(1, literal7, 2);
+		MODULATION.add_transition(2, EXPRESSION, 3);
 		MODULATION.add_transition(2, IC, 2);
-		MODULATION.add_transition(2, literal7, 1);
 
-		MULTIPLICATION.add_transition(0, EXPRESSION, 2);
-		MULTIPLICATION.add_transition(1, EXPRESSION, 3);
+		MULTIPLICATION.add_transition(0, EXPRESSION, 1);
 		MULTIPLICATION.add_transition(1, IC, 1);
+		MULTIPLICATION.add_transition(1, literal14, 2);
+		MULTIPLICATION.add_transition(2, EXPRESSION, 3);
 		MULTIPLICATION.add_transition(2, IC, 2);
-		MULTIPLICATION.add_transition(2, literal14, 1);
 
 		MULTIPLICATIVE_OP.add_transition(0, CROSS_PRODUCT, 1);
 		MULTIPLICATIVE_OP.add_transition(0, DOT_PRODUCT, 1);
 		MULTIPLICATIVE_OP.add_transition(0, MULTIPLICATION, 1);
 
-		NAND.add_transition(0, EXPRESSION, 2);
-		NAND.add_transition(1, EXPRESSION, 3);
+		NAND.add_transition(0, EXPRESSION, 1);
 		NAND.add_transition(1, IC, 1);
+		NAND.add_transition(1, literal142, 2);
+		NAND.add_transition(2, EXPRESSION, 3);
 		NAND.add_transition(2, IC, 2);
-		NAND.add_transition(2, literal142, 1);
 
-		NEAREST_INTEGER.add_transition(0, literal129, 4);
-		NEAREST_INTEGER.add_transition(0, literal173, 3);
+		NEAREST_INTEGER.add_transition(0, literal129, 2);
+		NEAREST_INTEGER.add_transition(0, literal173, 1);
+		NEAREST_INTEGER.add_transition(1, EXPRESSION, 3);
 		NEAREST_INTEGER.add_transition(1, IC, 1);
-		NEAREST_INTEGER.add_transition(1, literal172, 5);
+		NEAREST_INTEGER.add_transition(2, EXPRESSION, 4);
 		NEAREST_INTEGER.add_transition(2, IC, 2);
-		NEAREST_INTEGER.add_transition(2, literal10, 5);
-		NEAREST_INTEGER.add_transition(3, EXPRESSION, 1);
 		NEAREST_INTEGER.add_transition(3, IC, 3);
-		NEAREST_INTEGER.add_transition(4, EXPRESSION, 2);
+		NEAREST_INTEGER.add_transition(3, literal172, 5);
 		NEAREST_INTEGER.add_transition(4, IC, 4);
+		NEAREST_INTEGER.add_transition(4, literal10, 5);
 
 		NEGATION.add_transition(0, literal21, 1);
 		NEGATION.add_transition(1, EXPRESSION, 2);
@@ -1043,50 +1042,50 @@ parlex::grammar const & get_plange() {
 		NON_ZERO_DECIMAL_DIGIT.add_transition(0, literal41, 1);
 		NON_ZERO_DECIMAL_DIGIT.add_transition(0, literal42, 1);
 
-		NOR.add_transition(0, EXPRESSION, 2);
-		NOR.add_transition(1, EXPRESSION, 3);
+		NOR.add_transition(0, EXPRESSION, 1);
 		NOR.add_transition(1, IC, 1);
+		NOR.add_transition(1, literal144, 2);
+		NOR.add_transition(2, EXPRESSION, 3);
 		NOR.add_transition(2, IC, 2);
-		NOR.add_transition(2, literal144, 1);
 
 		NOT.add_transition(0, literal133, 1);
 		NOT.add_transition(0, literal135, 1);
 		NOT.add_transition(1, EXPRESSION, 2);
 		NOT.add_transition(1, IC, 1);
 
-		NOT_GREATER_THAN.add_transition(0, EXPRESSION, 2);
-		NOT_GREATER_THAN.add_transition(1, EXPRESSION, 3);
+		NOT_GREATER_THAN.add_transition(0, EXPRESSION, 1);
 		NOT_GREATER_THAN.add_transition(1, IC, 1);
+		NOT_GREATER_THAN.add_transition(1, literal162, 2);
+		NOT_GREATER_THAN.add_transition(1, literal50, 2);
+		NOT_GREATER_THAN.add_transition(2, EXPRESSION, 3);
 		NOT_GREATER_THAN.add_transition(2, IC, 2);
-		NOT_GREATER_THAN.add_transition(2, literal162, 1);
-		NOT_GREATER_THAN.add_transition(2, literal50, 1);
 
-		NOT_HAS.add_transition(0, EXPRESSION, 2);
-		NOT_HAS.add_transition(1, EXPRESSION, 3);
+		NOT_HAS.add_transition(0, EXPRESSION, 1);
 		NOT_HAS.add_transition(1, IC, 1);
+		NOT_HAS.add_transition(1, literal154, 2);
+		NOT_HAS.add_transition(1, literal30, 2);
+		NOT_HAS.add_transition(2, EXPRESSION, 3);
 		NOT_HAS.add_transition(2, IC, 2);
-		NOT_HAS.add_transition(2, literal154, 1);
-		NOT_HAS.add_transition(2, literal30, 1);
 
-		NOT_IN.add_transition(0, EXPRESSION, 2);
-		NOT_IN.add_transition(1, EXPRESSION, 3);
+		NOT_IN.add_transition(0, EXPRESSION, 1);
 		NOT_IN.add_transition(1, IC, 1);
+		NOT_IN.add_transition(1, literal152, 2);
+		NOT_IN.add_transition(1, literal31, 2);
+		NOT_IN.add_transition(2, EXPRESSION, 3);
 		NOT_IN.add_transition(2, IC, 2);
-		NOT_IN.add_transition(2, literal152, 1);
-		NOT_IN.add_transition(2, literal31, 1);
 
-		NOT_LESSER_THAN.add_transition(0, EXPRESSION, 2);
-		NOT_LESSER_THAN.add_transition(1, EXPRESSION, 3);
+		NOT_LESSER_THAN.add_transition(0, EXPRESSION, 1);
 		NOT_LESSER_THAN.add_transition(1, IC, 1);
+		NOT_LESSER_THAN.add_transition(1, literal163, 2);
+		NOT_LESSER_THAN.add_transition(1, literal55, 2);
+		NOT_LESSER_THAN.add_transition(2, EXPRESSION, 3);
 		NOT_LESSER_THAN.add_transition(2, IC, 2);
-		NOT_LESSER_THAN.add_transition(2, literal163, 1);
-		NOT_LESSER_THAN.add_transition(2, literal55, 1);
 
-		NULL_COALESCE.add_transition(0, EXPRESSION, 2);
-		NULL_COALESCE.add_transition(1, EXPRESSION, 3);
+		NULL_COALESCE.add_transition(0, EXPRESSION, 1);
 		NULL_COALESCE.add_transition(1, IC, 1);
+		NULL_COALESCE.add_transition(1, literal58, 2);
+		NULL_COALESCE.add_transition(2, EXPRESSION, 3);
 		NULL_COALESCE.add_transition(2, IC, 2);
-		NULL_COALESCE.add_transition(2, literal58, 1);
 
 		NUMBER.add_transition(0, FRACTIONAL, 1);
 		NUMBER.add_transition(0, HEX, 1);
@@ -1097,43 +1096,52 @@ parlex::grammar const & get_plange() {
 		OCTAL.add_transition(1, parlex::builtins::octal_digit, 2);
 		OCTAL.add_transition(2, parlex::builtins::octal_digit, 2);
 
-		OR.add_transition(0, EXPRESSION, 2);
-		OR.add_transition(1, EXPRESSION, 3);
+		OR.add_transition(0, EXPRESSION, 1);
 		OR.add_transition(1, IC, 1);
+		OR.add_transition(1, literal158, 2);
+		OR.add_transition(1, literal99, 2);
+		OR.add_transition(2, EXPRESSION, 3);
 		OR.add_transition(2, IC, 2);
-		OR.add_transition(2, literal158, 1);
-		OR.add_transition(2, literal99, 1);
 
-		PARAMETER.add_transition(0, EXPRESSION, 5);
-		PARAMETER.add_transition(0, IDENTIFIER, 6);
-		PARAMETER.add_transition(0, IMPLICIT_TYPE_DEREFERENCE, 4);
-		PARAMETER.add_transition(0, TYPE_DEREFERENCE, 1);
-		PARAMETER.add_transition(1, IC, 1);
-		PARAMETER.add_transition(1, IDENTIFIER, 6);
-		PARAMETER.add_transition(2, EXPRESSION, 7);
-		PARAMETER.add_transition(2, IC, 2);
-		PARAMETER.add_transition(3, IC, 3);
-		PARAMETER.add_transition(3, literal52, 2);
-		PARAMETER.add_transition(4, IC, 4);
-		PARAMETER.add_transition(4, IDENTIFIER, 3);
-		PARAMETER.add_transition(5, IC, 5);
-		PARAMETER.add_transition(5, literal52, 2);
-		PARAMETER.add_transition(6, IC, 3);
-		PARAMETER.add_transition(6, literal52, 2);
+		PARAMETER.add_transition(0, PARAMETER_ALGEBRAIC, 1);
+		PARAMETER.add_transition(0, PARAMETER_NORMAL, 1);
 
-		PARENTHETICAL.add_transition(0, literal11, 2);
+		PARAMETER_ALGEBRAIC.add_transition(0, EXPRESSION, 2);
+		PARAMETER_ALGEBRAIC.add_transition(1, EXPRESSION, 3);
+		PARAMETER_ALGEBRAIC.add_transition(1, IC, 1);
+		PARAMETER_ALGEBRAIC.add_transition(2, IC, 2);
+		PARAMETER_ALGEBRAIC.add_transition(2, literal52, 1);
+
+		PARAMETER_NORMAL.add_transition(0, IDENTIFIER, 5);
+		PARAMETER_NORMAL.add_transition(0, IMPLICIT_TYPE_DEREFERENCE, 1);
+		PARAMETER_NORMAL.add_transition(0, TYPE_DEREFERENCE, 2);
+		PARAMETER_NORMAL.add_transition(1, IC, 1);
+		PARAMETER_NORMAL.add_transition(1, IDENTIFIER, 3);
+		PARAMETER_NORMAL.add_transition(2, IC, 2);
+		PARAMETER_NORMAL.add_transition(2, IDENTIFIER, 5);
+		PARAMETER_NORMAL.add_transition(3, IC, 3);
+		PARAMETER_NORMAL.add_transition(3, literal52, 4);
+		PARAMETER_NORMAL.add_transition(4, EXPRESSION, 6);
+		PARAMETER_NORMAL.add_transition(4, IC, 4);
+		PARAMETER_NORMAL.add_transition(5, IC, 3);
+		PARAMETER_NORMAL.add_transition(5, literal52, 4);
+
+		PARENTHETICAL.add_transition(0, literal11, 1);
+		PARENTHETICAL.add_transition(1, EXPRESSION, 2);
 		PARENTHETICAL.add_transition(1, IC, 1);
-		PARENTHETICAL.add_transition(1, literal13, 3);
-		PARENTHETICAL.add_transition(2, EXPRESSION, 1);
 		PARENTHETICAL.add_transition(2, IC, 2);
+		PARENTHETICAL.add_transition(2, literal13, 3);
 
-		PARENTHETICAL_INVOCATION.add_transition(0, EXPRESSION, 2);
-		PARENTHETICAL_INVOCATION.add_transition(1, EXPRESSION, 1);
+		PARENTHETICAL_INVOCATION.add_transition(0, EXPRESSION, 1);
 		PARENTHETICAL_INVOCATION.add_transition(1, IC, 1);
-		PARENTHETICAL_INVOCATION.add_transition(1, literal13, 3);
-		PARENTHETICAL_INVOCATION.add_transition(1, literal19, 1);
+		PARENTHETICAL_INVOCATION.add_transition(1, literal11, 2);
+		PARENTHETICAL_INVOCATION.add_transition(2, EXPRESSION, 3);
 		PARENTHETICAL_INVOCATION.add_transition(2, IC, 2);
-		PARENTHETICAL_INVOCATION.add_transition(2, literal11, 1);
+		PARENTHETICAL_INVOCATION.add_transition(2, literal13, 4);
+		PARENTHETICAL_INVOCATION.add_transition(2, literal19, 2);
+		PARENTHETICAL_INVOCATION.add_transition(3, IC, 3);
+		PARENTHETICAL_INVOCATION.add_transition(3, literal13, 4);
+		PARENTHETICAL_INVOCATION.add_transition(3, literal19, 2);
 
 		PAYLOAD.add_transition(0, parlex::builtins::all, 0);
 
@@ -1150,11 +1158,11 @@ parlex::grammar const & get_plange() {
 		POST_INC.add_transition(1, IC, 1);
 		POST_INC.add_transition(1, literal17, 2);
 
-		PREPEND.add_transition(0, EXPRESSION, 2);
-		PREPEND.add_transition(1, EXPRESSION, 3);
+		PREPEND.add_transition(0, EXPRESSION, 1);
 		PREPEND.add_transition(1, IC, 1);
+		PREPEND.add_transition(1, literal8, 2);
+		PREPEND.add_transition(2, EXPRESSION, 3);
 		PREPEND.add_transition(2, IC, 2);
-		PREPEND.add_transition(2, literal8, 1);
 
 		PRE_DEC.add_transition(0, literal22, 1);
 		PRE_DEC.add_transition(1, EXPRESSION, 2);
@@ -1164,41 +1172,41 @@ parlex::grammar const & get_plange() {
 		PRE_INC.add_transition(1, EXPRESSION, 2);
 		PRE_INC.add_transition(1, IC, 1);
 
-		PROPER_SUBSET.add_transition(0, EXPRESSION, 2);
-		PROPER_SUBSET.add_transition(1, EXPRESSION, 3);
+		PROPER_SUBSET.add_transition(0, EXPRESSION, 1);
 		PROPER_SUBSET.add_transition(1, IC, 1);
+		PROPER_SUBSET.add_transition(1, literal103, 2);
+		PROPER_SUBSET.add_transition(1, literal164, 2);
+		PROPER_SUBSET.add_transition(2, EXPRESSION, 3);
 		PROPER_SUBSET.add_transition(2, IC, 2);
-		PROPER_SUBSET.add_transition(2, literal103, 1);
-		PROPER_SUBSET.add_transition(2, literal164, 1);
 
-		PROPER_SUPERSET.add_transition(0, EXPRESSION, 2);
-		PROPER_SUPERSET.add_transition(1, EXPRESSION, 3);
+		PROPER_SUPERSET.add_transition(0, EXPRESSION, 1);
 		PROPER_SUPERSET.add_transition(1, IC, 1);
+		PROPER_SUPERSET.add_transition(1, literal104, 2);
+		PROPER_SUPERSET.add_transition(1, literal165, 2);
+		PROPER_SUPERSET.add_transition(2, EXPRESSION, 3);
 		PROPER_SUPERSET.add_transition(2, IC, 2);
-		PROPER_SUPERSET.add_transition(2, literal104, 1);
-		PROPER_SUPERSET.add_transition(2, literal165, 1);
 
 		RADICAL.add_transition(0, literal156, 1);
 		RADICAL.add_transition(1, EXPRESSION, 2);
 		RADICAL.add_transition(1, IC, 1);
 
-		RANGE.add_transition(0, literal11, 5);
-		RANGE.add_transition(0, literal59, 6);
+		RANGE.add_transition(0, literal11, 1);
+		RANGE.add_transition(0, literal59, 2);
+		RANGE.add_transition(1, EXPRESSION, 3);
 		RANGE.add_transition(1, IC, 1);
-		RANGE.add_transition(1, literal13, 7);
-		RANGE.add_transition(1, literal62, 7);
-		RANGE.add_transition(2, EXPRESSION, 1);
+		RANGE.add_transition(1, literal25, 4);
+		RANGE.add_transition(2, EXPRESSION, 3);
 		RANGE.add_transition(2, IC, 2);
-		RANGE.add_transition(2, literal13, 7);
-		RANGE.add_transition(3, EXPRESSION, 1);
 		RANGE.add_transition(3, IC, 3);
+		RANGE.add_transition(3, literal25, 5);
+		RANGE.add_transition(4, EXPRESSION, 6);
 		RANGE.add_transition(4, IC, 4);
-		RANGE.add_transition(4, literal25, 2);
-		RANGE.add_transition(5, EXPRESSION, 4);
+		RANGE.add_transition(5, EXPRESSION, 6);
 		RANGE.add_transition(5, IC, 5);
-		RANGE.add_transition(5, literal25, 3);
-		RANGE.add_transition(6, EXPRESSION, 4);
+		RANGE.add_transition(5, literal13, 7);
 		RANGE.add_transition(6, IC, 6);
+		RANGE.add_transition(6, literal13, 7);
+		RANGE.add_transition(6, literal62, 7);
 
 		RELATIONAL_COLLECTION_OP.add_transition(0, HAS, 1);
 		RELATIONAL_COLLECTION_OP.add_transition(0, IN, 1);
@@ -1221,43 +1229,43 @@ parlex::grammar const & get_plange() {
 		RETURN.add_transition(1, EXPRESSION, 2);
 		RETURN.add_transition(1, IC, 1);
 
-		SET.add_transition(0, literal124, 2);
+		SET.add_transition(0, literal124, 1);
+		SET.add_transition(1, EXPRESSION, 2);
 		SET.add_transition(1, IC, 1);
 		SET.add_transition(1, literal131, 4);
-		SET.add_transition(1, literal19, 3);
-		SET.add_transition(2, EXPRESSION, 1);
 		SET.add_transition(2, IC, 2);
 		SET.add_transition(2, literal131, 4);
-		SET.add_transition(3, EXPRESSION, 1);
+		SET.add_transition(2, literal19, 3);
+		SET.add_transition(3, EXPRESSION, 2);
 		SET.add_transition(3, IC, 3);
 
-		SET_COMPREHENSION.add_transition(0, literal123, 4);
+		SET_COMPREHENSION.add_transition(0, literal123, 1);
+		SET_COMPREHENSION.add_transition(1, EXPRESSION, 2);
 		SET_COMPREHENSION.add_transition(1, IC, 1);
-		SET_COMPREHENSION.add_transition(1, literal132, 5);
-		SET_COMPREHENSION.add_transition(2, EXPRESSION, 1);
 		SET_COMPREHENSION.add_transition(2, IC, 2);
+		SET_COMPREHENSION.add_transition(2, literal125, 3);
+		SET_COMPREHENSION.add_transition(3, EXPRESSION, 4);
 		SET_COMPREHENSION.add_transition(3, IC, 3);
-		SET_COMPREHENSION.add_transition(3, literal125, 2);
-		SET_COMPREHENSION.add_transition(4, EXPRESSION, 3);
 		SET_COMPREHENSION.add_transition(4, IC, 4);
+		SET_COMPREHENSION.add_transition(4, literal132, 5);
 
-		SHIFTL.add_transition(0, EXPRESSION, 2);
-		SHIFTL.add_transition(1, EXPRESSION, 3);
+		SHIFTL.add_transition(0, EXPRESSION, 1);
 		SHIFTL.add_transition(1, IC, 1);
+		SHIFTL.add_transition(1, literal49, 2);
+		SHIFTL.add_transition(2, EXPRESSION, 3);
 		SHIFTL.add_transition(2, IC, 2);
-		SHIFTL.add_transition(2, literal49, 1);
 
-		SHIFTR.add_transition(0, EXPRESSION, 2);
-		SHIFTR.add_transition(1, EXPRESSION, 3);
+		SHIFTR.add_transition(0, EXPRESSION, 1);
 		SHIFTR.add_transition(1, IC, 1);
+		SHIFTR.add_transition(1, literal56, 2);
+		SHIFTR.add_transition(2, EXPRESSION, 3);
 		SHIFTR.add_transition(2, IC, 2);
-		SHIFTR.add_transition(2, literal56, 1);
 
-		SLICE.add_transition(0, EXPRESSION, 2);
-		SLICE.add_transition(1, EXPRESSION, 3);
+		SLICE.add_transition(0, EXPRESSION, 1);
 		SLICE.add_transition(1, IC, 1);
+		SLICE.add_transition(1, literal43, 2);
+		SLICE.add_transition(2, EXPRESSION, 3);
 		SLICE.add_transition(2, IC, 2);
-		SLICE.add_transition(2, literal43, 1);
 
 		STATEMENT.add_transition(0, ASSIGNMENT, 1);
 		STATEMENT.add_transition(0, DECLARATION, 1);
@@ -1281,85 +1289,90 @@ parlex::grammar const & get_plange() {
 		STATEMENT_SCOPE.add_transition(0, IC, 0);
 		STATEMENT_SCOPE.add_transition(0, STATEMENT, 0);
 
-		SUBSET.add_transition(0, EXPRESSION, 2);
-		SUBSET.add_transition(1, EXPRESSION, 3);
+		SUBSET.add_transition(0, EXPRESSION, 1);
 		SUBSET.add_transition(1, IC, 1);
+		SUBSET.add_transition(1, literal110, 2);
+		SUBSET.add_transition(1, literal166, 2);
+		SUBSET.add_transition(2, EXPRESSION, 3);
 		SUBSET.add_transition(2, IC, 2);
-		SUBSET.add_transition(2, literal110, 1);
-		SUBSET.add_transition(2, literal166, 1);
 
-		SUBTRACTION.add_transition(0, EXPRESSION, 2);
-		SUBTRACTION.add_transition(1, EXPRESSION, 3);
+		SUBTRACTION.add_transition(0, EXPRESSION, 1);
 		SUBTRACTION.add_transition(1, IC, 1);
+		SUBTRACTION.add_transition(1, literal21, 2);
+		SUBTRACTION.add_transition(2, EXPRESSION, 3);
 		SUBTRACTION.add_transition(2, IC, 2);
-		SUBTRACTION.add_transition(2, literal21, 1);
 
-		SUPERSET.add_transition(0, EXPRESSION, 2);
-		SUPERSET.add_transition(1, EXPRESSION, 3);
+		SUPERSET.add_transition(0, EXPRESSION, 1);
 		SUPERSET.add_transition(1, IC, 1);
+		SUPERSET.add_transition(1, literal111, 2);
+		SUPERSET.add_transition(1, literal167, 2);
+		SUPERSET.add_transition(2, EXPRESSION, 3);
 		SUPERSET.add_transition(2, IC, 2);
-		SUPERSET.add_transition(2, literal111, 1);
-		SUPERSET.add_transition(2, literal167, 1);
 
-		SYMMETRIC_DIFFERENCE.add_transition(0, EXPRESSION, 2);
-		SYMMETRIC_DIFFERENCE.add_transition(1, EXPRESSION, 3);
+		SYMMETRIC_DIFFERENCE.add_transition(0, EXPRESSION, 1);
 		SYMMETRIC_DIFFERENCE.add_transition(1, IC, 1);
+		SYMMETRIC_DIFFERENCE.add_transition(1, literal169, 2);
+		SYMMETRIC_DIFFERENCE.add_transition(2, EXPRESSION, 3);
 		SYMMETRIC_DIFFERENCE.add_transition(2, IC, 2);
-		SYMMETRIC_DIFFERENCE.add_transition(2, literal169, 1);
 
 		THROW.add_transition(0, literal114, 1);
 		THROW.add_transition(1, EXPRESSION, 2);
 		THROW.add_transition(1, IC, 1);
 
-		TRY.add_transition(0, literal116, 3);
-		TRY.add_transition(1, EXPRESSION, 6);
+		TRY.add_transition(0, literal116, 1);
+		TRY.add_transition(1, EXPRESSION, 2);
 		TRY.add_transition(1, IC, 1);
-		TRY.add_transition(2, EXPRESSION, 5);
 		TRY.add_transition(2, IC, 2);
-		TRY.add_transition(3, EXPRESSION, 4);
+		TRY.add_transition(2, literal78, 3);
+		TRY.add_transition(3, EXPRESSION, 5);
 		TRY.add_transition(3, IC, 3);
+		TRY.add_transition(4, EXPRESSION, 7);
 		TRY.add_transition(4, IC, 4);
-		TRY.add_transition(4, literal78, 2);
-		TRY.add_transition(5, IC, 5);
-		TRY.add_transition(5, literal78, 2);
-		TRY.add_transition(5, literal85, 1);
+		TRY.add_transition(5, IC, 6);
+		TRY.add_transition(5, literal78, 3);
+		TRY.add_transition(5, literal85, 4);
+		TRY.add_transition(6, IC, 6);
+		TRY.add_transition(6, literal85, 4);
 
-		TUPLE.add_transition(0, literal12, 2);
+		TUPLE.add_transition(0, literal12, 1);
+		TUPLE.add_transition(1, EXPRESSION, 2);
 		TUPLE.add_transition(1, IC, 1);
-		TUPLE.add_transition(1, literal127, 3);
-		TUPLE.add_transition(1, literal19, 2);
-		TUPLE.add_transition(2, EXPRESSION, 1);
 		TUPLE.add_transition(2, IC, 2);
+		TUPLE.add_transition(2, literal127, 3);
+		TUPLE.add_transition(2, literal19, 1);
 
-		TYPE.add_transition(0, literal117, 3);
-		TYPE.add_transition(1, literal132, 8);
-		TYPE.add_transition(2, TYPE_SCOPE, 1);
-		TYPE.add_transition(3, IC, 3);
-		TYPE.add_transition(3, literal123, 2);
-		TYPE.add_transition(3, literal91, 7);
-		TYPE.add_transition(3, literal94, 6);
+		TYPE.add_transition(0, literal117, 1);
+		TYPE.add_transition(1, IC, 1);
+		TYPE.add_transition(1, literal123, 3);
+		TYPE.add_transition(1, literal91, 4);
+		TYPE.add_transition(1, literal94, 2);
+		TYPE.add_transition(2, IC, 2);
+		TYPE.add_transition(2, INHERITANCE_LIST, 5);
+		TYPE.add_transition(3, TYPE_SCOPE, 6);
 		TYPE.add_transition(4, IC, 4);
-		TYPE.add_transition(4, literal123, 2);
-		TYPE.add_transition(4, literal91, 7);
+		TYPE.add_transition(4, INHERITANCE_LIST, 7);
 		TYPE.add_transition(5, IC, 5);
-		TYPE.add_transition(5, literal123, 2);
-		TYPE.add_transition(6, IC, 6);
-		TYPE.add_transition(6, INHERITANCE_LIST, 4);
+		TYPE.add_transition(5, literal123, 3);
+		TYPE.add_transition(5, literal91, 4);
+		TYPE.add_transition(6, literal132, 8);
 		TYPE.add_transition(7, IC, 7);
-		TYPE.add_transition(7, INHERITANCE_LIST, 5);
+		TYPE.add_transition(7, literal123, 3);
 
-		TYPE_DEREFERENCE.add_transition(0, literal46, 2);
+		TYPE_DEREFERENCE.add_transition(0, literal46, 1);
+		TYPE_DEREFERENCE.add_transition(1, EXPRESSION, 2);
 		TYPE_DEREFERENCE.add_transition(1, IC, 1);
-		TYPE_DEREFERENCE.add_transition(1, literal54, 3);
-		TYPE_DEREFERENCE.add_transition(2, EXPRESSION, 1);
 		TYPE_DEREFERENCE.add_transition(2, IC, 2);
+		TYPE_DEREFERENCE.add_transition(2, literal54, 3);
 
-		TYPE_INVOCATION.add_transition(0, EXPRESSION, 2);
-		TYPE_INVOCATION.add_transition(1, EXPRESSION, 1);
-		TYPE_INVOCATION.add_transition(1, IC, 1);
-		TYPE_INVOCATION.add_transition(1, literal19, 1);
-		TYPE_INVOCATION.add_transition(1, literal54, 3);
-		TYPE_INVOCATION.add_transition(2, literal46, 1);
+		TYPE_INVOCATION.add_transition(0, EXPRESSION, 1);
+		TYPE_INVOCATION.add_transition(1, literal46, 2);
+		TYPE_INVOCATION.add_transition(2, EXPRESSION, 3);
+		TYPE_INVOCATION.add_transition(2, IC, 2);
+		TYPE_INVOCATION.add_transition(2, literal19, 2);
+		TYPE_INVOCATION.add_transition(2, literal54, 4);
+		TYPE_INVOCATION.add_transition(3, IC, 3);
+		TYPE_INVOCATION.add_transition(3, literal19, 2);
+		TYPE_INVOCATION.add_transition(3, literal54, 4);
 
 		TYPE_SCOPE.add_transition(0, IC, 0);
 		TYPE_SCOPE.add_transition(0, TYPE_STATEMENT, 0);
@@ -1367,15 +1380,15 @@ parlex::grammar const & get_plange() {
 		TYPE_STATEMENT.add_transition(0, DECLARATION, 3);
 		TYPE_STATEMENT.add_transition(0, STATEMENT, 5);
 		TYPE_STATEMENT.add_transition(0, VISIBILITY_MODIFIER, 1);
-		TYPE_STATEMENT.add_transition(0, literal109, 4);
+		TYPE_STATEMENT.add_transition(0, literal109, 2);
 		TYPE_STATEMENT.add_transition(1, IC, 1);
 		TYPE_STATEMENT.add_transition(1, literal43, 5);
+		TYPE_STATEMENT.add_transition(2, DECLARATION, 3);
 		TYPE_STATEMENT.add_transition(2, IC, 2);
-		TYPE_STATEMENT.add_transition(2, WHOLE_NUMBER, 5);
 		TYPE_STATEMENT.add_transition(3, IC, 3);
-		TYPE_STATEMENT.add_transition(3, literal75, 2);
-		TYPE_STATEMENT.add_transition(4, DECLARATION, 3);
+		TYPE_STATEMENT.add_transition(3, literal75, 4);
 		TYPE_STATEMENT.add_transition(4, IC, 4);
+		TYPE_STATEMENT.add_transition(4, WHOLE_NUMBER, 5);
 
 		UNARY_ARITHMETIC_OP.add_transition(0, FACTORIAL, 1);
 		UNARY_ARITHMETIC_OP.add_transition(0, NEGATION, 1);
@@ -1395,31 +1408,31 @@ parlex::grammar const & get_plange() {
 		UNARY_OP.add_transition(0, UNARY_ARITHMETIC_OP, 1);
 		UNARY_OP.add_transition(0, UNARY_LOGICAL_OP, 1);
 
-		UNION.add_transition(0, EXPRESSION, 2);
-		UNION.add_transition(1, EXPRESSION, 3);
+		UNION.add_transition(0, EXPRESSION, 1);
 		UNION.add_transition(1, IC, 1);
+		UNION.add_transition(1, literal160, 2);
+		UNION.add_transition(2, EXPRESSION, 3);
 		UNION.add_transition(2, IC, 2);
-		UNION.add_transition(2, literal160, 1);
 
-		UNIT_DIVISION.add_transition(0, DIMENSION, 2);
-		UNIT_DIVISION.add_transition(1, DIMENSION, 3);
-		UNIT_DIVISION.add_transition(2, literal26, 1);
+		UNIT_DIVISION.add_transition(0, DIMENSION, 1);
+		UNIT_DIVISION.add_transition(1, literal26, 2);
+		UNIT_DIVISION.add_transition(2, DIMENSION, 3);
 
-		UNIT_EXPONENTIATION.add_transition(0, DIMENSION, 3);
-		UNIT_EXPONENTIATION.add_transition(1, INTEGER, 4);
-		UNIT_EXPONENTIATION.add_transition(1, literal21, 2);
+		UNIT_EXPONENTIATION.add_transition(0, DIMENSION, 1);
+		UNIT_EXPONENTIATION.add_transition(1, literal63, 2);
 		UNIT_EXPONENTIATION.add_transition(2, INTEGER, 4);
-		UNIT_EXPONENTIATION.add_transition(3, literal63, 1);
+		UNIT_EXPONENTIATION.add_transition(2, literal21, 3);
+		UNIT_EXPONENTIATION.add_transition(3, INTEGER, 4);
 
-		UNIT_MULTIPLICATION.add_transition(0, DIMENSION, 2);
-		UNIT_MULTIPLICATION.add_transition(1, DIMENSION, 3);
-		UNIT_MULTIPLICATION.add_transition(2, literal14, 1);
+		UNIT_MULTIPLICATION.add_transition(0, DIMENSION, 1);
+		UNIT_MULTIPLICATION.add_transition(1, literal14, 2);
+		UNIT_MULTIPLICATION.add_transition(2, DIMENSION, 3);
 
-		VECTOR_NORM.add_transition(0, literal130, 2);
+		VECTOR_NORM.add_transition(0, literal130, 1);
+		VECTOR_NORM.add_transition(1, EXPRESSION, 2);
 		VECTOR_NORM.add_transition(1, IC, 1);
-		VECTOR_NORM.add_transition(1, literal130, 3);
-		VECTOR_NORM.add_transition(2, EXPRESSION, 1);
 		VECTOR_NORM.add_transition(2, IC, 2);
+		VECTOR_NORM.add_transition(2, literal130, 3);
 
 		VISIBILITY_MODIFIER.add_transition(0, literal100, 1);
 		VISIBILITY_MODIFIER.add_transition(0, literal101, 1);
@@ -1427,19 +1440,19 @@ parlex::grammar const & get_plange() {
 		VISIBILITY_MODIFIER.add_transition(0, literal105, 1);
 		VISIBILITY_MODIFIER.add_transition(0, literal95, 1);
 
-		VOLATILE_IMPLICIT_TYPE_DEREFERENCE.add_transition(0, literal46, 2);
+		VOLATILE_IMPLICIT_TYPE_DEREFERENCE.add_transition(0, literal46, 1);
 		VOLATILE_IMPLICIT_TYPE_DEREFERENCE.add_transition(1, IC, 1);
-		VOLATILE_IMPLICIT_TYPE_DEREFERENCE.add_transition(1, literal54, 3);
+		VOLATILE_IMPLICIT_TYPE_DEREFERENCE.add_transition(1, literal120, 2);
 		VOLATILE_IMPLICIT_TYPE_DEREFERENCE.add_transition(2, IC, 2);
-		VOLATILE_IMPLICIT_TYPE_DEREFERENCE.add_transition(2, literal120, 1);
+		VOLATILE_IMPLICIT_TYPE_DEREFERENCE.add_transition(2, literal54, 3);
 
-		VOLATILE_TYPE_DEREFERENCE.add_transition(0, literal46, 3);
+		VOLATILE_TYPE_DEREFERENCE.add_transition(0, literal46, 1);
 		VOLATILE_TYPE_DEREFERENCE.add_transition(1, IC, 1);
-		VOLATILE_TYPE_DEREFERENCE.add_transition(1, literal54, 4);
-		VOLATILE_TYPE_DEREFERENCE.add_transition(2, EXPRESSION, 1);
+		VOLATILE_TYPE_DEREFERENCE.add_transition(1, literal120, 2);
+		VOLATILE_TYPE_DEREFERENCE.add_transition(2, EXPRESSION, 3);
 		VOLATILE_TYPE_DEREFERENCE.add_transition(2, IC, 2);
 		VOLATILE_TYPE_DEREFERENCE.add_transition(3, IC, 3);
-		VOLATILE_TYPE_DEREFERENCE.add_transition(3, literal120, 2);
+		VOLATILE_TYPE_DEREFERENCE.add_transition(3, literal54, 4);
 
 		WHOLE_NUMBER.add_transition(0, literal34, 1);
 		WHOLE_NUMBER.add_transition(0, literal35, 1);
@@ -1464,19 +1477,19 @@ parlex::grammar const & get_plange() {
 		WS.add_transition(0, parlex::builtins::white_space, 1);
 		WS.add_transition(1, parlex::builtins::white_space, 1);
 
-		XML_DOC_STRING.add_transition(0, literal71, 3);
+		XML_DOC_STRING.add_transition(0, literal71, 2);
 		XML_DOC_STRING.add_transition(0, literal72, 1);
 		XML_DOC_STRING.add_transition(1, literal72, 4);
 		XML_DOC_STRING.add_transition(1, parlex::builtins::all, 1);
-		XML_DOC_STRING.add_transition(2, literal71, 4);
-		XML_DOC_STRING.add_transition(3, XML_DOC_STRING, 2);
+		XML_DOC_STRING.add_transition(2, XML_DOC_STRING, 3);
+		XML_DOC_STRING.add_transition(3, literal71, 4);
 
-		XOR.add_transition(0, EXPRESSION, 2);
-		XOR.add_transition(1, EXPRESSION, 3);
+		XOR.add_transition(0, EXPRESSION, 1);
 		XOR.add_transition(1, IC, 1);
+		XOR.add_transition(1, literal122, 2);
+		XOR.add_transition(1, literal168, 2);
+		XOR.add_transition(2, EXPRESSION, 3);
 		XOR.add_transition(2, IC, 2);
-		XOR.add_transition(2, literal122, 1);
-		XOR.add_transition(2, literal168, 1);
 
 
 		g.add_precedence(AND, IFF);
@@ -1503,6 +1516,7 @@ parlex::grammar const & get_plange() {
 		g.add_precedence(EXPONENTIATION, MODULATION);
 		g.add_precedence(EXPONENTIATION, SUBTRACTION);
 		g.add_precedence(FACTORIAL, BINARY_OP);
+		g.add_precedence(FUNCTION, CAST);
 		g.add_precedence(IMPLICATION, IFF);
 		g.add_precedence(IMPLICATION, XOR);
 		g.add_precedence(INTEGER_DIVISION, ADDITION);
@@ -1534,6 +1548,7 @@ parlex::grammar const & get_plange() {
 		g.add_precedence(OR, IFF);
 		g.add_precedence(OR, IMPLICATION);
 		g.add_precedence(OR, XOR);
+		g.add_precedence(PARAMETER_NORMAL, PARAMETER_ALGEBRAIC);
 		g.add_precedence(POST_DEC, BINARY_OP);
 		g.add_precedence(POST_DEC, NEGATION);
 		g.add_precedence(POST_INC, BINARY_OP);

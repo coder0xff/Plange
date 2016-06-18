@@ -95,26 +95,12 @@ intermediate_nfa repetition::to_intermediate_nfa() const
 	intermediate_nfa result = child->to_intermediate_nfa();
 	auto originalTransitions = result.get_transitions();
 
-	//copy transitions (accept_state, symbol, to_state) to (start_state, symbol, to_state) for each start_state
-	for (int acceptStateIndex : result.acceptStates) {
-		for (auto & symbolAndToStates : result.states[acceptStateIndex].out_transitions) {
+	//copy transitions (start_state, symbol, to_state) to (accept_state, symbol, to_state)
+	for (int startStateIndex : result.startStates) {
+		for (auto & symbolAndToStates : result.states[startStateIndex].out_transitions) {
 			for (int toState : symbolAndToStates.second) {
-				for (int startState : result.startStates) {
-					result.states[startState].out_transitions[symbolAndToStates.first].insert(toState);
-				}
-			}
-		}
-	}
-
-	//copy transitions (from_state, symbol, accept_state) to (from_state, symbol, start_state) for each start_state
-	for (intermediate_nfa::state & fromState : result.states) {
-		for (auto & symbolAndToStatesIndices : fromState.out_transitions) {
-			std::set<int> temp = symbolAndToStatesIndices.second;
-			for (int toStateIndex : temp) {
-				if (result.acceptStates.count(toStateIndex)) {
-					for (int startState : result.startStates) {
-						fromState.out_transitions[symbolAndToStatesIndices.first].insert(startState);
-					}
+				for (int acceptState : result.acceptStates) {
+					result.states[acceptState].out_transitions[symbolAndToStates.first].insert(toState);
 				}
 			}
 		}

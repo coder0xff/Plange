@@ -10,9 +10,9 @@
 
 namespace parlex {
 
-	grammar::grammar(std::string nameOfMain) : main_production_name(nameOfMain) {}
+	grammar::grammar(std::string const & nameOfMain) : main_production_name(nameOfMain) {}
 
-	grammar::grammar(std::string nameOfMain, std::map<std::string, std::shared_ptr<details::behavior_node>> const & trees, std::map<std::string, parlex::associativity> associativities, std::set<std::string> greedyNames) : main_production_name(nameOfMain)
+	grammar::grammar(std::string const & nameOfMain, std::map<std::string, std::shared_ptr<details::behavior_node>> const & trees, std::map<std::string, parlex::associativity> const & associativities, std::set<std::string> const & greedyNames) : main_production_name(nameOfMain)
 	{
 		std::map<std::string, details::intermediate_nfa> dfas;
 		for (auto const & nameAndBehaviorNode : trees) {
@@ -77,11 +77,16 @@ namespace parlex {
 		for (auto const & nameAndDfa : reorderedDfas) {
 			std::string const & name = nameAndDfa.first;
 			details::intermediate_nfa const & dfa = nameAndDfa.second;
+			associativity assoc = associativity::none;
+			auto const & i = associativities.find(name);
+			if (i != associativities.end()) {
+				assoc = i->second;
+			}
 			if (greedyNames.count(name) > 0) {
-				productions.emplace(std::piecewise_construct, std::forward_as_tuple(name), std::forward_as_tuple(name, *dfa.startStates.begin(), dfa.acceptStates.size(), builtins::greedy, (associativity)associativities[name]));
+				productions.emplace(std::piecewise_construct, std::forward_as_tuple(name), std::forward_as_tuple(name, *dfa.startStates.begin(), dfa.acceptStates.size(), builtins::greedy, assoc));
 			}
 			else {
-				productions.emplace(std::piecewise_construct, std::forward_as_tuple(name), std::forward_as_tuple(name, *dfa.startStates.begin(), dfa.acceptStates.size(), (associativity)associativities[name]));
+				productions.emplace(std::piecewise_construct, std::forward_as_tuple(name), std::forward_as_tuple(name, *dfa.startStates.begin(), dfa.acceptStates.size(), assoc));
 			}
 		}
 

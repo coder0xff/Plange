@@ -7,14 +7,14 @@
 namespace parlex {
 
 bool abstract_syntax_graph::is_rooted() const {
-	auto i = table.find(root);
-	return i != table.end() && i->second.size() > 0;
+	auto i = permutations.find(root);
+	return i != permutations.end() && i->second.size() > 0;
 }
 
 std::string abstract_syntax_graph::to_dot() const {
 	std::string result = "digraph {\n";
 	std::set<match> completed;
-	for (auto const & entry : table) {
+	for (auto const & entry : permutations) {
 		match i = entry.first;
 		completed.insert(i);
 		std::string from_name = i.r.get_id() + ":" + std::to_string(i.document_position) + ":" + std::to_string(i.consumed_character_count);

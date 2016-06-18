@@ -128,7 +128,7 @@ int dont_care = build();
 std::shared_ptr<parlex::details::behavior_node> process_expression(std::u32string document, parlex::match const & expression, parlex::abstract_syntax_graph const & asg, std::map<std::u32string, std::shared_ptr<parlex::details::literal>> & literalNodes, std::map<std::string, std::shared_ptr<parlex::details::production>> & productionNodes);
 
 std::shared_ptr<parlex::details::behavior_node> process_factor(std::u32string document, parlex::match const & factor, parlex::abstract_syntax_graph const & asg, std::map<std::u32string, std::shared_ptr<parlex::details::literal>> & literalNodes, std::map<std::string, std::shared_ptr<parlex::details::production>> & productionNodes) {
-	parlex::permutation const & p = *asg.table.find(factor)->second.begin();
+	parlex::permutation const & p = *asg.permutations.find(factor)->second.begin();
 	parlex::recognizer const * const underlying = &p[0].r;
 	if (underlying == &identifierDfa) {
 		std::string name = to_utf8(document.substr(factor.document_position, factor.consumed_character_count));
@@ -180,7 +180,7 @@ std::shared_ptr<parlex::details::behavior_node> process_factor(std::u32string do
 std::shared_ptr<parlex::details::behavior_node> process_term(std::u32string document, parlex::match const & term, parlex::abstract_syntax_graph const & asg, std::map<std::u32string, std::shared_ptr<parlex::details::literal>> & literalNodes, std::map<std::string, std::shared_ptr<parlex::details::production>> & productionNodes) {
 	std::vector<parlex::match> factors;
 
-	parlex::permutation const & p = *(*asg.table.find(term)).second.begin();
+	parlex::permutation const & p = *(*asg.permutations.find(term)).second.begin();
 	for (parlex::match const & entry : p) {
 		if (&entry.r == &factorDfa) {
 			factors.push_back(entry);
@@ -201,7 +201,7 @@ std::shared_ptr<parlex::details::behavior_node> process_term(std::u32string docu
 std::shared_ptr<parlex::details::behavior_node> process_expression(std::u32string document, parlex::match const & expression, parlex::abstract_syntax_graph const & asg, std::map<std::u32string, std::shared_ptr<parlex::details::literal>> & literalNodes, std::map<std::string, std::shared_ptr<parlex::details::production>> & productionNodes) {
 	std::vector<parlex::match> terms;
 
-	parlex::permutation const & p = *(*asg.table.find(expression)).second.begin();
+	parlex::permutation const & p = *(*asg.permutations.find(expression)).second.begin();
 	for (parlex::match const & entry : p) {
 		if (&entry.r == &termDfa) {
 			terms.push_back(entry);
@@ -220,7 +220,7 @@ std::shared_ptr<parlex::details::behavior_node> process_expression(std::u32strin
 }
 
 std::shared_ptr<parlex::details::behavior_node> process_production(std::u32string document, parlex::match const & production, parlex::abstract_syntax_graph const & asg) {
-	for (parlex::match const & entry : *(*asg.table.find(production)).second.begin()) {
+	for (parlex::match const & entry : *(*asg.permutations.find(production)).second.begin()) {
 		if (&entry.r == &expressionDfa) {
 			std::map<std::u32string, std::shared_ptr<parlex::details::literal>> literalNodes;
 			std::map<std::string, std::shared_ptr<parlex::details::production>> productionNodes;
@@ -238,13 +238,13 @@ grammar load_grammar(std::string const & nameOfMain, std::u32string const & docu
 	parser p;
 	abstract_syntax_graph asg = p.parse(builtins::wirth, document);
 	std::string check = asg.to_dot();
-	permutation const & top = *asg.table[asg.root].begin();
+	permutation const & top = *asg.permutations[asg.root].begin();
 	std::vector<state_machine> machines;
 	std::map<std::string, std::shared_ptr<details::behavior_node>> trees;
 	for (match const & entry : top) {
 		if (&entry.r == &productionDfa) {
 			std::shared_ptr<parlex::details::behavior_node> behavior = process_production(document, entry, asg);
-			match const & namePart = (*asg.table[entry].begin())[0];
+			match const & namePart = (*asg.permutations[entry].begin())[0];
 			std::string name = to_utf8(document.substr(namePart.document_position, namePart.consumed_character_count));
 			recognizer const * dontCare;
 			if (builtins::resolve_builtin(name, dontCare)) {

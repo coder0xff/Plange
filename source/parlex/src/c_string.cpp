@@ -75,8 +75,8 @@ namespace parlex {
 
 		std::u32string c_string_t::extract(std::u32string document, match const & m, abstract_syntax_graph const & asg)
 		{
-			auto const & asgTableIterator = asg.table.find(m);
-			assert(asgTableIterator != asg.table.end());
+			auto const & asgTableIterator = asg.permutations.find(m);
+			assert(asgTableIterator != asg.permutations.end());
 			std::set<permutation> const & permutations = asgTableIterator->second;
 			assert(permutations.size() != 0);
 			permutation const & p = *permutations.begin();

@@ -51,8 +51,8 @@ std::map<std::string, associativity> load_associativities(std::u32string documen
 		throw std::exception("Could not parse the document.");
 	}
 	std::map<std::string, associativity> result;
-	for (match const & m : *asg.table[asg.root].begin()) {
-		auto entry = *asg.table[m].begin();
+	for (match const & m : *asg.permutations[asg.root].begin()) {
+		auto entry = *asg.permutations[m].begin();
 		associativity & destination = result[to_utf8(document.substr(entry[0].document_position, entry[0].consumed_character_count))];
 		switch (document[entry[2].document_position]) {
 		case 'a':

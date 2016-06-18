@@ -108,7 +108,7 @@ void parser::set_update_progress_handler(std::function<void(int /*done*/, int /*
 	update_progress_handler = func;
 }
 
-bool parser::handle_deadlocks(details::job const & j) {
+bool parser::handle_deadlocks(details::job const & j) const {
 	assert(activeCount == 0);
 	//perf_timer timer("handle_deadlocks");
 
@@ -168,8 +168,8 @@ bool matches_intersect(parlex::match const & left, parlex::match const & right) 
 
 std::set<match> getChildren(abstract_syntax_graph const & asg, match const & m) {
 	std::set<match> result;
-	auto i = asg.table.find(m);
-	if (i == asg.table.end()) {
+	auto i = asg.permutations.find(m);
+	if (i == asg.permutations.end()) {
 		return std::set<match>();
 	}
 	for (permutation const & perm : i->second) {
@@ -194,7 +194,7 @@ struct node_props_t {
 	bool selected;
 
 
-	inline node_props_t(abstract_syntax_graph & asg, match const & m) : m(m), r(m.r), permutations(asg.table[m]), children(getChildren(asg, m)), height(0), selected(false) {}
+	inline node_props_t(abstract_syntax_graph & asg, match const & m) : m(m), r(m.r), permutations(asg.permutations[m]), children(getChildren(asg, m)), height(0), selected(false) {}
 };
 
 void prune(abstract_syntax_graph & asg, std::map<match, node_props_t> & nodes, node_props_t & props) {
@@ -252,12 +252,12 @@ void prune(abstract_syntax_graph & asg, std::map<match, node_props_t> & nodes, n
 
 	for (match const & i : completed) {
 		nodes.erase(i);
-		asg.table.erase(i);
+		asg.permutations.erase(i);
 	}
 }
 
 void construct_nodes(abstract_syntax_graph & asg, std::map<match, node_props_t> & nodes, std::vector<std::set<node_props_t *>> & flattened) {
-	for (auto const & entry : asg.table) {
+	for (auto const & entry : asg.permutations) {
 		match const & m = entry.first;
 		node_props_t & nodeProps = nodes.emplace(std::piecewise_construct, std::forward_as_tuple(m), std::forward_as_tuple(asg, m)).first->second;
 
@@ -332,7 +332,7 @@ void compute_intersections(std::vector<std::set<node_props_t *>> const & flatten
 
 void prune_detached(int documentLength, abstract_syntax_graph & asg) {
 	std::set<match> unconnecteds;
-	for (auto const & entry : asg.table) {
+	for (auto const & entry : asg.permutations) {
 		unconnecteds.insert(entry.first);
 	}
 	std::queue<match> pending;
@@ -341,7 +341,7 @@ void prune_detached(int documentLength, abstract_syntax_graph & asg) {
 	while (!pending.empty()) {
 		match m = pending.front();
 		pending.pop();
-		for (auto const & permutation : asg.table[m]) {
+		for (auto const & permutation : asg.permutations[m]) {
 			for (auto const & child : permutation) {
 				if (unconnecteds.erase(child) > 0) {
 					pending.push(child);
@@ -350,7 +350,7 @@ void prune_detached(int documentLength, abstract_syntax_graph & asg) {
 		}
 	}
 	for (auto const & unconnected : unconnecteds) {
-		asg.table.erase(unconnected);
+		asg.permutations.erase(unconnected);
 	}
 }
 
@@ -392,7 +392,8 @@ bool associativity_test(grammar const & g, node_props_t & a, node_props_t & b) {
 }
 
 void select_trees(abstract_syntax_graph & asg, grammar const & g, std::map<match, node_props_t> & nodes, std::vector<std::set<match>> orderedMatchesByHeight) {
-	for (std::set<match> const & matches : orderedMatchesByHeight) {
+	for (size_t height = 0; height < orderedMatchesByHeight.size(); ++height) {
+		std::set<match> const & matches = orderedMatchesByHeight[height];
 		for (match const & m : matches) {
 			std::set<match> preservedIntersections; //used towards the end, but needs to be initialized before "goto matchLoop"
 			auto const & i = nodes.find(m);
@@ -429,6 +430,7 @@ void select_trees(abstract_syntax_graph & asg, grammar const & g, std::map<match
 				assert(i != nodes.end());
 				node_props_t & b = i->second;
 				if (precedence_test(g, b, a) || associativity_test(g, b, a)) {
+					prune(asg, nodes, a);
 					goto matchLoop;
 				}
 			}
@@ -470,12 +472,13 @@ abstract_syntax_graph & apply_precedence_and_associativity(grammar const & g, ab
 	construct_nodes(asg, nodes, flattened);
 	resolve_nodes(nodes);
 	compute_intersections(flattened);
-	std::vector<std::set<match>> orderedMatchesByHeight = ordered_matches_by_height(nodes);
-	select_trees(asg, g, nodes, orderedMatchesByHeight);
+	asg.matchesByHeight = ordered_matches_by_height(nodes);
+	select_trees(asg, g, nodes, asg.matchesByHeight);
+	asg.matchesByHeight = ordered_matches_by_height(nodes);
 	return asg;
 }
 
-abstract_syntax_graph parser::construct_result(details::job const & j, match const & match) {
+abstract_syntax_graph parser::construct_result(details::job const & j, match const & match) const {
 	//perf_timer timer("construct_result");
 	abstract_syntax_graph result(match);
 	for (auto const & pair : j.producers) {
@@ -483,7 +486,7 @@ abstract_syntax_graph parser::construct_result(details::job const & j, match con
 		for (auto const & pair2 : producer.match_to_permutations) {
 			struct match const & match = pair2.first;
 			std::set<permutation> const & permutations = pair2.second;
-			result.table[match] = permutations;
+			result.permutations[match] = permutations;
 		}
 	}
 	prune_detached(j.document.length(), result);
