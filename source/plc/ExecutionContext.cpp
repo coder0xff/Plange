@@ -1,11 +1,9 @@
 #include "ExecutionContext.h"
 
 
-
-ExecutionContext::ExecutionContext()
+ExecutionContext::ExecutionContext(Scope& scope, Thread& creatingThread): scope(scope), creating_thread(creatingThread)
 {
 }
-
 
 ExecutionContext::~ExecutionContext()
 {

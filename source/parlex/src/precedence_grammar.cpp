@@ -7,26 +7,26 @@
 namespace parlex {
 namespace builtins {
 
-parlex::grammar const & get_precedence_grammar() {
-	static parlex::grammar g("SYNTAX");
+grammar const & get_precedence_grammar() {
+	static grammar g("SYNTAX");
 
-	static parlex::builtins::string_terminal & literal0 = g.add_literal(U"#");
-	static parlex::builtins::string_terminal & literal1 = g.add_literal(U":");
-	static parlex::builtins::string_terminal & literal2 = g.add_literal(U"_");
-	static parlex::builtins::string_terminal & literal3 = g.add_literal(U"\n");
+	static string_terminal & literal0 = g.add_literal(U"#");
+	static string_terminal & literal1 = g.add_literal(U":");
+	static string_terminal & literal2 = g.add_literal(U"_");
+	static string_terminal & literal3 = g.add_literal(U"\n");
 
-	static parlex::state_machine & COMMENT = g.add_production("COMMENT", 0, 1);
-	static parlex::state_machine & ENTRY = g.add_production("ENTRY", 0, 1);
-	static parlex::state_machine & IDENTIFIER = g.add_production("IDENTIFIER", 0, 1, parlex::builtins::greedy);
-	static parlex::state_machine & NEWLINE = g.add_production("NEWLINE", 0, 1);
-	static parlex::state_machine & SYNTAX = g.add_production("SYNTAX", 0, 1);
+	static state_machine & COMMENT = g.add_production("COMMENT", 0, 1);
+	static state_machine & ENTRY = g.add_production("ENTRY", 0, 1);
+	static state_machine & IDENTIFIER = g.add_production("IDENTIFIER", 0, 1, greedy);
+	static state_machine & NEWLINE = g.add_production("NEWLINE", 0, 1);
+	static state_machine & SYNTAX = g.add_production("SYNTAX", 0, 1);
 
 	static bool initialized = false;
 	if (!initialized) {
 		initialized = true;
 
 		COMMENT.add_transition(0, literal0, 1);
-		COMMENT.add_transition(1, parlex::builtins::not_newline, 1);
+		COMMENT.add_transition(1, not_newline, 1);
 		COMMENT.add_transition(1, NEWLINE, 2);
 
 		ENTRY.add_transition(0, IDENTIFIER, 3);
@@ -34,10 +34,10 @@ parlex::grammar const & get_precedence_grammar() {
 		ENTRY.add_transition(2, IDENTIFIER, 1);
 		ENTRY.add_transition(3, literal1, 2);
 
-		IDENTIFIER.add_transition(0, parlex::builtins::letter, 1);
+		IDENTIFIER.add_transition(0, letter, 1);
 		IDENTIFIER.add_transition(0, literal2, 1);
-		IDENTIFIER.add_transition(1, parlex::builtins::letter, 1);
-		IDENTIFIER.add_transition(1, parlex::builtins::number, 1);
+		IDENTIFIER.add_transition(1, letter, 1);
+		IDENTIFIER.add_transition(1, number, 1);
 		IDENTIFIER.add_transition(1, literal2, 1);
 
 		NEWLINE.add_transition(0, literal3, 1);
@@ -53,7 +53,7 @@ parlex::grammar const & get_precedence_grammar() {
 
 namespace {
 
-std::pair<std::string, std::string> process_entry(std::u32string const & document, abstract_syntax_graph const & asg, parlex::match const & m) {
+std::pair<std::string, std::string> process_entry(std::u32string const & document, abstract_syntax_graph const & asg, match const & m) {
 	assert(asg.permutations.find(m) != asg.permutations.end());
 	permutation const & entryPerm = *asg.permutations.find(m)->second.begin();
 	assert(entryPerm.size() >= 3);

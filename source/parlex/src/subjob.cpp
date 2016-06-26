@@ -1,7 +1,6 @@
 #include <string>
 #include <cassert>
 
-#include "logging.hpp"
 #include "parlex/details/subjob.hpp"
 #include "parlex/details/context.hpp"
 #include "parlex/details/job.hpp"

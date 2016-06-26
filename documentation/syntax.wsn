@@ -15,6 +15,24 @@ ARRAY = "[" {IC} [EXPRESSION {{IC} "," {IC} EXPRESSION} {IC} ] "]".
 
 ARRAY_INVOCATION = EXPRESSION "[" [{IC} (EXPRESSION|SLICE)] {{IC} "," [{IC} (EXPRESSION|SLICE)]} {IC} "]".
 
+ASM_EXPRESSION = ASM_IDENTIFIER | ASM_PTR_ARITHMETIC_ATT | ASM_PTR_ARITHMETIC_INTEL | NON_FRACTIONAL.
+
+ASM_IDENTIFIER = ["%"] IDENTIFIER.
+
+ASM_FUNCTION = [ "(" {IC} [ PARAMETER {{IC} "," {IC} PARAMETER} {IC} ] ")" {IC} ] [FUNCTION_MODIFIER] "asm" {IC} "{" ASM_SCOPE "}".
+
+ASM_OP = (lowercase_letter) {lowercase_letter}.
+
+ASM_PTR_ARITHMETIC_ATT = (ASM_IDENTIFIER ":" NON_FRACTIONAL) | (ASM_IDENTIFIER ":" NON_FRACTIONAL ASM_PTR_ARITHMETIC_ATT_REG) | (NON_FRACTIONAL ASM_PTR_ARITHMETIC_ATT_REG).
+
+ASM_PTR_ARITHMETIC_ATT_REG = "(" [ASM_IDENTIFIER] ["," ASM_IDENTIFIER ["," NON_NEG_NON_FRACTIONAL]] ")".
+
+ASM_PTR_ARITHMETIC_INTEL = [("BYTE"|"WORD"|"DWORD"|"QWORD") " PTR"] "[" [ASM_IDENTIFIER ":"] ASM_IDENTIFIER ["+" ASM_IDENTIFIER ["*" NON_NEG_NON_FRACTIONAL]] [("+"|"-") NON_NEG_INTEGER] "]".
+
+ASM_SCOPE = {IC | ASM_STATEMENT}.
+
+ASM_STATEMENT = ASM_OP [ICR ASM_EXPRESSION {{IC} "," [{IC} ASM_EXPRESSION]}] {IC} "\n".
+
 #place the given value into the given variable
 ASSIGNMENT = EXPRESSION {IC} ("←"|"<-") {IC} {EXPRESSION {IC} ("←"|"<-") {IC}} EXPRESSION.
 
@@ -45,6 +63,8 @@ CARDINALITY = "#" {IC} EXPRESSION.
 
 #change the type of the specified expression to the parenthesized type
 CAST = PARENTHETICAL {IC} EXPRESSION.
+
+CASTS = EXPRESSION {IC} "casts" {IC} EXPRESSION.
 
 CEILING = ("⌈" {IC} EXPRESSION {IC} "⌉") | ( "|'" {IC} EXPRESSION {IC} "'|" ).
 
@@ -92,7 +112,7 @@ DIMENSION = IDENTIFIER | DIMENSIONAL_ANALYSIS_OP.
 DIMENSIONAL_ANALYSIS_OP = UNIT_MULTIPLICATION | UNIT_DIVISION | UNIT_EXPONENTIATION.
 
 #a number with a trailing dimension
-DIMENSIONAL_NUMBER = NUMBER DIMENSION.
+DIMENSIONAL_NUMBER = NON_NEG_NUMBER DIMENSION.
 
 DIVISION = EXPRESSION {IC} ("÷"|"/" ) {IC} EXPRESSION.
 
@@ -123,7 +143,7 @@ EXISTS_ONE = "∃!" {IC} EXPRESSION.
 EXPONENTIATION = EXPRESSION {IC} "^" {IC} EXPRESSION.
 
 #a linearization of an evaluation tree containing constants, variables, operators, invocations, and sub EXPRESSIONs
-EXPRESSION = ALLOCATION | ARRAY | BINARY_OP | BOOL | c_string | CAST | CEILING | COMBINATION | CONDITIONAL | DELTA | DIMENSIONAL_NUMBER | EMBEDDED_STRING | FACTORIAL | FLOOR | FUNCTION | SET | IDENTIFIER | INVOCATION | LIST | MAGNITUDE | MAP | MEMBER_ACCESS | NEAREST_INTEGER | NUMBER | PARENTHETICAL | RADICAL | RANGE | SET_COMPREHENSION | TUPLE | TYPE | UNARY_OP | VECTOR_NORM | "null" | "this" | "this_type".
+EXPRESSION = ALLOCATION | ARRAY | ASM_FUNCTION | BINARY_OP | BOOL | c_string | CAST | CEILING | COMBINATION | CONDITIONAL | DELTA | DIMENSIONAL_NUMBER | EMBEDDED_STRING | FACTORIAL | FLOOR | FUNCTION | SET | IDENTIFIER | INVOCATION | LIST | MAGNITUDE | MAP | MEMBER_ACCESS | NEAREST_INTEGER | NON_NEG_NUMBER | PARENTHETICAL | PROPERTY | RADICAL | RANGE | SET_COMPREHENSION | TUPLE | TYPE | UNARY_OP | VECTOR_NORM | "null" | "this" | "this_type".
 
 FACTORIAL = EXPRESSION {IC} "!".
 
@@ -134,9 +154,6 @@ FOR = "for" {IC} "(" {IC} [ STATEMENT_SCOPE {IC} ] EXPRESSION {IC} ";" {IC} [ (A
 
 #evaluate the last expression repeatedly while iterating over the items of the specified Collection
 FOR_COLLECTION = "for" {IC} "(" {IC} (([ (TYPE_DEREFERENCE | IMPLICIT_TYPE_DEREFERENCE) {IC} ] IDENTIFIER ) | EXPRESSION ) {IC} ("in"|"∈") {IC} EXPRESSION {IC} ")" {IC} EXPRESSION.
-
-#a number with a decimal point
-FRACTIONAL = (decimal_digit {decimal_digit} "." {decimal_digit}) | ("." decimal_digit {decimal_digit}).
 
 FREE = "free" {IC} EXPRESSION.
 
@@ -157,6 +174,8 @@ FUNCTION_MODIFIER_STABILITY = ("stable" | "unstable") [ICR (FUNCTION_MODIFIER_NO
 
 #create a function
 FUNCTION = [ "(" {IC} [ PARAMETER {{IC} "," {IC} PARAMETER} {IC} ] ")" {IC} ] [FUNCTION_MODIFIER] "{" STATEMENT_SCOPE "}".
+
+GETTER = "get" {IC} ":=" {IC} EXPRESSION.
 
 GREATER_THAN = EXPRESSION {IC} ">" {IC} EXPRESSION.
 
@@ -194,8 +213,6 @@ INEQUALITY = EXPRESSION {IC} ("≠"|"/=") {IC} EXPRESSION.
 #see: type
 INHERITANCE_LIST = [VISIBILITY_MODIFIER {IC}] EXPRESSION {{IC} "," {IC} [VISIBILITY_MODIFIER {IC}] EXPRESSION}.
 
-INTEGER = (NON_ZERO_DECIMAL_DIGIT {decimal_digit}) | "0".
-
 #same as ⌊x/y⌋
 #or splits the left hand side collection into a collection of collections each the size of the right hand side
 INTEGER_DIVISION = EXPRESSION {IC} "\\" {IC} EXPRESSION.
@@ -207,6 +224,8 @@ INTERSECTION = EXPRESSION {IC} "∩" {IC} EXPRESSION.
 INVOCATION = PARENTHETICAL_INVOCATION | ARRAY_INVOCATION | TYPE_INVOCATION.
 
 IMPORT = "import" {IC} EXPRESSION.
+
+IS = EXPRESSION {IC} "is" {IC} EXPRESSION.
 
 #the free monoid operator
 KLEENE_STAR = EXPRESSION {IC} "*".
@@ -246,6 +265,17 @@ NEAREST_INTEGER = ( "⌊" {IC} EXPRESSION {IC} "⌉" ) | ("|_" {IC} EXPRESSION {
 
 NEGATION = "-" {IC} EXPRESSION.
 
+NON_FRACTIONAL = ["-"] NON_NEG_NON_FRACTIONAL.
+
+#a number with a decimal point
+NON_NEG_FRACTIONAL = (decimal_digit {decimal_digit} "." {decimal_digit}) | ("." decimal_digit {decimal_digit}).
+
+NON_NEG_INTEGER = (NON_ZERO_DECIMAL_DIGIT {decimal_digit}) | "0".
+
+NON_NEG_NON_FRACTIONAL = NON_NEG_INTEGER | HEX | OCTAL.
+
+NON_NEG_NUMBER = NON_NEG_NON_FRACTIONAL | NON_NEG_FRACTIONAL.
+
 #used for constructing number
 NON_ZERO_DECIMAL_DIGIT = "1"|"2"|"3"|"4"|"5"|"6"|"7"|"8"|"9".
 
@@ -266,8 +296,6 @@ NOT_LESSER_THAN = EXPRESSION {IC} ("≥"|">=") {IC} EXPRESSION.
 
 #return the first expression if non-null otherwise return the second expression
 NULL_COALESCE = EXPRESSION {IC} "??" {IC} EXPRESSION.
-
-NUMBER = INTEGER | FRACTIONAL | HEX | OCTAL.
 
 #octal number
 OCTAL = "0" octal_digit {octal_digit}.
@@ -303,6 +331,8 @@ PRE_INC = "++" {IC} EXPRESSION.
 #create a new Collection starting with the left hand side followed by the elements of the right hand side Collection
 PREPEND = EXPRESSION {IC} "&" {IC} EXPRESSION.
 
+PROPERTY = ("{" {IC} GETTER {IC} "}") | ("{" {IC} SETTER {IC} "}") | ("{" {IC} GETTER {IC} "," {IC} SETTER {IC} "}").
+
 PROPER_SUBSET = EXPRESSION {IC} ("⊂"|"psubs") {IC} EXPRESSION.
 
 PROPER_SUPERSET = EXPRESSION {IC} ("⊃"|"psups") {IC} EXPRESSION.
@@ -315,7 +345,7 @@ RANGE = "(" {IC} "..." {IC} EXPRESSION {IC} ("]"|")") | ("["|"(") {IC} EXPRESSIO
 #relational operators on collections
 RELATIONAL_COLLECTION_OP = SUBSET | PROPER_SUBSET | SUPERSET | PROPER_SUPERSET | IN | NOT_IN | HAS | NOT_HAS.
 
-RELATIONAL_OP = EQUALITY | INEQUALITY | LESSER_THAN | GREATER_THAN | NOT_GREATER_THAN | NOT_LESSER_THAN | RELATIONAL_COLLECTION_OP.
+RELATIONAL_OP = EQUALITY | INEQUALITY | LESSER_THAN | GREATER_THAN | NOT_GREATER_THAN | NOT_LESSER_THAN | RELATIONAL_COLLECTION_OP | CASTS | IS.
 
 #exit the current function, optionally returning a value
 RETURN = "return" [ {IC} EXPRESSION ].
@@ -324,6 +354,8 @@ SET = "{|" {IC} [EXPRESSION {{IC} "," {IC} EXPRESSION} {IC}] "|}".
 
 #create a Collection, substituting variables bound in the right hand side into the left hand side
 SET_COMPREHENSION = "{" {IC} EXPRESSION {IC} "|" {IC} EXPRESSION {IC} "}".
+
+SETTER = "set" {IC} ":=" {IC} EXPRESSION.
 
 #shift left
 SHIFTL = EXPRESSION {IC} "<<" {IC} EXPRESSION.
@@ -385,7 +417,7 @@ UNION = EXPRESSION {IC} "∪" {IC} EXPRESSION.
 UNIT_DIVISION = DIMENSION "/" DIMENSION.
 
 #dimensional analysis square units, cubed units, etc
-UNIT_EXPONENTIATION = DIMENSION "^" (["-"] INTEGER).
+UNIT_EXPONENTIATION = DIMENSION "^" NON_FRACTIONAL.
 
 #dimensional analysis "by"
 UNIT_MULTIPLICATION = DIMENSION "*" DIMENSION.

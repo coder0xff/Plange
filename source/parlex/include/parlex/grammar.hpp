@@ -2,7 +2,6 @@
 #define GRAMMAR_HPP
 
 #include <map>
-#include <string>
 #include <set>
 
 #include "parlex/state_machine.hpp"
@@ -32,10 +31,11 @@ public:
 	void add_precedence(state_machine const & productionA, state_machine const & productionB);
 	bool test_precedence(state_machine const & productionA, state_machine const & productionB) const;
 	precedence_collection const & get_precedences() const;
+	std::map<std::u32string, builtins::string_terminal> const & get_literals() const;
 private:
 	std::string main_production_name;
 	std::map<std::string, state_machine> productions;
-	std::list<builtins::string_terminal> literals;
+	std::map<std::u32string, builtins::string_terminal> literals;
 	precedence_collection precedences;
 };
 

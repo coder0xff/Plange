@@ -1,8 +1,6 @@
 #ifndef JOB_H
 #define JOB_H
 
-#include <string>
-
 #include "parlex/match_class.hpp"
 #include "parlex/details/subjob.hpp"
 #include "parlex/abstract_syntax_graph.hpp"

@@ -1,12 +1,15 @@
-#include <queue>
-
 #include "parlex/abstract_syntax_graph.hpp"
 #include "parlex/recognizer.hpp"
 #include "utils.hpp"
 
 namespace parlex {
 
-bool abstract_syntax_graph::is_rooted() const {
+	abstract_syntax_graph::abstract_syntax_graph(match root) : root(root)
+	{
+
+	}
+
+	bool abstract_syntax_graph::is_rooted() const {
 	auto i = permutations.find(root);
 	return i != permutations.end() && i->second.size() > 0;
 }

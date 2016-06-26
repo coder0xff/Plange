@@ -1,7 +1,5 @@
-#include <atomic>
 #include <functional>
 #include <mutex>
-#include <condition_variable>
 
 class one_shot {
 public:

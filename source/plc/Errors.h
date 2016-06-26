@@ -1,9 +1,6 @@
 #ifndef ERRORS_H
 #define ERRORS_H
 
-#include <string>
-#include <iostream>
-
 void emit_error(int warnNumber, std::string description, std::string info);
 
 #define MAKE_ERROR(NAME, DESCRIPTION) inline void emit_##NAME(std::string info) { emit_error(__LINE__ + firstErrorOffset, #DESCRIPTION, info); }

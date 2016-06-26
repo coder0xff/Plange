@@ -7,10 +7,10 @@ class Thread;
 class ExecutionContext
 {
 public:
-	ExecutionContext();
+	ExecutionContext(Scope& scope, Thread& creatingThread);
 	~ExecutionContext();
-	Scope * scope;
-	Thread * creatingThread;
+	Scope & scope;
+	Thread & creating_thread;
 	void continue_();
 };
 

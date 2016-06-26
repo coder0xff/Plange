@@ -1,7 +1,6 @@
 #include <algorithm>
 
 #include "parlex/details/context.hpp"
-#include "logging.hpp"
 #include "parlex/state_machine.hpp"
 #include "parlex/details/subjob.hpp"
 

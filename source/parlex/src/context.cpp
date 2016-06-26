@@ -93,7 +93,7 @@ bool context_ref::is_null() const {
 	if (!rc) {
 		return true;
 	} else {
-		if (!(context *)rc->c) {
+		if (!static_cast<context *>(rc->c)) {
 			std::cerr << "ERROR: dangling ref id: " << id << ", context id: " << rc->id;
 			raise(SIGABRT);
 		}
@@ -131,10 +131,9 @@ std::unique_ptr<match> context_ref::from_transition() const {
 	context* temp = rc->c;
 	assert(temp);
 	if (temp->fromTransition) {
-		return std::unique_ptr<match>(new match(*temp->fromTransition));
-	} else {
-		return std::unique_ptr<match>();
+		return std::make_unique<match>(*temp->fromTransition);
 	}
+	return std::unique_ptr<match>();
 }
 
 std::vector<match> context_ref::result() const {

@@ -10,7 +10,7 @@
 namespace parlex {
 namespace builtins {
 
-parlex::grammar wirth("root");
+grammar wirth("root");
 
 }
 }
@@ -20,11 +20,14 @@ namespace {
 class not_newline_t : public parlex::terminal {
 public:
 	virtual ~not_newline_t() = default;
-	virtual bool test(std::u32string const & document, size_t documentPosition) const final {
-		return documentPosition < document.length() && document[documentPosition] != (char32_t)'\n';
+
+	bool test(std::u32string const & document, size_t documentPosition) const override final {
+		return documentPosition < document.length() && document[documentPosition] != static_cast<char32_t>('\n');
 	}
-	virtual size_t get_length() const final { return 1; }
-	virtual std::string get_id() const final { return "not_newline"; }
+
+	size_t get_length() const override final { return 1; }
+
+	std::string get_id() const override final { return "not_newline"; }
 } not_newline;
 
 
@@ -144,7 +147,7 @@ std::shared_ptr<parlex::details::behavior_node> process_factor(std::u32string do
 		}
 		return q;
 	}
-	else if (underlying == &parlex::builtins::c_string) {
+	if (underlying == &parlex::builtins::c_string) {
 		std::u32string temp = parlex::builtins::c_string_t::extract(document, p[0], asg);
 
 		auto i = literalNodes.find(temp);
@@ -157,24 +160,20 @@ std::shared_ptr<parlex::details::behavior_node> process_factor(std::u32string do
 		}
 		return l;
 	}
-	else {
-		std::shared_ptr<parlex::match> expression(new parlex::match(p[1]));
-		if (&expression->r == &whiteSpaceDfa) {
-			expression.reset(new parlex::match(p[2]));
-		}
-		if (underlying == &openSquare) {
-			return std::shared_ptr<parlex::details::behavior_node>(new parlex::details::optional(process_expression(document, *expression, asg, literalNodes, productionNodes)));
-		}
-		else if (underlying == &openCurly) {
-			return std::shared_ptr<parlex::details::behavior_node>(new parlex::details::repetition(process_expression(document, *expression, asg, literalNodes, productionNodes)));
-		}
-		else if (underlying == &openParen) {
-			return process_expression(document, *expression, asg, literalNodes, productionNodes);
-		}
-		else {
-			throw;
-		}
+	std::shared_ptr<parlex::match> expression(new parlex::match(p[1]));
+	if (&expression->r == &whiteSpaceDfa) {
+		expression.reset(new parlex::match(p[2]));
 	}
+	if (underlying == &openSquare) {
+		return std::static_pointer_cast<parlex::details::behavior_node>(std::make_shared<parlex::details::optional>(process_expression(document, *expression, asg, literalNodes, productionNodes)));
+	}
+	if (underlying == &openCurly) {
+		return std::static_pointer_cast<parlex::details::behavior_node>(std::make_shared<parlex::details::repetition>(process_expression(document, *expression, asg, literalNodes, productionNodes)));
+	}
+	if (underlying == &openParen) {
+		return process_expression(document, *expression, asg, literalNodes, productionNodes);
+	}
+	throw;
 }
 
 std::shared_ptr<parlex::details::behavior_node> process_term(std::u32string document, parlex::match const & term, parlex::abstract_syntax_graph const & asg, std::map<std::u32string, std::shared_ptr<parlex::details::literal>> & literalNodes, std::map<std::string, std::shared_ptr<parlex::details::production>> & productionNodes) {
@@ -189,13 +188,11 @@ std::shared_ptr<parlex::details::behavior_node> process_term(std::u32string docu
 	if (factors.size() == 1) {
 		return process_factor(document, factors[0], asg, literalNodes, productionNodes);
 	}
-	else {
-		parlex::details::sequence *sequence = new parlex::details::sequence;
-		for (parlex::match const & factor : factors) {
-			sequence->children.push_back(process_factor(document, factor, asg, literalNodes, productionNodes));
-		}
-		return std::shared_ptr<parlex::details::behavior_node>(sequence);
+	parlex::details::sequence *sequence = new parlex::details::sequence;
+	for (parlex::match const & factor : factors) {
+		sequence->children.push_back(process_factor(document, factor, asg, literalNodes, productionNodes));
 	}
+	return std::shared_ptr<parlex::details::behavior_node>(sequence);
 }
 
 std::shared_ptr<parlex::details::behavior_node> process_expression(std::u32string document, parlex::match const & expression, parlex::abstract_syntax_graph const & asg, std::map<std::u32string, std::shared_ptr<parlex::details::literal>> & literalNodes, std::map<std::string, std::shared_ptr<parlex::details::production>> & productionNodes) {
@@ -210,13 +207,11 @@ std::shared_ptr<parlex::details::behavior_node> process_expression(std::u32strin
 	if (terms.size() == 1) {
 		return process_term(document, terms[0], asg, literalNodes, productionNodes);
 	}
-	else {
-		parlex::details::choice *choice = new parlex::details::choice;
-		for (parlex::match const & term : terms) {
-			choice->children.push_back(process_term(document, term, asg, literalNodes, productionNodes));
-		}
-		return std::shared_ptr<parlex::details::behavior_node>(choice);
+	parlex::details::choice *choice = new parlex::details::choice;
+	for (parlex::match const & term : terms) {
+		choice->children.push_back(process_term(document, term, asg, literalNodes, productionNodes));
 	}
+	return std::shared_ptr<parlex::details::behavior_node>(choice);
 }
 
 std::shared_ptr<parlex::details::behavior_node> process_production(std::u32string document, parlex::match const & production, parlex::abstract_syntax_graph const & asg) {
@@ -234,7 +229,7 @@ std::shared_ptr<parlex::details::behavior_node> process_production(std::u32strin
 
 namespace parlex {
 
-grammar load_grammar(std::string const & nameOfMain, std::u32string const & document, std::map<std::string, parlex::associativity> const & associativities, std::set<std::string> const & greedyNames) {
+grammar load_grammar(std::string const & nameOfMain, std::u32string const & document, std::map<std::string, associativity> const & associativities, std::set<std::string> const & greedyNames) {
 	parser p;
 	abstract_syntax_graph asg = p.parse(builtins::wirth, document);
 	std::string check = asg.to_dot();
@@ -243,7 +238,7 @@ grammar load_grammar(std::string const & nameOfMain, std::u32string const & docu
 	std::map<std::string, std::shared_ptr<details::behavior_node>> trees;
 	for (match const & entry : top) {
 		if (&entry.r == &productionDfa) {
-			std::shared_ptr<parlex::details::behavior_node> behavior = process_production(document, entry, asg);
+			std::shared_ptr<details::behavior_node> behavior = process_production(document, entry, asg);
 			match const & namePart = (*asg.permutations[entry].begin())[0];
 			std::string name = to_utf8(document.substr(namePart.document_position, namePart.consumed_character_count));
 			recognizer const * dontCare;

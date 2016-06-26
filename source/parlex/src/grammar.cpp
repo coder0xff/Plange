@@ -1,5 +1,6 @@
 #include "parlex/grammar.hpp"
 
+#include <algorithm>
 #include <cassert>
 #include <iostream>
 #include <sstream>
@@ -12,7 +13,7 @@ namespace parlex {
 
 	grammar::grammar(std::string const & nameOfMain) : main_production_name(nameOfMain) {}
 
-	grammar::grammar(std::string const & nameOfMain, std::map<std::string, std::shared_ptr<details::behavior_node>> const & trees, std::map<std::string, parlex::associativity> const & associativities, std::set<std::string> const & greedyNames) : main_production_name(nameOfMain)
+	grammar::grammar(std::string const & nameOfMain, std::map<std::string, std::shared_ptr<details::behavior_node>> const & trees, std::map<std::string, associativity> const & associativities, std::set<std::string> const & greedyNames) : main_production_name(nameOfMain)
 	{
 		std::map<std::string, details::intermediate_nfa> dfas;
 		for (auto const & nameAndBehaviorNode : trees) {
@@ -77,16 +78,16 @@ namespace parlex {
 		for (auto const & nameAndDfa : reorderedDfas) {
 			std::string const & name = nameAndDfa.first;
 			details::intermediate_nfa const & dfa = nameAndDfa.second;
-			associativity assoc = associativity::none;
+			associativity assoc = none;
 			auto const & i = associativities.find(name);
 			if (i != associativities.end()) {
 				assoc = i->second;
 			}
 			if (greedyNames.count(name) > 0) {
-				productions.emplace(std::piecewise_construct, std::forward_as_tuple(name), std::forward_as_tuple(name, *dfa.startStates.begin(), dfa.acceptStates.size(), builtins::greedy, assoc));
+				productions.emplace(std::piecewise_construct, forward_as_tuple(name), forward_as_tuple(name, *dfa.startStates.begin(), dfa.acceptStates.size(), builtins::greedy, assoc));
 			}
 			else {
-				productions.emplace(std::piecewise_construct, std::forward_as_tuple(name), std::forward_as_tuple(name, *dfa.startStates.begin(), dfa.acceptStates.size(), assoc));
+				productions.emplace(std::piecewise_construct, forward_as_tuple(name), forward_as_tuple(name, *dfa.startStates.begin(), dfa.acceptStates.size(), assoc));
 			}
 		}
 
@@ -96,9 +97,8 @@ namespace parlex {
 			details::intermediate_nfa const & dfa = nameAndDfa.second;
 			state_machine & sm = productions.find(name)->second;
 			auto transitions = dfa.get_transitions();
-			std::map<std::u32string, builtins::string_terminal *> literalsMap;
 			for (auto const & t : transitions) {
-				recognizer const & r = t.symbol->get_recognizer(productions, literals, literalsMap);
+				recognizer const & r = t.symbol->get_recognizer(productions, literals);
 				sm.add_transition(t.from, r, t.to);
 			}
 		}
@@ -106,8 +106,8 @@ namespace parlex {
 
 	grammar::grammar(grammar const & other) : main_production_name(other.main_production_name), literals(other.literals) {
 		std::map<recognizer const *, recognizer const *> recognizersMap;
-		for (std::list<parlex::builtins::string_terminal>::const_iterator i = other.literals.begin(), j = literals.begin(); j != literals.end();) {
-			recognizersMap[(recognizer *)&(*(i++))] = (recognizer *)&(*(j++));
+		for (std::map<std::u32string, builtins::string_terminal>::const_iterator i = other.literals.begin(), j = literals.begin(); j != literals.end();) {
+			recognizersMap[static_cast<recognizer const *>(&i++->second)] = static_cast<recognizer const *>(&j++->second);
 		}
 
 		for (auto const & nameAndStateMachine : other.productions) {
@@ -117,16 +117,16 @@ namespace parlex {
 			if (sm.get_filter() != nullptr) {
 				emplaceResult = productions.emplace(
 					std::piecewise_construct,
-					std::forward_as_tuple(name),
-					std::forward_as_tuple(name, sm.get_start_state(), sm.get_accept_state_count(), *sm.get_filter(), sm.get_associativity()));
+					forward_as_tuple(name),
+					forward_as_tuple(name, sm.get_start_state(), sm.get_accept_state_count(), *sm.get_filter(), sm.get_associativity()));
 			}
 			else {
 				emplaceResult = productions.emplace(
 					std::piecewise_construct,
-					std::forward_as_tuple(name),
-					std::forward_as_tuple(name, sm.get_accept_state_count(), sm.get_associativity()));
+					forward_as_tuple(name),
+					forward_as_tuple(name, sm.get_accept_state_count(), sm.get_associativity()));
 			}
-			recognizersMap[(recognizer *)&sm] = (recognizer *)&(emplaceResult.first->second);
+			recognizersMap[static_cast<recognizer const *>(&sm)] = static_cast<recognizer const *>(&emplaceResult.first->second);
 		}
 
 		for (auto const & nameAndStateMachine : other.productions) {
@@ -156,8 +156,11 @@ namespace parlex {
 	}
 
 	builtins::string_terminal & grammar::add_literal(std::u32string contents) {
-		literals.emplace_back(contents);
-		return literals.back();
+		auto result = literals.emplace(std::piecewise_construct, forward_as_tuple(contents), forward_as_tuple(contents));
+		if (!result.second) {
+			throw "literal already added.";
+		}
+		return result.first->second;
 	}
 
 	void grammar::add_precedence(state_machine const & productionA, state_machine const & productionB)
@@ -181,22 +184,27 @@ namespace parlex {
 		return precedences;
 	}
 
+	std::map<std::u32string, builtins::string_terminal> const & grammar::get_literals() const
+	{
+		return literals;
+	}
+
 	state_machine & grammar::add_production(std::string id, size_t startState, size_t acceptStateCount, associativity assoc) {
-		return productions.emplace(std::piecewise_construct, std::forward_as_tuple(id), std::forward_as_tuple(id, startState, acceptStateCount, assoc)).first->second;
+		return productions.emplace(std::piecewise_construct, forward_as_tuple(id), forward_as_tuple(id, startState, acceptStateCount, assoc)).first->second;
 	}
 
 	state_machine & grammar::add_production(std::string id, size_t startState, size_t acceptStateCount, filter_function const & filter, associativity assoc) {
-		return productions.emplace(std::piecewise_construct, std::forward_as_tuple(id), std::forward_as_tuple(id, startState, acceptStateCount, filter, assoc)).first->second;
+		return productions.emplace(std::piecewise_construct, forward_as_tuple(id), forward_as_tuple(id, startState, acceptStateCount, filter, assoc)).first->second;
 	}
 
 void print_sorted_lines(std::ostream & os, std::string lines) {
 	std::stringstream ss(lines);
 	std::string to;
 	std::vector<std::string> splitLines;
-	while (std::getline(ss, to, '\n')) {
+	while (getline(ss, to, '\n')) {
 		splitLines.push_back(to);
 	}
-	std::sort(splitLines.begin(), splitLines.end());
+	sort(splitLines.begin(), splitLines.end());
 	for (std::string const & s : splitLines) {
 		os << s << '\n';
 	}
@@ -215,7 +223,7 @@ void grammar::generate_cpp(std::string grammarName, std::string nameOfMain, std:
 	hpp << "\n";
 	hpp << "#endif\n";
 
-	std::map<recognizer *, std::string> recognizerToStringMap;
+	std::map<recognizer const *, std::string> recognizerToStringMap;
 	std::set<std::string> sortedBuiltInNames;
 	for (auto const & entry : builtins::get_builtins_table()) {
 		sortedBuiltInNames.insert(entry.first);
@@ -236,27 +244,27 @@ void grammar::generate_cpp(std::string grammarName, std::string nameOfMain, std:
 	cpp << "\n";
 
 	int i = 0;
-	std::map<std::u32string, parlex::builtins::string_terminal const *> contentToLiterals;
+	std::map<std::u32string, builtins::string_terminal const *> contentToLiterals;
 	std::vector<std::u32string> sortedContentStrings;
-	for (parlex::builtins::string_terminal const & literal : literals) {
-		contentToLiterals[literal.get_content()] = &literal;
+	for (auto const & entry : literals) {
+		contentToLiterals[entry.second.get_content()] = &entry.second;
 	}
 	for (auto const & entry : contentToLiterals) {
 		sortedContentStrings.push_back(entry.first);
 	}
-	std::sort(sortedContentStrings.begin(), sortedContentStrings.end());
+	sort(sortedContentStrings.begin(), sortedContentStrings.end());
 	for (std::u32string content : sortedContentStrings) {
-		parlex::builtins::string_terminal const & literal = *contentToLiterals[content];
+		builtins::string_terminal const & literal = *contentToLiterals[content];
 		std::ostringstream nameStream;
 		nameStream << "literal" << i;
 		cpp << "\tstatic parlex::builtins::string_terminal & " << nameStream.str() << " = g.add_literal(U" << enquote(to_utf8(literal.get_content())) << ");\n";
-		recognizerToStringMap[(recognizer *)&literal] = nameStream.str();
+		recognizerToStringMap[static_cast<recognizer const *>(&literal)] = nameStream.str();
 		i++;
 	}
-	for (parlex::builtins::string_terminal const & literal : literals) {
-		parlex::builtins::string_terminal const & chosenLiteral = *contentToLiterals[literal.get_content()];
-		std::string chosenName = recognizerToStringMap[(recognizer *)&chosenLiteral];
-		recognizerToStringMap[(recognizer *)&literal] = chosenName;
+	for (auto const & entry : literals) {
+		builtins::string_terminal const & chosenLiteral = *contentToLiterals[entry.second.get_content()];
+		std::string chosenName = recognizerToStringMap[static_cast<recognizer const *>(&chosenLiteral)];
+		recognizerToStringMap[static_cast<recognizer const *>(&entry.second)] = chosenName;
 	}
 	cpp << "\n";
 
@@ -265,16 +273,16 @@ void grammar::generate_cpp(std::string grammarName, std::string nameOfMain, std:
 		state_machine const & sm = production.second;
 		std::string associativityString = "parlex::associativity::";
 		switch (sm.get_associativity()) {
-		case associativity::none:
+		case none:
 			associativityString += "none";
 			break;
-		case associativity::any:
+		case any:
 			associativityString += "any";
 			break;
-		case associativity::left:
+		case left:
 			associativityString += "left";
 			break;
-		case associativity::right:
+		case right:
 			associativityString += "right";
 			break;
 		}
@@ -283,7 +291,7 @@ void grammar::generate_cpp(std::string grammarName, std::string nameOfMain, std:
 		} else {
 			cpp << "\tstatic parlex::state_machine & " << id << " = g.add_production(\"" << id << "\", " << sm.get_start_state() << ", " << sm.get_accept_state_count() << ", " << associativityString << ");\n";
 		}
-		recognizerToStringMap[(recognizer *)&sm] = id;
+		recognizerToStringMap[static_cast<recognizer const *>(&sm)] = id;
 	}
 	cpp << "\n";
 
@@ -296,12 +304,12 @@ void grammar::generate_cpp(std::string grammarName, std::string nameOfMain, std:
 		std::string const & id = production.first;
 		state_machine const & sm = production.second;
 		auto const states = sm.get_states();
-		for (unsigned int i = 0; i < states.size(); ++i) {
-			auto const & state = states[i];
+		for (unsigned int j = 0; j < states.size(); ++j) {
+			auto const & state = states[j];
 			for (auto const & transitionAndToState : state) {
 				recognizer const & transition = transitionAndToState.first;
 				auto const & toState = transitionAndToState.second;
-				buffer << "\t\t" << id << ".add_transition(" << i << ", " << recognizerToStringMap[const_cast<recognizer *>(&transition)] << ", " << toState << ");\n";
+				buffer << "\t\t" << id << ".add_transition(" << j << ", " << recognizerToStringMap[const_cast<recognizer *>(&transition)] << ", " << toState << ");\n";
 			}
 		}
 		print_sorted_lines(cpp, buffer.str());

@@ -5,7 +5,7 @@ class Statement
 {
 public:
 	Statement();
-	~Statement();
+	virtual ~Statement();
 };
 
 #endif

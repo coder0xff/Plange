@@ -54,6 +54,12 @@
     <ClInclude Include="Warnings.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Assignment.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Relation.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="plange_grammar.cpp">
@@ -96,6 +102,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Warnings.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Assignment.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Relation.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

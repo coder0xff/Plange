@@ -5,6 +5,7 @@
 #include "parlex/parser.hpp"
 #include "plange_grammar.hpp"
 #include "Errors.h"
+#include "Scope.h"
 
 SourceCode::SourceCode(std::string const & pathname, std::u32string const & document, parlex::parser & parser) : graph(parser.parse(get_plange(), document))
 {
@@ -43,6 +44,7 @@ SourceCode::SourceCode(std::string const & pathname, std::u32string const & docu
 		}
 	}
 
+	scope.reset(new Scope(*this));
 
 }
 

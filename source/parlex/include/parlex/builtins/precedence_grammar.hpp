@@ -3,7 +3,6 @@
 
 #include "parlex/grammar.hpp"
 #include "parlex/builtins.hpp"
-#include "parlex/precedence_collection.hpp"
 
 namespace parlex {
 namespace builtins {

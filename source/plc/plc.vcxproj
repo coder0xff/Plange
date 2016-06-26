@@ -117,12 +117,12 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>.;../utilities;..\parlex\include;C:\Users\Brent\Desktop\llvm-3.8.0.src\include;C:\Users\Brent\Desktop\llvm-3.8.0\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.;../utilities;..\parlex\include;$(HOMEDRIVE)$(HOMEPATH)\llvm-3.8.0.src\include;$(HOMEDRIVE)$(HOMEPATH)\llvm-3.8.0\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <TreatWarningAsError>true</TreatWarningAsError>
       <PreprocessorDefinitions>_MBCS;_SCL_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>C:\Users\Brent\Desktop\llvm-3.8.0\Debug\lib\LLVMCore.lib;C:\Users\Brent\Desktop\llvm-3.8.0\Debug\lib\LLVMSupport.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>$(HOMEDRIVE)$(HOMEPATH)\llvm-3.8.0\Debug\lib\LLVMCore.lib;$(HOMEDRIVE)$(HOMEPATH)\llvm-3.8.0\Debug\lib\LLVMSupport.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='plcDebug|Win32'">
@@ -130,12 +130,12 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>.;../utilities;..\parlex\include;C:\Users\Brent\Desktop\llvm-3.8.0.src\include;C:\Users\Brent\Desktop\llvm-3.8.0\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.;../utilities;..\parlex\include;$(HOMEDRIVE)$(HOMEPATH)\llvm-3.8.0.src\include;$(HOMEDRIVE)$(HOMEPATH)\llvm-3.8.0\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <TreatWarningAsError>true</TreatWarningAsError>
       <PreprocessorDefinitions>_MBCS;_SCL_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>C:\Users\Brent\Desktop\llvm-3.8.0\Debug\lib\LLVMCore.lib;C:\Users\Brent\Desktop\llvm-3.8.0\Debug\lib\LLVMSupport.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>$(HOMEDRIVE)$(HOMEPATH)\llvm-3.8.0\Debug\lib\LLVMCore.lib;$(HOMEDRIVE)$(HOMEPATH)\llvm-3.8.0\Debug\lib\LLVMSupport.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -165,13 +165,13 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>.;../utilities;..\parlex\include;C:\Users\Brent\Desktop\llvm-3.8.0.src\include;C:\Users\Brent\Desktop\llvm-3.8.0\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.;../utilities;..\parlex\include;$(HOMEDRIVE)$(HOMEPATH)\llvm-3.8.0.src\include;$(HOMEDRIVE)$(HOMEPATH)\llvm-3.8.0\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_MBCS;_SCL_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>C:\Users\Brent\Desktop\llvm-3.8.0\Release\lib\LLVMCore.lib;C:\Users\Brent\Desktop\llvm-3.8.0\Release\lib\LLVMSupport.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>$(HOMEDRIVE)$(HOMEPATH)\llvm-3.8.0\Release\lib\LLVMCore.lib;$(HOMEDRIVE)$(HOMEPATH)\llvm-3.8.0\Release\lib\LLVMSupport.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -196,11 +196,13 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Assertion.h" />
+    <ClInclude Include="Assignment.h" />
     <ClInclude Include="Constant.h" />
     <ClInclude Include="Errors.h" />
     <ClInclude Include="ExecutionContext.h" />
     <ClInclude Include="FunctionModel.h" />
     <ClInclude Include="plange_grammar.hpp" />
+    <ClInclude Include="Relation.h" />
     <ClInclude Include="Scope.h" />
     <ClInclude Include="SideEffect.h" />
     <ClInclude Include="SourceCode.h" />
@@ -211,12 +213,14 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Assertion.cpp" />
+    <ClCompile Include="Assignment.cpp" />
     <ClCompile Include="Constant.cpp" />
     <ClCompile Include="Errors.cpp" />
     <ClCompile Include="ExecutionContext.cpp" />
     <ClCompile Include="FunctionModel.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="plange_grammar.cpp" />
+    <ClCompile Include="Relation.cpp" />
     <ClCompile Include="Scope.cpp" />
     <ClCompile Include="SideEffect.cpp" />
     <ClCompile Include="SourceCode.cpp" />

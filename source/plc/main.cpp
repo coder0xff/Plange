@@ -17,7 +17,7 @@
 std::string realpath(std::string fileName) {
 	struct free_delete
 	{
-		void operator()(char * x) { free((void *)x); }
+		void operator()(char * x) const { free(static_cast<void *>(x)); }
 	};
 
 #ifdef _MSC_VER
@@ -70,13 +70,7 @@ int main(int argc, const char* argv[]) {
 	for (auto const & nameAndParse : parses) {
 		std::string const & pathname = nameAndParse.first;
 		SourceCode const & source = *nameAndParse.second;
-		parlex::abstract_syntax_graph const & asg = source.graph;
-		parlex::state_machine const & statementProduction = get_plange().get_productions().find("STATEMENT")->second;
-		for (parlex::match const & m : *asg.permutations.find(asg.root)->second.begin()) {
-			if (&m.r == &statementProduction) {
-				asg.permutations.find(m)->second.begin();
-			}
-		}
+
 	}
 
 	return 0;

@@ -16,38 +16,38 @@
 // presents a commented implementation of an algorithm
 // for manipulating data structures representing the
 // "version numbers" of software. The algorithm takes
-// a list of version pairs (tuples 'int * int', for major and
+// a array of version pairs (tuples 'int * int', for major and
 // minor respectively):
 
-input := [ // start a list
-    (0,5), // version 0.5
-    (1,0), // version 1.0
-    (1,1), // version 1.1
-    (2,0)  // version 2.0
-];         // finish the list
+input := [ // start an array
+    (| 0, 5 |), // tuple for version 0.5
+    (| 1, 0 |), // version 1.0
+    (| 1, 1 |), // version 1.1
+    (| 2, 0 |)  // version 2.0
+];         // finish the array
 
-expected := { 0: {5}, 1: {0,1}, 2: {0} };
+// The structure of the result object
+Result_t := Map<Int, Set<Int>>;
 
-// The structure of the result object - the tree above:
-Result_t := Map&lt;Int, Set&lt;Int&gt;&gt;;
+<Result_t> expected := { 0: {|5|}, 1: {|0,1|}, 2: {|0|} };
 
 // A signature for a tail recursive function that builds the result:
-Recursive_function_t := Result_t * List&lt;Int * Int&gt; → Result_t;
+Recursive_function_t := Result_t * List<Int * Int> → Result_t;
 
 // The algorithm
-&lt;Recursive_function_t&gt; listToTree :=
-    (state, ((major, minor):tail) {
-        &lt;Set&lt;Int&gt;&gt; s := state.get_or_add(major, Set&lt;Int&gt;());
+<Recursive_function_t> listToTree :=
+    (state, (|major, minor|)&tail) {
+        <Set<Int>> s := state.get_or_add(major, Set<Int>());
         s.add(minor);
         return listToTree(state, tail);
     } |
 
     (state, []) { return state; } |
 
-    (List&lt;Int * Int&gt; version_pairs) {
+    (<List<Int * Int>> version_pairs) {
         return listToTree({}, version_pairs);
     };
-    
+
 assert(listToTree(input) = expected);</pre>
         </div>
 

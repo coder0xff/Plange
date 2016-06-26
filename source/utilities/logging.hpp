@@ -1,7 +1,6 @@
 #ifndef LOGGING_HPP
 #define LOGGING_HPP
 
-#include <string>
 #include <sstream>
 #include <thread>
 

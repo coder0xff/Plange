@@ -7,18 +7,17 @@
 #include "Assertion.h"
 #include "Statement.h"
 #include "Variable.h"
-#include "ExecutionContext.h"
 #include "FunctionModel.h"
 #include "SideEffect.h"
 
 class Scope
 {
 public:
-	Scope(SourceCode & source);
+	explicit Scope(SourceCode & source);
 	~Scope();
 	Scope * parent;
 	std::vector<Scope> children;
-	SourceCode sourceCode;
+	SourceCode const & sourceCode;
 	std::vector<Constant> constants;
 	std::vector<Assertion> assertions;
 	std::vector<Statement> statements;

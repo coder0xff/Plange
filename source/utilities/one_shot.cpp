@@ -7,8 +7,8 @@ void one_shot::go(std::function<void()> func)
 	if (!state) {
 		std::unique_lock<std::mutex> lock(m);
 		if (!state) {
-			state = true;
 			func();
+			state = true;
 		}
 	}
 }

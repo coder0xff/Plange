@@ -2,9 +2,7 @@
 #define SUBJOB_HPP
 
 #include <list>
-#include <map>
 #include <mutex>
-#include <set>
 #include <atomic>
 
 #include "parlex/match.hpp"

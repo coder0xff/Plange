@@ -7,11 +7,9 @@
 
 #include "parlex/abstract_syntax_graph.hpp"
 #include "parlex/builtins.hpp"
-#include "logging.hpp"
 #include "parlex/parser.hpp"
 #include "parlex/state_machine.hpp"
 #include "utils.hpp"
-#include "perf_timer.hpp"
 
 #define PLANGE_ROOT "C:\\Users\\Brent\\Dropbox\\Plange\\"
 
@@ -650,7 +648,7 @@ int main(void) {
 	name(); \
 	std::cout << "********** " << #name << " completed **********\n";
 
-	RUN_TEST(parser_test_1);
+	/*RUN_TEST(parser_test_1);
 	RUN_TEST(parser_test_2);
 	RUN_TEST(parser_test_3);
 	RUN_TEST(parser_test_4);
@@ -686,6 +684,6 @@ int main(void) {
 	RUN_TEST(precedence_test_2);
 	RUN_TEST(precedence_test_3);
 	RUN_TEST(associativity_test_1);
-	RUN_TEST(full_test_1);
-	//RUN_TEST(generate_plange_parser);
+	RUN_TEST(full_test_1);*/
+	RUN_TEST(generate_plange_parser);
 }

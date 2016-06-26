@@ -72,14 +72,14 @@ std::u16string to_utf16(const std::string &s)
 {
 	std::wstring_convert<std::codecvt_utf8<int16_t>, int16_t> convert;
 	auto asInt = convert.from_bytes(s);
-	return std::u16string((char16_t const *)asInt.data(), asInt.length());
+	return std::u16string(reinterpret_cast<char16_t const *>(asInt.data()), asInt.length());
 }
 
 std::u32string to_utf32(const std::string &s)
 {
 	std::wstring_convert<std::codecvt_utf8<int32_t>, int32_t> convert;
 	auto asInt = convert.from_bytes(s);
-	return std::u32string((char32_t *)asInt.data(), asInt.length());
+	return std::u32string(reinterpret_cast<char32_t const *>(asInt.data()), asInt.length());
 }
 
 #else
@@ -146,7 +146,7 @@ std::u32string read_with_bom(std::istream & src)
 	for (unsigned int i = 0; i < boms.size(); ++i) {
 		std::string testBom = boms[i];
 		if (buffer.compare(0, testBom.length(), testBom) == 0) {
-			enc = (encoding)i;
+			enc = encoding(i);
 			buffer = buffer.substr(testBom.length());
 			break;
 		}
@@ -161,7 +161,7 @@ std::u32string read_with_bom(std::istream & src)
 		int count = buffer.length() / 4;
 		std::u32string temp = std::u32string(count, 0);
 		for (int i = 0; i < count; ++i) {
-			temp[i] = (char32_t)(buffer[i * 4 + 3] << 0 | buffer[i * 4 + 2] << 8 | buffer[i * 4 + 1] << 16 | buffer[i * 4 + 0] << 24);
+			temp[i] = static_cast<char32_t>(buffer[i * 4 + 3] << 0 | buffer[i * 4 + 2] << 8 | buffer[i * 4 + 1] << 16 | buffer[i * 4 + 0] << 24);
 		}
 		return temp;
 	}
@@ -173,7 +173,7 @@ std::u32string read_with_bom(std::istream & src)
 		int count = buffer.length() / 4;
 		std::u32string temp = std::u32string(count, 0);
 		for (int i = 0; i < count; ++i) {
-			temp[i] = (char32_t)(buffer[i * 4 + 0] << 0 | buffer[i * 4 + 1] << 8 | buffer[i * 4 + 2] << 16 | buffer[i * 4 + 3] << 24);
+			temp[i] = static_cast<char32_t>(buffer[i * 4 + 0] << 0 | buffer[i * 4 + 1] << 8 | buffer[i * 4 + 2] << 16 | buffer[i * 4 + 3] << 24);
 		}
 		return temp;
 	}
@@ -185,7 +185,7 @@ std::u32string read_with_bom(std::istream & src)
 		int count = buffer.length() / 2;
 		std::u16string temp = std::u16string(count, 0);
 		for (int i = 0; i < count; ++i) {
-			temp[i] = (char16_t)(buffer[i * 2 + 1] << 0 | buffer[i * 2 + 0] << 8);
+			temp[i] = static_cast<char16_t>(buffer[i * 2 + 1] << 0 | buffer[i * 2 + 0] << 8);
 		}
 		return to_utf32(temp);
 	}
@@ -197,7 +197,7 @@ std::u32string read_with_bom(std::istream & src)
 		int count = buffer.length() / 2;
 		std::u16string temp = std::u16string(count, 0);
 		for (int i = 0; i < count; ++i) {
-			temp[i] = (char16_t)(buffer[i * 2 + 0] << 0 | buffer[i * 2 + 1] << 8);
+			temp[i] = static_cast<char16_t>(buffer[i * 2 + 0] << 0 | buffer[i * 2 + 1] << 8);
 		}
 		return to_utf32(temp);
 	}

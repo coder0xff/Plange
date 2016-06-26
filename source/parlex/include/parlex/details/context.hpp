@@ -3,10 +3,8 @@
 
 #include <memory>
 #include <vector>
-#include <atomic>
 
 #include "parlex/match.hpp"
-#include "parlex/match_class.hpp"
 #include "parlex/permutation.hpp"
 
 namespace parlex {

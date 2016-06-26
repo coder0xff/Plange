@@ -1,5 +1,6 @@
 #include "parlex/details/behavior.hpp"
 
+#include <algorithm>
 #include <cassert>
 #include <iterator>
 #include <sstream>
@@ -13,7 +14,13 @@
 namespace parlex {
 namespace details {
 
-intermediate_nfa choice::to_intermediate_nfa() const
+
+	choice::~choice()
+	{
+
+	}
+
+	intermediate_nfa choice::to_intermediate_nfa() const
 {
 	std::vector<intermediate_nfa> parts;
 	for (std::shared_ptr<behavior_node> const & child : children) {
@@ -35,13 +42,12 @@ intermediate_nfa literal::to_intermediate_nfa() const
 	return result;
 }
 
-recognizer const & literal::get_recognizer(std::map<std::string, parlex::state_machine> const & productions, std::list<builtins::string_terminal> & literals, std::map<std::u32string, builtins::string_terminal*> & literals_map) const {
-	auto i = literals_map.find(contents);
-	if (i == literals_map.end()) {
-		literals.emplace_back(contents);
-		return *(literals_map[contents] = &literals.back());
+recognizer const & literal::get_recognizer(std::map<std::string, parlex::state_machine> const & productions, std::map<std::u32string, builtins::string_terminal> & literals) const {
+	auto i = literals.find(contents);
+	if (i == literals.end()) {
+		return literals.emplace(std::piecewise_construct, std::forward_as_tuple(contents), std::forward_as_tuple(contents)).first->second;
 	} else {
-		return *i->second;
+		return i->second;
 	}
 }
 
@@ -49,6 +55,11 @@ std::string literal::get_id() const {
 	return to_utf8(contents);
 }
 
+
+optional::~optional()
+{
+
+}
 
 optional::optional(std::shared_ptr<behavior_node> && child) : child(std::move(child)) { child.reset(); }
 
@@ -74,7 +85,7 @@ intermediate_nfa production::to_intermediate_nfa() const
 	return result;
 }
 
-recognizer const & production::get_recognizer(std::map<std::string, state_machine> const & productions, std::list<builtins::string_terminal> & literals, std::map<std::u32string, builtins::string_terminal*> & literals_map) const {
+recognizer const & production::get_recognizer(std::map<std::string, state_machine> const & productions, std::map<std::u32string, builtins::string_terminal> & literals) const {
 	recognizer const * builtin_ptr;
 	if (builtins::resolve_builtin(name, builtin_ptr)) {
 		return *builtin_ptr;
@@ -86,6 +97,12 @@ recognizer const & production::get_recognizer(std::map<std::string, state_machin
 
 std::string production::get_id() const {
 	return name;
+}
+
+
+repetition::~repetition()
+{
+
 }
 
 repetition::repetition(std::shared_ptr<behavior_node> && child) : child(std::move(child)) { child.reset(); }
@@ -111,6 +128,12 @@ intermediate_nfa repetition::to_intermediate_nfa() const
 	return result;
 }
 
+
+sequence::~sequence()
+{
+
+}
+
 intermediate_nfa sequence::to_intermediate_nfa() const
 {
 	intermediate_nfa result;
@@ -118,7 +141,7 @@ intermediate_nfa sequence::to_intermediate_nfa() const
 	result.startStates.insert(0);
 	result.acceptStates.insert(0);
 	for (std::shared_ptr<behavior_node> const & child : children) {
-		bool anyOriginalStartIsAccept = false;
+		bool anyOriginalStartIsAccept;
 		{
 			std::set<int> intersection;
 			std::set_intersection(result.startStates.begin(), result.startStates.end(),
@@ -194,6 +217,18 @@ std::string to_dot(intermediate_nfa const & nfa) {
 	}
 	result << "}\n";
 	return result.str();
+}
+
+
+behavior_leaf::~behavior_leaf()
+{
+
+}
+
+
+behavior_node::~behavior_node()
+{
+
 }
 
 }

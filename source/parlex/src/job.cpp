@@ -11,12 +11,12 @@
 namespace parlex {
 namespace details {
 
-job::job(parser & owner, std::u32string const & document, parlex::grammar const & g, recognizer const & main) :
+job::job(parser & owner, std::u32string const & document, grammar const & g, recognizer const & main) :
   document(document),
   g(g),
   main(main),
-  owner(owner),
-  progress(0)
+  progress(0),
+  owner(owner)
 	{
 		//DBG("starting job using recognizer '", main, "'");
 
@@ -41,7 +41,7 @@ job::job(parser & owner, std::u32string const & document, parlex::grammar const 
 			//seed the parser with the root state
 			result->increment_lifetime(); //reference code A
 			owner.work.emplace(std::make_tuple(result->construct_start_state_context(0), 0));
-			owner.activeCount++;
+			++owner.activeCount;
 			//give it a tickle!
 			owner.work_cv.notify_one(); //parser::parse has mutex locked
 			result->finish_creation();
@@ -76,7 +76,7 @@ producer & job::get_producer(match_class const & matchClass) {
 				std::forward_as_tuple(matchClass),
 				std::forward_as_tuple(sj)
 			);
-			subjob * result = (subjob*)temp.first->second.get();
+			subjob * result = static_cast<subjob*>(temp.first->second.get());
 			lock.unlock();
 			if (temp.second) {
 				result->start();

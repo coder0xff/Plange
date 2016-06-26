@@ -1,6 +1,5 @@
 #include <cassert>
 #include <stack>
-#include <deque>
 
 #include "parlex/details/subjob.hpp"
 #include "parlex/parser.hpp"
@@ -9,8 +8,8 @@
 #include "parlex/permutation.hpp"
 #include "parlex/state_machine.hpp"
 #include "parlex/details/producer.hpp"
-#include "logging.hpp"
-#include "perf_timer.hpp"
+//#include "logging.hpp"
+//#include "perf_timer.hpp"
 
 //#define FORCE_RECURSION
 
@@ -66,6 +65,8 @@ parser::~parser() {
 	}
 }
 
+abstract_syntax_graph construct_result(details::job const & j, match const & m);
+
 abstract_syntax_graph parser::parse(grammar const & g, recognizer const & r, std::u32string const & document) {
 	//perf_timer timer("parse");
 	std::unique_lock<std::mutex> lock(mutex); //use the lock to make sure we see activeCount != 0
@@ -94,7 +95,7 @@ abstract_syntax_graph parser::parse(grammar const & g, std::u32string const & do
 void parser::schedule(details::context_ref const & c, int nextDfaState) {
 	//DBG("scheduling m: ", c.owner().machine.get_id(), " b:", c.owner().documentPosition, " s:", nextDfaState, " p:", c.current_document_position());
 #ifndef FORCE_RECURSION
-	activeCount++;
+	++activeCount;
 	std::unique_lock<std::mutex> lock(mutex);
 	work.emplace(std::make_tuple(c, nextDfaState));
 	work_cv.notify_one();
@@ -160,7 +161,7 @@ bool parser::handle_deadlocks(details::job const & j) const {
 	return !anyHalted;
 }
 
-bool matches_intersect(parlex::match const & left, parlex::match const & right) {
+bool matches_intersect(match const & left, match const & right) {
 	return
 		left.document_position < (right.document_position + right.consumed_character_count) &&
 		(left.document_position + left.consumed_character_count) > right.document_position;
@@ -173,8 +174,8 @@ std::set<match> getChildren(abstract_syntax_graph const & asg, match const & m) 
 		return std::set<match>();
 	}
 	for (permutation const & perm : i->second) {
-		for (match const & m : perm) {
-			result.insert(m);
+		for (match const & n : perm) {
+			result.insert(n);
 		}
 	}
 	return result;
@@ -208,9 +209,9 @@ void prune(abstract_syntax_graph & asg, std::map<match, node_props_t> & nodes, n
 	add(props.m);
 	while (!toPrune.empty()) {
 		match thisMatch = toPrune.front();
-		node_props_t & props = nodes.find(thisMatch)->second;
+		node_props_t & thisNode = nodes.find(thisMatch)->second;
 		toPrune.pop();
-		for (auto const & parentMatchAndPermutations : props.parentPermutationsByMatch) {
+		for (auto const & parentMatchAndPermutations : thisNode.parentPermutationsByMatch) {
 			match const & parentMatch = parentMatchAndPermutations.first;
 			auto const i = nodes.find(parentMatch);
 			assert(i != nodes.end());
@@ -223,7 +224,7 @@ void prune(abstract_syntax_graph & asg, std::map<match, node_props_t> & nodes, n
 				}
 			}
 		}
-		for (match const & descendentMatch : props.allDescendents) {
+		for (match const & descendentMatch : thisNode.allDescendents) {
 			auto const i = nodes.find(descendentMatch);
 			assert(i != nodes.end());
 			node_props_t & descendent = i->second;
@@ -234,7 +235,7 @@ void prune(abstract_syntax_graph & asg, std::map<match, node_props_t> & nodes, n
 			descendent.allDescendentsAndAncestors.erase(thisMatch);
 			descendent.parentPermutationsByMatch.erase(thisMatch);
 		}
-		for (match const & ancestorMatch : props.allAncestors) {
+		for (match const & ancestorMatch : thisNode.allAncestors) {
 			auto const i = nodes.find(ancestorMatch);
 			assert(i != nodes.end());
 			node_props_t & ancestor = i->second;
@@ -242,7 +243,7 @@ void prune(abstract_syntax_graph & asg, std::map<match, node_props_t> & nodes, n
 			ancestor.allDescendentsAndAncestors.erase(thisMatch);
 			ancestor.children.erase(thisMatch);
 		}
-		for (match const & intersectorMatch : props.allIntersections) {
+		for (match const & intersectorMatch : thisNode.allIntersections) {
 			auto const i = nodes.find(intersectorMatch);
 			assert(i != nodes.end());
 			node_props_t & intersector = i->second;
@@ -371,21 +372,21 @@ bool precedence_test(grammar const & g, node_props_t & a, node_props_t & b)
 	if (&a.m.r == &b.m.r) {
 		return false;
 	}
-	return g.test_precedence(*(state_machine*)&a.m.r, *(state_machine*)&b.m.r);
+	return g.test_precedence(*dynamic_cast<state_machine const *>(&a.m.r), *dynamic_cast<state_machine const *>(&b.m.r));
 }
 
-bool associativity_test(grammar const & g, node_props_t & a, node_props_t & b) {
+bool associativity_test(node_props_t & a, node_props_t & b) {
 	if (&a.m.r != &b.m.r) {
 		return false;
 	}
-	associativity const assoc = ((state_machine*)&a.m.r)->get_associativity();
+	associativity const assoc = dynamic_cast<state_machine const *>(&a.m.r)->get_associativity();
 	switch (assoc) {
-	case associativity::left:
-	case associativity::any:
+	case left:
+	case any:
 		return a.m.document_position < b.m.document_position;
-	case associativity::right:
+	case right:
 		return a.m.document_position > b.m.document_position;
-	case associativity::none:
+	case none:
 		return false;
 	}
 	throw std::exception("Invalid associativity value");
@@ -426,10 +427,10 @@ void select_trees(abstract_syntax_graph & asg, grammar const & g, std::map<match
 			}
 			//is it possibly preempted by another match that it intersects with?
 			for (match const & intersected : a.allIntersections) {
-				auto i = nodes.find(intersected);
-				assert(i != nodes.end());
-				node_props_t & b = i->second;
-				if (precedence_test(g, b, a) || associativity_test(g, b, a)) {
+				auto pair = nodes.find(intersected);
+				assert(pair != nodes.end());
+				node_props_t & b = pair->second;
+				if (precedence_test(g, b, a) || associativity_test(b, a)) {
 					prune(asg, nodes, a);
 					goto matchLoop;
 				}
@@ -438,12 +439,12 @@ void select_trees(abstract_syntax_graph & asg, grammar const & g, std::map<match
 			a.selected = true;
 			preservedIntersections = a.allIntersections;
 			for (match const & intersected : preservedIntersections) {
-				auto const & i = nodes.find(intersected);
-				if (i == nodes.end()) {
+				auto const & pair = nodes.find(intersected);
+				if (pair == nodes.end()) {
 					continue;
 				}
-				node_props_t & b = i->second;
-				if (precedence_test(g, a, b) || associativity_test(g, a, b)) {
+				node_props_t & b = pair->second;
+				if (precedence_test(g, a, b) || associativity_test(a, b)) {
 					//if it must be selected, then precedence and associativity must remove preempted intersections
 					prune(asg, nodes, b);
 				}
@@ -458,7 +459,7 @@ abstract_syntax_graph & apply_precedence_and_associativity(grammar const & g, ab
 	//short circuit if no rules are given
 	bool anyAssociativities = false;
 	for (auto const & entry : g.get_productions()) {
-		anyAssociativities = entry.second.get_associativity() != associativity::none;
+		anyAssociativities = entry.second.get_associativity() != none;
 	}
 	if (g.get_precedences().size() == 0 && !anyAssociativities) {
 		return asg;
@@ -478,23 +479,23 @@ abstract_syntax_graph & apply_precedence_and_associativity(grammar const & g, ab
 	return asg;
 }
 
-abstract_syntax_graph parser::construct_result(details::job const & j, match const & match) const {
+//Construct an ASG, and if a solution was found, prunes unreachable nodes
+abstract_syntax_graph construct_result(details::job const & j, match const & m) {
 	//perf_timer timer("construct_result");
-	abstract_syntax_graph result(match);
+	abstract_syntax_graph result(m);
 	for (auto const & pair : j.producers) {
 		details::producer const & producer = *pair.second;
 		for (auto const & pair2 : producer.match_to_permutations) {
-			struct match const & match = pair2.first;
+			struct match const & n = pair2.first;
 			std::set<permutation> const & permutations = pair2.second;
-			result.permutations[match] = permutations;
+			result.permutations[n] = permutations;
 		}
 	}
-	prune_detached(j.document.length(), result);
 	if (result.is_rooted()) {
+		prune_detached(j.document.length(), result);
 		return apply_precedence_and_associativity(j.g, result);
-	} else {
-		return result;
 	}
+	return result;
 }
 
 }

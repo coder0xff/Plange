@@ -1,8 +1,6 @@
 #ifndef STATE_MACHINE_HPP
 #define STATE_MACHINE_HPP
 
-#include <memory>
-
 #include "parlex/recognizer.hpp"
 #include "parlex/filter_function.hpp"
 #include "parlex/associativity.hpp"
