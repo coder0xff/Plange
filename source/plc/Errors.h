@@ -9,5 +9,6 @@ int constexpr firstErrorOffset = -__LINE__;
 MAKE_ERROR(AmbiguousParse, More than one interpretation of the input exists.)
 MAKE_ERROR(CouldNotParse, The document does not conform to the syntax.)
 MAKE_ERROR(CouldNotOpenFile, The file could not be opened.)
+MAKE_ERROR(Unknown, An unknown error occurred.)
 
 #endif //ERRORS_H
