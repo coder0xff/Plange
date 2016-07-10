@@ -1,4 +1,6 @@
-#pragma once
+#ifndef COMPOSITION_EXP_H
+#define COMPOSITION_EXP_H
+
 #include "BinaryOpExp.h"
 class CompositionExp :
 	public BinaryOpExp
@@ -6,5 +8,9 @@ class CompositionExp :
 public:
 	CompositionExp();
 	~CompositionExp();
+
+	std::u32string get_name() const override;
+
 };
 
+#endif //COMPOSITION_EXP_H

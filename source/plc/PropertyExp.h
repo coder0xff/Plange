@@ -1,4 +1,6 @@
-#pragma once
+#ifndef PROPERTY_EXP_H
+#define PROPERTY_EXP_H
+
 #include "Expression.h"
 class PropertyExp :
 	public Expression
@@ -8,3 +10,4 @@ public:
 	~PropertyExp();
 };
 
+#endif //PROPERTY_EXP_H

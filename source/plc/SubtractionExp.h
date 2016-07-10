@@ -1,4 +1,6 @@
-#pragma once
+#ifndef SUBTRACTION_EXP_H
+#define SUBTRACTION_EXP_H
+
 #include "BinaryOpExp.h"
 class SubtractionExp :
 	public BinaryOpExp
@@ -6,5 +8,9 @@ class SubtractionExp :
 public:
 	SubtractionExp();
 	~SubtractionExp();
+
+	std::u32string get_name() const override;
+
 };
 
+#endif //SUBTRACTION_EXP_H

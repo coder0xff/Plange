@@ -1,4 +1,6 @@
-#pragma once
+#ifndef BIT_OR_EXP_H
+#define BIT_OR_EXP_H
+
 #include "BinaryOpExp.h"
 class BitOrExp :
 	public BinaryOpExp
@@ -6,5 +8,9 @@ class BitOrExp :
 public:
 	BitOrExp();
 	~BitOrExp();
+
+	std::u32string get_name() const override;
+
 };
 
+#endif //BIT_OR_EXP_H

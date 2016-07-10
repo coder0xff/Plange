@@ -8,3 +8,13 @@ FactorialExp::FactorialExp(Expression const & subExpression) : sub_expression(su
 FactorialExp::~FactorialExp()
 {
 }
+
+std::u32string FactorialExp::get_name() const
+{
+	return U"!";
+}
+
+bool FactorialExp::get_postfix() const
+{
+	return true;
+}

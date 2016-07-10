@@ -8,6 +8,9 @@ class CompoundExp :
 public:
 	CompoundExp();
 	~CompoundExp();
+
+	std::u32string get_name() const override;
+
 };
 
 #endif //COMPOUND_EXP_H

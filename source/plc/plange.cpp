@@ -47,6 +47,12 @@ value& plange::get_Int()
 	throw;
 }
 
+value& plange::get_Int8()
+{
+	emit_NotImplemented(__FUNCTION__);
+	throw;
+}
+
 value& plange::get_Int16()
 {
 	emit_NotImplemented(__FUNCTION__);

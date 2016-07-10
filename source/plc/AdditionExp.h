@@ -7,6 +7,9 @@ class AdditionExp : public BinaryOpExp {
 public:
 	AdditionExp();
 	~AdditionExp();
+
+	std::u32string get_name() const override;
+
 };
 
 #endif //ADDITON_EXP_H

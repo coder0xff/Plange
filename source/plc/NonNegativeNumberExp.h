@@ -1,5 +1,5 @@
-#ifndef NON_NEGATIVE_NUMBER_H
-#define NON_NEGATIVE_NUMBER_H
+#ifndef NON_NEGATIVE_NUMBER_EXP_H
+#define NON_NEGATIVE_NUMBER_EXP_H
 
 #include "Expression.h"
 #include <string>
@@ -12,4 +12,4 @@ public:
 	std::u32string as_string;
 };
 
-#endif //NON_NEGATIVE_NUMBER_H
+#endif //NON_NEGATIVE_NUMBER_EXP_H

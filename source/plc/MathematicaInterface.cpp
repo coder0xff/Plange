@@ -133,7 +133,7 @@ std::string MathematicaInterface::convert(Expression const& expr, context& ctx) 
 					}
 				}
 			}*/
-		return "(" + convert(asBinaryOp->left, ctx) + to_utf8(asBinaryOp->name()) + convert(asBinaryOp->right, ctx) + ")";
+		return "(" + convert(asBinaryOp->left, ctx) + to_utf8(asBinaryOp->get_name()) + convert(asBinaryOp->right, ctx) + ")";
 	}
 	CASE(Bool) {
 		return asBool->value ? "True" : "False";
@@ -178,31 +178,31 @@ std::string MathematicaInterface::convert(Expression const& expr, context& ctx) 
 	CASE(Invocation) {
 		auto funcVal = ctx.ctx.evaluate(asInvocation->function);
 		std::string funcName = "";
-		if (funcVal == plange::get_global({}, "acos")) { funcName = "ArcCos"; }
-		if (funcVal == plange::get_global({}, "acosh")) { funcName = "ArcCosh"; }
-		if (funcVal == plange::get_global({}, "acot")) { funcName = "ArcCot"; }
-		if (funcVal == plange::get_global({}, "acoth")) { funcName = "ArcCoth"; }
-		if (funcVal == plange::get_global({}, "asin")) { funcName = "ArcSin"; }
-		if (funcVal == plange::get_global({}, "asinh")) { funcName = "ArcSinh"; }
-		if (funcVal == plange::get_global({}, "atan")) { funcName = "ArcTan"; }
-		if (funcVal == plange::get_global({}, "atanh")) { funcName = "ArcTanh"; }
-		if (funcVal == plange::get_global({}, "cos")) { funcName = "Cos"; }
-		if (funcVal == plange::get_global({}, "cosh")) { funcName = "Cosh"; }
-		if (funcVal == plange::get_global({}, "cot")) { funcName = "Cot"; }
-		if (funcVal == plange::get_global({}, "coth")) { funcName = "Coth"; }
-		if (funcVal == plange::get_global({}, "exp")) { funcName = "Exp"; }
-		if (funcVal == plange::get_global({}, "log")) { funcName = "Log"; }
-		if (funcVal == plange::get_global({}, "sin")) { funcName = "Sin"; }
-		if (funcVal == plange::get_global({}, "sinh")) { funcName = "Sinh"; }
-		if (funcVal == plange::get_global({}, "tan")) { funcName = "Tan"; }
-		if (funcVal == plange::get_global({}, "tanh")) { funcName = "Tanh"; }
-		if (funcVal == plange::get_global({}, "max")) {
+		if (funcVal == plange::get_global({}, U"acos")) { funcName = "ArcCos"; }
+		if (funcVal == plange::get_global({}, U"acosh")) { funcName = "ArcCosh"; }
+		if (funcVal == plange::get_global({}, U"acot")) { funcName = "ArcCot"; }
+		if (funcVal == plange::get_global({}, U"acoth")) { funcName = "ArcCoth"; }
+		if (funcVal == plange::get_global({}, U"asin")) { funcName = "ArcSin"; }
+		if (funcVal == plange::get_global({}, U"asinh")) { funcName = "ArcSinh"; }
+		if (funcVal == plange::get_global({}, U"atan")) { funcName = "ArcTan"; }
+		if (funcVal == plange::get_global({}, U"atanh")) { funcName = "ArcTanh"; }
+		if (funcVal == plange::get_global({}, U"cos")) { funcName = "Cos"; }
+		if (funcVal == plange::get_global({}, U"cosh")) { funcName = "Cosh"; }
+		if (funcVal == plange::get_global({}, U"cot")) { funcName = "Cot"; }
+		if (funcVal == plange::get_global({}, U"coth")) { funcName = "Coth"; }
+		if (funcVal == plange::get_global({}, U"exp")) { funcName = "Exp"; }
+		if (funcVal == plange::get_global({}, U"log")) { funcName = "Log"; }
+		if (funcVal == plange::get_global({}, U"sin")) { funcName = "Sin"; }
+		if (funcVal == plange::get_global({}, U"sinh")) { funcName = "Sinh"; }
+		if (funcVal == plange::get_global({}, U"tan")) { funcName = "Tan"; }
+		if (funcVal == plange::get_global({}, U"tanh")) { funcName = "Tanh"; }
+		if (funcVal == plange::get_global({}, U"max")) {
 			if (asInvocation->arguments.size() == 1) {
 				emit_NotImplemented("Mathematica max on collection conversion");
 			}
 			funcName = "Max";
 		}
-		if (funcVal == plange::get_global({}, "min")) {
+		if (funcVal == plange::get_global({}, U"min")) {
 			if (asInvocation->arguments.size() == 1) {
 				emit_NotImplemented("Mathematica min on collection conversion");
 			}

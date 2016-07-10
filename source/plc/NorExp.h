@@ -1,4 +1,6 @@
-#pragma once
+#ifndef NOR_EXP_H
+#define NOR_EXP_H
+
 #include "BinaryOpExp.h"
 class NorExp :
 	public BinaryOpExp
@@ -6,5 +8,9 @@ class NorExp :
 public:
 	NorExp();
 	~NorExp();
+
+	std::u32string get_name() const override;
+
 };
 
+#endif //NOR_EXP_H

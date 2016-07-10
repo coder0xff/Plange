@@ -1,4 +1,6 @@
-#pragma once
+#ifndef DO_H
+#define DO_H
+
 #include "Statement.h"
 
 class Do :
@@ -8,3 +10,5 @@ public:
 	~Do();
 	static std::unique_ptr<Statement> Build(parlex::match const& m, parlex::abstract_syntax_graph const& asg);
 };
+
+#endif //DO_H

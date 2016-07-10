@@ -1,4 +1,6 @@
-#pragma once
+#ifndef EQUALITY_EXP_H
+#define EQUALITY_EXP_H
+
 #include "BinaryOpExp.h"
 class EqualityExp :
 	public BinaryOpExp
@@ -6,5 +8,9 @@ class EqualityExp :
 public:
 	EqualityExp();
 	~EqualityExp();
+
+	std::u32string get_name() const override;
+
 };
 
+#endif //EQUALITY_EXP_H

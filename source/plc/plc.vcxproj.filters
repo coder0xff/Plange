@@ -204,9 +204,6 @@
     <ClInclude Include="RadicalExp.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="MapExpression.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="PropertyExp.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -294,9 +291,6 @@
     <ClInclude Include="BitXorExp.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="DifferenceExp.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="IntersectionExp.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -360,9 +354,6 @@
     <ClInclude Include="NotGreaterThan.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="NotLesserThan.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="SubsetExp.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -397,6 +388,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="IntegerDivisionExp.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MapExp.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="NotLesserThanExp.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -590,9 +587,6 @@
     <ClCompile Include="RadicalExp.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="MapExpression.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="PropertyExp.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -680,9 +674,6 @@
     <ClCompile Include="BitXorExp.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="DifferenceExp.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="IntersectionExp.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -746,9 +737,6 @@
     <ClCompile Include="NotGreaterThan.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="NotLesserThan.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="SubsetExp.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -783,6 +771,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="IntegerDivisionExp.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MapExp.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="NotLesserThanExp.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

@@ -1,4 +1,6 @@
-#pragma once
+#ifndef NOT_IN_EXP_H
+#define NOT_IN_EXP_H
+
 #include "BinaryOpExp.h"
 class NotInExp :
 	public BinaryOpExp
@@ -6,5 +8,9 @@ class NotInExp :
 public:
 	NotInExp();
 	~NotInExp();
+
+	std::u32string get_name() const override;
+
 };
 
+#endif //NOT_IN_EXP_H

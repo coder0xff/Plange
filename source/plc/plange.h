@@ -1,4 +1,6 @@
-#pragma once
+#ifndef PLANGE_H
+#define PLANGE_H
+
 #include "value.h"
 
 class plange
@@ -12,6 +14,7 @@ public:
 	static value& get_Float64();
 	static value& get_Float128();
 	static value& get_Int();
+	static value& get_Int8();
 	static value& get_Int16();
 	static value& get_Int32();
 	static value& get_Int64();
@@ -20,3 +23,4 @@ public:
 	static value& get_global(std::vector<std::u32string> qualifiers, std::u32string name);
 };
 
+#endif //PLANGE_H

@@ -1,4 +1,6 @@
-#pragma once
+#ifndef CONDITIONAL_EXP_H
+#define CONDITIONAL_EXP_H
+
 #include "Expression.h"
 class ConditionalExp :
 	public Expression
@@ -11,3 +13,4 @@ public:
 	Expression false_case;
 };
 
+#endif //CONDITIONAL_EXP_H

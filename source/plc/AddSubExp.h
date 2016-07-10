@@ -1,4 +1,6 @@
-#pragma once
+#ifndef ADD_SUB_EXP_H
+#define ADD_SUB_EXP_H
+
 #include "BinaryOpExp.h"
 class AddSubExp :
 	public BinaryOpExp
@@ -6,5 +8,9 @@ class AddSubExp :
 public:
 	AddSubExp();
 	~AddSubExp();
+
+	std::u32string get_name() const override;
+
 };
 
+#endif //ADD_SUB_EXP_H

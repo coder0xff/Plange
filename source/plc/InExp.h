@@ -1,4 +1,6 @@
-#pragma once
+#ifndef IN_EXP_H
+#define IN_EXP_H
+
 #include "BinaryOpExp.h"
 class InExp :
 	public BinaryOpExp
@@ -6,5 +8,9 @@ class InExp :
 public:
 	InExp();
 	~InExp();
+
+	std::u32string get_name() const override;
+
 };
 
+#endif //IN_EXP_H

@@ -1,4 +1,6 @@
-#pragma once
+#ifndef STRING_EXP_H
+#define STRING_EXP_H
+
 #include "Expression.h"
 #include <string>
 
@@ -11,3 +13,4 @@ public:
 	std::string value;
 };
 
+#endif //STRING_EXP_H

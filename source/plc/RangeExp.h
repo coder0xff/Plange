@@ -1,4 +1,6 @@
-#pragma once
+#ifndef RANGE_EXP_H
+#define RANGE_EXP_H
+
 #include "Expression.h"
 class RangeExp :
 	public Expression
@@ -8,3 +10,4 @@ public:
 	~RangeExp();
 };
 
+#endif //RANGE_EXP_H

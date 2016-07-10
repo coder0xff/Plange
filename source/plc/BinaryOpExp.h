@@ -8,7 +8,7 @@ class BinaryOpExp : public Expression {
 public:
 	BinaryOpExp();
 	~BinaryOpExp();
-	virtual std::u32string name() const = 0;
+	virtual std::u32string get_name() const = 0;
 	Expression left;
 	Expression right;
 };

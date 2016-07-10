@@ -1,4 +1,6 @@
-#pragma once
+#ifndef LOOP_H
+#define LOOP_H
+
 #include "Statement.h"
 
 class Loop :
@@ -8,3 +10,5 @@ public:
 	~Loop();
 	static std::unique_ptr<Statement> Build(parlex::match const& m, parlex::abstract_syntax_graph const& asg);
 };
+
+#endif //LOOP_H

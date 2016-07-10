@@ -1,4 +1,6 @@
-#pragma once
+#ifndef PREPEND_EXP_H
+#define PREPEND_EXP_H
+
 #include "BinaryOpExp.h"
 class PrependExp :
 	public BinaryOpExp
@@ -6,5 +8,9 @@ class PrependExp :
 public:
 	PrependExp();
 	~PrependExp();
+
+	std::u32string get_name() const override;
+
 };
 
+#endif //PREPEND_EXP_H

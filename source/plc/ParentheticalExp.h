@@ -1,5 +1,5 @@
-#ifndef PARENTHETICAL_EXP
-#define PARENTHETICAL_EXP
+#ifndef PARENTHETICAL_EXP_H
+#define PARENTHETICAL_EXP_H
 
 #include "Expression.h"
 class ParentheticalExp :
@@ -11,4 +11,4 @@ public:
 	Expression sub_expression;
 };
 
-#endif //PARENTHETICAL_EXP
+#endif //PARENTHETICAL_EXP_H

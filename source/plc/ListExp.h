@@ -1,4 +1,6 @@
-#pragma once
+#ifndef LIST_EXP_H
+#define LIST_EXP_H
+
 #include "Expression.h"
 #include <vector>
 
@@ -11,3 +13,4 @@ public:
 	std::vector<Expression> elements;
 };
 
+#endif //LIST_EXP_H

@@ -1,4 +1,6 @@
-#pragma once
+#ifndef IDENTIFIER_EXP_H
+#define IDENTIFIER_EXP_H
+
 #include "Expression.h"
 #include "value.h"
 
@@ -11,3 +13,4 @@ public:
 	value value;
 };
 
+#endif //IDENTIFIER_EXP_H

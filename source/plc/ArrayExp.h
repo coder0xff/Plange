@@ -1,4 +1,6 @@
-#pragma once
+#ifndef ARRAY_EXP_H
+#define ARRAY_EXP_H
+
 #include "Expression.h"
 #include <vector>
 
@@ -9,3 +11,5 @@ public:
 	~ArrayExp();
 	std::vector<Expression> elements;
 };
+
+#endif //ARRAY_EXP_H

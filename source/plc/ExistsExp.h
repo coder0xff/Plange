@@ -1,4 +1,6 @@
-#pragma once
+#ifndef EXISTS_EXP_H
+#define EXISTS_EXP_H
+
 #include "UnaryOpExp.h"
 class ExistsExp :
 	public UnaryOpExp
@@ -6,5 +8,10 @@ class ExistsExp :
 public:
 	ExistsExp();
 	~ExistsExp();
+
+	std::u32string get_name() const override;
+	bool get_postfix() const override;
+
 };
 
+#endif //EXISTS_EXP_H

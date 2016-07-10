@@ -69,7 +69,7 @@ CASTS = EXPRESSION {IC} "casts" {IC} EXPRESSION.
 CEILING = ("⌈" {IC} EXPRESSION {IC} "⌉") | ( "|'" {IC} EXPRESSION {IC} "'|" ).
 
 #the set construction and collections operators
-COLLECTION_OP = DIFFERENCE | INTERSECTION | SYMMETRIC_DIFFERENCE | UNION | COMPLEMENT.
+COLLECTION_OP = COMPLEMENT | INTERSECTION | SYMMETRIC_DIFFERENCE | UNION.
 
 COMPOUND = EXPRESSION {IC} "|" {IC} EXPRESSION.
 
@@ -102,9 +102,6 @@ DEFINITION_PART = IDENTIFIER {IC} ":=" {IC} EXPRESSION.
 
 DELTA = ("Δ"|"_delta_") ["^" WHOLE_NUMBER] EXPRESSION.
 
-#collection difference (similar to set difference)
-DIFFERENCE = EXPRESSION {IC} "\\" {IC} EXPRESSION.
-
 #a dimension used in dimensional analysis
 DIMENSION = IDENTIFIER | DIMENSIONAL_ANALYSIS_OP.
 
@@ -114,6 +111,8 @@ DIMENSIONAL_ANALYSIS_OP = UNIT_MULTIPLICATION | UNIT_DIVISION | UNIT_EXPONENTIAT
 #a number with a trailing dimension
 DIMENSIONAL_NUMBER = NON_NEG_NUMBER DIMENSION.
 
+#division
+#or splits the left hand side collection into a collection of collections each the size of the right hand side
 DIVISION = EXPRESSION {IC} ("÷"|"/" ) {IC} EXPRESSION.
 
 #a do while/until loop
@@ -214,7 +213,7 @@ INEQUALITY = EXPRESSION {IC} ("≠"|"/=") {IC} EXPRESSION.
 INHERITANCE_LIST = [VISIBILITY_MODIFIER {IC}] EXPRESSION {{IC} "," {IC} [VISIBILITY_MODIFIER {IC}] EXPRESSION}.
 
 #same as ⌊x/y⌋
-#or splits the left hand side collection into a collection of collections each the size of the right hand side
+#collection difference (similar to set difference)
 INTEGER_DIVISION = EXPRESSION {IC} "\\" {IC} EXPRESSION.
 
 #Collection intersection

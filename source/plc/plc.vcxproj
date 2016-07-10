@@ -220,7 +220,6 @@
     <ClInclude Include="ConditionalExp.h" />
     <ClInclude Include="CrossProductExp.h" />
     <ClInclude Include="DeltaExp.h" />
-    <ClInclude Include="DifferenceExp.h" />
     <ClInclude Include="DimensionalNumberExp.h" />
     <ClInclude Include="DivisionExp.h" />
     <ClInclude Include="DotProductExp.h" />
@@ -248,7 +247,7 @@
     <ClInclude Include="LesserThanExp.h" />
     <ClInclude Include="ListExp.h" />
     <ClInclude Include="MagnitudeExp.h" />
-    <ClInclude Include="MapExpression.h" />
+    <ClInclude Include="MapExp.h" />
     <ClInclude Include="MapsToExp.h" />
     <ClInclude Include="MemberAccessExp.h" />
     <ClInclude Include="ModulationExp.h" />
@@ -261,7 +260,7 @@
     <ClInclude Include="NotGreaterThan.h" />
     <ClInclude Include="NotHasExp.h" />
     <ClInclude Include="NotInExp.h" />
-    <ClInclude Include="NotLesserThan.h" />
+    <ClInclude Include="NotLesserThanExp.h" />
     <ClInclude Include="NullCoalesceExp.h" />
     <ClInclude Include="OrExp.h" />
     <ClInclude Include="ParentheticalExp.h" />
@@ -355,7 +354,6 @@
     <ClCompile Include="Declaration.cpp" />
     <ClCompile Include="Definition.cpp" />
     <ClCompile Include="DeltaExp.cpp" />
-    <ClCompile Include="DifferenceExp.cpp" />
     <ClCompile Include="DimensionalNumberExp.cpp" />
     <ClCompile Include="DivisionExp.cpp" />
     <ClCompile Include="Do.cpp" />
@@ -395,7 +393,7 @@
     <ClCompile Include="Loop.cpp" />
     <ClCompile Include="MagnitudeExp.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="MapExpression.cpp" />
+    <ClCompile Include="MapExp.cpp" />
     <ClCompile Include="MapsToExp.cpp" />
     <ClCompile Include="MathematicaInterface.cpp" />
     <ClCompile Include="MemberAccessExp.cpp" />
@@ -410,7 +408,7 @@
     <ClCompile Include="NotGreaterThan.cpp" />
     <ClCompile Include="NotHasExp.cpp" />
     <ClCompile Include="NotInExp.cpp" />
-    <ClCompile Include="NotLesserThan.cpp" />
+    <ClCompile Include="NotLesserThanExp.cpp" />
     <ClCompile Include="NullCoalesceExp.cpp" />
     <ClCompile Include="OrExp.cpp" />
     <ClCompile Include="ParentheticalExp.cpp" />
