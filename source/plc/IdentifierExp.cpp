@@ -2,9 +2,7 @@
 
 
 
-IdentifierExp::IdentifierExp()
-{
-}
+IdentifierExp::IdentifierExp(value & val) : val(val) {}
 
 
 IdentifierExp::~IdentifierExp()

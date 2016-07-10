@@ -13,5 +13,5 @@ NotGreaterThan::~NotGreaterThan()
 
 std::u32string NotGreaterThan::get_name() const
 {
-	return "≤";
+	return U"≤";
 }

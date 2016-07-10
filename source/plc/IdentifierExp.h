@@ -8,9 +8,9 @@ class IdentifierExp :
 	public Expression
 {
 public:
-	IdentifierExp();
+	IdentifierExp(value & val);
 	~IdentifierExp();
-	value value;
+	value val;
 };
 
 #endif //IDENTIFIER_EXP_H
