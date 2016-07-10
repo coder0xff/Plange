@@ -37,127 +37,123 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 class exec_stream_t {
 public:
-    exec_stream_t();
-    exec_stream_t( std::string const & program, std::string const & arguments );
-    template< class iterator > exec_stream_t( std::string const & program, iterator args_begin, iterator args_end );
-    
-    ~exec_stream_t();
+	exec_stream_t();
+	exec_stream_t(std::string const& program, std::string const& arguments);
+	template <class iterator>
+	exec_stream_t(std::string const& program, iterator args_begin, iterator args_end);
 
-    enum stream_kind_t { s_in=1, s_out=2, s_err=4, s_all=s_in|s_out|s_err, s_child=8  };
+	~exec_stream_t();
 
-    void set_buffer_limit( int stream_kind, std::size_t size );
-    
-    typedef unsigned long timeout_t;
-    void set_wait_timeout( int stream_kind, timeout_t milliseconds );
-    
-    void set_binary_mode( int stream_kind );
-    void set_text_mode( int stream_kind );
+	enum stream_kind_t { s_in=1, s_out=2, s_err=4, s_all=s_in | s_out | s_err, s_child=8 };
 
-    void start( std::string const & program, std::string const & arguments );
-    template< class iterator > void start( std::string const & program, iterator args_begin, iterator args_end );
-    void start( std::string const & program, char const * arg1, char const * arg2 ); // to compensate for damage from the previous one
-    void start( std::string const & program, char * arg1, char * arg2 );
-    
-    bool close_in();
-    bool close();
-    void kill();
-    int exit_code();
+	void set_buffer_limit(int stream_kind, std::size_t size);
 
-    std::ostream & in();
-    std::istream & out();
-    std::istream & err();
+	typedef unsigned long timeout_t;
+	void set_wait_timeout(int stream_kind, timeout_t milliseconds);
 
-    typedef unsigned long error_code_t;
-    
-    class error_t : public std::exception {
-    public:
-        error_t( std::string const & msg );
-        error_t( std::string const & msg,  error_code_t code );
-        ~error_t() throw();
-        virtual char const * what() const throw();
-    protected:
-        error_t();
-        void compose( std::string const & msg, error_code_t code );
+	void set_binary_mode(int stream_kind);
+	void set_text_mode(int stream_kind);
 
-        std::string m_msg;
-    };
+	void start(std::string const& program, std::string const& arguments);
+	template <class iterator>
+	void start(std::string const& program, iterator args_begin, iterator args_end);
+	void start(std::string const& program, char const* arg1, char const* arg2); // to compensate for damage from the previous one
+	void start(std::string const& program, char* arg1, char* arg2);
+
+	bool close_in();
+	bool close();
+	void kill();
+	int exit_code();
+
+	std::ostream& in();
+	std::istream& out();
+	std::istream& err();
+
+	typedef unsigned long error_code_t;
+
+	class error_t : public std::exception {
+	public:
+		error_t(std::string const& msg);
+		error_t(std::string const& msg, error_code_t code);
+		~error_t() throw();
+		virtual char const* what() const throw();
+	protected:
+		error_t();
+		void compose(std::string const& msg, error_code_t code);
+
+		std::string m_msg;
+	};
 
 private:
-    exec_stream_t( exec_stream_t const & );
-    exec_stream_t & operator=( exec_stream_t const & );
+	exec_stream_t(exec_stream_t const&);
+	exec_stream_t& operator=(exec_stream_t const&);
 
-    struct impl_t;
-    friend struct impl_t;
-    impl_t * m_impl;
+	struct impl_t;
+	friend struct impl_t;
+	impl_t* m_impl;
 
-    void exceptions( bool enable );
+	void exceptions(bool enable);
 
-// helpers for template member functions
-    void new_impl();
-   
-    class next_arg_t {
-    public:
-        virtual ~next_arg_t()
-        {
-        }
-        
-        virtual std::string const * next()=0;
-    };
-    
-    template< class iterator > class next_arg_impl_t : public next_arg_t {
-    public:
-        next_arg_impl_t( iterator args_begin, iterator args_end )
-        : m_args_i( args_begin ), m_args_end( args_end )
-        {
-        }
+	// helpers for template member functions
+	void new_impl();
 
-        virtual std::string const * next()
-        {
-            if( m_args_i==m_args_end ) {
-                return 0;
-            }else {
-                m_arg=*m_args_i;
-                ++m_args_i;
-                return &m_arg;
-            }
-        }
+	class next_arg_t {
+	public:
+		virtual ~next_arg_t() { }
 
-    private:
-        iterator m_args_i;
-        iterator m_args_end;
-        std::string m_arg;
-   };
-   
-   void start( std::string const & program, next_arg_t & next_arg );
+		virtual std::string const* next() =0;
+	};
+
+	template <class iterator>
+	class next_arg_impl_t : public next_arg_t {
+	public:
+		next_arg_impl_t(iterator args_begin, iterator args_end)
+			: m_args_i(args_begin), m_args_end(args_end) { }
+
+		virtual std::string const* next() {
+			if (m_args_i == m_args_end) {
+				return 0;
+			} else {
+				m_arg = *m_args_i;
+				++m_args_i;
+				return &m_arg;
+			}
+		}
+
+	private:
+		iterator m_args_i;
+		iterator m_args_end;
+		std::string m_arg;
+	};
+
+	void start(std::string const& program, next_arg_t& next_arg);
 };
 
-template< class iterator > inline exec_stream_t::exec_stream_t( std::string const & program, iterator args_begin, iterator args_end )
-{
-    new_impl();
-    exceptions( true );
-    start( program, args_begin, args_end );
+template <class iterator>
+inline exec_stream_t::exec_stream_t(std::string const& program, iterator args_begin, iterator args_end) {
+	new_impl();
+	exceptions(true);
+	start(program, args_begin, args_end);
 }
 
-template< class iterator > inline void exec_stream_t::start( std::string const & program, iterator args_begin, iterator args_end )
-{
-    exec_stream_t::next_arg_impl_t< iterator > next_arg( args_begin, args_end );
-    start( program, next_arg );
+template <class iterator>
+inline void exec_stream_t::start(std::string const& program, iterator args_begin, iterator args_end) {
+	exec_stream_t::next_arg_impl_t<iterator> next_arg(args_begin, args_end);
+	start(program, next_arg);
 }
 
-inline void exec_stream_t::start( std::string const & program, char const * arg1, char const * arg2 )
-{
-    std::vector< std::string > args;
-    args.push_back( std::string( arg1 ) );
-    args.push_back( std::string( arg2 ) );
-    start( program, args.begin(), args.end() );
+inline void exec_stream_t::start(std::string const& program, char const* arg1, char const* arg2) {
+	std::vector<std::string> args;
+	args.push_back(std::string(arg1));
+	args.push_back(std::string(arg2));
+	start(program, args.begin(), args.end());
 }
 
-inline void exec_stream_t::start( std::string const & program, char * arg1, char * arg2 )
-{
-    std::vector< std::string > args;
-    args.push_back( std::string( arg1 ) );
-    args.push_back( std::string( arg2 ) );
-    start( program, args.begin(), args.end() );
+inline void exec_stream_t::start(std::string const& program, char* arg1, char* arg2) {
+	std::vector<std::string> args;
+	args.push_back(std::string(arg1));
+	args.push_back(std::string(arg2));
+	start(program, args.begin(), args.end());
 }
 
 #endif

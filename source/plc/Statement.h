@@ -7,12 +7,11 @@ namespace parlex {
 	struct match;
 }
 
-class Statement
-{
+class Statement {
 public:
 	Statement();
 	virtual ~Statement();
-	std::unique_ptr<Statement> Build(parlex::match const & m, parlex::abstract_syntax_graph const & asg);
+	std::unique_ptr<Statement> Build(parlex::match const& m, parlex::abstract_syntax_graph const& asg);
 };
 
 #endif

@@ -1,8 +1,6 @@
 #pragma once
-class Expression
-{
+class Expression {
 public:
 	Expression();
 	virtual ~Expression();
 };
-

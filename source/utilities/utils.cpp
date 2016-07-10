@@ -205,3 +205,24 @@ std::u32string read_with_bom(std::istream & src)
 		return to_utf32(buffer);
 	}
 }
+
+std::string string_replace(std::string const & original, std::string const & find, std::string const & replace)
+{
+	std::string newString;
+	newString.reserve(original.length());  // avoids a few memory allocations
+
+	std::string::size_type lastPos = 0;
+	std::string::size_type findPos;
+
+	while (std::string::npos != (findPos = original.find(find, lastPos)))
+	{
+		newString.append(original, lastPos, findPos - lastPos);
+		newString += replace;
+		lastPos = findPos + find.length();
+	}
+
+	// Care for the rest after last occurrence
+	newString += original.substr(lastPos);
+
+	return newString;
+}

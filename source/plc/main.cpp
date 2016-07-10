@@ -17,9 +17,10 @@
 #pragma warning(pop)
 
 std::string realpath(std::string fileName) {
-	struct free_delete
-	{
-		void operator()(char * x) const { free(static_cast<void *>(x)); }
+	struct free_delete {
+		void operator()(char* x) const {
+			free(static_cast<void *>(x));
+		}
 	};
 
 #ifdef _MSC_VER
@@ -38,18 +39,16 @@ int main(int argc, const char* argv[]) {
 		TCLAP::ValueArg<std::string> mathematica("m", "mathematica", "Use the Mathematica CLI executable at the specified path.", false, "", "Filepath");
 		TCLAP::ValueArg<std::string> maxima("x", "maxima", "Use the Maxima CLI executable at the specified path.", false, "", "Filepath");
 		TCLAP::ValueArg<std::string> sagemath("s", "sagemath", "Use the Sagemath CLI executable at the specified path.", false, "", "Filepath");
-		std::vector<TCLAP::Arg*> casChoices = { static_cast<TCLAP::Arg*>(&mathematica), static_cast<TCLAP::Arg*>(&maxima), static_cast<TCLAP::Arg*>(&sagemath) };
+		std::vector<TCLAP::Arg*> casChoices = {static_cast<TCLAP::Arg*>(&mathematica), static_cast<TCLAP::Arg*>(&maxima), static_cast<TCLAP::Arg*>(&sagemath)};
 		cmd.xorAdd(casChoices);
 		TCLAP::UnlabeledMultiArg<std::string> files_arg("filenames", "the files to compile", true, "filename", cmd);
 		cmd.parse(argc, argv);
 		filenames = files_arg.getValue();
-		if (mathematica.isSet())
-		{
+		if (mathematica.isSet()) {
 			cas.reset(new MathematicaInterface(mathematica.getValue()));
 			cas->test();
 		}
-	}
-	catch (TCLAP::ArgException &e)  // catch any exceptions
+	} catch (TCLAP::ArgException& e) // catch any exceptions
 	{
 		std::cerr << "error: " << e.error() << " for arg " << e.argId() << std::endl;
 	}
@@ -80,9 +79,9 @@ int main(int argc, const char* argv[]) {
 
 	std::unique_ptr<llvm::Module> module(new llvm::Module("module", llvm::getGlobalContext()));
 
-	for (auto const & nameAndParse : parses) {
-		std::string const & pathname = nameAndParse.first;
-		SourceCode const & source = *nameAndParse.second;
+	for (auto const& nameAndParse : parses) {
+		std::string const& pathname = nameAndParse.first;
+		SourceCode const& source = *nameAndParse.second;
 
 	}
 

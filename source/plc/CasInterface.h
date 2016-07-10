@@ -3,16 +3,14 @@
 #include "Expression.h"
 
 //computer algebra system interface
-class CasInterface
-{
+class CasInterface {
 public:
 	virtual void test() = 0;
-	~CasInterface()
-	{
-	}
+
+	~CasInterface() { }
 
 private:
-	virtual Expression FullSimplify(Expression const & expr) = 0;
+	virtual Expression FullSimplify(Expression const& expr) = 0;
 };
 
 #endif //CAS_INTERFACE_H

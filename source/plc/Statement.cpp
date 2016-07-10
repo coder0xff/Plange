@@ -16,35 +16,30 @@
 #include "ExpressionStatement.h"
 #include "Errors.h"
 
-Statement::Statement()
-{
-}
+Statement::Statement() {}
 
 
-Statement::~Statement()
-{
-}
+Statement::~Statement() {}
 
-std::unique_ptr<Statement> Statement::Build(parlex::match const& m, parlex::abstract_syntax_graph const& asg)
-{
-	static parlex::state_machine const & statementProduction = get_plange().get_productions().find("STATEMENT")->second;
+std::unique_ptr<Statement> Statement::Build(parlex::match const& m, parlex::abstract_syntax_graph const& asg) {
+	static parlex::state_machine const& statementProduction = get_plange().get_productions().find("STATEMENT")->second;
 	assert(&m.r == static_cast<parlex::recognizer const *>(&statementProduction));
 
-	static parlex::recognizer const * const assignmentProduction = static_cast<parlex::recognizer const *>(&get_plange().get_productions().find("ASSIGNMENT")->second);
-	static parlex::recognizer const * const declarationProduction = static_cast<parlex::recognizer const *>(&get_plange().get_productions().find("DECLARATION")->second);
-	static parlex::recognizer const * const definitionProduction = static_cast<parlex::recognizer const *>(&get_plange().get_productions().find("DEFINITION")->second);
-	static parlex::recognizer const * const doProduction = static_cast<parlex::recognizer const *>(&get_plange().get_productions().find("DO")->second);
-	static parlex::recognizer const * const expressionProduction = static_cast<parlex::recognizer const *>(&get_plange().get_productions().find("EXPRESSION")->second);
-	static parlex::recognizer const * const forProduction = static_cast<parlex::recognizer const *>(&get_plange().get_productions().find("FOR")->second);
-	static parlex::recognizer const * const for_collectionProduction = static_cast<parlex::recognizer const *>(&get_plange().get_productions().find("FOR_COLLECTION")->second);
-	static parlex::recognizer const * const freeProduction = static_cast<parlex::recognizer const *>(&get_plange().get_productions().find("FREE")->second);
-	static parlex::recognizer const * const importProduction = static_cast<parlex::recognizer const *>(&get_plange().get_productions().find("IMPORT")->second);
-	static parlex::recognizer const * const loopProduction = static_cast<parlex::recognizer const *>(&get_plange().get_productions().find("LOOP")->second);
-	static parlex::recognizer const * const returnProduction = static_cast<parlex::recognizer const *>(&get_plange().get_productions().find("RETURN")->second);
-	static parlex::recognizer const * const throwProduction = static_cast<parlex::recognizer const *>(&get_plange().get_productions().find("THROW")->second);
-	static parlex::recognizer const * const tryProduction = static_cast<parlex::recognizer const *>(&get_plange().get_productions().find("TRY")->second);
+	static parlex::recognizer const* const assignmentProduction = static_cast<parlex::recognizer const *>(&get_plange().get_productions().find("ASSIGNMENT")->second);
+	static parlex::recognizer const* const declarationProduction = static_cast<parlex::recognizer const *>(&get_plange().get_productions().find("DECLARATION")->second);
+	static parlex::recognizer const* const definitionProduction = static_cast<parlex::recognizer const *>(&get_plange().get_productions().find("DEFINITION")->second);
+	static parlex::recognizer const* const doProduction = static_cast<parlex::recognizer const *>(&get_plange().get_productions().find("DO")->second);
+	static parlex::recognizer const* const expressionProduction = static_cast<parlex::recognizer const *>(&get_plange().get_productions().find("EXPRESSION")->second);
+	static parlex::recognizer const* const forProduction = static_cast<parlex::recognizer const *>(&get_plange().get_productions().find("FOR")->second);
+	static parlex::recognizer const* const for_collectionProduction = static_cast<parlex::recognizer const *>(&get_plange().get_productions().find("FOR_COLLECTION")->second);
+	static parlex::recognizer const* const freeProduction = static_cast<parlex::recognizer const *>(&get_plange().get_productions().find("FREE")->second);
+	static parlex::recognizer const* const importProduction = static_cast<parlex::recognizer const *>(&get_plange().get_productions().find("IMPORT")->second);
+	static parlex::recognizer const* const loopProduction = static_cast<parlex::recognizer const *>(&get_plange().get_productions().find("LOOP")->second);
+	static parlex::recognizer const* const returnProduction = static_cast<parlex::recognizer const *>(&get_plange().get_productions().find("RETURN")->second);
+	static parlex::recognizer const* const throwProduction = static_cast<parlex::recognizer const *>(&get_plange().get_productions().find("THROW")->second);
+	static parlex::recognizer const* const tryProduction = static_cast<parlex::recognizer const *>(&get_plange().get_productions().find("TRY")->second);
 	parlex::match const subM = (*asg.permutations.find(m)->second.begin())[0];
-	parlex::recognizer const * const r = &subM.r;
+	parlex::recognizer const* const r = &subM.r;
 	if (r == assignmentProduction) {
 		return Assignment::Build(subM, asg);
 	}

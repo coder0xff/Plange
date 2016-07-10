@@ -10,14 +10,13 @@
 #include "FunctionModel.h"
 #include "SideEffect.h"
 
-class Scope
-{
+class Scope {
 public:
-	explicit Scope(SourceCode & source);
+	explicit Scope(SourceCode& source);
 	~Scope();
-	Scope * parent;
+	Scope* parent;
 	std::vector<Scope> children;
-	SourceCode const & sourceCode;
+	SourceCode const& sourceCode;
 	std::vector<Constant> constants;
 	std::vector<Assertion> assertions;
 	std::vector<Statement> statements;
@@ -27,8 +26,8 @@ public:
 	bool isReentrant;
 	FunctionModel model;
 	std::vector<SideEffect> sideEffects;
-	bool isDescendentOf(Scope const & s);
-	bool canExecute(Scope const & s);
+	bool isDescendentOf(Scope const& s);
+	bool canExecute(Scope const& s);
 };
 
 #endif SCOPE_H

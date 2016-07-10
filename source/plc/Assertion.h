@@ -1,8 +1,7 @@
 #ifndef ASSERTION_H
 #define ASSERTION_H
 
-class Assertion
-{
+class Assertion {
 public:
 	Assertion();
 	~Assertion();

@@ -5,10 +5,9 @@
 
 class Scope;
 
-class SourceCode
-{
+class SourceCode {
 public:
-	SourceCode(std::string const & pathname, std::u32string const & document, parlex::parser & parser);
+	SourceCode(std::string const& pathname, std::u32string const& document, parlex::parser& parser);
 	~SourceCode();
 	parlex::abstract_syntax_graph graph;
 	std::map<int, int> lineNumberByFirstChar;

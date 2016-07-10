@@ -2,8 +2,7 @@
 #define VARIABLE_H
 #include <string>
 
-class Variable
-{
+class Variable {
 public:
 	Variable();
 	~Variable();

@@ -1,8 +1,7 @@
 #ifndef THREAD_H
 #define THREAD_H
 
-class Thread
-{
+class Thread {
 public:
 	Thread();
 	~Thread();

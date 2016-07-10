@@ -6,6 +6,6 @@
 #include "parlex/grammar.hpp"
 #include "parlex/builtins.hpp"
 
-parlex::grammar const & get_plange();
+parlex::grammar const& get_plange();
 
 #endif

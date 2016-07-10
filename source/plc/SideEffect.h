@@ -1,8 +1,7 @@
 #ifndef SIDE_EFFECT_H
 #define SIDE_EFFECT_H
 
-class SideEffect
-{
+class SideEffect {
 public:
 	SideEffect();
 	~SideEffect();
