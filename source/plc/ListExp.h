@@ -1,16 +1,13 @@
 #ifndef LIST_EXP_H
 #define LIST_EXP_H
 
-#include "Expression.h"
-#include <vector>
+#include "CollectionExp.h"
 
 class ListExp :
-	public Expression
+	public CollectionExp
 {
 public:
-	ListExp();
-	~ListExp();
-	std::vector<Expression> elements;
+	value evaluate() const override;
 };
 
 #endif //LIST_EXP_H

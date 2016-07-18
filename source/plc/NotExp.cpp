@@ -2,7 +2,7 @@
 
 
 
-NotExp::NotExp()
+NotExp::NotExp(Expression const & subExpression) : UnaryOpExp(subExpression)
 {
 }
 

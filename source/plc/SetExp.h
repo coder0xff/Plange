@@ -1,13 +1,13 @@
 #ifndef SET_EXP_H
 #define SET_EXP_H
 
-#include "Expression.h"
+#include "CollectionExp.h"
+
 class SetExp :
-	public Expression
+	public CollectionExp
 {
 public:
-	SetExp();
-	~SetExp();
+	value evaluate() const override;
 };
 
 #endif //SET_EXP_H

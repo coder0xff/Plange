@@ -8,6 +8,7 @@ class MemberAccessExp :
 public:
 	MemberAccessExp();
 	~MemberAccessExp();
+	value evaluate() const override;
 };
 
 #endif //MEMBER_ACCESS_EXP_H

@@ -2,7 +2,7 @@
 
 
 
-StringExp::StringExp(std::string const & value) : value(value)
+StringExp::StringExp(std::string const & value) : val(value)
 {
 }
 

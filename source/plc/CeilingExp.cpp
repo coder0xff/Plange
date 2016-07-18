@@ -2,8 +2,7 @@
 
 
 
-CeilingExp::CeilingExp(Expression const & subExpression) : sub_expression(subExpression) {}
-
+CeilingExp::CeilingExp(Expression const & subExpression) : ParentExp(subExpression) {}
 
 CeilingExp::~CeilingExp()
 {

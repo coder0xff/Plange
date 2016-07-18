@@ -8,6 +8,7 @@ class DimensionalNumberExp :
 public:
 	DimensionalNumberExp();
 	~DimensionalNumberExp();
+	value evaluate() const override;
 };
 
 #endif //DIMENSIONAL_NUMBER_EXP_H

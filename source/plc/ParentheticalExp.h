@@ -1,14 +1,15 @@
 #ifndef PARENTHETICAL_EXP_H
 #define PARENTHETICAL_EXP_H
 
-#include "Expression.h"
+#include "ParentExp.h"
+
 class ParentheticalExp :
-	public Expression
+	public ParentExp
 {
 public:
 	ParentheticalExp(Expression const & subExpression);
 	~ParentheticalExp();
-	Expression sub_expression;
+	value evaluate() const override;
 };
 
 #endif //PARENTHETICAL_EXP_H

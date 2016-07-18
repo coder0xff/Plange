@@ -2,7 +2,7 @@
 
 
 
-ExistsExp::ExistsExp()
+ExistsExp::ExistsExp(Expression const & subExpression) : UnaryOpExp(subExpression)
 {
 }
 

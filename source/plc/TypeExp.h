@@ -8,6 +8,7 @@ class TypeExp :
 public:
 	TypeExp();
 	~TypeExp();
+	value evaluate() const override;
 };
 
 #endif //TYPE_EXP_H

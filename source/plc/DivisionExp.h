@@ -10,7 +10,7 @@ public:
 	~DivisionExp();
 
 	std::u32string get_name() const override;
-
+	value evaluate() const override;
 };
 
 #endif //DIVISION_EXP_H

@@ -10,7 +10,8 @@ class StringExp :
 public:
 	StringExp(std::string const & value);
 	~StringExp();
-	std::string value;
+	std::string val;
+	value evaluate() const override;
 };
 
 #endif //STRING_EXP_H

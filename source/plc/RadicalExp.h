@@ -2,6 +2,7 @@
 #define RADICAL_EXP_H
 
 #include "UnaryOpExp.h"
+#include <memory>
 
 class RadicalExp :
 	public UnaryOpExp
@@ -9,11 +10,10 @@ class RadicalExp :
 public:
 	RadicalExp(Expression const & subExpression);
 	~RadicalExp();
-	Expression sub_expression;
 
 	std::u32string get_name() const override;
 	bool get_postfix() const override;
-
+	value evaluate() const override;
 };
 
 #endif //RADICAL_EXP_H

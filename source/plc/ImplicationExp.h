@@ -10,7 +10,7 @@ public:
 	~ImplicationExp();
 
 	std::u32string get_name() const override;
-
+	value evaluate() const override;
 };
 
 #endif //IMPLICATION_EXP_H

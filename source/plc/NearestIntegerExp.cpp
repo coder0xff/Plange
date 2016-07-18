@@ -2,7 +2,7 @@
 
 
 
-NearestIntegerExp::NearestIntegerExp(Expression const & subExpression) : sub_expression(subExpression) {}
+NearestIntegerExp::NearestIntegerExp(Expression const & subExpression) : ParentExp(subExpression) {}
 
 
 NearestIntegerExp::~NearestIntegerExp()

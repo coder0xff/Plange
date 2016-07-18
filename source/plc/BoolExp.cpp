@@ -2,7 +2,7 @@
 
 
 
-BoolExp::BoolExp(bool value) : value(value)
+BoolExp::BoolExp(bool value) : val(value)
 {
 }
 

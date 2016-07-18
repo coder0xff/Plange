@@ -10,7 +10,7 @@ public:
 	~InExp();
 
 	std::u32string get_name() const override;
-
+	value evaluate() const override;
 };
 
 #endif //IN_EXP_H

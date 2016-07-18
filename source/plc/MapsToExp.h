@@ -8,6 +8,10 @@ class MapsToExp :
 public:
 	MapsToExp();
 	~MapsToExp();
+	value evaluate() const override;
+
+	std::u32string get_name() const override;
+
 };
 
 #endif //MAPS_TO_EXP_H

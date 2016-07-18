@@ -9,12 +9,10 @@ execution_context::~execution_context() {}
 
 value execution_context::evaluate(Expression const & exp)
 {
-	emit_NotImplemented(__FUNCTION__);
-	throw;
+	ERROR(NotImplemented, __FUNCTION__);
 }
 
 value execution_context::type_of(Expression const & exp)
 {
-	emit_NotImplemented(__FUNCTION__);
-	throw;
+	ERROR(NotImplemented, __FUNCTION__);
 }

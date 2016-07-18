@@ -10,7 +10,7 @@ public:
 	~NandExp();
 
 	std::u32string get_name() const override;
-
+	value evaluate() const override;
 };
 
 #endif //NAND_EXP_H

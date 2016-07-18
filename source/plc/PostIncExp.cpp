@@ -2,7 +2,7 @@
 
 
 
-PostIncExp::PostIncExp()
+PostIncExp::PostIncExp(Expression const & subExpression) : UnaryOpExp(subExpression)
 {
 }
 

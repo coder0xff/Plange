@@ -5,6 +5,5 @@ value::value(value* type, const std::vector<int8_t>& storage) : type(type), stor
 
 bool value::operator==(value const & rhs)
 {
-	emit_NotImplemented(__FUNCTION__);
-	throw;
+	ERROR(NotImplemented, __FUNCTION__);
 }

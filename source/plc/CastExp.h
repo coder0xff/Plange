@@ -1,15 +1,17 @@
 #ifndef CAST_EXP_H
 #define CAST_EXP_H
 
-#include "Expression.h"
+#include "ParentExp.h"
+
 class CastExp :
-	public Expression
+	public ParentExp
 {
 public:
-	CastExp();
+	CastExp(Expression const & subExpression, Expression const & targetType);
+	CastExp(CastExp const & other);
 	~CastExp();
-	Expression target_type;
-	Expression value;
+	std::unique_ptr<Expression> target_type;
+	value evaluate() const override;
 };
 
 #endif //CAST_EXP_H

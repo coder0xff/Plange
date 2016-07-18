@@ -2,7 +2,7 @@
 
 
 
-PreDecExp::PreDecExp()
+PreDecExp::PreDecExp(Expression const & subExpression) : UnaryOpExp(subExpression)
 {
 }
 

@@ -10,7 +10,7 @@ public:
 	~EqualityExp();
 
 	std::u32string get_name() const override;
-
+	value evaluate() const override;
 };
 
 #endif //EQUALITY_EXP_H

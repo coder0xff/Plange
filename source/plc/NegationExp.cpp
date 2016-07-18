@@ -2,7 +2,7 @@
 
 
 
-NegationExp::NegationExp()
+NegationExp::NegationExp(Expression const & subExpression) : UnaryOpExp(subExpression)
 {
 }
 

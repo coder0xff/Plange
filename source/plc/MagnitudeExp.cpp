@@ -2,7 +2,7 @@
 
 
 
-MagnitudeExp::MagnitudeExp(Expression const & subExpression) : sub_expression(subExpression) {}
+MagnitudeExp::MagnitudeExp(Expression const & subExpression) : ParentExp(subExpression) {}
 
 
 MagnitudeExp::~MagnitudeExp()

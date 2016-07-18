@@ -8,6 +8,7 @@ class RangeExp :
 public:
 	RangeExp();
 	~RangeExp();
+	value evaluate() const override;
 };
 
 #endif //RANGE_EXP_H

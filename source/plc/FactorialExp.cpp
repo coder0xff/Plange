@@ -2,7 +2,7 @@
 
 
 
-FactorialExp::FactorialExp(Expression const & subExpression) : sub_expression(subExpression) {}
+FactorialExp::FactorialExp(Expression const & subExpression) : UnaryOpExp(subExpression) {}
 
 
 FactorialExp::~FactorialExp()

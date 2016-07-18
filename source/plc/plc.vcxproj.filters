@@ -351,9 +351,6 @@
     <ClInclude Include="GreaterThanExp.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="NotGreaterThan.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="SubsetExp.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -394,6 +391,15 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="NotLesserThanExp.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="NotGreaterThanExp.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CollectionExp.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ParentExp.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -734,9 +740,6 @@
     <ClCompile Include="GreaterThanExp.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="NotGreaterThan.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="SubsetExp.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -777,6 +780,15 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="NotLesserThanExp.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="NotGreaterThanExp.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CollectionExp.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ParentExp.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

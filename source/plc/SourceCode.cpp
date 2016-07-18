@@ -16,7 +16,7 @@ SourceCode::SourceCode(std::string const& pathname, std::u32string const& docume
 	}
 
 	if (!graph.is_rooted()) {
-		emit_CouldNotParse(pathname);
+		ERROR(CouldNotParse, pathname);
 	}
 
 	for (auto const& matches : graph.matchesByHeight) {
@@ -38,7 +38,7 @@ SourceCode::SourceCode(std::string const& pathname, std::u32string const& docume
 					}
 					message = message.substr(0, message.length() - 1);
 				}
-				emit_AmbiguousParse(message);
+				ERROR(AmbiguousParse, message);
 			}
 		}
 	}

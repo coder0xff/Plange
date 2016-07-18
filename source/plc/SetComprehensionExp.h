@@ -8,6 +8,7 @@ class SetComprehensionExp :
 public:
 	SetComprehensionExp();
 	~SetComprehensionExp();
+	value evaluate() const override;
 };
 
 #endif //SET_COMPREHENSION_EXP_H

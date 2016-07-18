@@ -10,7 +10,7 @@ public:
 	~SubsetExp();
 
 	std::u32string get_name() const override;
-
+	value evaluate() const override;
 };
 
 #endif //SUBSET_EXP_H

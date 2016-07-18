@@ -2,7 +2,7 @@
 
 
 
-RadicalExp::RadicalExp(Expression const & subExpression) : sub_expression(subExpression) {}
+RadicalExp::RadicalExp(Expression const & subExpression) : UnaryOpExp(subExpression) {}
 
 
 RadicalExp::~RadicalExp()

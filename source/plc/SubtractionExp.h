@@ -10,7 +10,7 @@ public:
 	~SubtractionExp();
 
 	std::u32string get_name() const override;
-
+	value evaluate() const override;
 };
 
 #endif //SUBTRACTION_EXP_H

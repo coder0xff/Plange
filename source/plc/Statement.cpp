@@ -79,6 +79,5 @@ std::unique_ptr<Statement> Statement::Build(parlex::match const& m, parlex::abst
 	if (r == tryProduction) {
 		return Try::Build(subM, asg);
 	}
-	emit_Unknown("");
-	throw;
+	ERROR(Unknown, "");
 }

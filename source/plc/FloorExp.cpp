@@ -2,7 +2,7 @@
 
 
 
-FloorExp::FloorExp(Expression const & subExpression) : sub_expression(subExpression) {}
+FloorExp::FloorExp(Expression const & subExpression) : ParentExp(subExpression) {}
 
 
 FloorExp::~FloorExp()

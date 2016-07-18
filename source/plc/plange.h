@@ -2,12 +2,15 @@
 #define PLANGE_H
 
 #include "value.h"
+#include "Expression.h"
 
 class plange
 {
 public:
 	plange();
 	~plange();
+	static bool is_Collection(const Expression& v);
+	static bool is_Integral(const Expression& v);
 	static value& get_Float();
 	static value& get_Float16();
 	static value& get_Float32();

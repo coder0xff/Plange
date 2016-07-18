@@ -2,7 +2,7 @@
 
 
 
-CardinalityExp::CardinalityExp()
+CardinalityExp::CardinalityExp(Expression const & subExpression) : UnaryOpExp(subExpression)
 {
 }
 

@@ -8,6 +8,7 @@ class PropertyExp :
 public:
 	PropertyExp();
 	~PropertyExp();
+	value evaluate() const override;
 };
 
 #endif //PROPERTY_EXP_H

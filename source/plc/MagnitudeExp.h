@@ -1,14 +1,15 @@
 #ifndef MAGNITUDE_EXP_H
 #define MAGNITUDE_EXP_H
 
-#include "Expression.h"
+#include "ParentExp.h"
+
 class MagnitudeExp :
-	public Expression
+	public ParentExp
 {
 public:
 	MagnitudeExp(Expression const & subExpression);
 	~MagnitudeExp();
-	Expression sub_expression;
+	value evaluate() const override;
 };
 
 #endif //MAGNITUDE_EXP_H

@@ -8,6 +8,7 @@ class AsmFunctionExp :
 public:
 	AsmFunctionExp();
 	~AsmFunctionExp();
+	value evaluate() const override;
 };
 
 #endif //ASM_FUNCTION_EXP_H

@@ -10,7 +10,7 @@ public:
 	~OrExp();
 
 	std::u32string get_name() const override;
-
+	value evaluate() const override;
 };
 
 #endif //OR_EXP_H

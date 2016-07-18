@@ -1,15 +1,12 @@
 #ifndef ARRAY_EXP_H
 #define ARRAY_EXP_H
 
-#include "Expression.h"
-#include <vector>
+#include "CollectionExp.h"
 
 class ArrayExp :
-	public Expression {
+	public CollectionExp {
 public:
-	ArrayExp();
-	~ArrayExp();
-	std::vector<Expression> elements;
+	value evaluate() const override;
 };
 
 #endif //ARRAY_EXP_H

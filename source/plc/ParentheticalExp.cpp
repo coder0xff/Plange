@@ -2,7 +2,7 @@
 
 
 
-ParentheticalExp::ParentheticalExp(Expression const & subExpression) : sub_expression(subExpression) {}
+ParentheticalExp::ParentheticalExp(Expression const & subExpression) : ParentExp(subExpression) {}
 
 
 ParentheticalExp::~ParentheticalExp()

@@ -9,7 +9,7 @@ public:
 	~AdditionExp();
 
 	std::u32string get_name() const override;
-
+	value evaluate() const override;
 };
 
 #endif //ADDITON_EXP_H

@@ -2,7 +2,7 @@
 
 
 
-ComplementExp::ComplementExp()
+ComplementExp::ComplementExp(Expression const & subExpression) : UnaryOpExp(subExpression)
 {
 }
 

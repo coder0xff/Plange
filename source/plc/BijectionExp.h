@@ -10,7 +10,7 @@ public:
 	~BijectionExp();
 
 	std::u32string get_name() const override;
-
+	value evaluate() const override;
 };
 
 #endif //BIJECTION_EXP_H

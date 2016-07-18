@@ -2,7 +2,7 @@
 
 
 
-PostDecExp::PostDecExp()
+PostDecExp::PostDecExp(Expression const & subExpression) : UnaryOpExp(subExpression)
 {
 }
 

@@ -10,7 +10,7 @@ public:
 	~BitOrExp();
 
 	std::u32string get_name() const override;
-
+	value evaluate() const override;
 };
 
 #endif //BIT_OR_EXP_H

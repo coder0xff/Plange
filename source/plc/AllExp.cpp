@@ -2,7 +2,7 @@
 
 
 
-AllExp::AllExp()
+AllExp::AllExp(Expression const & subExpression) : UnaryOpExp(subExpression)
 {
 }
 

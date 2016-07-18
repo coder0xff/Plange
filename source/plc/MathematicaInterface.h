@@ -3,6 +3,7 @@
 
 #include "CasInterface.h"
 #include "exec-stream.h"
+#include <memory>
 
 class execution_context;
 
@@ -12,7 +13,7 @@ public:
 	virtual ~MathematicaInterface() { }
 
 	MathematicaInterface(std::string const& mathExePath);
-	Expression FullSimplify(Expression const& expr) override;
+	std::unique_ptr<Expression> FullSimplify(Expression const& expr) override;
 	void test();
 private:
 	class context {
@@ -23,8 +24,8 @@ private:
 	};
 
 	std::string evaluate(std::string const& expr);
-	std::string convert(Expression const& expr, context& ctx);
-	Expression convert(std::string const& expr);
+	std::string convert(std::unique_ptr<Expression> const& expr, context& ctx) const;
+	std::unique_ptr<Expression> convert(std::string const& expr);
 };
 
 #endif //MATHEMATICA_INTERFACE_H

@@ -63,13 +63,13 @@ int main(int argc, const char* argv[]) {
 
 	for (std::string filename : realpaths) {
 		if (parses.count(filename)) {
-			emit_DuplicateFileIgnored(filename);
+			WARNING(DuplicateFileIgnored, filename);
 			continue;
 		}
 
 		std::ifstream ifs(filename, std::ios::binary);
 		if (!ifs) {
-			emit_CouldNotOpenFile(filename);
+			ERROR(CouldNotOpenFile, filename);
 		}
 		std::u32string s = read_with_bom(ifs);
 

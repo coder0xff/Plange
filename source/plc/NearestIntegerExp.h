@@ -1,14 +1,15 @@
 #ifndef NEAREST_INTEGER_EXP_H
 #define NEAREST_INTEGER_EXP_H
 
-#include "Expression.h"
+#include "ParentExp.h"
+
 class NearestIntegerExp :
-	public Expression
+	public ParentExp
 {
 public:
 	NearestIntegerExp(Expression const & subExpression);
 	~NearestIntegerExp();
-	Expression sub_expression;
+	value evaluate() const override;
 };
 
 #endif //NEAREST_INTEGER_EXP_H

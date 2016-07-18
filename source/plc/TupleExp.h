@@ -1,13 +1,15 @@
 #ifndef TUPLE_EXP_H
 #define TUPLE_EXP_H
 
-#include "Expression.h"
+#include "CollectionExp.h"
+
 class TupleExp :
-	public Expression
+	public CollectionExp
 {
 public:
 	TupleExp();
 	~TupleExp();
+	value evaluate() const override;
 };
 
 #endif //TUPLE_EXP_H

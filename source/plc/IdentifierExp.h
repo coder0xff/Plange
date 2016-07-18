@@ -11,6 +11,7 @@ public:
 	IdentifierExp(value & val);
 	~IdentifierExp();
 	value val;
+	value evaluate() const override;
 };
 
 #endif //IDENTIFIER_EXP_H

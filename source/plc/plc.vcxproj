@@ -214,6 +214,7 @@
     <ClInclude Include="CardinalityExp.h" />
     <ClInclude Include="CastsExp.h" />
     <ClInclude Include="CeilingExp.h" />
+    <ClInclude Include="CollectionExp.h" />
     <ClInclude Include="ComplementExp.h" />
     <ClInclude Include="CompositionExp.h" />
     <ClInclude Include="CompoundExp.h" />
@@ -223,6 +224,7 @@
     <ClInclude Include="DimensionalNumberExp.h" />
     <ClInclude Include="DivisionExp.h" />
     <ClInclude Include="DotProductExp.h" />
+    <ClInclude Include="ParentExp.h" />
     <ClInclude Include="EqualityExp.h" />
     <ClInclude Include="execution_context.h" />
     <ClInclude Include="ExistsExp.h" />
@@ -257,7 +259,7 @@
     <ClInclude Include="NegationExp.h" />
     <ClInclude Include="NorExp.h" />
     <ClInclude Include="NotExp.h" />
-    <ClInclude Include="NotGreaterThan.h" />
+    <ClInclude Include="NotGreaterThanExp.h" />
     <ClInclude Include="NotHasExp.h" />
     <ClInclude Include="NotInExp.h" />
     <ClInclude Include="NotLesserThanExp.h" />
@@ -344,6 +346,7 @@
     <ClCompile Include="CastExp.cpp" />
     <ClCompile Include="CastsExp.cpp" />
     <ClCompile Include="CeilingExp.cpp" />
+    <ClCompile Include="CollectionExp.cpp" />
     <ClCompile Include="ComplementExp.cpp" />
     <ClCompile Include="CompositionExp.cpp" />
     <ClCompile Include="CompoundExp.cpp" />
@@ -358,6 +361,7 @@
     <ClCompile Include="DivisionExp.cpp" />
     <ClCompile Include="Do.cpp" />
     <ClCompile Include="DotProductExp.cpp" />
+    <ClCompile Include="ParentExp.cpp" />
     <ClCompile Include="EqualityExp.cpp" />
     <ClCompile Include="Errors.cpp" />
     <ClCompile Include="exec-stream.cpp" />
@@ -405,7 +409,7 @@
     <ClCompile Include="NonNegativeNumberExp.cpp" />
     <ClCompile Include="NorExp.cpp" />
     <ClCompile Include="NotExp.cpp" />
-    <ClCompile Include="NotGreaterThan.cpp" />
+    <ClCompile Include="NotGreaterThanExp.cpp" />
     <ClCompile Include="NotHasExp.cpp" />
     <ClCompile Include="NotInExp.cpp" />
     <ClCompile Include="NotLesserThanExp.cpp" />

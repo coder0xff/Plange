@@ -2,7 +2,7 @@
 
 
 
-KleeneStarExp::KleeneStarExp()
+KleeneStarExp::KleeneStarExp(Expression const & subExpression) : UnaryOpExp(subExpression)
 {
 }
 

@@ -7,10 +7,10 @@ class CasInterface {
 public:
 	virtual void test() = 0;
 
-	~CasInterface() { }
+	virtual ~CasInterface() = default;
 
 private:
-	virtual Expression FullSimplify(Expression const& expr) = 0;
+	virtual std::unique_ptr<Expression> FullSimplify(Expression const& expr) = 0;
 };
 
 #endif //CAS_INTERFACE_H

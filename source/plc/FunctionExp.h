@@ -8,6 +8,7 @@ class FunctionExp :
 public:
 	FunctionExp();
 	~FunctionExp();
+	value evaluate() const override;
 };
 
 #endif //FUNCTION_EXP_H

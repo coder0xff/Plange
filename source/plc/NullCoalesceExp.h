@@ -10,7 +10,7 @@ public:
 	~NullCoalesceExp();
 
 	std::u32string get_name() const override;
-
+	value evaluate() const override;
 };
 
 #endif //NULL_COALESCE_EXP_H
