@@ -3,10 +3,8 @@
 
 #include <memory>
 #include <vector>
-#include <atomic>
 
 #include "parlex/match.hpp"
-#include "parlex/match_class.hpp"
 #include "parlex/permutation.hpp"
 
 namespace parlex {
@@ -30,7 +28,7 @@ public:
 
 	bool is_null() const;
 	subjob & owner() const;
-	context_ref prior() const;
+	context_ref const & prior() const;
 	int current_document_position() const;
 	std::unique_ptr<match> from_transition() const; //unique_ptr serves as optional
 	permutation result() const;
@@ -43,7 +41,7 @@ public:
 	subjob & owner;
 	context_ref const prior;
 	int const currentDocumentPosition;
-	std::unique_ptr<match const> const from_transition;	//unique_ptr serves as optional
+	std::unique_ptr<match const> const fromTransition;	//unique_ptr serves as optional
 private:
 	context_ref_counter & rc;
 

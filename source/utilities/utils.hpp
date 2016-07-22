@@ -12,4 +12,5 @@ std::string enquote(std::string s);
 
 std::u32string read_with_bom(std::istream & src);
 
+std::string string_replace(std::string const & original, std::string const & find, std::string const & replace);
 #endif

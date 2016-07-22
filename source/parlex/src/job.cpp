@@ -5,17 +5,20 @@
 #include "parlex/details/context.hpp"
 #include "parlex/parser.hpp"
 #include "parlex/token.hpp"
-#include "parlex/details/logging.hpp"
+#include "parlex/grammar.hpp"
+#include "logging.hpp"
 
 namespace parlex {
 namespace details {
 
-job::job(parser & owner, std::u32string const & document, recognizer const & main) :
+job::job(parser & owner, std::u32string const & document, grammar const & g, recognizer const & main) :
   document(document),
+  g(g),
   main(main),
+  progress(0),
   owner(owner)
 	{
-		DBG("starting job using recognizer '", main, "'");
+		//DBG("starting job using recognizer '", main, "'");
 
 		//similar to get_product, but different for constructor
 		match_class matchClass(main, 0);
@@ -38,7 +41,7 @@ job::job(parser & owner, std::u32string const & document, recognizer const & mai
 			//seed the parser with the root state
 			result->increment_lifetime(); //reference code A
 			owner.work.emplace(std::make_tuple(result->construct_start_state_context(0), 0));
-			owner.activeCount++;
+			++owner.activeCount;
 			//give it a tickle!
 			owner.work_cv.notify_one(); //parser::parse has mutex locked
 			result->finish_creation();
@@ -59,27 +62,28 @@ producer & job::get_producer(match_class const & matchClass) {
 			terminal const * t = static_cast<terminal const *>(&matchClass.r);
 			token * result = new token(*this, *t, matchClass.document_position);
 			lock.lock();
-			producers.emplace(
+			return *producers.emplace(
 				std::piecewise_construct,
 				std::forward_as_tuple(matchClass),
 				std::forward_as_tuple(result)
-			);
+			).first->second.get();
 		} else {
 			state_machine const * machine = static_cast<state_machine const *>(&matchClass.r);
-			subjob * result = new subjob(*this, *machine, matchClass.document_position);
+			subjob * sj = new subjob(*this, *machine, matchClass.document_position);
 			lock.lock();
-			bool didEmplace = producers.emplace(
+			auto temp = producers.emplace(
 				std::piecewise_construct,
 				std::forward_as_tuple(matchClass),
-				std::forward_as_tuple(result)
-			).second;
+				std::forward_as_tuple(sj)
+			);
+			subjob * result = static_cast<subjob*>(temp.first->second.get());
 			lock.unlock();
-			if (didEmplace) {
+			if (temp.second) {
 				result->start();
 			}
+			return *result;
 		}
 	}
-	return *producers[matchClass];
 }
 
 

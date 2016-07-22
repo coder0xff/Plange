@@ -6,13 +6,22 @@
 #include "parlex/builtins/set_terminal.hpp"
 #include "parlex/builtins/string_terminal.hpp"
 #include "parlex/builtins/unicode.hpp"
+#include "parlex/builtins/not_double_quote.hpp"
+#include "parlex/builtins/not_newline.hpp"
 
 // Filters
 #include "parlex/builtins/greedy.hpp"
 
 // State Machines
 #include "parlex/builtins/c_string.hpp"
+
+// Grammars
 #include "parlex/builtins/wirth.hpp"
+#include "parlex/builtins/precedence_grammar.hpp"
+#include "parlex/builtins/associativity_grammar.hpp"
+
+// Misc
+#include "parlex/builtins/progress_bar.hpp"
 
 namespace parlex {
 namespace builtins {

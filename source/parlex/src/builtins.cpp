@@ -1,4 +1,5 @@
-#include <sstream>
+#include <iostream>
+#include <mutex>
 
 #include "parlex/builtins.hpp"
 #include "utils.hpp"
@@ -18,11 +19,44 @@ std::string any_character_t::get_id() const {
 	return "any_character";
 }
 
+bool not_double_quote_t::test(std::u32string const & document, size_t documentPosition) const {
+	return documentPosition < document.length() && document[documentPosition] == U'"';
 }
+
+size_t not_double_quote_t::get_length() const {
+	return 1;
+}
+
+std::string not_double_quote_t::get_id() const {
+	return "not_double_quote";
+}
+
+bool not_newline_t::test(std::u32string const & document, size_t documentPosition) const {
+	return documentPosition < document.length() && document[documentPosition] != U'\n';
+}
+
+size_t not_newline_t::get_length() const {
+	return 1;
+}
+
+std::string not_newline_t::get_id() const {
+	return "not_newline";
+}
+
+} //namespace details
 
 namespace builtins {
 
+void progress_bar(int done, int outOf) {
+	static std::mutex m;
+	std::unique_lock<std::mutex> lock(m);
+	int ticks = done * 25 / outOf;
+	std::cout << "\r[" << std::string(ticks, '*') << std::string(25 - ticks, ' ') << "]";
+};
+
 parlex::details::any_character_t any_character;
+parlex::details::not_double_quote_t not_double_quote;
+parlex::details::not_newline_t not_newline;
 
 string_terminal::string_terminal(std::u32string const & s) : s(s), length(s.length()), id(to_utf8(s)) {}
 
@@ -107,6 +141,7 @@ std::map<std::string, recognizer *> const & get_builtins_table() {
 	if (result.size() == 0) {
 		recognizer * table_initializer[] = {
 			&all,
+			&any_character,
 			&alphanumeric,
 			&c_string,
 			&close_punctuation,
@@ -126,6 +161,8 @@ std::map<std::string, recognizer *> const & get_builtins_table() {
 			&letter,
 			&line_separator,
 			&lowercase_letter,
+			&not_double_quote,
+			&not_newline,
 			&math_symbol,
 			&modifier_letter,
 			&modifier_symbol,
@@ -171,6 +208,6 @@ bool resolve_builtin(std::string const & name, parlex::recognizer const *& ptr)
 	}
 }
 
-}
+} //namespace builtins
 }
 

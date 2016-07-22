@@ -8,314 +8,314 @@ namespace details {
 
 class all_t : public terminal {
 public:
-	virtual bool test(std::u32string const & document, size_t documentPosition) const final;
+	bool test(std::u32string const & document, size_t documentPosition) const override final;
 
-	inline virtual size_t get_length() const final { return 1; }
-	inline std::string get_id() const final { return "all"; }
+	size_t get_length() const override final;
+	std::string get_id() const final;
 };
 
 class alphanumeric_t : public terminal {
 public:
-	virtual bool test(std::u32string const & document, size_t documentPosition) const final;
+	bool test(std::u32string const & document, size_t documentPosition) const override final;
 
-	inline virtual size_t get_length() const final { return 1; }
-	inline std::string get_id() const final { return "alphanumeric"; }
+	size_t get_length() const override final;
+	std::string get_id() const final;
 };
 
 class close_punctuation_t : public terminal {
 public:
-	virtual bool test(std::u32string const & document, size_t documentPosition) const final;
+	bool test(std::u32string const & document, size_t documentPosition) const override final;
 
-	inline virtual size_t get_length() const final { return 1; }
-	inline std::string get_id() const final { return "close_punctuation"; }
+	size_t get_length() const override final;
+	std::string get_id() const final;
 };
 
 class connector_punctuation_t : public terminal {
 public:
-	virtual bool test(std::u32string const & document, size_t documentPosition) const final;
+	bool test(std::u32string const & document, size_t documentPosition) const override final;
 
-	inline virtual size_t get_length() const final { return 1; }
-	inline std::string get_id() const final { return "connector_punctuation"; }
+	size_t get_length() const override final;
+	std::string get_id() const final;
 };
 
 class control_t : public terminal {
 public:
-	virtual bool test(std::u32string const & document, size_t documentPosition) const final;
+	bool test(std::u32string const & document, size_t documentPosition) const override final;
 
-	inline virtual size_t get_length() const final { return 1; }
-	inline std::string get_id() const final { return "control"; }
+	size_t get_length() const override final;
+	std::string get_id() const final;
 };
 
 class currency_symbol_t : public terminal {
 public:
-	virtual bool test(std::u32string const & document, size_t documentPosition) const final;
+	bool test(std::u32string const & document, size_t documentPosition) const override final;
 
-	inline virtual size_t get_length() const final { return 1; }
-	inline std::string get_id() const final { return "currency_symbol"; }
+	size_t get_length() const override final;
+	std::string get_id() const final;
 };
 
 class dash_punctuation_t : public terminal {
 public:
-	virtual bool test(std::u32string const & document, size_t documentPosition) const final;
+	bool test(std::u32string const & document, size_t documentPosition) const override final;
 
-	inline virtual size_t get_length() const final { return 1; }
-	inline std::string get_id() const final { return "dash_punctuation"; }
+	size_t get_length() const override final;
+	std::string get_id() const final;
 };
 
 class decimal_digit_t : public terminal {
 public:
-	virtual bool test(std::u32string const & document, size_t documentPosition) const final;
+	bool test(std::u32string const & document, size_t documentPosition) const override final;
 
-	inline virtual size_t get_length() const final { return 1; }
-	inline std::string get_id() const final { return "decimal_digit"; }
+	size_t get_length() const override final;
+	std::string get_id() const final;
 };
 
 class enclosing_mark_t : public terminal {
 public:
-	virtual bool test(std::u32string const & document, size_t documentPosition) const final;
+	bool test(std::u32string const & document, size_t documentPosition) const override final;
 
-	inline virtual size_t get_length() const final { return 1; }
-	inline std::string get_id() const final { return "enclosing_mark"; }
+	size_t get_length() const override final;
+	std::string get_id() const final;
 };
 
 class final_quote_punctuation_t : public terminal {
 public:
-	virtual bool test(std::u32string const & document, size_t documentPosition) const final;
+	bool test(std::u32string const & document, size_t documentPosition) const override final;
 
-	inline virtual size_t get_length() const final { return 1; }
-	inline std::string get_id() const final { return "final_quote_punctuation"; }
+	size_t get_length() const override final;
+	std::string get_id() const final;
 };
 
 class format_t : public terminal {
 public:
-	virtual bool test(std::u32string const & document, size_t documentPosition) const final;
+	bool test(std::u32string const & document, size_t documentPosition) const override final;
 
-	inline virtual size_t get_length() const final { return 1; }
-	inline std::string get_id() const final { return "format"; }
+	size_t get_length() const override final;
+	std::string get_id() const final;
 };
 
 class octal_digit_t : public terminal {
 public:
-	virtual bool test(std::u32string const & document, size_t documentPosition) const final;
+	bool test(std::u32string const & document, size_t documentPosition) const override final;
 
-	inline virtual size_t get_length() const final { return 1; }
-	inline std::string get_id() const final { return "octal_digit"; }
+	size_t get_length() const override final;
+	std::string get_id() const final;
 };
 
 class hexadecimal_digit_t : public terminal {
 public:
-	virtual bool test(std::u32string const & document, size_t documentPosition) const final;
+	bool test(std::u32string const & document, size_t documentPosition) const override final;
 
-	inline virtual size_t get_length() const final { return 1; }
-	inline std::string get_id() const final { return "hexadecimal_digit"; }
+	size_t get_length() const override final;
+	std::string get_id() const final;
 };
 
 class initial_quote_punctuation_t : public terminal {
 public:
-	virtual bool test(std::u32string const & document, size_t documentPosition) const final;
+	bool test(std::u32string const & document, size_t documentPosition) const override final;
 
-	inline virtual size_t get_length() const final { return 1; }
-	inline std::string get_id() const final { return "initial_quote_punctuation"; }
+	size_t get_length() const override final;
+	std::string get_id() const final;
 };
 
 class latin_digit_t : public terminal {
 public:
-	virtual bool test(std::u32string const & document, size_t documentPosition) const final;
+	bool test(std::u32string const & document, size_t documentPosition) const override final;
 
-	inline virtual size_t get_length() const final { return 1; }
-	inline std::string get_id() const final { return "latin_digit"; }
+	size_t get_length() const override final;
+	std::string get_id() const final;
 };
 
 class letter_number_t : public terminal {
 public:
-	virtual bool test(std::u32string const & document, size_t documentPosition) const final;
+	bool test(std::u32string const & document, size_t documentPosition) const override final;
 
-	inline virtual size_t get_length() const final { return 1; }
-	inline std::string get_id() const final { return "letter_number"; }
+	size_t get_length() const override final;
+	std::string get_id() const final;
 };
 
 class letter_t : public terminal {
 public:
-	virtual bool test(std::u32string const & document, size_t documentPosition) const final;
+	bool test(std::u32string const & document, size_t documentPosition) const override final;
 
-	inline virtual size_t get_length() const final { return 1; }
-	inline std::string get_id() const final { return "letter"; }
+	size_t get_length() const override final;
+	std::string get_id() const final;
 };
 
 class line_separator_t : public terminal {
 public:
-	virtual bool test(std::u32string const & document, size_t documentPosition) const final;
+	bool test(std::u32string const & document, size_t documentPosition) const override final;
 
-	inline virtual size_t get_length() const final { return 1; }
-	inline std::string get_id() const final { return "line_separator"; }
+	size_t get_length() const override final;
+	std::string get_id() const final;
 };
 
 class lowercase_letter_t : public terminal {
 public:
-	virtual bool test(std::u32string const & document, size_t documentPosition) const final;
+	bool test(std::u32string const & document, size_t documentPosition) const override final;
 
-	inline virtual size_t get_length() const final { return 1; }
-	inline std::string get_id() const final { return "lowercase_letter"; }
+	size_t get_length() const override final { return 1; }
+	std::string get_id() const final { return "lowercase_letter"; }
 };
 
 class math_symbol_t : public terminal {
 public:
-	virtual bool test(std::u32string const & document, size_t documentPosition) const final;
+	bool test(std::u32string const & document, size_t documentPosition) const override final;
 
-	inline virtual size_t get_length() const final { return 1; }
-	inline std::string get_id() const final { return "math_symbol"; }
+	size_t get_length() const override final;
+	std::string get_id() const final;
 };
 
 class modifier_letter_t : public terminal {
 public:
-	virtual bool test(std::u32string const & document, size_t documentPosition) const final;
+	bool test(std::u32string const & document, size_t documentPosition) const override final;
 
-	inline virtual size_t get_length() const final { return 1; }
-	inline std::string get_id() const final { return "modifier_letter"; }
+	size_t get_length() const override final;
+	std::string get_id() const final;
 };
 
 class modifier_symbol_t : public terminal {
 public:
-	virtual bool test(std::u32string const & document, size_t documentPosition) const final;
+	bool test(std::u32string const & document, size_t documentPosition) const override final;
 
-	inline virtual size_t get_length() const final { return 1; }
-	inline std::string get_id() const final { return "modifier_symbol"; }
+	size_t get_length() const override final { return 1; }
+	std::string get_id() const final { return "modifier_symbol"; }
 };
 
 class nonspacing_mark_t : public terminal {
 public:
-	virtual bool test(std::u32string const & document, size_t documentPosition) const final;
+	bool test(std::u32string const & document, size_t documentPosition) const override final;
 
-	inline virtual size_t get_length() const final { return 1; }
-	inline std::string get_id() const final { return "nonspacing_mark"; }
+	size_t get_length() const override final;
+	std::string get_id() const final;
 };
 
 class number_t : public terminal {
 public:
-	virtual bool test(std::u32string const & document, size_t documentPosition) const final;
+	bool test(std::u32string const & document, size_t documentPosition) const override final;
 
-	inline virtual size_t get_length() const final { return 1; }
-	inline std::string get_id() const final { return "number"; }
+	size_t get_length() const override final;
+	std::string get_id() const final;
 };
 
 class open_punctuation_t : public terminal {
 public:
-	virtual bool test(std::u32string const & document, size_t documentPosition) const final;
+	bool test(std::u32string const & document, size_t documentPosition) const override final;
 
-	inline virtual size_t get_length() const final { return 1; }
-	inline std::string get_id() const final { return "open_punctuation"; }
+	size_t get_length() const override final;
+	std::string get_id() const final;
 };
 
 class other_letter_t : public terminal {
 public:
-	virtual bool test(std::u32string const & document, size_t documentPosition) const final;
+	bool test(std::u32string const & document, size_t documentPosition) const override final;
 
-	inline virtual size_t get_length() const final { return 1; }
-	inline std::string get_id() const final { return "other_letter"; }
+	size_t get_length() const override final;
+	std::string get_id() const final;
 };
 
 class other_number_t : public terminal {
 public:
-	virtual bool test(std::u32string const & document, size_t documentPosition) const final;
+	bool test(std::u32string const & document, size_t documentPosition) const override final;
 
-	inline virtual size_t get_length() const final { return 1; }
-	inline std::string get_id() const final { return "other_number"; }
+	size_t get_length() const override final;
+	std::string get_id() const final;
 };
 
 class other_punctuation_t : public terminal {
 public:
-	virtual bool test(std::u32string const & document, size_t documentPosition) const final;
+	bool test(std::u32string const & document, size_t documentPosition) const override final;
 
-	inline virtual size_t get_length() const final { return 1; }
-	inline std::string get_id() const final { return "other_punctuation"; }
+	size_t get_length() const override final;
+	std::string get_id() const final;
 };
 
 class other_symbol_t : public terminal {
 public:
-	virtual bool test(std::u32string const & document, size_t documentPosition) const final;
+	bool test(std::u32string const & document, size_t documentPosition) const override final;
 
-	inline virtual size_t get_length() const final { return 1; }
-	inline std::string get_id() const final { return "other_symbol"; }
+	size_t get_length() const override final;
+	std::string get_id() const final;
 };
 
 class paragraph_separator_t : public terminal {
 public:
-	virtual bool test(std::u32string const & document, size_t documentPosition) const final;
+	bool test(std::u32string const & document, size_t documentPosition) const override final;
 
-	inline virtual size_t get_length() const final { return 1; }
-	inline std::string get_id() const final { return "paragraph_separator"; }
+	size_t get_length() const override final;
+	std::string get_id() const final;
 };
 
 class printable_t : public terminal {
 public:
-	virtual bool test(std::u32string const & document, size_t documentPosition) const final;
+	bool test(std::u32string const & document, size_t documentPosition) const override final;
 
-	inline virtual size_t get_length() const final { return 1; }
-	inline std::string get_id() const final { return "printable"; }
+	size_t get_length() const override final;
+	std::string get_id() const final;
 };
 
 class public_use_t : public terminal {
 public:
-	virtual bool test(std::u32string const & document, size_t documentPosition) const final;
+	bool test(std::u32string const & document, size_t documentPosition) const override final;
 
-	inline virtual size_t get_length() const final { return 1; }
-	inline std::string get_id() const final { return "public_use"; }
+	size_t get_length() const override final;
+	std::string get_id() const final;
 };
 
 class space_separator_t : public terminal {
 public:
-	virtual bool test(std::u32string const & document, size_t documentPosition) const final;
+	bool test(std::u32string const & document, size_t documentPosition) const override final;
 
-	inline virtual size_t get_length() const final { return 1; }
-	inline std::string get_id() const final { return "space_separator"; }
+	size_t get_length() const override final;
+	std::string get_id() const final;
 };
 
 class spacing_combining_mark_t : public terminal {
 public:
-	virtual bool test(std::u32string const & document, size_t documentPosition) const final;
+	bool test(std::u32string const & document, size_t documentPosition) const override final;
 
-	inline virtual size_t get_length() const final { return 1; }
-	inline std::string get_id() const final { return "spacing_combining_mark"; }
+	size_t get_length() const override final;
+	std::string get_id() const final;
 };
 
 class surrogate_t : public terminal {
 public:
-	virtual bool test(std::u32string const & document, size_t documentPosition) const final;
+	bool test(std::u32string const & document, size_t documentPosition) const override final;
 
-	inline virtual size_t get_length() const final { return 1; }
-	inline std::string get_id() const final { return "surrogate"; }
+	size_t get_length() const override final;
+	std::string get_id() const final;
 };
 
 class titlecase_letter_t : public terminal {
 public:
-	virtual bool test(std::u32string const & document, size_t documentPosition) const final;
+	bool test(std::u32string const & document, size_t documentPosition) const override final;
 
-	inline virtual size_t get_length() const final { return 1; }
-	inline std::string get_id() const final { return "titlecase_letter"; }
+	size_t get_length() const override final;
+	std::string get_id() const final;
 };
 
 class uppercase_letter_t : public terminal {
 public:
-	virtual bool test(std::u32string const & document, size_t documentPosition) const final;
+	bool test(std::u32string const & document, size_t documentPosition) const override final;
 
-	inline virtual size_t get_length() const final { return 1; }
-	inline std::string get_id() const final { return "uppercase_letter"; }
+	size_t get_length() const override final;
+	std::string get_id() const final;
 };
 
 class white_space_t : public terminal {
 public:
-	virtual bool test(std::u32string const & document, size_t documentPosition) const final;
+	bool test(std::u32string const & document, size_t documentPosition) const override final;
 
-	inline virtual size_t get_length() const final { return 1; }
-	inline std::string get_id() const final { return "white_space"; }
+	size_t get_length() const override final;
+	std::string get_id() const final;
 };
 
 class white_space_control_t : public terminal {
 public:
-	virtual bool test(std::u32string const & document, size_t documentPosition) const final;
+	bool test(std::u32string const & document, size_t documentPosition) const override final;
 
-	inline virtual size_t get_length() const final { return 1; }
-	inline std::string get_id() const final { return "white_space_control"; }
+	size_t get_length() const override final;
+	std::string get_id() const final;
 };
 
 }

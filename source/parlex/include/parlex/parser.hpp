@@ -19,16 +19,20 @@ class context_ref;
 
 }
 
+class recognizer;
+
 class parser {
 public:
 	parser(int threadCount = std::thread::hardware_concurrency());
 	~parser();
-	abstract_syntax_graph parse(recognizer const & g, std::u32string const & document);
+	abstract_syntax_graph parse(grammar const & g, recognizer const & overrideMain, std::u32string const & document);
+	abstract_syntax_graph parse(grammar const & g, std::u32string const & document);
+	void set_update_progress_handler(std::function<void(int /*done*/, int /*total*/)>);
 private:
 	friend class details::job;
 	friend class details::subjob;
 	friend class details::producer;
-	std::mutex mutex;
+	mutable std::mutex mutex;
 	std::condition_variable halt_cv;
 	std::atomic<int> activeCount;
 	bool terminating;
@@ -36,6 +40,7 @@ private:
 	std::vector<std::thread> workers;
 	std::queue<std::tuple<details::context_ref, int>> work;
 	std::condition_variable work_cv;
+	std::function<void(int, int)> update_progress_handler;
 
 	void schedule(details::context_ref const & c, int nextDfaState);
 
@@ -48,10 +53,7 @@ private:
 	//halt the subjobs, and then resume. If stalling occurs and there
 	//are no deadlocks in the dependency digraph (implying that it is also disconnected) then there is
 	//no more work to be done. The job is finished.
-	bool handle_deadlocks(details::job const & j);
-
-	//Construct an ASG, and if a solution was found, prunes unreachable nodes
-	abstract_syntax_graph construct_result(details::job const & j, match const & match);
+	bool handle_deadlocks(details::job const & j) const;
 };
 
 }
