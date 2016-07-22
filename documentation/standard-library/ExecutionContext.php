@@ -15,11 +15,7 @@
     &lt;Threading.Thread&gt; creatingThread;
     &lt;Runtime.StackTrace&gt; stack;
     &lt;CpuContext&gt; cpuContext;
-    &lt;Runtime.FunctionModel&gt; model;
     &lt;Void → Void&gt; continue; //cooperative multithreading entrypoint
-    &lt;Bool&gt; isReentrant; //this execution context may be the target of a long jump
-    &lt;List&lt;Constant&gt;&gt; constants;
-    &lt;List&lt;Statements&gt;&gt; statements;
 };</pre>
         </div>
     

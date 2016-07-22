@@ -62,6 +62,7 @@
 				<tr><td><a href="/documentation/standard-library/Int.php">Int</a></td><td>An element of ℤ (<a href="http://www.fileformat.info/info/unicode/char/2124/index.htm">DOUBLE-STRUCK CAPITAL Z U+2124</a>) , the integers (<a href="https://en.wikipedia.org/wiki/Arbitrary-precision_arithmetic">big integer</a>)</td></tr>
 				<tr><td>Int8, Int16, Int32, Int64, Int128, UInt8, UInt16, UInt32, UInt64, UInt128</td></tr>
 				<tr><td>Int16Set</td><td>a 65536-bit array for fast set operations</td></tr>
+				<tr><td>Int24Set</td><td>a 16777216-bit (2M) array for fast set operations</td></tr>
 				<tr><td>Int8Set</td><td>a 256-bit array for fast set operations</td></tr>
 				<tr><td>Octonion</td><td>An element of 𝕆 (<a href="http://www.fileformat.info/info/unicode/char/1d546/index.htm">MATHEMATICAL DOUBLE-STRUCK CAPITAL O U+1D546</a>)</td></tr>
 				<tr><td>Parameter</td></tr>
@@ -95,11 +96,11 @@
 				<tr><td>ⅈ</td><td>ii</td><td>(<a href="http://www.fileformat.info/info/unicode/char/2148/index.htm">DOUBLE-STRUCK ITALIC SMALL I U+2148</a>)</td><td>imaginary unit</td></tr>
 				<tr><td>∅</td><td>{||}</td><td>(<a href="http://www.fileformat.info/info/unicode/char/2205/index.htm">EMPTY SET U+2205</a>)</td><td>the empty set</td></tr>
 				<tr><td>𝑒</td><td>e</td><td>(<a href="http://www.fileformat.info/info/unicode/char/1d452/index.htm">MATHEMATICAL ITALIC SMALL E U+1D452</a>)</td><td>e mathematical constant</td></tr>
-				<tr><td>𝕄(m, n)</td><td>MM(m, n)</td><td>(<a href="http://www.fileformat.info/info/unicode/char/1d544/index.htm">MATHEMATICAL&nbsp;DOUBLE-STRUCK CAPITAL&nbsp;M U+1D544</a>)</td><td>m x n matrices of reals</td></tr>
-				<tr><td>𝕆</td><td>OO</td><td>(<a href="http://www.fileformat.info/info/unicode/char/1d546/index.htm">MATHEMATICAL&nbsp;DOUBLE-STRUCK CAPITAL&nbsp;O U+1D456</a>)</td><td>octonions</td></tr>
-				<tr><td>𝕎</td><td>WW</td><td>(<a href="http://www.fileformat.info/info/unicode/char/1d54e/index.htm">MATHEMATICAL&nbsp;DOUBLE-STRUCK CAPITAL&nbsp;W U+1D54E</a>)</td><td>whole numbers (positive integers)</td></tr>
-				<tr><td>𝕀</td><td>II</td><td>(<a href="http://www.fileformat.info/info/unicode/char/1d540/index.htm">MATHEMATICAL&nbsp;DOUBLE-STRUCK CAPITAL&nbsp;I U+1D540</a>)</td><td>imaginary numbers</td></tr>
 				<tr><td>𝔹</td><td>BB</td><td>(<a href="http://www.fileformat.info/info/unicode/char/1d539/index.htm">MATHEMATICAL&nbsp;DOUBLE-STRUCK CAPITAL&nbsp;B U+1D539</a>)</td><td>booleans</td></tr>
+				<tr><td>𝕀</td><td>II</td><td>(<a href="http://www.fileformat.info/info/unicode/char/1d540/index.htm">MATHEMATICAL&nbsp;DOUBLE-STRUCK CAPITAL&nbsp;I U+1D540</a>)</td><td>imaginary numbers</td></tr>
+				<tr><td>𝕄(m, n)</td><td>MM(m, n)</td><td>(<a href="http://www.fileformat.info/info/unicode/char/1d544/index.htm">MATHEMATICAL&nbsp;DOUBLE-STRUCK CAPITAL&nbsp;M U+1D544</a>)</td><td>m x n matrices of reals</td></tr>
+				<tr><td>𝕆</td><td>OO</td><td>(<a href="http://www.fileformat.info/info/unicode/char/1d546/index.htm">MATHEMATICAL&nbsp;DOUBLE-STRUCK CAPITAL&nbsp;O U+1D546</a>)</td><td>octonions</td></tr>
+				<tr><td>𝕎</td><td>WW</td><td>(<a href="http://www.fileformat.info/info/unicode/char/1d54e/index.htm">MATHEMATICAL&nbsp;DOUBLE-STRUCK CAPITAL&nbsp;W U+1D54E</a>)</td><td>whole numbers (positive integers)</td></tr>
 			</table>
 		</code>
 		<h2>Type Functions</h2>
@@ -149,7 +150,7 @@
 				<tr><td>OpenGL</td></tr>
 				<tr><td>OpenSL</td></tr>
 				<tr><td>Parser</td></tr>
-				<tr><td>Runtime</td></tr>
+				<tr><td><a href="/documentation/standard-library/Runtime.php">Runtime</a></td></tr>
 				<tr><td>Task</td></tr>
 				<tr><td>Units</td><td>(dimensional analysis)</td></tr>
 			</table>

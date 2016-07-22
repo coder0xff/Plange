@@ -23,6 +23,7 @@
 	&lt;ExecutionContext&gt; instantiator;
 	&lt;Bool&gt; isPure;
 	&lt;Bool&gt; isAtomic;
+	&lt;Bool&gt; isReentrant; //this scope may be the target of a long jump
 	&lt;FunctionModel&gt; model;
 	&lt;SideEffectSet&gt; sideEffects;
 	&lt;Scope → Bool&gt; is_descendent_of;

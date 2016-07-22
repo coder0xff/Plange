@@ -287,7 +287,7 @@ sue = 6;</pre>
 		<div class="code">
 			<p>Example</p>
 			<pre>advanceProjectilePosition :=
-	(Vector3D initialPos, Vector3D initialVel, mass, drag, Vector3D gravity, delta_t)
+	(<Vector3D> initialPos, <Vector3D> initialVel, mass, drag, <Vector3D> gravity, delta_t)
 {
 	&lt;Real → Vector3&gt; x;                                      // declare the position function, x
 	mass * Δ^2x(t)/Δt^2 = -drag * Δx(t)/Δt + mass * gravity; // model x as a differential equation
@@ -301,7 +301,7 @@ sue = 6;</pre>
 		<div class="code">
 			<p>Example (continued)</p>
 			<pre>advanceProjectilePosition := 
-	(Vector3D initialPos, Vector3D initialVel, mass, drag, Vector3D gravity, delta_t)
+	(<Vector3D> initialPos, <Vector3D> initialVel, mass, drag, <Vector3D> gravity, delta_t)
 {
 	//closed form solution determined automatically
 	a := 𝑒^(drag*t/mass);

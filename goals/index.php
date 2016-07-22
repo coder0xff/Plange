@@ -88,7 +88,7 @@
         </ul>
 
         <h2>Solver and C.A.S.</h2>
-        <p>The interface to the solver and computer algebra system is through syntax and semantics built into the language. Constraints on systems, in the form of expressions in predicate logic, differentials, and other problem domains are solved symbolically, or numeric methods are used at runtime. This is achieved through the integration of <a href="http://www.sagemath.org/" rel="nofollow">SageMath</a> and SAT solving into the tool chain.</p>
+        <p>The interface to the solver and computer algebra system is through syntax and semantics built into the language. Constraints on systems, in the form of expressions in predicate logic, differentials, and other problem domains are solved symbolically, or numeric methods are used at runtime. This is achieved through the integration of <a href="https://github.com/symengine/symengine" rel="nofollow">symengine</a>, and constraint propogation into the tool chain.</p>
 
         <h2>Scripting friendly</h2>
         <p>Ensure that simple solutions exist for simple problems. The "Hello World" program must be one line of source code, one statement. As such, functions for printing, manipulating files, and other basic operations are automatically in scope of each translation unit. See <a href="/documentation/standard-library.php">Standard Library</a>. Further, the bar to entry must be low for provisioning and for typical use. Accessibility is critical to good adoption.</p>
