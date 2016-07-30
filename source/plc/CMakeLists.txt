@@ -1,0 +1,5 @@
+file (GLOB SRC_FILES *.cpp)
+include_directories(include ../utilities ../parlex/include . ../../llvm-3.8.1.install/include)
+add_executable(plc ${SRC_FILES})
+set_property(TARGET parlex PROPERTY CXX_STANDARD 11)
+set_property(TARGET parlex PROPERTY CXX_STANDARD_REQUIRED ON)

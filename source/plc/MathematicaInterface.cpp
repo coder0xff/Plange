@@ -17,7 +17,7 @@
 #include "ArrayExp.h"
 #include "AsmFunctionExp.h"
 #include "BijectionExp.h"
-#include "BinaryOpExp.h"
+#include "BinaryOpExp.hpp"
 #include "BitAndExp.h"
 #include "BitOrExp.h"
 #include "BitXorExp.h"
@@ -130,7 +130,7 @@ MathematicaInterface::MathematicaInterface(std::string const& mathExePath) : pro
 
 std::unique_ptr<Expression> MathematicaInterface::FullSimplify(Expression const& expr) {
 	//"FullSimplify[" << convert(expr) << "]\n"
-	throw std::exception("Not implemented.");
+	throw std::logic_error("Not implemented.");
 }
 
 void MathematicaInterface::test() {

@@ -1,4 +1,4 @@
-#include "BinaryOpExp.h"
+#include "BinaryOpExp.hpp"
 
 
 BinaryOpExp::BinaryOpExp() {}

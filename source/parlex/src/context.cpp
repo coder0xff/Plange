@@ -131,7 +131,7 @@ std::unique_ptr<match> context_ref::from_transition() const {
 	context* temp = rc->c;
 	assert(temp);
 	if (temp->fromTransition) {
-		return std::make_unique<match>(*temp->fromTransition);
+		return std::unique_ptr<match>(new match(*temp->fromTransition));
 	}
 	return std::unique_ptr<match>();
 }

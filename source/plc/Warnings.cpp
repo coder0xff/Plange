@@ -6,5 +6,4 @@ void emit_warning(int warnNumber, std::string description, std::string const & f
 	errNumberString = std::string(4 - errNumberString.length(), '0') + errNumberString;
 	std::string message = "Warning W" + errNumberString + " " + description + " " + file + ":" + std::to_string(line) + " " + info + "\n";
 	std::cerr << message;
-	throw std::exception(message.c_str());
 }

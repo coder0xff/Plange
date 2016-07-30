@@ -156,7 +156,7 @@ std::u32string read_with_bom(std::istream & src)
 	case encoding_utf32be:
 	{
 		if (buffer.length() % 4 != 0) {
-			throw std::exception("size in bytes must be a multiple of 4");
+			throw std::logic_error("size in bytes must be a multiple of 4");
 		}
 		int count = buffer.length() / 4;
 		std::u32string temp = std::u32string(count, 0);
@@ -168,7 +168,7 @@ std::u32string read_with_bom(std::istream & src)
 	case encoding_utf32le:
 	{
 		if (buffer.length() % 4 != 0) {
-			throw std::exception("size in bytes must be a multiple of 4");
+			throw std::logic_error("size in bytes must be a multiple of 4");
 		}
 		int count = buffer.length() / 4;
 		std::u32string temp = std::u32string(count, 0);
@@ -180,7 +180,7 @@ std::u32string read_with_bom(std::istream & src)
 	case encoding_utf16be:
 	{
 		if (buffer.length() % 2 != 0) {
-			throw std::exception("size in bytes must be a multiple of 2");
+			throw std::logic_error("size in bytes must be a multiple of 2");
 		}
 		int count = buffer.length() / 2;
 		std::u16string temp = std::u16string(count, 0);
@@ -192,7 +192,7 @@ std::u32string read_with_bom(std::istream & src)
 	case encoding_utf16le:
 	{
 		if (buffer.length() % 2 != 0) {
-			throw std::exception("size in bytes must be a multiple of 2");
+			throw std::logic_error("size in bytes must be a multiple of 2");
 		}
 		int count = buffer.length() / 2;
 		std::u16string temp = std::u16string(count, 0);

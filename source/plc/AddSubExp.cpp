@@ -1,4 +1,4 @@
-#include "AddSubExp.h"
+﻿#include "AddSubExp.h"
 
 
 
@@ -13,5 +13,5 @@ AddSubExp::~AddSubExp()
 
 std::u32string AddSubExp::get_name() const
 {
-	return U"�";
+	return U"±";
 }

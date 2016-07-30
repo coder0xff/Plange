@@ -6,5 +6,5 @@ void emit_error(int errNumber, std::string description, std::string const & file
 	errNumberString = std::string(4 - errNumberString.length(), '0') + errNumberString;
 	std::string message = "Error E" + errNumberString + " " + description + " " + file + ":" + std::to_string(line) + " " + info + "\n";
 	std::cerr << message;
-	throw std::exception(message.c_str());
+	throw std::logic_error(message.c_str());
 }

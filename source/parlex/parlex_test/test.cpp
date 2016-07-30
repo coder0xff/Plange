@@ -24,7 +24,7 @@ void parser_test_1() {
 	parlex::parser p(1);
 	parlex::abstract_syntax_graph result = p.parse(g, U"a");
 	if (!result.is_rooted()) {
-		throw std::exception("Test failed");
+		throw std::logic_error("Test failed");
 	}
 }
 
@@ -41,7 +41,7 @@ void parser_test_2() {
 	parlex::parser p(1);
 	parlex::abstract_syntax_graph result = p.parse(g, U"Hello, world!");
 	if (!result.is_rooted()) {
-		throw std::exception("Test failed");
+		throw std::logic_error("Test failed");
 	}
 }
 
@@ -58,7 +58,7 @@ void parser_test_3() {
 	parlex::parser p(1);
 	parlex::abstract_syntax_graph result = p.parse(g, U"bar");
 	if (result.is_rooted()) {
-		throw std::exception("Test failed");
+		throw std::logic_error("Test failed");
 	}
 }
 
@@ -78,7 +78,7 @@ void parser_test_4() {
 	parlex::parser p(1);
 	parlex::abstract_syntax_graph result = p.parse(g, U"Hello, world!");
 	if (!result.is_rooted()) {
-		throw std::exception("Test failed");
+		throw std::logic_error("Test failed");
 	}
 }
 
@@ -93,7 +93,7 @@ void parser_test_5() {
 	parlex::parser p(1);
 	parlex::abstract_syntax_graph result = p.parse(g, U"982874599127");
 	if (!result.is_rooted()) {
-		throw std::exception("Test failed");
+		throw std::logic_error("Test failed");
 	}
 }
 
@@ -115,7 +115,7 @@ void parser_test_6() {
 	parlex::parser p(1);
 	parlex::abstract_syntax_graph result = p.parse(g, U"1,2");
 	if (!result.is_rooted()) {
-		throw std::exception("Test failed");
+		throw std::logic_error("Test failed");
 	}
 }
 
@@ -148,7 +148,7 @@ void parser_test_7() {
 		parlex::parser p(1);
 		parlex::abstract_syntax_graph result = p.parse(g, U"12,(34,56),789");
 		if (!result.is_rooted()) {
-			throw std::exception("Test failed");
+			throw std::logic_error("Test failed");
 		}
 	}
 }
@@ -172,7 +172,7 @@ void parser_test_8() {
 	parlex::parser p(1);
 	parlex::abstract_syntax_graph result = p.parse(g, U"1!");
 	if (!result.is_rooted()) {
-		throw std::exception("Test failed");
+		throw std::logic_error("Test failed");
 	}
 }
 
@@ -229,7 +229,7 @@ void parser_test_9() {
 	parlex::parser p(1);
 	parlex::abstract_syntax_graph result = p.parse(g, U"1-2-3-4");
 	if (!result.is_rooted()) {
-		throw std::exception("Test failed");
+		throw std::logic_error("Test failed");
 	}
 }
 
@@ -250,7 +250,7 @@ void parser_test_10() {
 	parlex::parser p(1);
 	parlex::abstract_syntax_graph result = p.parse(g, U"hi");
 	if (!result.is_rooted()) {
-		throw std::exception("Test failed");
+		throw std::logic_error("Test failed");
 	}
 }
 
@@ -264,7 +264,7 @@ void c_string_test_1() {
     parlex::parser p(1);
     parlex::abstract_syntax_graph result = p.parse(g, U"\"abc123\\\"\"");
 	if (!result.is_rooted()) {
-		throw std::exception("Test failed");
+		throw std::logic_error("Test failed");
 	}
 }
 
@@ -278,7 +278,7 @@ void c_string_test_2() {
 	parlex::parser p(1);
 	parlex::abstract_syntax_graph result = p.parse(g, U"\"\\\\\"");
 	if (!result.is_rooted()) {
-		throw std::exception("Test failed");
+		throw std::logic_error("Test failed");
 	}
 }
 
@@ -298,7 +298,7 @@ void wirth_test_1() {
 	parlex::parser p(1);
 	parlex::abstract_syntax_graph result = p.parse(parlex::builtins::wirth, U"a=x.");
 	if (!result.is_rooted()) {
-		throw std::exception("Test failed");
+		throw std::logic_error("Test failed");
 	}
 }
 
@@ -306,7 +306,7 @@ void wirth_test_2() {
     parlex::parser p;
     parlex::abstract_syntax_graph result = p.parse(parlex::builtins::wirth, to_utf32(wirthInItself));
 	if (!result.is_rooted()) {
-		throw std::exception("Test failed");
+		throw std::logic_error("Test failed");
 	}
 }
 
@@ -314,7 +314,7 @@ void wirth_test_3() {
 	parlex::parser p;
 	parlex::abstract_syntax_graph result = p.parse(parlex::builtins::wirth, U"a=\"\\\\\".b=\"\".");
 	if (!result.is_rooted()) {
-		throw std::exception("Test failed");
+		throw std::logic_error("Test failed");
 	}
 }
 
@@ -327,7 +327,7 @@ void wirth_test_5() {
 	parlex::parser p;
 	parlex::abstract_syntax_graph result = p.parse(grammar, U"b");
 	if (result.is_rooted()) {
-		throw std::exception("Test failed");
+		throw std::logic_error("Test failed");
 	}
 }
 
@@ -336,7 +336,7 @@ void wirth_test_6() {
 	parlex::parser p;
 	parlex::abstract_syntax_graph result = p.parse(grammar, U"a1");
 	if (!result.is_rooted()) {
-		throw std::exception("Test failed");
+		throw std::logic_error("Test failed");
 	}
 }
 
@@ -345,7 +345,7 @@ void wirth_test_7() {
 	parlex::parser p;
 	parlex::abstract_syntax_graph result = p.parse(grammar, U"a1234");
 	if (!result.is_rooted()) {
-		throw std::exception("Test failed");
+		throw std::logic_error("Test failed");
 	}
 }
 
@@ -354,11 +354,11 @@ void wirth_test_8() {
 	parlex::parser p;
 	parlex::abstract_syntax_graph result1 = p.parse(grammar, U"a");
 	if (!result1.is_rooted()) {
-		throw std::exception("Test failed");
+		throw std::logic_error("Test failed");
 	}
 	parlex::abstract_syntax_graph result2 = p.parse(grammar, U"a1");
 	if (!result2.is_rooted()) {
-		throw std::exception("Test failed");
+		throw std::logic_error("Test failed");
 	}
 }
 
@@ -367,11 +367,11 @@ void wirth_test_9() {
 	parlex::parser p;
 	parlex::abstract_syntax_graph result1 = p.parse(grammar, U"a1");
 	if (!result1.is_rooted()) {
-		throw std::exception("Test failed");
+		throw std::logic_error("Test failed");
 	}
 	parlex::abstract_syntax_graph result2 = p.parse(grammar, U"a\"test\"");
 	if (!result2.is_rooted()) {
-		throw std::exception("Test failed");
+		throw std::logic_error("Test failed");
 	}
 }
 
@@ -383,7 +383,7 @@ EXPRESSION = \"EXPRESSION\".", {}, {});
 	parlex::parser p;
 	parlex::abstract_syntax_graph result = p.parse(grammar, U"[]");
 	if (!result.is_rooted()) {
-		throw std::exception("Test failed");
+		throw std::logic_error("Test failed");
 	}
 }
 
@@ -399,7 +399,7 @@ void plange_test_1() {
 	parlex::parser p(1);
 	parlex::abstract_syntax_graph result = p.parse(parlex::builtins::wirth, contents);
 	if (!result.is_rooted()) {
-		throw std::exception("Test failed");
+		throw std::logic_error("Test failed");
 	}
 }
 
@@ -417,7 +417,7 @@ void plange_test_3() {
 	parlex::parser p(1);
 	parlex::abstract_syntax_graph result = p.parse(grammar, U"print(\"Hello, world!\");");
 	if (!result.is_rooted()) {
-		throw std::exception("Test failed");
+		throw std::logic_error("Test failed");
 	}
 }
 
@@ -431,7 +431,7 @@ void plange_test_4() {
 	parlex::parser p;
 	parlex::abstract_syntax_graph result = p.parse(grammar, input);
 	if (!result.is_rooted()) {
-		throw std::exception("Test failed");
+		throw std::logic_error("Test failed");
 	}
 }
 
@@ -447,19 +447,19 @@ void plange_test_5() {
 	std::u32string input1 = str + str;
 	parlex::abstract_syntax_graph result1 = p.parse(grammar, input1);
 	if (!result1.is_rooted()) {
-		throw std::exception("Test failed");
+		throw std::logic_error("Test failed");
 	}
 
 	std::u32string input2 = str + str + str;
 	parlex::abstract_syntax_graph result2 = p.parse(grammar, input2);
 	if (!result2.is_rooted()) {
-		throw std::exception("Test failed");
+		throw std::logic_error("Test failed");
 	}
 
 	std::u32string input3 = str + str + str + str;
 	parlex::abstract_syntax_graph result3 = p.parse(grammar, input3);
 	if (!result3.is_rooted()) {
-		throw std::exception("Test failed");
+		throw std::logic_error("Test failed");
 	}
 }
 
@@ -472,13 +472,13 @@ void plange_test_6() {
 	std::u32string input1 = U"1+2+3;\n1+2+3;\n1+2+3;\n1+2+3;\n1+2+3;\n1+2+3;\n1+2+3;\n1+2+3;\n1+2+3;\n1+2+3;";
 	parlex::abstract_syntax_graph result1 = p.parse(grammar, input1);
 	if (!result1.is_rooted()) {
-		throw std::exception("Test failed");
+		throw std::logic_error("Test failed");
 	}
 
 	std::u32string input2 = U"1+2+3;\n1+2+3;\n1+2+3;\n1+2+3;\n1+2+3;\n1+2+3;\n1+2+3;\n1+2+3;\n1+2+3;\n1+2+3;\n1+2+3;\n1+2+3;\n1+2+3;\n1+2+3;\n1+2+3;\n1+2+3;\n1+2+3;\n1+2+3;\n1+2+3;\n1+2+3;";
 	parlex::abstract_syntax_graph result2 = p.parse(grammar, input2);
 	if (!result2.is_rooted()) {
-		throw std::exception("Test failed");
+		throw std::logic_error("Test failed");
 	}
 }
 
@@ -584,7 +584,7 @@ void precedence_test_2() {
 	auto asg = p.parse(g, U"3*5^7^9+2");
 	auto check = asg.to_dot();
 	if (!asg.is_rooted()) {
-		throw std::exception("Test failed");
+		throw std::logic_error("Test failed");
 	}
 }
 
@@ -594,7 +594,7 @@ void precedence_test_3() {
 	auto asg = p.parse(parlex::builtins::get_precedence_grammar(), read_with_bom(std::ifstream(PLANGE_ROOT "documentation\\operator-precedence.txt")));
 	auto check = asg.to_dot();
 	if (!asg.is_rooted()) {
-		throw std::exception("Test failed");
+		throw std::logic_error("Test failed");
 	}
 }
 
@@ -604,7 +604,7 @@ void associativity_test_1() {
 	auto asg = p.parse(parlex::builtins::get_associativity_grammar(), document);
 	auto check = asg.to_dot();
 	if (!asg.is_rooted()) {
-		throw std::exception("Test failed");
+		throw std::logic_error("Test failed");
 	}
 }
 
@@ -625,7 +625,7 @@ void full_test_1() {
 		};
 		auto check = asg->to_dot();
 		if (!asg->is_rooted()) {
-			throw std::exception("test failed");
+			throw std::logic_error("test failed");
 		}
 	}
 }

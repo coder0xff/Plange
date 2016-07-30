@@ -72,7 +72,7 @@ void load_precedence(grammar & g, std::u32string const & document)
 	parser p;
 	auto asg = p.parse(builtins::get_precedence_grammar(), document);
 	if (!asg.is_rooted()) {
-		throw std::exception("Could not parse the document");
+		throw std::domain_error("Could not parse the document");
 	}
 
 	state_machine const * entryMachine = &(builtins::get_precedence_grammar().get_productions().find("ENTRY")->second);
@@ -81,11 +81,11 @@ void load_precedence(grammar & g, std::u32string const & document)
 			auto pair = process_entry(document, asg, part);
 			auto leftIter = g.get_productions().find(pair.first);
 			if (leftIter == g.get_productions().end()) {
-				throw std::exception((pair.first + " does not exist.").c_str());
+				throw std::domain_error((pair.first + " does not exist.").c_str());
 			}
 			auto rightIter = g.get_productions().find(pair.second);
 			if (rightIter == g.get_productions().end()) {
-				throw std::exception((pair.second + " does not exist.").c_str());
+				throw std::domain_error((pair.second + " does not exist.").c_str());
 			}
 			g.add_precedence(leftIter->second, rightIter->second);
 		}

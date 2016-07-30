@@ -331,7 +331,7 @@ void compute_intersections(std::vector<std::set<node_props_t *>> const & flatten
 	}
 }
 
-void prune_detached(int documentLength, abstract_syntax_graph & asg) {
+void prune_detached(abstract_syntax_graph & asg) {
 	std::set<match> unconnecteds;
 	for (auto const & entry : asg.permutations) {
 		unconnecteds.insert(entry.first);
@@ -389,26 +389,27 @@ bool associativity_test(node_props_t & a, node_props_t & b) {
 	case none:
 		return false;
 	}
-	throw std::exception("Invalid associativity value");
+	throw std::domain_error("Invalid associativity value");
 }
 
 void select_trees(abstract_syntax_graph & asg, grammar const & g, std::map<match, node_props_t> & nodes, std::vector<std::set<match>> orderedMatchesByHeight) {
 	for (size_t height = 0; height < orderedMatchesByHeight.size(); ++height) {
 		std::set<match> const & matches = orderedMatchesByHeight[height];
 		for (match const & m : matches) {
+			bool anyPermutationSelected = false;
+			node_props_t * a = nullptr;
 			std::set<match> preservedIntersections; //used towards the end, but needs to be initialized before "goto matchLoop"
 			auto const & i = nodes.find(m);
 			if (i == nodes.end()) {
 				goto matchLoop;
 			}
-			node_props_t & a = i->second;
-			if (a.r.is_terminal()) {
-				a.selected = true;
+			a = &i->second;
+			if (a->r.is_terminal()) {
+				a->selected = true;
 				continue;
 			}
 			//are any of those permutations comprised of selected children?
-			bool anyPermutationSelected = false;
-			for (permutation const & p : a.permutations) {
+			for (permutation const & p : a->permutations) {
 				bool permutationSelected = true;
 				for (match const & child : p) {
 					node_props_t const & childProps = nodes.find(child)->second;
@@ -426,25 +427,25 @@ void select_trees(abstract_syntax_graph & asg, grammar const & g, std::map<match
 				goto matchLoop;
 			}
 			//is it possibly preempted by another match that it intersects with?
-			for (match const & intersected : a.allIntersections) {
+			for (match const & intersected : a->allIntersections) {
 				auto pair = nodes.find(intersected);
 				assert(pair != nodes.end());
 				node_props_t & b = pair->second;
-				if (precedence_test(g, b, a) || associativity_test(b, a)) {
-					prune(asg, nodes, a);
+				if (precedence_test(g, b, *a) || associativity_test(b, *a)) {
+					prune(asg, nodes, *a);
 					goto matchLoop;
 				}
 			}
 
-			a.selected = true;
-			preservedIntersections = a.allIntersections;
+			a->selected = true;
+			preservedIntersections = a->allIntersections;
 			for (match const & intersected : preservedIntersections) {
 				auto const & pair = nodes.find(intersected);
 				if (pair == nodes.end()) {
 					continue;
 				}
 				node_props_t & b = pair->second;
-				if (precedence_test(g, a, b) || associativity_test(a, b)) {
+				if (precedence_test(g, *a, b) || associativity_test(*a, b)) {
 					//if it must be selected, then precedence and associativity must remove preempted intersections
 					prune(asg, nodes, b);
 				}
@@ -492,7 +493,7 @@ abstract_syntax_graph construct_result(details::job const & j, match const & m) 
 		}
 	}
 	if (result.is_rooted()) {
-		prune_detached(j.document.length(), result);
+		prune_detached(result);
 		return apply_precedence_and_associativity(j.g, result);
 	}
 	return result;

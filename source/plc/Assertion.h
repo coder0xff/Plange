@@ -7,4 +7,4 @@ public:
 	~Assertion();
 };
 
-#endif ASSERTION_H
+#endif //ASSERTION_H

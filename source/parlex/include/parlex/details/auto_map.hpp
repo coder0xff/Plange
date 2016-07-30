@@ -15,7 +15,7 @@ class auto_map {
 public:
 	auto_map(std::function<TValue (TKey const &)> valueFactory) : value_factory(valueFactory) {}
 
-	auto_map() : value_factory([](TKey dontCare) { return TValue(); }) {}
+	auto_map() : value_factory([](TKey) { return TValue(); }) {}
 
 	TValue const & operator()(TKey key) {
 		std::unique_lock<std::mutex> lock(mutex);

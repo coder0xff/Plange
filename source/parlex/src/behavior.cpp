@@ -42,7 +42,7 @@ intermediate_nfa literal::to_intermediate_nfa() const
 	return result;
 }
 
-recognizer const & literal::get_recognizer(std::map<std::string, parlex::state_machine> const & productions, std::map<std::u32string, builtins::string_terminal> & literals) const {
+recognizer const & literal::get_recognizer(std::map<std::string, parlex::state_machine> const &, std::map<std::u32string, builtins::string_terminal> & literals) const {
 	auto i = literals.find(contents);
 	if (i == literals.end()) {
 		return literals.emplace(std::piecewise_construct, std::forward_as_tuple(contents), std::forward_as_tuple(contents)).first->second;
@@ -85,7 +85,7 @@ intermediate_nfa production::to_intermediate_nfa() const
 	return result;
 }
 
-recognizer const & production::get_recognizer(std::map<std::string, state_machine> const & productions, std::map<std::u32string, builtins::string_terminal> & literals) const {
+recognizer const & production::get_recognizer(std::map<std::string, state_machine> const & productions, std::map<std::u32string, builtins::string_terminal> &) const {
 	recognizer const * builtin_ptr;
 	if (builtins::resolve_builtin(name, builtin_ptr)) {
 		return *builtin_ptr;

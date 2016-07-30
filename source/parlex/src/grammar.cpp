@@ -31,7 +31,7 @@ namespace parlex {
 			details::intermediate_nfa const & dfa = nameAndDfa.second;
 			//construct a map from dfa states to reordered states
 			std::map<int, int> stateMap;
-			int startState = *dfa.startStates.begin();
+			unsigned int startState = *dfa.startStates.begin();
 			bool startIsAccept = dfa.acceptStates.count(startState) > 0;
 			if (!startIsAccept) {
 				stateMap[*dfa.startStates.begin()] = 0;
@@ -62,7 +62,7 @@ namespace parlex {
 			details::intermediate_nfa reordered;
 			unsigned int firstAcceptState = dfa.states.size() - dfa.acceptStates.size();
 			for (unsigned int i = 0; i < dfa.states.size(); ++i) {
-				int const dual = stateMapDual[i];
+				unsigned int const dual = stateMapDual[i];
 				details::intermediate_nfa::state const & dfa_state = dfa.states[dual];
 				reordered.add_state(i, i >= firstAcceptState, dual == startState);
 				details::intermediate_nfa::state & reordered_state = reordered.states[i];

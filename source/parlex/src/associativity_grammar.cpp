@@ -48,7 +48,7 @@ std::map<std::string, associativity> load_associativities(std::u32string documen
 	parlex::parser p;
 	auto asg = p.parse(builtins::get_associativity_grammar(), document);
 	if (!asg.is_rooted()) {
-		throw std::exception("Could not parse the document.");
+		throw std::logic_error("Could not parse the document.");
 	}
 	std::map<std::string, associativity> result;
 	for (match const & m : *asg.permutations[asg.root].begin()) {

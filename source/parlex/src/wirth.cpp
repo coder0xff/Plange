@@ -243,7 +243,7 @@ grammar load_grammar(std::string const & nameOfMain, std::u32string const & docu
 			std::string name = to_utf8(document.substr(namePart.document_position, namePart.consumed_character_count));
 			recognizer const * dontCare;
 			if (builtins::resolve_builtin(name, dontCare)) {
-				throw std::exception((name + " is a reserved name.").c_str()); // name is reserved for a builtin
+				throw std::logic_error((name + " is a reserved name.").c_str()); // name is reserved for a builtin
 			}
 			trees[name] = behavior;
 		}

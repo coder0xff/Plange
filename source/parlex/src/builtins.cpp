@@ -52,7 +52,7 @@ void progress_bar(int done, int outOf) {
 	std::unique_lock<std::mutex> lock(m);
 	int ticks = done * 25 / outOf;
 	std::cout << "\r[" << std::string(ticks, '*') << std::string(25 - ticks, ' ') << "]";
-};
+}
 
 parlex::details::any_character_t any_character;
 parlex::details::not_double_quote_t not_double_quote;

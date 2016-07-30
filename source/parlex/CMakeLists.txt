@@ -1,0 +1,5 @@
+file (GLOB SRC_FILES src/*.cpp)
+include_directories(include ../utilities)
+add_library(parlex ${SRC_FILES})
+set_property(TARGET parlex PROPERTY CXX_STANDARD 11)
+set_property(TARGET parlex PROPERTY CXX_STANDARD_REQUIRED ON)
