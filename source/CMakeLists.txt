@@ -3,6 +3,7 @@ project (plange)
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -pedantic -Wextra -std=c++11")
 
+
 # The version number.
 set (plange_VERSION_MAJOR 0)
 set (plange_VERSION_MINOR 1)
@@ -14,9 +15,6 @@ configure_file (
 	"${PROJECT_BINARY_DIR}/plangeConfig.hpp"
 )
 
-# add the binary tree to the search path for include files
-# so that we will find TutorialConfig.h
-include_directories("${PROJECT_BINARY_DIR}")
 
 add_subdirectory(parlex)
 add_subdirectory(plc)
