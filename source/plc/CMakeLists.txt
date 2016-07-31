@@ -1,29 +1,33 @@
-include(ExternalProject)
+cmake_minimum_required (VERSION 2.6)
+project(plc)
 
-#dependency on LLVM
-set(LLVM_VERSION 3.8.1)
-ExternalProject_Add(
-	llvm
-	PREFIX /var/tmp/llvm-${LLVM_VERSION}.src
-	BINARY_DIR /var/tmp/llvm-${LLVM_VERSION}.build
-	URL http://llvm.org/releases/${LLVM_VERSION}/llvm-${LLVM_VERSION}.src.tar.xz
-	CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=${PROJECT_BINARY_DIR}/llvm-${LLVM_VERSION} -DLLVM_INCLUDE_DOCS=No -DLLVM_INCLUDE_EXAMPLES=No -DLLVM_INCLUDE_GO_TESTS=No -DLLVM_INCLUDE_TESTS=No -DLLVM_INCLUDE_TOOLS=No -DLLVM_INCLUDE_UTILS=No
-)
-include(${PROJECT_BINARY_DIR}/llvm-${LLVM_VERSION}/share/llvm/cmake/LLVMConfig.cmake)
-include_directories(${LLVM_INCLUDE_DIRS})
-link_directories(${LLVM_LIBRARY_DIRS})
+if(NOT PLANGE_BIN)
+	message(FATAL_ERROR "The PLANGE_BIN variable is not set")
+endif (NOT PLANGE_BIN)
+
+if (NOT LLVM_VERSION)
+	message(FATAL ERROR "The LLVM_VERSION variable is not set")
+endif (NOT LLVM_VERSION)
+
+if(NOT PLANGE_SRC)
+	message(FATAL_ERROR "The PLANGE_SRC variable is not set")
+endif (NOT PLANGE_SRC)
+
+include(${PLANGE_BIN}/llvm-${LLVM_VERSION}/share/llvm/cmake/LLVMConfig.cmake)
+include_directories(${LLVM_INCLUDE_DIRS} ${PLANGE_SRC}/utilities/ ${PLANGE_SRC}/parlex/include/)
+link_directories(${LLVM_LIBRARY_DIRS} ${PLANGE_BIN}/parlex ${PLANGE_BIN}/utilities)
 
 #collect source files
 file (GLOB SRC_FILES src/*.cpp)
-include_directories(. include ../utilities ../parlex/include)
+include_directories(. include)
 
 # add the binary tree to the search path for include files
 # so that we will find plangeConfig.hpp
-include_directories("${PROJECT_BINARY_DIR}")
+include_directories()
 
 add_executable(plc ${SRC_FILES})
-add_dependencies(plc llvm)
-
 target_link_libraries(plc parlex utilities LLVMCore LLVMSupport)
-set_property(TARGET parlex PROPERTY CXX_STANDARD 11)
-set_property(TARGET parlex PROPERTY CXX_STANDARD_REQUIRED ON)
+set_property(TARGET plc PROPERTY CXX_STANDARD 11)
+set_property(TARGET plc PROPERTY CXX_STANDARD_REQUIRED ON)
+
+install(FILES ${PLANGE_BIN}/plc_build/plc DESTINATION ${PLANGE_BIN} PERMISSIONS OWNER_WRITE OWNER_READ OWNER_EXECUTE GROUP_READ GROUP_EXECUTE WORLD_READ WORLD_EXECUTE)
