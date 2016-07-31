@@ -1,4 +1,6 @@
 #include "PostIncExp.hpp"
+#include "value.hpp"
+#include "Errors.hpp"
 
 
 
@@ -19,4 +21,8 @@ std::u32string PostIncExp::get_name() const
 bool PostIncExp::get_postfix() const
 {
 	return true;
+}
+
+value PostIncExp::evaluate() const {
+	ERROR(NotImplemented, __FUNCTION__);
 }

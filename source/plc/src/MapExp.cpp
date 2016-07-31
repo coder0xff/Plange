@@ -1,4 +1,6 @@
 #include "MapExp.hpp"
+#include "value.hpp"
+#include "Errors.hpp"
 
 
 
@@ -16,4 +18,8 @@ MapExp::MapExp(MapExp const & other)
 
 MapExp::~MapExp()
 {
+}
+
+value MapExp::evaluate() const {
+	ERROR(NotImplemented, __FUNCTION__);
 }

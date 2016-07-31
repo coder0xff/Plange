@@ -1,4 +1,6 @@
 #include "DeltaExp.hpp"
+#include "value.hpp"
+#include "Errors.hpp"
 
 
 
@@ -12,4 +14,8 @@ DeltaExp::DeltaExp(DeltaExp const & other) : rank(other.rank), sub_expression(cl
 
 DeltaExp::~DeltaExp()
 {
+}
+
+value DeltaExp::evaluate() const {
+	ERROR(NotImplemented, __FUNCTION__);
 }

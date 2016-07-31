@@ -98,7 +98,7 @@ std::string to_utf8(const std::u32string &s)
 
 std::u16string to_utf16(const std::string &s)
 {
-	std::wstring_convert<std::codecvt_utf8<int16_t>, int16_t> convert;
+	std::wstring_convert<std::codecvt_utf8<char16_t>, char16_t> convert;
 	return convert.from_bytes(s);
 }
 

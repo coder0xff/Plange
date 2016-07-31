@@ -1,4 +1,6 @@
 #include "NegationExp.hpp"
+#include "value.hpp"
+#include "Errors.hpp"
 
 
 
@@ -19,4 +21,8 @@ std::u32string NegationExp::get_name() const
 bool NegationExp::get_postfix() const
 {
 	return false;
+}
+
+value NegationExp::evaluate() const {
+	ERROR(NotImplemented, __FUNCTION__);
 }

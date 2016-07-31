@@ -1,5 +1,6 @@
-
 #include "CollectionExp.hpp"
+#include "value.hpp"
+#include "Errors.hpp"
 
 CollectionExp::CollectionExp()
 {
@@ -15,3 +16,7 @@ CollectionExp::CollectionExp(CollectionExp const & other)
 	}
 }
 
+
+value CollectionExp::evaluate() const {
+	ERROR(NotImplemented, __FUNCTION__);
+}

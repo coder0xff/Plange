@@ -1,4 +1,6 @@
 ﻿#include "NotExp.hpp"
+#include "value.hpp"
+#include "Errors.hpp"
 
 
 
@@ -19,4 +21,8 @@ std::u32string NotExp::get_name() const
 bool NotExp::get_postfix() const
 {
 	return false;
+}
+
+value NotExp::evaluate() const {
+	ERROR(NotImplemented, __FUNCTION__);
 }

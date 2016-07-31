@@ -1,4 +1,6 @@
 #include "KleeneStarExp.hpp"
+#include "value.hpp"
+#include "Errors.hpp"
 
 
 
@@ -19,4 +21,8 @@ std::u32string KleeneStarExp::get_name() const
 bool KleeneStarExp::get_postfix() const
 {
 	return true;
+}
+
+value KleeneStarExp::evaluate() const {
+	ERROR(NotImplemented, __FUNCTION__);
 }

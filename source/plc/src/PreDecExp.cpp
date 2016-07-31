@@ -1,4 +1,6 @@
 #include "PreDecExp.hpp"
+#include "value.hpp"
+#include "Errors.hpp"
 
 
 
@@ -19,4 +21,8 @@ std::u32string PreDecExp::get_name() const
 bool PreDecExp::get_postfix() const
 {
 	return false;
+}
+
+value PreDecExp::evaluate() const {
+	ERROR(NotImplemented, __FUNCTION__);
 }

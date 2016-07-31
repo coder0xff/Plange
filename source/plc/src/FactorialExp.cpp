@@ -1,4 +1,6 @@
 #include "FactorialExp.hpp"
+#include "value.hpp"
+#include "Errors.hpp"
 
 
 
@@ -17,4 +19,8 @@ std::u32string FactorialExp::get_name() const
 bool FactorialExp::get_postfix() const
 {
 	return true;
+}
+
+value FactorialExp::evaluate() const {
+	ERROR(NotImplemented, __FUNCTION__);
 }

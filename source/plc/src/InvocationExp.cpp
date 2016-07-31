@@ -1,4 +1,6 @@
 #include "InvocationExp.hpp"
+#include "value.hpp"
+#include "Errors.hpp"
 
 
 
@@ -18,4 +20,8 @@ InvocationExp::InvocationExp(InvocationExp const & other) : function(clone(*othe
 
 InvocationExp::~InvocationExp()
 {
+}
+
+value InvocationExp::evaluate() const {
+	ERROR(NotImplemented, __FUNCTION__);
 }

@@ -1,4 +1,6 @@
 ﻿#include "RadicalExp.hpp"
+#include "value.hpp"
+#include "Errors.hpp"
 
 
 
@@ -17,4 +19,8 @@ std::u32string RadicalExp::get_name() const
 bool RadicalExp::get_postfix() const
 {
 	return false;
+}
+
+value RadicalExp::evaluate() const {
+	ERROR(NotImplemented, __FUNCTION__);
 }

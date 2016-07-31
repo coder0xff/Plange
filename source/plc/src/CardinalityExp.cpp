@@ -1,4 +1,6 @@
 #include "CardinalityExp.hpp"
+#include "value.hpp"
+#include "Errors.hpp"
 
 
 
@@ -19,4 +21,8 @@ std::u32string CardinalityExp::get_name() const
 bool CardinalityExp::get_postfix() const
 {
 	return false;
+}
+
+value CardinalityExp::evaluate() const {
+	ERROR(NotImplemented, __FUNCTION__);
 }

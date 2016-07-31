@@ -1,4 +1,6 @@
 #include "PreIncExp.hpp"
+#include "value.hpp"
+#include "Errors.hpp"
 
 
 
@@ -19,4 +21,8 @@ std::u32string PreIncExp::get_name() const
 bool PreIncExp::get_postfix() const
 {
 	return false;
+}
+
+value PreIncExp::evaluate() const {
+	ERROR(NotImplemented, __FUNCTION__);
 }

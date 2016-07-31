@@ -1,4 +1,6 @@
 #include "IfExp.hpp"
+#include "value.hpp"
+#include "Errors.hpp"
 
 
 
@@ -21,4 +23,8 @@ IfExp::IfExp(IfExp const & other) : else_(clone(*other.else_))
 
 IfExp::~IfExp()
 {
+}
+
+value IfExp::evaluate() const {
+	ERROR(NotImplemented, __FUNCTION__);
 }

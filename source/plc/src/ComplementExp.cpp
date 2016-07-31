@@ -1,4 +1,6 @@
 ﻿#include "ComplementExp.hpp"
+#include "value.hpp"
+#include "Errors.hpp"
 
 
 
@@ -19,4 +21,8 @@ std::u32string ComplementExp::get_name() const
 bool ComplementExp::get_postfix() const
 {
 	return true;
+}
+
+value ComplementExp::evaluate() const {
+	ERROR(NotImplemented, __FUNCTION__);
 }

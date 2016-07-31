@@ -1,4 +1,6 @@
 ﻿#include "ExistsExp.hpp"
+#include "value.hpp"
+#include "Errors.hpp"
 
 
 
@@ -19,4 +21,8 @@ std::u32string ExistsExp::get_name() const
 bool ExistsExp::get_postfix() const
 {
 	return false;
+}
+
+value ExistsExp::evaluate() const {
+	ERROR(NotImplemented, __FUNCTION__);
 }

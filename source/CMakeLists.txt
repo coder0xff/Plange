@@ -16,5 +16,6 @@ configure_file (
 )
 
 
+add_subdirectory(utilities)
 add_subdirectory(parlex)
 add_subdirectory(plc)
