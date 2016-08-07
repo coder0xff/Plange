@@ -1,3 +1,0 @@
-// the configured options and settings for plange
-#define PLANGE_VERSION_MAJOR @plange_VERSION_MAJOR@
-#define PLANGE_VERSION_MINOR @plange_VERSION_MINOR@

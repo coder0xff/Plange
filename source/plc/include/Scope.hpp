@@ -30,4 +30,4 @@ public:
 	bool canExecute(Scope const& s);
 };
 
-#endif SCOPE_HPP
+#endif //SCOPE_HPP

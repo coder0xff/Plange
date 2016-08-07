@@ -7,4 +7,4 @@ public:
 	~Constant();
 };
 
-#endif CONSTANT_HPP
+#endif //CONSTANT_HPP
