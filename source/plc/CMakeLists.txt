@@ -287,5 +287,3 @@ target_link_libraries(plc parlex utilities LLVMCore LLVMSupport)
 set_property(TARGET plc PROPERTY CXX_STANDARD 11)
 set_property(TARGET plc PROPERTY CXX_STANDARD_REQUIRED ON)
 
-
-add_dependencies(plc utilities parlex)
