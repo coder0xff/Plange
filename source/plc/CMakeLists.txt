@@ -1,6 +1,5 @@
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${PROJECT_SOURCE_DIR}/cmake/Modules/")
 include(PrecompiledHeader)
-include(vsyasm_install)
 
 #dependency on LLVM
 set(LLVM_VERSION 3.8.1)
@@ -9,25 +8,20 @@ if(${MSVC})
 	if(NOT ${LLVM_FOUND})
 		include(msvc_fetch_llvm)
 	endif()
+	include(msvc_fetch_mpir)
 else()
 	find_package(LLVM CONFIG)
 endif()
 
 #Prep build for symengine
 set(PLC_SYMENGINE_BINARY_DIR "${CMAKE_CURRENT_BINARY_DIR}/symengine.build")
-set(PLC_SYMENGINE_INSTALL_DIR "${CMAKE_INSTALL_PREFIX}/symengine")
 file(MAKE_DIRECTORY "${PLC_SYMENGINE_BINARY_DIR}")
-execute_process(COMMAND "${CMAKE_COMMAND}" "${CMAKE_CURRENT_SOURCE_DIR}/symengine" "-G" "${CMAKE_GENERATOR}" "-DCMAKE_INSTALL_PREFIX=${PLC_SYMENGINE_INSTALL_DIR}" WORKING_DIRECTORY ${PLC_SYMENGINE_BINARY_DIR} RESULT_VARIABLE PLC_SYMENGINE_CMAKE_RESULT)
+execute_process(COMMAND "${CMAKE_COMMAND}" "${CMAKE_CURRENT_SOURCE_DIR}/symengine" "-G" "${CMAKE_GENERATOR}" "-DGMP_LIBRARIES=${GMP_LIBRARIES}" "-DGMP_INCLUDE_DIRS=${GMP_INCLUDE_DIRS}" "-DGMP_TARGETS=${GMP_LIBRARIES}" WORKING_DIRECTORY ${PLC_SYMENGINE_BINARY_DIR} RESULT_VARIABLE PLC_SYMENGINE_CMAKE_RESULT)
 if(${PLC_SYMENGINE_CMAKE_RESULT})
 	message(FATAL_ERROR "Unable to configure symengine. Check output for errors.")
 endif()
 add_custom_target(symengine_build
 	"${CMAKE_COMMAND}" "--build" "${PLC_SYMENGINE_BINARY_DIR}"
-)
-
-add_custom_target(symengine_install ALL
-	"${CMAKE_COMMAND}" "--build" "${PLC_SYMENGINE_BINARY_DIR}" "--target" "install"
-	DEPENDS symengine_build
 )
 
 include_directories(${CMAKE_SOURCE_DIR}/parlex/include)
@@ -302,7 +296,12 @@ source_group("include" FILES ${HEADERS})
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include)
 add_precompiled_header(plc "include/stdafx.hpp" FORCEINCLUDE SOURCE_CXX "src/stdafx.cpp")
 target_link_libraries(plc parlex utilities LLVMCore LLVMSupport)
-add_dependencies(plc symengine_install)
+if(${MSVC})
+	target_link_libraries(plc "${PLC_SYMENGINE_BINARY_DIR}/symengine/Debug/symengine.lib")
+else()
+	target_link_libraries(plc "${PLC_SYMENGINE_BINARY_DIR}/symengine/libsymengine.a")
+endif()
+add_dependencies(plc symengine_build)
 set_property(TARGET plc PROPERTY CXX_STANDARD 11)
 set_property(TARGET plc PROPERTY CXX_STANDARD_REQUIRED ON)
 
