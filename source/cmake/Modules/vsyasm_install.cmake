@@ -3,7 +3,7 @@
 
 function(vsyasm_install)
 	if(${MSVC})
-		set(DOWNLOADS_DIR "$ENV{USERPROFILE}\\Downloads")
+		set(DOWNLOADS_DIR "${PROJECT_BINARY_DIR}\\Downloads")
 		set(SUPPORTED_VS_VERSIONS "10" "11" "12" "14")
 
 		set(USER_LEVEL 0 CACHE INTERNAL "")
@@ -33,6 +33,8 @@ function(vsyasm_install)
 				granted()
 			endif()
 		endfunction(do_admin_check)
+
+		file(MAKE_DIRECTORY "${DOWNLOADS_DIR}")
 
 		set(PROGS_PATH $ENV{ProgramFiles})
 		set(X86_PROGS_PATH ${PROGS_PATH})
