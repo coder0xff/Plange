@@ -16,11 +16,11 @@ endif()
 #Prep build for symengine
 set(PLC_SYMENGINE_BINARY_DIR "${CMAKE_CURRENT_BINARY_DIR}/symengine.build")
 file(MAKE_DIRECTORY "${PLC_SYMENGINE_BINARY_DIR}")
-ExternalProject_add
-execute_process(COMMAND "${CMAKE_COMMAND}" "${CMAKE_CURRENT_SOURCE_DIR}/symengine" "-G" "${CMAKE_GENERATOR}" "-DGMP_LIBRARIES=${GMP_LIBRARIES}" "-DGMP_INCLUDE_DIRS=${GMP_INCLUDE_DIRS}" "-DGMP_TARGETS=${GMP_LIBRARIES}" "-DCMAKE_BUILD_TYPE=Debug" "-DGMP_LIBRARY=WORKING_DIRECTORY ${PLC_SYMENGINE_BINARY_DIR} RESULT_VARIABLE PLC_SYMENGINE_CMAKE_RESULT)
+execute_process(COMMAND "${CMAKE_COMMAND}" "${CMAKE_CURRENT_SOURCE_DIR}/symengine" "-G" "${CMAKE_GENERATOR}" "-DGMP_LIBRARIES=${GMP_LIBRARIES}" "-DGMP_INCLUDE_DIRS=${GMP_INCLUDE_DIRS}" "-DGMP_TARGETS=${GMP_LIBRARIES}" "-DCMAKE_BUILD_TYPE=Debug" WORKING_DIRECTORY "${PLC_SYMENGINE_BINARY_DIR}" RESULT_VARIABLE PLC_SYMENGINE_CMAKE_RESULT)
 if(${PLC_SYMENGINE_CMAKE_RESULT})
 	message(FATAL_ERROR "Unable to configure symengine. Check output for errors.")
 endif()
+include(msvc_symengine_mdd)
 add_custom_target(symengine_build
 	"${CMAKE_COMMAND}" "--build" "${PLC_SYMENGINE_BINARY_DIR}"
 )
@@ -301,7 +301,7 @@ target_link_libraries(plc parlex utilities LLVMCore LLVMSupport)
 if(${MSVC})
 	target_link_libraries(plc "${PLC_SYMENGINE_BINARY_DIR}/symengine/Debug/symengine.lib")
 else()
-	target_link_libraries(plc "${PLC_SYMENGINE_BINARY_DIR}/symengine/libsymengine.a")
+	target_link_libraries(plc "${PLC_SYMENGINE_BINARY_DIR}/symengine/${CMAKE_STATIC_MODULE_PREFIX}symengine${CMAKE_STATIC_LIB‌​RARY_SUFFIX}")
 endif()
 add_dependencies(plc symengine_build)
 set_property(TARGET plc PROPERTY CXX_STANDARD 11)

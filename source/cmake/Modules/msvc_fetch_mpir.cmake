@@ -51,7 +51,7 @@ function(msvc_fetch_mpir)
 			#copy files to MPIR_INSTALL_DIR
 			file(COPY "${MPIR_SLN_INC}" DESTINATION "${MPIR_INSTALL_DIR}")
 			file(COPY "${MPIR_SLN_LIB}" DESTINATION "${MPIR_INSTALL_DIR}")
-			file(COPY "${MPIR_SLN_OUT_DIR}\\mpir.pdb" "${MPIR_INSTALL_DIR}")
+			file(COPY "${MPIR_SLN_OUT_DIR}\\mpir.pdb" DESTINATION "${MPIR_INSTALL_DIR}")
 			
 		endif()
 		set(GMP_INCLUDE_DIRS "${GMP_INCLUDE_DIRS}" PARENT_SCOPE)
