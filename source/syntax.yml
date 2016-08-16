@@ -158,7 +158,7 @@ BINARY_LOGICAL_OP:
 
 BINARY_OP:
     syntax: >
-        BINARY_ARITHMETIC_OP | BITWISE_OP | COLLECTION_OP | COMPOUND | CONSTRUCTIVE_OP | BINARY_LOGICAL_OP | RELATIONAL_OP | MODULATION | INTEGER_DIVISION
+        BINARY_ARITHMETIC_OP | BITWISE_OP | COLLECTION_OP | CONSTRUCTIVE_OP | BINARY_LOGICAL_OP | RELATIONAL_OP | MODULATION | INTEGER_DIVISION
     doc: >
         a sequence of one or more punctuation (and special) characters representing an infix operator
     notes: >
@@ -356,7 +356,7 @@ CONDITIONAL:
 
 CONSTRUCTIVE_OP:
     syntax: >
-        COMPOSITION | PREPEND | NULL_COALESCE
+        COMPOSITION | COMPOUND | PREPEND | NULL_COALESCE
     doc: >
         operators that are constructive for making values 
 
