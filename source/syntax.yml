@@ -1,0 +1,1394 @@
+---
+ADD_SUB:
+    syntax: >
+        EXPRESSION {IC} ("±"|"+-") {IC} EXPRESSION
+    doc: >
+        creates an algebraic value storing the simultaneous results of addition and subtraction
+
+ADDITION:
+    syntax: >
+        EXPRESSION {IC} "+" {IC} EXPRESSION
+    doc: >
+        no documentation available
+
+ALL:
+    syntax: >
+        "∀" {IC} EXPRESSION
+    doc: >
+        constrain ALL elements of a Collection to be true
+    example: |
+        someNumbers := {| -100, 1, 100 |};
+
+        if (∀ { x >= 0 where x ∈ someNumbers}) {
+            print("None of the numbers are negative");
+        } else {
+            print("Some of the numbers are negative");
+        }
+    notes: >
+        The values in the collection need not be Bool, so long as Bool casts T is true, where T is the type of each element.
+    see:
+        - EXISTS
+        - EXISTS_ONE        
+    
+ALLOCATION:
+    syntax: >
+        "alloc" {IC} PARENTHETICAL_INVOCATION
+    doc: >
+        create an object on the heap
+
+AND:
+    syntax: >
+        EXPRESSION {IC} ("∧"|"and") {IC} EXPRESSION
+    doc: >
+        no documentation available
+
+ARRAY:
+    syntax: >
+        "[" {IC} [EXPRESSION {{IC} "," {IC} EXPRESSION} {IC} ] "]"
+    doc: >
+        no documentation available
+
+ARRAY_INVOCATION:
+    syntax: >
+        EXPRESSION "[" [{IC} (EXPRESSION|SLICE)] {{IC} "," [{IC} (EXPRESSION|SLICE)]} {IC} "]"
+    doc: >
+        no documentation available
+
+ASM_EXPRESSION:
+    syntax: >
+        ASM_IDENTIFIER | ASM_PTR_ARITHMETIC_ATT | ASM_PTR_ARITHMETIC_INTEL | NON_FRACTIONAL
+    doc: >
+        no documentation available
+
+ASM_IDENTIFIER:
+    syntax: >
+        ["%"] IDENTIFIER
+    doc: >
+        no documentation available
+
+ASM_FUNCTION:
+    syntax: >
+        [ "(" {IC} [ PARAMETER {{IC} "," {IC} PARAMETER} {IC} ] ")" {IC} ] [FUNCTION_MODIFIER] "asm" {IC} "{" ASM_SCOPE "}"
+    doc: >
+        no documentation available
+
+ASM_OP:
+    syntax: >
+        (lowercase_letter) {lowercase_letter}
+    doc: >
+        no documentation available
+
+ASM_PTR_ARITHMETIC_ATT:
+    syntax: >
+        (ASM_IDENTIFIER ":" NON_FRACTIONAL) | (ASM_IDENTIFIER ":" NON_FRACTIONAL ASM_PTR_ARITHMETIC_ATT_REG) | (NON_FRACTIONAL ASM_PTR_ARITHMETIC_ATT_REG)
+    doc: >
+        no documentation available
+
+ASM_PTR_ARITHMETIC_ATT_REG:
+    syntax: >
+        "(" [ASM_IDENTIFIER] ["," ASM_IDENTIFIER ["," NON_NEG_NON_FRACTIONAL]] ")"
+    doc: >
+        no documentation available
+
+ASM_PTR_ARITHMETIC_INTEL:
+    syntax: >
+        [("BYTE"|"WORD"|"DWORD"|"QWORD") " PTR"] "[" [ASM_IDENTIFIER ":"] ASM_IDENTIFIER ["+" ASM_IDENTIFIER ["*" NON_NEG_NON_FRACTIONAL]] [("+"|"-") NON_NEG_INTEGER] "]"
+    doc: >
+        no documentation available
+
+ASM_SCOPE:
+    syntax: >
+        {IC | ASM_STATEMENT}
+    doc: >
+        no documentation available
+
+ASM_STATEMENT:
+    syntax: >
+        ASM_OP [ICR ASM_EXPRESSION {{IC} "," [{IC} ASM_EXPRESSION]}] {IC} "\n"
+    doc: >
+        no documentation available
+
+ASSIGNMENT:
+    syntax: >
+        EXPRESSION {IC} ("←"|"<-") {IC} {EXPRESSION {IC} ("←"|"<-") {IC}} EXPRESSION
+    doc: >
+        place the given value into the given variable
+    example: |
+        iPow2 ← -1;
+    notes: |
+        <p>Note that the left hand side of assignments need not be trivial expressions mapping to a single memory structure - a so called lvalue in some other languages. Rather, arbitrary expressions can be solved when a single free variable is present. Revisiting the above example:</p>
+        <div class="code">
+            <p>A variable</p>
+            <pre><span style="color:red">iPow2</span> ← -1;</pre>
+            <p>is assigned</p>
+            <pre>iPow2 <span style="color:red">←</span> -1;</pre>
+            <p>a value</p>
+            <pre>iPow2 ← <span style="color:red">-1</span>;</pre>
+        </div>
+        <p>It is straightforward in that a single value is being put in a single variable, and both of them are clearly defined. However:</p>
+        <div class="code">
+            <p>Example</p>
+            <pre>x + 1 ← 0;</pre>
+        </div>
+        <p>The above example is contrived, but provides a simple segue to constraint based programming. When this statement is executed the value -1 is stored in <code>x</code>. Substituting -1 for x yields <code>(-1) + 1 = 0</code>.</p>
+        
+        <p>Assignment operations can be chained together</p>
+        <div class="code">
+            <p>Example</p>
+            <pre>a ← b ← c;</pre>
+        </div>        
+
+BIJECTION:
+    syntax: >
+        EXPRESSION {IC} ("↔"|"<->") {IC} EXPRESSION
+    doc: >
+        a bijection exists between the left and right hand operands
+
+BINARY_ARITHMETIC_OP:
+    syntax: >
+        ADDITION | SUBTRACTION | ADD_SUB | MULTIPLICATIVE_OP | DIVISION | EXPONENTIATION | SHIFTL | SHIFTR
+    doc: >
+        the collection of binary operators that work on numbers (among other things)
+
+BINARY_LOGICAL_OP:
+    syntax: >
+        AND | OR | XOR | NAND | NOR | IMPLICATION | IFF | MAPS_TO | BIJECTION
+    doc: >
+        no documentation available
+
+BINARY_OP:
+    syntax: >
+        BINARY_ARITHMETIC_OP | BITWISE_OP | COLLECTION_OP | COMPOUND | CONSTRUCTIVE_OP | BINARY_LOGICAL_OP | RELATIONAL_OP | MODULATION | INTEGER_DIVISION
+    doc: >
+        a sequence of one or more punctuation (and special) characters representing an infix operator
+    notes: >
+        <h4>* (<a href="/documentation/syntax/multiplication.php">multiplication</a>)</h4>
+        <ul>
+            <li>as the arithmetic operator, multiplication: Number * Number → Number</li>
+            <li>as the product of Types, making a tuple Type: Type * Type → Type</li>
+            <li>as the the inner product of two vectors as an alternative to <a href="/documentation/syntax/dot_product.php">dot_product</a>: Vector&lt;d, Number&gt; * Vector&lt;d, Number&gt; → Number</li>
+            <li>See also: <a href="/documentation/syntax/kleene_star.php">kleene_star</a></li>
+        </ul>
+
+        <h4>× (<a href="/documentation/syntax/cross_product.php">cross_product</a>)</h4>
+        <p>The unicode character MULTIPLICATION SIGN (U+00D7) (not to be confused with x, the unicode character LATIN SMALL LETTER X (U+0078))
+        may be typed as <code>_x_</code>.</p>
+        <ul>
+            <li>as the arithmetic operator "multiplication"</a>
+                Function signature: Number * Number → Number
+            </li>
+            <li>as the cross product of two three component vectors <a href="/documentation/syntax/cross_product.php">cross_product</a>
+                Function signature: Vector&lt;3&gt; * Vector&lt;3&gt; → Vector&lt;3&gt;
+            </li>
+            <li>as the product of Types, making a tuple Type
+                Function signature: Type * Type → Type
+            </li>
+        </ul>
+
+        <h4>→ (arrow)</h4>
+        <p>The unicode character RIGHTWARD ARROW (U+2192) may be typed as <code>-&gt;</code>.
+        The arrow operator creates an object which is simultaneously a <b>function type</b>
+        and a <a href="/documentation/syntax/maps_to.php">maps_to</a> relation. The signature of a function is composed with the left hand side defining the function's domain (the input parameter types) and the right hand defining the codomain (the return type).</p>
+        <ul>
+            <li>as a factory of a function type
+                Function signature: Type * Type → Type
+            </li>
+            <li>as a relation indicating a <a href="/documentation/syntax/maps_to.php">maps_to</a> constraint
+                Function signature: Set * Set → Relation
+            </li>
+        </ul>
+
+        <h4>∘ (ring)</h4>
+        <p>The unicode character RING OPERATOR (U+2218) may be typed as <code>_o_</code>.
+            The ring operator composes functions such that <code>(f ○ g)(x)</code> is equivalent to
+            <code>f(g(x))</code>.</p>
+        <ul>
+            <li>as the <a href="/documentation/syntax/composition.php">composition</a> operator
+                Function signature: (X → Y) * (Y → Z) → (X → Z)
+            </li>
+        </ul>
+
+        <h4>& (prepend)</h4>
+        <p>The prepend operator creates a new collection, putting the left hand operand at the beginning and then appending the collection in the right hand operand</p>
+        <ul>
+            <li>as the denumerable constructor <a href="/documentation/syntax/prepend.php">prepend</a>
+                Function signature: T * Collection&lt;T&gt; -&gt; Collection&lt;T&gt;
+            </li>
+        </ul>
+
+        <h4>∪ (set_union)</h4>
+        <p>The unicode character UNION (0x222A) may be typed as <code>_u_</code>. Not to be confused with 'U' (0x55).</p>
+        <ul>
+            <li>as the set union
+                Function signature: Set * Set → Set
+            </li>
+        </ul>
+
+        <h4>∩ (set_intersection)</h4>
+        <p>The unicode character INTERSECTION (0x2229) may be typed as <code>_i_</code>.
+        <ul>
+            <li>as the set_intersection operator
+                Function signature: Set * Set → Set
+            </li>
+        </ul>
+
+        <h4>/ (slash)</h4>
+        <ul>
+            <li>as the collection_difference operator
+                Function signature: Collection * Collection → Collection
+            </li>
+            <li>as the division operator
+                Function signature: Number * Number → Number
+            </li>
+        </ul>
+
+        <h4>⊕ (xor)</h4>
+        <p>The unicode character CIRCLED PLUS (0x2295) may be typed as <code>_xor_</code>.</p>
+        <ul>
+            <li>as the set_symmetric_difference operator
+                Function signature: Set * Set → Set
+            </li>
+            <li>as the xor operator
+                Function signature: Bool * Bool → Bool
+                Function signature: Integer * Integer → Integer
+            </li>
+        </ul>
+
+BIT_AND:
+    syntax: >
+        EXPRESSION {IC} "&&" {IC} EXPRESSION
+    doc: >
+        no documentation available
+
+BIT_NOT:
+    syntax: >
+        "~~" {IC} EXPRESSION
+    doc: >
+        no documentation available
+
+BIT_OR:
+    syntax: >
+        EXPRESSION {IC} "||" {IC} EXPRESSION
+    doc: >
+        no documentation available
+
+BIT_XOR:
+    syntax: >
+        EXPRESSION {IC} "^^" {IC} EXPRESSION
+    doc: >
+        no documentation available
+
+BITWISE_OP:
+    syntax: >
+        BIT_AND | BIT_OR | BIT_XOR
+    doc: >
+        no documentation available
+
+BOOL:
+    syntax: >
+        "true" | "false"
+    doc: >
+        the two ordinals of the Bool type
+    notes: >
+        These are included as syntax elements as they are literals, not constants.
+
+CARDINALITY:
+    syntax: >
+        "#" {IC} EXPRESSION
+    doc: >
+        no documentation available
+
+CAST:
+    syntax: >
+        PARENTHETICAL {IC} EXPRESSION
+    doc: >
+        change the type of the specified expression to the parenthesized type
+
+CASTS:
+    syntax: >
+        EXPRESSION {IC} "casts" {IC} EXPRESSION
+    doc: >
+        no documentation available
+
+CEILING:
+    syntax: >
+        ("⌈" {IC} EXPRESSION {IC} "⌉") | ( "|'" {IC} EXPRESSION {IC} "'|" )
+    doc: >
+        no documentation available
+
+COLLECTION_OP:
+    syntax: >
+        COMPLEMENT | INTERSECTION | SYMMETRIC_DIFFERENCE | UNION
+    doc: >
+        the set construction and collections operators
+
+COMPOUND:
+    syntax: >
+        EXPRESSION {IC} "|" {IC} EXPRESSION
+    doc: >
+        no documentation available
+
+COMMENT:
+    syntax: >
+        "/*" {all} "*/"
+    doc: >
+        an inline comment
+
+COMPLEMENT:
+    syntax: >
+        EXPRESSION {IC} "ᶜ"
+    doc: >
+        no documentation available
+
+COMPOSITION:
+    syntax: >
+        EXPRESSION {IC} ("∘"|"_o_") {IC} EXPRESSION
+    doc: >
+        function composition operator
+
+CONDITIONAL:
+    syntax: >
+        EXPRESSION {IC} "?" {IC} EXPRESSION {IC} ":" {IC} EXPRESSION
+    doc: >
+        ternary conditional
+    notes: >
+        If the first expression is true then evaluates to the second expression otherwise evaluates to the third expression.
+
+CONSTRUCTIVE_OP:
+    syntax: >
+        COMPOSITION | PREPEND | NULL_COALESCE
+    doc: >
+        operators that are constructive for making values 
+
+CROSS_PRODUCT:
+    syntax: >
+        EXPRESSION {IC} ("×"|"_x_") {IC} EXPRESSION
+    doc: >
+        scalar multiplication or Vector<3, N> cross product
+
+DECLARATION:
+    syntax: >
+        [XML_DOC_STRING {IC}] ["extern" {IC}] (TYPE_DEREFERENCE | IMPLICIT_TYPE_DEREFERENCE | VOLATILE_IMPLICIT_TYPE_DEREFERENCE | VOLATILE_TYPE_DEREFERENCE) {IC} DECLARATION_PART {{IC} "," {IC} DECLARATION_PART}
+    doc: >
+        declare a variable and optionally assign a value to it
+    examples:
+        - |
+            <Number> x <- 100;
+        - |
+            <> name <- "Alice"; //implicitly type String
+        - |
+            object <- {
+                "employees":[
+                    ("John", "Doe"),
+                    ("Anna", "Smith"),
+                    ("Peter", Jones")],
+                "contractors":[
+                    ("Matt", "Williams")]
+            };
+            
+            object <- (x) { return x*2; }; //no type constraint
+    see: STATEMENT
+
+DECLARATION_PART:
+    syntax: >
+        IDENTIFIER [{IC} ("←"|"<-") {IC} EXPRESSION]
+    doc: >
+        no documentation available
+
+DEFINITION:
+    syntax: >
+        [XML_DOC_STRING {IC}] [ (TYPE_DEREFERENCE | IMPLICIT_TYPE_DEREFERENCE) {IC} ] DEFINITION_PART {{IC} "," {IC} DEFINITION_PART}
+    doc: >
+        define a constant, an alias for the valuation of a specified expression
+    example: >
+        <Double> almostPi := 355/113;
+
+DEFINITION_PART:
+    syntax: >
+        IDENTIFIER {IC} ":=" {IC} EXPRESSION
+    doc: >
+        no documentation available
+
+DELTA:
+    syntax: >
+        ("Δ"|"_delta_") ["^" WHOLE_NUMBER] EXPRESSION
+    doc: >
+        no documentation available
+
+DIMENSION:
+    syntax: >
+        IDENTIFIER | DIMENSIONAL_ANALYSIS_OP
+    doc: >
+        a dimension used in dimensional analysis
+
+DIMENSIONAL_ANALYSIS_OP:
+    syntax: >
+        UNIT_MULTIPLICATION | UNIT_DIVISION | UNIT_EXPONENTIATION
+    doc: >
+        operators in a dimension
+
+DIMENSIONAL_NUMBER:
+    syntax: >
+        NON_NEG_NUMBER DIMENSION
+    doc: >
+        a number with a trailing dimension
+
+DIVISION:
+    syntax: >
+        EXPRESSION {IC} ("÷"|"/" ) {IC} EXPRESSION
+    doc: >
+        division or splits the left hand side collection into a collection of collections each the size of the right hand side
+
+DO:
+    syntax: >
+        "do" {IC} EXPRESSION [ {IC} ("while"|"until") {IC} PARENTHETICAL ]
+    doc: >
+        creates a nullary void function that invokes a specified nullary void function (expression) once and then repeatedly while or until the parenthetical evaluates to true (when coerced to bool), unless the optional portion is omitted, in which case the function is invoked indefinitely
+    see:
+        - LOOP
+
+DOT_PRODUCT:
+    syntax: >
+        EXPRESSION {IC} ("⋅"|"_dot_") {IC} EXPRESSION
+    doc: >
+        scalar multiplication or Vector<D, N> inner product
+
+EMBEDDED_COMMENT:
+    syntax: >
+        "/*" EMBEDDED_COMMENT_INTERIOR "*/"
+    doc: >
+        a comment bounded by arbirtrarily-sized delimiters
+    example: |
+        /**** this is an embedded_comment
+        ***/ the characters at the start of this line have no affect on this ongoing comment
+        Embed blocks of code that themselves contain block comments:
+            /* Do the thing */
+            thing();
+        No problem. Now, lets end this comment. ****/
+    notes: >
+        This allows for commented code to be safely commented out completely by including a sufficient number of asterisks to serve as an opening and closing delimiter.
+
+EMBEDDED_COMMENT_INTERIOR:
+    syntax: >
+        PAYLOAD | "*" EMBEDDED_COMMENT_INTERIOR "*"
+    doc: >
+        no documentation available
+
+EMBEDDED_STRING:
+    syntax: >
+        ("\"\"\"\n" {all} "\n\"\"\"") | ("\"\"\"" not_double_quote {all} "\"\"\"") | ("\"" EMBEDDED_STRING "\"")
+    doc: >
+        a string bounded by arbirtrarily-sized delimiters
+    example: |
+        stringWithDoubleQuotes := """""
+        The remainder of this is a string literal, excluding the five quotes at the very end.
+        We can use four double quotes, like """", but not 5 which is the number of quotes that
+        start this string literal. If a string literal with 100 consecutive double quotes in it
+        were desired, we would then use 101 double quotes to start and end the string literal.
+        """""
+    notes: |
+        <p>An embedded_string is similar to a regular string literal of the form:</p>
+        <div class="code">
+            <p>Typical string literal</p>
+            <pre>"hello world"</pre>
+        </div>
+        <p>except that it permits the text to contain any finite number of double quotes. An embedded_string begins with three or more double quotes followed by a new line character, and ends with a new line character followed by the same number of double quotes. All white spaces, characters, and other bytes between the opening and closing delimiter becomes a string literal.</p>
+
+END_OF_LINE_COMMENT:
+    syntax: >
+        "//" {not_newline} "\n"
+    doc: >
+        no documentation available
+
+EQUALITY:
+    syntax: >
+        EXPRESSION {IC} "=" {IC} EXPRESSION
+    doc: >
+        no documentation available
+
+EXISTS:
+    syntax: >
+        "∃" {IC} EXPRESSION
+    doc: >
+        a constraint asserting that at least one element of the specified Collection is true
+    notes: >
+        <p>The values in the collection need not be Bool, so long as <code>Bool casts T</code> is true, where T is the type of each element.<p>
+    example: |
+        shouldRejectLiquorPurchase := (List<Date> patronBirthdates) {
+            return ∃ { x < today() - 21 yr where x ∈ patronBirthdates };
+        }
+    see:
+        - EXISTS_ONE
+        - ALL
+
+EXISTS_ONE:
+    syntax: >
+        "∃!" {IC} EXPRESSION
+    doc: >
+        a constraint asserting that exactly one element of the specified Collection is true
+    see:
+        - EXISTS
+        - ALL
+
+EXPONENTIATION:
+    syntax: >
+        EXPRESSION {IC} "^" {IC} EXPRESSION
+    doc: >
+        no documentation available
+
+EXPRESSION:
+    syntax: >
+        ALLOCATION | ARRAY | ASM_FUNCTION | BINARY_OP | BOOL | c_string | CAST | CEILING | CONDITIONAL | DELTA | DIMENSIONAL_NUMBER | EMBEDDED_STRING | FACTORIAL | FLOOR | FUNCTION | IDENTIFIER | IF | INVOCATION | LIST | MAGNITUDE | MAP | MEMBER_ACCESS | NEAREST_INTEGER | NON_NEG_NUMBER | PARENTHETICAL | PROPERTY | RADICAL | RANGE | SET | SET_COMPREHENSION | TUPLE | TYPE | UNARY_OP | VECTOR_NORM | "null" | "this" | "this_type"
+    doc: >
+        a linearization of an evaluation tree containing constants, variables, operators, invocations, and sub expressions
+    notes: >
+        null is a literal and so is included in the syntax similarly to true, false and numberic literals (and unlike constants)
+        
+FACTORIAL:
+    syntax: >
+        EXPRESSION {IC} "!"
+    doc: >
+        no documentation available
+
+FLOOR:
+    syntax: >
+        ( "⌊" {IC} EXPRESSION {IC} "⌋" ) | ( "|_" {IC} EXPRESSION {IC} "_|" )
+    doc: >
+        no documentation available
+
+FOR:
+    syntax: >
+        "for" {IC} "(" {IC} [ STATEMENT_SCOPE {IC} ] EXPRESSION {IC} ";" {IC} [ (ASSIGNMENT | EXPRESSION) {IC} ] ")" {IC} EXPRESSION
+    doc: >
+        creates a nullary void function that evaluate the second expression repeatedly while the second expression is true, all after evaluating the optional STATEMENT_SCOPE
+    examples:
+        - |
+            for (x ← 0; x < 100; x++) {
+                print_line(x);
+            };
+        -
+            annotation: >
+                demonstrates the optional statement_scope
+            example: |
+                spammer := (<UInt> count) {
+                    for (count > 0; count--; ) {
+                        print("SPAM!!!\n");
+                    };
+                };
+        -
+            annotation: >
+                more than one statement may be used to initialize, and a blank may be used for the increment expression
+            example: |
+                mergeSorted := (List<Int> a, List<Int> b) {
+                    List<Int> result;
+                    <Int>i;
+                    <Int>j;
+                    for (i ← 0; j ← 0; i < a.count && j < b.count; ) { //blank increment expression
+                        if (a[i] < b[j]) {
+                            result.add(a[i]);
+                            i++;
+                        } else {
+                            result.add(b[j]);
+                            j++;
+                        }
+                    }
+                    for (i < a.count; i++) {
+                        result.add(a[i])
+                    }
+                    for (j < b.count; j++) {
+                        result.add(b[j]);
+                    }
+                    return result;
+                }
+
+FOR_COLLECTION:
+    syntax: >
+        "for" {IC} "(" {IC} (([ (TYPE_DEREFERENCE | IMPLICIT_TYPE_DEREFERENCE) {IC} ] IDENTIFIER ) | EXPRESSION ) {IC} ("in"|"∈") {IC} EXPRESSION {IC} ")" {IC} EXPRESSION
+    doc: >
+        creates a nullary void function that evaluates the last expression repeatedly while iterating over the elements of the specified Collection
+    examples:
+        - |
+            <> fibArray = [ 0, 1, 1, 2, 3, 5, 8, 13 ];
+            for (element ∈ fibArray) {
+                print(element);
+            }            
+        - |
+            for ((key, value) ∈ myMap) {
+                //do something
+            }
+        
+FREE:
+    syntax: >
+        "free" {IC} EXPRESSION
+    doc: >
+        no documentation available
+
+FUNCTION_MODIFIER:
+    syntax: >
+        (FUNCTION_MODIFIER_STABILITY|FUNCTION_MODIFIER_NO_THROW|FUNCTION_MODIFIER_ATOMIC|FUNCTION_MODIFIER_PLATFORM|FUNCTION_MODIFIER_MODEL) {IC}
+    doc: >
+        The FUNCTION_MODIFIER_* rules model: ["stable" | "unstable"] ["no_throw"] ["atomic"] {PLATFORM} ["pure"|"imperative"|"opaque"] with the caveat that there has to be an IC between any modifier and the next (if there is a next)
+
+FUNCTION_MODIFIER_ATOMIC:
+    syntax: >
+        "atomic" [ICR (FUNCTION_MODIFIER_PLATFORM|FUNCTION_MODIFIER_MODEL)]
+    doc: >
+        no documentation available
+
+FUNCTION_MODIFIER_MODEL:
+    syntax: >
+        "pure" | "imperative" | "opaque"
+    doc: >
+        no documentation available
+
+FUNCTION_MODIFIER_NO_THROW:
+    syntax: >
+        "no_throw" [ICR (FUNCTION_MODIFIER_ATOMIC|FUNCTION_MODIFIER_PLATFORM|FUNCTION_MODIFIER_MODEL)]
+    doc: >
+        no documentation available
+
+FUNCTION_MODIFIER_PLATFORM:
+    syntax: >
+        PLATFORM {ICR PLATFORM} [ICR FUNCTION_MODIFIER_MODEL]
+    doc: >
+        no documentation available
+
+FUNCTION_MODIFIER_STABILITY:
+    syntax: >
+        ("stable" | "unstable") [ICR (FUNCTION_MODIFIER_NO_THROW | FUNCTION_MODIFIER_ATOMIC | FUNCTION_MODIFIER_PLATFORM | FUNCTION_MODIFIER_MODEL)]
+    doc: >
+        no documentation available
+
+FUNCTION:
+    syntax: >
+        [ "(" {IC} [ PARAMETER {{IC} "," {IC} PARAMETER} {IC} ] ")" {IC} ] [FUNCTION_MODIFIER] "{" STATEMENT_SCOPE "}"
+    doc: >
+        creates a function
+    notes: >
+        Function objects are invoked using the invocation syntax.
+        
+        The atomic, pure, imperative, and opaque keywords influence assumptions that the compiler may make regarding a functions implementation. The pure keyword indicates that the implementation uses only pull semantics, is idempotent, and has no side effects. Additionally, only constants can be read, which includes value (not by reference/pointer values) passed as formal parameters. Any violation of these constraints causes an error to occur. The imperative keyword indicates that the implementation is likely not tractable, and it may interact with memory or hardware in unknown ways. Without either pure or imperative, the implementation is assumed to be push-pull and tractable. If the tool chain determines that this is not the case, it will fall back to imperative behavior. Pure functions are implicitly atomic.
+    examples:
+        - |
+            (a, b) pure { return a * b; }
+        - |
+            <int → int> factorial := (x) { return x == 0 ? 1 : x * factorial(x - 1); };
+        - |
+            <Collection<T> → T> head := (a&b) { return a; }
+
+GETTER:
+    syntax: >
+        "get" {IC} ":=" {IC} EXPRESSION
+    doc: >
+        no documentation available
+
+GREATER_THAN:
+    syntax: >
+        EXPRESSION {IC} ">" {IC} EXPRESSION
+    doc: >
+        no documentation available
+
+HAS:
+    syntax: >
+        EXPRESSION {IC} ("∋"|"has") {IC} EXPRESSION
+    doc: >
+        the in operator, backward
+
+HEX:
+    syntax: >
+        "0x" hexadecimal_digit {hexadecimal_digit}
+    doc: >
+        a hexidecimal number
+
+IC:
+    syntax: >
+        COMMENT | EMBEDDED_COMMENT | END_OF_LINE_COMMENT | WS
+    doc: >
+        intermediary content - regions that whitespaces and comments can go
+
+ICR:
+    syntax: >
+        IC {IC}
+    doc: >
+        intermediary content that is required
+
+IDENTIFIER:
+    syntax: >
+        (letter | "_") {letter | number | "_"}
+    doc: >
+        text that uniquely identifies a constant or variable within a scope
+    notes: |
+        <p>The first character must be a letter character. Note that the character groups "letter" and "number" are inclusive of many unicode characters beyond the conventional a-z, A-Z and 0-9. Specifically, all unicode codepoints in a letter or number category may be used in an identifier.</p>
+        <p>Examples of valid identifiers:</p>
+        <code>
+            <ul>
+                <li>x</li>
+                <li>myVariable</li>
+                <li>q4</li>
+                <li>Employee</li>
+                <li>print_line</li>
+                <li>символ</li>
+                <li>θ</li>
+            </ul>
+        </code>
+        
+        <p>Non examples:</p>
+        <code>
+            <ul>
+                <li>1stValue</li>
+            </ul>
+        </code>
+
+IF:
+    syntax: >
+        "if" {IC} PARENTHETICAL {IC} EXPRESSION {{IC} "elif" {IC} PARENTHETICAL {IC} EXPRESSION} [ {IC} "else" {IC} EXPRESSION ]
+    doc: >
+        returns the expression corresponding to the first parenthetical that evaluates to true when coerced to a boolean, or the else case if none of them evaluate to true, assuming that the else case is present, otherwise returning void
+    example: |
+        if (input("What is 1 + 1 ? ") = "2") {
+            print("You are correct!");
+        } else {
+            print("Sorry, you are incorrect.");
+        }
+
+IFF:
+    syntax: >
+        EXPRESSION {IC} ("⇔"|"<=>") {IC} EXPRESSION
+    doc: >
+        semantic equivalence
+
+IMPLICATION:
+    syntax: >
+        EXPRESSION {IC} ("⇒"|"=>") {IC} EXPRESSION
+    doc: >
+        implication
+
+IMPLICIT_TYPE_DEREFERENCE:
+    syntax: >
+        "<" {IC} ">"
+    doc: >
+        use the type inferred on the right hand side
+
+IN:
+    syntax: >
+        EXPRESSION {IC} ("∈"|"in") {IC} EXPRESSION
+    doc: >
+        Collection membership
+    see: 
+        - FOR_COLLECTION
+
+INEQUALITY:
+    syntax: >
+        EXPRESSION {IC} ("≠"|"/=") {IC} EXPRESSION
+    doc: >
+        no documentation available
+
+INHERITANCE_LIST:
+    syntax: >
+        [VISIBILITY_MODIFIER {IC}] EXPRESSION {{IC} "," {IC} [VISIBILITY_MODIFIER {IC}] EXPRESSION}
+    doc: >
+        see: type
+
+INTEGER_DIVISION:
+    syntax: >
+        EXPRESSION {IC} "\\" {IC} EXPRESSION
+    doc: >
+        same as ⌊x/y⌋ or collection difference (similar to set difference)
+
+INTERSECTION:
+    syntax: >
+        EXPRESSION {IC} "∩" {IC} EXPRESSION
+    doc: >
+        Collection intersection
+
+INVOCATION:
+    syntax: >
+        PARENTHETICAL_INVOCATION | ARRAY_INVOCATION | TYPE_INVOCATION
+    doc: >
+        invoke a function, type-function or array-function
+    examples:
+        - |
+            myMethod(1, x^2, "hello\n", someThing)
+        - |
+            IntList := List<int>; //List is a type function, IntList is a Type
+        - |
+            print myArray[4]; //4 is ordered and denumerable, myArray implements RandomlyAccessible
+    notes: >
+        The < > syntactic variety requires the returned value to be a type (it must implement Type), or a function (it must implement Function) that when invoked results in such a type or function. Note that this definition is deliberately recursive. The [ ] syntactic variety requires that each given "indexer" is some element of an ordered set, such as the natural numbers or enum values, and that the invokee is randomly accessible (implements RandomlyAccessible). Lastly, the angle bracket and square bracket syntax are optional; the behavior is identical to being invoked using parentheses. However, alternate syntax is encouraged whenever such requirements are met and helps to both document and enforce the invariants assumed by the author.
+
+IMPORT:
+    syntax: >
+        "import" {IC} EXPRESSION
+    doc: >
+        no documentation available
+
+IS:
+    syntax: >
+        EXPRESSION {IC} "is" {IC} EXPRESSION
+    doc: >
+        no documentation available
+
+KLEENE_STAR:
+    syntax: >
+        EXPRESSION {IC} "*"
+    doc: >
+        the free monoid operator
+    example:
+        all_strings := char*;
+
+LESSER_THAN:
+    syntax: >
+        EXPRESSION {IC} "<" {IC} EXPRESSION
+    doc: >
+        no documentation available
+
+LIST:
+    syntax: >
+        "[|" {IC} [EXPRESSION {{IC} ", " {IC} EXPRESSION} {IC} ] "|]"
+    doc: >
+        a Collection of items
+    examples:
+        -
+            annotation: >
+                the empty list
+            example: |
+                [| |]
+        - |
+            [|1, 5, 2, 2, 2|]
+        - |
+            short_days_of_week := ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+            
+LOOP:
+    syntax: >
+        ( "while" | "until" ) {IC} PARENTHETICAL {IC} EXPRESSION
+    doc: >
+        creates a nullary void function that will evaluate an expression repeatedly while or until a parenthetical evaluates to true
+    see:
+        - DO
+
+MAGNITUDE:
+    syntax: >
+        "|" {IC} EXPRESSION {IC} "|"
+    doc: >
+        absolute value, vector magnitude, cardinality
+
+MAP:
+    syntax: >
+        "{" [{IC} EXPRESSION {IC} ":" {IC} EXPRESSION {{IC} "," {IC} EXPRESSION {IC} ":" {IC} EXPRESSION}] {IC} "}"
+    doc: >
+        create an associative Collection implementing Map<a → b>
+    example: |
+        { "first": "john", "last": "doe" }
+    notes: >
+        The element type is constrained to some type that CASTS all the given elements.
+    see:
+        - CASTS
+
+MAPS_TO:
+    syntax: >
+        EXPRESSION {IC} ("→"|"->") {IC} EXPRESSION
+    doc: >
+        function type builder
+
+MEMBER_ACCESS:
+    syntax: >
+        EXPRESSION {IC} "." {IC} IDENTIFIER
+    doc: >
+        no documentation available
+
+MODULATION:
+    syntax: >
+        EXPRESSION {IC} "%" {IC} EXPRESSION
+    doc: >
+        mod operator or returns a collection containing the elements that would not be consumed from the end of the left hand side by taking the chunk of the right hand side
+
+MULTIPLICATION:
+    syntax: >
+        EXPRESSION {IC} "*" {IC} EXPRESSION
+    doc: >
+        scalar multiplication, cartesian product
+
+MULTIPLICATIVE_OP:
+    syntax: >
+        MULTIPLICATION | DOT_PRODUCT | CROSS_PRODUCT
+    doc: >
+        no documentation available
+
+NAND:
+    syntax: >
+        EXPRESSION {IC} "↑" {IC} EXPRESSION
+    doc: >
+        no documentation available
+
+NEAREST_INTEGER:
+    syntax: >
+        ( "⌊" {IC} EXPRESSION {IC} "⌉" ) | ("|_" {IC} EXPRESSION {IC} "'|" )
+    doc: >
+        round to the nearest integer
+
+NEGATION:
+    syntax: >
+        "-" {IC} EXPRESSION
+    doc: >
+        no documentation available
+    example: |
+        -5
+
+NON_FRACTIONAL:
+    syntax: >
+        ["-"] NON_NEG_NON_FRACTIONAL
+    doc: >
+        no documentation available
+
+NON_NEG_FRACTIONAL:
+    syntax: >
+        (decimal_digit {decimal_digit} "." {decimal_digit}) | ("." decimal_digit {decimal_digit})
+    doc: >
+        a number with a decimal point
+
+NON_NEG_INTEGER:
+    syntax: >
+        (NON_ZERO_DECIMAL_DIGIT {decimal_digit}) | "0"
+    doc: >
+        no documentation available
+    notes: >
+        The first digit may not be zero, unless it is the only digit.
+
+NON_NEG_NON_FRACTIONAL:
+    syntax: >
+        NON_NEG_INTEGER | HEX | OCTAL
+    doc: >
+        no documentation available
+
+NON_NEG_NUMBER:
+    syntax: >
+        NON_NEG_NON_FRACTIONAL | NON_NEG_FRACTIONAL
+    doc: >
+        no documentation available
+
+NON_ZERO_DECIMAL_DIGIT:
+    syntax: >
+        "1"|"2"|"3"|"4"|"5"|"6"|"7"|"8"|"9"
+    doc: >
+        used for constructing number
+
+NOR:
+    syntax: >
+        EXPRESSION {IC} ("↓") {IC} EXPRESSION
+    doc: >
+        no documentation available
+
+NOT:
+    syntax: >
+        ("¬"|"~") {IC} EXPRESSION
+    doc: >
+        boolean not
+
+NOT_GREATER_THAN:
+    syntax: >
+        EXPRESSION {IC} ("≤"|"<=") {IC} EXPRESSION
+    doc: >
+        no documentation available
+
+NOT_HAS:
+    syntax: >
+        EXPRESSION {IC} ("∌"|"/has") {IC} EXPRESSION
+    doc: >
+        not_in, backward
+
+NOT_IN:
+    syntax: >
+        EXPRESSION {IC} ("∉"|"/in") {IC} EXPRESSION
+    doc: >
+        Collection anti-membership
+
+NOT_LESSER_THAN:
+    syntax: >
+        EXPRESSION {IC} ("≥"|">=") {IC} EXPRESSION
+    doc: >
+        no documentation available
+
+NULL_COALESCE:
+    syntax: >
+        EXPRESSION {IC} "??" {IC} EXPRESSION
+    doc: >
+        return the first expression if non-null otherwise return the second expression
+    notes: >
+        may be chained together
+
+OCTAL:
+    syntax: >
+        "0" octal_digit {octal_digit}
+    doc: >
+        octal number
+
+OR:
+    syntax: >
+        EXPRESSION {IC} ("∨"|"or") {IC} EXPRESSION
+    doc: >
+        no documentation available
+
+PARAMETER:
+    syntax: >
+        PARAMETER_NORMAL | PARAMETER_ALGEBRAIC
+    doc: >
+        declares a formal argument of a function
+    notes: >
+        The last variation accepts an expression, which is then set to be equivalent to the passed in value. This enables pattern matching and solving on parameters.
+    see:
+        - FUNCTION
+        
+PARAMETER_ALGEBRAIC:
+    syntax: >
+        EXPRESSION [ {IC} "=" {IC} EXPRESSION ]
+    doc: >
+        no documentation available
+
+PARAMETER_NORMAL:
+    syntax: >
+        ([ TYPE_DEREFERENCE {IC} ] IDENTIFIER) | ([ (TYPE_DEREFERENCE | IMPLICIT_TYPE_DEREFERENCE) {IC} ] IDENTIFIER {IC} "=" {IC} EXPRESSION)
+    doc: >
+        no documentation available
+
+PARENTHETICAL:
+    syntax: >
+        "(" {IC} EXPRESSION {IC} ")"
+    doc: >
+        an expression in parenthesis
+    example: |
+        let result = (1 + 5) * 3;
+
+PARENTHETICAL_INVOCATION:
+    syntax: >
+        EXPRESSION {IC} "(" [{IC} EXPRESSION] {{IC} "," [{IC} EXPRESSION]} {IC} ")"
+    doc: >
+        no documentation available
+
+PAYLOAD:
+    syntax: >
+        {all}
+    doc: >
+        used in EMBEDDED_COMMENT_INTERIOR
+
+PLATFORM:
+    syntax: >
+        "_" {letter | number | PLATFORM}
+    doc: >
+        see: function
+
+POST_DEC:
+    syntax: >
+        EXPRESSION {IC} "--"
+    doc: >
+        no documentation available
+
+POST_INC:
+    syntax: >
+        EXPRESSION {IC} "++"
+    doc: >
+        no documentation available
+
+PRE_DEC:
+    syntax: >
+        "--" {IC} EXPRESSION
+    doc: >
+        no documentation available
+
+PRE_INC:
+    syntax: >
+        "++" {IC} EXPRESSION
+    doc: >
+        no documentation available
+
+PREPEND:
+    syntax: >
+        EXPRESSION {IC} "&" {IC} EXPRESSION
+    doc: >
+        create a new Collection starting with the left hand side followed by the elements of the right hand side Collection
+    example: >
+        x := 1 & [2, 3, 4, 5];
+        y := [1, 2, 3, 4, 5];
+        x = y;
+        
+PROPERTY:
+    syntax: >
+        ("{" {IC} GETTER {IC} "}") | ("{" {IC} SETTER {IC} "}") | ("{" {IC} GETTER {IC} "," {IC} SETTER {IC} "}")
+    doc: >
+        no documentation available
+
+PROPER_SUBSET:
+    syntax: >
+        EXPRESSION {IC} ("⊂"|"psubs") {IC} EXPRESSION
+    doc: >
+        no documentation available
+
+PROPER_SUPERSET:
+    syntax: >
+        EXPRESSION {IC} ("⊃"|"psups") {IC} EXPRESSION
+    doc: >
+        no documentation available
+
+RADICAL:
+    syntax: >
+        "√" {IC} EXPRESSION
+    doc: >
+        no documentation available
+
+RANGE:
+    syntax: >
+        "(" {IC} "..." {IC} EXPRESSION {IC} ("]"|")") | ("["|"(") {IC} EXPRESSION {IC} "..." {IC} ")" | ("("|"[") {IC} EXPRESSION {IC} "..." {IC} EXPRESSION {IC} ("]"|")")
+    doc: >
+        create a totally-ordered open/closed/half-open discreet/continuous Collection
+    examples:
+        - |
+            wholeNumbers := [ 0 ... ); // the non negative integers - the set is infinite and denumerable
+        - |
+            positivesIntsToN := [ 1 ... n ]; // the integers 1 to n inclusive - the set is finite and denumerable
+        - |
+            negativeReals := ( ... 0.0 ) // the negative real numbers - the set is infinite and nondenumerable
+            
+RELATIONAL_COLLECTION_OP:
+    syntax: >
+        SUBSET | PROPER_SUBSET | SUPERSET | PROPER_SUPERSET | IN | NOT_IN | HAS | NOT_HAS
+    doc: >
+        relational operators on collections
+
+RELATIONAL_OP:
+    syntax: >
+        EQUALITY | INEQUALITY | LESSER_THAN | GREATER_THAN | NOT_GREATER_THAN | NOT_LESSER_THAN | RELATIONAL_COLLECTION_OP | CASTS | IS
+    doc: >
+        no documentation available
+
+RETURN:
+    syntax: >
+        "return" [ {IC} EXPRESSION ]
+    doc: >
+        exit the current function, optionally returning a value
+
+SET:
+    syntax: >
+        "{|" {IC} [EXPRESSION {{IC} "," {IC} EXPRESSION} {IC}] "|}"
+    doc: >
+        no documentation available
+
+SET_COMPREHENSION:
+    syntax: >
+        "{" {IC} EXPRESSION {IC} "|" {IC} EXPRESSION {IC} "}"
+    doc: >
+        create a Collection, substituting variables bound in the right hand side into the left hand side
+    example: |
+        { x | x ∈ ℝ ∧ x < 3 }
+
+SETTER:
+    syntax: >
+        "set" {IC} ":=" {IC} EXPRESSION
+    doc: >
+        no documentation available
+
+SHIFTL:
+    syntax: >
+        EXPRESSION {IC} "<<" {IC} EXPRESSION
+    doc: >
+        shift left
+
+SHIFTR:
+    syntax: >
+        EXPRESSION {IC} ">>" {IC} EXPRESSION
+    doc: >
+        shift right
+
+SLICE:
+    syntax: >
+        EXPRESSION {IC} ":" {IC} EXPRESSION
+    doc: >
+        used in ARRAY_INVOCATION
+
+STATEMENT:
+    syntax: >
+        ( ASSIGNMENT | DECLARATION | DEFINITION | DO | EXPRESSION | FOR | FOR_COLLECTION | FREE | IMPORT | LOOP | RETURN | THROW | TRY | "break" | "continue" ) {IC} ";"
+    doc: >
+        top-level statement syntax
+
+STATEMENT_SCOPE:
+    syntax: >
+        {IC | STATEMENT}
+    doc: >
+        zero or more statements, the top level syntax rule for source files
+
+SUBSET:
+    syntax: >
+        EXPRESSION {IC} ("⊆"|"subs") {IC} EXPRESSION
+    doc: >
+        no documentation available
+
+SUBTRACTION:
+    syntax: >
+        EXPRESSION {IC} "-" {IC} EXPRESSION
+    doc: >
+        no documentation available
+
+SUPERSET:
+    syntax: >
+        EXPRESSION {IC} ("⊇"|"sups") {IC} EXPRESSION
+    doc: >
+        no documentation available
+
+SYMMETRIC_DIFFERENCE:
+    syntax: >
+        EXPRESSION {IC} "⊖" {IC} EXPRESSION
+    doc: >
+        the set-theoretic symmetric disjunction (Collection xor)
+
+THROW:
+    syntax: >
+        "throw" [{IC} EXPRESSION]
+    doc: >
+        raise an exception with an optional value which must implement Exception if specified
+    see:
+        - TRY
+
+TRY:
+    syntax: >
+        "try" {IC} EXPRESSION {IC} "catch" {IC} EXPRESSION {"catch" {IC} EXPRESSION} [{IC} "finally" {IC} EXPRESSION]
+    doc: >
+        executes the specified nullary void function of the first expression, catching exceptions that pattern match the function(s) of the second expression, and then executes the third expression unconditionally
+
+TUPLE:
+    syntax: >
+        "(|" {IC} EXPRESSION {{IC} "," {IC} EXPRESSION} {IC} "|)"
+    doc: >
+        create a finite, ordered list of elements
+
+TYPE:
+    syntax: >
+        "type" {IC} ["inheriting" {IC} INHERITANCE_LIST {IC}] ["implementing" {IC} INHERITANCE_LIST {IC}] "{" TYPE_SCOPE "}"
+    doc: >
+        create a type
+    example: |
+        bank_account := type inheriting account {
+            <float> balance at 0;
+        };
+
+TYPE_DEREFERENCE:
+    syntax: >
+        "<" {IC} EXPRESSION {IC} ">"
+    doc: >
+        use a variable/constant as a typename
+
+TYPE_INVOCATION:
+    syntax: >
+        EXPRESSION ( "<" [{IC} EXPRESSION] {{IC} "," [{IC} EXPRESSION]} {IC} ">" )
+    doc: >
+        no documentation available
+
+TYPE_SCOPE:
+    syntax: >
+        {IC} {TYPE_STATEMENT {IC}}
+    doc: >
+        zero or more statements or member declarations/definitions, used strictly in the TYPE syntax only
+    notes: >
+        Any use of the assignment operator indicates an instance member declaration. Any use of the definition operator indicates a static member of the class, since it is immutable it will not vary between instances. Like in statement_scope, an execution context is available and will execute any top-level statements inside the type.
+        
+TYPE_STATEMENT:
+    syntax: >
+        (VISIBILITY_MODIFIER {IC} ":") | (["static" {IC}] DECLARATION {IC} "at" {IC} WHOLE_NUMBER) | STATEMENT
+    doc: >
+        top-level type syntax
+
+UNARY_ARITHMETIC_OP:
+    syntax: >
+        FACTORIAL | NEGATION | POST_DEC | POST_INC | PRE_DEC | PRE_INC | RADICAL
+    doc: >
+        no documentation available
+
+UNARY_LOGICAL_OP:
+    syntax: >
+        NOT | ALL | EXISTS | EXISTS_ONE
+    doc: >
+        no documentation available
+
+UNARY_OP:
+    syntax: >
+        CARDINALITY | KLEENE_STAR | UNARY_ARITHMETIC_OP | UNARY_LOGICAL_OP
+    doc: >
+        no documentation available
+
+UNION:
+    syntax: >
+        EXPRESSION {IC} "∪" {IC} EXPRESSION
+    doc: >
+        the set-theoretic union
+
+UNIT_DIVISION:
+    syntax: >
+        DIMENSION "/" DIMENSION
+    doc: >
+        dimensional analysis "per"
+    see:
+        - DIMENSIONAL_NUMBER
+
+UNIT_EXPONENTIATION:
+    syntax: >
+        DIMENSION "^" NON_FRACTIONAL
+    doc: >
+        dimensional analysis square units, cubed units, etc
+    see:
+        - DIMENSIONAL_NUMBER
+
+UNIT_MULTIPLICATION:
+    syntax: >
+        DIMENSION "*" DIMENSION
+    doc: >
+        dimensional analysis "by"
+    see:
+        - DIMENSIONAL_NUMBER
+
+VECTOR_NORM:
+    syntax: >
+        "||" {IC} EXPRESSION {IC} "||"
+    doc: >
+        create a Vector<D, N> normalized to unit length
+
+VISIBILITY_MODIFIER:
+    syntax: >
+        ("public"|"protected"|"protected internal"|"internal"|"private")
+    doc: >
+        no documentation available
+
+VOLATILE_IMPLICIT_TYPE_DEREFERENCE:
+    syntax: >
+        "<" {IC} "volatile" {IC} ">"
+    doc: >
+        no documentation available
+
+VOLATILE_TYPE_DEREFERENCE:
+    syntax: >
+        "<" {IC} "volatile" {IC} EXPRESSION {IC} ">"
+    doc: >
+        no documentation available
+
+WHOLE_NUMBER:
+    syntax: >
+        ("1"|"2"|"3"|"4"|"5"|"6"|"7"|"8"|"9") {"0"|"1"|"2"|"3"|"4"|"5"|"6"|"7"|"8"|"9"}
+    doc: >
+        no documentation available
+    see:
+        - TYPE_SCOPE
+
+WS:
+    syntax: >
+        white_space {white_space}
+    doc: >
+        consumes whitespaces between other tokens
+
+XML_DOC_STRING:
+    syntax: >
+        ("```" {all} "```") | ("`" XML_DOC_STRING "`")
+    doc: >
+        documentation string bounded by arbirtrarily-sized delimiters
+
+XOR:
+    syntax: >
+        EXPRESSION {IC} ("⊕" |"xor") {IC} EXPRESSION
+    doc: >
+        no documentation available
