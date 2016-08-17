@@ -1,6 +1,5 @@
 #include "RangeExp.hpp"
 #include "value.hpp"
-#include "Errors.hpp"
 
 
 
@@ -13,6 +12,6 @@ RangeExp::~RangeExp()
 {
 }
 
-value RangeExp::evaluate() const {
+value RangeExp::evaluate(execution_context &exc) const {
 	ERROR(NotImplemented, __FUNCTION__);
 }

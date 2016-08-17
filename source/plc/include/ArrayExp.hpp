@@ -6,7 +6,7 @@
 class ArrayExp :
 	public CollectionExp {
 public:
-	value evaluate() const override;
+	value evaluate(execution_context &exc) const override;
 };
 
 #endif //ARRAY_EXP_HPP

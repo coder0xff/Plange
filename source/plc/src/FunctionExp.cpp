@@ -1,6 +1,5 @@
 #include "FunctionExp.hpp"
 #include "value.hpp"
-#include "Errors.hpp"
 
 
 
@@ -13,6 +12,6 @@ FunctionExp::~FunctionExp()
 {
 }
 
-value FunctionExp::evaluate() const {
+value FunctionExp::evaluate(execution_context &exc) const {
 	ERROR(NotImplemented, __FUNCTION__);
 }

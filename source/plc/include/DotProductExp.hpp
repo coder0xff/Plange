@@ -10,7 +10,7 @@ public:
 	~DotProductExp();
 
 	std::u32string get_name() const override;
-	value evaluate() const override;
+	value evaluate(execution_context &exc) const override;
 };
 
 #endif //DOT_PRODUCT_EXP_HPP

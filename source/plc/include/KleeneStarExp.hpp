@@ -11,7 +11,7 @@ public:
 
 	std::u32string get_name() const override;
 	bool get_postfix() const override;
-	value evaluate() const override;
+	value evaluate(execution_context &exc) const override;
 };
 
 #endif //KLEENE_STAR_EXP_HPP

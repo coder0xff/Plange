@@ -13,7 +13,7 @@ public:
 	virtual std::u32string get_name() const = 0;
 	std::unique_ptr<Expression> left;
 	std::unique_ptr<Expression> right;
-	virtual value evaluate() const = 0;
+	virtual value evaluate(execution_context &exc) const = 0;
 };
 
 #endif //BINARY_OP_EXP_HPP

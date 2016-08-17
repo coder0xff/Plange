@@ -4,7 +4,6 @@
 
 #include "parlex/parser.hpp"
 #include "plange_grammar.hpp"
-#include "Errors.hpp"
 #include "Scope.hpp"
 
 SourceCode::SourceCode(std::string const& pathname, std::u32string const& document, parlex::parser& parser) : graph(parser.parse(get_plange(), document)) {

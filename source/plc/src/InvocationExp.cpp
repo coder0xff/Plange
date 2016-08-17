@@ -1,6 +1,5 @@
 #include "InvocationExp.hpp"
 #include "value.hpp"
-#include "Errors.hpp"
 
 
 
@@ -22,6 +21,6 @@ InvocationExp::~InvocationExp()
 {
 }
 
-value InvocationExp::evaluate() const {
+value InvocationExp::evaluate(execution_context &exc) const {
 	ERROR(NotImplemented, __FUNCTION__);
 }

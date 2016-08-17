@@ -1,7 +1,6 @@
 #include "ArrayExp.hpp"
 #include "value.hpp"
-#include "Errors.hpp"
 
-value ArrayExp::evaluate() const {
+value ArrayExp::evaluate(execution_context &exc) const {
 	ERROR(NotImplemented, __FUNCTION__);
 }

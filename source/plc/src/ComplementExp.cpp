@@ -1,6 +1,5 @@
 ﻿#include "ComplementExp.hpp"
 #include "value.hpp"
-#include "Errors.hpp"
 
 
 
@@ -23,6 +22,6 @@ bool ComplementExp::get_postfix() const
 	return true;
 }
 
-value ComplementExp::evaluate() const {
+value ComplementExp::evaluate(execution_context &exc) const {
 	ERROR(NotImplemented, __FUNCTION__);
 }

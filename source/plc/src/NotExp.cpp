@@ -1,6 +1,5 @@
 ﻿#include "NotExp.hpp"
 #include "value.hpp"
-#include "Errors.hpp"
 
 
 
@@ -23,6 +22,6 @@ bool NotExp::get_postfix() const
 	return false;
 }
 
-value NotExp::evaluate() const {
+value NotExp::evaluate(execution_context &exc) const {
 	ERROR(NotImplemented, __FUNCTION__);
 }

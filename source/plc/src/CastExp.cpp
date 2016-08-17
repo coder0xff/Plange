@@ -1,6 +1,5 @@
 #include "CastExp.hpp"
 #include "value.hpp"
-#include "Errors.hpp"
 
 
 CastExp::CastExp(Expression const & subExpression, Expression const & targetType) : ParentExp(subExpression), target_type(clone(targetType))
@@ -18,6 +17,6 @@ CastExp::~CastExp()
 {
 }
 
-value CastExp::evaluate() const {
+value CastExp::evaluate(execution_context &exc) const {
 	ERROR(NotImplemented, __FUNCTION__);
 }

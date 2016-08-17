@@ -1,6 +1,5 @@
 ﻿#include "BijectionExp.hpp"
 #include "value.hpp"
-#include "Errors.hpp"
 
 
 
@@ -18,6 +17,6 @@ std::u32string BijectionExp::get_name() const
 	return U"↔";
 }
 
-value BijectionExp::evaluate() const {
+value BijectionExp::evaluate(execution_context &exc) const {
 	ERROR(NotImplemented, __FUNCTION__);
 }

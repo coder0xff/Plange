@@ -1,6 +1,5 @@
 #include "TypeExp.hpp"
 #include "value.hpp"
-#include "Errors.hpp"
 
 
 
@@ -13,6 +12,6 @@ TypeExp::~TypeExp()
 {
 }
 
-value TypeExp::evaluate() const {
+value TypeExp::evaluate(execution_context &exc) const {
 	ERROR(NotImplemented, __FUNCTION__);
 }

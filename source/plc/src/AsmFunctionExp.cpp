@@ -1,6 +1,5 @@
 #include "AsmFunctionExp.hpp"
 #include "value.hpp"
-#include "Errors.hpp"
 
 
 AsmFunctionExp::AsmFunctionExp() {}
@@ -8,6 +7,6 @@ AsmFunctionExp::AsmFunctionExp() {}
 
 AsmFunctionExp::~AsmFunctionExp() {}
 
-value AsmFunctionExp::evaluate() const {
+value AsmFunctionExp::evaluate(execution_context &exc) const {
 	ERROR(NotImplemented, __FUNCTION__);
 }

@@ -11,7 +11,7 @@ public:
 	StringExp(std::string const & value);
 	~StringExp();
 	std::string val;
-	value evaluate() const override;
+	value evaluate(execution_context &exc) const override;
 };
 
 #endif //STRING_EXP_HPP

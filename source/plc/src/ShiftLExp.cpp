@@ -1,6 +1,5 @@
 #include "ShiftLExp.hpp"
 #include "value.hpp"
-#include "Errors.hpp"
 
 ShiftLExp::ShiftLExp()
 {
@@ -16,6 +15,6 @@ std::u32string ShiftLExp::get_name() const
 	return U"<<";
 }
 
-value ShiftLExp::evaluate() const {
+value ShiftLExp::evaluate(execution_context &exc) const {
 	ERROR(NotImplemented, __FUNCTION__);
 }

@@ -1,6 +1,5 @@
 #include "StringExp.hpp"
 #include "value.hpp"
-#include "Errors.hpp"
 
 
 
@@ -13,6 +12,6 @@ StringExp::~StringExp()
 {
 }
 
-value StringExp::evaluate() const {
+value StringExp::evaluate(execution_context &exc) const {
 	ERROR(NotImplemented, __FUNCTION__);
 }

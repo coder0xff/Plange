@@ -1,6 +1,5 @@
 #include "CeilingExp.hpp"
 #include "value.hpp"
-#include "Errors.hpp"
 
 
 
@@ -10,6 +9,6 @@ CeilingExp::~CeilingExp()
 {
 }
 
-value CeilingExp::evaluate() const {
+value CeilingExp::evaluate(execution_context &exc) const {
 	ERROR(NotImplemented, __FUNCTION__);
 }

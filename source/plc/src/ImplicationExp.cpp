@@ -1,6 +1,5 @@
 ﻿#include "ImplicationExp.hpp"
 #include "value.hpp"
-#include "Errors.hpp"
 
 
 
@@ -18,6 +17,6 @@ std::u32string ImplicationExp::get_name() const
 	return U"⇒";
 }
 
-value ImplicationExp::evaluate() const {
+value ImplicationExp::evaluate(execution_context &exc) const {
 	ERROR(NotImplemented, __FUNCTION__);
 }

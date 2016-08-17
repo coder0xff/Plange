@@ -1,6 +1,5 @@
 #include "ShiftRExp.hpp"
 #include "value.hpp"
-#include "Errors.hpp"
 
 
 
@@ -18,6 +17,6 @@ std::u32string ShiftRExp::get_name() const
 	return U">>";
 }
 
-value ShiftRExp::evaluate() const {
+value ShiftRExp::evaluate(execution_context &exc) const {
 	ERROR(NotImplemented, __FUNCTION__);
 }

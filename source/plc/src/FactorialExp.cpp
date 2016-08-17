@@ -1,6 +1,5 @@
 #include "FactorialExp.hpp"
 #include "value.hpp"
-#include "Errors.hpp"
 
 
 
@@ -21,6 +20,6 @@ bool FactorialExp::get_postfix() const
 	return true;
 }
 
-value FactorialExp::evaluate() const {
+value FactorialExp::evaluate(execution_context &exc) const {
 	ERROR(NotImplemented, __FUNCTION__);
 }

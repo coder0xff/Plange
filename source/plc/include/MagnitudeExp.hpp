@@ -9,7 +9,7 @@ class MagnitudeExp :
 public:
 	MagnitudeExp(Expression const & subExpression);
 	~MagnitudeExp();
-	value evaluate() const override;
+	value evaluate(execution_context &exc) const override;
 };
 
 #endif //MAGNITUDE_EXP_HPP

@@ -7,7 +7,7 @@ class SetExp :
 	public CollectionExp
 {
 public:
-	value evaluate() const override;
+	value evaluate(execution_context &exc) const override;
 };
 
 #endif //SET_EXP_HPP

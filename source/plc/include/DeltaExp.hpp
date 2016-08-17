@@ -13,7 +13,7 @@ public:
 	~DeltaExp();
 	int rank;
 	std::unique_ptr<Expression> sub_expression;
-	value evaluate() const override;
+	value evaluate(execution_context &exc) const override;
 };
 
 #endif //DELTA_EXP_HPP

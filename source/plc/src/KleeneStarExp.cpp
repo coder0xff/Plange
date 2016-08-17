@@ -1,6 +1,5 @@
 #include "KleeneStarExp.hpp"
 #include "value.hpp"
-#include "Errors.hpp"
 
 
 
@@ -23,6 +22,6 @@ bool KleeneStarExp::get_postfix() const
 	return true;
 }
 
-value KleeneStarExp::evaluate() const {
+value KleeneStarExp::evaluate(execution_context &exc) const {
 	ERROR(NotImplemented, __FUNCTION__);
 }

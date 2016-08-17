@@ -1,6 +1,5 @@
 #include "ConditionalExp.hpp"
 #include "value.hpp"
-#include "Errors.hpp"
 
 
 
@@ -18,6 +17,6 @@ ConditionalExp::~ConditionalExp()
 {
 }
 
-value ConditionalExp::evaluate() const {
+value ConditionalExp::evaluate(execution_context &exc) const {
 	ERROR(NotImplemented, __FUNCTION__);
 }

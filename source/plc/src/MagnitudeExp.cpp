@@ -1,6 +1,5 @@
 #include "MagnitudeExp.hpp"
 #include "value.hpp"
-#include "Errors.hpp"
 
 
 
@@ -11,6 +10,6 @@ MagnitudeExp::~MagnitudeExp()
 {
 }
 
-value MagnitudeExp::evaluate() const {
+value MagnitudeExp::evaluate(execution_context &exc) const {
 	ERROR(NotImplemented, __FUNCTION__);
 }

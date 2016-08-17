@@ -11,7 +11,7 @@ public:
 	AllocationExp(AllocationExp const & other);
 	~AllocationExp();
 	std::unique_ptr<Expression> argument;
-	value evaluate() const override;
+	value evaluate(execution_context &exc) const override;
 };
 
 #endif //ALLOCATION_EXP_HPP

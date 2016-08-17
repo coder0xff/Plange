@@ -9,7 +9,7 @@ class TupleExp :
 public:
 	TupleExp();
 	~TupleExp();
-	value evaluate() const override;
+	value evaluate(execution_context &exc) const override;
 };
 
 #endif //TUPLE_EXP_HPP

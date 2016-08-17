@@ -1,6 +1,5 @@
 ﻿#include "NandExp.hpp"
 #include "value.hpp"
-#include "Errors.hpp"
 
 
 
@@ -18,6 +17,6 @@ std::u32string NandExp::get_name() const
 	return U"↑";
 }
 
-value NandExp::evaluate() const {
+value NandExp::evaluate(execution_context &exc) const {
 	ERROR(NotImplemented, __FUNCTION__);
 }

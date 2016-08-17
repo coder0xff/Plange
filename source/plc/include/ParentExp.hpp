@@ -8,7 +8,7 @@ public:
 	ParentExp(ParentExp const & other);
 	~ParentExp() = default;
 	std::unique_ptr<Expression> sub_expression;
-	virtual value evaluate() const = 0;
+	virtual value evaluate(execution_context &exc) const = 0;
 };
 
 #endif //PARENT_EXP_HPP

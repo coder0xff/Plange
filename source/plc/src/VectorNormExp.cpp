@@ -1,6 +1,5 @@
 #include "VectorNormExp.hpp"
 #include "value.hpp"
-#include "Errors.hpp"
 
 
 
@@ -13,6 +12,6 @@ VectorNormExp::~VectorNormExp()
 {
 }
 
-value VectorNormExp::evaluate() const {
+value VectorNormExp::evaluate(execution_context &exc) const {
 	ERROR(NotImplemented, __FUNCTION__);
 }

@@ -1,6 +1,5 @@
 #include "BitXorExp.hpp"
 #include "value.hpp"
-#include "Errors.hpp"
 
 
 
@@ -18,6 +17,6 @@ std::u32string BitXorExp::get_name() const
 	return U"^^";
 }
 
-value BitXorExp::evaluate() const {
+value BitXorExp::evaluate(execution_context &exc) const {
 	ERROR(NotImplemented, __FUNCTION__);
 }

@@ -1,6 +1,5 @@
 #include "DimensionalNumberExp.hpp"
 #include "value.hpp"
-#include "Errors.hpp"
 
 
 
@@ -13,6 +12,6 @@ DimensionalNumberExp::~DimensionalNumberExp()
 {
 }
 
-value DimensionalNumberExp::evaluate() const {
+value DimensionalNumberExp::evaluate(execution_context &exc) const {
 	ERROR(NotImplemented, __FUNCTION__);
 }

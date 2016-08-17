@@ -1,6 +1,5 @@
 #include "MultiplicationExp.hpp"
 #include "value.hpp"
-#include "Errors.hpp"
 
 
 
@@ -18,6 +17,6 @@ std::u32string MultiplicationExp::get_name() const
 	return U"*";
 }
 
-value MultiplicationExp::evaluate() const {
+value MultiplicationExp::evaluate(execution_context &exc) const {
 	ERROR(NotImplemented, __FUNCTION__);
 }

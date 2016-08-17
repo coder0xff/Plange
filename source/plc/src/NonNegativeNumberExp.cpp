@@ -1,6 +1,5 @@
 #include "NonNegativeNumberExp.hpp"
 #include "value.hpp"
-#include "Errors.hpp"
 
 
 NonNegativeNumberExp::NonNegativeNumberExp(std::u32string const & asString) : as_string(asString) {}
@@ -8,6 +7,6 @@ NonNegativeNumberExp::NonNegativeNumberExp(std::u32string const & asString) : as
 
 NonNegativeNumberExp::~NonNegativeNumberExp() {}
 
-value NonNegativeNumberExp::evaluate() const {
+value NonNegativeNumberExp::evaluate(execution_context &exc) const {
 	ERROR(NotImplemented, __FUNCTION__);
 }

@@ -14,7 +14,7 @@ public:
 	~InvocationExp();
 	std::unique_ptr<Expression> function;
 	std::vector<std::unique_ptr<Expression>> arguments;
-	value evaluate() const override;
+	value evaluate(execution_context &exc) const override;
 };
 
 #endif //INVOCATION_EXP_HPP

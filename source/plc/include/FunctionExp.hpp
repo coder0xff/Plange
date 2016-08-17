@@ -8,7 +8,7 @@ class FunctionExp :
 public:
 	FunctionExp();
 	~FunctionExp();
-	value evaluate() const override;
+	value evaluate(execution_context &exc) const override;
 };
 
 #endif //FUNCTION_EXP_HPP

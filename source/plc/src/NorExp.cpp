@@ -1,6 +1,5 @@
 ﻿#include "NorExp.hpp"
 #include "value.hpp"
-#include "Errors.hpp"
 
 
 
@@ -18,6 +17,6 @@ std::u32string NorExp::get_name() const
 	return U"↓";
 }
 
-value NorExp::evaluate() const {
+value NorExp::evaluate(execution_context &exc) const {
 	ERROR(NotImplemented, __FUNCTION__);
 }

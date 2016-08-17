@@ -1,6 +1,5 @@
 ﻿#include "ProperSupersetExp.hpp"
 #include "value.hpp"
-#include "Errors.hpp"
 
 
 
@@ -18,6 +17,6 @@ std::u32string ProperSupersetExp::get_name() const
 	return U"⊃";
 }
 
-value ProperSupersetExp::evaluate() const {
+value ProperSupersetExp::evaluate(execution_context &exc) const {
 	ERROR(NotImplemented, __FUNCTION__);
 }

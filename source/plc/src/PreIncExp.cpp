@@ -1,6 +1,5 @@
 #include "PreIncExp.hpp"
 #include "value.hpp"
-#include "Errors.hpp"
 
 
 
@@ -23,6 +22,6 @@ bool PreIncExp::get_postfix() const
 	return false;
 }
 
-value PreIncExp::evaluate() const {
+value PreIncExp::evaluate(execution_context &exc) const {
 	ERROR(NotImplemented, __FUNCTION__);
 }

@@ -1,6 +1,5 @@
 #include "PreDecExp.hpp"
 #include "value.hpp"
-#include "Errors.hpp"
 
 
 
@@ -23,6 +22,6 @@ bool PreDecExp::get_postfix() const
 	return false;
 }
 
-value PreDecExp::evaluate() const {
+value PreDecExp::evaluate(execution_context &exc) const {
 	ERROR(NotImplemented, __FUNCTION__);
 }
