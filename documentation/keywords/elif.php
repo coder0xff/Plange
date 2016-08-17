@@ -1,4 +1,5 @@
 <meta charset='utf-8'/>
+<meta name="viewport" content="width=device-width, initial-scale=0.6">
 <html>
 	<head>
 		<title>elif - Plange</title>
@@ -8,7 +9,7 @@
 		<?php require('../../header.php') ?>
 
 
- 
+ï¿½
     <a href="if.php">
         if
     </a>

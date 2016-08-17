@@ -1,4 +1,5 @@
 <meta charset='utf-8'/>
+<meta name="viewport" content="width=device-width, initial-scale=0.6">
 <html>
 	<head>
 		<title></title>
@@ -28,7 +29,7 @@
 		</ul>
 		<p>Note that if the runtime is internally transparent and mutable, meaning that all code and data for the runtime can be read and written by the runtime, then it can build copies of itself from its own introspection.</p>
 		<h2>Optimization Time</h2>
-		<p>Optimization is usually done during compile time. In plange, optimization is done whenever possible. A program can be executed by the plange interpreter, or it can be compiled. This decision can be made at runtime. To permit the highest level of flexibility, distributables may include an interpretable representation of the program. This enables the runtime to maintain the strongly connected digraph in deployment environments. A side affect of this arrangement is that dynamic recompilation can be performed (permitting full dependency injection support) and enhanced profile guided optimizations are enabled. Notably, since the optimizations may be performed at run time, there may be a "warm up" period before sustained performance is achieved. The runtime may be permitted to cache optimized binaries to alleviate warm up.</p>
+		<p>Optimization is usually done during compile time. In plange, optimization is done whenever possible. A program can be executed by the plange interpreter, or it can be compiled. This decision can be made at runtime. To permit the highest level of flexibility, distributables may include an interpretable representation of the program. This enables the runtime to maintain the strongly connected digraph in deployment environments. A side affect of this arrangement is that dynamic recompilation can be performed (permitting full dependency injection support) and enhanced profile guided optimizations are enabled. Notably, since the optimizations may be performed at run time, there may be a "warm up" period before sustained performance is achieved. The runtime may be permitted to cache optimized binary portions to alleviate warm up.</p>
 		<p>See also: <a href="/goals/first-classing.php">First Classing</a>
 		</p>
 

@@ -217,7 +217,7 @@ INHERITANCE_LIST = [VISIBILITY_MODIFIER {IC}] EXPRESSION {{IC} "," {IC} [VISIBIL
 INTEGER_DIVISION = EXPRESSION {IC} "\\" {IC} EXPRESSION.
 
 #Collection intersection
-INTERSECTION = EXPRESSION {IC} "∩" {IC} EXPRESSION.
+INTERSECTION = EXPRESSION {IC} ("∩"|"_i_") {IC} EXPRESSION.
 
 #invoke a function, type-function or array-function
 INVOCATION = PARENTHETICAL_INVOCATION | ARRAY_INVOCATION | TYPE_INVOCATION.
@@ -354,8 +354,6 @@ SET = "{|" {IC} [EXPRESSION {{IC} "," {IC} EXPRESSION} {IC}] "|}".
 #create a Collection, substituting variables bound in the right hand side into the left hand side
 SET_COMPREHENSION = "{" {IC} EXPRESSION {IC} "|" {IC} EXPRESSION {IC} "}".
 
-SETTER = "set" {IC} ":=" {IC} EXPRESSION.
-
 #shift left
 SHIFTL = EXPRESSION {IC} "<<" {IC} EXPRESSION.
 
@@ -410,7 +408,7 @@ UNARY_LOGICAL_OP = NOT | ALL | EXISTS | EXISTS_ONE.
 UNARY_OP = CARDINALITY | KLEENE_STAR | UNARY_ARITHMETIC_OP | UNARY_LOGICAL_OP.
 
 #Collection union
-UNION = EXPRESSION {IC} "∪" {IC} EXPRESSION.
+UNION = EXPRESSION {IC} ("∪"|"_u_") {IC} EXPRESSION.
 
 #dimensional analysis "per"
 UNIT_DIVISION = DIMENSION "/" DIMENSION.

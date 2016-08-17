@@ -1,4 +1,5 @@
 <meta charset='utf-8'/>
+<meta name="viewport" content="width=device-width, initial-scale=0.6">
 <html>
 	<head>
 		<title>Restructuring Versioning Information - Plange</title>
@@ -10,7 +11,7 @@
 
 
         <div class="code">
-            <p>restructuring.plg</p>
+            <p>restructuring.pge</p>
             <pre>///////////////////////////////////////////////////////////////////////////
 // This code, written in Plange (which is a work in progress),
 // presents a commented implementation of an algorithm

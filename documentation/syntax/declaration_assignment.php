@@ -1,4 +1,5 @@
 <meta charset='utf-8'/>
+<meta name="viewport" content="width=device-width, initial-scale=0.6">
 <html>
 	<head>
 		<title>declaration_assignment - Plange</title>

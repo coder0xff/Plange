@@ -1,4 +1,5 @@
 <meta charset='utf-8'/>
+<meta name="viewport" content="width=device-width, initial-scale=0.6">
 <html>
 	<head>
 		<meta name="google-site-verification" content="OKvej4xSIY4zxFPd7v6mor2L0hzDXUJaV2gzl5rKYJY" />
@@ -10,11 +11,11 @@
 
 
 		<div style="padding:1em;font-size:1.6em">
-			Plange (plaːnd͡ʒ) is a project to create a revolutionary
+			Plange (plaːnd͡ʒ) is an open-source project to create a revolutionary
 			development environment, including a programming language,
 			standard library, and runtime.
 		</div>
-		<p>See the <a href="goals/">Goals</a> page for a high-level overview.</p>
+		<p>See the <a href="goals/">Goals</a> page for a high-level overview. The project status is currently pre-alpha. The license is New BSD.</p>
 		
 		<h1>Introduction & Tutorial</h1>
 		<p>Plange began as a list of features and ideas. Existing languages were used as inspiration for this list - their successes and also their failings. Creating a language that picks and chooses the best features of many successful languages, integrates them, and has an expansive and robust runtime and standard library is an ambitious undertaking. Nonetheless, this is the goal for Plange.</p>

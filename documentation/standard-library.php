@@ -1,4 +1,5 @@
 <meta charset='utf-8'/>
+<meta name="viewport" content="width=device-width, initial-scale=0.6">
 <html>
 	<head>
 		<title>Standard Library - Plange</title>
@@ -13,6 +14,7 @@
 		<code>
 			<table style="width:2000px;">
 				<tr><th>Signature</th><th>Comments</th></tr>
+				<tr><td>&lt;Number → Number&gt; abs</td><td>absolute value</td></tr>
 				<tr><td>&lt;UInt8 → Char&gt; ansi_chr</td></tr>
 				<tr><td>&lt;Char → Maybe&lt;UInt8&gt;&gt; ansi_ord</td></tr>
 				<tr><td>&lt;Int32 → Char&gt; chr</td></tr>
