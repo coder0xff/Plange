@@ -1,6 +1,5 @@
 ﻿#include "AddSubExp.hpp"
 #include "value.hpp"
-#include "Errors.hpp"
 
 
 
@@ -18,6 +17,6 @@ std::u32string AddSubExp::get_name() const
 	return U"±";
 }
 
-value AddSubExp::evaluate() const {
+value AddSubExp::evaluate(execution_context &exc) const {
 	ERROR(NotImplemented, __FUNCTION__);
 }

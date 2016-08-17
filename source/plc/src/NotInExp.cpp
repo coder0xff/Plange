@@ -1,6 +1,5 @@
 ﻿#include "NotInExp.hpp"
 #include "value.hpp"
-#include "Errors.hpp"
 
 
 
@@ -18,6 +17,6 @@ std::u32string NotInExp::get_name() const
 	return U"∉";
 }
 
-value NotInExp::evaluate() const {
+value NotInExp::evaluate(execution_context &exc) const {
 	ERROR(NotImplemented, __FUNCTION__);
 }

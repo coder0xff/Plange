@@ -1,6 +1,5 @@
 #include "DeltaExp.hpp"
 #include "value.hpp"
-#include "Errors.hpp"
 
 
 
@@ -16,6 +15,6 @@ DeltaExp::~DeltaExp()
 {
 }
 
-value DeltaExp::evaluate() const {
+value DeltaExp::evaluate(execution_context &exc) const {
 	ERROR(NotImplemented, __FUNCTION__);
 }

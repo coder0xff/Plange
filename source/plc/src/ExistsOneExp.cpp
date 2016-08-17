@@ -1,6 +1,5 @@
 ﻿#include "ExistsOneExp.hpp"
 #include "value.hpp"
-#include "Errors.hpp"
 
 
 
@@ -23,6 +22,6 @@ bool ExistsOneExp::get_postfix() const
 	return false;
 }
 
-value ExistsOneExp::evaluate() const {
+value ExistsOneExp::evaluate(execution_context &exc) const {
 	ERROR(NotImplemented, __FUNCTION__);
 }

@@ -1,6 +1,5 @@
 #include "IdentifierExp.hpp"
 #include "value.hpp"
-#include "Errors.hpp"
 
 
 
@@ -11,6 +10,6 @@ IdentifierExp::~IdentifierExp()
 {
 }
 
-value IdentifierExp::evaluate() const {
+value IdentifierExp::evaluate(execution_context &exc) const {
 	ERROR(NotImplemented, __FUNCTION__);
 }

@@ -1,6 +1,5 @@
 ﻿#include "OrExp.hpp"
 #include "value.hpp"
-#include "Errors.hpp"
 
 
 
@@ -18,6 +17,6 @@ std::u32string OrExp::get_name() const
 	return U"∨";
 }
 
-value OrExp::evaluate() const {
+value OrExp::evaluate(execution_context &exc) const {
 	ERROR(NotImplemented, __FUNCTION__);
 }

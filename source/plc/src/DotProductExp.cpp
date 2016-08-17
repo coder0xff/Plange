@@ -1,6 +1,5 @@
 ﻿#include "DotProductExp.hpp"
 #include "value.hpp"
-#include "Errors.hpp"
 
 
 
@@ -18,6 +17,6 @@ std::u32string DotProductExp::get_name() const
 	return U"⋅";
 }
 
-value DotProductExp::evaluate() const {
+value DotProductExp::evaluate(execution_context &exc) const {
 	ERROR(NotImplemented, __FUNCTION__);
 }

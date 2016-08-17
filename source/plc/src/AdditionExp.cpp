@@ -1,6 +1,5 @@
 #include "AdditionExp.hpp"
 #include "value.hpp"
-#include "Errors.hpp"
 
 
 AdditionExp::AdditionExp() {}
@@ -13,6 +12,6 @@ std::u32string AdditionExp::get_name() const
 	return U"+";
 }
 
-value AdditionExp::evaluate() const {
+value AdditionExp::evaluate(execution_context &exc) const {
 	ERROR(NotImplemented, __FUNCTION__);
 }

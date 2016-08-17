@@ -1,6 +1,5 @@
 ﻿#include "RadicalExp.hpp"
 #include "value.hpp"
-#include "Errors.hpp"
 
 
 
@@ -21,6 +20,6 @@ bool RadicalExp::get_postfix() const
 	return false;
 }
 
-value RadicalExp::evaluate() const {
+value RadicalExp::evaluate(execution_context &exc) const {
 	ERROR(NotImplemented, __FUNCTION__);
 }

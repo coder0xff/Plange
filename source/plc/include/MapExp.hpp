@@ -12,7 +12,7 @@ public:
 	MapExp(MapExp const & other);
 	~MapExp();
 	std::map<std::unique_ptr<Expression>, std::unique_ptr<Expression>> elements;
-	value evaluate() const override;
+	value evaluate(execution_context &exc) const override;
 };
 
 #endif //MAP_EXP_HPP

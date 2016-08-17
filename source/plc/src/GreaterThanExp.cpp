@@ -1,6 +1,5 @@
 #include "GreaterThanExp.hpp"
 #include "value.hpp"
-#include "Errors.hpp"
 
 
 
@@ -18,6 +17,6 @@ std::u32string GreaterThanExp::get_name() const
 	return U">";
 }
 
-value GreaterThanExp::evaluate() const {
+value GreaterThanExp::evaluate(execution_context &exc) const {
 	ERROR(NotImplemented, __FUNCTION__);
 }

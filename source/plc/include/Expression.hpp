@@ -8,7 +8,7 @@ class Expression {
 public:
 	Expression();
 	virtual ~Expression();
-	virtual value evaluate() const = 0;
+	virtual value evaluate(execution_context &exc) const = 0;
 	static std::unique_ptr<Expression> clone(Expression const & other);
 };
 

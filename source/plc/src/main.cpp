@@ -6,7 +6,6 @@
 #include "plange_grammar.hpp"
 #include "tclap/CmdLine.h"
 #include "utils.hpp"
-#include "Errors.hpp"
 #include "Warnings.hpp"
 #include "SourceCode.hpp"
 

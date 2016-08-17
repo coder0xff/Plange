@@ -1,6 +1,5 @@
 #include "BoolExp.hpp"
 #include "value.hpp"
-#include "Errors.hpp"
 
 
 
@@ -13,6 +12,6 @@ BoolExp::~BoolExp()
 {
 }
 
-value BoolExp::evaluate() const {
+value BoolExp::evaluate(execution_context &exc) const {
 	ERROR(NotImplemented, __FUNCTION__);
 }

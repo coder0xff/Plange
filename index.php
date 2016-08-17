@@ -321,7 +321,7 @@ sue = 6;</pre>
 			<p>Counter Example</p>
 			<pre>&lt;Collection * BinaryRelation → Collection&gt; sort := (items, ordering) {
 	result ↔ items; // result and items make a bijection
-	∀ { ordering(result[i - 1], result[i]) where i ∈ 𝕎 ∧ i &lt; |result| }; //the result has to be sorted
+	∀ { ordering(result[i - 1], result[i]) | i ∈ 𝕎 ∧ i &lt; |result| }; //the result has to be sorted
 	return result; // solve, substitute, and return
 };</pre>
 		</div>

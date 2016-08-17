@@ -1,6 +1,5 @@
 ﻿#include "AllExp.hpp"
 #include "value.hpp"
-#include "Errors.hpp"
 
 
 
@@ -23,6 +22,6 @@ bool AllExp::get_postfix() const
 	return false;
 }
 
-value AllExp::evaluate() const {
+value AllExp::evaluate(execution_context &exc) const {
 	ERROR(NotImplemented, __FUNCTION__);
 }

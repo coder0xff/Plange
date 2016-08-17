@@ -1,6 +1,5 @@
 #include "NegationExp.hpp"
 #include "value.hpp"
-#include "Errors.hpp"
 
 
 
@@ -23,6 +22,6 @@ bool NegationExp::get_postfix() const
 	return false;
 }
 
-value NegationExp::evaluate() const {
+value NegationExp::evaluate(execution_context &exc) const {
 	ERROR(NotImplemented, __FUNCTION__);
 }

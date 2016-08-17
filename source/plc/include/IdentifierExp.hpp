@@ -11,7 +11,7 @@ public:
 	IdentifierExp(value & val);
 	~IdentifierExp();
 	value val;
-	value evaluate() const override;
+	value evaluate(execution_context &exc) const override;
 };
 
 #endif //IDENTIFIER_EXP_HPP

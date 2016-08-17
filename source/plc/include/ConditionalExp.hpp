@@ -14,7 +14,7 @@ public:
 	std::unique_ptr<Expression> condition;
 	std::unique_ptr<Expression> true_case;
 	std::unique_ptr<Expression> false_case;
-	value evaluate() const override;
+	value evaluate(execution_context &exc) const override;
 };
 
 #endif //CONDITIONAL_EXP_HPP

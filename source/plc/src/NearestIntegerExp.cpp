@@ -1,6 +1,5 @@
 #include "NearestIntegerExp.hpp"
 #include "value.hpp"
-#include "Errors.hpp"
 
 
 
@@ -11,6 +10,6 @@ NearestIntegerExp::~NearestIntegerExp()
 {
 }
 
-value NearestIntegerExp::evaluate() const {
+value NearestIntegerExp::evaluate(execution_context &exc) const {
 	ERROR(NotImplemented, __FUNCTION__);
 }

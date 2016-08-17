@@ -1,6 +1,5 @@
 #include "LesserThanExp.hpp"
 #include "value.hpp"
-#include "Errors.hpp"
 
 
 
@@ -18,6 +17,6 @@ std::u32string LesserThanExp::get_name() const
 	return U"<";
 }
 
-value LesserThanExp::evaluate() const {
+value LesserThanExp::evaluate(execution_context &exc) const {
 	ERROR(NotImplemented, __FUNCTION__);
 }

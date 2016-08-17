@@ -1,6 +1,5 @@
 #include "IsExp.hpp"
 #include "value.hpp"
-#include "Errors.hpp"
 
 
 
@@ -18,6 +17,6 @@ std::u32string IsExp::get_name() const
 	return U"is";
 }
 
-value IsExp::evaluate() const {
+value IsExp::evaluate(execution_context &exc) const {
 	ERROR(NotImplemented, __FUNCTION__);
 }

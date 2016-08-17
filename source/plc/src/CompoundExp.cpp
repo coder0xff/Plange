@@ -1,6 +1,5 @@
 #include "CompoundExp.hpp"
 #include "value.hpp"
-#include "Errors.hpp"
 
 
 
@@ -18,6 +17,6 @@ std::u32string CompoundExp::get_name() const
 	return U"|";
 }
 
-value CompoundExp::evaluate() const {
+value CompoundExp::evaluate(execution_context &exc) const {
 	ERROR(NotImplemented, __FUNCTION__);
 }

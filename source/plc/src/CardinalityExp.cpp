@@ -1,6 +1,5 @@
 #include "CardinalityExp.hpp"
 #include "value.hpp"
-#include "Errors.hpp"
 
 
 
@@ -23,6 +22,6 @@ bool CardinalityExp::get_postfix() const
 	return false;
 }
 
-value CardinalityExp::evaluate() const {
+value CardinalityExp::evaluate(execution_context &exc) const {
 	ERROR(NotImplemented, __FUNCTION__);
 }

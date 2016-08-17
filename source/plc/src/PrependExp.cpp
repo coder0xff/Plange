@@ -1,6 +1,5 @@
 #include "PrependExp.hpp"
 #include "value.hpp"
-#include "Errors.hpp"
 
 
 
@@ -18,6 +17,6 @@ std::u32string PrependExp::get_name() const
 	return U"&";
 }
 
-value PrependExp::evaluate() const {
+value PrependExp::evaluate(execution_context &exc) const {
 	ERROR(NotImplemented, __FUNCTION__);
 }

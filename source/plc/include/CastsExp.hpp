@@ -8,7 +8,7 @@ class CastsExp :
 public:
 	CastsExp();
 	~CastsExp();
-	value evaluate() const override;
+	value evaluate(execution_context &exc) const override;
 	std::u32string get_name() const override;
 };
 

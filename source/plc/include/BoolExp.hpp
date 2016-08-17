@@ -10,7 +10,7 @@ public:
 	BoolExp(bool value);
 	~BoolExp();
 	bool val;
-	value evaluate() const override;
+	value evaluate(execution_context &exc) const override;
 };
 
 #endif //BOOL_EXP_HPP

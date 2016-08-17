@@ -9,7 +9,7 @@ class CeilingExp :
 public:
 	CeilingExp(Expression const & subExpression);
 	~CeilingExp();
-	value evaluate() const override;
+	value evaluate(execution_context &exc) const override;
 };
 
 #endif //CEILING_EXP_HPP

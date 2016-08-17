@@ -9,7 +9,7 @@ class FloorExp :
 public:
 	FloorExp(Expression const & subExpression);
 	~FloorExp();
-	value evaluate() const override;
+	value evaluate(execution_context &exc) const override;
 };
 
 #endif //FLOOR_EXP_HPP

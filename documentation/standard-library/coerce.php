@@ -29,7 +29,7 @@
 };
 
 TalkingActionFigure := type {
-	&lt;void -&gt; void&gt; speak := () { print("Stay in school.\n")}
+	&lt;void -&gt; void&gt; speak := () { print("Stay in school.\n"); };
 };
 
 &lt;TalkingActionFigure&gt; amazotron;

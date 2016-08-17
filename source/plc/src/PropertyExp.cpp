@@ -1,6 +1,5 @@
 #include "PropertyExp.hpp"
 #include "value.hpp"
-#include "Errors.hpp"
 
 
 
@@ -13,6 +12,6 @@ PropertyExp::~PropertyExp()
 {
 }
 
-value PropertyExp::evaluate() const {
+value PropertyExp::evaluate(execution_context &exc) const {
 	ERROR(NotImplemented, __FUNCTION__);
 }

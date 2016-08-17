@@ -10,7 +10,7 @@ public:
 	NonNegativeNumberExp(std::u32string const & asString);
 	~NonNegativeNumberExp();
 	std::u32string as_string;
-	value evaluate() const override;
+	value evaluate(execution_context &exc) const override;
 };
 
 #endif //NON_NEGATIVE_NUMBER_EXP_HPP

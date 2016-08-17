@@ -8,7 +8,7 @@ class DimensionalNumberExp :
 public:
 	DimensionalNumberExp();
 	~DimensionalNumberExp();
-	value evaluate() const override;
+	value evaluate(execution_context &exc) const override;
 };
 
 #endif //DIMENSIONAL_NUMBER_EXP_HPP

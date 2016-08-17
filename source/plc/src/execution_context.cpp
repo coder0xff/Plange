@@ -1,6 +1,5 @@
 #include "execution_context.hpp"
 #include "value.hpp"
-#include "Errors.hpp"
 
 
 execution_context::execution_context(Scope& scope, Thread& creatingThread): scope(scope), creating_thread(creatingThread) {}

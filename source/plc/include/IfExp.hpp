@@ -14,7 +14,7 @@ public:
 	~IfExp();
 	std::vector<std::pair<std::unique_ptr<Expression>, std::unique_ptr<Expression>>> pairs;
 	std::unique_ptr<Expression> else_;
-	value evaluate() const override;
+	value evaluate(execution_context &exc) const override;
 };
 
 #endif //IF_EXP_HPP

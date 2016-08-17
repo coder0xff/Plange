@@ -10,7 +10,7 @@ public:
 	~ProperSubsetExp();
 
 	std::u32string get_name() const override;
-	value evaluate() const override;
+	value evaluate(execution_context &exc) const override;
 };
 
 #endif //PROPER_SUBSET_EXP_HPP

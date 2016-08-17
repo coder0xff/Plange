@@ -11,7 +11,7 @@ public:
 	CastExp(CastExp const & other);
 	~CastExp();
 	std::unique_ptr<Expression> target_type;
-	value evaluate() const override;
+	value evaluate(execution_context &exc) const override;
 };
 
 #endif //CAST_EXP_HPP
