@@ -11,7 +11,7 @@
 
 		<div class="syntax">
 			<p>syntax</p>
-			<pre>(lowercase_letter) {lowercase_letter}</pre>
+			<div>(lowercase_letter) {lowercase_letter}</div>
 		</div>
 
 

@@ -13,7 +13,7 @@
 
 		<div class="syntax">
 			<p>syntax</p>
-			<pre>PARAMETER_NORMAL | PARAMETER_ALGEBRAIC</pre>
+			<div>PARAMETER_NORMAL | PARAMETER_ALGEBRAIC</div>
 		</div>
 		<p>The last variation accepts an expression, which is then set to be equivalent to the passed in value. This enables pattern matching and solving on parameters.
 		</p>

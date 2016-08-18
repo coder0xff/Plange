@@ -13,7 +13,7 @@
 
 		<div class="syntax">
 			<p>syntax</p>
-			<pre>"true" | "false"</pre>
+			<div>"true" | "false"</div>
 		</div>
 		<p>These are included as syntax elements as they are literals, not constants.
 		</p>

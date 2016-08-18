@@ -13,7 +13,7 @@
 
 		<div class="syntax">
 			<p>syntax</p>
-			<pre>"∃!" {IC} EXPRESSION</pre>
+			<div>"∃!" {IC} EXPRESSION</div>
 		</div>
 		<p>See:<a href="EXISTS.php">EXISTS</a><a href="ALL.php">ALL</a>
 		</p>

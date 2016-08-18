@@ -13,7 +13,7 @@
 
 		<div class="syntax">
 			<p>syntax</p>
-			<pre>"&lt;" {IC} EXPRESSION {IC} "&gt;"</pre>
+			<div>"&lt;" {IC} EXPRESSION {IC} "&gt;"</div>
 		</div>
 
 

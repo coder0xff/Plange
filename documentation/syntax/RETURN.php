@@ -13,7 +13,7 @@
 
 		<div class="syntax">
 			<p>syntax</p>
-			<pre>"return" [ {IC} EXPRESSION ]</pre>
+			<div>"return" [ {IC} EXPRESSION ]</div>
 		</div>
 
 

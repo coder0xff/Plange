@@ -11,7 +11,7 @@
 
 		<div class="syntax">
 			<p>syntax</p>
-			<pre>["%"] IDENTIFIER</pre>
+			<div>["%"] IDENTIFIER</div>
 		</div>
 
 

@@ -13,7 +13,7 @@
 
 		<div class="syntax">
 			<p>syntax</p>
-			<pre>( "⌊" {IC} EXPRESSION {IC} "⌉" ) | ("|_" {IC} EXPRESSION {IC} "'|" )</pre>
+			<div>( "⌊" {IC} EXPRESSION {IC} "⌉" ) | ("|_" {IC} EXPRESSION {IC} "'|" )</div>
 		</div>
 
 

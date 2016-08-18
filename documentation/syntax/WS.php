@@ -13,7 +13,7 @@
 
 		<div class="syntax">
 			<p>syntax</p>
-			<pre>white_space {white_space}</pre>
+			<div>white_space {white_space}</div>
 		</div>
 
 

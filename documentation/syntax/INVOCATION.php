@@ -13,7 +13,7 @@
 
 		<div class="syntax">
 			<p>syntax</p>
-			<pre>PARENTHETICAL_INVOCATION | ARRAY_INVOCATION | TYPE_INVOCATION</pre>
+			<div>PARENTHETICAL_INVOCATION | ARRAY_INVOCATION | TYPE_INVOCATION</div>
 		</div>
 		<div class="code">
 			<p>Example</p>

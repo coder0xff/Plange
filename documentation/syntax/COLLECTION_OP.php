@@ -13,7 +13,7 @@
 
 		<div class="syntax">
 			<p>syntax</p>
-			<pre>COMPLEMENT | INTERSECTION | SYMMETRIC_DIFFERENCE | UNION</pre>
+			<div>COMPLEMENT | INTERSECTION | SYMMETRIC_DIFFERENCE | UNION</div>
 		</div>
 
 

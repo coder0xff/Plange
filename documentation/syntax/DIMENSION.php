@@ -13,7 +13,7 @@
 
 		<div class="syntax">
 			<p>syntax</p>
-			<pre>IDENTIFIER | DIMENSIONAL_ANALYSIS_OP</pre>
+			<div>IDENTIFIER | DIMENSIONAL_ANALYSIS_OP</div>
 		</div>
 
 

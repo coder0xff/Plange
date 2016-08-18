@@ -13,7 +13,7 @@
 
 		<div class="syntax">
 			<p>syntax</p>
-			<pre>PARENTHETICAL {IC} EXPRESSION</pre>
+			<div>PARENTHETICAL {IC} EXPRESSION</div>
 		</div>
 
 

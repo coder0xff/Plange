@@ -11,7 +11,7 @@
 
 		<div class="syntax">
 			<p>syntax</p>
-			<pre>("Δ"|"_delta_") ["^" WHOLE_NUMBER] EXPRESSION</pre>
+			<div>("Δ"|"_delta_") ["^" WHOLE_NUMBER] EXPRESSION</div>
 		</div>
 
 

@@ -13,7 +13,7 @@
 
 		<div class="syntax">
 			<p>syntax</p>
-			<pre>(decimal_digit {decimal_digit} "." {decimal_digit}) | ("." decimal_digit {decimal_digit})</pre>
+			<div>(decimal_digit {decimal_digit} "." {decimal_digit}) | ("." decimal_digit {decimal_digit})</div>
 		</div>
 
 

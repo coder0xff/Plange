@@ -13,7 +13,7 @@
 
 		<div class="syntax">
 			<p>syntax</p>
-			<pre>"0" octal_digit {octal_digit}</pre>
+			<div>"0" octal_digit {octal_digit}</div>
 		</div>
 
 

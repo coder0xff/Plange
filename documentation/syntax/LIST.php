@@ -13,7 +13,7 @@
 
 		<div class="syntax">
 			<p>syntax</p>
-			<pre>"[|" {IC} [EXPRESSION {{IC} ", " {IC} EXPRESSION} {IC} ] "|]"</pre>
+			<div>"[|" {IC} [EXPRESSION {{IC} ", " {IC} EXPRESSION} {IC} ] "|]"</div>
 		</div>
 		<p>the empty list
 		</p>

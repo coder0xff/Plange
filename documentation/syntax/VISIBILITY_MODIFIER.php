@@ -11,7 +11,7 @@
 
 		<div class="syntax">
 			<p>syntax</p>
-			<pre>("public"|"protected"|"protected internal"|"internal"|"private")</pre>
+			<div>("public"|"protected"|"protected internal"|"internal"|"private")</div>
 		</div>
 
 

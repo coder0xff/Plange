@@ -11,7 +11,7 @@
 
 		<div class="syntax">
 			<p>syntax</p>
-			<pre>MULTIPLICATION | DOT_PRODUCT | CROSS_PRODUCT</pre>
+			<div>MULTIPLICATION | DOT_PRODUCT | CROSS_PRODUCT</div>
 		</div>
 
 

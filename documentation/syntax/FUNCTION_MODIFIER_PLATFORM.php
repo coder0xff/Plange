@@ -11,7 +11,7 @@
 
 		<div class="syntax">
 			<p>syntax</p>
-			<pre>PLATFORM {ICR PLATFORM} [ICR FUNCTION_MODIFIER_MODEL]</pre>
+			<div>PLATFORM {ICR PLATFORM} [ICR FUNCTION_MODIFIER_MODEL]</div>
 		</div>
 
 

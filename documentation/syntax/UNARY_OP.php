@@ -11,7 +11,7 @@
 
 		<div class="syntax">
 			<p>syntax</p>
-			<pre>CARDINALITY | KLEENE_STAR | UNARY_ARITHMETIC_OP | UNARY_LOGICAL_OP</pre>
+			<div>CARDINALITY | KLEENE_STAR | UNARY_ARITHMETIC_OP | UNARY_LOGICAL_OP</div>
 		</div>
 
 

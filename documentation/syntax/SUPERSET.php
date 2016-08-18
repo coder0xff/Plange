@@ -11,7 +11,7 @@
 
 		<div class="syntax">
 			<p>syntax</p>
-			<pre>EXPRESSION {IC} ("⊇"|"sups") {IC} EXPRESSION</pre>
+			<div>EXPRESSION {IC} ("⊇"|"sups") {IC} EXPRESSION</div>
 		</div>
 
 

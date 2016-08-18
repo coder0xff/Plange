@@ -11,7 +11,7 @@
 
 		<div class="syntax">
 			<p>syntax</p>
-			<pre>"import" {IC} EXPRESSION</pre>
+			<div>"import" {IC} EXPRESSION</div>
 		</div>
 
 

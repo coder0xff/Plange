@@ -13,7 +13,7 @@
 
 		<div class="syntax">
 			<p>syntax</p>
-			<pre>IC {IC}</pre>
+			<div>IC {IC}</div>
 		</div>
 
 

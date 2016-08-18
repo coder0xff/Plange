@@ -13,7 +13,7 @@
 
 		<div class="syntax">
 			<p>syntax</p>
-			<pre>"(" {IC} "..." {IC} EXPRESSION {IC} ("]"|")") | ("["|"(") {IC} EXPRESSION {IC} "..." {IC} ")" | ("("|"[") {IC} EXPRESSION {IC} "..." {IC} EXPRESSION {IC} ("]"|")")</pre>
+			<div>"(" {IC} "..." {IC} EXPRESSION {IC} ("]"|")") | ("["|"(") {IC} EXPRESSION {IC} "..." {IC} ")" | ("("|"[") {IC} EXPRESSION {IC} "..." {IC} EXPRESSION {IC} ("]"|")")</div>
 		</div>
 		<div class="code">
 			<p>Example</p>

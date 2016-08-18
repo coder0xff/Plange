@@ -13,7 +13,7 @@
 
 		<div class="syntax">
 			<p>syntax</p>
-			<pre>UNIT_MULTIPLICATION | UNIT_DIVISION | UNIT_EXPONENTIATION</pre>
+			<div>UNIT_MULTIPLICATION | UNIT_DIVISION | UNIT_EXPONENTIATION</div>
 		</div>
 
 

@@ -13,7 +13,7 @@
 
 		<div class="syntax">
 			<p>syntax</p>
-			<pre>"do" {IC} EXPRESSION [ {IC} ("while"|"until") {IC} PARENTHETICAL ]</pre>
+			<div>"do" {IC} EXPRESSION [ {IC} ("while"|"until") {IC} PARENTHETICAL ]</div>
 		</div>
 		<p>See:<a href="LOOP.php">LOOP</a>
 		</p>

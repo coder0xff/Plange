@@ -11,7 +11,7 @@
 
 		<div class="syntax">
 			<p>syntax</p>
-			<pre>["-"] NON_NEG_NON_FRACTIONAL</pre>
+			<div>["-"] NON_NEG_NON_FRACTIONAL</div>
 		</div>
 
 

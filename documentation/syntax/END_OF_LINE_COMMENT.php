@@ -11,7 +11,7 @@
 
 		<div class="syntax">
 			<p>syntax</p>
-			<pre>"//" {not_newline} "\n"</pre>
+			<div>"//" {not_newline} "\n"</div>
 		</div>
 
 

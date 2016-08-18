@@ -13,7 +13,7 @@
 
 		<div class="syntax">
 			<p>syntax</p>
-			<pre>COMPOSITION | COMPOUND | PREPEND | NULL_COALESCE</pre>
+			<div>COMPOSITION | COMPOUND | PREPEND | NULL_COALESCE</div>
 		</div>
 
 

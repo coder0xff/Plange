@@ -13,7 +13,7 @@
 
 		<div class="syntax">
 			<p>syntax</p>
-			<pre>EXPRESSION {IC} ("∈"|"in") {IC} EXPRESSION</pre>
+			<div>EXPRESSION {IC} ("∈"|"in") {IC} EXPRESSION</div>
 		</div>
 		<p>See:<a href="FOR_COLLECTION.php">FOR_COLLECTION</a>
 		</p>

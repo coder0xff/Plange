@@ -11,7 +11,7 @@
 
 		<div class="syntax">
 			<p>syntax</p>
-			<pre>NOT | ALL | EXISTS | EXISTS_ONE</pre>
+			<div>NOT | ALL | EXISTS | EXISTS_ONE</div>
 		</div>
 
 

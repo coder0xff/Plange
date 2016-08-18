@@ -59,7 +59,7 @@ for name in names:
                 content = ""
 
         if "syntax" in details:
-                content = content + "\t\t<div class=\"syntax\">\n\t\t\t<p>syntax</p>\n\t\t\t<pre>" + cgi.escape(details["syntax"]).strip() + "</pre>\n\t\t</div>\n"
+                content = content + "\t\t<div class=\"syntax\">\n\t\t\t<p>syntax</p>\n\t\t\t<div>" + cgi.escape(details["syntax"]).strip() + "</div>\n\t\t</div>\n"
         else:
                 raise ValueError("every entry must contain a syntax element")
 

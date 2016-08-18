@@ -13,7 +13,7 @@
 
 		<div class="syntax">
 			<p>syntax</p>
-			<pre>{IC | STATEMENT}</pre>
+			<div>{IC | STATEMENT}</div>
 		</div>
 
 

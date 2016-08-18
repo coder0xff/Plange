@@ -13,7 +13,7 @@
 
 		<div class="syntax">
 			<p>syntax</p>
-			<pre>"_" {letter | number | PLATFORM}</pre>
+			<div>"_" {letter | number | PLATFORM}</div>
 		</div>
 
 

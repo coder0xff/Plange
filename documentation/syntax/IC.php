@@ -13,7 +13,7 @@
 
 		<div class="syntax">
 			<p>syntax</p>
-			<pre>COMMENT | EMBEDDED_COMMENT | END_OF_LINE_COMMENT | WS</pre>
+			<div>COMMENT | EMBEDDED_COMMENT | END_OF_LINE_COMMENT | WS</div>
 		</div>
 
 

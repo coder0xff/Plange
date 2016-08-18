@@ -11,7 +11,7 @@
 
 		<div class="syntax">
 			<p>syntax</p>
-			<pre>BIT_AND | BIT_OR | BIT_XOR</pre>
+			<div>BIT_AND | BIT_OR | BIT_XOR</div>
 		</div>
 
 

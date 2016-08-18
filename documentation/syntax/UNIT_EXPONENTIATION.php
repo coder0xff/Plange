@@ -13,7 +13,7 @@
 
 		<div class="syntax">
 			<p>syntax</p>
-			<pre>DIMENSION "^" NON_FRACTIONAL</pre>
+			<div>DIMENSION "^" NON_FRACTIONAL</div>
 		</div>
 		<p>See:<a href="DIMENSIONAL_NUMBER.php">DIMENSIONAL_NUMBER</a>
 		</p>

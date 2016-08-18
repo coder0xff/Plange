@@ -13,7 +13,7 @@
 
 		<div class="syntax">
 			<p>syntax</p>
-			<pre>"if" {IC} PARENTHETICAL {IC} EXPRESSION {{IC} "elif" {IC} PARENTHETICAL {IC} EXPRESSION} [ {IC} "else" {IC} EXPRESSION ]</pre>
+			<div>"if" {IC} PARENTHETICAL {IC} EXPRESSION {{IC} "elif" {IC} PARENTHETICAL {IC} EXPRESSION} [ {IC} "else" {IC} EXPRESSION ]</div>
 		</div>
 		<div class="code">
 			<p>Example</p>

@@ -13,7 +13,7 @@
 
 		<div class="syntax">
 			<p>syntax</p>
-			<pre>EXPRESSION {IC} ("∌"|"/has") {IC} EXPRESSION</pre>
+			<div>EXPRESSION {IC} ("∌"|"/has") {IC} EXPRESSION</div>
 		</div>
 
 

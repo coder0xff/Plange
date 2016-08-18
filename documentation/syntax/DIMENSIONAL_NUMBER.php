@@ -13,7 +13,7 @@
 
 		<div class="syntax">
 			<p>syntax</p>
-			<pre>NON_NEG_NUMBER DIMENSION</pre>
+			<div>NON_NEG_NUMBER DIMENSION</div>
 		</div>
 
 

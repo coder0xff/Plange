@@ -11,7 +11,7 @@
 
 		<div class="syntax">
 			<p>syntax</p>
-			<pre>AND | OR | XOR | NAND | NOR | IMPLICATION | IFF | MAPS_TO | BIJECTION</pre>
+			<div>AND | OR | XOR | NAND | NOR | IMPLICATION | IFF | MAPS_TO | BIJECTION</div>
 		</div>
 
 

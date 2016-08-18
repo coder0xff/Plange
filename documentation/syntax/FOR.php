@@ -13,7 +13,7 @@
 
 		<div class="syntax">
 			<p>syntax</p>
-			<pre>"for" {IC} "(" {IC} [ STATEMENT_SCOPE {IC} ] EXPRESSION {IC} ";" {IC} [ (ASSIGNMENT | EXPRESSION) {IC} ] ")" {IC} EXPRESSION</pre>
+			<div>"for" {IC} "(" {IC} [ STATEMENT_SCOPE {IC} ] EXPRESSION {IC} ";" {IC} [ (ASSIGNMENT | EXPRESSION) {IC} ] ")" {IC} EXPRESSION</div>
 		</div>
 		<div class="code">
 			<p>Example</p>

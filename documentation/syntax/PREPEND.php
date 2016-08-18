@@ -13,7 +13,7 @@
 
 		<div class="syntax">
 			<p>syntax</p>
-			<pre>EXPRESSION {IC} "&amp;" {IC} EXPRESSION</pre>
+			<div>EXPRESSION {IC} "&amp;" {IC} EXPRESSION</div>
 		</div>
 		<div class="code">
 			<p>Example</p>

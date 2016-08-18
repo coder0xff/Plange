@@ -13,7 +13,7 @@
 
 		<div class="syntax">
 			<p>syntax</p>
-			<pre>"0x" hexadecimal_digit {hexadecimal_digit}</pre>
+			<div>"0x" hexadecimal_digit {hexadecimal_digit}</div>
 		</div>
 
 

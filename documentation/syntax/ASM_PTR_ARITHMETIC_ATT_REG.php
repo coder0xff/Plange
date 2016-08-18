@@ -11,7 +11,7 @@
 
 		<div class="syntax">
 			<p>syntax</p>
-			<pre>"(" [ASM_IDENTIFIER] ["," ASM_IDENTIFIER ["," NON_NEG_NON_FRACTIONAL]] ")"</pre>
+			<div>"(" [ASM_IDENTIFIER] ["," ASM_IDENTIFIER ["," NON_NEG_NON_FRACTIONAL]] ")"</div>
 		</div>
 
 

@@ -11,7 +11,7 @@
 
 		<div class="syntax">
 			<p>syntax</p>
-			<pre>EXPRESSION {IC} ("⊆"|"subs") {IC} EXPRESSION</pre>
+			<div>EXPRESSION {IC} ("⊆"|"subs") {IC} EXPRESSION</div>
 		</div>
 
 

@@ -11,7 +11,7 @@
 
 		<div class="syntax">
 			<p>syntax</p>
-			<pre>PAYLOAD | "*" EMBEDDED_COMMENT_INTERIOR "*"</pre>
+			<div>PAYLOAD | "*" EMBEDDED_COMMENT_INTERIOR "*"</div>
 		</div>
 
 

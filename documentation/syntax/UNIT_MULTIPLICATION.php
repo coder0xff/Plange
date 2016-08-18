@@ -13,7 +13,7 @@
 
 		<div class="syntax">
 			<p>syntax</p>
-			<pre>DIMENSION "*" DIMENSION</pre>
+			<div>DIMENSION "*" DIMENSION</div>
 		</div>
 		<p>See:<a href="DIMENSIONAL_NUMBER.php">DIMENSIONAL_NUMBER</a>
 		</p>

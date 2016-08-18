@@ -13,7 +13,7 @@
 
 		<div class="syntax">
 			<p>syntax</p>
-			<pre>BINARY_ARITHMETIC_OP | BITWISE_OP | COLLECTION_OP | CONSTRUCTIVE_OP | BINARY_LOGICAL_OP | RELATIONAL_OP | MODULATION | INTEGER_DIVISION</pre>
+			<div>BINARY_ARITHMETIC_OP | BITWISE_OP | COLLECTION_OP | CONSTRUCTIVE_OP | BINARY_LOGICAL_OP | RELATIONAL_OP | MODULATION | INTEGER_DIVISION</div>
 		</div>
 <h4>* (<a href="/documentation/syntax/multiplication.php">multiplication</a>)</h4> <ul>
     <li>as the arithmetic operator, multiplication: Number * Number → Number</li>

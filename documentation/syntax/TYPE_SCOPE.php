@@ -13,7 +13,7 @@
 
 		<div class="syntax">
 			<p>syntax</p>
-			<pre>{IC} {TYPE_STATEMENT {IC}}</pre>
+			<div>{IC} {TYPE_STATEMENT {IC}}</div>
 		</div>
 		<p>Any use of the assignment operator indicates an instance member declaration. Any use of the definition operator indicates a static member of the class, since it is immutable it will not vary between instances. Like in statement_scope, an execution context is available and will execute any top-level statements inside the type.
 		</p>

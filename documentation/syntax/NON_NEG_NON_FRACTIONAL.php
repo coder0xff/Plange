@@ -11,7 +11,7 @@
 
 		<div class="syntax">
 			<p>syntax</p>
-			<pre>NON_NEG_INTEGER | HEX | OCTAL</pre>
+			<div>NON_NEG_INTEGER | HEX | OCTAL</div>
 		</div>
 
 

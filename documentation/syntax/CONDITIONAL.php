@@ -13,7 +13,7 @@
 
 		<div class="syntax">
 			<p>syntax</p>
-			<pre>EXPRESSION {IC} "?" {IC} EXPRESSION {IC} ":" {IC} EXPRESSION</pre>
+			<div>EXPRESSION {IC} "?" {IC} EXPRESSION {IC} ":" {IC} EXPRESSION</div>
 		</div>
 		<p>If the first expression is true then evaluates to the second expression otherwise evaluates to the third expression.
 		</p>

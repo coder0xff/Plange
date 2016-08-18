@@ -11,7 +11,7 @@
 
 		<div class="syntax">
 			<p>syntax</p>
-			<pre>{IC | ASM_STATEMENT}</pre>
+			<div>{IC | ASM_STATEMENT}</div>
 		</div>
 
 

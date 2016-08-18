@@ -13,7 +13,7 @@
 
 		<div class="syntax">
 			<p>syntax</p>
-			<pre>"/*" EMBEDDED_COMMENT_INTERIOR "*/"</pre>
+			<div>"/*" EMBEDDED_COMMENT_INTERIOR "*/"</div>
 		</div>
 		<div class="code">
 			<p>Example</p>

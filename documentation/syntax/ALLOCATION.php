@@ -13,7 +13,7 @@
 
 		<div class="syntax">
 			<p>syntax</p>
-			<pre>"alloc" {IC} PARENTHETICAL_INVOCATION</pre>
+			<div>"alloc" {IC} PARENTHETICAL_INVOCATION</div>
 		</div>
 
 

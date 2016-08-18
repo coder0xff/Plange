@@ -13,7 +13,7 @@
 
 		<div class="syntax">
 			<p>syntax</p>
-			<pre>"/*" {all} "*/"</pre>
+			<div>"/*" {all} "*/"</div>
 		</div>
 
 

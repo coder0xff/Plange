@@ -13,7 +13,7 @@
 
 		<div class="syntax">
 			<p>syntax</p>
-			<pre>("```" {all} "```") | ("`" XML_DOC_STRING "`")</pre>
+			<div>("```" {all} "```") | ("`" XML_DOC_STRING "`")</div>
 		</div>
 
 

@@ -11,7 +11,7 @@
 
 		<div class="syntax">
 			<p>syntax</p>
-			<pre>"pure" | "imperative" | "opaque"</pre>
+			<div>"pure" | "imperative" | "opaque"</div>
 		</div>
 
 

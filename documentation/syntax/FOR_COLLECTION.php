@@ -13,7 +13,7 @@
 
 		<div class="syntax">
 			<p>syntax</p>
-			<pre>"for" {IC} "(" {IC} (([ (TYPE_DEREFERENCE | IMPLICIT_TYPE_DEREFERENCE) {IC} ] IDENTIFIER ) | EXPRESSION ) {IC} ("in"|"∈") {IC} EXPRESSION {IC} ")" {IC} EXPRESSION</pre>
+			<div>"for" {IC} "(" {IC} (([ (TYPE_DEREFERENCE | IMPLICIT_TYPE_DEREFERENCE) {IC} ] IDENTIFIER ) | EXPRESSION ) {IC} ("in"|"∈") {IC} EXPRESSION {IC} ")" {IC} EXPRESSION</div>
 		</div>
 		<div class="code">
 			<p>Example</p>

@@ -11,7 +11,7 @@
 
 		<div class="syntax">
 			<p>syntax</p>
-			<pre>"free" {IC} EXPRESSION</pre>
+			<div>"free" {IC} EXPRESSION</div>
 		</div>
 
 

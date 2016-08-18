@@ -11,7 +11,7 @@
 
 		<div class="syntax">
 			<p>syntax</p>
-			<pre>(NON_ZERO_DECIMAL_DIGIT {decimal_digit}) | "0"</pre>
+			<div>(NON_ZERO_DECIMAL_DIGIT {decimal_digit}) | "0"</div>
 		</div>
 		<p>The first digit may not be zero, unless it is the only digit.
 		</p>
