@@ -23,7 +23,8 @@ We can use four double quotes, like """", but not 5 which is the number of quote
 start this string literal. If a string literal with 100 consecutive double quotes in it
 were desired, we would then use 101 double quotes to start and end the string literal.
 """""</pre>
-		</div><p>An embedded_string is similar to a regular string literal of the form:</p>
+		</div>		<h2>Notes</h2>
+		<p>An embedded_string is similar to a regular string literal of the form:</p>
 <div class="code">
     <p>Typical string literal</p>
     <pre>"hello world"</pre>

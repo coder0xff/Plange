@@ -15,7 +15,8 @@
 			<p>syntax</p>
 			<div>EXPRESSION {IC} "??" {IC} EXPRESSION</div>
 		</div>
-		<p>may be chained together
+		<h2>Notes</h2>
+				<p>may be chained together
 		</p>
 
 

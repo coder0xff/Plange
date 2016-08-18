@@ -71,7 +71,7 @@ for name in names:
                         content += loadExample(example)
 
         if "notes" in details:
-                content = content + paragraphy(details["notes"])
+                content = content + "\t\t<h2>Notes</h2>\n\t\t" + paragraphy(details["notes"])
 
         if "see" in details:
                 content = content + "\t\t<p>See:"

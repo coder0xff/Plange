@@ -15,7 +15,8 @@
 			<p>syntax</p>
 			<div>PARAMETER_NORMAL | PARAMETER_ALGEBRAIC</div>
 		</div>
-		<p>The last variation accepts an expression, which is then set to be equivalent to the passed in value. This enables pattern matching and solving on parameters.
+		<h2>Notes</h2>
+				<p>The last variation accepts an expression, which is then set to be equivalent to the passed in value. This enables pattern matching and solving on parameters.
 		</p>
 		<p>See:<a href="FUNCTION.php">FUNCTION</a>
 		</p>

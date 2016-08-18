@@ -18,7 +18,8 @@
 		<div class="code">
 			<p>Example</p>
 			<pre>{ "first": "john", "last": "doe" }</pre>
-		</div>		<p>The element type is constrained to some type that CASTS all the given elements.
+		</div>		<h2>Notes</h2>
+				<p>The element type is constrained to some type that CASTS all the given elements.
 		</p>
 		<p>See:<a href="CASTS.php">CASTS</a>
 		</p>

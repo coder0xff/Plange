@@ -18,7 +18,8 @@
 		<div class="code">
 			<p>Example</p>
 			<pre></pre>
-		</div><p>Note that the left hand side of assignments need not be trivial expressions mapping to a single memory structure - a so called lvalue in some other languages. Rather, arbitrary expressions can be solved when a single free variable is present. Revisiting the above example:</p>
+		</div>		<h2>Notes</h2>
+		<p>Note that the left hand side of assignments need not be trivial expressions mapping to a single memory structure - a so called lvalue in some other languages. Rather, arbitrary expressions can be solved when a single free variable is present. Revisiting the above example:</p>
 <div class="code">
     <p>A variable</p>
     <pre><span style="color:red">iPow2</span> ← -1;</pre>

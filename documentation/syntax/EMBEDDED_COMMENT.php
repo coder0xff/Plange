@@ -23,7 +23,8 @@ Embed blocks of code that themselves contain block comments:
     /* Do the thing */
     thing();
 No problem. Now, lets end this comment. ****/</pre>
-		</div>		<p>This allows for commented code to be safely commented out completely by including a sufficient number of asterisks to serve as an opening and closing delimiter.
+		</div>		<h2>Notes</h2>
+				<p>This allows for commented code to be safely commented out completely by including a sufficient number of asterisks to serve as an opening and closing delimiter.
 		</p>
 
 

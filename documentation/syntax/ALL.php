@@ -18,7 +18,8 @@
 		<div class="code">
 			<p>Example</p>
 			<pre></pre>
-		</div>		<p>The values in the collection need not be Bool, so long as Bool casts T is true, where T is the type of each element.
+		</div>		<h2>Notes</h2>
+				<p>The values in the collection need not be Bool, so long as Bool casts T is true, where T is the type of each element.
 		</p>
 		<p>See:<a href="EXISTS.php">EXISTS</a><a href="EXISTS_ONE.php">EXISTS_ONE</a>
 		</p>

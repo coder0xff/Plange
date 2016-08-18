@@ -15,7 +15,8 @@
 			<p>syntax</p>
 			<div>EXPRESSION {IC} "?" {IC} EXPRESSION {IC} ":" {IC} EXPRESSION</div>
 		</div>
-		<p>If the first expression is true then evaluates to the second expression otherwise evaluates to the third expression.
+		<h2>Notes</h2>
+				<p>If the first expression is true then evaluates to the second expression otherwise evaluates to the third expression.
 		</p>
 
 

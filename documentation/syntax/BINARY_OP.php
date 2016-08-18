@@ -15,7 +15,8 @@
 			<p>syntax</p>
 			<div>BINARY_ARITHMETIC_OP | BITWISE_OP | COLLECTION_OP | CONSTRUCTIVE_OP | BINARY_LOGICAL_OP | RELATIONAL_OP | MODULATION | INTEGER_DIVISION</div>
 		</div>
-<h4>* (<a href="/documentation/syntax/multiplication.php">multiplication</a>)</h4> <ul>
+		<h2>Notes</h2>
+		<h4>* (<a href="/documentation/syntax/multiplication.php">multiplication</a>)</h4> <ul>
     <li>as the arithmetic operator, multiplication: Number * Number → Number</li>
     <li>as the product of Types, making a tuple Type: Type * Type → Type</li>
     <li>as the the inner product of two vectors as an alternative to <a href="/documentation/syntax/dot_product.php">dot_product</a>: Vector&lt;d, Number&gt; * Vector&lt;d, Number&gt; → Number</li>

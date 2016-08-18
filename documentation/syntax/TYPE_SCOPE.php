@@ -15,7 +15,8 @@
 			<p>syntax</p>
 			<div>{IC} {TYPE_STATEMENT {IC}}</div>
 		</div>
-		<p>Any use of the assignment operator indicates an instance member declaration. Any use of the definition operator indicates a static member of the class, since it is immutable it will not vary between instances. Like in statement_scope, an execution context is available and will execute any top-level statements inside the type.
+		<h2>Notes</h2>
+				<p>Any use of the assignment operator indicates an instance member declaration. Any use of the definition operator indicates a static member of the class, since it is immutable it will not vary between instances. Like in statement_scope, an execution context is available and will execute any top-level statements inside the type.
 		</p>
 
 

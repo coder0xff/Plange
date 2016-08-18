@@ -15,7 +15,8 @@
 			<p>syntax</p>
 			<div>ALLOCATION | ARRAY | ASM_FUNCTION | BINARY_OP | BOOL | c_string | CAST | CEILING | CONDITIONAL | DELTA | DIMENSIONAL_NUMBER | EMBEDDED_STRING | FACTORIAL | FLOOR | FUNCTION | IDENTIFIER | IF | INVOCATION | LIST | MAGNITUDE | MAP | MEMBER_ACCESS | NEAREST_INTEGER | NON_NEG_NUMBER | PARENTHETICAL | PROPERTY | RADICAL | RANGE | SET | SET_COMPREHENSION | TUPLE | TYPE | UNARY_OP | VECTOR_NORM | "null" | "this" | "this_type"</div>
 		</div>
-		<p>null is a literal and so is included in the syntax similarly to true, false and numberic literals (and unlike constants)
+		<h2>Notes</h2>
+				<p>null is a literal and so is included in the syntax similarly to true, false and numberic literals (and unlike constants)
 		</p>
 
 

@@ -15,7 +15,8 @@
 			<p>syntax</p>
 			<div>"true" | "false"</div>
 		</div>
-		<p>These are included as syntax elements as they are literals, not constants.
+		<h2>Notes</h2>
+				<p>These are included as syntax elements as they are literals, not constants.
 		</p>
 
 
