@@ -12,7 +12,7 @@
 		<p>dimensional analysis "by"</p>
 
 		<div class="syntax">
-			<p>syntax</p>
+			<p>syntax (associativity: left)</p>
 			<div><a href="/documentation/syntax/DIMENSION.php">DIMENSION</a> "*" <a href="/documentation/syntax/DIMENSION.php">DIMENSION</a></div>
 		</div>
 		<p>See:<a href="DIMENSIONAL_NUMBER.php">DIMENSIONAL_NUMBER</a>

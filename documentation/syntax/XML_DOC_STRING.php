@@ -13,7 +13,7 @@
 
 		<div class="syntax">
 			<p>syntax</p>
-			<div>("```" {all} "```") | ("`" <a href="/documentation/syntax/XML_DOC_STRING.php">XML_DOC_STRING</a> "`")</div>
+			<div>("```" {all} "```") | ("`" XML_DOC_STRING "`")</div>
 		</div>
 
 

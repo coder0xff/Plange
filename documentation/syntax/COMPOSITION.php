@@ -12,7 +12,7 @@
 		<p>function composition operator</p>
 
 		<div class="syntax">
-			<p>syntax</p>
+			<p>syntax (associativity: either)</p>
 			<div><a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> {<a href="/documentation/syntax/IC.php">IC</a>} ("∘"|"_o_") {<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a></div>
 		</div>
 

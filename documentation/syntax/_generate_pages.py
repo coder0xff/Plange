@@ -64,8 +64,14 @@ for name in names:
         if "syntax" in details:
                 syntaxString = cgi.escape(details["syntax"]).strip()
                 for refName in names:
+                        if refName == name:
+                                continue
                         syntaxString = regexs[refName].sub("<a href=\"/documentation/syntax/" + refName + ".php\">" + refName + "</a>", syntaxString)
-                content = content + "\t\t<div class=\"syntax\">\n\t\t\t<p>syntax</p>\n\t\t\t<div>" + syntaxString + "</div>\n\t\t</div>\n"
+
+                title = "syntax"
+                if "assoc" in details:
+                        title = title + " (associativity: " + details["assoc"] + ")"
+                content = content + "\t\t<div class=\"syntax\">\n\t\t\t<p>" + title + "</p>\n\t\t\t<div>" + syntaxString + "</div>\n\t\t</div>\n"
         else:
                 raise ValueError("every entry must contain a syntax element")
 

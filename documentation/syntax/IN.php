@@ -12,7 +12,7 @@
 		<p>Collection membership</p>
 
 		<div class="syntax">
-			<p>syntax</p>
+			<p>syntax (associativity: left)</p>
 			<div><a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> {<a href="/documentation/syntax/IC.php">IC</a>} ("∈"|"in") {<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a></div>
 		</div>
 		<p>See:<a href="FOR_COLLECTION.php">FOR_COLLECTION</a>

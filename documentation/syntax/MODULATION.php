@@ -12,7 +12,7 @@
 		<p>mod operator or returns a collection containing the elements that would not be consumed from the end of the left hand side by taking the chunk of the right hand side</p>
 
 		<div class="syntax">
-			<p>syntax</p>
+			<p>syntax (associativity: left)</p>
 			<div><a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> {<a href="/documentation/syntax/IC.php">IC</a>} "%" {<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a></div>
 		</div>
 

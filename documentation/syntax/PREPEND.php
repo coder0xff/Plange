@@ -12,7 +12,7 @@
 		<p>create a new Collection starting with the left hand side followed by the elements of the right hand side Collection</p>
 
 		<div class="syntax">
-			<p>syntax</p>
+			<p>syntax (associativity: right)</p>
 			<div><a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> {<a href="/documentation/syntax/IC.php">IC</a>} "&amp;" {<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a></div>
 		</div>
 		<div class="code">

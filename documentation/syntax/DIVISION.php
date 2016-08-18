@@ -12,7 +12,7 @@
 		<p>division or splits the left hand side collection into a collection of collections each the size of the right hand side</p>
 
 		<div class="syntax">
-			<p>syntax</p>
+			<p>syntax (associativity: left)</p>
 			<div><a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> {<a href="/documentation/syntax/IC.php">IC</a>} ("÷"|"/" ) {<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a></div>
 		</div>
 
