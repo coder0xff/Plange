@@ -88,7 +88,7 @@ for name in names:
         if "see" in details:
                 content = content + "\t\t<p>See:"
                 for i in details["see"]:
-                        content = content + "<a href=\"" + i + ".php\">" + i + "</a>"
+                        content = content + " <a href=\"" + i + ".php\">" + i + "</a>"
                 content = content + "\n\t\t</p>\n"
 
         page = pageTemplate.replace("%CONTENT%", content)

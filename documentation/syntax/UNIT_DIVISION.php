@@ -15,7 +15,7 @@
 			<p>syntax (associativity: left)</p>
 			<div><a href="/documentation/syntax/DIMENSION.php">DIMENSION</a> "/" <a href="/documentation/syntax/DIMENSION.php">DIMENSION</a></div>
 		</div>
-		<p>See:<a href="DIMENSIONAL_NUMBER.php">DIMENSIONAL_NUMBER</a>
+		<p>See: <a href="DIMENSIONAL_NUMBER.php">DIMENSIONAL_NUMBER</a>
 		</p>
 
 

@@ -33,7 +33,7 @@
 };
 
 object &lt;- (x) { return x*2; }; //no type constraint</pre>
-		</div>		<p>See:<a href="S.php">S</a><a href="T.php">T</a><a href="A.php">A</a><a href="T.php">T</a><a href="E.php">E</a><a href="M.php">M</a><a href="E.php">E</a><a href="N.php">N</a><a href="T.php">T</a>
+		</div>		<p>See: <a href="STATEMENT.php">STATEMENT</a>
 		</p>
 
 

@@ -15,7 +15,7 @@
 			<p>syntax</p>
 			<div>( "while" | "until" ) {<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/PARENTHETICAL.php">PARENTHETICAL</a> {<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a></div>
 		</div>
-		<p>See:<a href="DO.php">DO</a>
+		<p>See: <a href="DO.php">DO</a>
 		</p>
 
 

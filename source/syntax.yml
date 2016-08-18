@@ -362,7 +362,8 @@ DECLARATION:
             };
             
             object <- (x) { return x*2; }; //no type constraint
-    see: STATEMENT
+    see: 
+        - STATEMENT
 
 DECLARATION_PART:
     syntax: >

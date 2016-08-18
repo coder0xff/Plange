@@ -13,7 +13,7 @@
 			<p>syntax</p>
 			<div>("1"|"2"|"3"|"4"|"5"|"6"|"7"|"8"|"9") {"0"|"1"|"2"|"3"|"4"|"5"|"6"|"7"|"8"|"9"}</div>
 		</div>
-		<p>See:<a href="TYPE_SCOPE.php">TYPE_SCOPE</a>
+		<p>See: <a href="TYPE_SCOPE.php">TYPE_SCOPE</a>
 		</p>
 
 

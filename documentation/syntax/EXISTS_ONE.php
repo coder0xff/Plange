@@ -15,7 +15,7 @@
 			<p>syntax</p>
 			<div>"∃!" {<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a></div>
 		</div>
-		<p>See:<a href="EXISTS.php">EXISTS</a><a href="ALL.php">ALL</a>
+		<p>See: <a href="EXISTS.php">EXISTS</a> <a href="ALL.php">ALL</a>
 		</p>
 
 

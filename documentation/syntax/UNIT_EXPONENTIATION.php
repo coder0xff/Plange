@@ -15,7 +15,7 @@
 			<p>syntax (associativity: right)</p>
 			<div><a href="/documentation/syntax/DIMENSION.php">DIMENSION</a> "^" <a href="/documentation/syntax/NON_FRACTIONAL.php">NON_FRACTIONAL</a></div>
 		</div>
-		<p>See:<a href="DIMENSIONAL_NUMBER.php">DIMENSIONAL_NUMBER</a>
+		<p>See: <a href="DIMENSIONAL_NUMBER.php">DIMENSIONAL_NUMBER</a>
 		</p>
 
 
