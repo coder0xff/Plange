@@ -13,11 +13,11 @@
 
 		<div class="syntax">
 			<p>syntax</p>
-			<div>"{" {IC} EXPRESSION {IC} "|" {IC} EXPRESSION {IC} "}"</div>
+			<div>"{" {<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> {<a href="/documentation/syntax/IC.php">IC</a>} "|" {<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> {<a href="/documentation/syntax/IC.php">IC</a>} "}"</div>
 		</div>
 		<div class="code">
 			<p>Example</p>
-			<pre></pre>
+			<pre>{ x | x ∈ ℝ ∧ x &lt; 3 }</pre>
 		</div>
 
 

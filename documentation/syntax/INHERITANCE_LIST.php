@@ -13,7 +13,7 @@
 
 		<div class="syntax">
 			<p>syntax</p>
-			<div>[VISIBILITY_MODIFIER {IC}] EXPRESSION {{IC} "," {IC} [VISIBILITY_MODIFIER {IC}] EXPRESSION}</div>
+			<div>[<a href="/documentation/syntax/VISIBILITY_MODIFIER.php">VISIBILITY_MODIFIER</a> {<a href="/documentation/syntax/IC.php">IC</a>}] <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> {{<a href="/documentation/syntax/IC.php">IC</a>} "," {<a href="/documentation/syntax/IC.php">IC</a>} [<a href="/documentation/syntax/VISIBILITY_MODIFIER.php">VISIBILITY_MODIFIER</a> {<a href="/documentation/syntax/IC.php">IC</a>}] <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a>}</div>
 		</div>
 
 

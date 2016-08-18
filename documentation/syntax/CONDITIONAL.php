@@ -13,7 +13,7 @@
 
 		<div class="syntax">
 			<p>syntax</p>
-			<div>EXPRESSION {IC} "?" {IC} EXPRESSION {IC} ":" {IC} EXPRESSION</div>
+			<div><a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> {<a href="/documentation/syntax/IC.php">IC</a>} "?" {<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> {<a href="/documentation/syntax/IC.php">IC</a>} ":" {<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a></div>
 		</div>
 		<h2>Notes</h2>
 				<p>If the first expression is true then evaluates to the second expression otherwise evaluates to the third expression.

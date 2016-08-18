@@ -11,7 +11,7 @@
 
 		<div class="syntax">
 			<p>syntax</p>
-			<div>"no_throw" [ICR (FUNCTION_MODIFIER_ATOMIC|FUNCTION_MODIFIER_PLATFORM|FUNCTION_MODIFIER_MODEL)]</div>
+			<div>"no_throw" [<a href="/documentation/syntax/ICR.php">ICR</a> (<a href="/documentation/syntax/FUNCTION_MODIFIER_ATOMIC.php">FUNCTION_MODIFIER_ATOMIC</a>|<a href="/documentation/syntax/FUNCTION_MODIFIER_PLATFORM.php">FUNCTION_MODIFIER_PLATFORM</a>|<a href="/documentation/syntax/FUNCTION_MODIFIER_MODEL.php">FUNCTION_MODIFIER_MODEL</a>)]</div>
 		</div>
 
 

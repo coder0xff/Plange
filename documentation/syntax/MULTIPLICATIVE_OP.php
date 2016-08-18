@@ -11,7 +11,7 @@
 
 		<div class="syntax">
 			<p>syntax</p>
-			<div>MULTIPLICATION | DOT_PRODUCT | CROSS_PRODUCT</div>
+			<div><a href="/documentation/syntax/MULTIPLICATION.php">MULTIPLICATION</a> | <a href="/documentation/syntax/DOT_PRODUCT.php">DOT_PRODUCT</a> | <a href="/documentation/syntax/CROSS_PRODUCT.php">CROSS_PRODUCT</a></div>
 		</div>
 
 

@@ -11,7 +11,7 @@
 
 		<div class="syntax">
 			<p>syntax</p>
-			<div>["%"] IDENTIFIER</div>
+			<div>["%"] <a href="/documentation/syntax/IDENTIFIER.php">IDENTIFIER</a></div>
 		</div>
 
 

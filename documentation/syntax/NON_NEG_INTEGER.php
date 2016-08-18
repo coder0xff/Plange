@@ -11,7 +11,7 @@
 
 		<div class="syntax">
 			<p>syntax</p>
-			<div>(NON_ZERO_DECIMAL_DIGIT {decimal_digit}) | "0"</div>
+			<div>(<a href="/documentation/syntax/NON_ZERO_DECIMAL_DIGIT.php">NON_ZERO_DECIMAL_DIGIT</a> {decimal_digit}) | "0"</div>
 		</div>
 		<h2>Notes</h2>
 				<p>The first digit may not be zero, unless it is the only digit.

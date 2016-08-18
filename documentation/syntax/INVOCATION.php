@@ -13,7 +13,7 @@
 
 		<div class="syntax">
 			<p>syntax</p>
-			<div>PARENTHETICAL_INVOCATION | ARRAY_INVOCATION | TYPE_INVOCATION</div>
+			<div><a href="/documentation/syntax/PARENTHETICAL_INVOCATION.php">PARENTHETICAL_INVOCATION</a> | <a href="/documentation/syntax/ARRAY_INVOCATION.php">ARRAY_INVOCATION</a> | <a href="/documentation/syntax/TYPE_INVOCATION.php">TYPE_INVOCATION</a></div>
 		</div>
 		<div class="code">
 			<p>Example</p>

@@ -11,7 +11,7 @@
 
 		<div class="syntax">
 			<p>syntax</p>
-			<div>(ASM_IDENTIFIER ":" NON_FRACTIONAL) | (ASM_IDENTIFIER ":" NON_FRACTIONAL ASM_PTR_ARITHMETIC_ATT_REG) | (NON_FRACTIONAL ASM_PTR_ARITHMETIC_ATT_REG)</div>
+			<div>(<a href="/documentation/syntax/ASM_IDENTIFIER.php">ASM_IDENTIFIER</a> ":" <a href="/documentation/syntax/NON_FRACTIONAL.php">NON_FRACTIONAL</a>) | (<a href="/documentation/syntax/ASM_IDENTIFIER.php">ASM_IDENTIFIER</a> ":" <a href="/documentation/syntax/NON_FRACTIONAL.php">NON_FRACTIONAL</a> <a href="/documentation/syntax/ASM_PTR_ARITHMETIC_ATT_REG.php">ASM_PTR_ARITHMETIC_ATT_REG</a>) | (<a href="/documentation/syntax/NON_FRACTIONAL.php">NON_FRACTIONAL</a> <a href="/documentation/syntax/ASM_PTR_ARITHMETIC_ATT_REG.php">ASM_PTR_ARITHMETIC_ATT_REG</a>)</div>
 		</div>
 
 

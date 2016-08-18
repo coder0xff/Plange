@@ -35,31 +35,37 @@ def loadExample(example):
                 
         result = result + "\t\t<div class=\"code\">\n\t\t\t<p>Example</p>\n\t\t\t<pre>"
         
-        if type(example) is str:
+        if type(example) is str or type(example) is unicode:
                 result = result + cgi.escape(example).strip()
         elif type(example) is dict:
                 if ("example" in example):
                         result += cgi.escape(example["example"]).strip()
                 else:
                         raise ValueError("every entry must contain an example element")
-                        
+        else:
+                raise ValueError("unrecognized type for example data")
+        
         result = result + "</pre>\n\t\t</div>"
         return result
 
 indexPageContents = "<meta charset='utf-8'/>\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=0.6\">\n<html>\n\t<head>\n\t\t<title>Syntax Listing - Plange</title>\n\t\t<link rel=StyleSheet href='../css/general.css' type='text/css' />\n\t</head>\n\t<body>\n\t\t<?php require('../header.php') ?>\n\n\n\t\t<p>The root production of the grammar is \"statement_scope.\"</p>\n\t\t<h2>Subpage Listing</h2>\n\t\t<ul>\n"
 names = specs.keys()
 names.sort()
+regexs = {name: re.compile("\\b" + name + "\\b") for name in names}
 for name in names:
         details = specs[name]
                 
-        phpFilename = name + ".php"	
+        phpFilename = name + ".php"
         if "doc" in details:
                 content = "\t\t<p>" + details["doc"].strip() + "</p>\n\n"
         else:
                 content = ""
 
         if "syntax" in details:
-                content = content + "\t\t<div class=\"syntax\">\n\t\t\t<p>syntax</p>\n\t\t\t<div>" + cgi.escape(details["syntax"]).strip() + "</div>\n\t\t</div>\n"
+                syntaxString = cgi.escape(details["syntax"]).strip()
+                for refName in names:
+                        syntaxString = regexs[refName].sub("<a href=\"/documentation/syntax/" + refName + ".php\">" + refName + "</a>", syntaxString)
+                content = content + "\t\t<div class=\"syntax\">\n\t\t\t<p>syntax</p>\n\t\t\t<div>" + syntaxString + "</div>\n\t\t</div>\n"
         else:
                 raise ValueError("every entry must contain a syntax element")
 

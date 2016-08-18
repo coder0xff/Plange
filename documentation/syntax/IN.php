@@ -13,7 +13,7 @@
 
 		<div class="syntax">
 			<p>syntax</p>
-			<div>EXPRESSION {IC} ("∈"|"in") {IC} EXPRESSION</div>
+			<div><a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> {<a href="/documentation/syntax/IC.php">IC</a>} ("∈"|"in") {<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a></div>
 		</div>
 		<p>See:<a href="FOR_COLLECTION.php">FOR_COLLECTION</a>
 		</p>

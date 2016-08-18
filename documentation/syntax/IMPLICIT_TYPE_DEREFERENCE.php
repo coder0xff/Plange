@@ -13,7 +13,7 @@
 
 		<div class="syntax">
 			<p>syntax</p>
-			<div>"&lt;" {IC} "&gt;"</div>
+			<div>"&lt;" {<a href="/documentation/syntax/IC.php">IC</a>} "&gt;"</div>
 		</div>
 
 

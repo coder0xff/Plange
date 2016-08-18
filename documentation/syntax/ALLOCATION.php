@@ -13,7 +13,7 @@
 
 		<div class="syntax">
 			<p>syntax</p>
-			<div>"alloc" {IC} PARENTHETICAL_INVOCATION</div>
+			<div>"alloc" {<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/PARENTHETICAL_INVOCATION.php">PARENTHETICAL_INVOCATION</a></div>
 		</div>
 
 

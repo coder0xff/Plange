@@ -13,14 +13,19 @@
 
 		<div class="syntax">
 			<p>syntax</p>
-			<div>"for" {IC} "(" {IC} (([ (TYPE_DEREFERENCE | IMPLICIT_TYPE_DEREFERENCE) {IC} ] IDENTIFIER ) | EXPRESSION ) {IC} ("in"|"∈") {IC} EXPRESSION {IC} ")" {IC} EXPRESSION</div>
+			<div>"for" {<a href="/documentation/syntax/IC.php">IC</a>} "(" {<a href="/documentation/syntax/IC.php">IC</a>} (([ (<a href="/documentation/syntax/TYPE_DEREFERENCE.php">TYPE_DEREFERENCE</a> | <a href="/documentation/syntax/IMPLICIT_TYPE_DEREFERENCE.php">IMPLICIT_TYPE_DEREFERENCE</a>) {<a href="/documentation/syntax/IC.php">IC</a>} ] <a href="/documentation/syntax/IDENTIFIER.php">IDENTIFIER</a> ) | <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> ) {<a href="/documentation/syntax/IC.php">IC</a>} ("in"|"∈") {<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> {<a href="/documentation/syntax/IC.php">IC</a>} ")" {<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a></div>
 		</div>
 		<div class="code">
 			<p>Example</p>
-			<pre></pre>
+			<pre>&lt;&gt; fibArray = [ 0, 1, 1, 2, 3, 5, 8, 13 ];
+for (element ∈ fibArray) {
+    print(element);
+}</pre>
 		</div>		<div class="code">
 			<p>Example</p>
-			<pre></pre>
+			<pre>for ((key, value) ∈ myMap) {
+    //do something
+}</pre>
 		</div>
 
 

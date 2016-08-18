@@ -13,7 +13,7 @@
 
 		<div class="syntax">
 			<p>syntax</p>
-			<div>[XML_DOC_STRING {IC}] [ (TYPE_DEREFERENCE | IMPLICIT_TYPE_DEREFERENCE) {IC} ] DEFINITION_PART {{IC} "," {IC} DEFINITION_PART}</div>
+			<div>[<a href="/documentation/syntax/XML_DOC_STRING.php">XML_DOC_STRING</a> {<a href="/documentation/syntax/IC.php">IC</a>}] [ (<a href="/documentation/syntax/TYPE_DEREFERENCE.php">TYPE_DEREFERENCE</a> | <a href="/documentation/syntax/IMPLICIT_TYPE_DEREFERENCE.php">IMPLICIT_TYPE_DEREFERENCE</a>) {<a href="/documentation/syntax/IC.php">IC</a>} ] <a href="/documentation/syntax/DEFINITION_PART.php">DEFINITION_PART</a> {{<a href="/documentation/syntax/IC.php">IC</a>} "," {<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/DEFINITION_PART.php">DEFINITION_PART</a>}</div>
 		</div>
 		<div class="code">
 			<p>Example</p>

@@ -11,7 +11,7 @@
 
 		<div class="syntax">
 			<p>syntax</p>
-			<div>FACTORIAL | NEGATION | POST_DEC | POST_INC | PRE_DEC | PRE_INC | RADICAL</div>
+			<div><a href="/documentation/syntax/FACTORIAL.php">FACTORIAL</a> | <a href="/documentation/syntax/NEGATION.php">NEGATION</a> | <a href="/documentation/syntax/POST_DEC.php">POST_DEC</a> | <a href="/documentation/syntax/POST_INC.php">POST_INC</a> | <a href="/documentation/syntax/PRE_DEC.php">PRE_DEC</a> | <a href="/documentation/syntax/PRE_INC.php">PRE_INC</a> | <a href="/documentation/syntax/RADICAL.php">RADICAL</a></div>
 		</div>
 
 

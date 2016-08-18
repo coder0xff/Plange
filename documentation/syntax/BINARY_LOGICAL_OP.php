@@ -11,7 +11,7 @@
 
 		<div class="syntax">
 			<p>syntax</p>
-			<div>AND | OR | XOR | NAND | NOR | IMPLICATION | IFF | MAPS_TO | BIJECTION</div>
+			<div><a href="/documentation/syntax/AND.php">AND</a> | <a href="/documentation/syntax/OR.php">OR</a> | <a href="/documentation/syntax/XOR.php">XOR</a> | <a href="/documentation/syntax/NAND.php">NAND</a> | <a href="/documentation/syntax/NOR.php">NOR</a> | <a href="/documentation/syntax/IMPLICATION.php">IMPLICATION</a> | <a href="/documentation/syntax/IFF.php">IFF</a> | <a href="/documentation/syntax/MAPS_TO.php">MAPS_TO</a> | <a href="/documentation/syntax/BIJECTION.php">BIJECTION</a></div>
 		</div>
 
 

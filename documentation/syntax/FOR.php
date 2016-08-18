@@ -13,11 +13,13 @@
 
 		<div class="syntax">
 			<p>syntax</p>
-			<div>"for" {IC} "(" {IC} [ STATEMENT_SCOPE {IC} ] EXPRESSION {IC} ";" {IC} [ (ASSIGNMENT | EXPRESSION) {IC} ] ")" {IC} EXPRESSION</div>
+			<div>"for" {<a href="/documentation/syntax/IC.php">IC</a>} "(" {<a href="/documentation/syntax/IC.php">IC</a>} [ <a href="/documentation/syntax/STATEMENT_SCOPE.php">STATEMENT_SCOPE</a> {<a href="/documentation/syntax/IC.php">IC</a>} ] <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> {<a href="/documentation/syntax/IC.php">IC</a>} ";" {<a href="/documentation/syntax/IC.php">IC</a>} [ (<a href="/documentation/syntax/ASSIGNMENT.php">ASSIGNMENT</a> | <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a>) {<a href="/documentation/syntax/IC.php">IC</a>} ] ")" {<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a></div>
 		</div>
 		<div class="code">
 			<p>Example</p>
-			<pre></pre>
+			<pre>for (x ← 0; x &lt; 100; x++) {
+    print_line(x);
+};</pre>
 		</div>		<p>demonstrates the optional statement_scope
 		</p>
 		<div class="code">

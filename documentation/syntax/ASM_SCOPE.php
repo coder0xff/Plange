@@ -11,7 +11,7 @@
 
 		<div class="syntax">
 			<p>syntax</p>
-			<div>{IC | ASM_STATEMENT}</div>
+			<div>{<a href="/documentation/syntax/IC.php">IC</a> | <a href="/documentation/syntax/ASM_STATEMENT.php">ASM_STATEMENT</a>}</div>
 		</div>
 
 

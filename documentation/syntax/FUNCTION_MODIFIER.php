@@ -13,7 +13,7 @@
 
 		<div class="syntax">
 			<p>syntax</p>
-			<div>(FUNCTION_MODIFIER_STABILITY|FUNCTION_MODIFIER_NO_THROW|FUNCTION_MODIFIER_ATOMIC|FUNCTION_MODIFIER_PLATFORM|FUNCTION_MODIFIER_MODEL) {IC}</div>
+			<div>(<a href="/documentation/syntax/FUNCTION_MODIFIER_STABILITY.php">FUNCTION_MODIFIER_STABILITY</a>|<a href="/documentation/syntax/FUNCTION_MODIFIER_NO_THROW.php">FUNCTION_MODIFIER_NO_THROW</a>|<a href="/documentation/syntax/FUNCTION_MODIFIER_ATOMIC.php">FUNCTION_MODIFIER_ATOMIC</a>|<a href="/documentation/syntax/FUNCTION_MODIFIER_PLATFORM.php">FUNCTION_MODIFIER_PLATFORM</a>|<a href="/documentation/syntax/FUNCTION_MODIFIER_MODEL.php">FUNCTION_MODIFIER_MODEL</a>) {<a href="/documentation/syntax/IC.php">IC</a>}</div>
 		</div>
 
 

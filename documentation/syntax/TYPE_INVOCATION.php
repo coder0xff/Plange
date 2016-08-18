@@ -11,7 +11,7 @@
 
 		<div class="syntax">
 			<p>syntax</p>
-			<div>EXPRESSION ( "&lt;" [{IC} EXPRESSION] {{IC} "," [{IC} EXPRESSION]} {IC} "&gt;" )</div>
+			<div><a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> ( "&lt;" [{<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a>] {{<a href="/documentation/syntax/IC.php">IC</a>} "," [{<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a>]} {<a href="/documentation/syntax/IC.php">IC</a>} "&gt;" )</div>
 		</div>
 
 

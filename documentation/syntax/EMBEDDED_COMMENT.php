@@ -13,7 +13,7 @@
 
 		<div class="syntax">
 			<p>syntax</p>
-			<div>"/*" EMBEDDED_COMMENT_INTERIOR "*/"</div>
+			<div>"/*" <a href="/documentation/syntax/EMBEDDED_COMMENT_INTERIOR.php">EMBEDDED_COMMENT_INTERIOR</a> "*/"</div>
 		</div>
 		<div class="code">
 			<p>Example</p>

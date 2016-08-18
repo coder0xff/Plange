@@ -13,7 +13,7 @@
 
 		<div class="syntax">
 			<p>syntax</p>
-			<div>IDENTIFIER | DIMENSIONAL_ANALYSIS_OP</div>
+			<div><a href="/documentation/syntax/IDENTIFIER.php">IDENTIFIER</a> | <a href="/documentation/syntax/DIMENSIONAL_ANALYSIS_OP.php">DIMENSIONAL_ANALYSIS_OP</a></div>
 		</div>
 
 

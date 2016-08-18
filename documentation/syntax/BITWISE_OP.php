@@ -11,7 +11,7 @@
 
 		<div class="syntax">
 			<p>syntax</p>
-			<div>BIT_AND | BIT_OR | BIT_XOR</div>
+			<div><a href="/documentation/syntax/BIT_AND.php">BIT_AND</a> | <a href="/documentation/syntax/BIT_OR.php">BIT_OR</a> | <a href="/documentation/syntax/BIT_XOR.php">BIT_XOR</a></div>
 		</div>
 
 

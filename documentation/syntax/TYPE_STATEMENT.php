@@ -13,7 +13,7 @@
 
 		<div class="syntax">
 			<p>syntax</p>
-			<div>(VISIBILITY_MODIFIER {IC} ":") | (["static" {IC}] DECLARATION {IC} "at" {IC} WHOLE_NUMBER) | STATEMENT</div>
+			<div>(<a href="/documentation/syntax/VISIBILITY_MODIFIER.php">VISIBILITY_MODIFIER</a> {<a href="/documentation/syntax/IC.php">IC</a>} ":") | (["static" {<a href="/documentation/syntax/IC.php">IC</a>}] <a href="/documentation/syntax/DECLARATION.php">DECLARATION</a> {<a href="/documentation/syntax/IC.php">IC</a>} "at" {<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/WHOLE_NUMBER.php">WHOLE_NUMBER</a>) | <a href="/documentation/syntax/STATEMENT.php">STATEMENT</a></div>
 		</div>
 
 

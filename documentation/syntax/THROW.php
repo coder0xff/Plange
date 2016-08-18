@@ -13,7 +13,7 @@
 
 		<div class="syntax">
 			<p>syntax</p>
-			<div>"throw" [{IC} EXPRESSION]</div>
+			<div>"throw" [{<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a>]</div>
 		</div>
 		<p>See:<a href="TRY.php">TRY</a>
 		</p>

@@ -13,7 +13,7 @@
 
 		<div class="syntax">
 			<p>syntax</p>
-			<div>"_" {letter | number | PLATFORM}</div>
+			<div>"_" {letter | number | <a href="/documentation/syntax/PLATFORM.php">PLATFORM</a>}</div>
 		</div>
 
 

@@ -13,7 +13,7 @@
 
 		<div class="syntax">
 			<p>syntax</p>
-			<div>COMPLEMENT | INTERSECTION | SYMMETRIC_DIFFERENCE | UNION</div>
+			<div><a href="/documentation/syntax/COMPLEMENT.php">COMPLEMENT</a> | <a href="/documentation/syntax/INTERSECTION.php">INTERSECTION</a> | <a href="/documentation/syntax/SYMMETRIC_DIFFERENCE.php">SYMMETRIC_DIFFERENCE</a> | <a href="/documentation/syntax/UNION.php">UNION</a></div>
 		</div>
 
 

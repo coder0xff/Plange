@@ -13,7 +13,7 @@
 
 		<div class="syntax">
 			<p>syntax</p>
-			<div>"return" [ {IC} EXPRESSION ]</div>
+			<div>"return" [ {<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> ]</div>
 		</div>
 
 

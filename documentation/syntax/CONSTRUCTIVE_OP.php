@@ -13,7 +13,7 @@
 
 		<div class="syntax">
 			<p>syntax</p>
-			<div>COMPOSITION | COMPOUND | PREPEND | NULL_COALESCE</div>
+			<div><a href="/documentation/syntax/COMPOSITION.php">COMPOSITION</a> | <a href="/documentation/syntax/COMPOUND.php">COMPOUND</a> | <a href="/documentation/syntax/PREPEND.php">PREPEND</a> | <a href="/documentation/syntax/NULL_COALESCE.php">NULL_COALESCE</a></div>
 		</div>
 
 

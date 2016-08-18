@@ -13,7 +13,7 @@
 
 		<div class="syntax">
 			<p>syntax</p>
-			<div>{IC | STATEMENT}</div>
+			<div>{<a href="/documentation/syntax/IC.php">IC</a> | <a href="/documentation/syntax/STATEMENT.php">STATEMENT</a>}</div>
 		</div>
 
 

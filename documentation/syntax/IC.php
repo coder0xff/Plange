@@ -13,7 +13,7 @@
 
 		<div class="syntax">
 			<p>syntax</p>
-			<div>COMMENT | EMBEDDED_COMMENT | END_OF_LINE_COMMENT | WS</div>
+			<div><a href="/documentation/syntax/COMMENT.php">COMMENT</a> | <a href="/documentation/syntax/EMBEDDED_COMMENT.php">EMBEDDED_COMMENT</a> | <a href="/documentation/syntax/END_OF_LINE_COMMENT.php">END_OF_LINE_COMMENT</a> | <a href="/documentation/syntax/WS.php">WS</a></div>
 		</div>
 
 

@@ -11,7 +11,7 @@
 
 		<div class="syntax">
 			<p>syntax</p>
-			<div>EQUALITY | INEQUALITY | LESSER_THAN | GREATER_THAN | NOT_GREATER_THAN | NOT_LESSER_THAN | RELATIONAL_COLLECTION_OP | CASTS | IS</div>
+			<div><a href="/documentation/syntax/EQUALITY.php">EQUALITY</a> | <a href="/documentation/syntax/INEQUALITY.php">INEQUALITY</a> | <a href="/documentation/syntax/LESSER_THAN.php">LESSER_THAN</a> | <a href="/documentation/syntax/GREATER_THAN.php">GREATER_THAN</a> | <a href="/documentation/syntax/NOT_GREATER_THAN.php">NOT_GREATER_THAN</a> | <a href="/documentation/syntax/NOT_LESSER_THAN.php">NOT_LESSER_THAN</a> | <a href="/documentation/syntax/RELATIONAL_COLLECTION_OP.php">RELATIONAL_COLLECTION_OP</a> | <a href="/documentation/syntax/CASTS.php">CASTS</a> | <a href="/documentation/syntax/IS.php">IS</a></div>
 		</div>
 
 

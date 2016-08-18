@@ -11,7 +11,7 @@
 
 		<div class="syntax">
 			<p>syntax</p>
-			<div>[("BYTE"|"WORD"|"DWORD"|"QWORD") " PTR"] "[" [ASM_IDENTIFIER ":"] ASM_IDENTIFIER ["+" ASM_IDENTIFIER ["*" NON_NEG_NON_FRACTIONAL]] [("+"|"-") NON_NEG_INTEGER] "]"</div>
+			<div>[("BYTE"|"WORD"|"DWORD"|"QWORD") " PTR"] "[" [<a href="/documentation/syntax/ASM_IDENTIFIER.php">ASM_IDENTIFIER</a> ":"] <a href="/documentation/syntax/ASM_IDENTIFIER.php">ASM_IDENTIFIER</a> ["+" <a href="/documentation/syntax/ASM_IDENTIFIER.php">ASM_IDENTIFIER</a> ["*" <a href="/documentation/syntax/NON_NEG_NON_FRACTIONAL.php">NON_NEG_NON_FRACTIONAL</a>]] [("+"|"-") <a href="/documentation/syntax/NON_NEG_INTEGER.php">NON_NEG_INTEGER</a>] "]"</div>
 		</div>
 
 

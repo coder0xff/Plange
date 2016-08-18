@@ -11,7 +11,7 @@
 
 		<div class="syntax">
 			<p>syntax</p>
-			<div>NON_NEG_INTEGER | HEX | OCTAL</div>
+			<div><a href="/documentation/syntax/NON_NEG_INTEGER.php">NON_NEG_INTEGER</a> | <a href="/documentation/syntax/HEX.php">HEX</a> | <a href="/documentation/syntax/OCTAL.php">OCTAL</a></div>
 		</div>
 
 

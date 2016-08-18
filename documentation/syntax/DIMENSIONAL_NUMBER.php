@@ -13,7 +13,7 @@
 
 		<div class="syntax">
 			<p>syntax</p>
-			<div>NON_NEG_NUMBER DIMENSION</div>
+			<div><a href="/documentation/syntax/NON_NEG_NUMBER.php">NON_NEG_NUMBER</a> <a href="/documentation/syntax/DIMENSION.php">DIMENSION</a></div>
 		</div>
 
 

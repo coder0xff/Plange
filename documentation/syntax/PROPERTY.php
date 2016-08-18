@@ -11,7 +11,7 @@
 
 		<div class="syntax">
 			<p>syntax</p>
-			<div>("{" {IC} GETTER {IC} "}") | ("{" {IC} SETTER {IC} "}") | ("{" {IC} GETTER {IC} "," {IC} SETTER {IC} "}")</div>
+			<div>("{" {<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/GETTER.php">GETTER</a> {<a href="/documentation/syntax/IC.php">IC</a>} "}") | ("{" {<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/SETTER.php">SETTER</a> {<a href="/documentation/syntax/IC.php">IC</a>} "}") | ("{" {<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/GETTER.php">GETTER</a> {<a href="/documentation/syntax/IC.php">IC</a>} "," {<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/SETTER.php">SETTER</a> {<a href="/documentation/syntax/IC.php">IC</a>} "}")</div>
 		</div>
 
 

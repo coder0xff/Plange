@@ -11,7 +11,7 @@
 
 		<div class="syntax">
 			<p>syntax</p>
-			<div>([ TYPE_DEREFERENCE {IC} ] IDENTIFIER) | ([ (TYPE_DEREFERENCE | IMPLICIT_TYPE_DEREFERENCE) {IC} ] IDENTIFIER {IC} "=" {IC} EXPRESSION)</div>
+			<div>([ <a href="/documentation/syntax/TYPE_DEREFERENCE.php">TYPE_DEREFERENCE</a> {<a href="/documentation/syntax/IC.php">IC</a>} ] <a href="/documentation/syntax/IDENTIFIER.php">IDENTIFIER</a>) | ([ (<a href="/documentation/syntax/TYPE_DEREFERENCE.php">TYPE_DEREFERENCE</a> | <a href="/documentation/syntax/IMPLICIT_TYPE_DEREFERENCE.php">IMPLICIT_TYPE_DEREFERENCE</a>) {<a href="/documentation/syntax/IC.php">IC</a>} ] <a href="/documentation/syntax/IDENTIFIER.php">IDENTIFIER</a> {<a href="/documentation/syntax/IC.php">IC</a>} "=" {<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a>)</div>
 		</div>
 
 

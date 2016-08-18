@@ -13,7 +13,7 @@
 
 		<div class="syntax">
 			<p>syntax</p>
-			<div>"type" {IC} ["inheriting" {IC} INHERITANCE_LIST {IC}] ["implementing" {IC} INHERITANCE_LIST {IC}] "{" TYPE_SCOPE "}"</div>
+			<div>"type" {<a href="/documentation/syntax/IC.php">IC</a>} ["inheriting" {<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/INHERITANCE_LIST.php">INHERITANCE_LIST</a> {<a href="/documentation/syntax/IC.php">IC</a>}] ["implementing" {<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/INHERITANCE_LIST.php">INHERITANCE_LIST</a> {<a href="/documentation/syntax/IC.php">IC</a>}] "{" <a href="/documentation/syntax/TYPE_SCOPE.php">TYPE_SCOPE</a> "}"</div>
 		</div>
 		<div class="code">
 			<p>Example</p>

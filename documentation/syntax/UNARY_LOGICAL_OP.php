@@ -11,7 +11,7 @@
 
 		<div class="syntax">
 			<p>syntax</p>
-			<div>NOT | ALL | EXISTS | EXISTS_ONE</div>
+			<div><a href="/documentation/syntax/NOT.php">NOT</a> | <a href="/documentation/syntax/ALL.php">ALL</a> | <a href="/documentation/syntax/EXISTS.php">EXISTS</a> | <a href="/documentation/syntax/EXISTS_ONE.php">EXISTS_ONE</a></div>
 		</div>
 
 

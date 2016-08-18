@@ -13,7 +13,7 @@
 
 		<div class="syntax">
 			<p>syntax</p>
-			<div>SUBSET | PROPER_SUBSET | SUPERSET | PROPER_SUPERSET | IN | NOT_IN | HAS | NOT_HAS</div>
+			<div><a href="/documentation/syntax/SUBSET.php">SUBSET</a> | <a href="/documentation/syntax/PROPER_SUBSET.php">PROPER_SUBSET</a> | <a href="/documentation/syntax/SUPERSET.php">SUPERSET</a> | <a href="/documentation/syntax/PROPER_SUPERSET.php">PROPER_SUPERSET</a> | <a href="/documentation/syntax/IN.php">IN</a> | <a href="/documentation/syntax/NOT_IN.php">NOT_IN</a> | <a href="/documentation/syntax/HAS.php">HAS</a> | <a href="/documentation/syntax/NOT_HAS.php">NOT_HAS</a></div>
 		</div>
 
 

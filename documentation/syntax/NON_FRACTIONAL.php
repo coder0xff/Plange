@@ -11,7 +11,7 @@
 
 		<div class="syntax">
 			<p>syntax</p>
-			<div>["-"] NON_NEG_NON_FRACTIONAL</div>
+			<div>["-"] <a href="/documentation/syntax/NON_NEG_NON_FRACTIONAL.php">NON_NEG_NON_FRACTIONAL</a></div>
 		</div>
 
 

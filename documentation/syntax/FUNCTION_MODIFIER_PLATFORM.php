@@ -11,7 +11,7 @@
 
 		<div class="syntax">
 			<p>syntax</p>
-			<div>PLATFORM {ICR PLATFORM} [ICR FUNCTION_MODIFIER_MODEL]</div>
+			<div><a href="/documentation/syntax/PLATFORM.php">PLATFORM</a> {<a href="/documentation/syntax/ICR.php">ICR</a> <a href="/documentation/syntax/PLATFORM.php">PLATFORM</a>} [<a href="/documentation/syntax/ICR.php">ICR</a> <a href="/documentation/syntax/FUNCTION_MODIFIER_MODEL.php">FUNCTION_MODIFIER_MODEL</a>]</div>
 		</div>
 
 
