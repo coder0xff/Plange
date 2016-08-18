@@ -16,8 +16,6 @@ ADDITION:
     syntax: >
         EXPRESSION {IC} "+" {IC} EXPRESSION
     assoc: left
-    doc: >
-        no documentation available
 
 ALL:
     syntax: >
@@ -49,74 +47,50 @@ AND:
         EXPRESSION {IC} ("∧"|"and") {IC} EXPRESSION
     assoc: left
     precedes: [OR, IMPLICATION, XOR, IFF]
-    doc: >
-        no documentation available
 
 ARRAY:
     syntax: >
         "[" {IC} [EXPRESSION {{IC} "," {IC} EXPRESSION} {IC} ] "]"
-    doc: >
-        no documentation available
 
 ARRAY_INVOCATION:
     syntax: >
         EXPRESSION "[" [{IC} (EXPRESSION|SLICE)] {{IC} "," [{IC} (EXPRESSION|SLICE)]} {IC} "]"
-    doc: >
-        no documentation available
 
 ASM_EXPRESSION:
     syntax: >
         ASM_IDENTIFIER | ASM_PTR_ARITHMETIC_ATT | ASM_PTR_ARITHMETIC_INTEL | NON_FRACTIONAL
-    doc: >
-        no documentation available
 
 ASM_IDENTIFIER:
     syntax: >
         ["%"] IDENTIFIER
-    doc: >
-        no documentation available
 
 ASM_FUNCTION:
     syntax: >
         [ "(" {IC} [ PARAMETER {{IC} "," {IC} PARAMETER} {IC} ] ")" {IC} ] [FUNCTION_MODIFIER] "asm" {IC} "{" ASM_SCOPE "}"
-    doc: >
-        no documentation available
 
 ASM_OP:
     syntax: >
         (lowercase_letter) {lowercase_letter}
-    doc: >
-        no documentation available
 
 ASM_PTR_ARITHMETIC_ATT:
     syntax: >
         (ASM_IDENTIFIER ":" NON_FRACTIONAL) | (ASM_IDENTIFIER ":" NON_FRACTIONAL ASM_PTR_ARITHMETIC_ATT_REG) | (NON_FRACTIONAL ASM_PTR_ARITHMETIC_ATT_REG)
-    doc: >
-        no documentation available
 
 ASM_PTR_ARITHMETIC_ATT_REG:
     syntax: >
         "(" [ASM_IDENTIFIER] ["," ASM_IDENTIFIER ["," NON_NEG_NON_FRACTIONAL]] ")"
-    doc: >
-        no documentation available
 
 ASM_PTR_ARITHMETIC_INTEL:
     syntax: >
         [("BYTE"|"WORD"|"DWORD"|"QWORD") " PTR"] "[" [ASM_IDENTIFIER ":"] ASM_IDENTIFIER ["+" ASM_IDENTIFIER ["*" NON_NEG_NON_FRACTIONAL]] [("+"|"-") NON_NEG_INTEGER] "]"
-    doc: >
-        no documentation available
 
 ASM_SCOPE:
     syntax: >
         {IC | ASM_STATEMENT}
-    doc: >
-        no documentation available
 
 ASM_STATEMENT:
     syntax: >
         ASM_OP [ICR ASM_EXPRESSION {{IC} "," [{IC} ASM_EXPRESSION]}] {IC} "\n"
-    doc: >
-        no documentation available
 
 ASSIGNMENT:
     syntax: >
@@ -165,8 +139,6 @@ BINARY_ARITHMETIC_OP:
 BINARY_LOGICAL_OP:
     syntax: >
         AND | OR | XOR | NAND | NOR | IMPLICATION | IFF | MAPS_TO | BIJECTION
-    doc: >
-        no documentation available
 
 BINARY_OP:
     syntax: >
@@ -270,34 +242,24 @@ BIT_AND:
     syntax: >
         EXPRESSION {IC} "&&" {IC} EXPRESSION
     assoc: left
-    doc: >
-        no documentation available
 
 BIT_NOT:
     syntax: >
         "~~" {IC} EXPRESSION
-    doc: >
-        no documentation available
 
 BIT_OR:
     syntax: >
         EXPRESSION {IC} "||" {IC} EXPRESSION
     assoc: left
-    doc: >
-        no documentation available
 
 BIT_XOR:
     syntax: >
         EXPRESSION {IC} "^^" {IC} EXPRESSION
     assoc: left
-    doc: >
-        no documentation available
 
 BITWISE_OP:
     syntax: >
         BIT_AND | BIT_OR | BIT_XOR
-    doc: >
-        no documentation available
 
 BOOL:
     syntax: >
@@ -311,8 +273,6 @@ CARDINALITY:
     syntax: >
         "#" {IC} EXPRESSION
     precedes: [BINARY_OP]
-    doc: >
-        no documentation available
 
 CAST:
     syntax: >
@@ -324,14 +284,10 @@ CAST:
 CASTS:
     syntax: >
         EXPRESSION {IC} "casts" {IC} EXPRESSION
-    doc: >
-        no documentation available
 
 CEILING:
     syntax: >
         ("⌈" {IC} EXPRESSION {IC} "⌉") | ( "|'" {IC} EXPRESSION {IC} "'|" )
-    doc: >
-        no documentation available
 
 COLLECTION_OP:
     syntax: >
@@ -343,8 +299,6 @@ COMPOUND:
     syntax: >
         EXPRESSION {IC} "|" {IC} EXPRESSION
     assoc: left
-    doc: >
-        no documentation available
 
 COMMENT:
     syntax: >
@@ -356,8 +310,6 @@ COMPLEMENT:
     syntax: >
         EXPRESSION {IC} "ᶜ"
     precedes: [BINARY_OP]
-    doc: >
-        no documentation available
 
 COMPOSITION:
     syntax: >
@@ -415,8 +367,6 @@ DECLARATION:
 DECLARATION_PART:
     syntax: >
         IDENTIFIER [{IC} ("←"|"<-") {IC} EXPRESSION]
-    doc: >
-        no documentation available
 
 DEFINITION:
     syntax: >
@@ -429,15 +379,11 @@ DEFINITION:
 DEFINITION_PART:
     syntax: >
         IDENTIFIER {IC} ":=" {IC} EXPRESSION
-    doc: >
-        no documentation available
 
 DELTA:
     syntax: >
         ("Δ"|"_delta_") ["^" WHOLE_NUMBER] EXPRESSION
     precedes: [EXPONENTIATION, BINARY_OP]
-    doc: >
-        no documentation available
 
 DIMENSION:
     syntax: >
@@ -499,8 +445,6 @@ EMBEDDED_COMMENT:
 EMBEDDED_COMMENT_INTERIOR:
     syntax: >
         PAYLOAD | "*" EMBEDDED_COMMENT_INTERIOR "*"
-    doc: >
-        no documentation available
 
 EMBEDDED_STRING:
     syntax: >
@@ -525,15 +469,11 @@ EMBEDDED_STRING:
 END_OF_LINE_COMMENT:
     syntax: >
         "//" {not_newline} "\n"
-    doc: >
-        no documentation available
 
 EQUALITY:
     syntax: >
         EXPRESSION {IC} "=" {IC} EXPRESSION
     assoc: either
-    doc: >
-        no documentation available
 
 EXISTS:
     syntax: >
@@ -564,8 +504,6 @@ EXPONENTIATION:
         EXPRESSION {IC} "^" {IC} EXPRESSION
     assoc: right
     precedes: [DIVISION, INTEGER_DIVISION, MODULATION, MULTIPLICATIVE_OP, SUBTRACTION, ADDITION, ADD_SUB]
-    doc: >
-        no documentation available
 
 EXPRESSION:
     syntax: >
@@ -579,14 +517,10 @@ FACTORIAL:
     syntax: >
         EXPRESSION {IC} "!"
     precedes: [BINARY_OP]
-    doc: >
-        no documentation available
 
 FLOOR:
     syntax: >
         ( "⌊" {IC} EXPRESSION {IC} "⌋" ) | ( "|_" {IC} EXPRESSION {IC} "_|" )
-    doc: >
-        no documentation available
 
 FOR:
     syntax: >
@@ -652,8 +586,6 @@ FOR_COLLECTION:
 FREE:
     syntax: >
         "free" {IC} EXPRESSION
-    doc: >
-        no documentation available
 
 FUNCTION_MODIFIER:
     syntax: >
@@ -664,32 +596,22 @@ FUNCTION_MODIFIER:
 FUNCTION_MODIFIER_ATOMIC:
     syntax: >
         "atomic" [ICR (FUNCTION_MODIFIER_PLATFORM|FUNCTION_MODIFIER_MODEL)]
-    doc: >
-        no documentation available
 
 FUNCTION_MODIFIER_MODEL:
     syntax: >
         "pure" | "imperative" | "opaque"
-    doc: >
-        no documentation available
 
 FUNCTION_MODIFIER_NO_THROW:
     syntax: >
         "no_throw" [ICR (FUNCTION_MODIFIER_ATOMIC|FUNCTION_MODIFIER_PLATFORM|FUNCTION_MODIFIER_MODEL)]
-    doc: >
-        no documentation available
 
 FUNCTION_MODIFIER_PLATFORM:
     syntax: >
         PLATFORM {ICR PLATFORM} [ICR FUNCTION_MODIFIER_MODEL]
-    doc: >
-        no documentation available
 
 FUNCTION_MODIFIER_STABILITY:
     syntax: >
         ("stable" | "unstable") [ICR (FUNCTION_MODIFIER_NO_THROW | FUNCTION_MODIFIER_ATOMIC | FUNCTION_MODIFIER_PLATFORM | FUNCTION_MODIFIER_MODEL)]
-    doc: >
-        no documentation available
 
 FUNCTION:
     syntax: >
@@ -712,15 +634,11 @@ FUNCTION:
 GETTER:
     syntax: >
         "get" {IC} ":=" {IC} EXPRESSION
-    doc: >
-        no documentation available
 
 GREATER_THAN:
     syntax: >
         EXPRESSION {IC} ">" {IC} EXPRESSION
     assoc: either
-    doc: >
-        no documentation available
 
 HAS:
     syntax: >
@@ -821,8 +739,6 @@ INEQUALITY:
     syntax: >
         EXPRESSION {IC} ("≠"|"/=") {IC} EXPRESSION
     assoc: left
-    doc: >
-        no documentation available
 
 INHERITANCE_LIST:
     syntax: >
@@ -864,14 +780,10 @@ INVOCATION:
 IMPORT:
     syntax: >
         "import" {IC} EXPRESSION
-    doc: >
-        no documentation available
 
 IS:
     syntax: >
         EXPRESSION {IC} "is" {IC} EXPRESSION
-    doc: >
-        no documentation available
 
 KLEENE_STAR:
     syntax: >
@@ -885,8 +797,6 @@ LESSER_THAN:
     syntax: >
         EXPRESSION {IC} "<" {IC} EXPRESSION
     assoc: either
-    doc: >
-        no documentation available
 
 LIST:
     syntax: >
@@ -942,8 +852,6 @@ MEMBER_ACCESS:
     syntax: >
         EXPRESSION {IC} "." {IC} IDENTIFIER
     assoc: left
-    doc: >
-        no documentation available
 
 MODULATION:
     syntax: >
@@ -965,16 +873,12 @@ MULTIPLICATIVE_OP:
     syntax: >
         MULTIPLICATION | DOT_PRODUCT | CROSS_PRODUCT
     precedes: [INTEGER_DIVISION, MODULATION, SUBTRACTION, ADDITION, ADD_SUB]
-    doc: >
-        no documentation available
 
 NAND:
     syntax: >
         EXPRESSION {IC} "↑" {IC} EXPRESSION
     assoc: left
     precedes: [OR, IMPLICATION, XOR, IFF]
-    doc: >
-        no documentation available
 
 NEAREST_INTEGER:
     syntax: >
@@ -986,16 +890,12 @@ NEGATION:
     syntax: >
         "-" {IC} EXPRESSION
     precedes: [BINARY_OP]
-    doc: >
-        no documentation available
     example: |
         -5
 
 NON_FRACTIONAL:
     syntax: >
         ["-"] NON_NEG_NON_FRACTIONAL
-    doc: >
-        no documentation available
 
 NON_NEG_FRACTIONAL:
     syntax: >
@@ -1006,22 +906,16 @@ NON_NEG_FRACTIONAL:
 NON_NEG_INTEGER:
     syntax: >
         (NON_ZERO_DECIMAL_DIGIT {decimal_digit}) | "0"
-    doc: >
-        no documentation available
     notes: >
         The first digit may not be zero, unless it is the only digit.
 
 NON_NEG_NON_FRACTIONAL:
     syntax: >
         NON_NEG_INTEGER | HEX | OCTAL
-    doc: >
-        no documentation available
 
 NON_NEG_NUMBER:
     syntax: >
         NON_NEG_NON_FRACTIONAL | NON_NEG_FRACTIONAL
-    doc: >
-        no documentation available
 
 NON_ZERO_DECIMAL_DIGIT:
     syntax: >
@@ -1034,8 +928,6 @@ NOR:
         EXPRESSION {IC} ("↓") {IC} EXPRESSION
     assoc: left
     precedes: [OR, IMPLICATION, XOR, IFF]
-    doc: >
-        no documentation available
 
 NOT:
     syntax: >
@@ -1048,8 +940,6 @@ NOT_GREATER_THAN:
     syntax: >
         EXPRESSION {IC} ("≤"|"<=") {IC} EXPRESSION
     assoc: either
-    doc: >
-        no documentation available
 
 NOT_HAS:
     syntax: >
@@ -1069,8 +959,6 @@ NOT_LESSER_THAN:
     syntax: >
         EXPRESSION {IC} ("≥"|">=") {IC} EXPRESSION
     assoc: either
-    doc: >
-        no documentation available
 
 NULL_COALESCE:
     syntax: >
@@ -1092,8 +980,6 @@ OR:
         EXPRESSION {IC} ("∨"|"or") {IC} EXPRESSION
     assoc: left
     precedes: [IMPLICATION, XOR, IFF]
-    doc: >
-        no documentation available
 
 PARAMETER:
     syntax: >
@@ -1108,15 +994,11 @@ PARAMETER:
 PARAMETER_ALGEBRAIC:
     syntax: >
         EXPRESSION [ {IC} "=" {IC} EXPRESSION ]
-    doc: >
-        no documentation available
 
 PARAMETER_NORMAL:
     syntax: >
         ([ TYPE_DEREFERENCE {IC} ] IDENTIFIER) | ([ (TYPE_DEREFERENCE | IMPLICIT_TYPE_DEREFERENCE) {IC} ] IDENTIFIER {IC} "=" {IC} EXPRESSION)
     precedes: [PARAMETER_ALGEBRAIC]
-    doc: >
-        no documentation available
 
 PARENTHETICAL:
     syntax: >
@@ -1129,8 +1011,6 @@ PARENTHETICAL:
 PARENTHETICAL_INVOCATION:
     syntax: >
         EXPRESSION {IC} "(" [{IC} EXPRESSION] {{IC} "," [{IC} EXPRESSION]} {IC} ")"
-    doc: >
-        no documentation available
 
 PAYLOAD:
     syntax: >
@@ -1148,29 +1028,21 @@ POST_DEC:
     syntax: >
         EXPRESSION {IC} "--"
     precedes: [NEGATION, BINARY_OP]
-    doc: >
-        no documentation available
 
 POST_INC:
     syntax: >
         EXPRESSION {IC} "++"
     precedes: [NEGATION, BINARY_OP]
-    doc: >
-        no documentation available
 
 PRE_DEC:
     syntax: >
         "--" {IC} EXPRESSION
     precedes: [NEGATION, BINARY_OP]
-    doc: >
-        no documentation available
 
 PRE_INC:
     syntax: >
         "++" {IC} EXPRESSION
     precedes: [NEGATION, BINARY_OP]
-    doc: >
-        no documentation available
 
 PREPEND:
     syntax: >
@@ -1186,29 +1058,21 @@ PREPEND:
 PROPERTY:
     syntax: >
         ("{" {IC} GETTER {IC} "}") | ("{" {IC} SETTER {IC} "}") | ("{" {IC} GETTER {IC} "," {IC} SETTER {IC} "}")
-    doc: >
-        no documentation available
 
 PROPER_SUBSET:
     syntax: >
         EXPRESSION {IC} ("⊂"|"psubs") {IC} EXPRESSION
     assoc: either
-    doc: >
-        no documentation available
 
 PROPER_SUPERSET:
     syntax: >
         EXPRESSION {IC} ("⊃"|"psups") {IC} EXPRESSION
     assoc: either
-    doc: >
-        no documentation available
 
 RADICAL:
     syntax: >
         "√" {IC} EXPRESSION
     precedes: [DIVISION, INTEGER_DIVISION, MODULATION, MULTIPLICATIVE_OP, SUBTRACTION, ADDITION, ADD_SUB]
-    doc: >
-        no documentation available
 
 RANGE:
     syntax: >
@@ -1233,8 +1097,6 @@ RELATIONAL_OP:
     syntax: >
         EQUALITY | INEQUALITY | LESSER_THAN | GREATER_THAN | NOT_GREATER_THAN | NOT_LESSER_THAN | RELATIONAL_COLLECTION_OP | CASTS | IS
     precedes: [BINARY_LOGICAL_OP]
-    doc: >
-        no documentation available
 
 RETURN:
     syntax: >
@@ -1246,8 +1108,6 @@ SET:
     syntax: >
         "{|" {IC} [EXPRESSION {{IC} "," {IC} EXPRESSION} {IC}] "|}"
     precedes: [MAGNITUDE]
-    doc: >
-        no documentation available
 
 SET_COMPREHENSION:
     syntax: >
@@ -1260,8 +1120,6 @@ SET_COMPREHENSION:
 SETTER:
     syntax: >
         "set" {IC} ":=" {IC} EXPRESSION
-    doc: >
-        no documentation available
 
 SHIFTL:
     syntax: >
@@ -1299,22 +1157,16 @@ SUBSET:
     syntax: >
         EXPRESSION {IC} ("⊆"|"subs") {IC} EXPRESSION
     assoc: either
-    doc: >
-        no documentation available
 
 SUBTRACTION:
     syntax: >
         EXPRESSION {IC} "-" {IC} EXPRESSION
     assoc: left
-    doc: >
-        no documentation available
 
 SUPERSET:
     syntax: >
         EXPRESSION {IC} ("⊇"|"sups") {IC} EXPRESSION
     assoc: either
-    doc: >
-        no documentation available
 
 SYMMETRIC_DIFFERENCE:
     syntax: >
@@ -1363,8 +1215,6 @@ TYPE_DEREFERENCE:
 TYPE_INVOCATION:
     syntax: >
         EXPRESSION ( "<" [{IC} EXPRESSION] {{IC} "," [{IC} EXPRESSION]} {IC} ">" )
-    doc: >
-        no documentation available
 
 TYPE_SCOPE:
     syntax: >
@@ -1383,21 +1233,15 @@ TYPE_STATEMENT:
 UNARY_ARITHMETIC_OP:
     syntax: >
         FACTORIAL | NEGATION | POST_DEC | POST_INC | PRE_DEC | PRE_INC | RADICAL
-    doc: >
-        no documentation available
 
 UNARY_LOGICAL_OP:
     syntax: >
         NOT | ALL | EXISTS | EXISTS_ONE
     precedes: [BINARY_LOGICAL_OP]
-    doc: >
-        no documentation available
 
 UNARY_OP:
     syntax: >
         CARDINALITY | KLEENE_STAR | UNARY_ARITHMETIC_OP | UNARY_LOGICAL_OP
-    doc: >
-        no documentation available
 
 UNION:
     syntax: >
@@ -1443,26 +1287,18 @@ VECTOR_NORM:
 VISIBILITY_MODIFIER:
     syntax: >
         ("public"|"protected"|"protected internal"|"internal"|"private")
-    doc: >
-        no documentation available
 
 VOLATILE_IMPLICIT_TYPE_DEREFERENCE:
     syntax: >
         "<" {IC} "volatile" {IC} ">"
-    doc: >
-        no documentation available
 
 VOLATILE_TYPE_DEREFERENCE:
     syntax: >
         "<" {IC} "volatile" {IC} EXPRESSION {IC} ">"
-    doc: >
-        no documentation available
 
 WHOLE_NUMBER:
     syntax: >
         ("1"|"2"|"3"|"4"|"5"|"6"|"7"|"8"|"9") {"0"|"1"|"2"|"3"|"4"|"5"|"6"|"7"|"8"|"9"}
-    doc: >
-        no documentation available
     see:
         - TYPE_SCOPE
 
@@ -1483,5 +1319,3 @@ XOR:
     syntax: >
         EXPRESSION {IC} ("⊕" |"xor") {IC} EXPRESSION
     assoc: left
-    doc: >
-        no documentation available

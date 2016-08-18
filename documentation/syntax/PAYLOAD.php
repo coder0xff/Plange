@@ -2,14 +2,20 @@
 <meta name="viewport" content="width=device-width, initial-scale=0.6">
 <html>
 	<head>
-		<title>%NAME% - Syntax Pages - Plange</title>
+		<title>PAYLOAD - Syntax Pages - Plange</title>
 		<link rel=StyleSheet href='../../css/general.css' type='text/css' />
 	</head>
 	<body>
 		<?php require('../../header.php') ?>
 
 
-%CONTENT%
+		<p>used in EMBEDDED_COMMENT_INTERIOR</p>
+
+		<div class="syntax">
+			<p>syntax</p>
+			<pre>{all}</pre>
+		</div>
+
 
 
 		<?php require('../../footer.php') ?>

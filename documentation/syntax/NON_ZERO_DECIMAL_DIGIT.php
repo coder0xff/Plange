@@ -2,14 +2,20 @@
 <meta name="viewport" content="width=device-width, initial-scale=0.6">
 <html>
 	<head>
-		<title>%NAME% - Syntax Pages - Plange</title>
+		<title>NON_ZERO_DECIMAL_DIGIT - Syntax Pages - Plange</title>
 		<link rel=StyleSheet href='../../css/general.css' type='text/css' />
 	</head>
 	<body>
 		<?php require('../../header.php') ?>
 
 
-%CONTENT%
+		<p>used for constructing number</p>
+
+		<div class="syntax">
+			<p>syntax</p>
+			<pre>"1"|"2"|"3"|"4"|"5"|"6"|"7"|"8"|"9"</pre>
+		</div>
+
 
 
 		<?php require('../../footer.php') ?>

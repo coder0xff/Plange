@@ -2,14 +2,18 @@
 <meta name="viewport" content="width=device-width, initial-scale=0.6">
 <html>
 	<head>
-		<title>%NAME% - Syntax Pages - Plange</title>
+		<title>RELATIONAL_OP - Syntax Pages - Plange</title>
 		<link rel=StyleSheet href='../../css/general.css' type='text/css' />
 	</head>
 	<body>
 		<?php require('../../header.php') ?>
 
 
-%CONTENT%
+		<div class="syntax">
+			<p>syntax</p>
+			<pre>EQUALITY | INEQUALITY | LESSER_THAN | GREATER_THAN | NOT_GREATER_THAN | NOT_LESSER_THAN | RELATIONAL_COLLECTION_OP | CASTS | IS</pre>
+		</div>
+
 
 
 		<?php require('../../footer.php') ?>
