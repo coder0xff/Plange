@@ -9,7 +9,7 @@
 		<?php require('../header.php') ?>
 
 
-		<p>The root production of the grammar is "statement_scope."</p>
+		<p>The root production of the grammar is "STATEMENT_SCOPE".</p>
 		<h2>Subpage Listing</h2>
 		<ul>
 			<li><a href="/documentation/syntax/ADDITION.php">ADDITION</a></li>

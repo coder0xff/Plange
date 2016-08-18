@@ -48,7 +48,7 @@ def loadExample(example):
         result = result + "</pre>\n\t\t</div>"
         return result
 
-indexPageContents = "<meta charset='utf-8'/>\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=0.6\">\n<html>\n\t<head>\n\t\t<title>Syntax Listing - Plange</title>\n\t\t<link rel=StyleSheet href='../css/general.css' type='text/css' />\n\t</head>\n\t<body>\n\t\t<?php require('../header.php') ?>\n\n\n\t\t<p>The root production of the grammar is \"statement_scope.\"</p>\n\t\t<h2>Subpage Listing</h2>\n\t\t<ul>\n"
+indexPageContents = "<meta charset='utf-8'/>\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=0.6\">\n<html>\n\t<head>\n\t\t<title>Syntax Listing - Plange</title>\n\t\t<link rel=StyleSheet href='../css/general.css' type='text/css' />\n\t</head>\n\t<body>\n\t\t<?php require('../header.php') ?>\n\n\n\t\t<p>The root production of the grammar is \"STATEMENT_SCOPE\".</p>\n\t\t<h2>Subpage Listing</h2>\n\t\t<ul>\n"
 names = specs.keys()
 names.sort()
 regexs = {name: re.compile("\\b" + name + "\\b") for name in names}
