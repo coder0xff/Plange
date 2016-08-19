@@ -31,10 +31,11 @@
 				<tr><td>&lt;_ → Int32&gt; hash</td></tr>
 				<tr><td>&lt;Void → Void&gt; help</td><td>print help information for the given object or string</td></tr>
 				<tr><td>&lt;_ → String&gt; input</td></tr>
-				<tr><td>&lt;Void → Void&gt; interrupt</td></tr>
+				<tr><td>&lt;Void → Void&gt; interrupt</td><td>programmatically trigger a breakpoint</td></td></tr>
 				<tr><td>&lt;&lt;T → U&gt; * Collection&lt;T&gt; → Collection&lt;U&gt;&gt; map</td></tr>
 				<tr><td>&lt;(Collection&lt;T&gt; | T^_) → T&gt; max</td></tr>
 				<tr><td>&lt;(Collection&lt;T&gt; | T^_) → T&gt; min</td></tr>
+				<tr><td>&lt;Void → DateTime&gt; now</td></tr>
 				<tr><td>&lt;String * FileMode → File&gt; open</td></tr>
 				<tr><td>&lt;Char → Int32&gt; ord</td></tr>
 				<tr><td>&lt;_ → Void&gt; print</td></tr>
@@ -45,6 +46,7 @@
 				<tr><td>&lt;File * Int * SeekOrigin → Void&gt; seek</td></tr>
 				<tr><td>&lt;String → Int32&gt; | &lt;String * File * File * File → Int32&gt; shell</td><td>execute a command in the system shell</td></tr>
 				<tr><td>&lt;Collection&lt;T&gt; → Tuple&lt;T&gt;&gt; to_tuple</td><td>convert an ordered collection or object to tuple</td></tr>
+				<tr><td>&lt;Void → Date&gt; today</td></tr>
 				<tr><td>&lt;File * Array&lt;Byte&gt; → Void&gt; write</td></tr>
 			</table>
 		</code>

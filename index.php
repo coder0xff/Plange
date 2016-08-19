@@ -71,7 +71,7 @@ color ← "Red";
 print(color);</pre>
 		</div>
 
-		<p>The <code>←</code> character is typed <code>" &lt;- "</code>. The above program outputs the following text:</p>
+		<p>The <code>←</code> character is typed <code>"&lt;-"</code>. The above program outputs the following text:</p>
 
 		<div class="code">
 			<p>Output</p>

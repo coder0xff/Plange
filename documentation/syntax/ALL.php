@@ -19,7 +19,7 @@
 			<p>Example</p>
 			<pre>someNumbers := {| -100, 1, 100 |};
 
-if (∀ { x &gt;= 0 where x ∈ someNumbers}) {
+if (∀ { x &gt;= 0 | x ∈ someNumbers}) {
     print("None of the numbers are negative");
 } else {
     print("Some of the numbers are negative");
