@@ -15,7 +15,7 @@ ADD_SUB:
 ADDITION:
     syntax: >
         EXPRESSION {IC} "+" {IC} EXPRESSION
-    assoc: left
+    assoc: either
 
 ALL:
     syntax: >
@@ -25,7 +25,7 @@ ALL:
     example: |
         someNumbers := {| -100, 1, 100 |};
 
-        if (∀ { x >= 0 where x ∈ someNumbers}) {
+        if (∀ { x >= 0 | x ∈ someNumbers}) {
             print("None of the numbers are negative");
         } else {
             print("Some of the numbers are negative");
@@ -34,8 +34,8 @@ ALL:
         The values in the collection need not be Bool, so long as Bool casts T is true, where T is the type of each element.
     see:
         - EXISTS
-        - EXISTS_ONE        
-    
+        - EXISTS_ONE
+
 ALLOCATION:
     syntax: >
         "alloc" {IC} PARENTHETICAL_INVOCATION
@@ -45,7 +45,7 @@ ALLOCATION:
 AND:
     syntax: >
         EXPRESSION {IC} ("∧"|"and") {IC} EXPRESSION
-    assoc: left
+    assoc: either
     precedes: [OR, IMPLICATION, XOR, IFF]
 
 ARRAY:
@@ -116,12 +116,12 @@ ASSIGNMENT:
             <pre>x + 1 ← 0;</pre>
         </div>
         <p>The above example is contrived, but provides a simple segue to constraint based programming. When this statement is executed the value -1 is stored in <code>x</code>. Substituting -1 for x yields <code>(-1) + 1 = 0</code>.</p>
-        
+
         <p>Assignment operations can be chained together</p>
         <div class="code">
             <p>Example</p>
             <pre>a ← b ← c;</pre>
-        </div>        
+        </div>
 
 BIJECTION:
     syntax: >
@@ -241,7 +241,7 @@ BINARY_OP:
 BIT_AND:
     syntax: >
         EXPRESSION {IC} "&&" {IC} EXPRESSION
-    assoc: left
+    assoc: either
 
 BIT_NOT:
     syntax: >
@@ -250,12 +250,12 @@ BIT_NOT:
 BIT_OR:
     syntax: >
         EXPRESSION {IC} "||" {IC} EXPRESSION
-    assoc: left
+    assoc: either
 
 BIT_XOR:
     syntax: >
         EXPRESSION {IC} "^^" {IC} EXPRESSION
-    assoc: left
+    assoc: either
 
 BITWISE_OP:
     syntax: >
@@ -331,7 +331,7 @@ CONSTRUCTIVE_OP:
     syntax: >
         COMPOSITION | COMPOUND | PREPEND | NULL_COALESCE
     doc: >
-        operators that are constructive for making values 
+        operators that are constructive for making values
 
 CROSS_PRODUCT:
     syntax: >
@@ -360,9 +360,9 @@ DECLARATION:
                 "contractors":[
                     ("Matt", "Williams")]
             };
-            
+
             object <- (x) { return x*2; }; //no type constraint
-    see: 
+    see:
         - STATEMENT
 
 DECLARATION_PART:
@@ -430,7 +430,8 @@ DOT_PRODUCT:
 
 EMBEDDED_COMMENT:
     syntax: >
-        "/*" EMBEDDED_COMMENT_INTERIOR "*/"
+        "/***" EMBEDDED_COMMENT_INTERIOR "***/"
+    filter: super_delimiter
     doc: >
         a comment bounded by arbirtrarily-sized delimiters
     example: |
@@ -449,7 +450,8 @@ EMBEDDED_COMMENT_INTERIOR:
 
 EMBEDDED_STRING:
     syntax: >
-        ("\"\"\"\n" {all} "\n\"\"\"") | ("\"\"\"" not_double_quote {all} "\"\"\"") | ("\"" EMBEDDED_STRING "\"")
+        ("\"\"\"\n" PAYLOAD "\n\"\"\"") | ("\"\"\"" not_double_quote {all} "\"\"\"") | ("\"" EMBEDDED_STRING "\"")
+    filter: super_delimiter
     doc: >
         a string bounded by arbirtrarily-sized delimiters
     example: |
@@ -471,10 +473,11 @@ END_OF_LINE_COMMENT:
     syntax: >
         "//" {not_newline} "\n"
 
-EQUALITY:
+EQUALITY_CHAIN:
     syntax: >
-        EXPRESSION {IC} "=" {IC} EXPRESSION
-    assoc: either
+        EXPRESSION {IC} "=" {IC} EXPRESSION { {IC} "=" {IC} EXPRESSION }
+    filter: longest
+    precedes: [GREATER_CHAIN, LESSER_CHAIN, SUBSET_CHAIN, SUPERSET_CHAIN]
 
 EXISTS:
     syntax: >
@@ -485,7 +488,7 @@ EXISTS:
         <p>The values in the collection need not be Bool, so long as <code>Bool casts T</code> is true, where T is the type of each element.<p>
     example: |
         shouldRejectLiquorPurchase := (List<Date> patronBirthdates) {
-            return ∃ { x < today() - 21 yr where x ∈ patronBirthdates };
+            return ∃{ x < today() - 21yr | x ∈ patronBirthdates };
         }
     see:
         - EXISTS_ONE
@@ -513,7 +516,7 @@ EXPRESSION:
         a linearization of an evaluation tree containing constants, variables, operators, invocations, and sub expressions
     notes: >
         null is a literal and so is included in the syntax similarly to true, false and numberic literals (and unlike constants)
-        
+
 FACTORIAL:
     syntax: >
         EXPRESSION {IC} "!"
@@ -578,12 +581,12 @@ FOR_COLLECTION:
             <> fibArray = [ 0, 1, 1, 2, 3, 5, 8, 13 ];
             for (element ∈ fibArray) {
                 print(element);
-            }            
+            }
         - |
             for ((key, value) ∈ myMap) {
                 //do something
             }
-        
+
 FREE:
     syntax: >
         "free" {IC} EXPRESSION
@@ -622,7 +625,7 @@ FUNCTION:
         creates a function
     notes: >
         Function objects are invoked using the invocation syntax.
-        
+
         The atomic, pure, imperative, and opaque keywords influence assumptions that the compiler may make regarding a functions implementation. The pure keyword indicates that the implementation uses only pull semantics, is idempotent, and has no side effects. Additionally, only constants can be read, which includes value (not by reference/pointer values) passed as formal parameters. Any violation of these constraints causes an error to occur. The imperative keyword indicates that the implementation is likely not tractable, and it may interact with memory or hardware in unknown ways. Without either pure or imperative, the implementation is assumed to be push-pull and tractable. If the tool chain determines that this is not the case, it will fall back to imperative behavior. Pure functions are implicitly atomic.
     examples:
         - |
@@ -636,10 +639,10 @@ GETTER:
     syntax: >
         "get" {IC} ":=" {IC} EXPRESSION
 
-GREATER_THAN:
+GREATER_CHAIN:
     syntax: >
-        EXPRESSION {IC} ">" {IC} EXPRESSION
-    assoc: either
+        EXPRESSION {IC} ("="|">"|"=>"|"≥") {IC} EXPRESSION { {IC} ("="|">"|"=>"|"≥") {IC} EXPRESSSION }
+    filter: longest
 
 HAS:
     syntax: >
@@ -669,7 +672,7 @@ ICR:
 IDENTIFIER:
     syntax: >
         (letter | "_") {letter | number | "_"}
-    filter: greedy
+    filter: longest
     doc: >
         text that uniquely identifies a constant or variable within a scope
     notes: |
@@ -686,7 +689,7 @@ IDENTIFIER:
                 <li>θ</li>
             </ul>
         </code>
-        
+
         <p>Non examples:</p>
         <code>
             <ul>
@@ -709,14 +712,14 @@ IF:
 IFF:
     syntax: >
         EXPRESSION {IC} ("⇔"|"<=>") {IC} EXPRESSION
-    assoc: left
+    assoc: either
     doc: >
         semantic equivalence
 
 IMPLICATION:
     syntax: >
         EXPRESSION {IC} ("⇒"|"=>") {IC} EXPRESSION
-    assoc: left
+    assoc: right
     precedes: [XOR, IFF]
     doc: >
         implication
@@ -733,7 +736,7 @@ IN:
     assoc: left
     doc: >
         Collection membership
-    see: 
+    see:
         - FOR_COLLECTION
 
 INEQUALITY:
@@ -758,7 +761,7 @@ INTEGER_DIVISION:
 INTERSECTION:
     syntax: >
         EXPRESSION {IC} "∩" {IC} EXPRESSION
-    assoc: left
+    assoc: either
     doc: >
         Collection intersection
 
@@ -794,10 +797,10 @@ KLEENE_STAR:
     example:
         all_strings := char*;
 
-LESSER_THAN:
+LESSER_CHAIN:
     syntax: >
-        EXPRESSION {IC} "<" {IC} EXPRESSION
-    assoc: either
+        EXPRESSION {IC} ("="|"<"|"=<"|"≤") {IC} EXPRESSION { {IC} ("="|"<"|"=<"|"≤") EXPRESSION }
+    filter: longest
 
 LIST:
     syntax: >
@@ -814,7 +817,7 @@ LIST:
             [|1, 5, 2, 2, 2|]
         - |
             short_days_of_week := ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-            
+
 LOOP:
     syntax: >
         ( "while" | "until" ) {IC} PARENTHETICAL {IC} EXPRESSION
@@ -865,7 +868,7 @@ MODULATION:
 MULTIPLICATION:
     syntax: >
         EXPRESSION {IC} "*" {IC} EXPRESSION
-    assoc: left
+    assoc: either
     precedes: [MAPS_TO]
     doc: >
         scalar multiplication, cartesian product
@@ -937,11 +940,6 @@ NOT:
     doc: >
         boolean not
 
-NOT_GREATER_THAN:
-    syntax: >
-        EXPRESSION {IC} ("≤"|"<=") {IC} EXPRESSION
-    assoc: either
-
 NOT_HAS:
     syntax: >
         EXPRESSION {IC} ("∌"|"/has") {IC} EXPRESSION
@@ -955,11 +953,6 @@ NOT_IN:
     assoc: left
     doc: >
         Collection anti-membership
-
-NOT_LESSER_THAN:
-    syntax: >
-        EXPRESSION {IC} ("≥"|">=") {IC} EXPRESSION
-    assoc: either
 
 NULL_COALESCE:
     syntax: >
@@ -979,7 +972,7 @@ OCTAL:
 OR:
     syntax: >
         EXPRESSION {IC} ("∨"|"or") {IC} EXPRESSION
-    assoc: left
+    assoc: either
     precedes: [IMPLICATION, XOR, IFF]
 
 PARAMETER:
@@ -991,7 +984,7 @@ PARAMETER:
         The last variation accepts an expression, which is then set to be equivalent to the passed in value. This enables pattern matching and solving on parameters.
     see:
         - FUNCTION
-        
+
 PARAMETER_ALGEBRAIC:
     syntax: >
         EXPRESSION [ {IC} "=" {IC} EXPRESSION ]
@@ -1017,7 +1010,7 @@ PAYLOAD:
     syntax: >
         {all}
     doc: >
-        used in EMBEDDED_COMMENT_INTERIOR
+        used in EMBEDDED_COMMENT, EMBEDDED_STRING
 
 PLATFORM:
     syntax: >
@@ -1055,20 +1048,10 @@ PREPEND:
         x := 1 & [2, 3, 4, 5];
         y := [1, 2, 3, 4, 5];
         x = y;
-        
+
 PROPERTY:
     syntax: >
         ("{" {IC} GETTER {IC} "}") | ("{" {IC} SETTER {IC} "}") | ("{" {IC} GETTER {IC} "," {IC} SETTER {IC} "}")
-
-PROPER_SUBSET:
-    syntax: >
-        EXPRESSION {IC} ("⊂"|"psubs") {IC} EXPRESSION
-    assoc: either
-
-PROPER_SUPERSET:
-    syntax: >
-        EXPRESSION {IC} ("⊃"|"psups") {IC} EXPRESSION
-    assoc: either
 
 RADICAL:
     syntax: >
@@ -1087,16 +1070,16 @@ RANGE:
             positivesIntsToN := [ 1 ... n ]; // the integers 1 to n inclusive - the set is finite and denumerable
         - |
             negativeReals := ( ... 0.0 ) // the negative real numbers - the set is infinite and nondenumerable
-            
+
 RELATIONAL_COLLECTION_OP:
     syntax: >
-        SUBSET | PROPER_SUBSET | SUPERSET | PROPER_SUPERSET | IN | NOT_IN | HAS | NOT_HAS
+        SUBSET_CHAIN | SUPERSET_CHAIN | IN | NOT_IN | HAS | NOT_HAS
     doc: >
         relational operators on collections
 
 RELATIONAL_OP:
     syntax: >
-        EQUALITY | INEQUALITY | LESSER_THAN | GREATER_THAN | NOT_GREATER_THAN | NOT_LESSER_THAN | RELATIONAL_COLLECTION_OP | CASTS | IS
+        EQUALITY | INEQUALITY | GREATER_CHAIN | LESSER_CHAIN | RELATIONAL_COLLECTION_OP | CASTS | IS
     precedes: [BINARY_LOGICAL_OP]
 
 RETURN:
@@ -1154,21 +1137,21 @@ STATEMENT_SCOPE:
     doc: >
         zero or more statements, the top level syntax rule for source files
 
-SUBSET:
+SUBSET_CHAIN:
     syntax: >
-        EXPRESSION {IC} ("⊆"|"subs") {IC} EXPRESSION
-    assoc: either
+        EXPRESSION {IC} ("="|"⊆"|"subs"|"⊂"|"psubs") {IC} EXPRESSION { {IC} ("="|"⊆"|"subs"|"⊂"|"psubs") EXPRESSION }
+    filter: longest
 
 SUBTRACTION:
     syntax: >
         EXPRESSION {IC} "-" {IC} EXPRESSION
     assoc: left
 
-SUPERSET:
+SUPERSET_CHAIN:
     syntax: >
-        EXPRESSION {IC} ("⊇"|"sups") {IC} EXPRESSION
-    assoc: either
-
+        EXPRESSION {IC} ("="|"⊇"|"sups"|"⊃"|"psups") {IC} EXPRESSION { {IC} ("="|"⊇"|"sups"|"⊃"|"psups") EXPRESSION }
+    filter: longest
+    
 SYMMETRIC_DIFFERENCE:
     syntax: >
         EXPRESSION {IC} "⊖" {IC} EXPRESSION
@@ -1224,7 +1207,7 @@ TYPE_SCOPE:
         zero or more statements or member declarations/definitions, used strictly in the TYPE syntax only
     notes: >
         Any use of the assignment operator indicates an instance member declaration. Any use of the definition operator indicates a static member of the class, since it is immutable it will not vary between instances. Like in statement_scope, an execution context is available and will execute any top-level statements inside the type.
-        
+
 TYPE_STATEMENT:
     syntax: >
         (VISIBILITY_MODIFIER {IC} ":") | (["static" {IC}] DECLARATION {IC} "at" {IC} WHOLE_NUMBER) | STATEMENT
@@ -1247,7 +1230,7 @@ UNARY_OP:
 UNION:
     syntax: >
         EXPRESSION {IC} "∪" {IC} EXPRESSION
-    assoc: left
+    assoc: either
     doc: >
         the set-theoretic union
 
@@ -1306,13 +1289,15 @@ WHOLE_NUMBER:
 WS:
     syntax: >
         white_space {white_space}
-    filter: greedy
+    filter: longest
     doc: >
         consumes whitespaces between other tokens
 
 XML_DOC_STRING:
     syntax: >
         ("```" {all} "```") | ("`" XML_DOC_STRING "`")
+    filter:
+        super_delimiter
     doc: >
         documentation string bounded by arbirtrarily-sized delimiters
 

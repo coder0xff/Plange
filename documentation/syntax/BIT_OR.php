@@ -10,7 +10,7 @@
 
 
 		<div class="syntax">
-			<p>syntax (associativity: left)</p>
+			<p>syntax (associativity: either)</p>
 			<div><a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> {<a href="/documentation/syntax/IC.php">IC</a>} "||" {<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a></div>
 		</div>
 

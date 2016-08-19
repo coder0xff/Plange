@@ -66,7 +66,7 @@
 			<li><a href="/documentation/syntax/EMBEDDED_COMMENT_INTERIOR.php">EMBEDDED_COMMENT_INTERIOR</a></li>
 			<li><a href="/documentation/syntax/EMBEDDED_STRING.php">EMBEDDED_STRING</a></li>
 			<li><a href="/documentation/syntax/END_OF_LINE_COMMENT.php">END_OF_LINE_COMMENT</a></li>
-			<li><a href="/documentation/syntax/EQUALITY.php">EQUALITY</a></li>
+			<li><a href="/documentation/syntax/EQUALITY_CHAIN.php">EQUALITY_CHAIN</a></li>
 			<li><a href="/documentation/syntax/EXISTS.php">EXISTS</a></li>
 			<li><a href="/documentation/syntax/EXISTS_ONE.php">EXISTS_ONE</a></li>
 			<li><a href="/documentation/syntax/EXPONENTIATION.php">EXPONENTIATION</a></li>
@@ -84,7 +84,7 @@
 			<li><a href="/documentation/syntax/FUNCTION_MODIFIER_PLATFORM.php">FUNCTION_MODIFIER_PLATFORM</a></li>
 			<li><a href="/documentation/syntax/FUNCTION_MODIFIER_STABILITY.php">FUNCTION_MODIFIER_STABILITY</a></li>
 			<li><a href="/documentation/syntax/GETTER.php">GETTER</a></li>
-			<li><a href="/documentation/syntax/GREATER_THAN.php">GREATER_THAN</a></li>
+			<li><a href="/documentation/syntax/GREATER_CHAIN.php">GREATER_CHAIN</a></li>
 			<li><a href="/documentation/syntax/HAS.php">HAS</a></li>
 			<li><a href="/documentation/syntax/HEX.php">HEX</a></li>
 			<li><a href="/documentation/syntax/IC.php">IC</a></li>
@@ -103,7 +103,7 @@
 			<li><a href="/documentation/syntax/INVOCATION.php">INVOCATION</a></li>
 			<li><a href="/documentation/syntax/IS.php">IS</a></li>
 			<li><a href="/documentation/syntax/KLEENE_STAR.php">KLEENE_STAR</a></li>
-			<li><a href="/documentation/syntax/LESSER_THAN.php">LESSER_THAN</a></li>
+			<li><a href="/documentation/syntax/LESSER_CHAIN.php">LESSER_CHAIN</a></li>
 			<li><a href="/documentation/syntax/LIST.php">LIST</a></li>
 			<li><a href="/documentation/syntax/LOOP.php">LOOP</a></li>
 			<li><a href="/documentation/syntax/MAGNITUDE.php">MAGNITUDE</a></li>
@@ -124,10 +124,8 @@
 			<li><a href="/documentation/syntax/NON_ZERO_DECIMAL_DIGIT.php">NON_ZERO_DECIMAL_DIGIT</a></li>
 			<li><a href="/documentation/syntax/NOR.php">NOR</a></li>
 			<li><a href="/documentation/syntax/NOT.php">NOT</a></li>
-			<li><a href="/documentation/syntax/NOT_GREATER_THAN.php">NOT_GREATER_THAN</a></li>
 			<li><a href="/documentation/syntax/NOT_HAS.php">NOT_HAS</a></li>
 			<li><a href="/documentation/syntax/NOT_IN.php">NOT_IN</a></li>
-			<li><a href="/documentation/syntax/NOT_LESSER_THAN.php">NOT_LESSER_THAN</a></li>
 			<li><a href="/documentation/syntax/NULL_COALESCE.php">NULL_COALESCE</a></li>
 			<li><a href="/documentation/syntax/OCTAL.php">OCTAL</a></li>
 			<li><a href="/documentation/syntax/OR.php">OR</a></li>
@@ -144,8 +142,6 @@
 			<li><a href="/documentation/syntax/PRE_DEC.php">PRE_DEC</a></li>
 			<li><a href="/documentation/syntax/PRE_INC.php">PRE_INC</a></li>
 			<li><a href="/documentation/syntax/PROPERTY.php">PROPERTY</a></li>
-			<li><a href="/documentation/syntax/PROPER_SUBSET.php">PROPER_SUBSET</a></li>
-			<li><a href="/documentation/syntax/PROPER_SUPERSET.php">PROPER_SUPERSET</a></li>
 			<li><a href="/documentation/syntax/RADICAL.php">RADICAL</a></li>
 			<li><a href="/documentation/syntax/RANGE.php">RANGE</a></li>
 			<li><a href="/documentation/syntax/RELATIONAL_COLLECTION_OP.php">RELATIONAL_COLLECTION_OP</a></li>
@@ -159,9 +155,9 @@
 			<li><a href="/documentation/syntax/SLICE.php">SLICE</a></li>
 			<li><a href="/documentation/syntax/STATEMENT.php">STATEMENT</a></li>
 			<li><a href="/documentation/syntax/STATEMENT_SCOPE.php">STATEMENT_SCOPE</a></li>
-			<li><a href="/documentation/syntax/SUBSET.php">SUBSET</a></li>
+			<li><a href="/documentation/syntax/SUBSET_CHAIN.php">SUBSET_CHAIN</a></li>
 			<li><a href="/documentation/syntax/SUBTRACTION.php">SUBTRACTION</a></li>
-			<li><a href="/documentation/syntax/SUPERSET.php">SUPERSET</a></li>
+			<li><a href="/documentation/syntax/SUPERSET_CHAIN.php">SUPERSET_CHAIN</a></li>
 			<li><a href="/documentation/syntax/SYMMETRIC_DIFFERENCE.php">SYMMETRIC_DIFFERENCE</a></li>
 			<li><a href="/documentation/syntax/THROW.php">THROW</a></li>
 			<li><a href="/documentation/syntax/TRY.php">TRY</a></li>

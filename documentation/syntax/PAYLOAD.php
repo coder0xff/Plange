@@ -9,7 +9,7 @@
 		<?php require('../../header.php') ?>
 
 
-		<p>used in EMBEDDED_COMMENT_INTERIOR</p>
+		<p>used in EMBEDDED_COMMENT, EMBEDDED_STRING</p>
 
 		<div class="syntax">
 			<p>syntax</p>

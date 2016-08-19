@@ -39,7 +39,7 @@
 <div class="code">
     <p>Example</p>
     <pre>a ← b ← c;</pre>
-</div>        
+</div>
 
 
 
