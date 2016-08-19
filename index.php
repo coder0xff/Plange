@@ -167,14 +167,14 @@ printLast(myList)</pre>
 		<div class="code">
 			<p>Example</p>
 			<pre>&lt;&gt; doubler ← (x) { return x * 2 }
-print(doubler(5));</pre>
+print(doubler(5))</pre>
 		</div>
 
 		<p>In definitions of constants, and declarations and assignments of variables, the angle brackets &lt; &gt; may be omitted entirely.</p>
 		<div class="code">
 				<p>Example</p>
 				<pre>doubler := (x) { return x * 2 }
-print(doubler(5));</pre>
+print(doubler(5))</pre>
 		</div>
 
  		<p>When defining a constant like above, no special meaning is implied. However, variables that have no specified type constraint are dynamically typed.</p>
