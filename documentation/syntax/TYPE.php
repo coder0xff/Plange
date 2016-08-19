@@ -18,7 +18,7 @@
 		<div class="code">
 			<p>Example</p>
 			<pre>bank_account := type inheriting account {
-    &lt;float&gt; balance at 0;
+    &lt;float&gt; balance @ 0;
 };</pre>
 		</div>
 

@@ -9,7 +9,7 @@
 		<?php require('../../header.php') ?>
 
 
-		<p>creates a nullary void function that evaluate the second expression repeatedly while the second expression is true, all after evaluating the optional STATEMENT_SCOPE</p>
+		<p>evaluate the second expression repeatedly while the second expression is true, all after evaluating the optional STATEMENT_SCOPE</p>
 
 		<div class="syntax">
 			<p>syntax</p>

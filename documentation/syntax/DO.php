@@ -9,7 +9,7 @@
 		<?php require('../../header.php') ?>
 
 
-		<p>creates a nullary void function that invokes a specified nullary void function (expression) once and then repeatedly while or until the parenthetical evaluates to true (when coerced to bool), unless the optional portion is omitted, in which case the function is invoked indefinitely</p>
+		<p>invoke a specified nullary void function (expression) once and then repeatedly while or until the parenthetical evaluates to true (when coerced to bool), unless the optional portion is omitted, in which case the function is invoked indefinitely</p>
 
 		<div class="syntax">
 			<p>syntax</p>

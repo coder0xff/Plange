@@ -9,7 +9,7 @@
 		<?php require('../../header.php') ?>
 
 
-		<p>creates a nullary void function that evaluates the last expression repeatedly while iterating over the elements of the specified Collection</p>
+		<p>evaluate the last expression repeatedly while iterating over the elements of the specified Collection</p>
 
 		<div class="syntax">
 			<p>syntax</p>

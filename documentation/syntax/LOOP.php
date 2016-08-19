@@ -9,7 +9,7 @@
 		<?php require('../../header.php') ?>
 
 
-		<p>creates a nullary void function that will evaluate an expression repeatedly while or until a parenthetical evaluates to true</p>
+		<p>evaluate an expression repeatedly while or until a parenthetical evaluates to true</p>
 
 		<div class="syntax">
 			<p>syntax</p>

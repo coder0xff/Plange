@@ -166,6 +166,9 @@
 			<li><a href="/documentation/syntax/TYPE_DEREFERENCE.php">TYPE_DEREFERENCE</a></li>
 			<li><a href="/documentation/syntax/TYPE_INVOCATION.php">TYPE_INVOCATION</a></li>
 			<li><a href="/documentation/syntax/TYPE_SCOPE.php">TYPE_SCOPE</a></li>
+			<li><a href="/documentation/syntax/TYPE_SCOPE_DECLARATION.php">TYPE_SCOPE_DECLARATION</a></li>
+			<li><a href="/documentation/syntax/TYPE_SCOPE_DECLARATION_PART.php">TYPE_SCOPE_DECLARATION_PART</a></li>
+			<li><a href="/documentation/syntax/TYPE_SCOPE_DEFINITION.php">TYPE_SCOPE_DEFINITION</a></li>
 			<li><a href="/documentation/syntax/TYPE_STATEMENT.php">TYPE_STATEMENT</a></li>
 			<li><a href="/documentation/syntax/UNARY_ARITHMETIC_OP.php">UNARY_ARITHMETIC_OP</a></li>
 			<li><a href="/documentation/syntax/UNARY_LOGICAL_OP.php">UNARY_LOGICAL_OP</a></li>

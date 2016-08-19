@@ -32,25 +32,31 @@
 		<h2>Hello World</h2>
 		<p>It is traditional to start with the "Hello world" program.</p>
 		<div class="code">
-			<pre>print("Hello, world!");</pre>
+			<pre>print("Hello, world!")</pre>
 		</div>
 
-		<p>Statements are terminated by a semicolon. Comments are created using two syntactic variations:</p>
+		<p>Comments are created using two syntactic variations:</p>
 		<div class="code">
 			<p>End of line comment (red is comment text)</p>
-			<pre>print("My name is HAL 9000."); <span style="color: red">//only kidding!</span></pre>
+			<pre>print("My name is HAL 9000.") <span style="color: red">//only kidding!</span></pre>
 		</div>
 		<div class="code">
 			<p>Inline comment (red is comment text) <small><small><small><a href="https://www.xkcd.com/221/">source</a></small></small></small></p>
-			<pre>getRandomNumber := { return 4; <span style="color: red">/*choosen by fair dice roll*/</span> }; <span style="color: red">//guaranteed to be random</span></pre>
+			<pre>getRandomNumber := { return 4 <span style="color: red">/*choosen by fair dice roll*/</span> } <span style="color: red">//guaranteed to be random</span></pre>
 		</div>
-
+		
+		<p>Statements may terminated by a semicolon for clarity. You are informed if the code is ambiguous without one.</p>
+		<div class="code">
+			<p>Example</p>
+			<pre>print("Also okay!");</pre>
+		</div>
+		
 		<h2>Constants and Variables</h2>
 		<p>When a value is given a symbol to identify it, that symbol is a constant.</p>
 
 		<div class="code">
 				<p>Example</p>
-				<pre>print(π); //print pi</pre>
+				<pre>print(π) //print pi</pre>
 		</div>
 
 		<p>The symbol <code>π</code> is an identifier for the pi constant. It can be substituted in places where pi is needed, and provides arbitrarily high precision.</p>
@@ -60,18 +66,18 @@
 		<p>Constants are created using the definition operator <code>:=</code></p>
 		<div class="code">
 			<p>Example</p>
-			<pre>daysInAWeek := 7;</pre>
+			<pre>daysInAWeek := 7</pre>
 		</div>
 		<p>Variables are symbols which hold a value that can change.</p>
 		<div class="code">
 			<p>Example</p>
-			<pre>color ← "Blue";
-print(color);
-color ← "Red";
-print(color);</pre>
+			<pre>color ← "Blue"
+print(color)
+color ← "Red"
+print(color)</pre>
 		</div>
 
-		<p>The <code>←</code> character is typed <code>"&lt;-"</code>. The above program outputs the following text:</p>
+		<p>The <code>←</code> character is typed <code>"&lt;-"</code> (excluding the quatation marks). The above program outputs the following text:</p>
 
 		<div class="code">
 			<p>Output</p>
@@ -84,8 +90,8 @@ Red</pre>
 
 		<div class="code">
 			<p>Example</p>
-			<pre>&lt;Int&gt; x ← 10;
-x ← 1.5; // error - can't assign a fractional Number to an integer</pre>
+			<pre>&lt;Int&gt; x ← 10
+x ← 1.5 // error - can't assign a fractional Number to an integer</pre>
 		</div>
 
 		<p>"Int" is shorthand for <a href="https://en.wikipedia.org/wiki/Integer">integer</a>. The first line constrains x to be an <code>Int</code>, which means it cannot be assigned a number with a decimal point. The second line demonstrates this restriction. See <a href="documentation/type-system.php">Type System</a>.</p>
@@ -95,7 +101,7 @@ x ← 1.5; // error - can't assign a fractional Number to an integer</pre>
 
 		<div class="code">
 			<p>Example</p>
-			<pre>&lt;Int → Int&gt; doubler;</pre>
+			<pre>&lt;Int → Int&gt; doubler</pre>
 		</div>
 
 		<p>The above code defines a new symbol <code>doubler</code>, which has a type of <code>Int → Int</code>. Simply, doubler is a function that takes an Int as an input, and returns an Int as a result.</p>
@@ -104,15 +110,15 @@ x ← 1.5; // error - can't assign a fractional Number to an integer</pre>
 
 		<div class="code">
 			<p>Example (continued)</p>
-			<pre>&lt;Int → Int&gt; doubler := (&lt;Int&gt; x) { return x * 2; };</pre>
+			<pre>&lt;Int → Int&gt; doubler := (&lt;Int&gt; x) { return x * 2 }</pre>
 		</div>
 
 		<p>The parameters consist of the single constant <code>x</code>, and the implementation multiplies it by two and returns the value.</p>
 
 		<div class="code">
 			<p>Example (continued)</p>
-			<pre>&lt;Int → Int&gt; doubler := (&lt;Int&gt; x) { return x * 2; };
-print(doubler(5)); //test it out</pre>
+			<pre>&lt;Int → Int&gt; doubler := (&lt;Int&gt; x) { return x * 2 }
+print(doubler(5)) //test it out</pre>
 		</div>
 
 		<div class="code">
@@ -123,7 +129,7 @@ print(doubler(5)); //test it out</pre>
 		<p>Functions can have more than one parameter.</p>
 		<div class="code">
 			<p>Example</p>
-			<pre>&lt;Real * Real → Real&gt; geometric_mean := (&lt;Real&gt; x, &lt;Real&gt; y) { return √(x * y); };</pre>
+			<pre>&lt;Real * Real → Real&gt; geometric_mean := (&lt;Real&gt; x, &lt;Real&gt; y) { return √(x * y) }</pre>
 		</div>
 
 		<p>See also:<a href="/documentation/standard-library/Function.php">Plange.Function</a>
@@ -134,11 +140,11 @@ print(doubler(5)); //test it out</pre>
 		<div class="code">
 			<p>Example</p>
 			<pre>&lt;List&lt;_&gt; → Void&gt; printLast := 
-	(_ &amp; tail) { printLast(tail); } |
-	(x) { print(x); };
+	(_ &amp; tail) { printLast(tail) } |
+	(x) { print(x) }
 
-myList := [ 5, 12, 8, 9 ];
-printLast(myList);</pre>
+myList := [ 5, 12, 8, 9 ]
+printLast(myList)</pre>
 		</div>
 
 		<div class="code">
@@ -154,37 +160,37 @@ printLast(myList);</pre>
 		<p>When the type of a constant or variable can be deduced, it is often possible to omit it.</p>
 		<div class="code">
 			<p>Example</p>
-			<pre>&lt;&gt; name ← "Snippet"; // name is deduced to be a String</pre>
+			<pre>&lt;&gt; name ← "Snippet" // name is deduced to be a String</pre>
 		</div>
 
 		<p>Modifying a previous example:</p>
 		<div class="code">
 			<p>Example</p>
-			<pre>&lt;&gt; doubler ← (x) { return x * 2; };
+			<pre>&lt;&gt; doubler ← (x) { return x * 2 }
 print(doubler(5));</pre>
 		</div>
 
 		<p>In definitions of constants, and declarations and assignments of variables, the angle brackets &lt; &gt; may be omitted entirely.</p>
 		<div class="code">
 				<p>Example</p>
-				<pre>doubler := (x) { return x * 2; };
+				<pre>doubler := (x) { return x * 2 }
 print(doubler(5));</pre>
 		</div>
 
  		<p>When defining a constant like above, no special meaning is implied. However, variables that have no specified type constraint are dynamically typed.</p>
 		<div class="code">
 			<p>Example</p>
-			<pre>x ← 10;
-x ← "Alice";
-x ← { print("fubar"); };</pre>
+			<pre>x ← 10
+x ← "Alice"
+x ← { print("fubar") }</pre>
 		</div>
 
 		<p>Type deduction is not limited to only simple cases. The following code defines a function <code>get_return_type</code> which takes another function <code>func</code> as its only parameter, and then returns the Type that func returns!</p>
 		<div class="code">
 			<p>Demonstration of more complex type deduction via pattern matching</p>
-			<pre>get_return_type := ( &lt;_ → x&gt; func ) { return x; };
-addFive := (&lt;Int&gt; x) { return x + 5; };
-print(get_return_type(addFive));  // output: Int</pre>
+			<pre>get_return_type := ( &lt;_ → x&gt; func ) { return x }
+addFive := (&lt;Int&gt; x) { return x + 5 }
+print(get_return_type(addFive))  // output: Int</pre>
 		</div>
 
 		<a href="#Type_Constraints">More on this later</a>. 
@@ -194,16 +200,16 @@ print(get_return_type(addFive));  // output: Int</pre>
 		<div class="code">
 			<p>Example</p>
 			<pre>Color := type {
-	&lt;Double&gt; r;
-	&lt;Double&gt; g;
-	&lt;Double&gt; b;
-};
+	&lt;Double&gt; r
+	&lt;Double&gt; g
+	&lt;Double&gt; b
+}
 
-&lt;Color&gt; red ← (1, 0, 0);
+&lt;Color&gt; red ← (| 1, 0, 0 |)
 
-print(type_of( (1, 0, 0) ));  // output: Tuple&lt;Number, Number, Number&gt;
-print(type_of(red));          // output: Color
-print(type_of(Color));        // output: Type</pre>
+print(type_of( (| 1, 0, 0 |) ))  // output: Tuple&lt;Number, Number, Number&gt;
+print(type_of(red))          // output: Color
+print(type_of(Color))        // output: Type</pre>
 		</div>
 
 		<h2>Type Functions</h2>
@@ -212,16 +218,16 @@ print(type_of(Color));        // output: Type</pre>
 			<p>Example</p>
 			<pre>Node := (&lt;Type&gt; valueType) {
 	return type {
-		&lt;valueType&gt; v;
-		Maybe&lt;Node&lt;valueType&gt;&gt; next;
-	};
-};</pre>
+		&lt;valueType&gt; v
+		Maybe&lt;Node&lt;valueType&gt;&gt; next
+	}
+}</pre>
 		</div>
 
 		<p>Functions that return Type objects (<a href="/documentation/syntax/invocation.php">or another type function</a>) can be called with the angle bracket syntax:</p>
 		<div class="code">
 			<p>Example</p>
-			<pre>&lt;Node&lt;Int&gt;&gt; myNode;</pre>
+			<pre>&lt;Node&lt;Int&gt;&gt; myNode</pre>
 		</div>
 
 		<h2>Polymorphism</h2>
@@ -230,32 +236,32 @@ print(type_of(Color));        // output: Type</pre>
 			<p>Example</p>
 			<pre>// base Type
 Widget := type {
-	&lt;Void → Image&gt; Paint;
-};
+	&lt;Void → Image&gt; Paint
+}
 
 // derived Type
 TextBox := type inheriting Widget {
-	&lt;String&gt; text ← "Hello, world!";
+	&lt;String&gt; text ← "Hello, world!"
 
 	// override the inherited Paint method
 	Paint ← {
 		return Drawing.Render(text)
-	};
-};</pre>
+	}
+}</pre>
 		</div>
 		<h2>Algebraic Types</h2>
 		<p>Types can be combined together to make algebraic Types using the | operator.</p>
 		<div class="code">
 			<p>Example</p>
-			<pre>Some := (t) { return type { &lt;t&gt; value; } };
-None := type {};
-Maybe := (t) { return Some&lt;t&gt; | None; };
+			<pre>Some := (t) { return type { &lt;t&gt; value } }
+None := type {}
+Maybe := (t) { return Some&lt;t&gt; | None }
 
 &lt;Void → Maybe&lt;Int&gt;&gt; get_age := {
-	return coerce(input("What's your age? You don't have to tell me."));
-};
+	return coerce(input("What's your age? You don't have to tell me."))
+}
 
-print(get_age());</pre>
+print(get_age())</pre>
 		</div>
 
 		<h2>Constraint solving</h2>
@@ -263,24 +269,24 @@ print(get_age());</pre>
 
 		<div class="code">
 			<p>Example</p>
-<pre>children := {| abe, dan, mary, sue |};
-ages := {| 3, 5, 6, 9 |};
+<pre>children := {| abe, dan, mary, sue |}
+ages := {| 3, 5, 6, 9 |}
 children ↔ ages; // One child per one age (bijection operator)
 
-abe > dan; //abe is older than dan
-sue < mary; //sue is younger than mary
-sue = dan + 3; //sue's age is dan's age plus 3 years
-mary > abe; //mary is older than abe</pre>
+abe > dan //abe is older than dan
+sue < mary //sue is younger than mary
+sue = dan + 3 //sue's age is dan's age plus 3 years
+mary > abe //mary is older than abe</pre>
 		</div>
 
 		<p>This code is semantically equivalent to the following:</p>
 
 		<div class="code">
 			<p>Example (continued)</p>
-			<pre>abe = 5;
-dan = 3;
-mary = 9;
-sue = 6;</pre>
+			<pre>abe = 5
+dan = 3
+mary = 9
+sue = 6</pre>
 		</div>
 
 		<p>One well studied domain is <a href="https://en.wikipedia.org/wiki/Initial_value_problem">initial value problems</a>. If differential equations aren't your cup of tea, just read the comments.</p>
@@ -290,12 +296,12 @@ sue = 6;</pre>
 			<pre>advanceProjectilePosition :=
 	(<Vector3D> initialPos, <Vector3D> initialVel, mass, drag, <Vector3D> gravity, delta_t)
 {
-	&lt;Real → Vector3&gt; x;                                      // declare the position function, x
-	mass * Δ^2x(t)/Δt^2 = -drag * Δx(t)/Δt + mass * gravity; // model x as a differential equation
-	x(0) = initialPos;                                       // with boundary conditions
-	Δx(0)/Δt = initialVel;
-	return x(delta_t);                                       // solve, substitute, evaluate
-};</pre>
+	&lt;Real → Vector3&gt; x                                      // declare the position function, x
+	mass * Δ^2x(t)/Δt^2 = -drag * Δx(t)/Δt + mass * gravity // model x as a differential equation
+	x(0) = initialPos                                       // with boundary conditions
+	Δx(0)/Δt = initialVel
+	return x(delta_t)                                       // solve, substitute, evaluate
+}</pre>
 		</div>
 
 		<p>A closed form solution for x is determined symbollically, such that the following program is functionally equivalent.</p>
@@ -305,13 +311,13 @@ sue = 6;</pre>
 	(<Vector3D> initialPos, <Vector3D> initialVel, mass, drag, <Vector3D> gravity, delta_t)
 {
 	//closed form solution determined automatically
-	a := 𝑒^(drag*t/mass);
+	a := 𝑒^(drag*t/mass)
 	return (
 		gravity * (mass-(mass*a + drag*delta_t)) + 
 		initialPos*a*drag^2 + 
 		drag*mass*initialVel*(a-1)
-	) / (a*drag^2);
-};</pre>
+	) / (a*drag^2)
+}</pre>
 		</div>
 
 		<h3>Limitations</h3>
@@ -320,10 +326,10 @@ sue = 6;</pre>
 		<div class="code">
 			<p>Counter Example</p>
 			<pre>&lt;Collection * BinaryRelation → Collection&gt; sort := (items, ordering) {
-	result ↔ items; // result and items make a bijection
-	∀ { ordering(result[i - 1], result[i]) | i ∈ 𝕎 ∧ i &lt; |result| }; //the result has to be sorted
-	return result; // solve, substitute, and return
-};</pre>
+	result ↔ items // result and items make a bijection
+	∀ { ordering(result[i - 1], result[i]) | i ∈ 𝕎 ∧ i &lt; |result| } //the result has to be sorted
+	return result // solve, substitute, and return
+}</pre>
 		</div>
 		<p>The above function, sort, is functionaly equivalent to the sorting functions. However, this constraint based problem is not yet solvable using available techniques.</p>
 
@@ -333,14 +339,14 @@ sue = 6;</pre>
 		<div class="code">
 			<p>Example</p>
 			<pre>all := (Collection&lt;X&gt; items) {
-	Bool casts X; //values of type X must be castable to type Bool
+	Bool casts X //values of type X must be castable to type Bool
 	for (item ∈ items) {
 		if (¬(Bool)item) {
-			return false;
+			return false
 		}
 	}
-	return true;
-};</pre>
+	return true
+}</pre>
 		</div>
 
 		<h2>Further reading</h2>
