@@ -1127,7 +1127,7 @@ SLICE:
 
 STATEMENT:
     syntax: >
-        ( ASSIGNMENT | DECLARATION | DEFINITION | DO | EXPRESSION | FOR | FOR_COLLECTION | FREE | IMPORT | LOOP | RETURN | THROW | TRY | "break" | "continue" ) {IC} ";"
+        ( ASSIGNMENT | DECLARATION | DEFINITION | DO | EXPRESSION | FOR | FOR_COLLECTION | FREE | IMPORT | LOOP | RETURN | THROW | TRY | "break" | "continue" ) [ {IC} ";" ]
     doc: >
         top-level statement syntax
 
