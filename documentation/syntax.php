@@ -31,6 +31,7 @@
 			<li><a href="/documentation/syntax/ASSIGNMENT.php">ASSIGNMENT</a></li>
 			<li><a href="/documentation/syntax/BIJECTION.php">BIJECTION</a></li>
 			<li><a href="/documentation/syntax/BINARY_ARITHMETIC_OP.php">BINARY_ARITHMETIC_OP</a></li>
+			<li><a href="/documentation/syntax/BINARY_COLLECTION_OP.php">BINARY_COLLECTION_OP</a></li>
 			<li><a href="/documentation/syntax/BINARY_LOGICAL_OP.php">BINARY_LOGICAL_OP</a></li>
 			<li><a href="/documentation/syntax/BINARY_OP.php">BINARY_OP</a></li>
 			<li><a href="/documentation/syntax/BITWISE_OP.php">BITWISE_OP</a></li>
@@ -43,7 +44,6 @@
 			<li><a href="/documentation/syntax/CAST.php">CAST</a></li>
 			<li><a href="/documentation/syntax/CASTS.php">CASTS</a></li>
 			<li><a href="/documentation/syntax/CEILING.php">CEILING</a></li>
-			<li><a href="/documentation/syntax/COLLECTION_OP.php">COLLECTION_OP</a></li>
 			<li><a href="/documentation/syntax/COMMENT.php">COMMENT</a></li>
 			<li><a href="/documentation/syntax/COMPLEMENT.php">COMPLEMENT</a></li>
 			<li><a href="/documentation/syntax/COMPOSITION.php">COMPOSITION</a></li>

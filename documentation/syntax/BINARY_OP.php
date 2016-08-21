@@ -13,7 +13,7 @@
 
 		<div class="syntax">
 			<p>syntax</p>
-			<div><a href="/documentation/syntax/BINARY_ARITHMETIC_OP.php">BINARY_ARITHMETIC_OP</a> | <a href="/documentation/syntax/BITWISE_OP.php">BITWISE_OP</a> | <a href="/documentation/syntax/COLLECTION_OP.php">COLLECTION_OP</a> | <a href="/documentation/syntax/CONSTRUCTIVE_OP.php">CONSTRUCTIVE_OP</a> | <a href="/documentation/syntax/BINARY_LOGICAL_OP.php">BINARY_LOGICAL_OP</a> | <a href="/documentation/syntax/RELATIONAL_OP.php">RELATIONAL_OP</a> | <a href="/documentation/syntax/MODULATION.php">MODULATION</a> | <a href="/documentation/syntax/INTEGER_DIVISION.php">INTEGER_DIVISION</a></div>
+			<div><a href="/documentation/syntax/BINARY_ARITHMETIC_OP.php">BINARY_ARITHMETIC_OP</a> | <a href="/documentation/syntax/BITWISE_OP.php">BITWISE_OP</a> | <a href="/documentation/syntax/BINARY_COLLECTION_OP.php">BINARY_COLLECTION_OP</a> | <a href="/documentation/syntax/CONSTRUCTIVE_OP.php">CONSTRUCTIVE_OP</a> | <a href="/documentation/syntax/BINARY_LOGICAL_OP.php">BINARY_LOGICAL_OP</a> | <a href="/documentation/syntax/RELATIONAL_OP.php">RELATIONAL_OP</a> | <a href="/documentation/syntax/MODULATION.php">MODULATION</a> | <a href="/documentation/syntax/INTEGER_DIVISION.php">INTEGER_DIVISION</a></div>
 		</div>
 		<h2>Notes</h2>
 		<h4>* (<a href="/documentation/syntax/multiplication.php">multiplication</a>)</h4> <ul>

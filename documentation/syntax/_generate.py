@@ -7,6 +7,7 @@ import pdb
 import re
 import cgi
 import codecs
+execfile("../../source/python/templating.py")
 
 specsFile = open('../../source/syntax.yml')
 specs = yaml.safe_load(specsFile)
@@ -16,10 +17,6 @@ phpFiles = [ f for f in os.listdir(".") if f.endswith(".php")]
 for f in phpFiles:
         os.remove(f)
 	
-pageTemplate = ""
-with open("_syntax_page_template", 'r') as templateFile:
-        pageTemplate = templateFile.read()
-
 htmlTest = re.compile("(?i)<\/?\w+((\s+\w+(\s*=\s*(?:\".*?\"|'.*?'|[^'\">\s]+))?)+\s*|\s*)\/?>")
 def paragraphy(text):
         if htmlTest.match(text):
@@ -91,11 +88,10 @@ for name in names:
                         content = content + " <a href=\"" + i + ".php\">" + i + "</a>"
                 content = content + "\n\t\t</p>\n"
 
-        page = pageTemplate.replace("%CONTENT%", content)
-        page = page.replace("%NAME%", name)
-
-        with codecs.open(phpFilename, "w", "utf-8") as phpFile:
-                phpFile.write(page)
+        gen("_syntax_page_template", phpFilename, {
+                "CONTENT": content,
+                "NAME": name
+        })
 
         indexPageContents = indexPageContents + "\t\t\t<li><a href=\"/documentation/syntax/" + phpFilename + "\">" + name + "</a></li>\n"
 
