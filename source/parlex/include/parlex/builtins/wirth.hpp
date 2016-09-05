@@ -12,7 +12,15 @@ extern grammar wirth;
 
 }
 
+struct wirth_production_def {
+	std::u32string definition;
+	associativity assoc;
+	std::set<std::string> precedences;
+	filter_function filter;
+};
+
 grammar load_grammar(std::string const & nameOfMain, std::u32string const & document, std::map<std::string, parlex::associativity> const & associativities, std::set<std::string> const & greedyNames);
+grammar load_grammar(std::string const & nameOfMain, std::map<std::string, wirth_production_def> const & productions);
 
 }
 

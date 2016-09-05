@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <iostream>
 
+#include "stdafx.hpp"
 #include "parlex/parser.hpp"
 #include "plange_grammar.hpp"
 #include "tclap/CmdLine.h"
@@ -14,26 +15,12 @@
 #include "llvm/IR/IRBuilder.h"
 #pragma warning(pop)
 
-std::string realpath(std::string fileName) {
-	struct free_delete {
-		void operator()(char* x) const {
-			free(static_cast<void *>(x));
-		}
-	};
-
-#ifdef _MSC_VER
-	std::unique_ptr<char, free_delete> buffer(_fullpath(nullptr, fileName.c_str(), _MAX_PATH));
-#else
-	std::unique_ptr<char, free_delete> buffer(realpath(fileName.c_str(), nullptr));
-#endif
-	return buffer.get();
-}
 
 void eval_parenthetical_invocation(parlex::match match, source_code const &sourceCode, llvm::IRBuilder<> &builder) {
 	parlex::permutation parts = *sourceCode.graph.permutations.find(match)->second.begin();
 	parlex::match funcVal = parts[0];
 	std::vector<parlex::match> arguments;
-	for (int i = 1; i < parts.size(); ++i) {
+	for (size_t i = 1; i < parts.size(); ++i) {
 		if (parts[i].r.get_id() == "EXPRESSION") {
 			arguments.push_back(parts[i]);
 		}
@@ -99,6 +86,7 @@ int main(int argc, const char* argv[]) {
 		llvm::Type::getInt32Ty(llvm::getGlobalContext()),
 		llvm::Type::getInt8PtrTy(llvm::getGlobalContext())->getPointerTo()
 	};
+	
 	llvm::FunctionType *mainFuncType = llvm::FunctionType::get(
 		llvm::Type::getInt32Ty(llvm::getGlobalContext()),
 		mainFuncArgTypes,

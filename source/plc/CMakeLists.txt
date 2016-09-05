@@ -1,16 +1,13 @@
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${PROJECT_SOURCE_DIR}/cmake/Modules/")
 include(PrecompiledHeader)
+include(depend)
 
 #dependency on LLVM
 set(LLVM_VERSION 3.8.1)
+depend("LLVM" "http://llvm.org/releases/${LLVM_VERSION}/llvm-${LLVM_VERSION}.src.tar.xz" ".tar.xz" "share/llvm/cmake/LLVMConfig.cmake")
+
 if(${MSVC})
 	include(msvc_fetch_mpir)
-	find_package(LLVM CONFIG QUIET)
-	if(NOT ${LLVM_FOUND})
-		include(msvc_fetch_llvm)
-	endif()
-else()
-	find_package(LLVM CONFIG)
 endif()
 
 #Prep build for symengine
@@ -25,10 +22,10 @@ add_custom_target(symengine_build
 	"${CMAKE_COMMAND}" "--build" "${PLC_SYMENGINE_BINARY_DIR}"
 )
 
-include_directories(${CMAKE_SOURCE_DIR}/parlex/include)
-include_directories(${CMAKE_SOURCE_DIR}/utilities)
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}) #for tclap
-include_directories(${LLVM_INCLUDE_DIRS})
+include_directories("${CMAKE_SOURCE_DIR}/parlex/include")
+include_directories("${CMAKE_SOURCE_DIR}/utilities")
+include_directories("${CMAKE_CURRENT_SOURCE_DIR}") #for tclap
+include_directories("${LLVM_INCLUDE_DIRS}")
 add_definitions(${LLVM_DEFINITIONS})
 
 set(SOURCES

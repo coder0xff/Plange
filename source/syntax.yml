@@ -641,7 +641,7 @@ GETTER:
 
 GREATER_CHAIN:
     syntax: >
-        EXPRESSION {IC} ("="|">"|"=>"|"≥") {IC} EXPRESSION { {IC} ("="|">"|"=>"|"≥") {IC} EXPRESSSION }
+        EXPRESSION {IC} ("="|">"|"=>"|"≥") {IC} EXPRESSION { {IC} ("="|">"|"=>"|"≥") {IC} EXPRESSION }
     filter: longest
 
 HAS:

@@ -11,14 +11,13 @@
 
 // Filters
 #include "parlex/builtins/greedy.hpp"
+#include "parlex/builtins/super_delimiter.hpp"
 
 // State Machines
 #include "parlex/builtins/c_string.hpp"
 
 // Grammars
 #include "parlex/builtins/wirth.hpp"
-#include "parlex/builtins/precedence_grammar.hpp"
-#include "parlex/builtins/associativity_grammar.hpp"
 
 // Misc
 #include "parlex/builtins/progress_bar.hpp"

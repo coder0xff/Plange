@@ -2,6 +2,7 @@
 
 #include <cassert>
 
+#include "stdafx.hpp"
 #include "parlex/parser.hpp"
 #include "plange_grammar.hpp"
 

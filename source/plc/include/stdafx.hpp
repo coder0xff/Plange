@@ -3,7 +3,7 @@
 
 #include <stdexcept>
 
-#include "Warnings.hpp"
-#include "Errors.hpp"
+#include "warnings.hpp"
+#include "errors.hpp"
 
 #endif

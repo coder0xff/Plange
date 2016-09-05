@@ -5,6 +5,7 @@
 #include <vector>
 
 #include "utils.hpp"
+#include <memory>
 
 std::string enquote(std::string s) {
 	std::ostringstream result;
@@ -225,4 +226,19 @@ std::string string_replace(std::string const & original, std::string const & fin
 	newString += original.substr(lastPos);
 
 	return newString;
+}
+
+std::string realpath(std::string fileName) {
+	struct free_delete {
+		void operator()(char* x) const {
+			free(static_cast<void *>(x));
+		}
+	};
+
+#ifdef _MSC_VER
+	std::unique_ptr<char, free_delete> buffer(_fullpath(nullptr, fileName.c_str(), _MAX_PATH));
+#else
+	std::unique_ptr<char, free_delete> buffer(realpath(fileName.c_str(), nullptr));
+#endif
+	return buffer.get();
 }
