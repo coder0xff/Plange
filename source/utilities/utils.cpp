@@ -3,9 +3,10 @@
 #include <locale>
 #include <codecvt>
 #include <vector>
+#include <csignal>
+#include <memory>
 
 #include "utils.hpp"
-#include <memory>
 
 std::string enquote(std::string s) {
 	std::ostringstream result;
@@ -241,4 +242,12 @@ std::string realpath(std::string fileName) {
 	std::unique_ptr<char, free_delete> buffer(realpath(fileName.c_str(), nullptr));
 #endif
 	return buffer.get();
+}
+
+void debugger() {
+#ifdef _MSC_VER
+	__asm int 3
+#else
+	raise(SIGTRAP);
+#endif
 }

@@ -84,7 +84,7 @@ namespace parlex {
 				assoc = i->second;
 			}
 			if (greedyNames.count(name) > 0) {
-				productions.emplace(std::piecewise_construct, forward_as_tuple(name), forward_as_tuple(name, *dfa.startStates.begin(), dfa.acceptStates.size(), builtins::greedy, assoc));
+				productions.emplace(std::piecewise_construct, forward_as_tuple(name), forward_as_tuple(name, *dfa.startStates.begin(), dfa.acceptStates.size(), &builtins::greedy, assoc));
 			}
 			else {
 				productions.emplace(std::piecewise_construct, forward_as_tuple(name), forward_as_tuple(name, *dfa.startStates.begin(), dfa.acceptStates.size(), assoc));
@@ -168,7 +168,7 @@ namespace parlex {
 			std::string const & name = nameAndDfa.first;
 			details::intermediate_nfa const & dfa = nameAndDfa.second;
 			associativity assoc = defs.find(name)->second.assoc;
-			filter_function filter = defs.find(name)->second.filter;
+			filter_function const * filter = defs.find(name)->second.filter;
 			productions.emplace(std::piecewise_construct, forward_as_tuple(name), forward_as_tuple(name, *dfa.startStates.begin(), dfa.acceptStates.size(), filter, assoc));
 		}
 
@@ -199,7 +199,7 @@ namespace parlex {
 				emplaceResult = productions.emplace(
 					std::piecewise_construct,
 					forward_as_tuple(name),
-					forward_as_tuple(name, sm.get_start_state(), sm.get_accept_state_count(), *sm.get_filter(), sm.get_associativity()));
+					forward_as_tuple(name, sm.get_start_state(), sm.get_accept_state_count(), sm.get_filter(), sm.get_associativity()));
 			}
 			else {
 				emplaceResult = productions.emplace(
@@ -274,7 +274,7 @@ namespace parlex {
 		return productions.emplace(std::piecewise_construct, forward_as_tuple(id), forward_as_tuple(id, startState, acceptStateCount, assoc)).first->second;
 	}
 
-	state_machine & grammar::add_production(std::string id, size_t startState, size_t acceptStateCount, filter_function const & filter, associativity assoc) {
+	state_machine & grammar::add_production(std::string id, size_t startState, size_t acceptStateCount, filter_function const * filter, associativity assoc) {
 		return productions.emplace(std::piecewise_construct, forward_as_tuple(id), forward_as_tuple(id, startState, acceptStateCount, filter, assoc)).first->second;
 	}
 
@@ -368,7 +368,9 @@ void grammar::generate_cpp(std::string grammarName, std::string nameOfMain, std:
 			break;
 		}
 		if (sm.get_filter() == &builtins::greedy) {
-			cpp << "\tstatic parlex::state_machine & " << id << " = g.add_production(\"" << id << "\", " << sm.get_start_state() << ", " << sm.get_accept_state_count() << ", parlex::builtins::greedy, " << associativityString << ");\n";
+			cpp << "\tstatic parlex::state_machine & " << id << " = g.add_production(\"" << id << "\", " << sm.get_start_state() << ", " << sm.get_accept_state_count() << ", &parlex::builtins::greedy, " << associativityString << ");\n";
+		} else if (sm.get_filter() == &builtins::super_delimiter) {
+			cpp << "\tstatic parlex::state_machine & " << id << " = g.add_production(\"" << id << "\", " << sm.get_start_state() << ", " << sm.get_accept_state_count() << ", &parlex::builtins::super_delimiter, " << associativityString << ");\n";
 		} else {
 			cpp << "\tstatic parlex::state_machine & " << id << " = g.add_production(\"" << id << "\", " << sm.get_start_state() << ", " << sm.get_accept_state_count() << ", " << associativityString << ");\n";
 		}

@@ -1,6 +1,11 @@
 /****************************************************
- * Given the path of the Plange/source directory as an command-line argument, generates Plange/source/plc/plange_grammar.hpp/.cpp
- */
+ *
+ * Given the path of the Plange/source directory as a
+ * command-line argument, generates
+ * Plange/source/plc/include/plange_grammar.hpp and
+ * Plange/source/plc/src/plange_grammar.cpp
+ * 
+ ****************************************************/
 
 #include <yaml-cpp/yaml.h>
 #include "utils.hpp"
@@ -45,12 +50,13 @@ int main(int argc, const char* argv[]) {
 				throw std::logic_error(("invalid assoc value " + assocName).c_str());
 			}
 		}
+		temp.filter = nullptr;
 		if (data["filter"]) {
 			std::string filterName = data["filter"].as<std::string>();
 			if (filterName == "longest") {
-				temp.filter = parlex::builtins::greedy;
+				temp.filter = &parlex::builtins::greedy;
 			} else if (filterName == "super_delimiter") {
-				temp.filter = parlex::builtins::super_delimiter;
+				temp.filter = &parlex::builtins::super_delimiter;
 			} else {
 				throw std::logic_error(("unrecognized filter " + filterName).c_str());
 			}
@@ -63,7 +69,7 @@ int main(int argc, const char* argv[]) {
 		defs[name] = temp;
 	}
 	parlex::grammar g = parlex::load_grammar("STATEMENT_SCOPE", defs);
-	std::ofstream cppStream(workingDir + "/plc/plange_grammar.cpp");
-	std::ofstream hppStream(workingDir + "/plc/plange_grammar.hpp");
+	std::ofstream cppStream(workingDir + "/plc/src/plange_grammar.cpp");
+	std::ofstream hppStream(workingDir + "/plc/include/plange_grammar.hpp");
 	g.generate_cpp("plange", "STATEMENT_SCOPE", cppStream, hppStream);
 }

@@ -18,4 +18,6 @@ std::string string_replace(std::string const & original, std::string const & fin
 
 std::string realpath(std::string fileName);
 
+void debugger();
+
 #endif

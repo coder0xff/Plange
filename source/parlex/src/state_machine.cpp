@@ -14,11 +14,11 @@ state_machine::state_machine(std::string id, size_t startState, size_t acceptSta
 	assoc(assoc)
 {}
 
-state_machine::state_machine(std::string id, size_t startState, size_t acceptStateCount, filter_function const & filter, associativity assoc) :
+state_machine::state_machine(std::string id, size_t startState, size_t acceptStateCount, filter_function const * filter, associativity assoc) :
 	id(id),
 	start_state(startState),
 	accept_state_count(acceptStateCount),
-	filter(&filter),
+	filter(filter),
 	assoc(assoc)
 {}
 

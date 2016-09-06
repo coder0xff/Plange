@@ -29,13 +29,13 @@ parlex::builtins::string_terminal & closeCurly = parlex::builtins::wirth.add_lit
 parlex::builtins::string_terminal & underscore = parlex::builtins::wirth.add_literal(U"_");
 
 
-parlex::state_machine & whiteSpaceDfa = parlex::builtins::wirth.add_production("whiteSpace", 0, 1, parlex::builtins::greedy);
+parlex::state_machine & whiteSpaceDfa = parlex::builtins::wirth.add_production("whiteSpace", 0, 1, &parlex::builtins::greedy);
 parlex::state_machine & commentDfa = parlex::builtins::wirth.add_production("comment", 0, 1);
 parlex::state_machine & productionDfa = parlex::builtins::wirth.add_production("production", 0, 1);
 parlex::state_machine & expressionDfa = parlex::builtins::wirth.add_production("expression", 0, 1);
 parlex::state_machine & termDfa = parlex::builtins::wirth.add_production("term", 0, 1);
 parlex::state_machine & factorDfa = parlex::builtins::wirth.add_production("factor", 0, 1);
-parlex::state_machine & identifierDfa = parlex::builtins::wirth.add_production("identifier", 0, 1, parlex::builtins::greedy);
+parlex::state_machine & identifierDfa = parlex::builtins::wirth.add_production("identifier", 0, 1, &parlex::builtins::greedy);
 parlex::state_machine & root = parlex::builtins::wirth.add_production("root", 0, 1);
 
 int build() {
