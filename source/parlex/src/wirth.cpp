@@ -1,9 +1,6 @@
-#include "parlex/builtins/wirth.hpp"
-#include "parlex/builtins/string_terminal.hpp"
 #include "parlex/builtins.hpp"
 #include "parlex/parser.hpp"
 #include "parlex/details/behavior.hpp"
-#include "parlex/builtins/c_string.hpp"
 
 #include "utils.hpp"
 
@@ -16,20 +13,6 @@ grammar wirth("root");
 }
 
 namespace {
-
-class not_newline_t : public parlex::terminal {
-public:
-	virtual ~not_newline_t() = default;
-
-	bool test(std::u32string const & document, size_t documentPosition) const override final {
-		return documentPosition < document.length() && document[documentPosition] != static_cast<char32_t>('\n');
-	}
-
-	size_t get_length() const override final { return 1; }
-
-	std::string get_id() const override final { return "not_newline"; }
-} not_newline;
-
 
 parlex::builtins::string_terminal & newline = parlex::builtins::wirth.add_literal(U"\n");
 parlex::builtins::string_terminal & hash = parlex::builtins::wirth.add_literal(U"#");
@@ -46,13 +29,13 @@ parlex::builtins::string_terminal & closeCurly = parlex::builtins::wirth.add_lit
 parlex::builtins::string_terminal & underscore = parlex::builtins::wirth.add_literal(U"_");
 
 
-parlex::state_machine & whiteSpaceDfa = parlex::builtins::wirth.add_production("whiteSpace", 0, 1, parlex::builtins::greedy);
+parlex::state_machine & whiteSpaceDfa = parlex::builtins::wirth.add_production("whiteSpace", 0, 1, &parlex::builtins::greedy);
 parlex::state_machine & commentDfa = parlex::builtins::wirth.add_production("comment", 0, 1);
 parlex::state_machine & productionDfa = parlex::builtins::wirth.add_production("production", 0, 1);
 parlex::state_machine & expressionDfa = parlex::builtins::wirth.add_production("expression", 0, 1);
 parlex::state_machine & termDfa = parlex::builtins::wirth.add_production("term", 0, 1);
 parlex::state_machine & factorDfa = parlex::builtins::wirth.add_production("factor", 0, 1);
-parlex::state_machine & identifierDfa = parlex::builtins::wirth.add_production("identifier", 0, 1, parlex::builtins::greedy);
+parlex::state_machine & identifierDfa = parlex::builtins::wirth.add_production("identifier", 0, 1, &parlex::builtins::greedy);
 parlex::state_machine & root = parlex::builtins::wirth.add_production("root", 0, 1);
 
 int build() {
@@ -64,7 +47,7 @@ int build() {
 	whiteSpaceDfa.add_transition(1, parlex::builtins::white_space, 1);
 
 	commentDfa.add_transition(0, hash, 1);
-	commentDfa.add_transition(1, not_newline, 1);
+	commentDfa.add_transition(1, parlex::builtins::not_newline, 1);
 	commentDfa.add_transition(1, newline, 2);
 
 	productionDfa.add_transition(0, identifierDfa, 1);
@@ -230,6 +213,7 @@ std::shared_ptr<parlex::details::behavior_node> process_production(std::u32strin
 namespace parlex {
 
 grammar load_grammar(std::string const & nameOfMain, std::u32string const & document, std::map<std::string, associativity> const & associativities, std::set<std::string> const & greedyNames) {
+	(void)dont_care;
 	parser p;
 	abstract_syntax_graph asg = p.parse(builtins::wirth, document);
 	std::string check = asg.to_dot();
@@ -249,6 +233,24 @@ grammar load_grammar(std::string const & nameOfMain, std::u32string const & docu
 		}
 	}
 	return grammar(nameOfMain, trees, associativities, greedyNames);
+}
+
+grammar load_grammar(std::string const & nameOfMain, std::map<std::string, wirth_production_def> const & productions) {
+	(void)dont_care;
+	parser p;
+	std::map<std::string, production_def> temp;
+	std::map<std::u32string, std::shared_ptr<parlex::details::literal>> literalNodes;
+	std::map<std::string, std::shared_ptr<parlex::details::production>> productionNodes;
+	for (auto const & entry : productions) {
+		production_def def;
+		abstract_syntax_graph asg = p.parse(builtins::wirth, expressionDfa, entry.second.definition);
+		def.tree = process_expression(entry.second.definition, asg.root, asg, literalNodes, productionNodes);
+		def.assoc = entry.second.assoc;
+		def.precedences = entry.second.precedences;
+		def.filter = entry.second.filter;
+		temp[entry.first] = def;
+	}
+	return grammar(nameOfMain, temp);
 }
 
 }

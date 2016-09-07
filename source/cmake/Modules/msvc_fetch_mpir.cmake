@@ -46,7 +46,6 @@ function(msvc_fetch_mpir)
 				message(STATUS "Building mpir")
 				execute_process(COMMAND "${MPIR_SLN_DIR}\\msbuild.bat" gc LIB win32 Debug WORKING_DIRECTORY "${MPIR_SLN_DIR}")
 			endif()
-
 			
 			#copy files to MPIR_INSTALL_DIR
 			file(COPY "${MPIR_SLN_INC}" DESTINATION "${MPIR_INSTALL_DIR}")

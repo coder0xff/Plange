@@ -130,7 +130,7 @@ bool parser::handle_deadlocks(details::job const & j) const {
 		}
 		for (auto const & subscription : p.consumers) {
 			details::context_ref const & c = subscription.c;
-			match_class temp(c.owner().machine, c.owner().documentPosition);
+			match_class temp(c.owner().machine, c.owner().document_position);
 			all_subscriptions[matchClass].insert(temp);
 			direct_subscriptions[matchClass].insert(temp);
 			s.push(std::pair<match_class, match_class>(matchClass, temp));
@@ -495,6 +495,52 @@ abstract_syntax_graph construct_result(details::job const & j, match const & m) 
 	if (result.is_rooted()) {
 		prune_detached(result);
 		return apply_precedence_and_associativity(j.g, result);
+	}
+	return result;
+}
+
+void construct_partial_result(details::job const & j, details::partial_abstract_syntax_graph & pasg, match m) {
+	std::unique_lock<std::mutex> lock(j.producers_mutex);
+	details::producer const & p = *j.producers.find(m)->second;
+	for (auto const & pair : p.match_to_permutations) {
+		match const & n = pair.first;
+		if (!(n < m) && !(m < n)) {
+			if (pasg.permutations.count(m) == 0) {
+				pasg.permutations[m] = pair.second;
+				for (auto const & permutation : pair.second) {
+					for (auto const & newMatch : permutation)
+						construct_partial_result(j, pasg, newMatch);
+				}
+			}
+		}
+	}
+}
+
+details::partial_abstract_syntax_graph parser::construct_partial_result(details::job const & j, details::subjob const & subjob) {
+	std::list<permutation> const & permutations = subjob.queuedPermutations;
+	match_class mc(subjob.r, subjob.document_position);
+	std::set<match> matches;
+
+	for (auto const & permutation : permutations) {
+		auto const i = permutation.rbegin();
+		int length = (i->document_position + i->consumed_character_count) - subjob.document_position;
+		matches.insert(match(mc, length));
+	}
+
+	details::partial_abstract_syntax_graph result(matches);
+
+	for (auto const & permutation : permutations) {
+		auto const i = permutation.rbegin();
+		int length = (i->document_position + i->consumed_character_count) - subjob.document_position;
+		match m(mc, length);
+		if (result.permutations.count(m) == 0) {
+			for (auto const & newMatch : permutation) {
+				parlex::construct_partial_result(j, result, newMatch);
+			}
+		}
+	}
+	for (match const & m : matches) {
+		parlex::construct_partial_result(j, result, m);
 	}
 	return result;
 }

@@ -30,9 +30,9 @@ subjob::~subjob() {
 void subjob::start() {
 	{
 		std::unique_lock<std::mutex> lock(mutex);
-		contexts.emplace_back(*this, context_ref(), documentPosition, nullptr);
+		contexts.emplace_back(*this, context_ref(), document_position, nullptr);
 	}
-	machine.start(*this, documentPosition);
+	machine.start(*this, document_position);
 	end_dependency(); //reference code B
 }
 
@@ -58,7 +58,7 @@ void subjob::accept(context_ref const & c) {
 	permutation p = c.result();
 	//DBG("Accepting r:", r.get_id(), " p:", documentPosition, " l:", c.current_document_position() - documentPosition);
 	if (!machine.get_filter()) {
-		int len = c.current_document_position() - c.owner().documentPosition;
+		int len = c.current_document_position() - c.owner().document_position;
 		enque_permutation(len, p);
 	} else {
 		std::unique_lock<std::mutex> lock(mutex);
@@ -97,11 +97,13 @@ void subjob::flush() {
 	///DBG("flush m:", machine, " b:", documentPosition);
 	if (machine.get_filter() != nullptr) {
 		std::unique_lock<std::mutex> lock(mutex);
-		std::set<int> selections = (*machine.get_filter())(queuedPermutations);
+		match_class mc(r, document_position);
+		partial_abstract_syntax_graph pasg = parser::construct_partial_result(owner, *this);
+		std::set<int> selections = (*machine.get_filter())(owner.document, pasg, queuedPermutations);
 		int counter = 0;
 		for (auto const & permutation : queuedPermutations) {
 			if (selections.count(counter) > 0) {
-				int len = permutation.size() > 0 ? permutation.back().document_position + permutation.back().consumed_character_count - documentPosition : 0;
+				int len = permutation.size() > 0 ? permutation.back().document_position + permutation.back().consumed_character_count - document_position : 0;
 				enque_permutation(len, permutation);
 			}
 			counter++;

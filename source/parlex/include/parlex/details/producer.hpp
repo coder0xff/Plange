@@ -32,7 +32,7 @@ public:
 
 	job & owner;
 	recognizer const & r;
-	int const documentPosition;
+	int const document_position;
 	bool completed;
 	std::list<subscription> consumers;
 	std::vector<match> matches;

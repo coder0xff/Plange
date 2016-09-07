@@ -21,7 +21,7 @@ class parser;
 class state_machine : public recognizer {
 public:
 	state_machine(std::string id, size_t startState, size_t acceptStateCount, associativity assoc=associativity::none);
-	state_machine(std::string id, size_t startState, size_t acceptStateCount, filter_function const & filter, associativity assoc = associativity::none);
+	state_machine(std::string id, size_t startState, size_t acceptStateCount, filter_function const * filter, associativity assoc = associativity::none);
 	virtual ~state_machine() = default;
 	void add_transition(size_t fromState, recognizer const & recognizer, size_t toState);
 	virtual std::string get_id() const final;

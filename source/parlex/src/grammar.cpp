@@ -84,11 +84,92 @@ namespace parlex {
 				assoc = i->second;
 			}
 			if (greedyNames.count(name) > 0) {
-				productions.emplace(std::piecewise_construct, forward_as_tuple(name), forward_as_tuple(name, *dfa.startStates.begin(), dfa.acceptStates.size(), builtins::greedy, assoc));
+				productions.emplace(std::piecewise_construct, forward_as_tuple(name), forward_as_tuple(name, *dfa.startStates.begin(), dfa.acceptStates.size(), &builtins::greedy, assoc));
 			}
 			else {
 				productions.emplace(std::piecewise_construct, forward_as_tuple(name), forward_as_tuple(name, *dfa.startStates.begin(), dfa.acceptStates.size(), assoc));
 			}
+		}
+
+		//add transitions, linking productions
+		for (auto const & nameAndDfa : reorderedDfas) {
+			std::string const & name = nameAndDfa.first;
+			details::intermediate_nfa const & dfa = nameAndDfa.second;
+			state_machine & sm = productions.find(name)->second;
+			auto transitions = dfa.get_transitions();
+			for (auto const & t : transitions) {
+				recognizer const & r = t.symbol->get_recognizer(productions, literals);
+				sm.add_transition(t.from, r, t.to);
+			}
+		}
+	}
+
+	grammar::grammar(std::string const & nameOfMain, std::map<std::string, production_def> const & defs) : main_production_name(nameOfMain) {
+		std::map<std::string, details::intermediate_nfa> dfas;
+		for (auto const & nameAndDef : defs) {
+			auto temp = nameAndDef.second.tree->to_intermediate_nfa().minimal_dfa().relabel();
+			dfas[nameAndDef.first] = temp;
+		}
+
+		assert(dfas.count(main_production_name) == 1);
+
+		std::map<std::string, details::intermediate_nfa> reorderedDfas;
+
+		for (auto const & nameAndDfa : dfas) {
+			std::string const & name = nameAndDfa.first;
+			details::intermediate_nfa const & dfa = nameAndDfa.second;
+			//construct a map from dfa states to reordered states
+			std::map<int, int> stateMap;
+			unsigned int startState = *dfa.startStates.begin();
+			bool startIsAccept = dfa.acceptStates.count(startState) > 0;
+			if (!startIsAccept) {
+				stateMap[*dfa.startStates.begin()] = 0;
+			}
+			for (unsigned int i = 0; i < dfa.states.size(); ++i) {
+				//all the un-added non-accept states
+				if (i != startState && dfa.acceptStates.count(i) == 0) {
+					stateMap[i] = stateMap.size();
+				}
+			}
+			if (startIsAccept) {
+				stateMap[*dfa.startStates.begin()] = stateMap.size();
+			}
+			for (unsigned int i = 0; i < dfa.states.size(); ++i) {
+				//all the un-added accept states
+				if (i != startState && dfa.acceptStates.count(i) > 0) {
+					stateMap[i] = stateMap.size();
+				}
+			}
+
+			//it's a bimap, construct reverse lookup
+			std::map<int, int> stateMapDual;
+			for (auto const & i : stateMap) {
+				stateMapDual[i.second] = i.first;
+			}
+
+			//construct the reordered dfa
+			details::intermediate_nfa reordered;
+			unsigned int firstAcceptState = dfa.states.size() - dfa.acceptStates.size();
+			for (unsigned int i = 0; i < dfa.states.size(); ++i) {
+				unsigned int const dual = stateMapDual[i];
+				details::intermediate_nfa::state const & dfa_state = dfa.states[dual];
+				reordered.add_state(i, i >= firstAcceptState, dual == startState);
+				details::intermediate_nfa::state & reordered_state = reordered.states[i];
+				for (auto out_transition : dfa_state.out_transitions) {
+					reordered_state.out_transitions[out_transition.first] = { stateMap[*out_transition.second.begin()] };
+				}
+			}
+
+			reorderedDfas[name] = reordered;
+		}
+
+		//construct all the productions, without transitions
+		for (auto const & nameAndDfa : reorderedDfas) {
+			std::string const & name = nameAndDfa.first;
+			details::intermediate_nfa const & dfa = nameAndDfa.second;
+			associativity assoc = defs.find(name)->second.assoc;
+			filter_function const * filter = defs.find(name)->second.filter;
+			productions.emplace(std::piecewise_construct, forward_as_tuple(name), forward_as_tuple(name, *dfa.startStates.begin(), dfa.acceptStates.size(), filter, assoc));
 		}
 
 		//add transitions, linking productions
@@ -118,7 +199,7 @@ namespace parlex {
 				emplaceResult = productions.emplace(
 					std::piecewise_construct,
 					forward_as_tuple(name),
-					forward_as_tuple(name, sm.get_start_state(), sm.get_accept_state_count(), *sm.get_filter(), sm.get_associativity()));
+					forward_as_tuple(name, sm.get_start_state(), sm.get_accept_state_count(), sm.get_filter(), sm.get_associativity()));
 			}
 			else {
 				emplaceResult = productions.emplace(
@@ -193,7 +274,7 @@ namespace parlex {
 		return productions.emplace(std::piecewise_construct, forward_as_tuple(id), forward_as_tuple(id, startState, acceptStateCount, assoc)).first->second;
 	}
 
-	state_machine & grammar::add_production(std::string id, size_t startState, size_t acceptStateCount, filter_function const & filter, associativity assoc) {
+	state_machine & grammar::add_production(std::string id, size_t startState, size_t acceptStateCount, filter_function const * filter, associativity assoc) {
 		return productions.emplace(std::piecewise_construct, forward_as_tuple(id), forward_as_tuple(id, startState, acceptStateCount, filter, assoc)).first->second;
 	}
 
@@ -287,7 +368,9 @@ void grammar::generate_cpp(std::string grammarName, std::string nameOfMain, std:
 			break;
 		}
 		if (sm.get_filter() == &builtins::greedy) {
-			cpp << "\tstatic parlex::state_machine & " << id << " = g.add_production(\"" << id << "\", " << sm.get_start_state() << ", " << sm.get_accept_state_count() << ", parlex::builtins::greedy, " << associativityString << ");\n";
+			cpp << "\tstatic parlex::state_machine & " << id << " = g.add_production(\"" << id << "\", " << sm.get_start_state() << ", " << sm.get_accept_state_count() << ", &parlex::builtins::greedy, " << associativityString << ");\n";
+		} else if (sm.get_filter() == &builtins::super_delimiter) {
+			cpp << "\tstatic parlex::state_machine & " << id << " = g.add_production(\"" << id << "\", " << sm.get_start_state() << ", " << sm.get_accept_state_count() << ", &parlex::builtins::super_delimiter, " << associativityString << ");\n";
 		} else {
 			cpp << "\tstatic parlex::state_machine & " << id << " = g.add_production(\"" << id << "\", " << sm.get_start_state() << ", " << sm.get_accept_state_count() << ", " << associativityString << ");\n";
 		}

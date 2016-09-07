@@ -12,7 +12,7 @@ namespace details {
 producer::producer(job & owner, recognizer const & r, size_t const documentPosition) :
 	owner(owner),
 	r(r),
-	documentPosition(documentPosition),
+	document_position(documentPosition),
 	completed(false) {}
 
 
@@ -53,7 +53,7 @@ void producer::enque_permutation(size_t consumedCharacterCount, permutation cons
 	{
 		std::unique_lock<std::mutex> lock(mutex);
 		assert(!completed);
-		match m(match_class(r, documentPosition), consumedCharacterCount);
+		match m(match_class(r, document_position), consumedCharacterCount);
 		if (!match_to_permutations.count(m)) {
 			match_to_permutations[m] = std::set<permutation>();
 			matches.push_back(m);

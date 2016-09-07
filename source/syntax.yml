@@ -136,13 +136,19 @@ BINARY_ARITHMETIC_OP:
     doc: >
         the collection of binary operators that work on numbers (among other things)
 
+BINARY_COLLECTION_OP:
+    syntax: >
+        INTERSECTION | SYMMETRIC_DIFFERENCE | UNION
+    doc: >
+        the set construction and collections operators
+
 BINARY_LOGICAL_OP:
     syntax: >
         AND | OR | XOR | NAND | NOR | IMPLICATION | IFF | MAPS_TO | BIJECTION
 
 BINARY_OP:
     syntax: >
-        BINARY_ARITHMETIC_OP | BITWISE_OP | COLLECTION_OP | CONSTRUCTIVE_OP | BINARY_LOGICAL_OP | RELATIONAL_OP | MODULATION | INTEGER_DIVISION
+        BINARY_ARITHMETIC_OP | BITWISE_OP | BINARY_COLLECTION_OP | CONSTRUCTIVE_OP | BINARY_LOGICAL_OP | RELATIONAL_OP | MODULATION | INTEGER_DIVISION
     doc: >
         a sequence of one or more punctuation (and special) characters representing an infix operator
     notes: >
@@ -288,12 +294,6 @@ CASTS:
 CEILING:
     syntax: >
         ("⌈" {IC} EXPRESSION {IC} "⌉") | ( "|'" {IC} EXPRESSION {IC} "'|" )
-
-COLLECTION_OP:
-    syntax: >
-        COMPLEMENT | INTERSECTION | SYMMETRIC_DIFFERENCE | UNION
-    doc: >
-        the set construction and collections operators
 
 COMPOUND:
     syntax: >
@@ -511,7 +511,7 @@ EXPONENTIATION:
 
 EXPRESSION:
     syntax: >
-        ALLOCATION | ARRAY | ASM_FUNCTION | BINARY_OP | BOOL | c_string | CAST | CEILING | CONDITIONAL | DELTA | DIMENSIONAL_NUMBER | EMBEDDED_STRING | FACTORIAL | FLOOR | FUNCTION | IDENTIFIER | IF | INVOCATION | LIST | MAGNITUDE | MAP | MEMBER_ACCESS | NEAREST_INTEGER | NON_NEG_NUMBER | PARENTHETICAL | PROPERTY | RADICAL | RANGE | SET | SET_COMPREHENSION | TUPLE | TYPE | UNARY_OP | VECTOR_NORM | "null" | "this" | "this_type"
+        ALLOCATION | ARRAY | ASM_FUNCTION | BINARY_OP | BOOL | c_string | CAST | CEILING | COMPLEMENT | CONDITIONAL | DELTA | DIMENSIONAL_NUMBER | EMBEDDED_STRING | EQUALITY_CHAIN | FACTORIAL | FLOOR | FUNCTION | GREATER_CHAIN | IDENTIFIER | IF | INVOCATION | LESSER_CHAIN | LIST | MAGNITUDE | MAP | MEMBER_ACCESS | NEAREST_INTEGER | NON_NEG_NUMBER | PARENTHETICAL | PROPERTY | RADICAL | RANGE | SET | SET_COMPREHENSION | SUBSET_CHAIN | SUPERSET_CHAIN | TUPLE | TYPE | UNARY_OP | VECTOR_NORM | "null" | "this" | "this_type"
     doc: >
         a linearization of an evaluation tree containing constants, variables, operators, invocations, and sub expressions
     notes: >
@@ -641,7 +641,7 @@ GETTER:
 
 GREATER_CHAIN:
     syntax: >
-        EXPRESSION {IC} ("="|">"|"=>"|"≥") {IC} EXPRESSION { {IC} ("="|">"|"=>"|"≥") {IC} EXPRESSSION }
+        EXPRESSION {IC} ("="|">"|"=>"|"≥") {IC} EXPRESSION { {IC} ("="|">"|"=>"|"≥") {IC} EXPRESSION }
     filter: longest
 
 HAS:
@@ -1073,13 +1073,13 @@ RANGE:
 
 RELATIONAL_COLLECTION_OP:
     syntax: >
-        SUBSET_CHAIN | SUPERSET_CHAIN | IN | NOT_IN | HAS | NOT_HAS
+        IN | NOT_IN | HAS | NOT_HAS
     doc: >
         relational operators on collections
 
 RELATIONAL_OP:
     syntax: >
-        EQUALITY | INEQUALITY | GREATER_CHAIN | LESSER_CHAIN | RELATIONAL_COLLECTION_OP | CASTS | IS
+        INEQUALITY | RELATIONAL_COLLECTION_OP | CASTS | IS
     precedes: [BINARY_LOGICAL_OP]
 
 RETURN:
