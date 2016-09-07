@@ -2,16 +2,16 @@
 <meta name="viewport" content="width=device-width, initial-scale=0.6">
 <html>
 	<head>
-		<title>Unit - Plange</title>
+		<title>UnitOfMeasure - Plange</title>
 		<link rel=StyleSheet href='../../css/general.css' type='text/css' />
 	</head>
 	<body>
 		<?php require('../../header.php') ?>
 
 
-        <p>
-        A zero-sized fundamental type with only one possible value, Unit().
-        </p>
+
+        UnitOfMeasure := type implementing Const&lt;Map&lt;UnitsOfMeasure.FundamentalUnit → Int /*dimensionality*/ &gt;&gt;;
+        
         
 
 		<?php require('../../footer.php') ?>

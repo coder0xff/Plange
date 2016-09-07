@@ -9,10 +9,11 @@
 		<?php require('../../header.php') ?>
 
 
-        <p>primitive type with a size of zero with a single possible value Void()</p>
+        <p>A zero-sized fundamental type with no possible values.</p>
+
 
         <h2>Notes</h2>
-        <p>The semantics of Void are the same as other primitive types with the exception that Void() may not be coerced to another type (coercing to Void is permitted) and any value may be coerced to Void, which results in the Void() value.</p>
+        <p>Void may not be constructed. It is included so that 3rd-generation language idioms may be represented. <a href="/documentation/standard-library/Unit.php">Unit</a> may be more useful in generic programming contexts.</p>
     <br>
     </br>
     <div>

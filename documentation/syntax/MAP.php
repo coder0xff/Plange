@@ -9,7 +9,7 @@
 		<?php require('../../header.php') ?>
 
 
-		<p>create an associative Collection implementing Map<a → b></p>
+		<p>create an associative Collection implementing Map&lt;a → b&gt;</p>
 
 		<div class="syntax">
 			<p>syntax</p>

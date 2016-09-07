@@ -2,7 +2,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=0.6">
 <html>
 	<head>
-		<title>Units (namespace) - Plange</title>
+		<title>UnitsOfMeasure (namespace) - Plange</title>
 		<link rel=StyleSheet href='../../css/general.css' type='text/css' />
 	</head>
 	<body>

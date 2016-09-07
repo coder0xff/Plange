@@ -77,6 +77,7 @@
 				<tr><td>String</td></tr>
 				<tr><td><a href="/documentation/standard-library/Type.php">Type</a></td></tr>
 				<tr><td><a href="/documentation/standard-library/Unit.php">Unit</a></td></tr>
+				<tr><td><a href="/documentation/standard-library/UnitOfMeasure.php">UnitOfMeasure</a></td></tr>
 				<tr><td><a href="/documentation/standard-library/Value.php">Value</a></td></tr>
 				<tr><td><a href="/documentation/standard-library/Void.php">Void</a></td></tr>
 			</table>
@@ -108,7 +109,7 @@
 			</table>
 		</code>
 		<h2>Type Functions</h2>
-		<p>Notes: For parallel processing, "Ts" collections are thread safe, and "C" collections are concurrent. Concurrent collections provide an interface that differs from their non-concurrent counterparts. These interface variants facilitate provable correctness for some concurrent algorithms and should be preferred over other collections for such applications. Thread safe and concurrent collections are implemented with lock free algorithms whenever possible. Thread safe collections do not provide interfaces that encourage logical correctness, but they do guarantee that each operation executed by a thread appears atomic to all other threads.</p>
+		<p>Notes: For parallel processing, "Ts" collections are thread safe, and "C" collections are concurrent. Concurrent collections provide an interface that differs from their non-concurrent counterparts - primarily using read-modify-write idioms. These interface variants facilitate provable correctness for some concurrent algorithms and should be preferred over other collections for such applications. Thread safe and concurrent collections are implemented with lock free algorithms whenever possible. Thread safe collections do not provide interfaces that encourage logical correctness, but they do guarantee that each operation executed by a thread appears atomic to all other threads.</p>
 		<code>
 			<table style="width:2000px;">
 				<tr><td><a href="/documentation/standard-library/Accessor.php">Accessor</a></td></tr>
@@ -127,17 +128,18 @@
 				<tr><td>Iterator</td></tr>
 				<tr><td>KAryNode, TsKAryNode (a node of a K-ary tree)</td></tr>
 				<tr><td>List, TsList</td></tr>
-				<tr><td>Map, HashMap, TsMap, TsHashMap, CMap</td></tr>
+				<tr><td>Map, HashMap, TsMap, TsHashMap, CMap, CHashMap</td><td>Non "hash" variations are ordered</td></tr>
 				<tr><td>Matrix</td></tr>
 				<tr><td>MaxHeap, MinHeap, TsMaxHeap, TsMinHeap, CoalescingTsMaxHeap</td></tr>
 				<tr><td>MultiMap, TsMultiMap</span></td></tr>
 				<tr><td>Octonion</td></tr>
 				<tr><td><a href="/documentation/standard-library/Pointer.php">Pointer</a></td></tr>
 				<tr><td>Predicate</td><td>(&lt;Type&gt; Operand) { return Operand → Bool; };</td></tr>
+				<tr><td>PriorityQueue, TsPriorityQueue</td></tr>
 				<tr><td>Producer</td></tr>
 				<tr><td>Quaternion</td></tr>
-				<tr><td>Queue, CQueue</td></tr>
-				<tr><td>Set, HashSet, TsSet, TsHashSet, CSet</td></tr>
+				<tr><td>Queue, TsQueue</td></tr>
+				<tr><td>Set, HashSet, TsSet, TsHashSet, CSet, CHashSet</td><td>Non "hash" variations are ordered</td></tr>
 				<tr><td>Stack, CStack</td></tr>
 				<tr><td>ThreadLocal</td></tr>
 				<tr><td>Vector, TsVector</td></tr>
@@ -156,7 +158,7 @@
 				<tr><td>Parser</td></tr>
 				<tr><td><a href="/documentation/standard-library/Runtime.php">Runtime</a></td></tr>
 				<tr><td>Task</td></tr>
-				<tr><td>Units</td><td>(dimensional analysis)</td></tr>
+				<tr><td>UnitsOfMeasure</td><td>(dimensional analysis)</td></tr>
 			</table>
 		</code>
 
