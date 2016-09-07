@@ -28,24 +28,24 @@ input := [ // start an array
 ];         // finish the array
 
 // The structure of the result object
-Result_t := Map<Int, Set<Int>>;
+Result_t := Map&lt;Int, Set&lt;Int&gt;&gt;;
 
-<Result_t> expected := { 0: {|5|}, 1: {|0,1|}, 2: {|0|} };
+&lt;Result_t&gt; expected := { 0: {|5|}, 1: {|0,1|}, 2: {|0|} };
 
 // A signature for a tail recursive function that builds the result:
-Recursive_function_t := Result_t * List<Int * Int> → Result_t;
+Recursive_function_t := Result_t * List&lt;Int * Int&gt; → Result_t;
 
 // The algorithm
-<Recursive_function_t> listToTree :=
+&lt;Recursive_function_t&gt; listToTree :=
     (state, (|major, minor|)&tail) {
-        <Set<Int>> s := state.get_or_add(major, Set<Int>());
+        &lt;Set&lt;Int&gt;&gt; s := state.get_or_add(major, Set&lt;Int&gt;());
         s.add(minor);
         return listToTree(state, tail);
     } |
 
     (state, []) { return state; } |
 
-    (<List<Int * Int>> version_pairs) {
+    (&lt;List&lt;Int * Int&gt;&gt; version_pairs) {
         return listToTree({}, version_pairs);
     };
 
