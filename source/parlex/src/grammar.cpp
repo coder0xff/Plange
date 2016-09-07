@@ -172,7 +172,7 @@ namespace parlex {
 			productions.emplace(std::piecewise_construct, forward_as_tuple(name), forward_as_tuple(name, *dfa.startStates.begin(), dfa.acceptStates.size(), filter, assoc));
 		}
 
-		//add transitions, linking productions
+		//add transitions, "link" productions, add precedences
 		for (auto const & nameAndDfa : reorderedDfas) {
 			std::string const & name = nameAndDfa.first;
 			details::intermediate_nfa const & dfa = nameAndDfa.second;
@@ -181,6 +181,10 @@ namespace parlex {
 			for (auto const & t : transitions) {
 				recognizer const & r = t.symbol->get_recognizer(productions, literals);
 				sm.add_transition(t.from, r, t.to);
+			}
+			production_def const & def = defs.find(name)->second;
+			for (std::string i : def.precedences) {
+				add_precedence(sm, productions.find(i)->second);
 			}
 		}
 	}

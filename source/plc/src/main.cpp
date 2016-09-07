@@ -103,6 +103,9 @@ int main(int argc, const char* argv[]) {
 			if (statementMatch.r.get_id() == "STATEMENT") {
 				parlex::permutation statementParts = *source.graph.permutations.find(statementMatch)->second.begin();
 				std::string statementType = statementParts[0].r.get_id();
+				if (statementType == "DEFINITION") {
+					
+				}
 				if (statementType == "ASSIGNMENT") {
 
 				} else if (statementType == "EXPRESSION") {

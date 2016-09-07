@@ -515,7 +515,7 @@ EXPRESSION:
     doc: >
         a linearization of an evaluation tree containing constants, variables, operators, invocations, and sub expressions
     notes: >
-        null is a literal and so is included in the syntax similarly to true, false and numberic literals (and unlike constants)
+        null is a literal and so is included in the syntax similarly to true, false and numeric literals (and unlike constants)
 
 FACTORIAL:
     syntax: >
@@ -1127,7 +1127,7 @@ SLICE:
 
 STATEMENT:
     syntax: >
-        ( ASSIGNMENT | DECLARATION | DEFINITION | DO | EXPRESSION | FOR | FOR_COLLECTION | FREE | IMPORT | LOOP | RETURN | THROW | TRY | "break" | "continue" ) [ {IC} ";" ]
+        ( ASSIGNMENT | DECLARATION | DEFINITION | DO | EXPRESSION | FOR | FOR_COLLECTION | FREE | IMPORT | LOOP | RETURN | THROW | TRY | "break" | "continue" ) {IC} ";"
     doc: >
         top-level statement syntax
 

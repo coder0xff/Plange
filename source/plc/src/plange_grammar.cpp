@@ -334,7 +334,7 @@ parlex::grammar const & get_plange() {
 	static parlex::state_machine & SHIFTL = g.add_production("SHIFTL", 0, 1, parlex::associativity::left);
 	static parlex::state_machine & SHIFTR = g.add_production("SHIFTR", 0, 1, parlex::associativity::left);
 	static parlex::state_machine & SLICE = g.add_production("SLICE", 0, 1, parlex::associativity::none);
-	static parlex::state_machine & STATEMENT = g.add_production("STATEMENT", 0, 2, parlex::associativity::none);
+	static parlex::state_machine & STATEMENT = g.add_production("STATEMENT", 0, 1, parlex::associativity::none);
 	static parlex::state_machine & STATEMENT_SCOPE = g.add_production("STATEMENT_SCOPE", 0, 1, parlex::associativity::none);
 	static parlex::state_machine & SUBSET_CHAIN = g.add_production("SUBSET_CHAIN", 0, 1, &parlex::builtins::greedy, parlex::associativity::none);
 	static parlex::state_machine & SUBTRACTION = g.add_production("SUBTRACTION", 0, 1, parlex::associativity::left);
@@ -425,24 +425,24 @@ parlex::grammar const & get_plange() {
 		ASM_EXPRESSION.add_transition(0, NON_FRACTIONAL, 1);
 
 		ASM_FUNCTION.add_transition(0, FUNCTION_MODIFIER, 3);
-		ASM_FUNCTION.add_transition(0, literal12, 2);
-		ASM_FUNCTION.add_transition(0, literal82, 1);
+		ASM_FUNCTION.add_transition(0, literal12, 1);
+		ASM_FUNCTION.add_transition(0, literal82, 2);
 		ASM_FUNCTION.add_transition(1, IC, 1);
-		ASM_FUNCTION.add_transition(1, literal134, 4);
+		ASM_FUNCTION.add_transition(1, PARAMETER, 4);
+		ASM_FUNCTION.add_transition(1, literal14, 5);
 		ASM_FUNCTION.add_transition(2, IC, 2);
-		ASM_FUNCTION.add_transition(2, PARAMETER, 5);
-		ASM_FUNCTION.add_transition(2, literal14, 6);
-		ASM_FUNCTION.add_transition(3, literal82, 1);
-		ASM_FUNCTION.add_transition(4, ASM_SCOPE, 7);
+		ASM_FUNCTION.add_transition(2, literal134, 6);
+		ASM_FUNCTION.add_transition(3, literal82, 2);
+		ASM_FUNCTION.add_transition(4, IC, 4);
+		ASM_FUNCTION.add_transition(4, literal14, 5);
+		ASM_FUNCTION.add_transition(4, literal21, 7);
+		ASM_FUNCTION.add_transition(5, FUNCTION_MODIFIER, 3);
 		ASM_FUNCTION.add_transition(5, IC, 5);
-		ASM_FUNCTION.add_transition(5, literal14, 6);
-		ASM_FUNCTION.add_transition(5, literal21, 8);
-		ASM_FUNCTION.add_transition(6, FUNCTION_MODIFIER, 3);
-		ASM_FUNCTION.add_transition(6, IC, 6);
-		ASM_FUNCTION.add_transition(6, literal82, 1);
-		ASM_FUNCTION.add_transition(7, literal143, 9);
-		ASM_FUNCTION.add_transition(8, IC, 8);
-		ASM_FUNCTION.add_transition(8, PARAMETER, 5);
+		ASM_FUNCTION.add_transition(5, literal82, 2);
+		ASM_FUNCTION.add_transition(6, ASM_SCOPE, 8);
+		ASM_FUNCTION.add_transition(7, IC, 7);
+		ASM_FUNCTION.add_transition(7, PARAMETER, 4);
+		ASM_FUNCTION.add_transition(8, literal143, 9);
 
 		ASM_IDENTIFIER.add_transition(0, IDENTIFIER, 2);
 		ASM_IDENTIFIER.add_transition(0, literal8, 1);
@@ -451,10 +451,10 @@ parlex::grammar const & get_plange() {
 		ASM_OP.add_transition(0, parlex::builtins::lowercase_letter, 1);
 		ASM_OP.add_transition(1, parlex::builtins::lowercase_letter, 1);
 
-		ASM_PTR_ARITHMETIC_ATT.add_transition(0, ASM_IDENTIFIER, 2);
-		ASM_PTR_ARITHMETIC_ATT.add_transition(0, NON_FRACTIONAL, 1);
-		ASM_PTR_ARITHMETIC_ATT.add_transition(1, ASM_PTR_ARITHMETIC_ATT_REG, 4);
-		ASM_PTR_ARITHMETIC_ATT.add_transition(2, literal46, 3);
+		ASM_PTR_ARITHMETIC_ATT.add_transition(0, ASM_IDENTIFIER, 1);
+		ASM_PTR_ARITHMETIC_ATT.add_transition(0, NON_FRACTIONAL, 2);
+		ASM_PTR_ARITHMETIC_ATT.add_transition(1, literal46, 3);
+		ASM_PTR_ARITHMETIC_ATT.add_transition(2, ASM_PTR_ARITHMETIC_ATT_REG, 4);
 		ASM_PTR_ARITHMETIC_ATT.add_transition(3, NON_FRACTIONAL, 5);
 		ASM_PTR_ARITHMETIC_ATT.add_transition(5, ASM_PTR_ARITHMETIC_ATT_REG, 4);
 
@@ -609,16 +609,16 @@ parlex::grammar const & get_plange() {
 		CASTS.add_transition(2, EXPRESSION, 3);
 		CASTS.add_transition(2, IC, 2);
 
-		CEILING.add_transition(0, literal137, 2);
-		CEILING.add_transition(0, literal182, 1);
+		CEILING.add_transition(0, literal137, 1);
+		CEILING.add_transition(0, literal182, 2);
 		CEILING.add_transition(1, EXPRESSION, 3);
 		CEILING.add_transition(1, IC, 1);
 		CEILING.add_transition(2, EXPRESSION, 4);
 		CEILING.add_transition(2, IC, 2);
 		CEILING.add_transition(3, IC, 3);
-		CEILING.add_transition(3, literal183, 5);
+		CEILING.add_transition(3, literal11, 5);
 		CEILING.add_transition(4, IC, 4);
-		CEILING.add_transition(4, literal11, 5);
+		CEILING.add_transition(4, literal183, 5);
 
 		COMMENT.add_transition(0, literal29, 1);
 		COMMENT.add_transition(1, literal17, 2);
@@ -858,16 +858,16 @@ parlex::grammar const & get_plange() {
 		FACTORIAL.add_transition(1, IC, 1);
 		FACTORIAL.add_transition(1, literal3, 2);
 
-		FLOOR.add_transition(0, literal140, 1);
-		FLOOR.add_transition(0, literal184, 2);
+		FLOOR.add_transition(0, literal140, 2);
+		FLOOR.add_transition(0, literal184, 1);
 		FLOOR.add_transition(1, EXPRESSION, 3);
 		FLOOR.add_transition(1, IC, 1);
 		FLOOR.add_transition(2, EXPRESSION, 4);
 		FLOOR.add_transition(2, IC, 2);
 		FLOOR.add_transition(3, IC, 3);
-		FLOOR.add_transition(3, literal77, 5);
+		FLOOR.add_transition(3, literal185, 5);
 		FLOOR.add_transition(4, IC, 4);
-		FLOOR.add_transition(4, literal185, 5);
+		FLOOR.add_transition(4, literal77, 5);
 
 		FOR.add_transition(0, literal94, 1);
 		FOR.add_transition(1, IC, 1);
@@ -912,23 +912,23 @@ parlex::grammar const & get_plange() {
 		FREE.add_transition(1, EXPRESSION, 2);
 		FREE.add_transition(1, IC, 1);
 
-		FUNCTION.add_transition(0, FUNCTION_MODIFIER, 3);
-		FUNCTION.add_transition(0, literal12, 2);
-		FUNCTION.add_transition(0, literal134, 1);
-		FUNCTION.add_transition(1, STATEMENT_SCOPE, 4);
-		FUNCTION.add_transition(2, IC, 2);
-		FUNCTION.add_transition(2, PARAMETER, 5);
-		FUNCTION.add_transition(2, literal14, 6);
-		FUNCTION.add_transition(3, literal134, 1);
-		FUNCTION.add_transition(4, literal143, 8);
+		FUNCTION.add_transition(0, FUNCTION_MODIFIER, 2);
+		FUNCTION.add_transition(0, literal12, 1);
+		FUNCTION.add_transition(0, literal134, 3);
+		FUNCTION.add_transition(1, IC, 1);
+		FUNCTION.add_transition(1, PARAMETER, 4);
+		FUNCTION.add_transition(1, literal14, 5);
+		FUNCTION.add_transition(2, literal134, 3);
+		FUNCTION.add_transition(3, STATEMENT_SCOPE, 6);
+		FUNCTION.add_transition(4, IC, 4);
+		FUNCTION.add_transition(4, literal14, 5);
+		FUNCTION.add_transition(4, literal21, 7);
+		FUNCTION.add_transition(5, FUNCTION_MODIFIER, 2);
 		FUNCTION.add_transition(5, IC, 5);
-		FUNCTION.add_transition(5, literal14, 6);
-		FUNCTION.add_transition(5, literal21, 7);
-		FUNCTION.add_transition(6, FUNCTION_MODIFIER, 3);
-		FUNCTION.add_transition(6, IC, 6);
-		FUNCTION.add_transition(6, literal134, 1);
+		FUNCTION.add_transition(5, literal134, 3);
+		FUNCTION.add_transition(6, literal143, 8);
 		FUNCTION.add_transition(7, IC, 7);
-		FUNCTION.add_transition(7, PARAMETER, 5);
+		FUNCTION.add_transition(7, PARAMETER, 4);
 
 		FUNCTION_MODIFIER.add_transition(0, FUNCTION_MODIFIER_ATOMIC, 1);
 		FUNCTION_MODIFIER.add_transition(0, FUNCTION_MODIFIER_MODEL, 1);
@@ -1180,16 +1180,16 @@ parlex::grammar const & get_plange() {
 		NAND.add_transition(2, EXPRESSION, 3);
 		NAND.add_transition(2, IC, 2);
 
-		NEAREST_INTEGER.add_transition(0, literal140, 1);
-		NEAREST_INTEGER.add_transition(0, literal184, 2);
+		NEAREST_INTEGER.add_transition(0, literal140, 2);
+		NEAREST_INTEGER.add_transition(0, literal184, 1);
 		NEAREST_INTEGER.add_transition(1, EXPRESSION, 3);
 		NEAREST_INTEGER.add_transition(1, IC, 1);
 		NEAREST_INTEGER.add_transition(2, EXPRESSION, 4);
 		NEAREST_INTEGER.add_transition(2, IC, 2);
 		NEAREST_INTEGER.add_transition(3, IC, 3);
-		NEAREST_INTEGER.add_transition(3, literal11, 5);
+		NEAREST_INTEGER.add_transition(3, literal183, 5);
 		NEAREST_INTEGER.add_transition(4, IC, 4);
-		NEAREST_INTEGER.add_transition(4, literal183, 5);
+		NEAREST_INTEGER.add_transition(4, literal11, 5);
 
 		NEGATION.add_transition(0, literal23, 1);
 		NEGATION.add_transition(1, EXPRESSION, 2);
@@ -1199,11 +1199,11 @@ parlex::grammar const & get_plange() {
 		NON_FRACTIONAL.add_transition(0, literal23, 1);
 		NON_FRACTIONAL.add_transition(1, NON_NEG_NON_FRACTIONAL, 2);
 
-		NON_NEG_FRACTIONAL.add_transition(0, literal26, 2);
-		NON_NEG_FRACTIONAL.add_transition(0, parlex::builtins::decimal_digit, 1);
-		NON_NEG_FRACTIONAL.add_transition(1, literal26, 3);
-		NON_NEG_FRACTIONAL.add_transition(1, parlex::builtins::decimal_digit, 1);
-		NON_NEG_FRACTIONAL.add_transition(2, parlex::builtins::decimal_digit, 3);
+		NON_NEG_FRACTIONAL.add_transition(0, literal26, 1);
+		NON_NEG_FRACTIONAL.add_transition(0, parlex::builtins::decimal_digit, 2);
+		NON_NEG_FRACTIONAL.add_transition(1, parlex::builtins::decimal_digit, 3);
+		NON_NEG_FRACTIONAL.add_transition(2, literal26, 3);
+		NON_NEG_FRACTIONAL.add_transition(2, parlex::builtins::decimal_digit, 2);
 		NON_NEG_FRACTIONAL.add_transition(3, parlex::builtins::decimal_digit, 3);
 
 		NON_NEG_INTEGER.add_transition(0, NON_ZERO_DECIMAL_DIGIT, 2);
@@ -1525,8 +1525,8 @@ parlex::grammar const & get_plange() {
 
 		TYPE.add_transition(0, literal128, 1);
 		TYPE.add_transition(1, IC, 1);
-		TYPE.add_transition(1, literal100, 2);
-		TYPE.add_transition(1, literal103, 3);
+		TYPE.add_transition(1, literal100, 3);
+		TYPE.add_transition(1, literal103, 2);
 		TYPE.add_transition(1, literal134, 4);
 		TYPE.add_transition(2, IC, 2);
 		TYPE.add_transition(2, INHERITANCE_LIST, 5);
@@ -1534,9 +1534,9 @@ parlex::grammar const & get_plange() {
 		TYPE.add_transition(3, INHERITANCE_LIST, 6);
 		TYPE.add_transition(4, TYPE_SCOPE, 7);
 		TYPE.add_transition(5, IC, 5);
+		TYPE.add_transition(5, literal100, 3);
 		TYPE.add_transition(5, literal134, 4);
 		TYPE.add_transition(6, IC, 6);
-		TYPE.add_transition(6, literal100, 2);
 		TYPE.add_transition(6, literal134, 4);
 		TYPE.add_transition(7, literal143, 8);
 
@@ -1761,6 +1761,91 @@ parlex::grammar const & get_plange() {
 		XOR.add_transition(1, literal179, 2);
 		XOR.add_transition(2, EXPRESSION, 3);
 		XOR.add_transition(2, IC, 2);
+
+
+		g.add_precedence(AND, IFF);
+		g.add_precedence(AND, IMPLICATION);
+		g.add_precedence(AND, OR);
+		g.add_precedence(AND, XOR);
+		g.add_precedence(CARDINALITY, BINARY_OP);
+		g.add_precedence(CAST, BINARY_OP);
+		g.add_precedence(COMPLEMENT, BINARY_OP);
+		g.add_precedence(CROSS_PRODUCT, DOT_PRODUCT);
+		g.add_precedence(DELTA, BINARY_OP);
+		g.add_precedence(DELTA, EXPONENTIATION);
+		g.add_precedence(DIMENSIONAL_NUMBER, BINARY_OP);
+		g.add_precedence(DIMENSIONAL_NUMBER, EXPONENTIATION);
+		g.add_precedence(DIVISION, ADDITION);
+		g.add_precedence(DIVISION, ADD_SUB);
+		g.add_precedence(DIVISION, INTEGER_DIVISION);
+		g.add_precedence(DIVISION, MODULATION);
+		g.add_precedence(DIVISION, SUBTRACTION);
+		g.add_precedence(EQUALITY_CHAIN, GREATER_CHAIN);
+		g.add_precedence(EQUALITY_CHAIN, LESSER_CHAIN);
+		g.add_precedence(EQUALITY_CHAIN, SUBSET_CHAIN);
+		g.add_precedence(EQUALITY_CHAIN, SUPERSET_CHAIN);
+		g.add_precedence(EXPONENTIATION, ADDITION);
+		g.add_precedence(EXPONENTIATION, ADD_SUB);
+		g.add_precedence(EXPONENTIATION, DIVISION);
+		g.add_precedence(EXPONENTIATION, INTEGER_DIVISION);
+		g.add_precedence(EXPONENTIATION, MODULATION);
+		g.add_precedence(EXPONENTIATION, MULTIPLICATIVE_OP);
+		g.add_precedence(EXPONENTIATION, SUBTRACTION);
+		g.add_precedence(FACTORIAL, BINARY_OP);
+		g.add_precedence(FUNCTION, CAST);
+		g.add_precedence(IMPLICATION, IFF);
+		g.add_precedence(IMPLICATION, XOR);
+		g.add_precedence(INTEGER_DIVISION, ADDITION);
+		g.add_precedence(INTEGER_DIVISION, ADD_SUB);
+		g.add_precedence(INTEGER_DIVISION, SUBTRACTION);
+		g.add_precedence(INVOCATION, BINARY_OP);
+		g.add_precedence(INVOCATION, NEGATION);
+		g.add_precedence(INVOCATION, RADICAL);
+		g.add_precedence(MAP, FUNCTION);
+		g.add_precedence(MODULATION, ADDITION);
+		g.add_precedence(MODULATION, ADD_SUB);
+		g.add_precedence(MODULATION, SUBTRACTION);
+		g.add_precedence(MULTIPLICATION, MAPS_TO);
+		g.add_precedence(MULTIPLICATIVE_OP, ADDITION);
+		g.add_precedence(MULTIPLICATIVE_OP, ADD_SUB);
+		g.add_precedence(MULTIPLICATIVE_OP, INTEGER_DIVISION);
+		g.add_precedence(MULTIPLICATIVE_OP, MODULATION);
+		g.add_precedence(MULTIPLICATIVE_OP, SUBTRACTION);
+		g.add_precedence(NAND, IFF);
+		g.add_precedence(NAND, IMPLICATION);
+		g.add_precedence(NAND, OR);
+		g.add_precedence(NAND, XOR);
+		g.add_precedence(NEGATION, BINARY_OP);
+		g.add_precedence(NOR, IFF);
+		g.add_precedence(NOR, IMPLICATION);
+		g.add_precedence(NOR, OR);
+		g.add_precedence(NOR, XOR);
+		g.add_precedence(NOT, BINARY_OP);
+		g.add_precedence(OR, IFF);
+		g.add_precedence(OR, IMPLICATION);
+		g.add_precedence(OR, XOR);
+		g.add_precedence(PARAMETER_NORMAL, PARAMETER_ALGEBRAIC);
+		g.add_precedence(POST_DEC, BINARY_OP);
+		g.add_precedence(POST_DEC, NEGATION);
+		g.add_precedence(POST_INC, BINARY_OP);
+		g.add_precedence(POST_INC, NEGATION);
+		g.add_precedence(PRE_DEC, BINARY_OP);
+		g.add_precedence(PRE_DEC, NEGATION);
+		g.add_precedence(PRE_INC, BINARY_OP);
+		g.add_precedence(PRE_INC, NEGATION);
+		g.add_precedence(RADICAL, ADDITION);
+		g.add_precedence(RADICAL, ADD_SUB);
+		g.add_precedence(RADICAL, DIVISION);
+		g.add_precedence(RADICAL, INTEGER_DIVISION);
+		g.add_precedence(RADICAL, MODULATION);
+		g.add_precedence(RADICAL, MULTIPLICATIVE_OP);
+		g.add_precedence(RADICAL, SUBTRACTION);
+		g.add_precedence(RELATIONAL_OP, BINARY_LOGICAL_OP);
+		g.add_precedence(SET, MAGNITUDE);
+		g.add_precedence(TUPLE, MAGNITUDE);
+		g.add_precedence(UNARY_LOGICAL_OP, BINARY_LOGICAL_OP);
+		g.add_precedence(UNIT_EXPONENTIATION, UNIT_DIVISION);
+		g.add_precedence(UNIT_EXPONENTIATION, UNIT_MULTIPLICATION);
 	});
 
 	return g;
