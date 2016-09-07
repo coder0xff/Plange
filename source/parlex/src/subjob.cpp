@@ -99,6 +99,9 @@ void subjob::flush() {
 		std::unique_lock<std::mutex> lock(mutex);
 		match_class mc(r, document_position);
 		partial_abstract_syntax_graph pasg = parser::construct_partial_result(owner, *this);
+		if (queuedPermutations.size() == 0) {
+			return;
+		}
 		std::set<int> selections = (*machine.get_filter())(owner.document, pasg, queuedPermutations);
 		int counter = 0;
 		for (auto const & permutation : queuedPermutations) {

@@ -8,6 +8,7 @@ depend("LLVM" "http://llvm.org/releases/${LLVM_VERSION}/llvm-${LLVM_VERSION}.src
 
 if(${MSVC})
 	include(msvc_fetch_mpir)
+	include_directories("${CMAKE_CURRENT_BINARY_DIR}/../mpir")
 endif()
 
 #Prep build for symengine
@@ -26,12 +27,18 @@ include_directories("${CMAKE_SOURCE_DIR}/parlex/include")
 include_directories("${CMAKE_SOURCE_DIR}/utilities")
 include_directories("${CMAKE_CURRENT_SOURCE_DIR}") #for tclap
 include_directories("${LLVM_INCLUDE_DIRS}")
+include_directories("${CMAKE_CURRENT_SOURCE_DIR}/symengine")
+include_directories("${PLC_SYMENGINE_BINARY_DIR}")
+include_directories("${PLC_SYMENGINE_BINARY_DIR}/symengine/utilities/teuchos")
+link_directories("${PLC_SYMENGINE_BINARY_DIR}/symengine/utilities/teuchos/${CMAKE_BUILD_TYPE}")
+link_directories("${PLC_SYMENGINE_BINARY_DIR}/symengine/${CMAKE_BUILD_TYPE}")
 add_definitions(${LLVM_DEFINITIONS})
 
 set(SOURCES
 	"src/errors.cpp"
 	"src/main.cpp"
 	"src/plange_grammar.cpp"
+	"src/scope.cpp"
 	"src/source_code.cpp"
 	"src/stdafx.cpp"
 	"src/stdlib.cpp"
@@ -40,6 +47,7 @@ set(SOURCES
 set(HEADERS
 	"include/errors.hpp"
 	"include/plange_grammar.hpp"
+	"include/scope.hpp"
 	"include/source_code.hpp"
 	"include/stdafx.hpp"
 	"include/stdlib.hpp"
@@ -49,14 +57,9 @@ add_executable(plc ${HEADERS} ${SOURCES})
 source_group("src" FILES ${SOURCES})
 source_group("include" FILES ${HEADERS})
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include)
-add_precompiled_header(plc "include/stdafx.hpp" FORCEINCLUDE SOURCE_CXX "src/stdafx.cpp")
-target_link_libraries(plc parlex utilities LLVMCore LLVMSupport)
-if(${MSVC})
-	target_link_libraries(plc "${PLC_SYMENGINE_BINARY_DIR}/symengine/Debug/symengine.lib")
-else()
-	target_link_libraries(plc "${PLC_SYMENGINE_BINARY_DIR}/symengine/${CMAKE_STATIC_LIBRARY_PREFIX}symengine${CMAKE_STATIC_LIBRARY_SUFFIX}")
-endif()
-add_dependencies(plc symengine_build)
 set_property(TARGET plc PROPERTY CXX_STANDARD 11)
 set_property(TARGET plc PROPERTY CXX_STANDARD_REQUIRED ON)
+add_precompiled_header(plc "include/stdafx.hpp" FORCEINCLUDE SOURCE_CXX "src/stdafx.cpp")
+target_link_libraries(plc parlex utilities LLVMCore LLVMSupport teuchos symengine)
+add_dependencies(plc symengine_build)
 

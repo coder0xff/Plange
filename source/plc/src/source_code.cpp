@@ -47,11 +47,10 @@ source_code::~source_code() { }
 
 std::pair<int, int> source_code::get_line_number_and_column(int charIndex) {
 	std::map<int, int>::iterator i = lineNumberByFirstChar.lower_bound(charIndex);
-	if (i->first == charIndex) {
+	if (i != lineNumberByFirstChar.end() && i->first == charIndex) {
 		return std::make_pair(i->second, 0);
-	} else {
-		assert(i != lineNumberByFirstChar.begin());
-		--i;
-		return std::make_pair(i->second, charIndex - i->first);
 	}
+	assert(i != lineNumberByFirstChar.begin());
+	--i;
+	return std::make_pair(i->second, charIndex - i->first);
 }

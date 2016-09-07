@@ -1,7 +1,7 @@
-#include "Scope.hpp"
+#include "scope.hpp"
 #include "plange_grammar.hpp"
 
-Scope::Scope(SourceCode& source) : parent(nullptr), sourceCode(source), isPure(false), isAtomic(false), isReentrant(false) {
+scope::scope(::source_code& source) : parent(nullptr), source_code(source), is_pure(false), is_atomic(false), is_reentrant(false) {
 	static parlex::state_machine const& statementProduction = get_plange().get_productions().find("STATEMENT")->second;
 	parlex::abstract_syntax_graph const& asg = source.graph;
 	for (parlex::match const& m : *asg.permutations.find(asg.root)->second.begin()) {
@@ -12,4 +12,4 @@ Scope::Scope(SourceCode& source) : parent(nullptr), sourceCode(source), isPure(f
 	}
 }
 
-Scope::~Scope() {}
+scope::~scope() {}
