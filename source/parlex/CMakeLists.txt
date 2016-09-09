@@ -1,3 +1,5 @@
+add_subdirectory(parlex_test)
+
 set (SOURCES
 	"src/abstract_syntax_graph.cpp"
 	"src/behavior.cpp"
