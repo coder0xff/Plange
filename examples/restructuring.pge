@@ -3,7 +3,7 @@
 // presents a commented implementation of an algorithm
 // for manipulating data structures representing the
 // "version numbers" of software. The algorithm takes
-// a array of version pairs (tuples 'int * int', for major and
+// an array of version pairs (tuples 'int * int', for major and
 // minor respectively):
 
 input := [ // start an array

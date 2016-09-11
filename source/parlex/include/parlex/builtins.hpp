@@ -11,7 +11,6 @@
 
 // Filters
 #include "parlex/builtins/greedy.hpp"
-#include "parlex/builtins/super_delimiter.hpp"
 
 // State Machines
 #include "parlex/builtins/c_string.hpp"

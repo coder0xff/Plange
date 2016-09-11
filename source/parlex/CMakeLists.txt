@@ -12,7 +12,6 @@ set (SOURCES
 	"src/match_class.cpp"
 	"src/nfa.cpp"
 	"src/parser.cpp"
-	"src/partial_abstract_syntax_graph.cpp"
 	"src/producer.cpp"
 	"src/state_machine.cpp"
 	"src/subjob.cpp"
@@ -46,7 +45,6 @@ set (BUILTINS_HEADERS
 	"include/parlex/builtins/progress_bar.hpp"
 	"include/parlex/builtins/set_terminal.hpp"
 	"include/parlex/builtins/string_terminal.hpp"
-	"include/parlex/builtins/super_delimiter.hpp"
 	"include/parlex/builtins/unicode.hpp"
 	"include/parlex/builtins/wirth.hpp")
 

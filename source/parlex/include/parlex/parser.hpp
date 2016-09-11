@@ -28,7 +28,6 @@ public:
 	abstract_syntax_graph parse(grammar const & g, recognizer const & overrideMain, std::u32string const & document);
 	abstract_syntax_graph parse(grammar const & g, std::u32string const & document);
 	void set_update_progress_handler(std::function<void(int /*done*/, int /*total*/)>);
-	static details::partial_abstract_syntax_graph construct_partial_result(details::job const & j, details::subjob const & subjob);
 private:
 	friend class details::job;
 	friend class details::subjob;

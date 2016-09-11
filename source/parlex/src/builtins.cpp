@@ -97,23 +97,6 @@ filter_function greedy = [](std::u32string document, details::partial_abstract_s
 	return result;
 };
 
-filter_function super_delimiter = [](std::u32string document, details::partial_abstract_syntax_graph const & pasg, std::list<permutation> const & permutations) {
-	std::set<int> result;
-	size_t len = document.size();
-	size_t firstCharIndex = (*permutations.begin())[0].document_position;
-	size_t firstUnboundDelimiterIndex = firstCharIndex + 1;
-	assert(len > firstUnboundDelimiterIndex);
-	char32_t unboundDelimiter = document[firstUnboundDelimiterIndex];
-	size_t lastUnboundDelimiterIndex = firstUnboundDelimiterIndex + 1;
-	assert(len > lastUnboundDelimiterIndex);
-	while (lastUnboundDelimiterIndex + 1 < len && document[lastUnboundDelimiterIndex + 1] == unboundDelimiter) {
-		++lastUnboundDelimiterIndex;
-	}
-	size_t delimiterCount = lastUnboundDelimiterIndex - firstUnboundDelimiterIndex;
-	throw "Not implemented";
-	return result;
-};
-
 details::all_t all;
 details::alphanumeric_t alphanumeric;
 details::close_punctuation_t close_punctuation;
