@@ -79,7 +79,7 @@ source_code::source_code(std::string const& pathname, std::u32string const& docu
 		pos = document.find(U'\n', pos);
 	}
 
-	std::string test = graph.to_dot(); //todo: make sure this is commented out
+	//std::string test = graph.to_dot(); //todo: make sure this is commented out
 	if (!graph.is_rooted()) {
 		ERROR(CouldNotParse, pathname + " syntax tree: " + graph.to_dot());
 	}
