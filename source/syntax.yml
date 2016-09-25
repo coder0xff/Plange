@@ -95,7 +95,7 @@ ASM_STATEMENT:
 ASSIGNMENT_CHAIN:
     syntax: >
         [XML_DOC_STRING {IC}] IDENTIFIER {IC} ("←"|"<-") {IC} (EXPRESSION|ASSIGNMENT_CHAIN)
-    precedes: [EXPRESSION]
+    precedes: [EXPRESSION, LESSER_CHAIN]
     doc: >
         place the given value(s) into the given variable(s)
     example: |
@@ -813,7 +813,6 @@ KLEENE_STAR:
 LESSER_CHAIN:
     syntax: >
         EXPRESSION {IC} LESSER_CHAIN_LOOP
-    filter: longest
 
 LESSER_CHAIN_LOOP:
     syntax: >
@@ -1149,7 +1148,7 @@ SLICE:
 
 STATEMENT:
     syntax: >
-        ( ASSIGNMENT_CHAIN | DEFINITION | DO | EXPRESSION | FOR | FOR_COLLECTION | FREE | IMPORT | LOOP | RETURN | THROW | TRY | "break" | "continue" ) {IC} ";"
+        ( ASSIGNMENT_CHAIN | DEFINITION | DO | EXPRESSION | FOR | FOR_COLLECTION | FREE | IMPORT | LOOP | RETURN | THROW | TRY | TYPE_CONSTRAINT | "break" | "continue" ) {IC} ";"
     doc: >
         top-level statement syntax
 
@@ -1166,7 +1165,6 @@ STRING:
 SUBSET_CHAIN:
     syntax: >
         EXPRESSION {IC} SUBSET_CHAIN_LOOP
-    filter: longest
 
 SUBSET_CHAIN_LOOP:
     syntax: >
@@ -1181,7 +1179,6 @@ SUBTRACTION:
 SUPERSET_CHAIN:
     syntax: >
         EXPRESSION {IC} SUPERSET_CHAIN_LOOP
-    filter: longest
 
 SUPERSET_CHAIN_LOOP:
     syntax: >
@@ -1268,6 +1265,7 @@ TYPE_SCOPE_DECLARATION:
 TYPE_SCOPE_TYPE_CONSTRAINT:
     syntax: >
         TYPE_CONSTRAINT_HEAD {IC} TYPE_SCOPE_TYPE_CONSTRAINT_CHAIN
+    precedes: [TYPE_CONSTRAINT]
 
 TYPE_SCOPE_TYPE_CONSTRAINT_CHAIN:
     syntax: >

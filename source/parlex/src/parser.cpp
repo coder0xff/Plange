@@ -390,7 +390,12 @@ bool associativity_test(node_props_t & a, node_props_t & b) {
 }
 
 void select_trees(abstract_syntax_graph & asg, grammar const & g, std::map<match, node_props_t> & nodes, std::vector<std::set<match>> orderedMatchesByHeight) {
-	for (size_t height = 0; height < orderedMatchesByHeight.size(); ++height) {
+	if (!orderedMatchesByHeight.empty()) {
+		for (match const & i : orderedMatchesByHeight[0]) {
+			nodes.find(i)->second.selected = true;
+		}
+	}
+	for (size_t height = 1; height < orderedMatchesByHeight.size(); ++height) {
 		std::set<match> const & matches = orderedMatchesByHeight[height];
 		for (match const & m : matches) {
 			bool anyPermutationSelected = false;
@@ -401,10 +406,6 @@ void select_trees(abstract_syntax_graph & asg, grammar const & g, std::map<match
 				goto matchLoop;
 			}
 			a = &i->second;
-			if (a->r.is_terminal()) {
-				a->selected = true;
-				continue;
-			}
 			//are any of those permutations comprised of selected children?
 			for (permutation const & p : a->permutations) {
 				bool permutationSelected = true;
@@ -444,7 +445,11 @@ void select_trees(abstract_syntax_graph & asg, grammar const & g, std::map<match
 				node_props_t & b = pair->second;
 				if (precedence_test(g, *a, b) || associativity_test(*a, b)) {
 					//if it must be selected, then precedence and associativity must remove preempted intersections
+					abstract_syntax_graph savedAsg = asg;
 					prune(asg, nodes, b);
+					if (!asg.is_rooted()) {
+						asg.permutations = savedAsg.permutations;
+					}
 				}
 			}
 		matchLoop:
@@ -454,7 +459,7 @@ void select_trees(abstract_syntax_graph & asg, grammar const & g, std::map<match
 }
 
 abstract_syntax_graph & apply_precedence_and_associativity(grammar const & g, abstract_syntax_graph & asg) {
-	//short circuit if no rules are given
+	assert(asg.is_rooted());
 	bool anyAssociativities = false;
 	for (auto const & entry : g.get_productions()) {
 		anyAssociativities = entry.second.get_associativity() != none;
@@ -468,11 +473,13 @@ abstract_syntax_graph & apply_precedence_and_associativity(grammar const & g, ab
 	construct_nodes(asg, nodes, flattened);
 	resolve_nodes(nodes);
 	std::vector<std::set<match>> matchesByHeight;
+	//short circuit if no rules are given
 	if (!g.get_precedences().empty() || anyAssociativities) {
 		compute_intersections(flattened);
 		matchesByHeight = ordered_matches_by_height(nodes);
 		select_trees(asg, g, nodes, matchesByHeight);
 	}
+	assert(asg.is_rooted());
 	return asg;
 }
 

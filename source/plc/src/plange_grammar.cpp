@@ -285,7 +285,7 @@ parlex::grammar const & get_plange() {
 	static parlex::state_machine & INVOCATION = g.add_production("INVOCATION", 0, 1, parlex::associativity::none);
 	static parlex::state_machine & IS = g.add_production("IS", 0, 1, parlex::associativity::none);
 	static parlex::state_machine & KLEENE_STAR = g.add_production("KLEENE_STAR", 0, 1, parlex::associativity::none);
-	static parlex::state_machine & LESSER_CHAIN = g.add_production("LESSER_CHAIN", 0, 1, &parlex::builtins::longest, parlex::associativity::none);
+	static parlex::state_machine & LESSER_CHAIN = g.add_production("LESSER_CHAIN", 0, 1, parlex::associativity::none);
 	static parlex::state_machine & LESSER_CHAIN_LOOP = g.add_production("LESSER_CHAIN_LOOP", 0, 2, parlex::associativity::none);
 	static parlex::state_machine & LIST = g.add_production("LIST", 0, 1, parlex::associativity::none);
 	static parlex::state_machine & LOOP = g.add_production("LOOP", 0, 1, parlex::associativity::none);
@@ -340,10 +340,10 @@ parlex::grammar const & get_plange() {
 	static parlex::state_machine & STATEMENT = g.add_production("STATEMENT", 0, 1, parlex::associativity::none);
 	static parlex::state_machine & STATEMENT_SCOPE = g.add_production("STATEMENT_SCOPE", 0, 1, parlex::associativity::none);
 	static parlex::state_machine & STRING = g.add_production("STRING", 0, 1, parlex::associativity::none);
-	static parlex::state_machine & SUBSET_CHAIN = g.add_production("SUBSET_CHAIN", 0, 1, &parlex::builtins::longest, parlex::associativity::none);
+	static parlex::state_machine & SUBSET_CHAIN = g.add_production("SUBSET_CHAIN", 0, 1, parlex::associativity::none);
 	static parlex::state_machine & SUBSET_CHAIN_LOOP = g.add_production("SUBSET_CHAIN_LOOP", 0, 2, parlex::associativity::none);
 	static parlex::state_machine & SUBTRACTION = g.add_production("SUBTRACTION", 0, 1, parlex::associativity::left);
-	static parlex::state_machine & SUPERSET_CHAIN = g.add_production("SUPERSET_CHAIN", 0, 1, &parlex::builtins::longest, parlex::associativity::none);
+	static parlex::state_machine & SUPERSET_CHAIN = g.add_production("SUPERSET_CHAIN", 0, 1, parlex::associativity::none);
 	static parlex::state_machine & SUPERSET_CHAIN_LOOP = g.add_production("SUPERSET_CHAIN_LOOP", 0, 2, parlex::associativity::none);
 	static parlex::state_machine & SYMMETRIC_DIFFERENCE = g.add_production("SYMMETRIC_DIFFERENCE", 0, 1, parlex::associativity::left);
 	static parlex::state_machine & THROW = g.add_production("THROW", 0, 2, parlex::associativity::none);
@@ -435,25 +435,25 @@ parlex::grammar const & get_plange() {
 		ASM_EXPRESSION.add_transition(0, ASM_PTR_ARITHMETIC_INTEL, 1);
 		ASM_EXPRESSION.add_transition(0, NON_FRACTIONAL, 1);
 
-		ASM_FUNCTION.add_transition(0, FUNCTION_MODIFIER, 1);
-		ASM_FUNCTION.add_transition(0, literal10, 3);
-		ASM_FUNCTION.add_transition(0, literal80, 2);
-		ASM_FUNCTION.add_transition(1, literal80, 2);
-		ASM_FUNCTION.add_transition(2, IC, 2);
-		ASM_FUNCTION.add_transition(2, literal132, 4);
+		ASM_FUNCTION.add_transition(0, FUNCTION_MODIFIER, 2);
+		ASM_FUNCTION.add_transition(0, literal10, 1);
+		ASM_FUNCTION.add_transition(0, literal80, 3);
+		ASM_FUNCTION.add_transition(1, IC, 1);
+		ASM_FUNCTION.add_transition(1, PARAMETER, 4);
+		ASM_FUNCTION.add_transition(1, literal12, 5);
+		ASM_FUNCTION.add_transition(2, literal80, 3);
 		ASM_FUNCTION.add_transition(3, IC, 3);
-		ASM_FUNCTION.add_transition(3, PARAMETER, 5);
-		ASM_FUNCTION.add_transition(3, literal12, 6);
-		ASM_FUNCTION.add_transition(4, ASM_SCOPE, 7);
+		ASM_FUNCTION.add_transition(3, literal132, 6);
+		ASM_FUNCTION.add_transition(4, IC, 4);
+		ASM_FUNCTION.add_transition(4, literal12, 5);
+		ASM_FUNCTION.add_transition(4, literal19, 7);
+		ASM_FUNCTION.add_transition(5, FUNCTION_MODIFIER, 2);
 		ASM_FUNCTION.add_transition(5, IC, 5);
-		ASM_FUNCTION.add_transition(5, literal12, 6);
-		ASM_FUNCTION.add_transition(5, literal19, 8);
-		ASM_FUNCTION.add_transition(6, FUNCTION_MODIFIER, 1);
-		ASM_FUNCTION.add_transition(6, IC, 6);
-		ASM_FUNCTION.add_transition(6, literal80, 2);
-		ASM_FUNCTION.add_transition(7, literal141, 9);
-		ASM_FUNCTION.add_transition(8, IC, 8);
-		ASM_FUNCTION.add_transition(8, PARAMETER, 5);
+		ASM_FUNCTION.add_transition(5, literal80, 3);
+		ASM_FUNCTION.add_transition(6, ASM_SCOPE, 8);
+		ASM_FUNCTION.add_transition(7, IC, 7);
+		ASM_FUNCTION.add_transition(7, PARAMETER, 4);
+		ASM_FUNCTION.add_transition(8, literal141, 9);
 
 		ASM_IDENTIFIER.add_transition(0, IDENTIFIER, 2);
 		ASM_IDENTIFIER.add_transition(0, literal6, 1);
@@ -488,25 +488,25 @@ parlex::grammar const & get_plange() {
 		ASM_PTR_ARITHMETIC_INTEL.add_transition(0, literal64, 1);
 		ASM_PTR_ARITHMETIC_INTEL.add_transition(1, ASM_IDENTIFIER, 3);
 		ASM_PTR_ARITHMETIC_INTEL.add_transition(10, literal16, 5);
-		ASM_PTR_ARITHMETIC_INTEL.add_transition(10, literal21, 6);
+		ASM_PTR_ARITHMETIC_INTEL.add_transition(10, literal21, 7);
 		ASM_PTR_ARITHMETIC_INTEL.add_transition(10, literal67, 13);
 		ASM_PTR_ARITHMETIC_INTEL.add_transition(11, NON_NEG_NON_FRACTIONAL, 12);
-		ASM_PTR_ARITHMETIC_INTEL.add_transition(12, literal16, 6);
-		ASM_PTR_ARITHMETIC_INTEL.add_transition(12, literal21, 6);
+		ASM_PTR_ARITHMETIC_INTEL.add_transition(12, literal16, 7);
+		ASM_PTR_ARITHMETIC_INTEL.add_transition(12, literal21, 7);
 		ASM_PTR_ARITHMETIC_INTEL.add_transition(12, literal67, 13);
 		ASM_PTR_ARITHMETIC_INTEL.add_transition(2, literal1, 4);
 		ASM_PTR_ARITHMETIC_INTEL.add_transition(3, literal16, 5);
-		ASM_PTR_ARITHMETIC_INTEL.add_transition(3, literal21, 6);
-		ASM_PTR_ARITHMETIC_INTEL.add_transition(3, literal44, 7);
+		ASM_PTR_ARITHMETIC_INTEL.add_transition(3, literal21, 7);
+		ASM_PTR_ARITHMETIC_INTEL.add_transition(3, literal44, 6);
 		ASM_PTR_ARITHMETIC_INTEL.add_transition(3, literal67, 13);
 		ASM_PTR_ARITHMETIC_INTEL.add_transition(4, literal64, 1);
 		ASM_PTR_ARITHMETIC_INTEL.add_transition(5, ASM_IDENTIFIER, 8);
 		ASM_PTR_ARITHMETIC_INTEL.add_transition(5, NON_NEG_INTEGER, 9);
-		ASM_PTR_ARITHMETIC_INTEL.add_transition(6, NON_NEG_INTEGER, 9);
-		ASM_PTR_ARITHMETIC_INTEL.add_transition(7, ASM_IDENTIFIER, 10);
+		ASM_PTR_ARITHMETIC_INTEL.add_transition(6, ASM_IDENTIFIER, 10);
+		ASM_PTR_ARITHMETIC_INTEL.add_transition(7, NON_NEG_INTEGER, 9);
 		ASM_PTR_ARITHMETIC_INTEL.add_transition(8, literal13, 11);
-		ASM_PTR_ARITHMETIC_INTEL.add_transition(8, literal16, 6);
-		ASM_PTR_ARITHMETIC_INTEL.add_transition(8, literal21, 6);
+		ASM_PTR_ARITHMETIC_INTEL.add_transition(8, literal16, 7);
+		ASM_PTR_ARITHMETIC_INTEL.add_transition(8, literal21, 7);
 		ASM_PTR_ARITHMETIC_INTEL.add_transition(8, literal67, 13);
 		ASM_PTR_ARITHMETIC_INTEL.add_transition(9, literal67, 13);
 
@@ -528,13 +528,13 @@ parlex::grammar const & get_plange() {
 		ASM_STATEMENT.add_transition(5, literal0, 6);
 		ASM_STATEMENT.add_transition(5, literal19, 5);
 
-		ASSIGNMENT_CHAIN.add_transition(0, IDENTIFIER, 2);
-		ASSIGNMENT_CHAIN.add_transition(0, XML_DOC_STRING, 1);
+		ASSIGNMENT_CHAIN.add_transition(0, IDENTIFIER, 1);
+		ASSIGNMENT_CHAIN.add_transition(0, XML_DOC_STRING, 2);
 		ASSIGNMENT_CHAIN.add_transition(1, IC, 1);
-		ASSIGNMENT_CHAIN.add_transition(1, IDENTIFIER, 2);
+		ASSIGNMENT_CHAIN.add_transition(1, literal150, 3);
+		ASSIGNMENT_CHAIN.add_transition(1, literal48, 3);
 		ASSIGNMENT_CHAIN.add_transition(2, IC, 2);
-		ASSIGNMENT_CHAIN.add_transition(2, literal150, 3);
-		ASSIGNMENT_CHAIN.add_transition(2, literal48, 3);
+		ASSIGNMENT_CHAIN.add_transition(2, IDENTIFIER, 1);
 		ASSIGNMENT_CHAIN.add_transition(3, ASSIGNMENT_CHAIN, 4);
 		ASSIGNMENT_CHAIN.add_transition(3, EXPRESSION, 4);
 		ASSIGNMENT_CHAIN.add_transition(3, IC, 3);
@@ -621,16 +621,16 @@ parlex::grammar const & get_plange() {
 		CASTS.add_transition(2, EXPRESSION, 3);
 		CASTS.add_transition(2, IC, 2);
 
-		CEILING.add_transition(0, literal135, 1);
-		CEILING.add_transition(0, literal180, 2);
+		CEILING.add_transition(0, literal135, 2);
+		CEILING.add_transition(0, literal180, 1);
 		CEILING.add_transition(1, EXPRESSION, 3);
 		CEILING.add_transition(1, IC, 1);
 		CEILING.add_transition(2, EXPRESSION, 4);
 		CEILING.add_transition(2, IC, 2);
 		CEILING.add_transition(3, IC, 3);
-		CEILING.add_transition(3, literal9, 5);
+		CEILING.add_transition(3, literal181, 5);
 		CEILING.add_transition(4, IC, 4);
-		CEILING.add_transition(4, literal181, 5);
+		CEILING.add_transition(4, literal9, 5);
 
 		COMMENT.add_transition(0, literal27, 1);
 		COMMENT.add_transition(1, literal15, 2);
@@ -680,12 +680,12 @@ parlex::grammar const & get_plange() {
 		DECLARATION.add_transition(1, IC, 1);
 		DECLARATION.add_transition(1, IDENTIFIER, 2);
 
-		DEFINITION.add_transition(0, IDENTIFIER, 2);
-		DEFINITION.add_transition(0, XML_DOC_STRING, 1);
+		DEFINITION.add_transition(0, IDENTIFIER, 1);
+		DEFINITION.add_transition(0, XML_DOC_STRING, 2);
 		DEFINITION.add_transition(1, IC, 1);
-		DEFINITION.add_transition(1, IDENTIFIER, 2);
+		DEFINITION.add_transition(1, literal45, 3);
 		DEFINITION.add_transition(2, IC, 2);
-		DEFINITION.add_transition(2, literal45, 3);
+		DEFINITION.add_transition(2, IDENTIFIER, 1);
 		DEFINITION.add_transition(3, EXPRESSION, 4);
 		DEFINITION.add_transition(3, IC, 3);
 
@@ -834,27 +834,27 @@ parlex::grammar const & get_plange() {
 		FACTORIAL.add_transition(1, IC, 1);
 		FACTORIAL.add_transition(1, literal2, 2);
 
-		FLOOR.add_transition(0, literal138, 2);
-		FLOOR.add_transition(0, literal182, 1);
+		FLOOR.add_transition(0, literal138, 1);
+		FLOOR.add_transition(0, literal182, 2);
 		FLOOR.add_transition(1, EXPRESSION, 3);
 		FLOOR.add_transition(1, IC, 1);
 		FLOOR.add_transition(2, EXPRESSION, 4);
 		FLOOR.add_transition(2, IC, 2);
 		FLOOR.add_transition(3, IC, 3);
-		FLOOR.add_transition(3, literal183, 5);
+		FLOOR.add_transition(3, literal75, 5);
 		FLOOR.add_transition(4, IC, 4);
-		FLOOR.add_transition(4, literal75, 5);
+		FLOOR.add_transition(4, literal183, 5);
 
 		FOR.add_transition(0, literal92, 1);
 		FOR.add_transition(1, IC, 1);
 		FOR.add_transition(1, literal10, 2);
-		FOR.add_transition(2, EXPRESSION, 4);
+		FOR.add_transition(2, EXPRESSION, 3);
 		FOR.add_transition(2, IC, 2);
-		FOR.add_transition(2, STATEMENT_SCOPE, 3);
-		FOR.add_transition(3, EXPRESSION, 4);
+		FOR.add_transition(2, STATEMENT_SCOPE, 4);
 		FOR.add_transition(3, IC, 3);
+		FOR.add_transition(3, literal46, 5);
+		FOR.add_transition(4, EXPRESSION, 3);
 		FOR.add_transition(4, IC, 4);
-		FOR.add_transition(4, literal46, 5);
 		FOR.add_transition(5, ASSIGNMENT_CHAIN, 7);
 		FOR.add_transition(5, IC, 5);
 		FOR.add_transition(5, literal12, 6);
@@ -890,21 +890,21 @@ parlex::grammar const & get_plange() {
 		FREE.add_transition(1, EXPRESSION, 2);
 		FREE.add_transition(1, IC, 1);
 
-		FUNCTION.add_transition(0, FUNCTION_MODIFIER, 1);
-		FUNCTION.add_transition(0, literal10, 3);
-		FUNCTION.add_transition(0, literal132, 2);
-		FUNCTION.add_transition(1, literal132, 2);
-		FUNCTION.add_transition(2, STATEMENT_SCOPE, 4);
-		FUNCTION.add_transition(3, IC, 3);
-		FUNCTION.add_transition(3, PARAMETER, 5);
-		FUNCTION.add_transition(3, literal12, 6);
+		FUNCTION.add_transition(0, FUNCTION_MODIFIER, 3);
+		FUNCTION.add_transition(0, literal10, 2);
+		FUNCTION.add_transition(0, literal132, 1);
+		FUNCTION.add_transition(1, STATEMENT_SCOPE, 4);
+		FUNCTION.add_transition(2, IC, 2);
+		FUNCTION.add_transition(2, PARAMETER, 5);
+		FUNCTION.add_transition(2, literal12, 6);
+		FUNCTION.add_transition(3, literal132, 1);
 		FUNCTION.add_transition(4, literal141, 8);
 		FUNCTION.add_transition(5, IC, 5);
 		FUNCTION.add_transition(5, literal12, 6);
 		FUNCTION.add_transition(5, literal19, 7);
-		FUNCTION.add_transition(6, FUNCTION_MODIFIER, 1);
+		FUNCTION.add_transition(6, FUNCTION_MODIFIER, 3);
 		FUNCTION.add_transition(6, IC, 6);
-		FUNCTION.add_transition(6, literal132, 2);
+		FUNCTION.add_transition(6, literal132, 1);
 		FUNCTION.add_transition(7, IC, 7);
 		FUNCTION.add_transition(7, PARAMETER, 5);
 
@@ -1159,16 +1159,16 @@ parlex::grammar const & get_plange() {
 		NAND.add_transition(2, EXPRESSION, 3);
 		NAND.add_transition(2, IC, 2);
 
-		NEAREST_INTEGER.add_transition(0, literal138, 2);
-		NEAREST_INTEGER.add_transition(0, literal182, 1);
+		NEAREST_INTEGER.add_transition(0, literal138, 1);
+		NEAREST_INTEGER.add_transition(0, literal182, 2);
 		NEAREST_INTEGER.add_transition(1, EXPRESSION, 3);
 		NEAREST_INTEGER.add_transition(1, IC, 1);
 		NEAREST_INTEGER.add_transition(2, EXPRESSION, 4);
 		NEAREST_INTEGER.add_transition(2, IC, 2);
 		NEAREST_INTEGER.add_transition(3, IC, 3);
-		NEAREST_INTEGER.add_transition(3, literal181, 5);
+		NEAREST_INTEGER.add_transition(3, literal9, 5);
 		NEAREST_INTEGER.add_transition(4, IC, 4);
-		NEAREST_INTEGER.add_transition(4, literal9, 5);
+		NEAREST_INTEGER.add_transition(4, literal181, 5);
 
 		NEGATION.add_transition(0, literal21, 1);
 		NEGATION.add_transition(1, EXPRESSION, 2);
@@ -1178,11 +1178,11 @@ parlex::grammar const & get_plange() {
 		NON_FRACTIONAL.add_transition(0, literal21, 1);
 		NON_FRACTIONAL.add_transition(1, NON_NEG_NON_FRACTIONAL, 2);
 
-		NON_NEG_FRACTIONAL.add_transition(0, literal24, 2);
-		NON_NEG_FRACTIONAL.add_transition(0, parlex::builtins::decimal_digit, 1);
-		NON_NEG_FRACTIONAL.add_transition(1, literal24, 3);
-		NON_NEG_FRACTIONAL.add_transition(1, parlex::builtins::decimal_digit, 1);
-		NON_NEG_FRACTIONAL.add_transition(2, parlex::builtins::decimal_digit, 3);
+		NON_NEG_FRACTIONAL.add_transition(0, literal24, 1);
+		NON_NEG_FRACTIONAL.add_transition(0, parlex::builtins::decimal_digit, 2);
+		NON_NEG_FRACTIONAL.add_transition(1, parlex::builtins::decimal_digit, 3);
+		NON_NEG_FRACTIONAL.add_transition(2, literal24, 3);
+		NON_NEG_FRACTIONAL.add_transition(2, parlex::builtins::decimal_digit, 2);
 		NON_NEG_FRACTIONAL.add_transition(3, parlex::builtins::decimal_digit, 3);
 
 		NON_NEG_INTEGER.add_transition(0, NON_ZERO_DECIMAL_DIGIT, 1);
@@ -1318,16 +1318,16 @@ parlex::grammar const & get_plange() {
 		PRE_INC.add_transition(1, IC, 1);
 
 		PROPERTY.add_transition(0, literal132, 1);
-		PROPERTY.add_transition(1, GETTER, 2);
+		PROPERTY.add_transition(1, GETTER, 3);
 		PROPERTY.add_transition(1, IC, 1);
-		PROPERTY.add_transition(1, SETTER, 3);
+		PROPERTY.add_transition(1, SETTER, 2);
 		PROPERTY.add_transition(2, IC, 2);
 		PROPERTY.add_transition(2, literal141, 5);
-		PROPERTY.add_transition(2, literal19, 4);
 		PROPERTY.add_transition(3, IC, 3);
 		PROPERTY.add_transition(3, literal141, 5);
+		PROPERTY.add_transition(3, literal19, 4);
 		PROPERTY.add_transition(4, IC, 4);
-		PROPERTY.add_transition(4, SETTER, 3);
+		PROPERTY.add_transition(4, SETTER, 2);
 
 		RADICAL.add_transition(0, literal165, 1);
 		RADICAL.add_transition(1, EXPRESSION, 2);
@@ -1421,6 +1421,7 @@ parlex::grammar const & get_plange() {
 		STATEMENT.add_transition(0, RETURN, 1);
 		STATEMENT.add_transition(0, THROW, 1);
 		STATEMENT.add_transition(0, TRY, 1);
+		STATEMENT.add_transition(0, TYPE_CONSTRAINT, 1);
 		STATEMENT.add_transition(0, literal82, 1);
 		STATEMENT.add_transition(0, literal85, 1);
 		STATEMENT.add_transition(1, IC, 1);
@@ -1499,9 +1500,9 @@ parlex::grammar const & get_plange() {
 
 		TYPE.add_transition(0, literal126, 1);
 		TYPE.add_transition(1, IC, 1);
-		TYPE.add_transition(1, literal101, 3);
+		TYPE.add_transition(1, literal101, 4);
 		TYPE.add_transition(1, literal132, 2);
-		TYPE.add_transition(1, literal98, 4);
+		TYPE.add_transition(1, literal98, 3);
 		TYPE.add_transition(2, TYPE_SCOPE, 5);
 		TYPE.add_transition(3, IC, 3);
 		TYPE.add_transition(3, INHERITANCE_LIST, 6);
@@ -1510,9 +1511,9 @@ parlex::grammar const & get_plange() {
 		TYPE.add_transition(5, literal141, 8);
 		TYPE.add_transition(6, IC, 6);
 		TYPE.add_transition(6, literal132, 2);
-		TYPE.add_transition(6, literal98, 4);
 		TYPE.add_transition(7, IC, 7);
 		TYPE.add_transition(7, literal132, 2);
+		TYPE.add_transition(7, literal98, 3);
 
 		TYPE_CONSTRAINT.add_transition(0, TYPE_CONSTRAINT_HEAD, 1);
 		TYPE_CONSTRAINT.add_transition(1, IC, 1);
@@ -1528,17 +1529,19 @@ parlex::grammar const & get_plange() {
 
 		TYPE_CONSTRAINT_HEAD.add_transition(0, IMPLICIT_TYPE_DEREFERENCE, 5);
 		TYPE_CONSTRAINT_HEAD.add_transition(0, TYPE_DEREFERENCE, 5);
-		TYPE_CONSTRAINT_HEAD.add_transition(0, VISIBILITY_MODIFIER, 3);
+		TYPE_CONSTRAINT_HEAD.add_transition(0, VISIBILITY_MODIFIER, 4);
 		TYPE_CONSTRAINT_HEAD.add_transition(0, VOLATILE_IMPLICIT_TYPE_DEREFERENCE, 5);
 		TYPE_CONSTRAINT_HEAD.add_transition(0, VOLATILE_TYPE_DEREFERENCE, 5);
-		TYPE_CONSTRAINT_HEAD.add_transition(0, XML_DOC_STRING, 4);
-		TYPE_CONSTRAINT_HEAD.add_transition(0, literal118, 1);
+		TYPE_CONSTRAINT_HEAD.add_transition(0, XML_DOC_STRING, 1);
+		TYPE_CONSTRAINT_HEAD.add_transition(0, literal118, 3);
 		TYPE_CONSTRAINT_HEAD.add_transition(0, literal89, 2);
 		TYPE_CONSTRAINT_HEAD.add_transition(1, IC, 1);
 		TYPE_CONSTRAINT_HEAD.add_transition(1, IMPLICIT_TYPE_DEREFERENCE, 5);
 		TYPE_CONSTRAINT_HEAD.add_transition(1, TYPE_DEREFERENCE, 5);
+		TYPE_CONSTRAINT_HEAD.add_transition(1, VISIBILITY_MODIFIER, 4);
 		TYPE_CONSTRAINT_HEAD.add_transition(1, VOLATILE_IMPLICIT_TYPE_DEREFERENCE, 5);
 		TYPE_CONSTRAINT_HEAD.add_transition(1, VOLATILE_TYPE_DEREFERENCE, 5);
+		TYPE_CONSTRAINT_HEAD.add_transition(1, literal118, 3);
 		TYPE_CONSTRAINT_HEAD.add_transition(1, literal89, 2);
 		TYPE_CONSTRAINT_HEAD.add_transition(2, IC, 2);
 		TYPE_CONSTRAINT_HEAD.add_transition(2, IMPLICIT_TYPE_DEREFERENCE, 5);
@@ -1550,15 +1553,13 @@ parlex::grammar const & get_plange() {
 		TYPE_CONSTRAINT_HEAD.add_transition(3, TYPE_DEREFERENCE, 5);
 		TYPE_CONSTRAINT_HEAD.add_transition(3, VOLATILE_IMPLICIT_TYPE_DEREFERENCE, 5);
 		TYPE_CONSTRAINT_HEAD.add_transition(3, VOLATILE_TYPE_DEREFERENCE, 5);
-		TYPE_CONSTRAINT_HEAD.add_transition(3, literal118, 1);
 		TYPE_CONSTRAINT_HEAD.add_transition(3, literal89, 2);
 		TYPE_CONSTRAINT_HEAD.add_transition(4, IC, 4);
 		TYPE_CONSTRAINT_HEAD.add_transition(4, IMPLICIT_TYPE_DEREFERENCE, 5);
 		TYPE_CONSTRAINT_HEAD.add_transition(4, TYPE_DEREFERENCE, 5);
-		TYPE_CONSTRAINT_HEAD.add_transition(4, VISIBILITY_MODIFIER, 3);
 		TYPE_CONSTRAINT_HEAD.add_transition(4, VOLATILE_IMPLICIT_TYPE_DEREFERENCE, 5);
 		TYPE_CONSTRAINT_HEAD.add_transition(4, VOLATILE_TYPE_DEREFERENCE, 5);
-		TYPE_CONSTRAINT_HEAD.add_transition(4, literal118, 1);
+		TYPE_CONSTRAINT_HEAD.add_transition(4, literal118, 3);
 		TYPE_CONSTRAINT_HEAD.add_transition(4, literal89, 2);
 
 		TYPE_DEREFERENCE.add_transition(0, literal47, 1);
@@ -1580,14 +1581,14 @@ parlex::grammar const & get_plange() {
 		TYPE_SCOPE.add_transition(0, IC, 0);
 		TYPE_SCOPE.add_transition(0, TYPE_STATEMENT, 0);
 
-		TYPE_SCOPE_ASSIGNMENT_CHAIN.add_transition(0, IDENTIFIER, 2);
-		TYPE_SCOPE_ASSIGNMENT_CHAIN.add_transition(0, XML_DOC_STRING, 1);
+		TYPE_SCOPE_ASSIGNMENT_CHAIN.add_transition(0, IDENTIFIER, 1);
+		TYPE_SCOPE_ASSIGNMENT_CHAIN.add_transition(0, XML_DOC_STRING, 2);
 		TYPE_SCOPE_ASSIGNMENT_CHAIN.add_transition(1, IC, 1);
-		TYPE_SCOPE_ASSIGNMENT_CHAIN.add_transition(1, IDENTIFIER, 2);
+		TYPE_SCOPE_ASSIGNMENT_CHAIN.add_transition(1, MEMBER_OFFSET, 4);
+		TYPE_SCOPE_ASSIGNMENT_CHAIN.add_transition(1, literal150, 3);
+		TYPE_SCOPE_ASSIGNMENT_CHAIN.add_transition(1, literal48, 3);
 		TYPE_SCOPE_ASSIGNMENT_CHAIN.add_transition(2, IC, 2);
-		TYPE_SCOPE_ASSIGNMENT_CHAIN.add_transition(2, MEMBER_OFFSET, 4);
-		TYPE_SCOPE_ASSIGNMENT_CHAIN.add_transition(2, literal150, 3);
-		TYPE_SCOPE_ASSIGNMENT_CHAIN.add_transition(2, literal48, 3);
+		TYPE_SCOPE_ASSIGNMENT_CHAIN.add_transition(2, IDENTIFIER, 1);
 		TYPE_SCOPE_ASSIGNMENT_CHAIN.add_transition(3, ASSIGNMENT_CHAIN, 5);
 		TYPE_SCOPE_ASSIGNMENT_CHAIN.add_transition(3, EXPRESSION, 5);
 		TYPE_SCOPE_ASSIGNMENT_CHAIN.add_transition(3, IC, 3);
@@ -1732,6 +1733,7 @@ parlex::grammar const & get_plange() {
 		g.add_precedence(AND, OR);
 		g.add_precedence(AND, XOR);
 		g.add_precedence(ASSIGNMENT_CHAIN, EXPRESSION);
+		g.add_precedence(ASSIGNMENT_CHAIN, LESSER_CHAIN);
 		g.add_precedence(CARDINALITY, BINARY_OP);
 		g.add_precedence(CAST, BINARY_OP);
 		g.add_precedence(COMPLEMENT, BINARY_OP);
@@ -1818,6 +1820,7 @@ parlex::grammar const & get_plange() {
 		g.add_precedence(SUPERSET_CHAIN_LOOP, EXPRESSION);
 		g.add_precedence(TUPLE, MAGNITUDE);
 		g.add_precedence(TYPE_SCOPE_ASSIGNMENT_CHAIN, EXPRESSION);
+		g.add_precedence(TYPE_SCOPE_TYPE_CONSTRAINT, TYPE_CONSTRAINT);
 		g.add_precedence(UNARY_LOGICAL_OP, BINARY_LOGICAL_OP);
 		g.add_precedence(UNIT_EXPONENTIATION, UNIT_DIVISION);
 		g.add_precedence(UNIT_EXPONENTIATION, UNIT_MULTIPLICATION);

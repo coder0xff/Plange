@@ -6,6 +6,8 @@
 #include "parlex/parser.hpp"
 #include "plange_grammar.hpp"
 
+//filter super delimiters
+//Any PAYLOAD that fully contains another PAYLOAD is not a PAYLOAD
 void payload_postprocess(parlex::abstract_syntax_graph & asg) {
 	std::set<parlex::match> payloadMatches;
 	for (auto const & entry : asg.permutations) {
@@ -79,13 +81,11 @@ source_code::source_code(std::string const& pathname, std::u32string const& docu
 		pos = document.find(U'\n', pos);
 	}
 
-	//std::string test = graph.to_dot(); //todo: make sure this is commented out
+	//std::string test = graph.to_cst_dot(document); //todo: make sure this is commented out
 	if (!graph.is_rooted()) {
 		ERROR(CouldNotParse, pathname + " syntax tree: " + graph.to_dot());
 	}
 
-	//filter super delimiters
-	//Any PAYLOAD that fully contains another PAYLOAD is 
 	std::vector<std::set<parlex::match>> matchesByHeight;
 
 	for (auto const& matches : matches_by_height(graph)) {

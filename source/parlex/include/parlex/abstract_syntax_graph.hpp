@@ -14,9 +14,10 @@ struct abstract_syntax_graph {
 	std::map<match, std::set<permutation>> permutations;
 	match root;
 	bool is_rooted() const;
-	std::string to_dot() const;
 	void cut(std::set<match> const & matches);
 	void prune_detached();
+	std::string to_dot() const;
+	std::string to_cst_dot(std::u32string const & document);
 };
 
 }

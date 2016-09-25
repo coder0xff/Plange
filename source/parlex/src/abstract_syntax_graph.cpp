@@ -5,32 +5,11 @@
 
 namespace parlex {
 
-	abstract_syntax_graph::abstract_syntax_graph(match root) : root(root)
-	{
+abstract_syntax_graph::abstract_syntax_graph(match root) : root(root) {}
 
-	}
-
-	bool abstract_syntax_graph::is_rooted() const {
+bool abstract_syntax_graph::is_rooted() const {
 	auto i = permutations.find(root);
 	return i != permutations.end() && i->second.size() > 0;
-}
-
-std::string abstract_syntax_graph::to_dot() const {
-	std::string result = "digraph {\n";
-	std::set<match> completed;
-	for (auto const & entry : permutations) {
-		match i = entry.first;
-		completed.insert(i);
-		std::string from_name = i.r.get_id() + ":" + std::to_string(i.document_position) + ":" + std::to_string(i.consumed_character_count);
-		for (permutation const & j : entry.second) {
-			for (match const & k : j) {
-				std::string to_name = k.r.get_id() + ":" + std::to_string(k.document_position) + ":" + std::to_string(k.consumed_character_count);
-				result += "\t" + enquote(from_name) + " -> " + enquote(to_name) + "\n";				
-			}
-		}
-	}
-	result += "}";
-	return result;
 }
 
 void abstract_syntax_graph::cut(std::set<match> const & matches)
@@ -103,5 +82,42 @@ void abstract_syntax_graph::prune_detached() {
 		permutations.erase(unconnected);
 	}
 }
+
+std::string abstract_syntax_graph::to_dot() const {
+	std::string result = "digraph {\n";
+	std::set<match> completed;
+	for (auto const & entry : permutations) {
+		match i = entry.first;
+		completed.insert(i);
+		std::string from_name = i.r.get_id() + ":" + std::to_string(i.document_position) + ":" + std::to_string(i.consumed_character_count);
+		for (permutation const & j : entry.second) {
+			for (match const & k : j) {
+				std::string to_name = k.r.get_id() + ":" + std::to_string(k.document_position) + ":" + std::to_string(k.consumed_character_count);
+				result += "\t" + enquote(from_name) + " -> " + enquote(to_name) + "\n";
+			}
+		}
+	}
+	result += "}";
+	return result;
+}
+
+std::string abstract_syntax_graph::to_cst_dot(std::u32string const& document) {
+	std::string result = "digraph {\n";
+	std::set<match> completed;
+	for (auto const & entry : permutations) {
+		match i = entry.first;
+		completed.insert(i);
+		std::string from_name = i.r.get_id() + ":" + std::to_string(i.document_position) + ":" + std::to_string(i.consumed_character_count) + "\n" + to_utf8(document.substr(i.document_position, i.consumed_character_count));
+		for (permutation const & j : entry.second) {
+			for (match const & k : j) {
+				std::string to_name = k.r.get_id() + ":" + std::to_string(k.document_position) + ":" + std::to_string(k.consumed_character_count) + "\n" + to_utf8(document.substr(k.document_position, k.consumed_character_count));
+				result += "\t" + enquote(from_name) + " -> " + enquote(to_name) + "\n";
+			}
+		}
+	}
+	result += "}";
+	return result;
+}
+
 
 }
