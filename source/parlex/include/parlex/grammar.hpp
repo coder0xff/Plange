@@ -26,7 +26,7 @@ struct production_def {
 class grammar {
 public:
 	grammar(std::string const & nameOfMain);
-    grammar(std::string const & nameOfMain, std::map<std::string, std::shared_ptr<details::behavior_node>> const & trees, std::map<std::string, parlex::associativity> const & associativities, std::set<std::string> const & greedyNames);
+    grammar(std::string const & nameOfMain, std::map<std::string, std::shared_ptr<details::behavior_node>> const & trees, std::map<std::string, parlex::associativity> const & associativities, std::set<std::string> const & longestNames);
     grammar(std::string const & nameOfMain, std::map<std::string, production_def> const & productions);
     grammar(grammar const & other);
 	state_machine const & get_main_production() const;

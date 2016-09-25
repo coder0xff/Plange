@@ -77,7 +77,7 @@ std::u32string string_terminal::get_content() const {
 	return s;
 }
 
-filter_function greedy = [](std::u32string document, details::partial_abstract_syntax_graph const & pasg, std::list<permutation> const & permutations) {
+filter_function longest = [](std::u32string document, std::list<permutation> const & permutations) {
 	int selectedSize = 0;
 	for (permutation const & p : permutations) {
 		int len = p.size() > 0 ? p.back().document_position + p.back().consumed_character_count - p.front().document_position : 0;

@@ -10,7 +10,7 @@
 #include "parlex/builtins/not_newline.hpp"
 
 // Filters
-#include "parlex/builtins/greedy.hpp"
+#include "parlex/builtins/longest.hpp"
 
 // State Machines
 #include "parlex/builtins/c_string.hpp"

@@ -8,6 +8,8 @@
 #include "parlex/permutation.hpp"
 #include "parlex/state_machine.hpp"
 #include "parlex/details/producer.hpp"
+#include "parlex/post_processor.hpp"
+
 //#include "logging.hpp"
 //#include "perf_timer.hpp"
 
@@ -67,15 +69,15 @@ parser::~parser() {
 
 abstract_syntax_graph construct_result(details::job const & j, match const & m);
 
-abstract_syntax_graph parser::parse(grammar const & g, recognizer const & r, std::u32string const & document) {
+abstract_syntax_graph parser::parse(grammar const & g, recognizer const & overrideMain, std::vector<post_processor> posts, std::u32string const & document) {
 	//perf_timer timer("parse");
 	std::unique_lock<std::mutex> lock(mutex); //use the lock to make sure we see activeCount != 0
-	details::job j(*this, document, g, r);
+	details::job j(*this, document, g, overrideMain);
 #ifndef FORCE_RECURSION
 	assert(activeCount > 0);
 #endif
 	while (true) {
-		halt_cv.wait(lock, [this](){ return activeCount == 0; });
+		halt_cv.wait(lock, [this]() { return activeCount == 0; });
 		//DBG("parser is idle; checking for deadlocks");
 		if (handle_deadlocks(j)) {
 			break;
@@ -85,7 +87,26 @@ abstract_syntax_graph parser::parse(grammar const & g, recognizer const & r, std
 	if (update_progress_handler) {
 		update_progress_handler(document.length() + 1, document.length() + 1);
 	}
-	return construct_result(j, match(match_class(r, 0), document.size()));
+	abstract_syntax_graph result = construct_result(j, match(match_class(overrideMain, 0), document.size()));
+	if (!posts.empty()) {
+		//std::string preDot = result.to_dot();
+		for (auto const & post : posts) {
+			post(result);
+		}
+		if (result.is_rooted()) {
+			result.prune_detached();
+		}
+		//std::string postDot = result.to_dot();
+	}
+	return result;
+}
+
+abstract_syntax_graph parser::parse(grammar const & g, recognizer const & overrideMain, std::u32string const & document) {
+	return parse(g, overrideMain, std::vector<post_processor>(), document);
+}
+
+abstract_syntax_graph parser::parse(grammar const & g, std::vector<post_processor> posts, std::u32string const & document) {
+	return parse(g, g.get_main_production(), posts, document);
 }
 
 abstract_syntax_graph parser::parse(grammar const & g, std::u32string const & document) {
@@ -331,30 +352,6 @@ void compute_intersections(std::vector<std::set<node_props_t *>> const & flatten
 	}
 }
 
-void prune_detached(abstract_syntax_graph & asg) {
-	std::set<match> unconnecteds;
-	for (auto const & entry : asg.permutations) {
-		unconnecteds.insert(entry.first);
-	}
-	std::queue<match> pending;
-	unconnecteds.erase(asg.root);
-	pending.push(asg.root);
-	while (!pending.empty()) {
-		match m = pending.front();
-		pending.pop();
-		for (auto const & permutation : asg.permutations[m]) {
-			for (auto const & child : permutation) {
-				if (unconnecteds.erase(child) > 0) {
-					pending.push(child);
-				}
-			}
-		}
-	}
-	for (auto const & unconnected : unconnecteds) {
-		asg.permutations.erase(unconnected);
-	}
-}
-
 std::vector<std::set<match>> ordered_matches_by_height(std::map<match, node_props_t> & nodes) {
 	std::vector<std::set<match>> orderedMatchesByHeight;
 	for (auto & entry : nodes) {
@@ -462,9 +459,6 @@ abstract_syntax_graph & apply_precedence_and_associativity(grammar const & g, ab
 	for (auto const & entry : g.get_productions()) {
 		anyAssociativities = entry.second.get_associativity() != none;
 	}
-	if (g.get_precedences().size() == 0 && !anyAssociativities) {
-		return asg;
-	}
 
 	std::map<match, node_props_t> nodes;
 	//a per-character table of matches
@@ -473,10 +467,12 @@ abstract_syntax_graph & apply_precedence_and_associativity(grammar const & g, ab
 
 	construct_nodes(asg, nodes, flattened);
 	resolve_nodes(nodes);
-	compute_intersections(flattened);
-	asg.matchesByHeight = ordered_matches_by_height(nodes);
-	select_trees(asg, g, nodes, asg.matchesByHeight);
-	asg.matchesByHeight = ordered_matches_by_height(nodes);
+	std::vector<std::set<match>> matchesByHeight;
+	if (!g.get_precedences().empty() || anyAssociativities) {
+		compute_intersections(flattened);
+		matchesByHeight = ordered_matches_by_height(nodes);
+		select_trees(asg, g, nodes, matchesByHeight);
+	}
 	return asg;
 }
 
@@ -493,7 +489,7 @@ abstract_syntax_graph construct_result(details::job const & j, match const & m) 
 		}
 	}
 	if (result.is_rooted()) {
-		prune_detached(result);
+		result.prune_detached();
 		return apply_precedence_and_associativity(j.g, result);
 	}
 	return result;

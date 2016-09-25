@@ -1,6 +1,7 @@
 #include "parlex/abstract_syntax_graph.hpp"
 #include "parlex/recognizer.hpp"
 #include "utils.hpp"
+#include <queue>
 
 namespace parlex {
 
@@ -30,6 +31,77 @@ std::string abstract_syntax_graph::to_dot() const {
 	}
 	result += "}";
 	return result;
+}
+
+void abstract_syntax_graph::cut(std::set<match> const & matches)
+{
+	std::map<match, std::set<match>> reversedDependencies;
+	for (auto const & entry : permutations) {
+		for (auto const & p : entry.second) {
+			for (auto const & m : p) {
+				reversedDependencies[m].insert(entry.first);
+			}
+		}
+	}
+	std::queue<match> pending;
+	for (auto const & m : matches) {
+		pending.push(m);
+	}
+	bool anyCut = false;
+	while (!pending.empty()) {
+		match m = pending.front();
+		pending.pop();
+		if (permutations.erase(m) == 1) {
+			anyCut = true;
+			for (auto const & n : reversedDependencies[m]) {
+				std::set<permutation> newPermutations;
+				for (auto const & p : permutations[n]) {
+					bool cutPermutation = false;
+					for (auto const & o : p) {
+						if (!(o < m) && !(m < o)) {
+							cutPermutation = true;
+							break;
+						}
+					}
+					if (!cutPermutation) {
+						newPermutations.insert(p);
+					}
+				}
+				if (newPermutations.empty()) {
+					pending.push(n);
+				} else {
+					permutations[n].swap(newPermutations);
+				}
+			}
+		}
+	}
+	if (anyCut) {
+		
+	}
+}
+
+void abstract_syntax_graph::prune_detached() {
+	std::set<match> unconnecteds;
+	for (auto const & entry : permutations) {
+		unconnecteds.insert(entry.first);
+	}
+	std::queue<match> pending;
+	unconnecteds.erase(root);
+	pending.push(root);
+	while (!pending.empty()) {
+		match m = pending.front();
+		pending.pop();
+		for (auto const & permutation : permutations[m]) {
+			for (auto const & child : permutation) {
+				if (unconnecteds.erase(child) > 0) {
+					pending.push(child);
+				}
+			}
+		}
+	}
+	for (auto const & unconnected : unconnecteds) {
+		permutations.erase(unconnected);
+	}
 }
 
 }

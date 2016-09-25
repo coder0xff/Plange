@@ -6,7 +6,72 @@
 #include "parlex/parser.hpp"
 #include "plange_grammar.hpp"
 
-source_code::source_code(std::string const& pathname, std::u32string const& document, parlex::parser& parser) : graph(parser.parse(get_plange(), document)), document(document) {
+void payload_postprocess(parlex::abstract_syntax_graph & asg) {
+	std::set<parlex::match> payloadMatches;
+	for (auto const & entry : asg.permutations) {
+		if (entry.first.r.get_id() == "PAYLOAD") {
+			payloadMatches.insert(entry.first);
+		}
+	}
+	std::set<parlex::match> payloadsToCut;
+	for (auto const & i : payloadMatches) {
+		for (auto const & j : payloadMatches) {
+			if (i < j || j < i) {
+				int iSpanLeft = i.document_position;
+				int iSpanRight = i.document_position + i.consumed_character_count - 1;
+				int jSpanLeft = j.document_position;
+				int jSpanRight = j.document_position + j.consumed_character_count - 1;
+				if (iSpanLeft < jSpanLeft && iSpanRight >= jSpanLeft) {
+					payloadsToCut.insert(i);
+				} else if (iSpanLeft == jSpanLeft && iSpanRight > jSpanRight) {
+					payloadsToCut.insert(i);
+				}
+			}
+		}
+	}
+	asg.cut(payloadsToCut);
+}
+
+std::vector<std::set<parlex::match>> matches_by_height(parlex::abstract_syntax_graph const & asg) {
+	std::map<parlex::match, std::set<parlex::match>> reversedDependencies;
+	std::set<parlex::match> pending;
+	std::map<parlex::match, size_t> reversedResults;
+	for (auto const & entry : asg.permutations) {
+		pending.insert(entry.first);
+		reversedResults[entry.first] = 0;
+		for (auto const & p : entry.second) {
+			for (auto const & m : p) {
+				reversedDependencies[m].insert(entry.first);
+			}
+		}
+	}
+	while (!pending.empty()) {
+		parlex::match m = *pending.begin();
+		pending.erase(m);
+		size_t h = reversedResults[m] + 1;
+		for (auto const & dep : reversedDependencies[m]) {
+			if (h > reversedResults[dep]) {
+				reversedResults[dep] = h;
+				pending.insert(dep);
+			}
+		}
+	}
+	std::vector<std::set<parlex::match>> result;
+	for (auto const & e : reversedResults) {
+		parlex::match m = e.first;
+		size_t height = e.second;
+		if (result.size() <= height) {
+			result.resize(height + 1);
+		}
+		result[height].insert(m);
+	}
+	return result;
+}
+
+source_code::source_code(std::string const& pathname, std::u32string const& document, parlex::parser& parser) : 
+	graph(parser.parse(get_plange(), { payload_postprocess }, document)),
+	document(document)
+{
 	size_t pos = 0;
 	int line = 0;
 	while (pos != std::u32string::npos) {
@@ -14,11 +79,16 @@ source_code::source_code(std::string const& pathname, std::u32string const& docu
 		pos = document.find(U'\n', pos);
 	}
 
+	std::string test = graph.to_dot(); //todo: make sure this is commented out
 	if (!graph.is_rooted()) {
-		ERROR(CouldNotParse, pathname);
+		ERROR(CouldNotParse, pathname + " syntax tree: " + graph.to_dot());
 	}
 
-	for (auto const& matches : graph.matchesByHeight) {
+	//filter super delimiters
+	//Any PAYLOAD that fully contains another PAYLOAD is 
+	std::vector<std::set<parlex::match>> matchesByHeight;
+
+	for (auto const& matches : matches_by_height(graph)) {
 		for (auto const& m : matches) {
 			auto const& permutations = graph.permutations.find(m)->second;
 			if (permutations.size() > 1) {
@@ -41,6 +111,7 @@ source_code::source_code(std::string const& pathname, std::u32string const& docu
 			}
 		}
 	}
+	std::string dot = graph.to_dot();
 }
 
 source_code::~source_code() { }

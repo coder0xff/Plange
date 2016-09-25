@@ -30,6 +30,7 @@ set (HEADERS
 	"include/parlex/match_class.hpp"
 	"include/parlex/parser.hpp"
 	"include/parlex/permutation.hpp"
+	"include/parlex/post_processor.hpp"
 	"include/parlex/precedence_collection.hpp"
 	"include/parlex/recognizer.hpp"
 	"include/parlex/state_machine.hpp"
@@ -39,7 +40,7 @@ set (HEADERS
 set (BUILTINS_HEADERS
 	"include/parlex/builtins/any_character.hpp"
 	"include/parlex/builtins/c_string.hpp"
-	"include/parlex/builtins/greedy.hpp"
+	"include/parlex/builtins/longest.hpp"
 	"include/parlex/builtins/not_double_quote.hpp"
 	"include/parlex/builtins/not_newline.hpp"
 	"include/parlex/builtins/progress_bar.hpp"
@@ -54,7 +55,6 @@ set (DETAILS_HEADERS
 	"include/parlex/details/context.hpp"
 	"include/parlex/details/job.hpp"
 	"include/parlex/details/nfa.hpp"
-	"include/parlex/details/partial_abstract_syntax_graph.hpp"
 	"include/parlex/details/producer.hpp"
 	"include/parlex/details/subjob.hpp")
 

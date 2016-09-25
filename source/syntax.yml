@@ -92,12 +92,12 @@ ASM_STATEMENT:
     syntax: >
         ASM_OP [ICR ASM_EXPRESSION {{IC} "," [{IC} ASM_EXPRESSION]}] {IC} "\n"
 
-ASSIGNMENT:
+ASSIGNMENT_CHAIN:
     syntax: >
-        EXPRESSION {IC} ("←"|"<-") {IC} {EXPRESSION {IC} ("←"|"<-") {IC}} EXPRESSION
-    assoc: right
+        [XML_DOC_STRING {IC}] IDENTIFIER {IC} ("←"|"<-") {IC} (EXPRESSION|ASSIGNMENT_CHAIN)
+    precedes: [EXPRESSION]
     doc: >
-        place the given value into the given variable
+        place the given value(s) into the given variable(s)
     example: |
         iPow2 ← -1;
     notes: |
@@ -343,7 +343,7 @@ CROSS_PRODUCT:
 
 DECLARATION:
     syntax: >
-        [XML_DOC_STRING {IC}] ["extern" {IC}] [(TYPE_DEREFERENCE | IMPLICIT_TYPE_DEREFERENCE | VOLATILE_IMPLICIT_TYPE_DEREFERENCE | VOLATILE_TYPE_DEREFERENCE) {IC}] DECLARATION_PART {{IC} "," [{IC} XML_DOC_STRING] {IC} DECLARATION_PART}
+        [XML_DOC_STRING {IC}] IDENTIFIER
     doc: >
         declare a variable and optionally assign a value to it
     examples:
@@ -365,21 +365,13 @@ DECLARATION:
     see:
         - STATEMENT
 
-DECLARATION_PART:
-    syntax: >
-        IDENTIFIER [{IC} ("←"|"<-") {IC} EXPRESSION]
-
 DEFINITION:
     syntax: >
-        [XML_DOC_STRING {IC}] [(TYPE_DEREFERENCE | IMPLICIT_TYPE_DEREFERENCE | VOLATILE_TYPE_DEREFERENCE | VOLATILE_IMPLICIT_TYPE_DEREFERENCE) {IC}] DEFINITION_PART {{IC} "," [{IC} XML_DOC_STRING] {IC} DEFINITION_PART}
+        [XML_DOC_STRING {IC}] IDENTIFIER {IC} ":=" {IC} EXPRESSION
     doc: >
         define a constant, an alias for the valuation of a specified expression
     example: >
         <Double> almostPi := 355/113;
-
-DEFINITION_PART:
-    syntax: >
-        IDENTIFIER {IC} ":=" {IC} EXPRESSION
 
 DELTA:
     syntax: >
@@ -452,11 +444,11 @@ EMBEDDED_NEWLINE_STRING:
     syntax: >
         ("\"\"\"" EMBEDDED_NEWLINE_STRING_INTERIOR "\"\"\"")
     precedes: [EMBEDDED_STRING, STRING]
-        
+
 EMBEDDED_NEWLINE_STRING_INTERIOR:
     syntax: >
         ("\n" PAYLOAD "\n") | ("\"" EMBEDDED_NEWLINE_STRING_INTERIOR "\"")
-        
+
 EMBEDDED_STRING:
     syntax: >
          "\"\"\"" EMBEDDED_STRING_INTERIOR "\"\"\""
@@ -481,7 +473,7 @@ EMBEDDED_STRING:
 EMBEDDED_STRING_INTERIOR:
     syntax: >
         PAYLOAD | ("\"" EMBEDDED_STRING_INTERIOR "\"")
-        
+
 END_OF_LINE_COMMENT:
     syntax: >
         "//" {not_newline} "\n"
@@ -490,11 +482,12 @@ EQUALITY_CHAIN:
     syntax:
         EXPRESSION {IC} EQUALITY_CHAIN_LOOP
     precedes: [GREATER_CHAIN, LESSER_CHAIN, SUBSET_CHAIN, SUPERSET_CHAIN]
-        
+
 EQUALITY_CHAIN_LOOP:
     syntax: >
         "=" {IC} EXPRESSION [{IC} EQUALITY_CHAIN_LOOP]
-    
+    precedes: [EXPRESSION]
+
 EXISTS:
     syntax: >
         "∃" {IC} EXPRESSION
@@ -527,7 +520,7 @@ EXPONENTIATION:
 
 EXPRESSION:
     syntax: >
-        ALLOCATION | ARRAY | ASM_FUNCTION | BINARY_OP | BOOL | c_string | CAST | CEILING | COMPLEMENT | CONDITIONAL | DELTA | DIMENSIONAL_NUMBER | EMBEDDED_STRING | EQUALITY_CHAIN | FACTORIAL | FLOOR | FUNCTION | GREATER_CHAIN | IDENTIFIER | IF | INVOCATION | LESSER_CHAIN | LIST | MAGNITUDE | MAP | MEMBER_ACCESS | NEAREST_INTEGER | NON_NEG_NUMBER | PARENTHETICAL | PROPERTY | RADICAL | RANGE | SET | SET_COMPREHENSION | SUBSET_CHAIN | SUPERSET_CHAIN | TUPLE | TYPE | UNARY_OP | VECTOR_NORM | "null" | "this" | "this_type"
+        ALLOCATION | ARRAY | ASM_FUNCTION | BINARY_OP | BOOL | STRING | CAST | CEILING | COMPLEMENT | CONDITIONAL | DELTA | DIMENSIONAL_NUMBER | EMBEDDED_STRING | EQUALITY_CHAIN | FACTORIAL | FLOOR | FUNCTION | GREATER_CHAIN | IDENTIFIER | IF | INVOCATION | LESSER_CHAIN | LIST | MAGNITUDE | MAP | MEMBER_ACCESS | NEAREST_INTEGER | NON_NEG_NUMBER | PARENTHETICAL | PROPERTY | RADICAL | RANGE | SET | SET_COMPREHENSION | SUBSET_CHAIN | SUPERSET_CHAIN | TUPLE | TYPE | UNARY_OP | VECTOR_NORM | "null" | "this" | "this_type"
     doc: >
         a linearization of an evaluation tree containing constants, variables, operators, invocations, and sub expressions
     notes: >
@@ -544,7 +537,7 @@ FLOOR:
 
 FOR:
     syntax: >
-        "for" {IC} "(" {IC} [ STATEMENT_SCOPE {IC} ] EXPRESSION {IC} ";" {IC} [ (ASSIGNMENT | EXPRESSION) {IC} ] ")" {IC} EXPRESSION
+        "for" {IC} "(" {IC} [ STATEMENT_SCOPE {IC} ] EXPRESSION {IC} ";" {IC} [ ASSIGNMENT_CHAIN {{IC} "," {IC} ASSIGNMENT_CHAIN} {IC} ] ")" {IC} EXPRESSION
     doc: >
         evaluate the second expression repeatedly while the second expression is true, all after evaluating the optional STATEMENT_SCOPE
     examples:
@@ -658,11 +651,11 @@ GETTER:
 GREATER_CHAIN:
     syntax: >
         EXPRESSION {IC} GREATER_CHAIN_LOOP
-    filter: longest
 
 GREATER_CHAIN_LOOP:
     syntax: >
         ("="|">"|"=>"|"≥") {IC} EXPRESSION [{IC} GREATER_CHAIN_LOOP]
+    precedes: [EXPRESSION]
 
 HAS:
     syntax: >
@@ -825,6 +818,7 @@ LESSER_CHAIN:
 LESSER_CHAIN_LOOP:
     syntax: >
         ("="|"<"|"=<"|"≤") {IC} EXPRESSION [{IC} LESSER_CHAIN_LOOP]
+    precedes: [EXPRESSION]
 
 LIST:
     syntax: >
@@ -880,6 +874,10 @@ MEMBER_ACCESS:
     syntax: >
         EXPRESSION {IC} "." {IC} IDENTIFIER
     assoc: left
+
+MEMBER_OFFSET:
+    syntax: >
+        "@" {IC} WHOLE_NUMBER
 
 MODULATION:
     syntax: >
@@ -1151,7 +1149,7 @@ SLICE:
 
 STATEMENT:
     syntax: >
-        ( ASSIGNMENT | DECLARATION | DEFINITION | DO | EXPRESSION | FOR | FOR_COLLECTION | FREE | IMPORT | LOOP | RETURN | THROW | TRY | "break" | "continue" ) {IC} ";"
+        ( ASSIGNMENT_CHAIN | DEFINITION | DO | EXPRESSION | FOR | FOR_COLLECTION | FREE | IMPORT | LOOP | RETURN | THROW | TRY | "break" | "continue" ) {IC} ";"
     doc: >
         top-level statement syntax
 
@@ -1161,6 +1159,10 @@ STATEMENT_SCOPE:
     doc: >
         zero or more statements, the top level syntax rule for source files
 
+STRING:
+    syntax: >
+        c_string
+    
 SUBSET_CHAIN:
     syntax: >
         EXPRESSION {IC} SUBSET_CHAIN_LOOP
@@ -1169,7 +1171,8 @@ SUBSET_CHAIN:
 SUBSET_CHAIN_LOOP:
     syntax: >
         ("="|"⊆"|"subs"|"⊂"|"psubs") {IC} EXPRESSION [{IC} SUBSET_CHAIN_LOOP]
-        
+    precedes: [EXPRESSION]
+
 SUBTRACTION:
     syntax: >
         EXPRESSION {IC} "-" {IC} EXPRESSION
@@ -1179,11 +1182,12 @@ SUPERSET_CHAIN:
     syntax: >
         EXPRESSION {IC} SUPERSET_CHAIN_LOOP
     filter: longest
-    
+
 SUPERSET_CHAIN_LOOP:
     syntax: >
         ("="|"⊇"|"sups"|"⊃"|"psups") {IC} EXPRESSION [{IC} SUPERSET_CHAIN_LOOP]
-    
+    precedes: [EXPRESSION]
+
 SYMMETRIC_DIFFERENCE:
     syntax: >
         EXPRESSION {IC} "⊖" {IC} EXPRESSION
@@ -1222,6 +1226,18 @@ TYPE:
             <float> balance @ 0;
         };
 
+TYPE_CONSTRAINT:
+    syntax: >
+        TYPE_CONSTRAINT_HEAD {IC} TYPE_CONSTRAINT_CHAIN
+
+TYPE_CONSTRAINT_CHAIN:
+    syntax: >
+        (DECLARATION|ASSIGNMENT_CHAIN|DEFINITION) [{IC} "," {IC} TYPE_CONSTRAINT_CHAIN]
+
+TYPE_CONSTRAINT_HEAD:
+    syntax: >
+        [XML_DOC_STRING {IC}] [(VISIBILITY_MODIFIER) {IC}] ["static" {IC}] ["extern" {IC}] (TYPE_DEREFERENCE | VOLATILE_TYPE_DEREFERENCE | IMPLICIT_TYPE_DEREFERENCE | VOLATILE_IMPLICIT_TYPE_DEREFERENCE)
+
 TYPE_DEREFERENCE:
     syntax: >
         "<" {IC} EXPRESSION {IC} ">"
@@ -1240,21 +1256,26 @@ TYPE_SCOPE:
     notes: >
         Any use of the assignment operator indicates an instance member declaration. Any use of the definition operator indicates a static member of the class, since it is immutable it will not vary between instances. Like in statement_scope, an execution context is available and will execute any top-level statements inside the type.
 
+TYPE_SCOPE_ASSIGNMENT_CHAIN:
+    syntax: >
+        [XML_DOC_STRING {IC}] IDENTIFIER [{IC} MEMBER_OFFSET] {IC} ("←"|"<-") {IC} (EXPRESSION|ASSIGNMENT_CHAIN)
+    precedes: [EXPRESSION]
+
 TYPE_SCOPE_DECLARATION:
     syntax: >
-        [XML_DOC_STRING {IC}] [VISIBILITY_MODIFIER {IC}] ["static" {IC}] ["extern" {IC}] [(TYPE_DEREFERENCE | IMPLICIT_TYPE_DEREFERENCE | VOLATILE_IMPLICIT_TYPE_DEREFERENCE | VOLATILE_TYPE_DEREFERENCE) {IC}] TYPE_SCOPE_DECLARATION_PART {{IC} "," [{IC} XML_DOC_STRING] {IC} TYPE_SCOPE_DECLARATION_PART}
+        [XML_DOC_STRING {IC}] IDENTIFIER [{IC} MEMBER_OFFSET]
 
-TYPE_SCOPE_DECLARATION_PART:
+TYPE_SCOPE_TYPE_CONSTRAINT:
     syntax: >
-        IDENTIFIER ["@" {IC} WHOLE_NUMBER] [{IC} ("←"|"<-") {IC} EXPRESSION]
-        
-TYPE_SCOPE_DEFINITION:
+        TYPE_CONSTRAINT_HEAD {IC} TYPE_SCOPE_TYPE_CONSTRAINT_CHAIN
+
+TYPE_SCOPE_TYPE_CONSTRAINT_CHAIN:
     syntax: >
-        [XML_DOC_STRING {IC}] [VISIBILITY_MODIFIER {IC}] ["extern" {IC}] [(TYPE_DEREFERENCE | IMPLICIT_TYPE_DEREFERENCE | VOLATILE_IMPLICIT_TYPE_DEREFERENCE | VOLATILE_TYPE_DEREFERENCE) {IC}] DEFINITION_PART {{IC} "," [{IC} XML_DOC_STRING] {IC} DEFINITION_PART}
+        [XML_DOC_STRING {IC}] (TYPE_SCOPE_DECLARATION|TYPE_SCOPE_ASSIGNMENT_CHAIN|DEFINITION) [{IC} "," {IC} TYPE_SCOPE_TYPE_CONSTRAINT_CHAIN]
 
 TYPE_STATEMENT:
     syntax: >
-        (VISIBILITY_MODIFIER {IC} ":") | TYPE_SCOPE_DECLARATION | TYPE_SCOPE_DEFINITION | STATEMENT
+        (VISIBILITY_MODIFIER {IC} ":") | TYPE_SCOPE_TYPE_CONSTRAINT | STATEMENT
     doc: >
         top-level type syntax
 
