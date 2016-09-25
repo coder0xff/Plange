@@ -9,29 +9,26 @@
 		<?php require('../header.php') ?>
 
 
-		<p>It is increasingly common for languages to treat programming concepts as “first class.” For example, <a href="https://en.wikipedia.org/wiki/Reflection_%28computer_programming%29">reflection</a> in Java and C# is a solution for making types first class. A type is not a black box, hard coded by a programmer that is only used to create objects. It is a value that can be inspected and manipulated. Functions are also commonly first class, in that they can be assigned to variables, constructed at run time, and be subjected to lambda calculus.</p>
-		
-		<p>The process of first classing can be described as such:</p>
-		<p><b>The abstraction of language features into representations that may be constructed, inspected, and manipulated by that same language.</b></p>
-		<p>The result of first classing is a development environment in which the</p>
+		<p>It is increasingly common for languages to treat programming concepts as “first class.” For example, <a href="https://en.wikipedia.org/wiki/Reflection_%28computer_programming%29">reflection</a> in Java and C# is a solution for making types first class. A type is not a black box, hard coded by a programmer that is only used to create objects. It is a value that can be inspected and manipulated. Functions are also commonly first class, in that they can be assigned to variables, constructed at run time, and be subjected to lambda calculus. Metaobjects are the abstraction of language features into representations that may be constructed, inspected, and manipulated by that same language.</p>
+		<p>The development environment includes metaobjects for:</p>
 		<ul>
 			<li>objects</li>
 			<li>functions</li>
-			<li>logic</li>
-			<li>architecture</li>
+			<li>logics and algebras</li>
+			<li>architectures</li>
 			<li>documentation, and</li>
 			<li>binaries</li>
 		</ul>
-		<p>of the</p>
+		<p>within metaobjects for:</p>
 		<ul>
-			<li>toolchain</li>
-			<li>runtime</li>
+			<li>toolchains</li>
+			<li>runtimes</li>
 			<li>programs</li>
-			<li>debugger</li>
-			<li>editor, and</li>
-			<li>IDE</li>
+			<li>debuggers</li>
+			<li>editors, and</li>
+			<li>IDEs</li>
 		</ul>
-		<p>can be</p>
+		<p>all of which can be</p>
 		<ul>
 			<li>constructed</li>
 			<li>inspected, and</li>

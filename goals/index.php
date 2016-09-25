@@ -27,8 +27,8 @@
         plange does not obstruct any use case. See the
         <a href="strongly-connected-model-of-computation.php">main page</a>.</p>
 
-        <h2>First Classing</h2>
-        <p>An approach to meta programming. See the <a href="first-classing.php">main page</a>.</p>
+        <h2>Metaobjects</h2>
+        <p>An approach to meta programming (see <a href="https://en.wikipedia.org/wiki/Metaobject">metaobject</a> on Wikipedia). See the <a href="metaobjects.php">main page</a>.</p>
 
         <h2>Multi-Paradigm</h2>
         <p>Support semantics from each <a href="https://en.wikipedia.org/wiki/Programming_language_generations">generation of programming language</a>.</p>

@@ -11,7 +11,7 @@
 
 
 		<div style="padding:1em;font-size:1.6em">
-			Plange (plaːnd͡ʒ) is an open-source project to create a revolutionary
+			Plange (plænd͡ʒ) is an open-source project to create a revolutionary
 			development environment, including a programming language,
 			standard library, and runtime.
 		</div>
@@ -218,7 +218,7 @@ print(type_of(Color));        // output: Type</pre>
 };</pre>
 		</div>
 
-		<p>Functions that return Type objects (<a href="/documentation/syntax/invocation.php">or another type function</a>) can be called with the angle bracket syntax:</p>
+		<p>Functions that return Type objects (<a href="/documentation/syntax/INVOCATION.php">or another type function</a>) can be called with the angle bracket syntax:</p>
 		<div class="code">
 			<p>Example</p>
 			<pre>&lt;Node&lt;Int&gt;&gt; myNode;</pre>
@@ -345,9 +345,9 @@ sue = 6;</pre>
 
 		<h2>Further reading</h2>
 		<ul>
-			<li><a href="/documentation/syntax/if.php">if (syntax)</a></li>
-			<li><a href="/documentation/syntax/for.php">for (syntax)</a></li>
-			<li><a href="/documentation/syntax/statement_scope.php">statement_scope (syntax)</a></li>
+			<li><a href="/documentation/syntax/IF.php">if (syntax)</a></li>
+			<li><a href="/documentation/syntax/FOR.php">for (syntax)</a></li>
+			<li><a href="/documentation/syntax/STATEMENT_SCOPE.php">statement_scope (syntax)</a></li>
 			<li><a href="/documentation/operators.php">operators</a></li>
 		</ul>
 

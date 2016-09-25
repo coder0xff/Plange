@@ -7,9 +7,11 @@
 	</head>
 	<body>
 		<?php require('../header.php') ?>
-
-
-		<p>Types are used to define or constrain the structure and behavior (class invariant) of the values that a variable can be assigned, or that a constant can be defined as. Here, we declare x as a variable that can store an integer, and assign the value 10.</p>
+		
+		
+		<p>Types are used to constrain the structure and behavior (class invariant) of the values that a variable can be assigned, or that a constant can be defined as. The type system, being based on the culmination of many feature sets, is necessarily complex. However, by simply working in a familiar paradigm - among imperative, functional, or constraint based and among static typing, late binding, or duck typing - the type system applies the appropriate constraints and compile-time analyses.</p>
+		
+		<p>Here, we declare x as a variable that can store an integer, and assign the value 10.</p>
 
 		<div class="code">
 			<p>declare and assign a variable</p>
@@ -17,51 +19,68 @@
 		</div>
 
 		<div class="code">
-			<p>error caused by contradicting the type invariant</p>
+			<p>error caused by contradicting the invariant</p>
 			<pre>&lt;Int&gt; x ← 10;
-<b>x ← 1.5; //error! can't assign a fractional number to an integer</b></pre>
+<b>x ← 1.5; //error - can't assign a fractional number to an integer</b></pre>
 		</div>
 
-		<p>To use a type in the declaration of a variable or in the definition of a constant, the type must be enclosed by angle brackets < > (see <a href="/documentation/syntax/type_dereference.php">type_dereference</a>).</p>
+		<p>To use a type in the declaration of a variable or in the definition of a constant, the type must be enclosed by angle brackets <code>&lt; &gt;</code> (see <a href="/documentation/syntax/TYPE_DEREFERENCE.php">TYPE_DEREFERENCE</a>).</p>
 
 		<div class="code">
-			<p></p>
-			<pre>print(type_of(x).name);         //prints "Int"
+			<p>Example</p>
+			<pre>&lt;Int&gt; x;
+print(type_of(x).name);         //prints "Int"
 print(type_of(Int).name);       //prints "Type"
-print(type_of(MyTypeDef).name); //prints "Type"
 print(type_of(Type).name);      //prints "Type"</pre>
 		</div>
 
-		<h2>Parametric types</h2>
-		<p>Functions may construct and return Type objects. Called <b>type functions</b>&nbsp;(also&nbsp;parametric type or generic type), they may be called using the angle-bracket invocation syntax:</p>
+		<p>Types can be elided in many cases, and can be used to create unquantified generic functions.</p>
 		
 		<div class="code">
 			<p>Example</p>
-			<pre>&lt;Type * Int → Type&gt; Vector := (T, s) { return T^s; };  // Vector is a function
-Foat32x3 := Vector&lt;Float32, 3&gt;;                        // type def and a function call
+			<pre>identity := (value) { return value; };</pre>
+		</div>
+
+		<h2>Type Constructors</h2>
+		<p>Functions may construct and return Type objects. These functions may be <a href="/documentation/syntax/TYPE_INVOCATION.php">invoked using the angle-bracket syntax</a>. Further, any function that returns an angle-bracket invokable function may also be angle-bracket invoked.</p>
+		
+		<div class="code">
+			<p>Example</p>
+			<pre>&lt;Type * Int → Type&gt; Vector := (T, s) { return T^s; };  // Vector is a function that return a Type.
+Float32x3 := Vector&lt;Float32, 3&gt;;                       // type def and a function call
 
 &lt;Float32x3&gt; aVectorVariable;                           // make a variable
 &lt;Vector&lt;Float32, 3&gt;&gt; anotherVectorVariable;            // same type as previous line
 &lt;type_of(aVectorVariable)&gt; yetAnotherVectorVariable;   // contrived but doable</pre>
 		</div>
 
-		<p>In the next example X is an unbound variable. The identity function returns any value it is passed while preserving type information.</p>
+		<p>Despite the function-like definition, simple constructs (e.g. Vector from above) are recognized as parametric types and benefit from the generic features involving variance and deduction.</p>
+
+		<h3>Notes</h3>
+		<p>The angle-bracket syntax is not required, since parenthesis can be used also. The convention is to use the angle-bracket syntax when the intent is use as a parametric type (see <a href="/documentation/syntax/INVOCATION.php">INVOCATION</a>).</p>
+
+		<h2>Type inference</h2>
+		<p>Type inference, a feature of static typing, extends beyond inference of elided types in "obvious" scenarios, instead using all logical tools available (specifically constraint propogation and constant folding) for deduction. Type checking benefits from the same sophistication. Consider the following:</p>
+
 		<div class="code">
 			<p>Example</p>
-			<pre>&lt;X → X&gt; identity := (&ltX&gt value) { return value; }; //A constraint is built upon X and identity</pre>		
+			<pre>getParamCount := (&lt;Function&lt;types, retType&gt;&gt; f) {
+	&lt;List&lt;Type&gt;&gt; types;
+	return types.length;
+};</pre>
 		</div>
 
-		<p>Or with less verbosity, simply:</p>
+		<p><code>types</code> is never defined or assigned to, and is therefore unbound, but must be a List of Types. Upon attempting to evaluate <code>types.length</code>, a value for <code>types</code> is computed. An example of implicitly quantified generic programming:</p>
+		
 		<div class="code">
 			<p>Example</p>
-			<pre>identity := (value) { return value; };</pre>
+			<pre>&lt;(X * X → X) → Type&gt; binary_op_type := (&lt;X * X → X&gt; f) { return X; } </pre>
 		</div>
 
-		<h2>Notes</h2>
-		<p>The angle-bracket syntax is not required, since parenthesis can be used also. The convention is to use the angle-bracket syntax when the intent is use as a generic type. See <a href="/documentation/syntax/invocation.php">invocation</a></p>
-
+		<p><code>X</code> is unbound, so may take on any type.</p>
+		
 		<h2>Covariance and Contravariance</h2>
-		<p>The inheritance graph is modeled and can be tested programmatically.</p>
+		<p>The inheritance graph and variance properties are modeled and can be tested programmatically.</p>
 
 		<h3>Covariance</h3>
 		
@@ -75,7 +94,7 @@ Cat := type implementing Animal {
 	&lt;Void → Void&gt; speak &lt;- { Meow(); };
 };
 
-&lt;List&lt;T&gt; → Void&gt; choir := (animals) {
+&lt;List&lt;Animal&gt; → Void&gt; choir := (animals) {
 	for (animal in animals) {
 		animal.speak();
 	}
@@ -120,24 +139,38 @@ choir(kittehs);</pre>
 			<p>(part 2 of 2)</p>
 			<pre>DataProvider := type {
 	&lt;String&gt; data := """
-___.___    ~            _____________
-\  \\  \   ,, ???      |        '\\\\\\
- \  \\  \ /&lt;   ?       |        ' ____|_
-  --\//,- \_.  /_____  |        '||::::::
-      o- /   \_/    '\ |        '||_____|
-      | \ '   o       '________|_____|
-      |  )-   #     &lt;  ___/____|___\___
-      `_/'------------|    _    '  &lt;&lt;&lt;:|
-          /________\| |_________'___o_o|
+                       .,,uod8B8bou,,.
+              ..,uod8BBBBBBBBBBBBBBBBRPFT?l!i:.
+         ,=m8BBBBBBBBBBBBBBBRPFT?!||||||||||||||
+         !...:!TVBBBRPFT||||||||||!!^^""'   ||||
+         !.......:!?|||||!!^^""'            ||||
+         !.........||||                     ||||
+         !.........||||  #                  ||||
+         !.........||||                     ||||
+         !.........||||                     ||||
+         !.........||||                     ||||
+         !.........||||                     ||||
+         `.........||||                    ,||||
+          .;.......||||               _.-!!|||||
+   .,uodWBBBBb.....||||       _.-!!|||||||||!:'
+!YBBBBBBBBBBBBBBb..!|||:..-!!|||||||!iof68BBBBBb....
+!..YBBBBBBBBBBBBBBb!!||||||||!iof68BBBBBBRPFT?!::   `.
+!....YBBBBBBBBBBBBBBbaaitf68BBBBBBRPFT?!:::::::::     `.
+!......YBBBBBBBBBBBBBBBBBBBRPFT?!::::::;:!^"`;:::       `.
+!........YBBBBBBBBBBRPFT?!::::::::::^''...::::::;         iBBbo.
+`..........YBRPFT?!::::::::::::::::::::::::;iof68bo.      WBBBBbo.
+  `..........:::::::::::::::::::::::;iof688888888888b.     `YBBBP^'
+    `........::::::::::::::::;iof688888888888888888888b.     `
+      `......:::::::::;iof688888888888888888888888888888b.
+        `....:::;iof688888888888888888888888888888888899fT!
+          `..::!8888888888888888888888888888888899fT|!^"'
+            `' !!988888888888888888888888899fT|!^"'
+                `!!8888888888888888899fT|!^"'
+                  `!988888888899fT|!^"'
+                    `!9899fT|!^"'
+                      `!^"'
 """;
 };</pre>
-		</div>
-
-		<div class="code">
-			<p>Pseudocode</p>
-			<pre>List := type {Dynarray
-
-			} + (<Type> T) { return type { }};
 		</div>
 
 		<h2>Algebraic Types</h2>
@@ -146,16 +179,12 @@ ___.___    ~            _____________
 
 		<div class="code">
 			<p>Example</p>
-			<pre>LinkedListNode := type { <Int> value; <LinkedListNode> next; } | type { <Int> value; };</pre>
+			<pre>InteriorNode := type { &lt;Int&gt; value; <LinkedListNode> next; };
+TerminalNode := type { &lt;Int&gt; value; };
+LinkedListNode := InteriorNode | TerminalNode</pre>
 		</div>
 
 		<p>Further, algebraic types are not limited to simple switching. Like all algebraic values, they may be defined through a system of constraints.</p>
-
-		<div class="code">
-			<p>Example</p>
-			<pre>List<T>  
-myVar <- "Hello!";
-		</div>
 
 		<?php require('../footer.php') ?>
 	</body>
