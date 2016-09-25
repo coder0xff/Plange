@@ -77,7 +77,7 @@ std::u32string string_terminal::get_content() const {
 	return s;
 }
 
-filter_function greedy = [](std::u32string document, details::partial_abstract_syntax_graph const & pasg, std::list<permutation> const & permutations) {
+filter_function longest = [](std::u32string document, std::list<permutation> const & permutations) {
 	int selectedSize = 0;
 	for (permutation const & p : permutations) {
 		int len = p.size() > 0 ? p.back().document_position + p.back().consumed_character_count - p.front().document_position : 0;
@@ -94,23 +94,6 @@ filter_function greedy = [](std::u32string document, details::partial_abstract_s
 		}
 		counter++;
 	}
-	return result;
-};
-
-filter_function super_delimiter = [](std::u32string document, details::partial_abstract_syntax_graph const & pasg, std::list<permutation> const & permutations) {
-	std::set<int> result;
-	size_t len = document.size();
-	size_t firstCharIndex = (*permutations.begin())[0].document_position;
-	size_t firstUnboundDelimiterIndex = firstCharIndex + 1;
-	assert(len > firstUnboundDelimiterIndex);
-	char32_t unboundDelimiter = document[firstUnboundDelimiterIndex];
-	size_t lastUnboundDelimiterIndex = firstUnboundDelimiterIndex + 1;
-	assert(len > lastUnboundDelimiterIndex);
-	while (lastUnboundDelimiterIndex + 1 < len && document[lastUnboundDelimiterIndex + 1] == unboundDelimiter) {
-		++lastUnboundDelimiterIndex;
-	}
-	size_t delimiterCount = lastUnboundDelimiterIndex - firstUnboundDelimiterIndex;
-	throw "Not implemented";
 	return result;
 };
 

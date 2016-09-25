@@ -13,7 +13,7 @@ namespace parlex {
 
 	grammar::grammar(std::string const & nameOfMain) : main_production_name(nameOfMain) {}
 
-	grammar::grammar(std::string const & nameOfMain, std::map<std::string, std::shared_ptr<details::behavior_node>> const & trees, std::map<std::string, associativity> const & associativities, std::set<std::string> const & greedyNames) : main_production_name(nameOfMain)
+	grammar::grammar(std::string const & nameOfMain, std::map<std::string, std::shared_ptr<details::behavior_node>> const & trees, std::map<std::string, associativity> const & associativities, std::set<std::string> const & longestNames) : main_production_name(nameOfMain)
 	{
 		std::map<std::string, details::intermediate_nfa> dfas;
 		for (auto const & nameAndBehaviorNode : trees) {
@@ -83,8 +83,8 @@ namespace parlex {
 			if (i != associativities.end()) {
 				assoc = i->second;
 			}
-			if (greedyNames.count(name) > 0) {
-				productions.emplace(std::piecewise_construct, forward_as_tuple(name), forward_as_tuple(name, *dfa.startStates.begin(), dfa.acceptStates.size(), &builtins::greedy, assoc));
+			if (longestNames.count(name) > 0) {
+				productions.emplace(std::piecewise_construct, forward_as_tuple(name), forward_as_tuple(name, *dfa.startStates.begin(), dfa.acceptStates.size(), &builtins::longest, assoc));
 			}
 			else {
 				productions.emplace(std::piecewise_construct, forward_as_tuple(name), forward_as_tuple(name, *dfa.startStates.begin(), dfa.acceptStates.size(), assoc));
@@ -371,10 +371,8 @@ void grammar::generate_cpp(std::string grammarName, std::string nameOfMain, std:
 			associativityString += "right";
 			break;
 		}
-		if (sm.get_filter() == &builtins::greedy) {
-			cpp << "\tstatic parlex::state_machine & " << id << " = g.add_production(\"" << id << "\", " << sm.get_start_state() << ", " << sm.get_accept_state_count() << ", &parlex::builtins::greedy, " << associativityString << ");\n";
-		} else if (sm.get_filter() == &builtins::super_delimiter) {
-			cpp << "\tstatic parlex::state_machine & " << id << " = g.add_production(\"" << id << "\", " << sm.get_start_state() << ", " << sm.get_accept_state_count() << ", &parlex::builtins::super_delimiter, " << associativityString << ");\n";
+		if (sm.get_filter() == &builtins::longest) {
+			cpp << "\tstatic parlex::state_machine & " << id << " = g.add_production(\"" << id << "\", " << sm.get_start_state() << ", " << sm.get_accept_state_count() << ", &parlex::builtins::longest, " << associativityString << ");\n";
 		} else {
 			cpp << "\tstatic parlex::state_machine & " << id << " = g.add_production(\"" << id << "\", " << sm.get_start_state() << ", " << sm.get_accept_state_count() << ", " << associativityString << ");\n";
 		}

@@ -4,11 +4,11 @@ include(depend)
 
 #dependency on LLVM
 set(LLVM_VERSION 3.8.1)
-depend("LLVM" "http://llvm.org/releases/${LLVM_VERSION}/llvm-${LLVM_VERSION}.src.tar.xz" ".tar.xz" "share/llvm/cmake/LLVMConfig.cmake")
+depend("LLVM" "http://llvm.org/releases/${LLVM_VERSION}/llvm-${LLVM_VERSION}.src.tar.xz" ".tar.xz" "share/llvm/cmake/LLVMConfig.cmake" "")
 
 if(${MSVC})
 	include(msvc_fetch_mpir)
-	include_directories("${CMAKE_CURRENT_BINARY_DIR}/../mpir")
+	include_directories("${PROJECT_BINARY_DIR}/mpir")
 endif()
 
 #Prep build for symengine

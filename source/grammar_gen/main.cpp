@@ -54,9 +54,7 @@ int main(int argc, const char* argv[]) {
 		if (data["filter"]) {
 			std::string filterName = data["filter"].as<std::string>();
 			if (filterName == "longest") {
-				temp.filter = &parlex::builtins::greedy;
-			} else if (filterName == "super_delimiter") {
-				temp.filter = &parlex::builtins::super_delimiter;
+				temp.filter = &parlex::builtins::longest;
 			} else {
 				throw std::logic_error(("unrecognized filter " + filterName).c_str());
 			}

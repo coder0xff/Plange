@@ -8,6 +8,7 @@
 
 #include "parlex/abstract_syntax_graph.hpp"
 #include "grammar.hpp"
+#include "post_processor.hpp"
 
 namespace parlex {
 namespace details {
@@ -25,10 +26,11 @@ class parser {
 public:
 	parser(int threadCount = std::thread::hardware_concurrency());
 	~parser();
+	abstract_syntax_graph parse(grammar const & g, recognizer const & overrideMain, std::vector<post_processor> posts, std::u32string const & document);
 	abstract_syntax_graph parse(grammar const & g, recognizer const & overrideMain, std::u32string const & document);
+	abstract_syntax_graph parse(grammar const & g, std::vector<post_processor> posts, std::u32string const & document);
 	abstract_syntax_graph parse(grammar const & g, std::u32string const & document);
 	void set_update_progress_handler(std::function<void(int /*done*/, int /*total*/)>);
-	static details::partial_abstract_syntax_graph construct_partial_result(details::job const & j, details::subjob const & subjob);
 private:
 	friend class details::job;
 	friend class details::subjob;
