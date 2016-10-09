@@ -219,6 +219,25 @@ struct node_props_t {
 	inline node_props_t(abstract_syntax_graph & asg, match const & m) : m(m), r(m.r), permutations(asg.permutations[m]), children(getChildren(asg, m)), height(0), selected(false) {}
 };
 
+bool can_prune(abstract_syntax_graph & asg, std::map<match, node_props_t> const & nodes, node_props_t const & props) {
+	if (!(props.m < asg.root || asg.root < props.m)) {
+		return false;
+	}
+	for (auto const & parentMatchAndPermutations : props.parentPermutationsByMatch) {
+		match const & parentMatch = parentMatchAndPermutations.first;
+		auto const i = nodes.find(parentMatch);
+		assert(i != nodes.end());
+		node_props_t const & parentProps = i->second;
+		std::set<permutation> const & parentPermutations = parentMatchAndPermutations.second;
+		if (parentProps.permutations.size() == parentPermutations.size()) { //if all parent permutations depend on this, then we can only prune if the parent can be pruned
+			if (!can_prune(asg, nodes, parentProps)) {
+				return false;
+			 }
+		}
+	}
+	return true;
+}
+
 void prune(abstract_syntax_graph & asg, std::map<match, node_props_t> & nodes, node_props_t & props) {
 	std::queue<match> toPrune;
 	std::set<match> completed;
@@ -240,9 +259,9 @@ void prune(abstract_syntax_graph & asg, std::map<match, node_props_t> & nodes, n
 			std::set<permutation> const & parentPermutations = parentMatchAndPermutations.second;
 			for (permutation const & perm : parentPermutations) {
 				parentProps.permutations.erase(perm);
-				if (parentProps.permutations.size() == 0) {
-					add(parentMatch);
-				}
+			}
+			if (parentProps.permutations.size() == 0) {
+				add(parentMatch);
 			}
 		}
 		for (match const & descendentMatch : thisNode.allDescendents) {
@@ -389,7 +408,7 @@ bool associativity_test(node_props_t & a, node_props_t & b) {
 	throw std::domain_error("Invalid associativity value");
 }
 
-void select_trees(abstract_syntax_graph & asg, grammar const & g, std::map<match, node_props_t> & nodes, std::vector<std::set<match>> orderedMatchesByHeight) {
+void select_trees(abstract_syntax_graph & asg, grammar const & g, std::map<match, node_props_t> & nodes, std::vector<std::set<match>> const orderedMatchesByHeight) {
 	if (!orderedMatchesByHeight.empty()) {
 		for (match const & i : orderedMatchesByHeight[0]) {
 			nodes.find(i)->second.selected = true;
@@ -403,7 +422,7 @@ void select_trees(abstract_syntax_graph & asg, grammar const & g, std::map<match
 			std::set<match> preservedIntersections; //used towards the end, but needs to be initialized before "goto matchLoop"
 			auto const & i = nodes.find(m);
 			if (i == nodes.end()) {
-				goto matchLoop;
+				goto matchLoop;  //continue
 			}
 			a = &i->second;
 			//are any of those permutations comprised of selected children?
@@ -422,7 +441,7 @@ void select_trees(abstract_syntax_graph & asg, grammar const & g, std::map<match
 				}
 			}
 			if (!anyPermutationSelected) {
-				goto matchLoop;
+				goto matchLoop; //continue
 			}
 			//is it possibly preempted by another match that it intersects with?
 			for (match const & intersected : a->allIntersections) {
@@ -445,10 +464,19 @@ void select_trees(abstract_syntax_graph & asg, grammar const & g, std::map<match
 				node_props_t & b = pair->second;
 				if (precedence_test(g, *a, b) || associativity_test(*a, b)) {
 					//if it must be selected, then precedence and associativity must remove preempted intersections
-					abstract_syntax_graph savedAsg = asg;
-					prune(asg, nodes, b);
-					if (!asg.is_rooted()) {
-						asg.permutations = savedAsg.permutations;
+					if (can_prune(asg, nodes, b)) {
+						prune(asg, nodes, b);
+					} else {
+						if (precedence_test(g, *a, b)) {
+							static auto stringify = [](node_props_t & np) {
+								return np.r.get_id() + " from " + std::to_string(np.m.document_position) + " for " + std::to_string(np.m.consumed_character_count) + " characters at height " + std::to_string(np.height);
+							};
+							asg.warnings.push_back(stringify(*a) + " preempted " + stringify(b) + " by precedence, but was not applied because it would cause a degenerate parse tree.");
+						}
+						else {
+							throw std::exception(); //degenerate parse caused by associativity?
+						}
+
 					}
 				}
 			}
@@ -465,18 +493,20 @@ abstract_syntax_graph & apply_precedence_and_associativity(grammar const & g, ab
 		anyAssociativities = entry.second.get_associativity() != none;
 	}
 
-	std::map<match, node_props_t> nodes;
-	//a per-character table of matches
-	std::vector<std::set<node_props_t *>> flattened;
-	flattened.resize(asg.root.consumed_character_count);
-
-	construct_nodes(asg, nodes, flattened);
-	resolve_nodes(nodes);
-	std::vector<std::set<match>> matchesByHeight;
 	//short circuit if no rules are given
 	if (!g.get_precedences().empty() || anyAssociativities) {
+
+		std::map<match, node_props_t> nodes;
+		//a per-character table of matches
+		std::vector<std::set<node_props_t *>> flattened;
+		flattened.resize(asg.root.consumed_character_count);
+
+		construct_nodes(asg, nodes, flattened);
+		resolve_nodes(nodes);
 		compute_intersections(flattened);
+		std::vector<std::set<match>> matchesByHeight;
 		matchesByHeight = ordered_matches_by_height(nodes);
+
 		select_trees(asg, g, nodes, matchesByHeight);
 	}
 	assert(asg.is_rooted());

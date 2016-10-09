@@ -3,6 +3,7 @@
 
 #include <map>
 #include <set>
+#include <list>
 
 #include "parlex/match.hpp"
 #include "parlex/permutation.hpp"
@@ -18,6 +19,7 @@ struct abstract_syntax_graph {
 	void prune_detached();
 	std::string to_dot() const;
 	std::string to_cst_dot(std::u32string const & document);
+	std::list<std::string> warnings;
 };
 
 }
