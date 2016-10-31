@@ -11,6 +11,7 @@
 #include "stdlib.hpp"
 
 #pragma warning(push, 0)
+#include "llvm/IR/LLVMContext.h"
 #include "llvm/IR/Module.h"
 #include "llvm/IR/IRBuilder.h"
 #pragma warning(pop)
@@ -78,21 +79,22 @@ int main(int argc, const char* argv[]) {
 		assert(inserted);
 	}
 
-	std::unique_ptr<llvm::Module> module(new llvm::Module("module", llvm::getGlobalContext()));
+	llvm::LLVMContext llvmContext;
+	std::unique_ptr<llvm::Module> module(new llvm::Module("module", llvmContext));
 	loadStdLib(&*module);
-	llvm::IRBuilder<> builder(llvm::getGlobalContext());
+	llvm::IRBuilder<> builder(llvmContext);
 
 	std::vector<llvm::Type*> mainFuncArgTypes = {
-		llvm::Type::getInt32Ty(llvm::getGlobalContext()),
-		llvm::Type::getInt8PtrTy(llvm::getGlobalContext())->getPointerTo()
+		llvm::Type::getInt32Ty(llvmContext),
+		llvm::Type::getInt8PtrTy(llvmContext)->getPointerTo()
 	};
 	
 	llvm::FunctionType *mainFuncType = llvm::FunctionType::get(
-		llvm::Type::getInt32Ty(llvm::getGlobalContext()),
+		llvm::Type::getInt32Ty(llvmContext),
 		mainFuncArgTypes,
 		false);
 	llvm::Function *mainFunc = llvm::Function::Create(mainFuncType, llvm::Function::ExternalLinkage, "main", &*module);
-	llvm::BasicBlock *entryPointBlock = llvm::BasicBlock::Create(llvm::getGlobalContext(), "entrypoint", mainFunc);
+	llvm::BasicBlock *entryPointBlock = llvm::BasicBlock::Create(llvmContext, "entrypoint", mainFunc);
 	builder.SetInsertPoint(entryPointBlock);
 
 	for (auto const &path : realpaths) {

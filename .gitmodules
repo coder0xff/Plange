@@ -1,3 +1,0 @@
-[submodule "source/plc/symengine"]
-	path = source/plc/symengine
-	url = https://github.com/coder0xff/symengine.git
