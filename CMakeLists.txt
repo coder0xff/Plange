@@ -50,11 +50,6 @@ if(${MSVC})
 			"${CMAKE_BINARY_DIR}/Dependencies/mpir/"
 	)
 
-	set(SYMENGINE_GMP_INCLUDE_DIR "-DGMP_INCLUDE_DIR=${CMAKE_BINARY_DIR}/Dependencies/mpir")
-	set(SYMENGINE_GMP_LIBRARY "-DGMP_LIBRARY=${CMAKE_BINARY_DIR}/Dependencies/mpir/mpir.lib")
-	set(SYMENGINE_GMP_TARGETS "-DGMP_TARGETS=${CMAKE_BINARY_DIR}/Dependencies/mpir/mpir.lib")
-	set(SYMENGINE_GMP_DEPEND "mpir")
-
 	ExternalProject_Add(symengine
 	 	DEPENDS mpir
 	 	PREFIX "${CMAKE_BINARY_DIR}/Downloads/symengine/prefix"
