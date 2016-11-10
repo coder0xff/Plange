@@ -40,26 +40,49 @@ if(${MSVC})
 		GIT_TAG 622672e868d15a0186922c08bac2037182600f3b
 		CONFIGURE_COMMAND ""
 		BINARY_DIR "${CMAKE_BINARY_DIR}/Downloads/mpir/prefix/src/mpir/build.vc${MSVC_SHORT_VER}"
-		BUILD_COMMAND "${CMAKE_BINARY_DIR}/Downloads/mpir/prefix/src/mpir/build.vc${MSVC_SHORT_VER}/msbuild.bat" "gc" "LIB" "win32" "${CMAKE_CFG_INTDIR}"
-		INSTALL_COMMAND "${CMAKE_COMMAND}" "-E" "copy_if_different" "${CMAKE_BINARY_DIR}/Downloads/mpir/prefix/src/mpir/lib/win32/${CMAKE_CFG_INTDIR}/gmp.h" "${CMAKE_BINARY_DIR}/Downloads/mpir/prefix/src/mpir/lib/win32/${CMAKE_CFG_INTDIR}/mpir.lib" "${CMAKE_BINARY_DIR}/Dependencies/mpir/"
+		BUILD_COMMAND 
+			"${CMAKE_BINARY_DIR}/Downloads/mpir/prefix/src/mpir/build.vc${MSVC_SHORT_VER}/msbuild.bat"
+			"gc" "LIB" "win32" "${CMAKE_CFG_INTDIR}"
+		INSTALL_COMMAND
+			"${CMAKE_COMMAND}" "-E" "copy_if_different"
+			"${CMAKE_BINARY_DIR}/Downloads/mpir/prefix/src/mpir/lib/win32/${CMAKE_CFG_INTDIR}/gmp.h"
+			"${CMAKE_BINARY_DIR}/Downloads/mpir/prefix/src/mpir/lib/win32/${CMAKE_CFG_INTDIR}/mpir.lib"
+			"${CMAKE_BINARY_DIR}/Dependencies/mpir/"
 	)
 
 	set(SYMENGINE_GMP_INCLUDE_DIR "-DGMP_INCLUDE_DIR=${CMAKE_BINARY_DIR}/Dependencies/mpir")
 	set(SYMENGINE_GMP_LIBRARY "-DGMP_LIBRARY=${CMAKE_BINARY_DIR}/Dependencies/mpir/mpir.lib")
 	set(SYMENGINE_GMP_TARGETS "-DGMP_TARGETS=${CMAKE_BINARY_DIR}/Dependencies/mpir/mpir.lib")
 	set(SYMENGINE_GMP_DEPEND "mpir")
+
+	ExternalProject_Add(symengine
+	 	DEPENDS mpir
+	 	PREFIX "${CMAKE_BINARY_DIR}/Downloads/symengine/prefix"
+	 	GIT_REPOSITORY "https://github.com/symengine/symengine.git"
+	 	GIT_TAG 5d123c0e321b8f7a323599092f7cf11045bf77ee
+	 	BINARY_DIR "${CMAKE_BINARY_DIR}/Downloads/symengine/${CMAKE_CFG_INTDIR}/build"
+	 	CONFIGURE_COMMAND ""
+	 	BUILD_COMMAND
+	 		"${CMAKE_COMMAND}"
+	 		"${CMAKE_BINARY_DIR}/Downloads/symengine/prefix/src/symengine"
+	 		"-G" "${CMAKE_GENERATOR}"
+	 		"-DGMP_LIBRARY=${CMAKE_BINARY_DIR}/Dependencies/mpir/mpir.lib"
+	 		"-DGMP_INCLUDE_DIR=${CMAKE_BINARY_DIR}/Dependencies/mpir"
+	 		"-DCMAKE_BUILD_TYPE=${CMAKE_CFG_INTDIR}"
+	 		"-DMSVC_USE_MT=0"
+	 		"-DCMAKE_INSTALL_PREFIX=${CMAKE_BINARY_DIR}/Dependencies/symengine"
+	 	INSTALL_COMMAND "${CMAKE_COMMAND}" "--build" "${CMAKE_BINARY_DIR}/Downloads/symengine/${CMAKE_CFG_INTDIR}/build" "--target" "INSTALL"
+	)
+else()
+	ExternalProject_Add(symengine
+	 	PREFIX "${CMAKE_BINARY_DIR}/Downloads/symengine/prefix"
+	 	GIT_REPOSITORY "https://github.com/symengine/symengine.git"
+	 	GIT_TAG 5d123c0e321b8f7a323599092f7cf11045bf77ee
+	 	BINARY_DIR "${CMAKE_BINARY_DIR}/Downloads/symengine/build"
+	 	CMAKE_ARGS "-DCMAKE_INSTALL_PREFIX=${CMAKE_BINARY_DIR}/Dependencies/symengine"
+	)
 endif()
 
-ExternalProject_Add(symengine
- 	DEPENDS ${SYMENGINE_GMP_DEPEND}
- 	PREFIX "${CMAKE_BINARY_DIR}/Downloads/symengine/prefix"
- 	GIT_REPOSITORY "https://github.com/symengine/symengine.git"
- 	GIT_TAG 5d123c0e321b8f7a323599092f7cf11045bf77ee
- 	BINARY_DIR "${CMAKE_BINARY_DIR}/Downloads/symengine/${CMAKE_CFG_INTDIR}/build"
- 	CONFIGURE_COMMAND ""
- 	BUILD_COMMAND "${CMAKE_COMMAND}" "${CMAKE_BINARY_DIR}/Downloads/symengine/prefix/src/symengine" "-G" "${CMAKE_GENERATOR}" "${SYMENGINE_GMP_LIBRARY}" "${SYMENGINE_GMP_INCLUDE_DIR}" "-DCMAKE_BUILD_TYPE=${CMAKE_CFG_INTDIR}" "-DMSVC_USE_MT=0" "-DCMAKE_INSTALL_PREFIX=${CMAKE_BINARY_DIR}/Dependencies/symengine"
- 	INSTALL_COMMAND "${CMAKE_COMMAND}" "--build" "${CMAKE_BINARY_DIR}/Downloads/symengine/${CMAKE_CFG_INTDIR}/build" "--target" "INSTALL"
-)
 
 ExternalProject_Add(googletest
 	PREFIX "${CMAKE_BINARY_DIR}/Downloads/googletest"

@@ -1,6 +1,6 @@
 #include "stdlib.hpp"
 
-void loadStdLib(llvm::Module *module) {
+void load_std_lib(llvm::Module *module) {
 	{
 		//add puts
 		std::vector<llvm::Type *> args;

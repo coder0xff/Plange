@@ -101,7 +101,7 @@ std::string abstract_syntax_graph::to_dot() const {
 	return result;
 }
 
-std::string abstract_syntax_graph::to_cst_dot(std::u32string const& document) {
+std::string abstract_syntax_graph::to_concrete_dot(std::u32string const& document) {
 	std::string result = "digraph {\n";
 	std::set<match> completed;
 	for (auto const & entry : permutations) {

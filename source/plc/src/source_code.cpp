@@ -5,6 +5,12 @@
 #include "stdafx.hpp"
 #include "parlex/parser.hpp"
 #include "plange_grammar.hpp"
+#include "utils.hpp"
+#include "scope.hpp"
+
+#pragma warning(push, 0)
+#include <llvm/IR/Constants.h>
+#pragma warning(pop)
 
 //filter super delimiters
 //Any PAYLOAD that fully contains another PAYLOAD is not a PAYLOAD
@@ -70,27 +76,30 @@ std::vector<std::set<parlex::match>> matches_by_height(parlex::abstract_syntax_g
 	return result;
 }
 
-source_code::source_code(std::string const& pathname, std::u32string const& document, parlex::parser& parser) : 
-	graph(parser.parse(get_plange(), { payload_postprocess }, document)),
-	document(document)
+source_code::source_code(std::string const& pathname, std::u32string const& document, parlex::parser& parser, llvm::LLVMContext & llvmContext) :
+	document(document),
+	asg(parser.parse(get_plange(), { payload_postprocess }, document)),
+	module(new llvm::Module(pathname, llvmContext))
 {
+	//compute line number lookup table
 	size_t pos = 0;
 	int line = 0;
 	while (pos != std::u32string::npos) {
-		lineNumberByFirstChar[pos++] = line++;
+		line_number_by_first_character[pos++] = line++;
 		pos = document.find(U'\n', pos);
 	}
 
 	//std::string test = graph.to_cst_dot(document); //todo: make sure this is commented out
-	if (!graph.is_rooted()) {
-		ERROR(CouldNotParse, pathname + " syntax tree: " + graph.to_dot());
+	if (!asg.is_rooted()) {
+		ERROR(CouldNotParse, pathname + " syntax tree: " + asg.to_dot());
 	}
 
 	std::vector<std::set<parlex::match>> matchesByHeight;
 
-	for (auto const& matches : matches_by_height(graph)) {
+
+	for (auto const& matches : matches_by_height(asg)) {
 		for (auto const& m : matches) {
-			auto const& permutations = graph.permutations.find(m)->second;
+			auto const& permutations = asg.permutations.find(m)->second;
 			if (permutations.size() > 1) {
 				auto posStart = get_line_number_and_column(m.document_position);
 				auto posEnd = get_line_number_and_column(m.document_position + m.consumed_character_count - 1);
@@ -111,17 +120,34 @@ source_code::source_code(std::string const& pathname, std::u32string const& docu
 			}
 		}
 	}
-	std::string dot = graph.to_dot();
+	//std::string dot = asg.to_dot(); //TODO: make sure this is commented out
 }
 
 source_code::~source_code() { }
 
 std::pair<int, int> source_code::get_line_number_and_column(int charIndex) {
-	std::map<int, int>::iterator i = lineNumberByFirstChar.lower_bound(charIndex);
-	if (i != lineNumberByFirstChar.end() && i->first == charIndex) {
+	std::map<int, int>::iterator i = line_number_by_first_character.lower_bound(charIndex);
+	if (i != line_number_by_first_character.end() && i->first == charIndex) {
 		return std::make_pair(i->second, 0);
 	}
-	assert(i != lineNumberByFirstChar.begin());
+	assert(i != line_number_by_first_character.begin());
 	--i;
 	return std::make_pair(i->second, charIndex - i->first);
+}
+
+llvm::Value * source_code::get_or_add_global_string(llvm::LLVMContext & context, std::u32string const & s)
+{
+	auto i = global_strings.find(s);
+	if (i != global_strings.end()) return i->second;
+	llvm::StringRef Str(to_utf8(s));
+	llvm::Constant *StrConstant = llvm::ConstantDataArray::getString(context, Str);
+	auto gv = new llvm::GlobalVariable(*module, StrConstant->getType(), true, llvm::GlobalValue::PrivateLinkage, StrConstant);
+	std::string name = "str" + std::to_string(global_strings.size());
+	gv->setName(name);
+	//gv->setUnnamedAddr(true)
+	return global_strings[s] = gv;
+}
+
+void source_code::compile() {
+	scope.reset(new ::scope(*this, nullptr, asg.root));
 }
