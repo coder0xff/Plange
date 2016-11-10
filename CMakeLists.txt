@@ -7,7 +7,7 @@ ExternalProject_Add(yaml-cpp
 	PREFIX "${CMAKE_BINARY_DIR}/Downloads/yaml-cpp" 
 	GIT_REPOSITORY "https://github.com/jbeder/yaml-cpp.git"
 	GIT_TAG 519d33fea3fbcbe7e1f89f97ee0fa539cec33eb7
-	BINARY_DIR "${CMAKE_BINARY_DIR}/Downloads/yaml-cpp/${CMAKE_CFG_INTDIR}/build"
+	BINARY_DIR "${CMAKE_BINARY_DIR}/Downloads/yaml-cpp/build"
 	CMAKE_ARGS "-DCMAKE_INSTALL_PREFIX=${CMAKE_BINARY_DIR}/Dependencies/yaml-cpp"
 )
 
