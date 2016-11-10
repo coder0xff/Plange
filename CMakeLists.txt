@@ -1,3 +1,8 @@
+
+
+
+
+
 cmake_minimum_required (VERSION 2.6)
 include(ExternalProject)
 
@@ -33,7 +38,7 @@ if(${MSVC})
 
 	include(vsyasm_install)
 	get_msvc_short_ver(MSVC_SHORT_VER)
-    file(MAKE_DIRECTORY "${CMAKE_BINARY_DIR}/Dependencies/mpir/")
+	file(MAKE_DIRECTORY "${CMAKE_BINARY_DIR}/Dependencies/mpir/")
 	ExternalProject_Add(mpir
 		PREFIX "${CMAKE_BINARY_DIR}/Downloads/mpir/prefix"
 		GIT_REPOSITORY "https://github.com/wbhart/mpir.git"
@@ -51,30 +56,30 @@ if(${MSVC})
 	)
 
 	ExternalProject_Add(symengine
-	 	DEPENDS mpir
-	 	PREFIX "${CMAKE_BINARY_DIR}/Downloads/symengine/prefix"
-	 	GIT_REPOSITORY "https://github.com/symengine/symengine.git"
-	 	GIT_TAG 5d123c0e321b8f7a323599092f7cf11045bf77ee
-	 	BINARY_DIR "${CMAKE_BINARY_DIR}/Downloads/symengine/${CMAKE_CFG_INTDIR}/build"
-	 	CONFIGURE_COMMAND ""
-	 	BUILD_COMMAND
-	 		"${CMAKE_COMMAND}"
-	 		"${CMAKE_BINARY_DIR}/Downloads/symengine/prefix/src/symengine"
-	 		"-G" "${CMAKE_GENERATOR}"
-	 		"-DGMP_LIBRARY=${CMAKE_BINARY_DIR}/Dependencies/mpir/mpir.lib"
-	 		"-DGMP_INCLUDE_DIR=${CMAKE_BINARY_DIR}/Dependencies/mpir"
-	 		"-DCMAKE_BUILD_TYPE=${CMAKE_CFG_INTDIR}"
-	 		"-DMSVC_USE_MT=0"
-	 		"-DCMAKE_INSTALL_PREFIX=${CMAKE_BINARY_DIR}/Dependencies/symengine"
-	 	INSTALL_COMMAND "${CMAKE_COMMAND}" "--build" "${CMAKE_BINARY_DIR}/Downloads/symengine/${CMAKE_CFG_INTDIR}/build" "--target" "INSTALL"
+		DEPENDS mpir
+		PREFIX "${CMAKE_BINARY_DIR}/Downloads/symengine/prefix"
+		GIT_REPOSITORY "https://github.com/symengine/symengine.git"
+		GIT_TAG 5d123c0e321b8f7a323599092f7cf11045bf77ee
+		BINARY_DIR "${CMAKE_BINARY_DIR}/Downloads/symengine/${CMAKE_CFG_INTDIR}/build"
+		CONFIGURE_COMMAND ""
+		BUILD_COMMAND
+			"${CMAKE_COMMAND}"
+			"${CMAKE_BINARY_DIR}/Downloads/symengine/prefix/src/symengine"
+			"-G" "${CMAKE_GENERATOR}"
+			"-DGMP_LIBRARY=${CMAKE_BINARY_DIR}/Dependencies/mpir/mpir.lib"
+			"-DGMP_INCLUDE_DIR=${CMAKE_BINARY_DIR}/Dependencies/mpir"
+			"-DCMAKE_BUILD_TYPE=${CMAKE_CFG_INTDIR}"
+			"-DMSVC_USE_MT=0"
+			"-DCMAKE_INSTALL_PREFIX=${CMAKE_BINARY_DIR}/Dependencies/symengine"
+		INSTALL_COMMAND "${CMAKE_COMMAND}" "--build" "${CMAKE_BINARY_DIR}/Downloads/symengine/${CMAKE_CFG_INTDIR}/build" "--target" "INSTALL"
 	)
 else()
 	ExternalProject_Add(symengine
-	 	PREFIX "${CMAKE_BINARY_DIR}/Downloads/symengine/prefix"
-	 	GIT_REPOSITORY "https://github.com/symengine/symengine.git"
-	 	GIT_TAG 5d123c0e321b8f7a323599092f7cf11045bf77ee
-	 	BINARY_DIR "${CMAKE_BINARY_DIR}/Downloads/symengine/build"
-	 	CMAKE_ARGS "-DCMAKE_INSTALL_PREFIX=${CMAKE_BINARY_DIR}/Dependencies/symengine"
+		PREFIX "${CMAKE_BINARY_DIR}/Downloads/symengine/prefix"
+		GIT_REPOSITORY "https://github.com/symengine/symengine.git"
+		GIT_TAG 5d123c0e321b8f7a323599092f7cf11045bf77ee
+		BINARY_DIR "${CMAKE_BINARY_DIR}/Downloads/symengine/build"
+		CMAKE_ARGS "-DCMAKE_INSTALL_PREFIX=${CMAKE_BINARY_DIR}/Dependencies/symengine"
 	)
 endif()
 
