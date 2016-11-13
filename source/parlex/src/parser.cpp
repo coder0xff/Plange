@@ -69,7 +69,7 @@ parser::~parser() {
 
 abstract_syntax_graph construct_result(details::job const & j, match const & m);
 
-abstract_syntax_graph parser::parse(grammar const & g, recognizer const & overrideMain, std::vector<post_processor> posts, std::u32string const & document) {
+abstract_syntax_graph parser::parse(grammar_base const & g, recognizer const & overrideMain, std::vector<post_processor> posts, std::u32string const & document) {
 	//perf_timer timer("parse");
 	std::unique_lock<std::mutex> lock(mutex); //use the lock to make sure we see activeCount != 0
 	details::job j(*this, document, g, overrideMain);
@@ -101,20 +101,20 @@ abstract_syntax_graph parser::parse(grammar const & g, recognizer const & overri
 	return result;
 }
 
-abstract_syntax_graph parser::parse(grammar const & g, recognizer const & overrideMain, std::u32string const & document) {
+abstract_syntax_graph parser::parse(grammar_base const & g, recognizer const & overrideMain, std::u32string const & document) {
 	return parse(g, overrideMain, std::vector<post_processor>(), document);
 }
 
-abstract_syntax_graph parser::parse(grammar const & g, std::vector<post_processor> posts, std::u32string const & document) {
+abstract_syntax_graph parser::parse(grammar_base const & g, std::vector<post_processor> posts, std::u32string const & document) {
 	return parse(g, g.get_main_production(), posts, document);
 }
 
-abstract_syntax_graph parser::parse(grammar const & g, std::u32string const & document) {
+abstract_syntax_graph parser::parse(grammar_base const & g, std::u32string const & document) {
 	return parse(g, g.get_main_production(), document);
 }
 
 void parser::schedule(details::context_ref const & c, int nextDfaState) {
-	//DBG("scheduling m: ", c.owner().machine.get_id(), " b:", c.owner().documentPosition, " s:", nextDfaState, " p:", c.current_document_position());
+	//DBG("scheduling m: ", c.owner().machine.id, " b:", c.owner().documentPosition, " s:", nextDfaState, " p:", c.current_document_position());
 #ifndef FORCE_RECURSION
 	++activeCount;
 	std::unique_lock<std::mutex> lock(mutex);
@@ -383,19 +383,19 @@ std::vector<std::set<match>> ordered_matches_by_height(std::map<match, node_prop
 	return orderedMatchesByHeight;
 }
 
-bool precedence_test(grammar const & g, node_props_t & a, node_props_t & b)
+bool precedence_test(grammar_base const & g, node_props_t & a, node_props_t & b)
 {
 	if (&a.m.r == &b.m.r) {
 		return false;
 	}
-	return g.test_precedence(*dynamic_cast<state_machine const *>(&a.m.r), *dynamic_cast<state_machine const *>(&b.m.r));
+	return g.test_precedence(*dynamic_cast<state_machine_base const *>(&a.m.r), *dynamic_cast<state_machine_base const *>(&b.m.r));
 }
 
 bool associativity_test(node_props_t & a, node_props_t & b) {
 	if (&a.m.r != &b.m.r) {
 		return false;
 	}
-	associativity const assoc = dynamic_cast<state_machine const *>(&a.m.r)->get_associativity();
+	associativity const assoc = dynamic_cast<state_machine_base const *>(&a.m.r)->assoc;
 	switch (assoc) {
 	case left:
 	case any:
@@ -408,7 +408,7 @@ bool associativity_test(node_props_t & a, node_props_t & b) {
 	throw std::domain_error("Invalid associativity value");
 }
 
-void select_trees(abstract_syntax_graph & asg, grammar const & g, std::map<match, node_props_t> & nodes, std::vector<std::set<match>> const orderedMatchesByHeight) {
+void select_trees(abstract_syntax_graph & asg, grammar_base const & g, std::map<match, node_props_t> & nodes, std::vector<std::set<match>> const orderedMatchesByHeight) {
 	if (!orderedMatchesByHeight.empty()) {
 		for (match const & i : orderedMatchesByHeight[0]) {
 			nodes.find(i)->second.selected = true;
@@ -469,7 +469,7 @@ void select_trees(abstract_syntax_graph & asg, grammar const & g, std::map<match
 					} else {
 						if (precedence_test(g, *a, b)) {
 							static auto stringify = [](node_props_t & np) {
-								return np.r.get_id() + " from " + std::to_string(np.m.document_position) + " for " + std::to_string(np.m.consumed_character_count) + " characters at height " + std::to_string(np.height);
+								return np.r.id + " from " + std::to_string(np.m.document_position) + " for " + std::to_string(np.m.consumed_character_count) + " characters at height " + std::to_string(np.height);
 							};
 							asg.warnings.push_back(stringify(*a) + " preempted " + stringify(b) + " by precedence, but was not applied because it would cause a degenerate parse tree.");
 						}
@@ -486,11 +486,11 @@ void select_trees(abstract_syntax_graph & asg, grammar const & g, std::map<match
 	}
 }
 
-abstract_syntax_graph & apply_precedence_and_associativity(grammar const & g, abstract_syntax_graph & asg) {
+abstract_syntax_graph & apply_precedence_and_associativity(grammar_base const & g, abstract_syntax_graph & asg) {
 	assert(asg.is_rooted());
 	bool anyAssociativities = false;
 	for (auto const & entry : g.get_productions()) {
-		anyAssociativities = entry.second.get_associativity() != none;
+		anyAssociativities = entry.second->assoc != none;
 	}
 
 	//short circuit if no rules are given

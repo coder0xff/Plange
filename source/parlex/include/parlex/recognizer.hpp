@@ -12,18 +12,19 @@ namespace details {
 
 	class recognizer_reference_comparer {
 	public:
-		inline bool operator()(recognizer const & lhs, recognizer const & rhs) { return &lhs < &rhs; }
+		inline bool operator()(recognizer const & lhs, recognizer const & rhs) const { return &lhs < &rhs; }
 	};
 }
 
 //base class for terminal and state_machine
 class recognizer {
 public:
+	recognizer(std::string const & id);
 	virtual ~recognizer() = default;
-	inline virtual bool is_terminal() const { return false; }
-	virtual std::string get_id() const = 0;
+	virtual bool is_terminal() const;
+	std::string const id;
 
-	inline friend std::ostream& operator<<(std::ostream& os, const recognizer & r) { return os << r.get_id(); };
+	inline friend std::ostream& operator<<(std::ostream& os, const recognizer & r) { return os << r.id; };
 };
 
 

@@ -199,17 +199,17 @@ namespace parlex {
 			std::string name = nameAndStateMachine.first;
 			state_machine const & sm = nameAndStateMachine.second;
 			std::pair<std::map<std::string, state_machine>::iterator, bool> emplaceResult;
-			if (sm.get_filter() != nullptr) {
+			if (sm.filter != nullptr) {
 				emplaceResult = productions.emplace(
 					std::piecewise_construct,
 					forward_as_tuple(name),
-					forward_as_tuple(name, sm.get_start_state(), sm.get_accept_state_count(), sm.get_filter(), sm.get_associativity()));
+					forward_as_tuple(name, sm.start_state, sm.accept_state_count, sm.filter, sm.assoc));
 			}
 			else {
 				emplaceResult = productions.emplace(
 					std::piecewise_construct,
 					forward_as_tuple(name),
-					forward_as_tuple(name, sm.get_accept_state_count(), sm.get_associativity()));
+					forward_as_tuple(name, sm.accept_state_count, sm.assoc));
 			}
 			recognizersMap[static_cast<recognizer const *>(&sm)] = static_cast<recognizer const *>(&emplaceResult.first->second);
 		}
@@ -230,14 +230,18 @@ namespace parlex {
 		}
 	}
 
-	state_machine const & grammar::get_main_production() const {
+	state_machine_base const & grammar::get_main_production() const {
 		auto i = productions.find(main_production_name);
 		assert(i != productions.end());
 		return i->second;
 	}
 
-	std::map<std::string, state_machine> const & grammar::get_productions() const {
-		return productions;
+	std::map<std::string, state_machine_base const *> grammar::get_productions() const {
+		std::map<std::string, state_machine_base const *> results;
+		for (auto const & i : productions) {
+			results[i.first] = &i.second;
+		}
+		return results;
 	}
 
 	builtins::string_terminal & grammar::add_literal(std::u32string contents) {
@@ -246,27 +250,6 @@ namespace parlex {
 			throw "literal already added.";
 		}
 		return result.first->second;
-	}
-
-	void grammar::add_precedence(state_machine const & productionA, state_machine const & productionB)
-	{
-		assert(productions.find(productionA.get_id()) != productions.end());
-		assert(productions.find(productionB.get_id()) != productions.end());
-		precedences[&productionA].insert(&productionB);
-	}
-
-	bool grammar::test_precedence(state_machine const & productionA, state_machine const & productionB) const
-	{
-		auto i = precedences.find(&productionA);
-		if (i == precedences.end()) {
-			return false;
-		}
-		return i->second.count(&productionB) > 0;
-	}
-
-	precedence_collection const & grammar::get_precedences() const
-	{
-		return precedences;
 	}
 
 	std::map<std::u32string, builtins::string_terminal> const & grammar::get_literals() const
@@ -357,7 +340,7 @@ void grammar::generate_cpp(std::string grammarName, std::string nameOfMain, std:
 		std::string const & id = production.first;
 		state_machine const & sm = production.second;
 		std::string associativityString = "parlex::associativity::";
-		switch (sm.get_associativity()) {
+		switch (sm.assoc) {
 		case none:
 			associativityString += "none";
 			break;
@@ -371,10 +354,10 @@ void grammar::generate_cpp(std::string grammarName, std::string nameOfMain, std:
 			associativityString += "right";
 			break;
 		}
-		if (sm.get_filter() == &builtins::longest) {
-			cpp << "\tstatic parlex::state_machine & " << id << " = g.add_production(\"" << id << "\", " << sm.get_start_state() << ", " << sm.get_accept_state_count() << ", &parlex::builtins::longest, " << associativityString << ");\n";
+		if (sm.filter == &builtins::longest) {
+			cpp << "\tstatic parlex::state_machine & " << id << " = g.add_production(\"" << id << "\", " << sm.start_state << ", " << sm.accept_state_count << ", &parlex::builtins::longest, " << associativityString << ");\n";
 		} else {
-			cpp << "\tstatic parlex::state_machine & " << id << " = g.add_production(\"" << id << "\", " << sm.get_start_state() << ", " << sm.get_accept_state_count() << ", " << associativityString << ");\n";
+			cpp << "\tstatic parlex::state_machine & " << id << " = g.add_production(\"" << id << "\", " << sm.start_state << ", " << sm.accept_state_count << ", " << associativityString << ");\n";
 		}
 		recognizerToStringMap[static_cast<recognizer const *>(&sm)] = id;
 	}
@@ -401,12 +384,12 @@ void grammar::generate_cpp(std::string grammarName, std::string nameOfMain, std:
 	}
 
 	std::stringstream buffer;
-	if (precedences.size() > 0) {
+	if (get_precedences().size() > 0) {
 		buffer << "\n";
-		for (decltype(precedences)::value_type const & leftAndRights : precedences) {
+		for (precedence_collection::value_type const & leftAndRights : get_precedences()) {
 			for (auto const & right : leftAndRights.second) {
 				buffer << "\n";
-				buffer << "\t\tg.add_precedence(" << leftAndRights.first->get_id() << ", " << right->get_id() << ");";
+				buffer << "\t\tg.add_precedence(" << leftAndRights.first->id << ", " << right->id << ");";
 			}
 		}
 	}

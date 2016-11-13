@@ -23,7 +23,7 @@ void eval_parenthetical_invocation(parlex::match match, source_code const &sourc
 	parlex::match funcVal = parts[0];
 	std::vector<parlex::match> arguments;
 	for (size_t i = 1; i < parts.size(); ++i) {
-		if (parts[i].r.get_id() == "EXPRESSION") {
+		if (parts[i].r.id == "EXPRESSION") {
 			arguments.push_back(parts[i]);
 		}
 	}
@@ -31,7 +31,7 @@ void eval_parenthetical_invocation(parlex::match match, source_code const &sourc
 
 void eval_invocation(parlex::match match, source_code const &sourceCode, llvm::IRBuilder<> &builder) {
 	parlex::permutation parts = *sourceCode.asg.permutations.find(match)->second.begin();
-	std::string partType = parts[0].r.get_id();
+	std::string partType = parts[0].r.id;
 	if (partType == "PARENTHETICAL_INVOCATION") {
 		eval_parenthetical_invocation(parts[0], sourceCode, builder);
 	}
@@ -39,7 +39,7 @@ void eval_invocation(parlex::match match, source_code const &sourceCode, llvm::I
 
 void eval_expression(parlex::match match, source_code const &sourceCode, llvm::IRBuilder<> &builder) {
 	parlex::permutation parts = *sourceCode.asg.permutations.find(match)->second.begin();
-	std::string partType = parts[0].r.get_id();
+	std::string partType = parts[0].r.id;
 	if (partType == "INVOCATION") {
 		eval_invocation(parts[0], sourceCode, builder);
 	}

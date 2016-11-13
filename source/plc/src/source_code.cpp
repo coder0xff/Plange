@@ -17,7 +17,7 @@
 void payload_postprocess(parlex::abstract_syntax_graph & asg) {
 	std::set<parlex::match> payloadMatches;
 	for (auto const & entry : asg.permutations) {
-		if (entry.first.r.get_id() == "PAYLOAD") {
+		if (entry.first.r.id == "PAYLOAD") {
 			payloadMatches.insert(entry.first);
 		}
 	}
@@ -105,14 +105,14 @@ source_code::source_code(std::string const& pathname, std::u32string const& docu
 				auto posEnd = get_line_number_and_column(m.document_position + m.consumed_character_count - 1);
 				std::string message;
 				if (posStart.first == posEnd.first) {
-					message = pathname + ":" + m.r.get_id() + " at " + std::to_string(posStart.first + 1) + ":" + std::to_string(posStart.second + 1) + "-" + std::to_string(posEnd.second + 1);
+					message = pathname + ":" + m.r.id + " at " + std::to_string(posStart.first + 1) + ":" + std::to_string(posStart.second + 1) + "-" + std::to_string(posEnd.second + 1);
 				} else {
-					message = pathname + ":" + m.r.get_id() + " at " + std::to_string(posStart.first + 1) + ":" + std::to_string(posStart.second + 1) + "-" + std::to_string(posEnd.first + 1) + ":" + std::to_string(posEnd.second + 1);
+					message = pathname + ":" + m.r.id + " at " + std::to_string(posStart.first + 1) + ":" + std::to_string(posStart.second + 1) + "-" + std::to_string(posEnd.first + 1) + ":" + std::to_string(posEnd.second + 1);
 				}
 				for (auto const& p : permutations) {
 					message += "\n";
 					for (auto const& childMatch : p) {
-						message += childMatch.r.get_id() + " ";
+						message += childMatch.r.id + " ";
 					}
 					message = message.substr(0, message.length() - 1);
 				}

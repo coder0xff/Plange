@@ -1,5 +1,7 @@
 #include "parlex/builtins/unicode.hpp"
 
+parlex::details::all_t::all_t() : terminal("all") {}
+
 bool parlex::details::all_t::test(std::u32string const & document, size_t documentPosition) const
 {
 	if (documentPosition >= document.length()) return false;
@@ -12,10 +14,7 @@ size_t parlex::details::all_t::get_length() const
 	return 1;
 }
 
-std::string parlex::details::all_t::get_id() const
-{
-	return "all";
-}
+parlex::details::alphanumeric_t::alphanumeric_t() : terminal("alphanumeric") {}
 
 bool parlex::details::alphanumeric_t::test(std::u32string const & document, size_t documentPosition) const
 {
@@ -29,10 +28,7 @@ size_t parlex::details::alphanumeric_t::get_length() const
 	return 1;
 }
 
-std::string parlex::details::alphanumeric_t::get_id() const
-{
-	return "alphanumeric";
-}
+parlex::details::close_punctuation_t::close_punctuation_t() : terminal("close_punctuation") {}
 
 bool parlex::details::close_punctuation_t::test(std::u32string const & document, size_t documentPosition) const
 {
@@ -46,10 +42,7 @@ size_t parlex::details::close_punctuation_t::get_length() const
 	return 1;
 }
 
-std::string parlex::details::close_punctuation_t::get_id() const
-{
-	return "close_punctuation";
-}
+parlex::details::connector_punctuation_t::connector_punctuation_t() : terminal("connector_punctuation") {}
 
 bool parlex::details::connector_punctuation_t::test(std::u32string const & document, size_t documentPosition) const
 {
@@ -63,10 +56,7 @@ size_t parlex::details::connector_punctuation_t::get_length() const
 	return 1;
 }
 
-std::string parlex::details::connector_punctuation_t::get_id() const
-{
-	return "connector_punctuation";
-}
+parlex::details::control_t::control_t() : terminal("control") {}
 
 bool parlex::details::control_t::test(std::u32string const & document, size_t documentPosition) const
 {
@@ -80,10 +70,7 @@ size_t parlex::details::control_t::get_length() const
 	return 1;
 }
 
-std::string parlex::details::control_t::get_id() const
-{
-	return "control";
-}
+parlex::details::currency_symbol_t::currency_symbol_t() : terminal("currency_symbol") {}
 
 bool parlex::details::currency_symbol_t::test(std::u32string const & document, size_t documentPosition) const
 {
@@ -97,10 +84,7 @@ size_t parlex::details::currency_symbol_t::get_length() const
 	return 1;
 }
 
-std::string parlex::details::currency_symbol_t::get_id() const
-{
-	return "currency_symbol";
-}
+parlex::details::dash_punctuation_t::dash_punctuation_t() : terminal("dash_punctuation") {}
 
 bool parlex::details::dash_punctuation_t::test(std::u32string const & document, size_t documentPosition) const
 {
@@ -114,10 +98,7 @@ size_t parlex::details::dash_punctuation_t::get_length() const
 	return 1;
 }
 
-std::string parlex::details::dash_punctuation_t::get_id() const
-{
-	return "dash_punctuation";
-}
+parlex::details::decimal_digit_t::decimal_digit_t() : terminal("decimal_digit") {}
 
 bool parlex::details::decimal_digit_t::test(std::u32string const & document, size_t documentPosition) const
 {
@@ -131,10 +112,7 @@ size_t parlex::details::decimal_digit_t::get_length() const
 	return 1;
 }
 
-std::string parlex::details::decimal_digit_t::get_id() const
-{
-	return "decimal_digit";
-}
+parlex::details::enclosing_mark_t::enclosing_mark_t() : terminal("enclosing_mark") {}
 
 bool parlex::details::enclosing_mark_t::test(std::u32string const & document, size_t documentPosition) const
 {
@@ -148,10 +126,7 @@ size_t parlex::details::enclosing_mark_t::get_length() const
 	return 1;
 }
 
-std::string parlex::details::enclosing_mark_t::get_id() const
-{
-	return "enclosing_mark";
-}
+parlex::details::final_quote_punctuation_t::final_quote_punctuation_t() : terminal("final_quote_punctuation") {}
 
 bool parlex::details::final_quote_punctuation_t::test(std::u32string const & document, size_t documentPosition) const
 {
@@ -165,10 +140,7 @@ size_t parlex::details::final_quote_punctuation_t::get_length() const
 	return 1;
 }
 
-std::string parlex::details::final_quote_punctuation_t::get_id() const
-{
-	return "final_quote_punctuation";
-}
+parlex::details::format_t::format_t() : terminal("format") {}
 
 bool parlex::details::format_t::test(std::u32string const & document, size_t documentPosition) const
 {
@@ -182,10 +154,7 @@ size_t parlex::details::format_t::get_length() const
 	return 1;
 }
 
-std::string parlex::details::format_t::get_id() const
-{
-	return "format";
-}
+parlex::details::octal_digit_t::octal_digit_t() : terminal("octal_digit") {}
 
 bool parlex::details::octal_digit_t::test(std::u32string const & document, size_t documentPosition) const
 {
@@ -199,10 +168,7 @@ size_t parlex::details::octal_digit_t::get_length() const
 	return 1;
 }
 
-std::string parlex::details::octal_digit_t::get_id() const
-{
-	return "octal_digit";
-}
+parlex::details::hexadecimal_digit_t::hexadecimal_digit_t() : terminal("hexadecimal_digit") {}
 
 bool parlex::details::hexadecimal_digit_t::test(std::u32string const & document, size_t documentPosition) const
 {
@@ -216,10 +182,7 @@ size_t parlex::details::hexadecimal_digit_t::get_length() const
 	return 1;
 }
 
-std::string parlex::details::hexadecimal_digit_t::get_id() const
-{
-	return "hexadecimal_digit";
-}
+parlex::details::initial_quote_punctuation_t::initial_quote_punctuation_t() : terminal("initial_quote_punctuation") {}
 
 bool parlex::details::initial_quote_punctuation_t::test(std::u32string const & document, size_t documentPosition) const
 {
@@ -233,10 +196,7 @@ size_t parlex::details::initial_quote_punctuation_t::get_length() const
 	return 1;
 }
 
-std::string parlex::details::initial_quote_punctuation_t::get_id() const
-{
-	return "initial_quote_punctuation";
-}
+parlex::details::latin_digit_t::latin_digit_t() : terminal("latin_digit") {}
 
 bool parlex::details::latin_digit_t::test(std::u32string const & document, size_t documentPosition) const
 {
@@ -250,10 +210,7 @@ size_t parlex::details::latin_digit_t::get_length() const
 	return 1;
 }
 
-std::string parlex::details::latin_digit_t::get_id() const
-{
-	return "latin_digit";
-}
+parlex::details::letter_number_t::letter_number_t() : terminal("letter_number") {}
 
 bool parlex::details::letter_number_t::test(std::u32string const & document, size_t documentPosition) const
 {
@@ -267,10 +224,7 @@ size_t parlex::details::letter_number_t::get_length() const
 	return 1;
 }
 
-std::string parlex::details::letter_number_t::get_id() const
-{
-	return "letter_number";
-}
+parlex::details::letter_t::letter_t() : terminal("letter") {}
 
 bool parlex::details::letter_t::test(std::u32string const & document, size_t documentPosition) const
 {
@@ -284,10 +238,7 @@ size_t parlex::details::letter_t::get_length() const
 	return 1;
 }
 
-std::string parlex::details::letter_t::get_id() const
-{
-	return "letter";
-}
+parlex::details::line_separator_t::line_separator_t() : terminal("line_separator") {}
 
 bool parlex::details::line_separator_t::test(std::u32string const & document, size_t documentPosition) const
 {
@@ -301,10 +252,7 @@ size_t parlex::details::line_separator_t::get_length() const
 	return 1;
 }
 
-std::string parlex::details::line_separator_t::get_id() const
-{
-	return "line_separator";
-}
+parlex::details::lowercase_letter_t::lowercase_letter_t() : terminal("lowercase_letter") {}
 
 bool parlex::details::lowercase_letter_t::test(std::u32string const & document, size_t documentPosition) const
 {
@@ -312,6 +260,13 @@ bool parlex::details::lowercase_letter_t::test(std::u32string const & document, 
 	auto const & i = document[documentPosition];
 	return (i >= 97 && i <= 122) || i == 181 || (i >= 223 && i <= 246) || (i >= 248 && i <= 255) || i == 257 || i == 259 || i == 261 || i == 263 || i == 265 || i == 267 || i == 269 || i == 271 || i == 273 || i == 275 || i == 277 || i == 279 || i == 281 || i == 283 || i == 285 || i == 287 || i == 289 || i == 291 || i == 293 || i == 295 || i == 297 || i == 299 || i == 301 || i == 303 || i == 305 || i == 307 || i == 309 || i == 311 || i == 312 || i == 314 || i == 316 || i == 318 || i == 320 || i == 322 || i == 324 || i == 326 || i == 328 || i == 329 || i == 331 || i == 333 || i == 335 || i == 337 || i == 339 || i == 341 || i == 343 || i == 345 || i == 347 || i == 349 || i == 351 || i == 353 || i == 355 || i == 357 || i == 359 || i == 361 || i == 363 || i == 365 || i == 367 || i == 369 || i == 371 || i == 373 || i == 375 || i == 378 || i == 380 || (i >= 382 && i <= 384) || i == 387 || i == 389 || i == 392 || i == 396 || i == 397 || i == 402 || i == 405 || (i >= 409 && i <= 411) || i == 414 || i == 417 || i == 419 || i == 421 || i == 424 || i == 426 || i == 427 || i == 429 || i == 432 || i == 436 || i == 438 || i == 441 || i == 442 || (i >= 445 && i <= 447) || i == 454 || i == 457 || i == 460 || i == 462 || i == 464 || i == 466 || i == 468 || i == 470 || i == 472 || i == 474 || i == 476 || i == 477 || i == 479 || i == 481 || i == 483 || i == 485 || i == 487 || i == 489 || i == 491 || i == 493 || i == 495 || i == 496 || i == 499 || i == 501 || i == 505 || i == 507 || i == 509 || i == 511 || i == 513 || i == 515 || i == 517 || i == 519 || i == 521 || i == 523 || i == 525 || i == 527 || i == 529 || i == 531 || i == 533 || i == 535 || i == 537 || i == 539 || i == 541 || i == 543 || i == 545 || i == 547 || i == 549 || i == 551 || i == 553 || i == 555 || i == 557 || i == 559 || i == 561 || (i >= 563 && i <= 569) || i == 572 || i == 575 || i == 576 || i == 578 || i == 583 || i == 585 || i == 587 || i == 589 || (i >= 591 && i <= 659) || (i >= 661 && i <= 687) || i == 881 || i == 883 || i == 887 || (i >= 891 && i <= 893) || i == 912 || (i >= 940 && i <= 974) || i == 976 || i == 977 || (i >= 981 && i <= 983) || i == 985 || i == 987 || i == 989 || i == 991 || i == 993 || i == 995 || i == 997 || i == 999 || i == 1001 || i == 1003 || i == 1005 || (i >= 1007 && i <= 1011) || i == 1013 || i == 1016 || i == 1019 || i == 1020 || (i >= 1072 && i <= 1119) || i == 1121 || i == 1123 || i == 1125 || i == 1127 || i == 1129 || i == 1131 || i == 1133 || i == 1135 || i == 1137 || i == 1139 || i == 1141 || i == 1143 || i == 1145 || i == 1147 || i == 1149 || i == 1151 || i == 1153 || i == 1163 || i == 1165 || i == 1167 || i == 1169 || i == 1171 || i == 1173 || i == 1175 || i == 1177 || i == 1179 || i == 1181 || i == 1183 || i == 1185 || i == 1187 || i == 1189 || i == 1191 || i == 1193 || i == 1195 || i == 1197 || i == 1199 || i == 1201 || i == 1203 || i == 1205 || i == 1207 || i == 1209 || i == 1211 || i == 1213 || i == 1215 || i == 1218 || i == 1220 || i == 1222 || i == 1224 || i == 1226 || i == 1228 || i == 1230 || i == 1231 || i == 1233 || i == 1235 || i == 1237 || i == 1239 || i == 1241 || i == 1243 || i == 1245 || i == 1247 || i == 1249 || i == 1251 || i == 1253 || i == 1255 || i == 1257 || i == 1259 || i == 1261 || i == 1263 || i == 1265 || i == 1267 || i == 1269 || i == 1271 || i == 1273 || i == 1275 || i == 1277 || i == 1279 || i == 1281 || i == 1283 || i == 1285 || i == 1287 || i == 1289 || i == 1291 || i == 1293 || i == 1295 || i == 1297 || i == 1299 || i == 1301 || i == 1303 || i == 1305 || i == 1307 || i == 1309 || i == 1311 || i == 1313 || i == 1315 || i == 1317 || i == 1319 || (i >= 1377 && i <= 1415) || (i >= 7424 && i <= 7467) || (i >= 7531 && i <= 7543) || (i >= 7545 && i <= 7578) || i == 7681 || i == 7683 || i == 7685 || i == 7687 || i == 7689 || i == 7691 || i == 7693 || i == 7695 || i == 7697 || i == 7699 || i == 7701 || i == 7703 || i == 7705 || i == 7707 || i == 7709 || i == 7711 || i == 7713 || i == 7715 || i == 7717 || i == 7719 || i == 7721 || i == 7723 || i == 7725 || i == 7727 || i == 7729 || i == 7731 || i == 7733 || i == 7735 || i == 7737 || i == 7739 || i == 7741 || i == 7743 || i == 7745 || i == 7747 || i == 7749 || i == 7751 || i == 7753 || i == 7755 || i == 7757 || i == 7759 || i == 7761 || i == 7763 || i == 7765 || i == 7767 || i == 7769 || i == 7771 || i == 7773 || i == 7775 || i == 7777 || i == 7779 || i == 7781 || i == 7783 || i == 7785 || i == 7787 || i == 7789 || i == 7791 || i == 7793 || i == 7795 || i == 7797 || i == 7799 || i == 7801 || i == 7803 || i == 7805 || i == 7807 || i == 7809 || i == 7811 || i == 7813 || i == 7815 || i == 7817 || i == 7819 || i == 7821 || i == 7823 || i == 7825 || i == 7827 || (i >= 7829 && i <= 7837) || i == 7839 || i == 7841 || i == 7843 || i == 7845 || i == 7847 || i == 7849 || i == 7851 || i == 7853 || i == 7855 || i == 7857 || i == 7859 || i == 7861 || i == 7863 || i == 7865 || i == 7867 || i == 7869 || i == 7871 || i == 7873 || i == 7875 || i == 7877 || i == 7879 || i == 7881 || i == 7883 || i == 7885 || i == 7887 || i == 7889 || i == 7891 || i == 7893 || i == 7895 || i == 7897 || i == 7899 || i == 7901 || i == 7903 || i == 7905 || i == 7907 || i == 7909 || i == 7911 || i == 7913 || i == 7915 || i == 7917 || i == 7919 || i == 7921 || i == 7923 || i == 7925 || i == 7927 || i == 7929 || i == 7931 || i == 7933 || (i >= 7935 && i <= 7943) || (i >= 7952 && i <= 7957) || (i >= 7968 && i <= 7975) || (i >= 7984 && i <= 7991) || (i >= 8000 && i <= 8005) || (i >= 8016 && i <= 8023) || (i >= 8032 && i <= 8039) || (i >= 8048 && i <= 8061) || (i >= 8064 && i <= 8071) || (i >= 8080 && i <= 8087) || (i >= 8096 && i <= 8103) || (i >= 8112 && i <= 8116) || i == 8118 || i == 8119 || i == 8126 || (i >= 8130 && i <= 8132) || i == 8134 || i == 8135 || (i >= 8144 && i <= 8147) || i == 8150 || i == 8151 || (i >= 8160 && i <= 8167) || (i >= 8178 && i <= 8180) || i == 8182 || i == 8183 || i == 8458 || i == 8462 || i == 8463 || i == 8467 || i == 8495 || i == 8500 || i == 8505 || i == 8508 || i == 8509 || (i >= 8518 && i <= 8521) || i == 8526 || i == 8580 || (i >= 11312 && i <= 11358) || i == 11361 || i == 11365 || i == 11366 || i == 11368 || i == 11370 || i == 11372 || i == 11377 || i == 11379 || i == 11380 || (i >= 11382 && i <= 11387) || i == 11393 || i == 11395 || i == 11397 || i == 11399 || i == 11401 || i == 11403 || i == 11405 || i == 11407 || i == 11409 || i == 11411 || i == 11413 || i == 11415 || i == 11417 || i == 11419 || i == 11421 || i == 11423 || i == 11425 || i == 11427 || i == 11429 || i == 11431 || i == 11433 || i == 11435 || i == 11437 || i == 11439 || i == 11441 || i == 11443 || i == 11445 || i == 11447 || i == 11449 || i == 11451 || i == 11453 || i == 11455 || i == 11457 || i == 11459 || i == 11461 || i == 11463 || i == 11465 || i == 11467 || i == 11469 || i == 11471 || i == 11473 || i == 11475 || i == 11477 || i == 11479 || i == 11481 || i == 11483 || i == 11485 || i == 11487 || i == 11489 || i == 11491 || i == 11492 || i == 11500 || i == 11502 || i == 11507 || (i >= 11520 && i <= 11557) || i == 11559 || i == 11565 || i == 42561 || i == 42563 || i == 42565 || i == 42567 || i == 42569 || i == 42571 || i == 42573 || i == 42575 || i == 42577 || i == 42579 || i == 42581 || i == 42583 || i == 42585 || i == 42587 || i == 42589 || i == 42591 || i == 42593 || i == 42595 || i == 42597 || i == 42599 || i == 42601 || i == 42603 || i == 42605 || i == 42625 || i == 42627 || i == 42629 || i == 42631 || i == 42633 || i == 42635 || i == 42637 || i == 42639 || i == 42641 || i == 42643 || i == 42645 || i == 42647 || i == 42787 || i == 42789 || i == 42791 || i == 42793 || i == 42795 || i == 42797 || (i >= 42799 && i <= 42801) || i == 42803 || i == 42805 || i == 42807 || i == 42809 || i == 42811 || i == 42813 || i == 42815 || i == 42817 || i == 42819 || i == 42821 || i == 42823 || i == 42825 || i == 42827 || i == 42829 || i == 42831 || i == 42833 || i == 42835 || i == 42837 || i == 42839 || i == 42841 || i == 42843 || i == 42845 || i == 42847 || i == 42849 || i == 42851 || i == 42853 || i == 42855 || i == 42857 || i == 42859 || i == 42861 || i == 42863 || (i >= 42865 && i <= 42872) || i == 42874 || i == 42876 || i == 42879 || i == 42881 || i == 42883 || i == 42885 || i == 42887 || i == 42892 || i == 42894 || i == 42897 || i == 42899 || i == 42913 || i == 42915 || i == 42917 || i == 42919 || i == 42921 || i == 43002 || (i >= 64256 && i <= 64262) || (i >= 64275 && i <= 64279) || (i >= 65345 && i <= 65370) || (i >= 66600 && i <= 66639) || (i >= 119834 && i <= 119859) || (i >= 119886 && i <= 119892) || (i >= 119894 && i <= 119911) || (i >= 119938 && i <= 119963) || (i >= 119990 && i <= 119993) || i == 119995 || (i >= 119997 && i <= 120003) || (i >= 120005 && i <= 120015) || (i >= 120042 && i <= 120067) || (i >= 120094 && i <= 120119) || (i >= 120146 && i <= 120171) || (i >= 120198 && i <= 120223) || (i >= 120250 && i <= 120275) || (i >= 120302 && i <= 120327) || (i >= 120354 && i <= 120379) || (i >= 120406 && i <= 120431) || (i >= 120458 && i <= 120485) || (i >= 120514 && i <= 120538) || (i >= 120540 && i <= 120545) || (i >= 120572 && i <= 120596) || (i >= 120598 && i <= 120603) || (i >= 120630 && i <= 120654) || (i >= 120656 && i <= 120661) || (i >= 120688 && i <= 120712) || (i >= 120714 && i <= 120719) || (i >= 120746 && i <= 120770) || (i >= 120772 && i <= 120777) || i == 120779;
 }
+
+size_t parlex::details::lowercase_letter_t::get_length() const
+{
+	return 1;
+}
+
+parlex::details::math_symbol_t::math_symbol_t() : terminal("math_symbol") {}
 
 bool parlex::details::math_symbol_t::test(std::u32string const & document, size_t documentPosition) const
 {
@@ -325,10 +280,7 @@ size_t parlex::details::math_symbol_t::get_length() const
 	return 1;
 }
 
-std::string parlex::details::math_symbol_t::get_id() const
-{
-	return "math_symbol";
-}
+parlex::details::modifier_letter_t::modifier_letter_t() : terminal("modifier_letter") {}
 
 bool parlex::details::modifier_letter_t::test(std::u32string const & document, size_t documentPosition) const
 {
@@ -342,10 +294,7 @@ size_t parlex::details::modifier_letter_t::get_length() const
 	return 1;
 }
 
-std::string parlex::details::modifier_letter_t::get_id() const
-{
-	return "modifier_letter";
-}
+parlex::details::modifier_symbol_t::modifier_symbol_t() : terminal("modifier_symbol") {}
 
 bool parlex::details::modifier_symbol_t::test(std::u32string const & document, size_t documentPosition) const
 {
@@ -353,6 +302,13 @@ bool parlex::details::modifier_symbol_t::test(std::u32string const & document, s
 	auto const & i = document[documentPosition];
 	return i == 94 || i == 96 || i == 168 || i == 175 || i == 180 || i == 184 || (i >= 706 && i <= 709) || (i >= 722 && i <= 735) || (i >= 741 && i <= 747) || i == 749 || (i >= 751 && i <= 767) || i == 885 || i == 900 || i == 901 || i == 8125 || (i >= 8127 && i <= 8129) || (i >= 8141 && i <= 8143) || (i >= 8157 && i <= 8159) || (i >= 8173 && i <= 8175) || i == 8189 || i == 8190 || i == 12443 || i == 12444 || (i >= 42752 && i <= 42774) || i == 42784 || i == 42785 || i == 42889 || i == 42890 || (i >= 64434 && i <= 64449) || i == 65342 || i == 65344 || i == 65507;
 }
+
+size_t parlex::details::modifier_symbol_t::get_length() const
+{
+	return 1;
+}
+
+parlex::details::nonspacing_mark_t::nonspacing_mark_t() : terminal("nonspacing_mark") {}
 
 bool parlex::details::nonspacing_mark_t::test(std::u32string const & document, size_t documentPosition) const
 {
@@ -366,10 +322,7 @@ size_t parlex::details::nonspacing_mark_t::get_length() const
 	return 1;
 }
 
-std::string parlex::details::nonspacing_mark_t::get_id() const
-{
-	return "nonspacing_mark";
-}
+parlex::details::number_t::number_t() : terminal("number") {}
 
 bool parlex::details::number_t::test(std::u32string const & document, size_t documentPosition) const
 {
@@ -383,10 +336,7 @@ size_t parlex::details::number_t::get_length() const
 	return 1;
 }
 
-std::string parlex::details::number_t::get_id() const
-{
-	return "number";
-}
+parlex::details::open_punctuation_t::open_punctuation_t() : terminal("open_punctuation") {}
 
 bool parlex::details::open_punctuation_t::test(std::u32string const & document, size_t documentPosition) const
 {
@@ -400,10 +350,7 @@ size_t parlex::details::open_punctuation_t::get_length() const
 	return 1;
 }
 
-std::string parlex::details::open_punctuation_t::get_id() const
-{
-	return "open_punctuation";
-}
+parlex::details::other_letter_t::other_letter_t() : terminal("other_letter") {}
 
 bool parlex::details::other_letter_t::test(std::u32string const & document, size_t documentPosition) const
 {
@@ -417,10 +364,7 @@ size_t parlex::details::other_letter_t::get_length() const
 	return 1;
 }
 
-std::string parlex::details::other_letter_t::get_id() const
-{
-	return "other_letter";
-}
+parlex::details::other_number_t::other_number_t() : terminal("other_number") {}
 
 bool parlex::details::other_number_t::test(std::u32string const & document, size_t documentPosition) const
 {
@@ -434,10 +378,7 @@ size_t parlex::details::other_number_t::get_length() const
 	return 1;
 }
 
-std::string parlex::details::other_number_t::get_id() const
-{
-	return "other_number";
-}
+parlex::details::other_punctuation_t::other_punctuation_t() : terminal("other_punctuation") {}
 
 bool parlex::details::other_punctuation_t::test(std::u32string const & document, size_t documentPosition) const
 {
@@ -451,10 +392,7 @@ size_t parlex::details::other_punctuation_t::get_length() const
 	return 1;
 }
 
-std::string parlex::details::other_punctuation_t::get_id() const
-{
-	return "other_punctuation";
-}
+parlex::details::other_symbol_t::other_symbol_t() : terminal("other_symbol") {}
 
 bool parlex::details::other_symbol_t::test(std::u32string const & document, size_t documentPosition) const
 {
@@ -468,10 +406,7 @@ size_t parlex::details::other_symbol_t::get_length() const
 	return 1;
 }
 
-std::string parlex::details::other_symbol_t::get_id() const
-{
-	return "other_symbol";
-}
+parlex::details::paragraph_separator_t::paragraph_separator_t() : terminal("paragraph_separator") {}
 
 bool parlex::details::paragraph_separator_t::test(std::u32string const & document, size_t documentPosition) const
 {
@@ -485,10 +420,7 @@ size_t parlex::details::paragraph_separator_t::get_length() const
 	return 1;
 }
 
-std::string parlex::details::paragraph_separator_t::get_id() const
-{
-	return "paragraph_separator";
-}
+parlex::details::printable_t::printable_t() : terminal("printable") {}
 
 bool parlex::details::printable_t::test(std::u32string const & document, size_t documentPosition) const
 {
@@ -502,10 +434,7 @@ size_t parlex::details::printable_t::get_length() const
 	return 1;
 }
 
-std::string parlex::details::printable_t::get_id() const
-{
-	return "printable";
-}
+parlex::details::public_use_t::public_use_t() : terminal("public_use") {}
 
 bool parlex::details::public_use_t::test(std::u32string const & document, size_t documentPosition) const
 {
@@ -519,10 +448,7 @@ size_t parlex::details::public_use_t::get_length() const
 	return 1;
 }
 
-std::string parlex::details::public_use_t::get_id() const
-{
-	return "public_use";
-}
+parlex::details::space_separator_t::space_separator_t() : terminal("space_separator") {}
 
 bool parlex::details::space_separator_t::test(std::u32string const & document, size_t documentPosition) const
 {
@@ -536,10 +462,7 @@ size_t parlex::details::space_separator_t::get_length() const
 	return 1;
 }
 
-std::string parlex::details::space_separator_t::get_id() const
-{
-	return "space_separator";
-}
+parlex::details::spacing_combining_mark_t::spacing_combining_mark_t() : terminal("spacing_combining_mark") {}
 
 bool parlex::details::spacing_combining_mark_t::test(std::u32string const & document, size_t documentPosition) const
 {
@@ -553,10 +476,7 @@ size_t parlex::details::spacing_combining_mark_t::get_length() const
 	return 1;
 }
 
-std::string parlex::details::spacing_combining_mark_t::get_id() const
-{
-	return "spacing_combining_mark";
-}
+parlex::details::surrogate_t::surrogate_t() : terminal("surrogate") {}
 
 bool parlex::details::surrogate_t::test(std::u32string const & document, size_t documentPosition) const
 {
@@ -570,10 +490,7 @@ size_t parlex::details::surrogate_t::get_length() const
 	return 1;
 }
 
-std::string parlex::details::surrogate_t::get_id() const
-{
-	return "surrogate";
-}
+parlex::details::titlecase_letter_t::titlecase_letter_t() : terminal("titlecase_letter") {}
 
 bool parlex::details::titlecase_letter_t::test(std::u32string const & document, size_t documentPosition) const
 {
@@ -587,10 +504,7 @@ size_t parlex::details::titlecase_letter_t::get_length() const
 	return 1;
 }
 
-std::string parlex::details::titlecase_letter_t::get_id() const
-{
-	return "titlecase_letter";
-}
+parlex::details::uppercase_letter_t::uppercase_letter_t() : terminal("uppercase_letter") {}
 
 bool parlex::details::uppercase_letter_t::test(std::u32string const & document, size_t documentPosition) const
 {
@@ -604,10 +518,7 @@ size_t parlex::details::uppercase_letter_t::get_length() const
 	return 1;
 }
 
-std::string parlex::details::uppercase_letter_t::get_id() const
-{
-	return "uppercase_letter";
-}
+parlex::details::white_space_t::white_space_t() : terminal("white_space") {}
 
 bool parlex::details::white_space_t::test(std::u32string const & document, size_t documentPosition) const
 {
@@ -621,10 +532,7 @@ size_t parlex::details::white_space_t::get_length() const
 	return 1;
 }
 
-std::string parlex::details::white_space_t::get_id() const
-{
-	return "white_space";
-}
+parlex::details::white_space_control_t::white_space_control_t() : terminal("white_space_control") {}
 
 bool parlex::details::white_space_control_t::test(std::u32string const & document, size_t documentPosition) const
 {
@@ -638,7 +546,4 @@ size_t parlex::details::white_space_control_t::get_length() const
 	return 1;
 }
 
-std::string parlex::details::white_space_control_t::get_id() const
-{
-	return "white_space_control";
-}
+

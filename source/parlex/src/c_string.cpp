@@ -17,6 +17,8 @@ c_string_t c_string;
 namespace  {
 
 class content_t : public parlex::terminal {
+public:
+	content_t() : terminal("content") {}
 	bool test(std::u32string const & document, size_t documentPosition) const override final {
         if (documentPosition >= document.length()) return false;
         return document[documentPosition] != 34 && document[documentPosition] != 92;
@@ -24,10 +26,11 @@ class content_t : public parlex::terminal {
 
 	size_t get_length() const override final { return 1; }
 
-	std::string get_id() const override final { return "content"; }
 } content;
 
 class basic_escape_sequence_t : public parlex::terminal {
+public:
+	basic_escape_sequence_t() : terminal("basic_escape_sequence") {}
 	bool test(std::u32string const & document, size_t documentPosition) const override final {
         if (documentPosition + 1 >= document.length()) return false;
         char32_t const c = document[documentPosition + 1];
@@ -36,7 +39,6 @@ class basic_escape_sequence_t : public parlex::terminal {
 
 	size_t get_length() const override final { return 2; }
 
-	std::string get_id() const override final { return "basic_escape_sequence"; }
 } basic_escape_sequence;
 
 parlex::builtins::string_terminal backslash(to_utf32("\\"));

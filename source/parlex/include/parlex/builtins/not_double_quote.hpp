@@ -8,10 +8,10 @@ namespace details {
 
 class not_double_quote_t : public terminal {
 public:
+	not_double_quote_t();
 	virtual ~not_double_quote_t() = default;
 	virtual bool test(std::u32string const & document, size_t documentPosition) const final;
 	virtual size_t get_length() const final;
-	virtual std::string get_id() const final;
 };
 
 }

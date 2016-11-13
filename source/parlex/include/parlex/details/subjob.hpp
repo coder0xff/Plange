@@ -12,7 +12,7 @@
 
 namespace parlex {
 
-class state_machine;
+class state_machine_base;
 
 namespace details {
 
@@ -20,13 +20,13 @@ class job;
 
 class subjob : public producer {
 public:
-	state_machine const & machine;
+	state_machine_base const & machine;
 	std::list<context> contexts;
 	std::list<permutation> queuedPermutations;
 	std::mutex mutex;
 	std::atomic<int> lifetimeCounter;
 
-	subjob(job & owner, state_machine const & machine, int const documentPosition);
+	subjob(job & owner, state_machine_base const & machine, int const documentPosition);
 	subjob(subjob const & other) = delete;
 	virtual ~subjob();
 

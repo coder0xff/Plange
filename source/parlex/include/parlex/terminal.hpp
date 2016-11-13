@@ -15,10 +15,9 @@ public:
 
 	virtual bool test(std::u32string const & document, size_t documentPosition) const = 0;
 	virtual size_t get_length() const = 0;
-	inline bool is_terminal() const final { return true; }
+	bool is_terminal() const final;
 protected:
-	inline terminal() {}
-private:
+	terminal(std::string id);
 };
 
 }

@@ -1,12 +1,13 @@
 #include <iostream>
 #include <mutex>
-#include <cassert>
 
 #include "parlex/builtins.hpp"
 #include "utils.hpp"
 
 namespace parlex {
 namespace details {
+
+any_character_t::any_character_t() : terminal("any_character") {}
 
 bool any_character_t::test(std::u32string const & document, size_t documentPosition) const {
 	return documentPosition < document.length();
@@ -16,9 +17,7 @@ size_t any_character_t::get_length() const {
 	return 1;
 }
 
-std::string any_character_t::get_id() const {
-	return "any_character";
-}
+not_double_quote_t::not_double_quote_t() : terminal("not_double_quote") {}
 
 bool not_double_quote_t::test(std::u32string const & document, size_t documentPosition) const {
 	return documentPosition < document.length() && document[documentPosition] == U'"';
@@ -28,9 +27,7 @@ size_t not_double_quote_t::get_length() const {
 	return 1;
 }
 
-std::string not_double_quote_t::get_id() const {
-	return "not_double_quote";
-}
+not_newline_t::not_newline_t() : terminal("not_newline") {}
 
 bool not_newline_t::test(std::u32string const & document, size_t documentPosition) const {
 	return documentPosition < document.length() && document[documentPosition] != U'\n';
@@ -38,10 +35,6 @@ bool not_newline_t::test(std::u32string const & document, size_t documentPositio
 
 size_t not_newline_t::get_length() const {
 	return 1;
-}
-
-std::string not_newline_t::get_id() const {
-	return "not_newline";
 }
 
 } //namespace details
@@ -59,7 +52,7 @@ parlex::details::any_character_t any_character;
 parlex::details::not_double_quote_t not_double_quote;
 parlex::details::not_newline_t not_newline;
 
-string_terminal::string_terminal(std::u32string const & s) : s(s), length(s.length()), id(to_utf8(s)) {}
+string_terminal::string_terminal(std::u32string const & s) : terminal(to_utf8(s)), s(s), length(s.length()) {}
 
 bool string_terminal::test(std::u32string const & document, size_t const documentPosition) const {
 	return document.compare(documentPosition, length, s) == 0;
@@ -189,7 +182,7 @@ std::map<std::string, recognizer *> const & get_builtins_table() {
 		unsigned int count = sizeof(table_initializer) / sizeof(*table_initializer);
 		for (unsigned int i = 0; i < count; ++i) {
 			recognizer * item = table_initializer[i];
-			std::string const name = item->get_id();
+			std::string const name = item->id;
 			result[name] = item;
 		}
 	}

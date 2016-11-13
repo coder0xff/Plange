@@ -89,10 +89,10 @@ std::string abstract_syntax_graph::to_dot() const {
 	for (auto const & entry : permutations) {
 		match i = entry.first;
 		completed.insert(i);
-		std::string from_name = i.r.get_id() + ":" + std::to_string(i.document_position) + ":" + std::to_string(i.consumed_character_count);
+		std::string from_name = i.r.id + ":" + std::to_string(i.document_position) + ":" + std::to_string(i.consumed_character_count);
 		for (permutation const & j : entry.second) {
 			for (match const & k : j) {
-				std::string to_name = k.r.get_id() + ":" + std::to_string(k.document_position) + ":" + std::to_string(k.consumed_character_count);
+				std::string to_name = k.r.id + ":" + std::to_string(k.document_position) + ":" + std::to_string(k.consumed_character_count);
 				result += "\t" + enquote(from_name) + " -> " + enquote(to_name) + "\n";
 			}
 		}
@@ -107,10 +107,10 @@ std::string abstract_syntax_graph::to_concrete_dot(std::u32string const& documen
 	for (auto const & entry : permutations) {
 		match i = entry.first;
 		completed.insert(i);
-		std::string from_name = i.r.get_id() + ":" + std::to_string(i.document_position) + ":" + std::to_string(i.consumed_character_count) + "\n" + to_utf8(document.substr(i.document_position, i.consumed_character_count));
+		std::string from_name = i.r.id + ":" + std::to_string(i.document_position) + ":" + std::to_string(i.consumed_character_count) + "\n" + to_utf8(document.substr(i.document_position, i.consumed_character_count));
 		for (permutation const & j : entry.second) {
 			for (match const & k : j) {
-				std::string to_name = k.r.get_id() + ":" + std::to_string(k.document_position) + ":" + std::to_string(k.consumed_character_count) + "\n" + to_utf8(document.substr(k.document_position, k.consumed_character_count));
+				std::string to_name = k.r.id + ":" + std::to_string(k.document_position) + ":" + std::to_string(k.consumed_character_count) + "\n" + to_utf8(document.substr(k.document_position, k.consumed_character_count));
 				result += "\t" + enquote(from_name) + " -> " + enquote(to_name) + "\n";
 			}
 		}

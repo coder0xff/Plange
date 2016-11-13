@@ -5,9 +5,9 @@ scope::scope(::source_code& source, scope* const parent, parlex::match const & s
 	parlex::abstract_syntax_graph const& asg = source.asg;
 	parlex::permutation parts = *asg.permutations.find(syntax)->second.begin();
 	for (parlex::match part : parts) {
-		if (part.r.get_id() == "STATEMENT") {
+		if (part.r.id == "STATEMENT") {
 			parlex::permutation statementParts = *source.asg.permutations.find(part)->second.begin();
-			std::string statementType = statementParts[0].r.get_id();
+			std::string statementType = statementParts[0].r.id;
 			if (statementType == "DEFINITION") {
 
 			}

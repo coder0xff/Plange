@@ -7,7 +7,7 @@
 
 namespace parlex {
 
-typedef std::map<state_machine const *, std::set<state_machine const *>> precedence_collection;
+typedef std::map<state_machine_base const *, std::set<state_machine_base const *>> precedence_collection;
 
 }
 
