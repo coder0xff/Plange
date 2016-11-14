@@ -1,6 +1,4 @@
 #include "parlex/grammar_base.hpp"
-#include "parlex/grammar.hpp"
-#include <cassert>
 
 namespace parlex {
 

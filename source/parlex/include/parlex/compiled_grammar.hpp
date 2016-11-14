@@ -16,8 +16,8 @@ public:
 	state_machine_base const & get_main_production() const override final;
 	std::map<std::string, state_machine_base const *> get_productions() const override final;
 private:
-	std::map<std::string, state_machine_base const *> const productions;
 	state_machine_base const * const main;
+	std::map<std::string, state_machine_base const *> const productions;
 };
 
 }

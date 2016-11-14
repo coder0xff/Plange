@@ -78,7 +78,7 @@ std::vector<std::set<parlex::match>> matches_by_height(parlex::abstract_syntax_g
 
 source_code::source_code(std::string const& pathname, std::u32string const& document, parlex::parser& parser, llvm::LLVMContext & llvmContext) :
 	document(document),
-	asg(parser.parse(get_plange(), { payload_postprocess }, document)),
+	asg(parser.parse(plange, { payload_postprocess }, document)),
 	module(new llvm::Module(pathname, llvmContext))
 {
 	//compute line number lookup table

@@ -5,14 +5,22 @@
 namespace parlex {
 
 std::map<std::string, state_machine_base const *> transform_productions(std::vector<std::reference_wrapper<state_machine_base const>> productions) {
-	std::map<std::string, state_machine_base const *> result;
+	std::map<std::string, state_machine_base const *> results;
 	for (auto const & i : productions) {
-		result[i.get().id] = &i.get();
+		results[i.get().id] = &i.get();
 	}
-	return result;
+	return results;
 }
 
-compiled_grammar::compiled_grammar(state_machine_base const & main, std::vector<std::reference_wrapper<state_machine_base const>> productions, std::vector<std::pair<std::reference_wrapper<state_machine_base const>, std::reference_wrapper<state_machine_base const>>> precedences) : productions(transform_productions(productions)), main(&main) {
+compiled_grammar::compiled_grammar(
+		state_machine_base const & main,
+		std::vector<std::reference_wrapper<state_machine_base const>> productions,
+		std::vector<std::pair<std::reference_wrapper<state_machine_base const>,
+		std::reference_wrapper<state_machine_base const>>> precedences
+) : 
+		main(&main),
+		productions(transform_productions(productions))
+{
 	for (auto const & i : precedences) {
 		add_precedence(i.first, i.second);
 	}
