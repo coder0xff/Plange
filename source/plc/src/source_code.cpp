@@ -76,7 +76,7 @@ std::vector<std::set<parlex::match>> matches_by_height(parlex::abstract_syntax_g
 	return result;
 }
 
-source_code::source_code(std::string const& pathname, std::u32string const& document, parlex::parser& parser, llvm::LLVMContext & llvmContext) :
+plc::source_code::source_code(std::string const& pathname, std::u32string const& document, parlex::parser& parser, llvm::LLVMContext & llvmContext) :
 	document(document),
 	asg(parser.parse(plange, { payload_postprocess }, document)),
 	module(new llvm::Module(pathname, llvmContext))
@@ -123,9 +123,9 @@ source_code::source_code(std::string const& pathname, std::u32string const& docu
 	//std::string dot = asg.to_dot(); //TODO: make sure this is commented out
 }
 
-source_code::~source_code() { }
+plc::source_code::~source_code() { }
 
-std::pair<int, int> source_code::get_line_number_and_column(int charIndex) {
+std::pair<int, int> plc::source_code::get_line_number_and_column(int charIndex) {
 	std::map<int, int>::iterator i = line_number_by_first_character.lower_bound(charIndex);
 	if (i != line_number_by_first_character.end() && i->first == charIndex) {
 		return std::make_pair(i->second, 0);
@@ -135,7 +135,7 @@ std::pair<int, int> source_code::get_line_number_and_column(int charIndex) {
 	return std::make_pair(i->second, charIndex - i->first);
 }
 
-llvm::Value * source_code::get_or_add_global_string(llvm::LLVMContext & context, std::u32string const & s)
+llvm::Value * plc::source_code::get_or_add_global_string(llvm::LLVMContext & context, std::u32string const & s)
 {
 	auto i = global_strings.find(s);
 	if (i != global_strings.end()) return i->second;
@@ -148,6 +148,6 @@ llvm::Value * source_code::get_or_add_global_string(llvm::LLVMContext & context,
 	return global_strings[s] = gv;
 }
 
-void source_code::compile() {
-	scope.reset(new ::scope(*this, nullptr, asg.root));
+void plc::source_code::compile() {
+	scope.reset(new plc::scope(*this, nullptr, asg.root));
 }

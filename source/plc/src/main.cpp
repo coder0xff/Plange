@@ -18,7 +18,7 @@
 #pragma warning(pop)
 
 
-void eval_parenthetical_invocation(parlex::match match, source_code const &sourceCode, llvm::IRBuilder<> &builder) {
+void eval_parenthetical_invocation(parlex::match match, plc::source_code const &sourceCode, llvm::IRBuilder<> &builder) {
 	parlex::permutation parts = *sourceCode.asg.permutations.find(match)->second.begin();
 	parlex::match funcVal = parts[0];
 	std::vector<parlex::match> arguments;
@@ -29,7 +29,7 @@ void eval_parenthetical_invocation(parlex::match match, source_code const &sourc
 	}
 }
 
-void eval_invocation(parlex::match match, source_code const &sourceCode, llvm::IRBuilder<> &builder) {
+void eval_invocation(parlex::match match, plc::source_code const &sourceCode, llvm::IRBuilder<> &builder) {
 	parlex::permutation parts = *sourceCode.asg.permutations.find(match)->second.begin();
 	std::string partType = parts[0].r.id;
 	if (partType == "PARENTHETICAL_INVOCATION") {
@@ -37,7 +37,7 @@ void eval_invocation(parlex::match match, source_code const &sourceCode, llvm::I
 	}
 }
 
-void eval_expression(parlex::match match, source_code const &sourceCode, llvm::IRBuilder<> &builder) {
+void eval_expression(parlex::match match, plc::source_code const &sourceCode, llvm::IRBuilder<> &builder) {
 	parlex::permutation parts = *sourceCode.asg.permutations.find(match)->second.begin();
 	std::string partType = parts[0].r.id;
 	if (partType == "INVOCATION") {
@@ -64,7 +64,7 @@ int main(int argc, const char* argv[]) {
 
 	llvm::LLVMContext llvmContext; //must be destructed AFTER parses, runTime
 	parlex::parser p;
-	std::map<std::string, std::unique_ptr<source_code>> parses;
+	std::map<std::string, std::unique_ptr<plc::source_code>> parses;
 
 	for (std::string filename : realpaths) {
 		if (parses.count(filename)) {
@@ -77,7 +77,7 @@ int main(int argc, const char* argv[]) {
 			ERROR(CouldNotOpenFile, filename);
 		}
 		std::u32string s = read_with_bom(ifs);
-		bool inserted = parses.emplace(std::piecewise_construct, std::forward_as_tuple(filename), std::forward_as_tuple(new source_code(filename, s, p, llvmContext))).second;
+		bool inserted = parses.emplace(std::piecewise_construct, std::forward_as_tuple(filename), std::forward_as_tuple(new plc::source_code(filename, s, p, llvmContext))).second;
 		assert(inserted);
 	}
 
@@ -99,8 +99,7 @@ int main(int argc, const char* argv[]) {
 	builder.SetInsertPoint(entryPointBlock);
 
 	for (auto const &path : realpaths) {
-		source_code & source = *parses[path];
-		source.compile();
+		plc::source_code& source = *parses[path];
 	}
 
 	return 0;

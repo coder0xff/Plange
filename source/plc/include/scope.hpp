@@ -8,9 +8,11 @@
 #include <llvm/IR/Value.h>
 #pragma warning(pop)
 
+namespace plc {
+
 class scope {
 public:
-	explicit scope(source_code& source, scope* const parent, parlex::match const & syntax);
+	explicit scope(source_code& source, scope* const parent, parlex::match const& syntax);
 	~scope();
 	scope* const parent;
 	std::vector<scope> children;
@@ -26,4 +28,5 @@ public:
 	bool can_execute(scope const& s);
 };
 
+}
 #endif //SCOPE_HPP

@@ -10,8 +10,8 @@ class any_character_t : public terminal {
 public:
 	any_character_t();
 	virtual ~any_character_t() = default;
-	virtual bool test(std::u32string const & document, size_t documentPosition) const final;
-	virtual size_t get_length() const final;
+	bool test(std::u32string const & document, size_t documentPosition) const override final;
+	size_t get_length() const override final;
 };
 
 }

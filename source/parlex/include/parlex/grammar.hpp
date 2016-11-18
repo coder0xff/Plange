@@ -6,7 +6,6 @@
 
 #include "parlex/state_machine.hpp"
 #include "parlex/builtins/string_terminal.hpp"
-#include "parlex/precedence_collection.hpp"
 #include "grammar_base.hpp"
 
 namespace parlex {
@@ -32,7 +31,7 @@ public:
     grammar(grammar const & other);
 	state_machine_base const & get_main_production() const override;
 	grammar& operator=(grammar const &) = delete;
-	void generate_cpp(std::string grammarName, std::string nameOfMain, std::ostream & cpp, std::ostream & hpp, std::string headerPath = "") const;
+	void generate_cpp(std::string grammarName, std::string nameOfMain, std::ostream & cpp, std::ostream & hpp, std::string namespace_, std::string headerPathPrefix = "") const;
 	std::map<std::string, state_machine_base const *> get_productions() const override;
 	state_machine & add_production(std::string id, size_t startState, size_t acceptStateCount, associativity assoc = none);
 	state_machine & add_production(std::string id, size_t startState, size_t acceptStateCount, filter_function const * filter, associativity assoc = associativity::none);

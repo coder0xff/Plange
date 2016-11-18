@@ -5,6 +5,8 @@
 
 #include "parlex/builder.hpp"
 
+namespace plc {
+
 DECLARE_DFA(ADDITION);
 DECLARE_DFA(ADD_SUB);
 DECLARE_DFA(ALL);
@@ -193,5 +195,7 @@ DECLARE_DFA(XML_DOC_STRING_INTERIOR);
 DECLARE_DFA(XOR);
 
 DECLARE_GRAMMAR(plange);
+
+}
 
 #endif

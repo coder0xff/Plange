@@ -2,10 +2,8 @@
 #define GRAMMAR_BASE_HPP
 
 #include <map>
-#include <set>
 
 #include "parlex/state_machine.hpp"
-#include "parlex/builtins/string_terminal.hpp"
 #include "parlex/precedence_collection.hpp"
 
 namespace parlex {
