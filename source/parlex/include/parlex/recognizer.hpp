@@ -12,7 +12,7 @@ namespace details {
 
 	class recognizer_reference_comparer {
 	public:
-		inline bool operator()(recognizer const & lhs, recognizer const & rhs) const { return &lhs < &rhs; }
+		bool operator()(std::reference_wrapper<recognizer const> const & lhs, std::reference_wrapper<recognizer const> const & rhs) const;
 	};
 }
 
@@ -24,7 +24,7 @@ public:
 	virtual bool is_terminal() const;
 	std::string const id;
 
-	inline friend std::ostream& operator<<(std::ostream& os, const recognizer & r) { return os << r.id; };
+	friend std::ostream& operator<<(std::ostream& os, const recognizer & r);
 };
 
 
