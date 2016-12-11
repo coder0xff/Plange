@@ -75,7 +75,7 @@ int dont_care = build();
 namespace parlex {
 	namespace builtins {
 
-		c_string_t::c_string_t() : state_machine("c_string", 0, 1, &parlex::builtins::longest) { }
+		c_string_t::c_string_t() : state_machine("c_string", 0, 1, &longest) { }
 
 		std::u32string c_string_t::extract(std::u32string document, match const & m, abstract_syntax_graph const & asg)
 		{

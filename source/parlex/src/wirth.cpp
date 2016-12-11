@@ -239,8 +239,8 @@ grammar load_grammar(std::string const & nameOfMain, std::map<std::string, wirth
 	(void)dont_care;
 	parser p;
 	std::map<std::string, production_def> temp;
-	std::map<std::u32string, std::shared_ptr<parlex::details::literal>> literalNodes;
-	std::map<std::string, std::shared_ptr<parlex::details::production>> productionNodes;
+	std::map<std::u32string, std::shared_ptr<details::literal>> literalNodes;
+	std::map<std::string, std::shared_ptr<details::production>> productionNodes;
 	for (auto const & entry : productions) {
 		production_def def;
 		abstract_syntax_graph asg = p.parse(builtins::wirth, expressionDfa, entry.second.definition);

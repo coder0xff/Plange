@@ -1,25 +1,27 @@
 #include "scope.hpp"
-#include "plange_grammar.hpp"
+#include "compiler.hpp"
 
-plc::scope::scope(source_code& source, scope* const parent, parlex::match const & syntax) : parent(parent), source_code_(source), is_pure(false), is_atomic(false), is_reentrant(false) {
-	parlex::abstract_syntax_graph const& asg = source.asg;
-	parlex::permutation parts = *asg.permutations.find(syntax)->second.begin();
-	for (parlex::match part : parts) {
-		if (part.r.id == "STATEMENT") {
-			parlex::permutation statementParts = *source.asg.permutations.find(part)->second.begin();
-			std::string statementType = statementParts[0].r.id;
-			if (statementType == "DEFINITION") {
+namespace plc {
 
-			}
-			if (statementType == "ASSIGNMENT") {
-
-			}
-			else if (statementType == "EXPRESSION") {
-				
-			}
-		}
-
-	}
+llvm::Function *buildScopeFunction(llvm::LLVMContext & llvmContext, llvm::Module & module) {
+	static auto nullaryVoidFuncType = llvm::FunctionType::get(llvm::Type::getVoidTy(llvmContext), std::vector<llvm::Type*>(), false);
+	return llvm::Function::Create(nullaryVoidFuncType, llvm::Function::ExternalLinkage, "", &module);
 }
 
-plc::scope::~scope() {}
+scope::scope(source_code const & source_ptr, scope & parent, llvm::LLVMContext & llvmContext, llvm::Module & module) :
+		concrete_value(buildScopeFunction(llvmContext, module)),
+		source_ptr(&source_ptr),
+		parent(&parent)
+{}
+
+scope::scope(llvm::Function* llvmFunction) :
+		concrete_value(llvmFunction),
+		source_ptr(nullptr),
+		parent(nullptr)
+{}
+
+llvm::Function& scope::getLLVMFunction() const {
+	return *static_cast<llvm::Function*>(underlying.get());
+}
+
+}

@@ -19,7 +19,7 @@ struct wirth_production_def {
 	filter_function const * filter;
 };
 
-grammar load_grammar(std::string const & nameOfMain, std::u32string const & document, std::map<std::string, parlex::associativity> const & associativities, std::set<std::string> const & longestNames);
+grammar load_grammar(std::string const & nameOfMain, std::u32string const & document, std::map<std::string, associativity> const & associativities, std::set<std::string> const & longestNames);
 grammar load_grammar(std::string const & nameOfMain, std::map<std::string, wirth_production_def> const & productions);
 
 }

@@ -19,22 +19,33 @@ include_directories("${CMAKE_CURRENT_SOURCE_DIR}/../parlex/include")
 include_directories("${CMAKE_CURRENT_SOURCE_DIR}/../utilities")
 
 set(SOURCES
+	"src/abstract_value.cpp"
+	"src/compiler.cpp"
+	"src/concrete_value.cpp"
 	"src/errors.cpp"
 	"src/main.cpp"
 	"src/plange_grammar.cpp"
 	"src/scope.cpp"
 	"src/source_code.cpp"
+	"src/statement.cpp"
 	"src/stdafx.cpp"
 	"src/stdlib.cpp"
+	"src/symbol.cpp"
 	"src/warnings.cpp")
 
 set(HEADERS
+	"include/abstract_value.hpp"
+	"include/compiler.hpp"
+	"include/concrete_value.hpp"
 	"include/errors.hpp"
 	"include/plange_grammar.hpp"
+	"include/relation.hpp"
 	"include/scope.hpp"
 	"include/source_code.hpp"
+	"include/statement.hpp"
 	"include/stdafx.hpp"
 	"include/stdlib.hpp"
+	"include/symbol.hpp"
 	"include/warnings.hpp")
 
 add_executable(plc ${HEADERS} ${SOURCES})
@@ -45,5 +56,3 @@ set_property(TARGET plc PROPERTY CXX_STANDARD 11)
 set_property(TARGET plc PROPERTY CXX_STANDARD_REQUIRED ON)
 #add_precompiled_header(plc "include/stdafx.hpp" FORCEINCLUDE SOURCE_CXX "src/stdafx.cpp")
 target_link_libraries(plc parlex utilities LLVMCore LLVMSupport ${SYMENGINE_LIBRARIES})
-add_dependencies(plc symengine_build)
-

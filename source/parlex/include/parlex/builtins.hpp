@@ -25,7 +25,7 @@ namespace parlex {
 namespace builtins {
 
 std::map<std::string, recognizer *> const & get_builtins_table();
-bool resolve_builtin(std::string const & name, parlex::recognizer const *& ptr);
+bool resolve_builtin(std::string const & name, recognizer const *& ptr);
 
 }
 }

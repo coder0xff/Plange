@@ -76,10 +76,10 @@ std::vector<std::set<parlex::match>> matches_by_height(parlex::abstract_syntax_g
 	return result;
 }
 
-plc::source_code::source_code(std::string const& pathname, std::u32string const& document, parlex::parser& parser, llvm::LLVMContext & llvmContext) :
+plc::source_code::source_code(std::string const& pathname, std::u32string const& document, parlex::parser& parser) :
+	pathname(pathname),
 	document(document),
-	asg(parser.parse(plange, { payload_postprocess }, document)),
-	module(new llvm::Module(pathname, llvmContext))
+	asg(parser.parse(plange, { payload_postprocess }, document))
 {
 	//compute line number lookup table
 	size_t pos = 0;
@@ -125,8 +125,8 @@ plc::source_code::source_code(std::string const& pathname, std::u32string const&
 
 plc::source_code::~source_code() { }
 
-std::pair<int, int> plc::source_code::get_line_number_and_column(int charIndex) {
-	std::map<int, int>::iterator i = line_number_by_first_character.lower_bound(charIndex);
+std::pair<int, int> plc::source_code::get_line_number_and_column(int charIndex) const {
+	std::map<int, int>::const_iterator i = line_number_by_first_character.lower_bound(charIndex);
 	if (i != line_number_by_first_character.end() && i->first == charIndex) {
 		return std::make_pair(i->second, 0);
 	}
@@ -135,19 +135,12 @@ std::pair<int, int> plc::source_code::get_line_number_and_column(int charIndex) 
 	return std::make_pair(i->second, charIndex - i->first);
 }
 
-llvm::Value * plc::source_code::get_or_add_global_string(llvm::LLVMContext & context, std::u32string const & s)
-{
-	auto i = global_strings.find(s);
-	if (i != global_strings.end()) return i->second;
-	llvm::StringRef Str(to_utf8(s));
-	llvm::Constant *StrConstant = llvm::ConstantDataArray::getString(context, Str);
-	auto gv = new llvm::GlobalVariable(*module, StrConstant->getType(), true, llvm::GlobalValue::PrivateLinkage, StrConstant);
-	std::string name = "str" + std::to_string(global_strings.size());
-	gv->setName(name);
-	//gv->setUnnamedAddr(true)
-	return global_strings[s] = gv;
+parlex::permutation plc::source_code::get_parts(parlex::match const& m) const {
+	auto i = asg.permutations.find(m);
+	assert(i != asg.permutations.end());
+	return *i->second.begin();
 }
 
-void plc::source_code::compile() {
-	scope.reset(new plc::scope(*this, nullptr, asg.root));
+std::u32string plc::source_code::get_text(parlex::match const& m) const {
+	return document.substr(m.document_position, m.consumed_character_count);
 }

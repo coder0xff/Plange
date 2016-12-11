@@ -48,9 +48,9 @@ void progress_bar(int done, int outOf) {
 	std::cout << "\r[" << std::string(ticks, '*') << std::string(25 - ticks, ' ') << "]";
 }
 
-parlex::details::any_character_t any_character;
-parlex::details::not_double_quote_t not_double_quote;
-parlex::details::not_newline_t not_newline;
+details::any_character_t any_character;
+details::not_double_quote_t not_double_quote;
+details::not_newline_t not_newline;
 
 string_terminal::string_terminal(std::u32string const & s) : terminal(to_utf8(s)), s(s), length(s.length()) {}
 
@@ -189,7 +189,7 @@ std::map<std::string, recognizer *> const & get_builtins_table() {
 	return result;
 }
 
-bool resolve_builtin(std::string const & name, parlex::recognizer const *& ptr)
+bool resolve_builtin(std::string const & name, recognizer const *& ptr)
 {
 	static std::map<std::string, recognizer *> builtins_table = get_builtins_table();
 	auto i = builtins_table.find(name);

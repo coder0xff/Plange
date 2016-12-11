@@ -20,8 +20,8 @@ class parser;
 //States from N-a to N-1 are the accept states, where N is states.size() and a is accept_state_count
 class state_machine_base : public recognizer {
 public:
-	state_machine_base(std::string const & id, size_t startState, associativity assoc = associativity::none);
-	state_machine_base(std::string const & id, size_t startState, filter_function const * filter, associativity assoc = associativity::none);
+	state_machine_base(std::string const & id, size_t startState, associativity assoc = none);
+	state_machine_base(std::string const & id, size_t startState, filter_function const * filter, associativity assoc = none);
 	virtual ~state_machine_base() = default;
 	int const start_state;
 	filter_function const * const filter;

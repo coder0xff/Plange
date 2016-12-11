@@ -39,7 +39,7 @@ void producer::do_events() {
 	}
 	if (completed) {
 		std::list<subscription> temp;
-		std::swap(temp, consumers);
+		swap(temp, consumers);
 		lock.unlock();
 		for (subscription & subscription : temp) {
 			subjob & targetSubjob = subscription.c.owner();

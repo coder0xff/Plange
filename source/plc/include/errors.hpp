@@ -10,12 +10,16 @@ namespace plc {
 void emit_error(int errNumber, std::string const& description, std::string const& file, int const line, std::string const& info);
 
 constexpr int firstErrorOffset = -__LINE__;
+MAKE_ERROR(NotImplemented, "INTERNAL ERROR: The requested functionality is not implemented yet.", INTERNAL)
+MAKE_ERROR(UnsupportedBootstrapFunctionality, "INTERNAL ERROR: the requested functionality is not available in the C++-based bootstrap compiler", INTERNAL)
+MAKE_ERROR(Unknown, "INTERNAL ERROR: No error description is available.", INTERNAL)
 MAKE_ERROR(AmbiguousParse, "More than one interpretation of the input exists.", FILE SOURCECODE PARSING)
 MAKE_ERROR(CouldNotParse, "The document does not conform to the syntax.", FILE SOURCECODE PARSING)
 MAKE_ERROR(CouldNotOpenFile, "The file could not be opened.", FILE)
-MAKE_ERROR(Unknown, "An unknown error occurred.", GENERIC)
-MAKE_ERROR(NotImplemented, "The requested functionality is not yet available.", GENERIC)
-
+MAKE_ERROR(ExpressionIsNotAFunction, "The expression does not evaluate to a function.", SOURCECODE LOGIC)
+MAKE_ERROR(CannotAssignToConstant, "Assigning a value to a constant is prohibited.", SOURCECODE LOGIC)
+MAKE_ERROR(RedifinitionOfSymbol, "The symbol is already defined in a containing scope.", SOURCECODE LOGIC)
+MAKE_ERROR(UnknownSymbol, "The symbol was not found in the current scope.", SOURCECODE LOGIC)
 }
 
 #undef MAKE_ERROR
