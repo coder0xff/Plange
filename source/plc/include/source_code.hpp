@@ -26,7 +26,6 @@ private:
 	std::map<std::u32string, llvm::Value *> global_strings;
 
 	llvm::Value* get_or_add_global_string(llvm::LLVMContext& context, std::u32string const& s);
-	std::unique_ptr<scope> scope;
 };
 
 }

@@ -1,5 +1,7 @@
 #include "parlex/recognizer.hpp"
 
+#include <functional>
+
 namespace parlex {
 
 recognizer::recognizer(std::string const& id) : id(id) {}

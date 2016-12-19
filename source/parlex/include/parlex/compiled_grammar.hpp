@@ -8,7 +8,7 @@ namespace parlex {
 class compiled_grammar : public grammar_base {
 	
 public:
-	compiled_grammar::compiled_grammar(
+	compiled_grammar(
 		state_machine_base const & main,
 		std::vector<std::reference_wrapper<state_machine_base const>> productions,
 		std::vector<std::pair<std::reference_wrapper<state_machine_base const>, std::reference_wrapper<state_machine_base const>>> precedences

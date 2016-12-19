@@ -16,7 +16,7 @@ ExternalProject_Add(llvm
 	GIT_REPOSITORY "https://github.com/llvm-mirror/llvm.git"
 	GIT_TAG "release_39"
 	BINARY_DIR "${CMAKE_BINARY_DIR}/Downloads/llvm/${CMAKE_CFG_INTDIR}/build"
-	CMAKE_ARGS "-DCMAKE_INSTALL_PREFIX=${CMAKE_BINARY_DIR}/Dependencies/llvm" "-DLLVM_TARGETS_TO_BUILD=X86"
+	CMAKE_ARGS "-DCMAKE_INSTALL_PREFIX=${CMAKE_BINARY_DIR}/Dependencies/llvm" "-DLLVM_TARGETS_TO_BUILD=X86" "-DLLVM_ENABLE_RTTI=ON"
 )
 
 if(${MSVC})
