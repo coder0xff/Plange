@@ -13,6 +13,8 @@
 			<p>syntax</p>
 			<div>"=" {<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> [{<a href="/documentation/syntax/IC.php">IC</a>} EQUALITY_CHAIN_LOOP]</div>
 		</div>
+		<p>See: <a href="EQUALITY_CHAIN.php">EQUALITY_CHAIN</a>
+		</p>
 
 
 

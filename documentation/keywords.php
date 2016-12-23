@@ -62,7 +62,6 @@
 			<li><a href="/documentation/keywords/unstable.php">unstable</a></li>
 			<li><a href="/documentation/keywords/until.php">until</a></li>
 			<li><a href="/documentation/keywords/volatile.php">volatile</a></li>
-			<li><a href="/documentation/keywords/where.php">where</a></li>
 		</ul>
 
 		<?php require('../footer.php') ?>

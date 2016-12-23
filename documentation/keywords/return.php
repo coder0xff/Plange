@@ -15,7 +15,7 @@
             <pre>mul := (a, b) { return a * b; };</pre>
         </div>
         
-        <p>See: <a href="/documentation/syntax/return.php">return (syntax)</a></p>
+        <p>See: <a href="/documentation/syntax/RETURN.php">return (syntax)</a></p>
         
 
 		<?php require('../../footer.php') ?>

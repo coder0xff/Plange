@@ -75,7 +75,12 @@
 
             $tree = [
                 "DEFINITION" => [":="],
-                "ASSIGNMENT" => ["<-", "←"],
+                "ASSIGNMENT_CHAIN" => ["<-", "←"],
+                "EQUALITY_CHAIN" => ["="],
+                "GREATER_CHAIN" => [">", ">=", "="],
+                "LESSER_CHAIN" => ["<", "<=", "="],
+                "SUPERSET_CHAIN" => ["=", "⊇", "sups", "⊃", "psups"],
+                "SUBSET_CHAIN" => ["=", "⊆", "subs", "⊂", "psubs"],
                 "CONDITIONAL" => ["? :"],
                 "DIMENSIONAL_ANALYSIS_OP" => build_tree("DIMENSIONAL_ANALYSIS_OP"),
                 "BINARY_OP" => build_tree("BINARY_OP"),

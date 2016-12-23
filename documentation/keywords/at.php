@@ -9,7 +9,7 @@
 		<?php require('../../header.php') ?>
 
 
-		<p>when used in <a href="../syntax/type_scope.php">type_scope</a>
+		<p>when used in <a href="../syntax/TYPE_SCOPE.php">type_scope</a>
 		syntax, specifies the offset of a field</p>
 		<div class="code">
 			<p>Example</p>

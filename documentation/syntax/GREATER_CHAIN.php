@@ -9,11 +9,19 @@
 		<?php require('../../header.php') ?>
 
 
+		<p>one or more greater, greater or equals, or equals relations</p>
+
 		<div class="syntax">
 			<p>syntax</p>
 			<div><a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> {<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/GREATER_CHAIN_LOOP.php">GREATER_CHAIN_LOOP</a></div>
 		</div>
-
+		<div class="code">
+			<p>Example</p>
+			<pre>X &gt; Y;</pre>
+		</div>		<div class="code">
+			<p>Example</p>
+			<pre>X &gt; Y ≥ 0;</pre>
+		</div>
 
 
 		<?php require('../../footer.php') ?>

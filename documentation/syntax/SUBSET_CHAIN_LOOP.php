@@ -13,6 +13,8 @@
 			<p>syntax</p>
 			<div>("="|"⊆"|"subs"|"⊂"|"psubs") {<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> [{<a href="/documentation/syntax/IC.php">IC</a>} SUBSET_CHAIN_LOOP]</div>
 		</div>
+		<p>See: <a href="SUBSET_CHAIN.php">SUBSET_CHAIN</a>
+		</p>
 
 
 

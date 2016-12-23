@@ -13,7 +13,7 @@
 
 		<div class="syntax">
 			<p>syntax</p>
-			<div><a href="/documentation/syntax/IN.php">IN</a> | <a href="/documentation/syntax/NOT_IN.php">NOT_IN</a> | <a href="/documentation/syntax/HAS.php">HAS</a> | <a href="/documentation/syntax/NOT_HAS.php">NOT_HAS</a></div>
+			<div><a href="/documentation/syntax/HAS.php">HAS</a> | <a href="/documentation/syntax/IN.php">IN</a> | <a href="/documentation/syntax/NOT_HAS.php">NOT_HAS</a> | <a href="/documentation/syntax/NOT_IN.php">NOT_IN</a></div>
 		</div>
 
 

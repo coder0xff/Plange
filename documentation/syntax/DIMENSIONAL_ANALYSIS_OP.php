@@ -13,7 +13,7 @@
 
 		<div class="syntax">
 			<p>syntax</p>
-			<div><a href="/documentation/syntax/UNIT_MULTIPLICATION.php">UNIT_MULTIPLICATION</a> | <a href="/documentation/syntax/UNIT_DIVISION.php">UNIT_DIVISION</a> | <a href="/documentation/syntax/UNIT_EXPONENTIATION.php">UNIT_EXPONENTIATION</a></div>
+			<div><a href="/documentation/syntax/UNIT_DIVISION.php">UNIT_DIVISION</a> | <a href="/documentation/syntax/UNIT_EXPONENTIATION.php">UNIT_EXPONENTIATION</a> | <a href="/documentation/syntax/UNIT_MULTIPLICATION.php">UNIT_MULTIPLICATION</a></div>
 		</div>
 
 

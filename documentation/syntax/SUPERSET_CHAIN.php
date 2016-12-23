@@ -9,11 +9,19 @@
 		<?php require('../../header.php') ?>
 
 
+		<p>One or more superset, proper superset, or equality relations</p>
+
 		<div class="syntax">
 			<p>syntax</p>
 			<div><a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> {<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/SUPERSET_CHAIN_LOOP.php">SUPERSET_CHAIN_LOOP</a></div>
 		</div>
-
+		<div class="code">
+			<p>Example</p>
+			<pre>S ⊃ T;</pre>
+		</div>		<div class="code">
+			<p>Example</p>
+			<pre>S ⊇ T ⊃ U = V;</pre>
+		</div>
 
 
 		<?php require('../../footer.php') ?>

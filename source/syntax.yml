@@ -138,13 +138,13 @@ BINARY_ARITHMETIC_OP:
 
 BINARY_COLLECTION_OP:
     syntax: >
-        INTERSECTION | SYMMETRIC_DIFFERENCE | UNION | BIJECTION
+        BIJECTION | INTERSECTION | SYMMETRIC_DIFFERENCE | UNION
     doc: >
-        the set construction and collections operators
+        binary operators on collections
 
 BINARY_LOGICAL_OP:
     syntax: >
-        AND | OR | XOR | NAND | NOR | IMPLICATION | IFF | MAPS_TO
+        AND | IFF | IMPLICATION | MAPS_TO | NAND | NOR | OR | XOR
 
 BINARY_OP:
     syntax: >
@@ -152,7 +152,7 @@ BINARY_OP:
     doc: >
         a sequence of one or more punctuation (and special) characters representing an infix operator
     notes: >
-        <h4>* (<a href="/documentation/syntax/multiplication.php">multiplication</a>)</h4>
+        <h4>* (<a href="/documentation/syntax/MULTIPLICATION.php">multiplication</a>)</h4>
         <ul>
             <li>as the arithmetic operator, multiplication: Number * Number → Number</li>
             <li>as the product of Types, making a tuple Type: Type * Type → Type</li>
@@ -386,7 +386,7 @@ DIMENSION:
 
 DIMENSIONAL_ANALYSIS_OP:
     syntax: >
-        UNIT_MULTIPLICATION | UNIT_DIVISION | UNIT_EXPONENTIATION
+        UNIT_DIVISION | UNIT_EXPONENTIATION | UNIT_MULTIPLICATION
     doc: >
         operators in a dimension
 
@@ -482,11 +482,20 @@ EQUALITY_CHAIN:
     syntax:
         EXPRESSION {IC} EQUALITY_CHAIN_LOOP
     precedes: [GREATER_CHAIN, LESSER_CHAIN, SUBSET_CHAIN, SUPERSET_CHAIN]
+    doc: >
+        one or more equality relations
+    examples:
+        - |
+            X = Y;
+        - |
+            X = Y = Z;
 
 EQUALITY_CHAIN_LOOP:
     syntax: >
         "=" {IC} EXPRESSION [{IC} EQUALITY_CHAIN_LOOP]
     precedes: [EXPRESSION]
+    see:
+        - EQUALITY_CHAIN
 
 EXISTS:
     syntax: >
@@ -651,11 +660,20 @@ GETTER:
 GREATER_CHAIN:
     syntax: >
         EXPRESSION {IC} GREATER_CHAIN_LOOP
+    doc: >
+        one or more greater, greater or equals, or equals relations
+    examples:
+        - |
+            X > Y;
+        - |
+            X > Y ≥ 0;
 
 GREATER_CHAIN_LOOP:
     syntax: >
         ("="|">"|"=>"|"≥") {IC} EXPRESSION [{IC} GREATER_CHAIN_LOOP]
     precedes: [EXPRESSION]
+    see:
+        - GREATER_CHAIN
 
 HAS:
     syntax: >
@@ -813,11 +831,20 @@ KLEENE_STAR:
 LESSER_CHAIN:
     syntax: >
         EXPRESSION {IC} LESSER_CHAIN_LOOP
+    doc:
+        one or more lesser, lesser or equals, or equals relations
+    examples:
+        - |
+            X < Y;
+        - |
+            X < Y ≤ 0;
 
 LESSER_CHAIN_LOOP:
     syntax: >
         ("="|"<"|"=<"|"≤") {IC} EXPRESSION [{IC} LESSER_CHAIN_LOOP]
     precedes: [EXPRESSION]
+    see:
+        - LESSER_CHAIN
 
 LIST:
     syntax: >
@@ -896,7 +923,7 @@ MULTIPLICATION:
 
 MULTIPLICATIVE_OP:
     syntax: >
-        MULTIPLICATION | DOT_PRODUCT | CROSS_PRODUCT
+        CROSS_PRODUCT | DOT_PRODUCT | MULTIPLICATION
     precedes: [INTEGER_DIVISION, MODULATION, SUBTRACTION, ADDITION, ADD_SUB]
 
 NAND:
@@ -1094,13 +1121,13 @@ RANGE:
 
 RELATIONAL_COLLECTION_OP:
     syntax: >
-        IN | NOT_IN | HAS | NOT_HAS
+        HAS | IN | NOT_HAS | NOT_IN
     doc: >
         relational operators on collections
 
 RELATIONAL_OP:
     syntax: >
-        INEQUALITY | RELATIONAL_COLLECTION_OP | CASTS | IS
+        CASTS | INEQUALITY | IS | RELATIONAL_COLLECTION_OP
     precedes: [BINARY_LOGICAL_OP]
 
 RETURN:
@@ -1165,11 +1192,20 @@ STRING:
 SUBSET_CHAIN:
     syntax: >
         EXPRESSION {IC} SUBSET_CHAIN_LOOP
+    doc: >
+        One or more subset, proper subset, or equality relations
+    examples:
+        - |
+            S ⊂ T;
+        - |
+            S ⊆ T ⊂ U = V;
 
 SUBSET_CHAIN_LOOP:
     syntax: >
         ("="|"⊆"|"subs"|"⊂"|"psubs") {IC} EXPRESSION [{IC} SUBSET_CHAIN_LOOP]
     precedes: [EXPRESSION]
+    see:
+        - SUBSET_CHAIN
 
 SUBTRACTION:
     syntax: >
@@ -1179,11 +1215,20 @@ SUBTRACTION:
 SUPERSET_CHAIN:
     syntax: >
         EXPRESSION {IC} SUPERSET_CHAIN_LOOP
+    doc: >
+        One or more superset, proper superset, or equality relations
+    examples:
+        - |
+            S ⊃ T;
+        - |
+            S ⊇ T ⊃ U = V;
 
 SUPERSET_CHAIN_LOOP:
     syntax: >
         ("="|"⊇"|"sups"|"⊃"|"psups") {IC} EXPRESSION [{IC} SUPERSET_CHAIN_LOOP]
     precedes: [EXPRESSION]
+    see:
+        - SUPERSET_CHAIN
 
 SYMMETRIC_DIFFERENCE:
     syntax: >
@@ -1283,7 +1328,7 @@ UNARY_ARITHMETIC_OP:
 
 UNARY_LOGICAL_OP:
     syntax: >
-        NOT | ALL | EXISTS | EXISTS_ONE
+        ALL | EXISTS | EXISTS_ONE | NOT
     precedes: [BINARY_LOGICAL_OP]
 
 UNARY_OP:

@@ -22,7 +22,7 @@
 		</div>
 
 		<p>See: <a href="try.php">try</a>, <a href="finally.php">finally</a></p>
-		<p>See also: <a href="../syntax/try.php">try (syntax)</a></p>
+		<p>See also: <a href="../syntax/TRY.php">try (syntax)</a></p>
 
 
 		<?php require('../../footer.php') ?>

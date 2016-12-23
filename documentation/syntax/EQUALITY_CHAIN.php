@@ -9,11 +9,19 @@
 		<?php require('../../header.php') ?>
 
 
+		<p>one or more equality relations</p>
+
 		<div class="syntax">
 			<p>syntax</p>
 			<div><a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> {<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/EQUALITY_CHAIN_LOOP.php">EQUALITY_CHAIN_LOOP</a></div>
 		</div>
-
+		<div class="code">
+			<p>Example</p>
+			<pre>X = Y;</pre>
+		</div>		<div class="code">
+			<p>Example</p>
+			<pre>X = Y = Z;</pre>
+		</div>
 
 
 		<?php require('../../footer.php') ?>

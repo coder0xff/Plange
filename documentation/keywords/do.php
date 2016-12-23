@@ -23,7 +23,7 @@
 	gameLogic();
 } until (gameIsExiting);</pre>
 		</div>
-		<p>See: <a href="../syntax/do.php">do (syntax)</a></p>
+		<p>See: <a href="../syntax/DO.php">do (syntax)</a></p>
 
 
 		<?php require('../../footer.php') ?>
