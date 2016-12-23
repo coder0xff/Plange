@@ -1,0 +1,192 @@
+<meta charset='utf-8'/>
+<meta name="viewport" content="width=device-width, initial-scale=0.6">
+<html>
+	<head>
+		<title>Syntax Listing - Plange</title>
+		<link rel=StyleSheet href='../css/general.css' type='text/css' />
+	</head>
+	<body>
+		<?php require('../header.php') ?>
+
+
+		<p>The root production of the grammar is "STATEMENT_SCOPE".</p>
+		<h2>Subpage Listing</h2>
+		<ul>
+			<li><a href="/documentation/syntax/ADDITION.php">ADDITION</a></li>
+			<li><a href="/documentation/syntax/ADD_SUB.php">ADD_SUB</a></li>
+			<li><a href="/documentation/syntax/ALL.php">ALL</a></li>
+			<li><a href="/documentation/syntax/ALLOCATION.php">ALLOCATION</a></li>
+			<li><a href="/documentation/syntax/AND.php">AND</a></li>
+			<li><a href="/documentation/syntax/ARRAY.php">ARRAY</a></li>
+			<li><a href="/documentation/syntax/ARRAY_INVOCATION.php">ARRAY_INVOCATION</a></li>
+			<li><a href="/documentation/syntax/ASM_EXPRESSION.php">ASM_EXPRESSION</a></li>
+			<li><a href="/documentation/syntax/ASM_FUNCTION.php">ASM_FUNCTION</a></li>
+			<li><a href="/documentation/syntax/ASM_IDENTIFIER.php">ASM_IDENTIFIER</a></li>
+			<li><a href="/documentation/syntax/ASM_OP.php">ASM_OP</a></li>
+			<li><a href="/documentation/syntax/ASM_PTR_ARITHMETIC_ATT.php">ASM_PTR_ARITHMETIC_ATT</a></li>
+			<li><a href="/documentation/syntax/ASM_PTR_ARITHMETIC_ATT_REG.php">ASM_PTR_ARITHMETIC_ATT_REG</a></li>
+			<li><a href="/documentation/syntax/ASM_PTR_ARITHMETIC_INTEL.php">ASM_PTR_ARITHMETIC_INTEL</a></li>
+			<li><a href="/documentation/syntax/ASM_SCOPE.php">ASM_SCOPE</a></li>
+			<li><a href="/documentation/syntax/ASM_STATEMENT.php">ASM_STATEMENT</a></li>
+			<li><a href="/documentation/syntax/ASSIGNMENT.php">ASSIGNMENT</a></li>
+			<li><a href="/documentation/syntax/BIJECTION.php">BIJECTION</a></li>
+			<li><a href="/documentation/syntax/BINARY_ARITHMETIC_OP.php">BINARY_ARITHMETIC_OP</a></li>
+			<li><a href="/documentation/syntax/BINARY_COLLECTION_OP.php">BINARY_COLLECTION_OP</a></li>
+			<li><a href="/documentation/syntax/BINARY_LOGICAL_OP.php">BINARY_LOGICAL_OP</a></li>
+			<li><a href="/documentation/syntax/BINARY_OP.php">BINARY_OP</a></li>
+			<li><a href="/documentation/syntax/BITWISE_OP.php">BITWISE_OP</a></li>
+			<li><a href="/documentation/syntax/BIT_AND.php">BIT_AND</a></li>
+			<li><a href="/documentation/syntax/BIT_NOT.php">BIT_NOT</a></li>
+			<li><a href="/documentation/syntax/BIT_OR.php">BIT_OR</a></li>
+			<li><a href="/documentation/syntax/BIT_XOR.php">BIT_XOR</a></li>
+			<li><a href="/documentation/syntax/BOOL.php">BOOL</a></li>
+			<li><a href="/documentation/syntax/CARDINALITY.php">CARDINALITY</a></li>
+			<li><a href="/documentation/syntax/CAST.php">CAST</a></li>
+			<li><a href="/documentation/syntax/CASTS.php">CASTS</a></li>
+			<li><a href="/documentation/syntax/CEILING.php">CEILING</a></li>
+			<li><a href="/documentation/syntax/COMMENT.php">COMMENT</a></li>
+			<li><a href="/documentation/syntax/COMPLEMENT.php">COMPLEMENT</a></li>
+			<li><a href="/documentation/syntax/COMPOSITION.php">COMPOSITION</a></li>
+			<li><a href="/documentation/syntax/COMPOUND.php">COMPOUND</a></li>
+			<li><a href="/documentation/syntax/CONDITIONAL.php">CONDITIONAL</a></li>
+			<li><a href="/documentation/syntax/CONSTRUCTIVE_OP.php">CONSTRUCTIVE_OP</a></li>
+			<li><a href="/documentation/syntax/CROSS_PRODUCT.php">CROSS_PRODUCT</a></li>
+			<li><a href="/documentation/syntax/DECLARATION.php">DECLARATION</a></li>
+			<li><a href="/documentation/syntax/DECLARATION_PART.php">DECLARATION_PART</a></li>
+			<li><a href="/documentation/syntax/DEFINITION.php">DEFINITION</a></li>
+			<li><a href="/documentation/syntax/DEFINITION_PART.php">DEFINITION_PART</a></li>
+			<li><a href="/documentation/syntax/DELTA.php">DELTA</a></li>
+			<li><a href="/documentation/syntax/DIMENSION.php">DIMENSION</a></li>
+			<li><a href="/documentation/syntax/DIMENSIONAL_ANALYSIS_OP.php">DIMENSIONAL_ANALYSIS_OP</a></li>
+			<li><a href="/documentation/syntax/DIMENSIONAL_NUMBER.php">DIMENSIONAL_NUMBER</a></li>
+			<li><a href="/documentation/syntax/DIVISION.php">DIVISION</a></li>
+			<li><a href="/documentation/syntax/DO.php">DO</a></li>
+			<li><a href="/documentation/syntax/DOT_PRODUCT.php">DOT_PRODUCT</a></li>
+			<li><a href="/documentation/syntax/EMBEDDED_COMMENT.php">EMBEDDED_COMMENT</a></li>
+			<li><a href="/documentation/syntax/EMBEDDED_COMMENT_INTERIOR.php">EMBEDDED_COMMENT_INTERIOR</a></li>
+			<li><a href="/documentation/syntax/EMBEDDED_STRING.php">EMBEDDED_STRING</a></li>
+			<li><a href="/documentation/syntax/END_OF_LINE_COMMENT.php">END_OF_LINE_COMMENT</a></li>
+			<li><a href="/documentation/syntax/EQUALITY_CHAIN.php">EQUALITY_CHAIN</a></li>
+			<li><a href="/documentation/syntax/EXISTS.php">EXISTS</a></li>
+			<li><a href="/documentation/syntax/EXISTS_ONE.php">EXISTS_ONE</a></li>
+			<li><a href="/documentation/syntax/EXPONENTIATION.php">EXPONENTIATION</a></li>
+			<li><a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a></li>
+			<li><a href="/documentation/syntax/FACTORIAL.php">FACTORIAL</a></li>
+			<li><a href="/documentation/syntax/FLOOR.php">FLOOR</a></li>
+			<li><a href="/documentation/syntax/FOR.php">FOR</a></li>
+			<li><a href="/documentation/syntax/FOR_COLLECTION.php">FOR_COLLECTION</a></li>
+			<li><a href="/documentation/syntax/FREE.php">FREE</a></li>
+			<li><a href="/documentation/syntax/FUNCTION.php">FUNCTION</a></li>
+			<li><a href="/documentation/syntax/FUNCTION_MODIFIER.php">FUNCTION_MODIFIER</a></li>
+			<li><a href="/documentation/syntax/FUNCTION_MODIFIER_ATOMIC.php">FUNCTION_MODIFIER_ATOMIC</a></li>
+			<li><a href="/documentation/syntax/FUNCTION_MODIFIER_MODEL.php">FUNCTION_MODIFIER_MODEL</a></li>
+			<li><a href="/documentation/syntax/FUNCTION_MODIFIER_NO_THROW.php">FUNCTION_MODIFIER_NO_THROW</a></li>
+			<li><a href="/documentation/syntax/FUNCTION_MODIFIER_PLATFORM.php">FUNCTION_MODIFIER_PLATFORM</a></li>
+			<li><a href="/documentation/syntax/FUNCTION_MODIFIER_STABILITY.php">FUNCTION_MODIFIER_STABILITY</a></li>
+			<li><a href="/documentation/syntax/GETTER.php">GETTER</a></li>
+			<li><a href="/documentation/syntax/GREATER_CHAIN.php">GREATER_CHAIN</a></li>
+			<li><a href="/documentation/syntax/HAS.php">HAS</a></li>
+			<li><a href="/documentation/syntax/HEX.php">HEX</a></li>
+			<li><a href="/documentation/syntax/IC.php">IC</a></li>
+			<li><a href="/documentation/syntax/ICR.php">ICR</a></li>
+			<li><a href="/documentation/syntax/IDENTIFIER.php">IDENTIFIER</a></li>
+			<li><a href="/documentation/syntax/IF.php">IF</a></li>
+			<li><a href="/documentation/syntax/IFF.php">IFF</a></li>
+			<li><a href="/documentation/syntax/IMPLICATION.php">IMPLICATION</a></li>
+			<li><a href="/documentation/syntax/IMPLICIT_TYPE_DEREFERENCE.php">IMPLICIT_TYPE_DEREFERENCE</a></li>
+			<li><a href="/documentation/syntax/IMPORT.php">IMPORT</a></li>
+			<li><a href="/documentation/syntax/IN.php">IN</a></li>
+			<li><a href="/documentation/syntax/INEQUALITY.php">INEQUALITY</a></li>
+			<li><a href="/documentation/syntax/INHERITANCE_LIST.php">INHERITANCE_LIST</a></li>
+			<li><a href="/documentation/syntax/INTEGER_DIVISION.php">INTEGER_DIVISION</a></li>
+			<li><a href="/documentation/syntax/INTERSECTION.php">INTERSECTION</a></li>
+			<li><a href="/documentation/syntax/INVOCATION.php">INVOCATION</a></li>
+			<li><a href="/documentation/syntax/IS.php">IS</a></li>
+			<li><a href="/documentation/syntax/KLEENE_STAR.php">KLEENE_STAR</a></li>
+			<li><a href="/documentation/syntax/LESSER_CHAIN.php">LESSER_CHAIN</a></li>
+			<li><a href="/documentation/syntax/LIST.php">LIST</a></li>
+			<li><a href="/documentation/syntax/LOOP.php">LOOP</a></li>
+			<li><a href="/documentation/syntax/MAGNITUDE.php">MAGNITUDE</a></li>
+			<li><a href="/documentation/syntax/MAP.php">MAP</a></li>
+			<li><a href="/documentation/syntax/MAPS_TO.php">MAPS_TO</a></li>
+			<li><a href="/documentation/syntax/MEMBER_ACCESS.php">MEMBER_ACCESS</a></li>
+			<li><a href="/documentation/syntax/MODULATION.php">MODULATION</a></li>
+			<li><a href="/documentation/syntax/MULTIPLICATION.php">MULTIPLICATION</a></li>
+			<li><a href="/documentation/syntax/MULTIPLICATIVE_OP.php">MULTIPLICATIVE_OP</a></li>
+			<li><a href="/documentation/syntax/NAND.php">NAND</a></li>
+			<li><a href="/documentation/syntax/NEAREST_INTEGER.php">NEAREST_INTEGER</a></li>
+			<li><a href="/documentation/syntax/NEGATION.php">NEGATION</a></li>
+			<li><a href="/documentation/syntax/NON_FRACTIONAL.php">NON_FRACTIONAL</a></li>
+			<li><a href="/documentation/syntax/NON_NEG_FRACTIONAL.php">NON_NEG_FRACTIONAL</a></li>
+			<li><a href="/documentation/syntax/NON_NEG_INTEGER.php">NON_NEG_INTEGER</a></li>
+			<li><a href="/documentation/syntax/NON_NEG_NON_FRACTIONAL.php">NON_NEG_NON_FRACTIONAL</a></li>
+			<li><a href="/documentation/syntax/NON_NEG_NUMBER.php">NON_NEG_NUMBER</a></li>
+			<li><a href="/documentation/syntax/NON_ZERO_DECIMAL_DIGIT.php">NON_ZERO_DECIMAL_DIGIT</a></li>
+			<li><a href="/documentation/syntax/NOR.php">NOR</a></li>
+			<li><a href="/documentation/syntax/NOT.php">NOT</a></li>
+			<li><a href="/documentation/syntax/NOT_HAS.php">NOT_HAS</a></li>
+			<li><a href="/documentation/syntax/NOT_IN.php">NOT_IN</a></li>
+			<li><a href="/documentation/syntax/NULL_COALESCE.php">NULL_COALESCE</a></li>
+			<li><a href="/documentation/syntax/OCTAL.php">OCTAL</a></li>
+			<li><a href="/documentation/syntax/OR.php">OR</a></li>
+			<li><a href="/documentation/syntax/PARAMETER.php">PARAMETER</a></li>
+			<li><a href="/documentation/syntax/PARAMETER_ALGEBRAIC.php">PARAMETER_ALGEBRAIC</a></li>
+			<li><a href="/documentation/syntax/PARAMETER_NORMAL.php">PARAMETER_NORMAL</a></li>
+			<li><a href="/documentation/syntax/PARENTHETICAL.php">PARENTHETICAL</a></li>
+			<li><a href="/documentation/syntax/PARENTHETICAL_INVOCATION.php">PARENTHETICAL_INVOCATION</a></li>
+			<li><a href="/documentation/syntax/PAYLOAD.php">PAYLOAD</a></li>
+			<li><a href="/documentation/syntax/PLATFORM.php">PLATFORM</a></li>
+			<li><a href="/documentation/syntax/POST_DEC.php">POST_DEC</a></li>
+			<li><a href="/documentation/syntax/POST_INC.php">POST_INC</a></li>
+			<li><a href="/documentation/syntax/PREPEND.php">PREPEND</a></li>
+			<li><a href="/documentation/syntax/PRE_DEC.php">PRE_DEC</a></li>
+			<li><a href="/documentation/syntax/PRE_INC.php">PRE_INC</a></li>
+			<li><a href="/documentation/syntax/PROPERTY.php">PROPERTY</a></li>
+			<li><a href="/documentation/syntax/RADICAL.php">RADICAL</a></li>
+			<li><a href="/documentation/syntax/RANGE.php">RANGE</a></li>
+			<li><a href="/documentation/syntax/RELATIONAL_COLLECTION_OP.php">RELATIONAL_COLLECTION_OP</a></li>
+			<li><a href="/documentation/syntax/RELATIONAL_OP.php">RELATIONAL_OP</a></li>
+			<li><a href="/documentation/syntax/RETURN.php">RETURN</a></li>
+			<li><a href="/documentation/syntax/SET.php">SET</a></li>
+			<li><a href="/documentation/syntax/SETTER.php">SETTER</a></li>
+			<li><a href="/documentation/syntax/SET_COMPREHENSION.php">SET_COMPREHENSION</a></li>
+			<li><a href="/documentation/syntax/SHIFTL.php">SHIFTL</a></li>
+			<li><a href="/documentation/syntax/SHIFTR.php">SHIFTR</a></li>
+			<li><a href="/documentation/syntax/SLICE.php">SLICE</a></li>
+			<li><a href="/documentation/syntax/STATEMENT.php">STATEMENT</a></li>
+			<li><a href="/documentation/syntax/STATEMENT_SCOPE.php">STATEMENT_SCOPE</a></li>
+			<li><a href="/documentation/syntax/SUBSET_CHAIN.php">SUBSET_CHAIN</a></li>
+			<li><a href="/documentation/syntax/SUBTRACTION.php">SUBTRACTION</a></li>
+			<li><a href="/documentation/syntax/SUPERSET_CHAIN.php">SUPERSET_CHAIN</a></li>
+			<li><a href="/documentation/syntax/SYMMETRIC_DIFFERENCE.php">SYMMETRIC_DIFFERENCE</a></li>
+			<li><a href="/documentation/syntax/THROW.php">THROW</a></li>
+			<li><a href="/documentation/syntax/TRY.php">TRY</a></li>
+			<li><a href="/documentation/syntax/TUPLE.php">TUPLE</a></li>
+			<li><a href="/documentation/syntax/TYPE.php">TYPE</a></li>
+			<li><a href="/documentation/syntax/TYPE_DEREFERENCE.php">TYPE_DEREFERENCE</a></li>
+			<li><a href="/documentation/syntax/TYPE_INVOCATION.php">TYPE_INVOCATION</a></li>
+			<li><a href="/documentation/syntax/TYPE_SCOPE.php">TYPE_SCOPE</a></li>
+			<li><a href="/documentation/syntax/TYPE_SCOPE_DECLARATION.php">TYPE_SCOPE_DECLARATION</a></li>
+			<li><a href="/documentation/syntax/TYPE_SCOPE_DECLARATION_PART.php">TYPE_SCOPE_DECLARATION_PART</a></li>
+			<li><a href="/documentation/syntax/TYPE_SCOPE_DEFINITION.php">TYPE_SCOPE_DEFINITION</a></li>
+			<li><a href="/documentation/syntax/TYPE_STATEMENT.php">TYPE_STATEMENT</a></li>
+			<li><a href="/documentation/syntax/UNARY_ARITHMETIC_OP.php">UNARY_ARITHMETIC_OP</a></li>
+			<li><a href="/documentation/syntax/UNARY_LOGICAL_OP.php">UNARY_LOGICAL_OP</a></li>
+			<li><a href="/documentation/syntax/UNARY_OP.php">UNARY_OP</a></li>
+			<li><a href="/documentation/syntax/UNION.php">UNION</a></li>
+			<li><a href="/documentation/syntax/UNIT_DIVISION.php">UNIT_DIVISION</a></li>
+			<li><a href="/documentation/syntax/UNIT_EXPONENTIATION.php">UNIT_EXPONENTIATION</a></li>
+			<li><a href="/documentation/syntax/UNIT_MULTIPLICATION.php">UNIT_MULTIPLICATION</a></li>
+			<li><a href="/documentation/syntax/VECTOR_NORM.php">VECTOR_NORM</a></li>
+			<li><a href="/documentation/syntax/VISIBILITY_MODIFIER.php">VISIBILITY_MODIFIER</a></li>
+			<li><a href="/documentation/syntax/VOLATILE_IMPLICIT_TYPE_DEREFERENCE.php">VOLATILE_IMPLICIT_TYPE_DEREFERENCE</a></li>
+			<li><a href="/documentation/syntax/VOLATILE_TYPE_DEREFERENCE.php">VOLATILE_TYPE_DEREFERENCE</a></li>
+			<li><a href="/documentation/syntax/WHOLE_NUMBER.php">WHOLE_NUMBER</a></li>
+			<li><a href="/documentation/syntax/WS.php">WS</a></li>
+			<li><a href="/documentation/syntax/XML_DOC_STRING.php">XML_DOC_STRING</a></li>
+			<li><a href="/documentation/syntax/XOR.php">XOR</a></li>
+
+
+		<?php require('../footer.php') ?>
+	</body>
+</html>

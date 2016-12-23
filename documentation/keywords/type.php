@@ -9,7 +9,7 @@
 		<?php require('../../header.php') ?>
 
 
-		<p>See: <a href="../syntax/type.php">type (syntax)</a></p>
+		<p>See: <a href="../syntax/TYPE.php">type (syntax)</a></p>
 
 
 		<?php require('../../footer.php') ?>

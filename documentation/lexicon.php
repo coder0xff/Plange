@@ -2,21 +2,21 @@
 <meta name="viewport" content="width=device-width, initial-scale=0.6">
 <html>
 	<head>
-		<title>Glossary</title>
+		<title>Lexicon</title>
 		<link rel=StyleSheet href='../css/general.css' type='text/css' />
 	</head>
 	<body>
 		<?php require('../header.php') ?>
 
 
-		<h4>algebraic type</h4>
-		<div>an <b>algebraic value</b> that is a <b>type</b></div>
-		<h4>algebraic value</h4>
-		<div>a <b>value</b> defined as the solution(s) of a system of <b>constraint</b>s</div>
+		<h4>analytic type</h4>
+		<div>an <b>analytic value</b> that is a <b>type</b></div>
+		<h4>analytic value</h4>
+		<div>a <b>value</b> defined as the solution(s) of a system of <b>constraint</b>s, in contrast to a <b>natural value</b></div>
 		<h4>algorithm</h4>
 		<div>a self-contained set of <b>operation</b>s to be performed</h4>
 		<h4>collection</h4>
-		<div>a <b>value</b> that stores zero or more other <b>values</b></div>
+		<div>a <b>value</b> that stores zero or more other <b>values</b>. It facilitates inspection by providing unique elements as requested (unless too few elements are stored) and by providing cardinality.</div>
 		<h4>compiler</h4>
 		<div>a program that converts source code into a machine code or intermediate representation for execution on a target <b>platform</b>.</div>
 		<h4>constraint</h4>
@@ -26,11 +26,15 @@
 		<h4>function type</h4>
 		<div>a <b>type</b> that describes <b>functions</b> (not to be confused with <b>type function</b>)</div>
 		<h4>functional equivalent</h4>
-		<div>a <b>function </b>that can be substituted for another, and produce the same results given the same input, even though the implementation may be different</div>
+		<div>a <b>function </b>that can be substituted for another, and produce the same results given the same input, even though the implementation may be different. Formally, a function with identical pre- and post-conditions.</div>
 		<h4>iterator</h4>
 		<div>a <b>value</b> used to enumerate the elements of a <b>collection</b></div>
+		<h4>metaobject</h4>
+		<div>a value that models a language feature</div>
 		<h4>native program</h4>
 		<div> a <b>program</b> encoded in the manner recognized by the hardware of the computer</div>
+		<h4>natural value</h4>
+		<div>a <b>value</b> with a singular, known representation, in contrast to an <b>analytic value.</b></div>
 		<h4>operation</h4>
 		<div>a primitive action that reads, writes, or transforms (or some combination thereof) data utilizing the available hardware and software infrastructure</div>
 		<h4>parser</h4>
@@ -40,13 +44,13 @@
 		<h4>program</h4>
 		<div>formally, a representation of one or more <b>algorithm</b>s that may be linearized (made sequential) and executed by a Turing machine, but colloquially any collection of <b>software</b> and data</div>
 		<h4>programming language</h4>
-		<div>a set of grammar rules and logical semantics for constructing solutions to computational problems</div>
+		<div>a formal logic, defined by a set of grammar rules and logical semantics, for constructing programs</div>
 		<h4>return (intransitive)</h4>
 		<div>to exit the current <b>function</b>, returning control to the caller, possibly supplying a <b>value</b> as a result</div>
 		<h4>return (transitive)</h4>
 		<div>to exit the current <b>function</b>, supplying the object (of the sentence) as a result, e.g. "return 5"</div>
 		<h4>requirement</h4>
-		<div>an assertion that, from some given starting state and some given operation, some given ending state is derived</div>
+		<div>an assertion that, from some given starting state and some given action, some given ending state is derived</div>
 		<h4>runtime</h4>
 		<div>the software that supports the execution of a program for a specific language</div>
 		<h4>software</h4>

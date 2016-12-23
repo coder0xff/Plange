@@ -9,7 +9,7 @@
 		<?php require('../header.php') ?>
 
 
-		<p>The plange standard library is in the <code>Plange</code> namespace, which is the top-level (global) namespace. The top-level <a href="syntax/statement_scope.php">statement_scope</a> of each source unit is within the Plange namespace. As such, the following symbols are accessible immediately in a source unit.
+		<p>The plange standard library is in the <code>Plange</code> namespace, which is the top-level (global) namespace. The top-level <a href="syntax/STATEMENT_SCOPE.php">statement_scope</a> of each source unit is within the Plange namespace. As such, the following symbols are accessible immediately in a source unit.
 		<h2>Functions</h2>
 		<code>
 			<table style="width:2000px;">
@@ -88,24 +88,24 @@
 				<tr><td>args</td><td></td><td></td><td>the command line arguments</td></tr>
 				<tr><td>env</td><td></td><td></td><td>the environment variables</td></tr>
 				<tr><td>false</td><td></td><td></td><td>one of two values that a Bool may take, the other being true</td></tr>
-				<tr><td>null</td><td></td><td></td><td>theZnull pointer</td></tr>
+				<tr><td>null</td><td></td><td></td><td>the null pointer</td></tr>
 				<tr><td>true</td><td></td><td></td><td>one of two values that a Bool may take, the other being false</td></tr>
 				<tr><td>π</td><td>pi</td><td>(<a href="http://www.fileformat.info/info/unicode/char/03c0/index.htm">GREEK SMALL LETTER PI U+03CO</a>)</td><td>pi mathematical constant</td></tr>
 				<tr><td>ℂ</td><td>CC</td><td>(<a href="http://www.fileformat.info/info/unicode/char/2102/index.htm">DOUBLE-STRUCK CAPITAL C U+2102</a>)</td><td>complex numbers</td></tr>
-				<tr><td>ℍ</td><td>HH</td><td>(<a href="http://www.fileformat.info/info/unicode/char/210d/index.htm">DOUBLE-STRUCK CAPITAL&nbsp;H U+210D</a>)</td><td>quaternions</td></tr>
+				<tr><td>ℍ</td><td>HH</td><td>(<a href="http://www.fileformat.info/info/unicode/char/210d/index.htm">DOUBLE-STRUCK CAPITAL H U+210D</a>)</td><td>quaternions</td></tr>
 				<tr><td>ℕ</td><td>NN</td><td>(<a href="http://www.fileformat.info/info/unicode/char/2115/index.htm">DOUBLE-STRUCK CAPITAL N U+2115</a>)</td><td>natural numbers (non-negative integers)</td></tr>
 				<tr><td>ℚ</td><td>QQ</td><td>(<a href="http://www.fileformat.info/info/unicode/char/211a/index.htm">DOUBLE-STRUCK CAPITAL Q U+211A</a>)</td><td>rational numbers</td></tr>
-				<tr><td>ℝ</td><td>RR</td><td>(<a href="http://www.fileformat.info/info/unicode/char/211d/index.htm">DOUBLE-STRUCK CAPITAL&nbsp;R U+211D</a>)</td><td>real numbers</td></tr>
-				<tr><td>ℤ</td><td>ZZ</td><td>(<a href="http://www.fileformat.info/info/unicode/char/2124/index.htm">DOUBLE-STRUCK CAPITAL&nbsp;Z U+2124</a>)</td><td>integers</td></tr>
-				<tr><td>ℵ(n)</td><td></td><td>(<a href="http://www.fileformat.info/info/unicode/char/2135/index.htm">ALEF SYMBOL U+2135</a>)</td><td>When n = 0, the cardinality of ℕ, |ℕ|&nbsp;</td></tr>
+				<tr><td>ℝ</td><td>RR</td><td>(<a href="http://www.fileformat.info/info/unicode/char/211d/index.htm">DOUBLE-STRUCK CAPITAL R U+211D</a>)</td><td>real numbers</td></tr>
+				<tr><td>ℤ</td><td>ZZ</td><td>(<a href="http://www.fileformat.info/info/unicode/char/2124/index.htm">DOUBLE-STRUCK CAPITAL Z U+2124</a>)</td><td>integers</td></tr>
+				<tr><td>ℵ(n)</td><td></td><td>(<a href="http://www.fileformat.info/info/unicode/char/2135/index.htm">ALEF SYMBOL U+2135</a>)</td><td>When n = 0, the cardinality of ℕ, |ℕ|</td></tr>
 				<tr><td>ⅈ</td><td>ii</td><td>(<a href="http://www.fileformat.info/info/unicode/char/2148/index.htm">DOUBLE-STRUCK ITALIC SMALL I U+2148</a>)</td><td>imaginary unit</td></tr>
 				<tr><td>∅</td><td>{||}</td><td>(<a href="http://www.fileformat.info/info/unicode/char/2205/index.htm">EMPTY SET U+2205</a>)</td><td>the empty set</td></tr>
 				<tr><td>𝑒</td><td>e</td><td>(<a href="http://www.fileformat.info/info/unicode/char/1d452/index.htm">MATHEMATICAL ITALIC SMALL E U+1D452</a>)</td><td>e mathematical constant</td></tr>
-				<tr><td>𝔹</td><td>BB</td><td>(<a href="http://www.fileformat.info/info/unicode/char/1d539/index.htm">MATHEMATICAL&nbsp;DOUBLE-STRUCK CAPITAL&nbsp;B U+1D539</a>)</td><td>booleans</td></tr>
-				<tr><td>𝕀</td><td>II</td><td>(<a href="http://www.fileformat.info/info/unicode/char/1d540/index.htm">MATHEMATICAL&nbsp;DOUBLE-STRUCK CAPITAL&nbsp;I U+1D540</a>)</td><td>imaginary numbers</td></tr>
-				<tr><td>𝕄(m, n)</td><td>MM(m, n)</td><td>(<a href="http://www.fileformat.info/info/unicode/char/1d544/index.htm">MATHEMATICAL&nbsp;DOUBLE-STRUCK CAPITAL&nbsp;M U+1D544</a>)</td><td>m x n matrices of reals</td></tr>
-				<tr><td>𝕆</td><td>OO</td><td>(<a href="http://www.fileformat.info/info/unicode/char/1d546/index.htm">MATHEMATICAL&nbsp;DOUBLE-STRUCK CAPITAL&nbsp;O U+1D546</a>)</td><td>octonions</td></tr>
-				<tr><td>𝕎</td><td>WW</td><td>(<a href="http://www.fileformat.info/info/unicode/char/1d54e/index.htm">MATHEMATICAL&nbsp;DOUBLE-STRUCK CAPITAL&nbsp;W U+1D54E</a>)</td><td>whole numbers (positive integers)</td></tr>
+				<tr><td>𝔹</td><td>BB</td><td>(<a href="http://www.fileformat.info/info/unicode/char/1d539/index.htm">MATHEMATICA DOUBLE-STRUCK CAPITAL B U+1D539</a>)</td><td>booleans</td></tr>
+				<tr><td>𝕀</td><td>II</td><td>(<a href="http://www.fileformat.info/info/unicode/char/1d540/index.htm">MATHEMATICAL DOUBLE-STRUCK CAPITAL I U+1D540</a>)</td><td>imaginary numbers</td></tr>
+				<tr><td>𝕄(m, n)</td><td>MM(m, n)</td><td>(<a href="http://www.fileformat.info/info/unicode/char/1d544/index.htm">MATHEMATICAL DOUBLE-STRUCK CAPITAL M U+1D544</a>)</td><td>m x n matrices of reals</td></tr>
+				<tr><td>𝕆</td><td>OO</td><td>(<a href="http://www.fileformat.info/info/unicode/char/1d546/index.htm">MATHEMATICAL DOUBLE-STRUCK CAPITAL O U+1D546</a>)</td><td>octonions</td></tr>
+				<tr><td>𝕎</td><td>WW</td><td>(<a href="http://www.fileformat.info/info/unicode/char/1d54e/index.htm">MATHEMATICAL DOUBLE-STRUCK CAPITAL W U+1D54E</a>)</td><td>whole numbers (positive integers)</td></tr>
 			</table>
 		</code>
 		<h2>Type Functions</h2>
@@ -118,11 +118,12 @@
 				<tr><td>BinaryRelation</td><td>(&lt;Type&gt; Left, &lt;Type&gt; Right) { return Left * Right → Bool; };</td></tr>
 				<tr><td>Bimap, HashBimap TsBimap, TsHashBimap</td></tr>
 				<tr><td>BinNode, TsBinNode</td></tr>
-				<tr><td>Collection,&nbsp;ReadOnlyCollection</td></tr>
+				<tr><td>Collection, ReadOnlyCollection</td></tr>
 				<tr><td>Complex</td></tr>
 				<tr><td><a href="/documentation/standard-library/Const.php">Const</a></td></tr>
 				<tr><td>Consumer</td></tr>
 				<tr><td>Deque, TsDeque</td></tr>
+				<tr><td>DynamicArray, TsDynamicArray</td><td>Similar to Array, but of variable size</td></tr>
 				<tr><td>Enumerable</td></tr>
 				<tr><td><a href="/documentation/standard-library/Function.php">Function</a></td></tr>
 				<tr><td>Iterator</td></tr>
@@ -140,9 +141,10 @@
 				<tr><td>Quaternion</td></tr>
 				<tr><td>Queue, TsQueue</td></tr>
 				<tr><td>Set, HashSet, TsSet, TsHashSet, CSet, CHashSet</td><td>Non "hash" variations are ordered</td></tr>
+				<tr><td>Singleton</td></tr>
 				<tr><td>Stack, CStack</td></tr>
 				<tr><td>ThreadLocal</td></tr>
-				<tr><td>Vector, TsVector</td></tr>
+				<tr><td>Vector, TsVector</td><td>Fixed size; see DynamicArray for an array of variable size</td></tr>
 			</table>
 		</code>
 		<h2>Namespaces</h2>
@@ -150,15 +152,21 @@
 			<table style="width:2000px;">
 				<tr><td>Cas</td></tr>
 				<tr><td>Compiler</td></tr>
-				<tr><td><a href="/documentation/standard-library/Geometry.php">Geometry</a></td></tr>
+				<tr><td>Containers</td></tr>
+				<tr><td>Graphics</td></tr>
 				<tr><td>Gtk</td></tr>
 				<tr><td>IO</td></tr>
-				<tr><td>OpenGL</td></tr>
-				<tr><td>OpenSL</td></tr>
+				<tr><td><a href="/documentation/standard-library/LinearMath.php">LinearMath</a></td></tr>
+				<tr><td>OpenGLv45</td></tr>
+				<tr><td>OpenGLESv101</td></tr>
+				<tr><td>OpenSLESv11</td></tr>
 				<tr><td>Parser</td></tr>
 				<tr><td><a href="/documentation/standard-library/Runtime.php">Runtime</a></td></tr>
 				<tr><td>Task</td></tr>
 				<tr><td>UnitsOfMeasure</td><td>(dimensional analysis)</td></tr>
+				<tr><td>Virtualizations</td><td>instantiate and manage virtual execution environments</td>
+				<tr><td>Virtualizations.Remote</td></tr>
+				<tr><td>Vulkan10</td><td</tr>
 			</table>
 		</code>
 

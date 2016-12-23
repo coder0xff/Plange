@@ -55,7 +55,7 @@
 
 		<p>The symbol <code>π</code> is an identifier for the pi constant. It can be substituted in places where pi is needed, and provides arbitrarily high precision.</p>
 		
-		<p><span style="color: red">IMPORTANT!</span> As you've probably noticed, there's no π key on your keyboard. The plange editor will change "<code>pi</code>" into π. It's just a <a href="http://www.fileformat.info/info/unicode/char/03c0/index.htm">UTF character</a>. If your editor of choice doesn't replace "<code>pi</code>", that's ok too. The interpreter will know what you mean if your source code just has "<code>pi</code>".</p>
+		<p><span style="color: red">IMPORTANT!</span> As you've probably noticed, there's no π key on your keyboard. The plange editor will change "<code>pi</code>" into π. It's just a <a href="http://www.fileformat.info/info/unicode/char/03c0/index.htm">Unicode character</a>. If your editor of choice doesn't replace "<code>pi</code>", that's ok too. The interpreter will know what you mean if your source code just has "<code>pi</code>".</p>
 
 		<p>Constants are created using the definition operator <code>:=</code></p>
 		<div class="code">
@@ -148,7 +148,7 @@ printLast(myList);</pre>
 
 		<p>Note the use of the underscore <code>_</code> character. It is substituted for a symbol (a named constant) when the code does not care about its value. In the first line of the example above, we are unconcerned with the type of the elements the input list contains, and only need to ensure that the input is a list of something. In the second line, we don't need to know the value of the head element. The underscore keyword is called <a href="documentation/keywords/dont_care.php">dont_care</a>.</p>
 
-		<p>This example also uses the prepend operator <code>&</code> which is similar to Haskell's "cons operator," the colon :, but is the ampersand to avoid confusion with other syntax (See: <a href="/documentation/syntax/prepend.php">prepend</a>). In the example above, it's working in reverse as pattern matching. That is, the first parameter to the function is being broken apart into two pieces.</p>
+		<p>This example also uses the prepend operator <code>&</code> which is similar to Haskell's "cons operator," the colon :, but is the ampersand to avoid confusion with other syntax (See: <a href="/documentation/syntax/PREPEND.php">prepend</a>). In the example above, it's working in reverse as pattern matching. That is, the first parameter to the function is being broken apart into two pieces.</p>
 
 		<h2>Type Deduction</h2>
 		<p>When the type of a constant or variable can be deduced, it is often possible to omit it.</p>
@@ -164,14 +164,14 @@ printLast(myList);</pre>
 print(doubler(5));</pre>
 		</div>
 
-		<p>In definitions of constants, and declarations and assignments of variables, the angle brackets &lt; &gt; may be omitted entirely.</p>
+		<p>In definitions of constants, the angle brackets &lt; &gt; may be omitted entirely.</p>
 		<div class="code">
-				<p>Example</p>
-				<pre>doubler := (x) { return x * 2 };
+			<p>Example</p>
+			<pre>doubler := (x) { return x * 2 };
 print(doubler(5));</pre>
 		</div>
 
- 		<p>When defining a constant like above, no special meaning is implied. However, variables that have no specified type constraint are dynamically typed.</p>
+ 		<p>However, variables that have no specified type constraint are dynamically typed.</p>
 		<div class="code">
 			<p>Example</p>
 			<pre>x ← 10;
@@ -181,13 +181,17 @@ x ← { print("fubar"); };</pre>
 
 		<p>Type deduction is not limited to only simple cases. The following code defines a function <code>get_return_type</code> which takes another function <code>func</code> as its only parameter, and then returns the Type that func returns!</p>
 		<div class="code">
-			<p>Demonstration of more complex type deduction via pattern matching</p>
+			<p>Demonstration of complex type deduction via pattern matching</p>
 			<pre>get_return_type := ( &lt;_ → x&gt; func ) { return x; };
 addFive := (&lt;Int&gt; x) { return x + 5; };
 print(get_return_type(addFive));  // output: Int</pre>
 		</div>
+		<p>It should be pointed out here that x, having no definition or assignments in this scope, is a free variable.</p>
 
-		<a href="#Type_Constraints">More on this later</a>. 
+		<div class="code">
+			<p>Demonstration of more complex type deduction</p>
+			<pre></pre>
+		</div>
 
 		<h2>Types</h2>
 		<p>The <a href="/documentation/keywords/type.php"><code>type</code></a> (not capitalized) keyword is used to make a new <a href="/documentation/standard-library/Type.php"><code>Type</code></a> (capitalized) object. </p>
@@ -206,8 +210,8 @@ print(type_of(red));          // output: Color
 print(type_of(Color));        // output: Type</pre>
 		</div>
 
-		<h2>Type Functions</h2>
-		<p>Type functions, or parametric types are functions that return Type objects.</p>
+		<h2>Parametric Types</h2>
+		<p>Parametric types are functions that return Type objects.</p>
 		<div class="code">
 			<p>Example</p>
 			<pre>Node := (&lt;Type&gt; valueType) {
@@ -298,13 +302,13 @@ sue = 6;</pre>
 };</pre>
 		</div>
 
-		<p>A closed form solution for x is determined symbollically, such that the following program is functionally equivalent.</p>
+		<p>A closed form solution for x is determined symbolically, such that the following program is functionally equivalent.</p>
 		<div class="code">
 			<p>Example (continued)</p>
 			<pre>advanceProjectilePosition := 
 	(&lt;Vector3D&gt; initialPos, &lt;Vector3D&gt; initialVel, &lt;Real&gt; mass, &lt;Real&gt; drag, &lt;Vector3D&gt; gravity, &lt;Real&gt; delta_t)
 {
-	//closed form solution determined automatically
+	//closed form solution computed at compile time
 	a := 𝑒^(drag*t/mass);
 	return (
 		gravity * (mass-(mass*a + drag*delta_t)) + 
@@ -314,16 +318,32 @@ sue = 6;</pre>
 };</pre>
 		</div>
 
+		<div class="code2">
+			<p>Example</p>
+			<pre>
+&lt;Number * Number * Number → Number&gt; linear_interpolation := (min, max, x) { min * (1 - x) + max * x };
+			
+inverted_linear_interpolation := (min, max, interpolated) { 
+	interpolated = linear_interpolation(min, max, x); //x is a free variable
+	return x;
+}
+
+assert(x = inverted_linear_interpolation(y, z, linear_interpolation(y, z, x));
+			</pre>
+		</div>
+
 		<h3>Limitations</h3>
 		<p>Constraint solving is intractible in the general case. Therefore, it's necessary for the developer to familiarize themselves with the capabilities of the language, which are expected to expand over time as research provides new results. A demonstration of a semantically correct but nonfunctional program is in order.</p>
 
-		<div class="code">
+		<div class="code2">
 			<p>Counter Example</p>
-			<pre>&lt;Collection * BinaryRelation → Collection&gt; sort := (items, ordering) {
+			<pre>
+&lt;Collection * BinaryRelation → Collection&gt; sort := (items, ordering) {
 	result ↔ items; // result and items make a bijection
 	∀ { ordering(result[i - 1], result[i]) | i ∈ 𝕎 ∧ i &lt; |result| }; //the result has to be sorted
 	return result; // solve, substitute, and return
-};</pre>
+};
+			</pre>
 		</div>
 		<p>The above function, sort, is functionaly equivalent to the sorting functions. However, this constraint based problem is not yet solvable using available techniques.</p>
 
@@ -333,7 +353,8 @@ sue = 6;</pre>
 		<div class="code">
 			<p>Example</p>
 			<pre>all := (Collection&lt;X&gt; items) {
-	Bool casts X; //values of type X must be castable to type Bool
+	Bool casts typeof(X); //values of type X must be castable to type Bool
+	
 	for (item ∈ items) {
 		if (¬(Bool)item) {
 			return false;
@@ -343,6 +364,7 @@ sue = 6;</pre>
 };</pre>
 		</div>
 
+		</div>
 		<h2>Further reading</h2>
 		<ul>
 			<li><a href="/documentation/syntax/IF.php">if (syntax)</a></li>

@@ -19,7 +19,7 @@ elapsed := 5s;
 position ← position + velocity * elapsed;</pre>
 		</div>
 
-		<p>The syntax for this feature can be found in <a href="/documentation/syntax/dimensional_number.php">dimensional_number</a> and is referenced by the <a href="/documentation/syntax/expression.php">expression</a> syntax.</p>
+		<p>The syntax for this feature can be found in <a href="/documentation/syntax/DIMENSIONAL_NUMBER.php">dimensional_number</a> and is referenced by the <a href="/documentation/syntax/EXPRESSION.php">expression</a> syntax.</p>
 
 
 		<?php require('../footer.php') ?>

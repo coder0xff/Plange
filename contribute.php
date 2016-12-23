@@ -20,7 +20,7 @@
 		</p>Please send any comments, critique, or questions to coder0xff on the gmail domain or @coder0xff on twitter.</p>
 
 		<h2>Status</h2>
-		<p>The syntax specification was recently completed, and the Plange parser is now fully functional. The current effort is integration of third party libraries (such as llvm, symengine, mpir) and laying the foundations for code generation and constraint solving.</p>
+		<p>The syntax specification was recently completed, and the Plange parser, parlex, is now fully functional. The current effort is llvm code generation in the feature-limited c++-based bootstrapping implementation of the compiler.</p>
 
 
 		<?php require('footer.php') ?>
