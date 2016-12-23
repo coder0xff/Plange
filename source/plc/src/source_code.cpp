@@ -5,13 +5,19 @@
 #include "stdafx.hpp"
 #include "parlex/parser.hpp"
 #include "plange_grammar.hpp"
+#include "utils.hpp"
+#include "scope.hpp"
+
+#pragma warning(push, 0)
+#include <llvm/IR/Constants.h>
+#pragma warning(pop)
 
 //filter super delimiters
 //Any PAYLOAD that fully contains another PAYLOAD is not a PAYLOAD
 void payload_postprocess(parlex::abstract_syntax_graph & asg) {
 	std::set<parlex::match> payloadMatches;
 	for (auto const & entry : asg.permutations) {
-		if (entry.first.r.get_id() == "PAYLOAD") {
+		if (entry.first.r.id == "PAYLOAD") {
 			payloadMatches.insert(entry.first);
 		}
 	}
@@ -70,40 +76,43 @@ std::vector<std::set<parlex::match>> matches_by_height(parlex::abstract_syntax_g
 	return result;
 }
 
-source_code::source_code(std::string const& pathname, std::u32string const& document, parlex::parser& parser) : 
-	graph(parser.parse(get_plange(), { payload_postprocess }, document)),
-	document(document)
+plc::source_code::source_code(std::string const& pathname, std::u32string const& document, parlex::parser& parser) :
+	pathname(pathname),
+	document(document),
+	asg(parser.parse(plange, { payload_postprocess }, document))
 {
+	//compute line number lookup table
 	size_t pos = 0;
 	int line = 0;
 	while (pos != std::u32string::npos) {
-		lineNumberByFirstChar[pos++] = line++;
+		line_number_by_first_character[pos++] = line++;
 		pos = document.find(U'\n', pos);
 	}
 
 	//std::string test = graph.to_cst_dot(document); //todo: make sure this is commented out
-	if (!graph.is_rooted()) {
-		ERROR(CouldNotParse, pathname + " syntax tree: " + graph.to_dot());
+	if (!asg.is_rooted()) {
+		ERROR(CouldNotParse, pathname + " syntax tree: " + asg.to_dot());
 	}
 
 	std::vector<std::set<parlex::match>> matchesByHeight;
 
-	for (auto const& matches : matches_by_height(graph)) {
+
+	for (auto const& matches : matches_by_height(asg)) {
 		for (auto const& m : matches) {
-			auto const& permutations = graph.permutations.find(m)->second;
+			auto const& permutations = asg.permutations.find(m)->second;
 			if (permutations.size() > 1) {
 				auto posStart = get_line_number_and_column(m.document_position);
 				auto posEnd = get_line_number_and_column(m.document_position + m.consumed_character_count - 1);
 				std::string message;
 				if (posStart.first == posEnd.first) {
-					message = pathname + ":" + m.r.get_id() + " at " + std::to_string(posStart.first + 1) + ":" + std::to_string(posStart.second + 1) + "-" + std::to_string(posEnd.second + 1);
+					message = pathname + ":" + m.r.id + " at " + std::to_string(posStart.first + 1) + ":" + std::to_string(posStart.second + 1) + "-" + std::to_string(posEnd.second + 1);
 				} else {
-					message = pathname + ":" + m.r.get_id() + " at " + std::to_string(posStart.first + 1) + ":" + std::to_string(posStart.second + 1) + "-" + std::to_string(posEnd.first + 1) + ":" + std::to_string(posEnd.second + 1);
+					message = pathname + ":" + m.r.id + " at " + std::to_string(posStart.first + 1) + ":" + std::to_string(posStart.second + 1) + "-" + std::to_string(posEnd.first + 1) + ":" + std::to_string(posEnd.second + 1);
 				}
 				for (auto const& p : permutations) {
 					message += "\n";
 					for (auto const& childMatch : p) {
-						message += childMatch.r.get_id() + " ";
+						message += childMatch.r.id + " ";
 					}
 					message = message.substr(0, message.length() - 1);
 				}
@@ -111,17 +120,27 @@ source_code::source_code(std::string const& pathname, std::u32string const& docu
 			}
 		}
 	}
-	std::string dot = graph.to_dot();
+	//std::string dot = asg.to_dot(); //TODO: make sure this is commented out
 }
 
-source_code::~source_code() { }
+plc::source_code::~source_code() { }
 
-std::pair<int, int> source_code::get_line_number_and_column(int charIndex) {
-	std::map<int, int>::iterator i = lineNumberByFirstChar.lower_bound(charIndex);
-	if (i != lineNumberByFirstChar.end() && i->first == charIndex) {
+std::pair<int, int> plc::source_code::get_line_number_and_column(int charIndex) const {
+	std::map<int, int>::const_iterator i = line_number_by_first_character.lower_bound(charIndex);
+	if (i != line_number_by_first_character.end() && i->first == charIndex) {
 		return std::make_pair(i->second, 0);
 	}
-	assert(i != lineNumberByFirstChar.begin());
+	assert(i != line_number_by_first_character.begin());
 	--i;
 	return std::make_pair(i->second, charIndex - i->first);
+}
+
+parlex::permutation plc::source_code::get_parts(parlex::match const& m) const {
+	auto i = asg.permutations.find(m);
+	assert(i != asg.permutations.end());
+	return *i->second.begin();
+}
+
+std::u32string plc::source_code::get_text(parlex::match const& m) const {
+	return document.substr(m.document_position, m.consumed_character_count);
 }

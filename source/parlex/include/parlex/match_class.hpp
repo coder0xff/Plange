@@ -1,7 +1,7 @@
 #ifndef MATCH_CLASS_HPP
 #define MATCH_CLASS_HPP
 
-#include <cstdlib>
+#include <cstddef>
 
 namespace parlex {
 

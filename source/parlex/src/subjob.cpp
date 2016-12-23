@@ -13,7 +13,7 @@ namespace details {
 
 subjob::subjob(
 	job & owner,
-	state_machine const & machine,
+	state_machine_base const & machine,
 	int documentPosition
 ):
 	producer(owner, machine, documentPosition),
@@ -56,8 +56,8 @@ void subjob::on(context_ref const & c, recognizer const & r, int nextDfaState) {
 void subjob::accept(context_ref const & c) {
 	assert(&c.owner() == this);
 	permutation p = c.result();
-	//DBG("Accepting r:", r.get_id(), " p:", documentPosition, " l:", c.current_document_position() - documentPosition);
-	if (!machine.get_filter()) {
+	//DBG("Accepting r:", r.id, " p:", documentPosition, " l:", c.current_document_position() - documentPosition);
+	if (!machine.filter) {
 		int len = c.current_document_position() - c.owner().document_position;
 		enque_permutation(len, p);
 	} else {
@@ -95,12 +95,12 @@ void subjob::increment_lifetime() {
 
 void subjob::flush() {
 	///DBG("flush m:", machine, " b:", documentPosition);
-	if (machine.get_filter() != nullptr) {
+	if (machine.filter != nullptr) {
 		std::unique_lock<std::mutex> lock(mutex);
 		if (queuedPermutations.size() == 0) {
 			return;
 		}
-		std::set<int> selections = (*machine.get_filter())(owner.document, queuedPermutations);
+		std::set<int> selections = (*machine.filter)(owner.document, queuedPermutations);
 		int counter = 0;
 		for (auto const & permutation : queuedPermutations) {
 			if (selections.count(counter) > 0) {

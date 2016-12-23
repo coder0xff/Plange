@@ -10,7 +10,9 @@
 #include "parlex/builtins.hpp"
 #include "parlex/parser.hpp"
 #include "parlex/state_machine.hpp"
+#include "parlex/builder.hpp"
 #include "utils.hpp"
+#include "parlex/compiled_grammar.hpp"
 
 TEST(ParlexTest, parser_test_1) {
 	//DBG("************ parser_test_1 ************");
@@ -391,6 +393,78 @@ TEST(ParlexTest, wirth_test_11) {
 STATEMENT_SCOPE = {IC | STATEMENT}. \
 IC = \"IC\".\
 STATEMENT = \"STATEMENT\".", {}, {});
+}
+
+parlex::builtins::string_terminal plusSign(U"+");
+parlex::builtins::string_terminal timesSign(U"*");
+
+DECLARE_DFA(ADD);
+DECLARE_DFA(MUL);
+DECLARE_DFA(EXPR);
+
+DECLARE_GRAMMAR(compiledGrammar1);
+
+DEFINE_DFA(ADD,
+	DFA_STATE 0:
+		DFA_EDGE(EXPR, 1);
+		break;
+	DFA_STATE 1:
+		DFA_EDGE(plusSign, 2);
+		break;
+	DFA_STATE 2:
+		DFA_EDGE(EXPR, 3);
+		break;
+	DFA_STATE 3:
+		DFA_ACCEPT;
+		break;
+, 0
+);
+
+DEFINE_DFA(MUL, 
+	DFA_STATE 0:
+		DFA_EDGE(EXPR, 1);
+		break;
+	DFA_STATE 1:
+		DFA_EDGE(timesSign, 2);
+		break;
+	DFA_STATE 2:
+		DFA_EDGE(EXPR, 3);
+		break;
+	DFA_STATE 3:
+		DFA_ACCEPT;
+		break;
+, 0
+);
+
+DEFINE_DFA(EXPR,
+	DFA_STATE 0:
+		DFA_EDGE(ADD, 1);
+		DFA_EDGE(MUL, 1);
+		DFA_EDGE(parlex::builtins::number, 1);
+		break;
+	DFA_STATE 1:
+		DFA_ACCEPT;
+		break;
+, 0
+);
+
+DEFINE_GRAMMAR(
+	compiledGrammar1, 
+	EXPR, 
+	({ EXPR, MUL, ADD, }),
+	({ 
+		GRAMMAR_PRECEDENCE(MUL, ADD),
+	})
+);
+
+TEST(ParlexTest, compiled_1) {
+	std::u32string document = U"5+3*2";
+	parlex::parser p;
+	parlex::abstract_syntax_graph result = p.parse(compiledGrammar1, document);
+	if (!result.is_rooted()) {
+		throw std::logic_error("Test failed");
+	}
+	std::string concreteDot = result.to_concrete_dot(document);
 }
 
 int main(int argc, char **argv) {

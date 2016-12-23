@@ -1,8 +1,6 @@
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${PROJECT_SOURCE_DIR}/cmake/Modules/")
-include(depend)
 
-set(YAML_CPP_COMMIT_REF 519d33fea3fbcbe7e1f89f97ee0fa539cec33eb7)
-depend("yaml-cpp" "https://codeload.github.com/jbeder/yaml-cpp/zip/${YAML_CPP_COMMIT_REF}" ".zip" "CMake/yaml-cpp-config.cmake" "")
+find_package(yaml-cpp HINTS "${CMAKE_BINARY_DIR}/yaml-cpp/CMake")
 
 set(SOURCES
 	"main.cpp")

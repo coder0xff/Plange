@@ -42,10 +42,10 @@ intermediate_nfa literal::to_intermediate_nfa() const
 	return result;
 }
 
-recognizer const & literal::get_recognizer(std::map<std::string, parlex::state_machine> const &, std::map<std::u32string, builtins::string_terminal> & literals) const {
+recognizer const & literal::get_recognizer(std::map<std::string, state_machine> const &, std::map<std::u32string, builtins::string_terminal> & literals) const {
 	auto i = literals.find(contents);
 	if (i == literals.end()) {
-		return literals.emplace(std::piecewise_construct, std::forward_as_tuple(contents), std::forward_as_tuple(contents)).first->second;
+		return literals.emplace(std::piecewise_construct, forward_as_tuple(contents), forward_as_tuple(contents)).first->second;
 	} else {
 		return i->second;
 	}
@@ -61,7 +61,7 @@ optional::~optional()
 
 }
 
-optional::optional(std::shared_ptr<behavior_node> && child) : child(std::move(child)) { child.reset(); }
+optional::optional(std::shared_ptr<behavior_node> && child) : child(move(child)) { child.reset(); }
 
 intermediate_nfa optional::to_intermediate_nfa() const
 {
@@ -105,7 +105,7 @@ repetition::~repetition()
 
 }
 
-repetition::repetition(std::shared_ptr<behavior_node> && child) : child(std::move(child)) { child.reset(); }
+repetition::repetition(std::shared_ptr<behavior_node> && child) : child(move(child)) { child.reset(); }
 
 intermediate_nfa repetition::to_intermediate_nfa() const
 {
@@ -144,8 +144,8 @@ intermediate_nfa sequence::to_intermediate_nfa() const
 		bool anyOriginalStartIsAccept;
 		{
 			std::set<int> intersection;
-			std::set_intersection(result.startStates.begin(), result.startStates.end(),
-				result.acceptStates.begin(), result.acceptStates.end(), std::inserter(intersection, intersection.begin()));
+			set_intersection(result.startStates.begin(), result.startStates.end(),
+				result.acceptStates.begin(), result.acceptStates.end(), inserter(intersection, intersection.begin()));
 			anyOriginalStartIsAccept = !intersection.empty();
 		}
 
@@ -165,16 +165,16 @@ intermediate_nfa sequence::to_intermediate_nfa() const
 		}
 
 		std::set<int> originalAcceptStateIndices;
-		std::swap(originalAcceptStateIndices, result.acceptStates);
+		swap(originalAcceptStateIndices, result.acceptStates);
 		//for each (originalFromState, symbol, originalAcceptState) create for each partStartState (originalFromState, symbol, partStartState)
         for (int originalStateIndex = 0; originalStateIndex < newStateIndexOffset; ++originalStateIndex) {
             intermediate_nfa::state & fromState = result.states[originalStateIndex];
             for (auto & symbolAndToStateIndices : fromState.out_transitions) {
                 std::set<int> toStatesIntersectionOriginalAcceptStates;
-                std::set_intersection(
+                set_intersection(
                     symbolAndToStateIndices.second.begin(), symbolAndToStateIndices.second.end(),
                     originalAcceptStateIndices.begin(), originalAcceptStateIndices.end(),
-                    std::inserter(toStatesIntersectionOriginalAcceptStates, toStatesIntersectionOriginalAcceptStates.begin()));
+                    inserter(toStatesIntersectionOriginalAcceptStates, toStatesIntersectionOriginalAcceptStates.begin()));
                 if (!toStatesIntersectionOriginalAcceptStates.empty()) {
                     for (int partStartIndex : part.startStates) {
                         fromState.out_transitions[symbolAndToStateIndices.first].insert(partStartIndex + newStateIndexOffset);

@@ -3,6 +3,8 @@ project(plange)
 
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
+set(DEP_DIR "${CMAKE_BINARY_DIR}/../../../Dependencies" CACHE INTERNAL "Dependenies directory")
+
 add_subdirectory(utilities)
 add_subdirectory(parlex)
 add_subdirectory(plc)

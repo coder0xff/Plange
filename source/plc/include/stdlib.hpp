@@ -5,6 +5,6 @@
 #include "llvm/IR/Module.h"
 #pragma warning(pop)
 
-void loadStdLib(llvm::Module *module);
+void load_std_lib(llvm::Module *module);
 
 #endif //STDLIB_HPP

@@ -13,7 +13,7 @@ bool match::operator<(match const & rhs) const
 		if (consumed_character_count < rhs.consumed_character_count) {
 			return true;
 		} else if (consumed_character_count == rhs.consumed_character_count) {
-			return r.get_id() < rhs.r.get_id();
+			return r.id < rhs.r.id;
 		}
 	}
 
@@ -21,7 +21,7 @@ bool match::operator<(match const & rhs) const
 
 /*return		document_position < rhs.document_position ||
 		(document_position == rhs.document_position && (consumed_character_count < rhs.consumed_character_count ||
-		(consumed_character_count == rhs.consumed_character_count && r.get_id() < rhs.r.get_id())));*/
+		(consumed_character_count == rhs.consumed_character_count && r.id < rhs.r.id)));*/
 }
 
 /*bool match::operator!=(match const & rhs) const

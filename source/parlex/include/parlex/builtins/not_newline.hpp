@@ -8,10 +8,10 @@ namespace details {
 
 class not_newline_t : public terminal {
 public:
+	not_newline_t();
 	virtual ~not_newline_t() = default;
-	virtual bool test(std::u32string const & document, size_t documentPosition) const final;
-	virtual size_t get_length() const final;
-	virtual std::string get_id() const final;
+	bool test(std::u32string const & document, size_t documentPosition) const override final;
+	size_t get_length() const override final;
 };
 
 }

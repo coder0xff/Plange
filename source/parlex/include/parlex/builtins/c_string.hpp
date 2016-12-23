@@ -10,7 +10,7 @@ namespace builtins {
 class c_string_t : public state_machine {
 public:
 	c_string_t();
-	static std::u32string extract(std::u32string document, match const & m, parlex::abstract_syntax_graph const & asg);
+	static std::u32string extract(std::u32string document, match const & m, abstract_syntax_graph const & asg);
 
 };
 

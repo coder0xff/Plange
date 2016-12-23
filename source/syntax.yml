@@ -10,7 +10,7 @@ ADD_SUB:
         EXPRESSION {IC} ("±"|"+-") {IC} EXPRESSION
     assoc: left
     doc: >
-        creates an algebraic value storing the simultaneous results of addition and subtraction
+        creates an abstract value storing the simultaneous results of addition and subtraction
 
 ADDITION:
     syntax: >
@@ -520,7 +520,7 @@ EXPONENTIATION:
 
 EXPRESSION:
     syntax: >
-        ALLOCATION | ARRAY | ASM_FUNCTION | BINARY_OP | BOOL | STRING | CAST | CEILING | COMPLEMENT | CONDITIONAL | DELTA | DIMENSIONAL_NUMBER | EMBEDDED_STRING | EQUALITY_CHAIN | FACTORIAL | FLOOR | FUNCTION | GREATER_CHAIN | IDENTIFIER | IF | INVOCATION | LESSER_CHAIN | LIST | MAGNITUDE | MAP | MEMBER_ACCESS | NEAREST_INTEGER | NON_NEG_NUMBER | PARENTHETICAL | PROPERTY | RADICAL | RANGE | SET | SET_COMPREHENSION | SUBSET_CHAIN | SUPERSET_CHAIN | TUPLE | TYPE | UNARY_OP | VECTOR_NORM | "null" | "this" | "this_type"
+        ALLOCATION | ARRAY | ASM_FUNCTION | BINARY_OP | BOOL | CAST | CEILING | COMPLEMENT | CONDITIONAL | DELTA | DIMENSIONAL_NUMBER | EMBEDDED_STRING | EQUALITY_CHAIN | FACTORIAL | FLOOR | FUNCTION | GREATER_CHAIN | IDENTIFIER | IF | INVOCATION | LESSER_CHAIN | LIST | MAGNITUDE | MAP | MEMBER_ACCESS | NEAREST_INTEGER | NON_NEG_NUMBER | PARENTHETICAL | PROPERTY | RADICAL | RANGE | SET | SET_COMPREHENSION | STRING | SUBSET_CHAIN | SUPERSET_CHAIN | TUPLE | TYPE | UNARY_OP | VECTOR_NORM | "null" | "this" | "this_func" | "this_type"
     doc: >
         a linearization of an evaluation tree containing constants, variables, operators, invocations, and sub expressions
     notes: >
@@ -998,7 +998,7 @@ OR:
 
 PARAMETER:
     syntax: >
-        PARAMETER_NORMAL | PARAMETER_ALGEBRAIC
+        PARAMETER_NORMAL | PARAMETER_ABSTRACT
     doc: >
         declares a formal argument of a function
     notes: >
@@ -1006,14 +1006,14 @@ PARAMETER:
     see:
         - FUNCTION
 
-PARAMETER_ALGEBRAIC:
+PARAMETER_ABSTRACT:
     syntax: >
         EXPRESSION [ {IC} "=" {IC} EXPRESSION ]
 
 PARAMETER_NORMAL:
     syntax: >
         ([ TYPE_DEREFERENCE {IC} ] IDENTIFIER) | ([ (TYPE_DEREFERENCE | IMPLICIT_TYPE_DEREFERENCE) {IC} ] IDENTIFIER {IC} "=" {IC} EXPRESSION)
-    precedes: [PARAMETER_ALGEBRAIC]
+    precedes: [PARAMETER_ABSTRACT]
 
 PARENTHETICAL:
     syntax: >
