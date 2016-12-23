@@ -138,13 +138,13 @@ BINARY_ARITHMETIC_OP:
 
 BINARY_COLLECTION_OP:
     syntax: >
-        INTERSECTION | SYMMETRIC_DIFFERENCE | UNION
+        INTERSECTION | SYMMETRIC_DIFFERENCE | UNION | BIJECTION
     doc: >
         the set construction and collections operators
 
 BINARY_LOGICAL_OP:
     syntax: >
-        AND | OR | XOR | NAND | NOR | IMPLICATION | IFF | MAPS_TO | BIJECTION
+        AND | OR | XOR | NAND | NOR | IMPLICATION | IFF | MAPS_TO
 
 BINARY_OP:
     syntax: >
