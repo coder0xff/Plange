@@ -13,7 +13,7 @@
 
 		<div class="syntax">
 			<p>syntax</p>
-			<div>[<a href="/documentation/syntax/XML_DOC_STRING.php">XML_DOC_STRING</a> {<a href="/documentation/syntax/IC.php">IC</a>}] ["extern" {<a href="/documentation/syntax/IC.php">IC</a>}] [(<a href="/documentation/syntax/TYPE_DEREFERENCE.php">TYPE_DEREFERENCE</a> | <a href="/documentation/syntax/IMPLICIT_TYPE_DEREFERENCE.php">IMPLICIT_TYPE_DEREFERENCE</a> | <a href="/documentation/syntax/VOLATILE_IMPLICIT_TYPE_DEREFERENCE.php">VOLATILE_IMPLICIT_TYPE_DEREFERENCE</a> | <a href="/documentation/syntax/VOLATILE_TYPE_DEREFERENCE.php">VOLATILE_TYPE_DEREFERENCE</a>) {<a href="/documentation/syntax/IC.php">IC</a>}] <a href="/documentation/syntax/DECLARATION_PART.php">DECLARATION_PART</a> {{<a href="/documentation/syntax/IC.php">IC</a>} "," [{<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/XML_DOC_STRING.php">XML_DOC_STRING</a>] {<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/DECLARATION_PART.php">DECLARATION_PART</a>}</div>
+			<div>[<a href="/documentation/syntax/XML_DOC_STRING.php">XML_DOC_STRING</a> {<a href="/documentation/syntax/IC.php">IC</a>}] <a href="/documentation/syntax/IDENTIFIER.php">IDENTIFIER</a></div>
 		</div>
 		<div class="code">
 			<p>Example</p>
@@ -25,11 +25,11 @@
 			<p>Example</p>
 			<pre>object &lt;- {
     "employees":[
-        ("John", "Doe"),
-        ("Anna", "Smith"),
-        ("Peter", Jones")],
+        (|"John", "Doe"|),
+        (|"Anna", "Smith"|),
+        (|"Peter", Jones"|)],
     "contractors":[
-        ("Matt", "Williams")]
+        (|"Matt", "Williams"|)]
 };
 
 object &lt;- (x) { return x*2; }; //no type constraint</pre>

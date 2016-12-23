@@ -2,7 +2,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=0.6">
 <html>
 	<head>
-		<title>DECLARATION_PART - Syntax Pages - Plange</title>
+		<title>TYPE_SCOPE_TYPE_CONSTRAINT - Syntax Pages - Plange</title>
 		<link rel=StyleSheet href='../../css/general.css' type='text/css' />
 	</head>
 	<body>
@@ -11,7 +11,7 @@
 
 		<div class="syntax">
 			<p>syntax</p>
-			<div><a href="/documentation/syntax/IDENTIFIER.php">IDENTIFIER</a> [{<a href="/documentation/syntax/IC.php">IC</a>} ("←"|"&lt;-") {<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a>]</div>
+			<div><a href="/documentation/syntax/TYPE_CONSTRAINT_HEAD.php">TYPE_CONSTRAINT_HEAD</a> {<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/TYPE_SCOPE_TYPE_CONSTRAINT_CHAIN.php">TYPE_SCOPE_TYPE_CONSTRAINT_CHAIN</a></div>
 		</div>
 
 

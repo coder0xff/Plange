@@ -11,7 +11,7 @@
 
 		<div class="syntax">
 			<p>syntax</p>
-			<div><a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> {<a href="/documentation/syntax/IC.php">IC</a>} ("="|"⊇"|"sups"|"⊃"|"psups") {<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> { {<a href="/documentation/syntax/IC.php">IC</a>} ("="|"⊇"|"sups"|"⊃"|"psups") <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> }</div>
+			<div><a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> {<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/SUPERSET_CHAIN_LOOP.php">SUPERSET_CHAIN_LOOP</a></div>
 		</div>
 
 

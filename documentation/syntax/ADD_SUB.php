@@ -9,7 +9,7 @@
 		<?php require('../../header.php') ?>
 
 
-		<p>creates an algebraic value storing the simultaneous results of addition and subtraction</p>
+		<p>creates an abstract value storing the simultaneous results of addition and subtraction</p>
 
 		<div class="syntax">
 			<p>syntax (associativity: left)</p>

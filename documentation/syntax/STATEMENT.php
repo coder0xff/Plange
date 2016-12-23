@@ -13,7 +13,7 @@
 
 		<div class="syntax">
 			<p>syntax</p>
-			<div>( <a href="/documentation/syntax/ASSIGNMENT.php">ASSIGNMENT</a> | <a href="/documentation/syntax/DECLARATION.php">DECLARATION</a> | <a href="/documentation/syntax/DEFINITION.php">DEFINITION</a> | <a href="/documentation/syntax/DO.php">DO</a> | <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> | <a href="/documentation/syntax/FOR.php">FOR</a> | <a href="/documentation/syntax/FOR_COLLECTION.php">FOR_COLLECTION</a> | <a href="/documentation/syntax/FREE.php">FREE</a> | <a href="/documentation/syntax/IMPORT.php">IMPORT</a> | <a href="/documentation/syntax/LOOP.php">LOOP</a> | <a href="/documentation/syntax/RETURN.php">RETURN</a> | <a href="/documentation/syntax/THROW.php">THROW</a> | <a href="/documentation/syntax/TRY.php">TRY</a> | "break" | "continue" ) [ {<a href="/documentation/syntax/IC.php">IC</a>} ";" ]</div>
+			<div>( <a href="/documentation/syntax/ASSIGNMENT_CHAIN.php">ASSIGNMENT_CHAIN</a> | <a href="/documentation/syntax/DEFINITION.php">DEFINITION</a> | <a href="/documentation/syntax/DO.php">DO</a> | <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> | <a href="/documentation/syntax/FOR.php">FOR</a> | <a href="/documentation/syntax/FOR_COLLECTION.php">FOR_COLLECTION</a> | <a href="/documentation/syntax/FREE.php">FREE</a> | <a href="/documentation/syntax/IMPORT.php">IMPORT</a> | <a href="/documentation/syntax/LOOP.php">LOOP</a> | <a href="/documentation/syntax/RETURN.php">RETURN</a> | <a href="/documentation/syntax/THROW.php">THROW</a> | <a href="/documentation/syntax/TRY.php">TRY</a> | <a href="/documentation/syntax/TYPE_CONSTRAINT.php">TYPE_CONSTRAINT</a> | "break" | "continue" ) {<a href="/documentation/syntax/IC.php">IC</a>} ";"</div>
 		</div>
 
 

@@ -2,18 +2,18 @@
 <meta name="viewport" content="width=device-width, initial-scale=0.6">
 <html>
 	<head>
-		<title>ASSIGNMENT - Syntax Pages - Plange</title>
+		<title>ASSIGNMENT_CHAIN - Syntax Pages - Plange</title>
 		<link rel=StyleSheet href='../../css/general.css' type='text/css' />
 	</head>
 	<body>
 		<?php require('../../header.php') ?>
 
 
-		<p>place the given value into the given variable</p>
+		<p>place the given value(s) into the given variable(s)</p>
 
 		<div class="syntax">
-			<p>syntax (associativity: right)</p>
-			<div><a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> {<a href="/documentation/syntax/IC.php">IC</a>} ("←"|"&lt;-") {<a href="/documentation/syntax/IC.php">IC</a>} {<a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> {<a href="/documentation/syntax/IC.php">IC</a>} ("←"|"&lt;-") {<a href="/documentation/syntax/IC.php">IC</a>}} <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a></div>
+			<p>syntax</p>
+			<div>[<a href="/documentation/syntax/XML_DOC_STRING.php">XML_DOC_STRING</a> {<a href="/documentation/syntax/IC.php">IC</a>}] <a href="/documentation/syntax/IDENTIFIER.php">IDENTIFIER</a> {<a href="/documentation/syntax/IC.php">IC</a>} ("←"|"&lt;-") {<a href="/documentation/syntax/IC.php">IC</a>} (<a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a>|ASSIGNMENT_CHAIN)</div>
 		</div>
 		<div class="code">
 			<p>Example</p>

@@ -13,7 +13,7 @@
 
 		<div class="syntax">
 			<p>syntax</p>
-			<div><a href="/documentation/syntax/ADDITION.php">ADDITION</a> | <a href="/documentation/syntax/SUBTRACTION.php">SUBTRACTION</a> | <a href="/documentation/syntax/ADD_SUB.php">ADD_SUB</a> | <a href="/documentation/syntax/MULTIPLICATIVE_OP.php">MULTIPLICATIVE_OP</a> | <a href="/documentation/syntax/DIVISION.php">DIVISION</a> | <a href="/documentation/syntax/EXPONENTIATION.php">EXPONENTIATION</a> | <a href="/documentation/syntax/SHIFTL.php">SHIFTL</a> | <a href="/documentation/syntax/SHIFTR.php">SHIFTR</a></div>
+			<div><a href="/documentation/syntax/ADD_SUB.php">ADD_SUB</a> | <a href="/documentation/syntax/ADDITION.php">ADDITION</a> | <a href="/documentation/syntax/DIVISION.php">DIVISION</a> | <a href="/documentation/syntax/EXPONENTIATION.php">EXPONENTIATION</a> | <a href="/documentation/syntax/MULTIPLICATIVE_OP.php">MULTIPLICATIVE_OP</a> | <a href="/documentation/syntax/SHIFTL.php">SHIFTL</a> | <a href="/documentation/syntax/SHIFTR.php">SHIFTR</a> | <a href="/documentation/syntax/SUBTRACTION.php">SUBTRACTION</a></div>
 		</div>
 
 

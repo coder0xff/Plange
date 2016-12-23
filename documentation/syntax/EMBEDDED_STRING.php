@@ -13,7 +13,7 @@
 
 		<div class="syntax">
 			<p>syntax</p>
-			<div>("\"\"\"\n" <a href="/documentation/syntax/PAYLOAD.php">PAYLOAD</a> "\n\"\"\"") | ("\"\"\"" not_double_quote {all} "\"\"\"") | ("\"" EMBEDDED_STRING "\"")</div>
+			<div>"\"\"\"" <a href="/documentation/syntax/EMBEDDED_STRING_INTERIOR.php">EMBEDDED_STRING_INTERIOR</a> "\"\"\""</div>
 		</div>
 		<div class="code">
 			<p>Example</p>

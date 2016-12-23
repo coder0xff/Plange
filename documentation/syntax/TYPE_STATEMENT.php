@@ -13,7 +13,7 @@
 
 		<div class="syntax">
 			<p>syntax</p>
-			<div>(<a href="/documentation/syntax/VISIBILITY_MODIFIER.php">VISIBILITY_MODIFIER</a> {<a href="/documentation/syntax/IC.php">IC</a>} ":") | <a href="/documentation/syntax/TYPE_SCOPE_DECLARATION.php">TYPE_SCOPE_DECLARATION</a> | <a href="/documentation/syntax/TYPE_SCOPE_DEFINITION.php">TYPE_SCOPE_DEFINITION</a> | <a href="/documentation/syntax/STATEMENT.php">STATEMENT</a></div>
+			<div>(<a href="/documentation/syntax/VISIBILITY_MODIFIER.php">VISIBILITY_MODIFIER</a> {<a href="/documentation/syntax/IC.php">IC</a>} ":") | <a href="/documentation/syntax/TYPE_SCOPE_TYPE_CONSTRAINT.php">TYPE_SCOPE_TYPE_CONSTRAINT</a> | <a href="/documentation/syntax/STATEMENT.php">STATEMENT</a></div>
 		</div>
 
 

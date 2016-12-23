@@ -2,7 +2,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=0.6">
 <html>
 	<head>
-		<title>GREATER_CHAIN - Syntax Pages - Plange</title>
+		<title>SUBSET_CHAIN_LOOP - Syntax Pages - Plange</title>
 		<link rel=StyleSheet href='../../css/general.css' type='text/css' />
 	</head>
 	<body>
@@ -11,7 +11,7 @@
 
 		<div class="syntax">
 			<p>syntax</p>
-			<div><a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> {<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/GREATER_CHAIN_LOOP.php">GREATER_CHAIN_LOOP</a></div>
+			<div>("="|"⊆"|"subs"|"⊂"|"psubs") {<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> [{<a href="/documentation/syntax/IC.php">IC</a>} SUBSET_CHAIN_LOOP]</div>
 		</div>
 
 
