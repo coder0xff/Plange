@@ -15,13 +15,15 @@
 			<p>syntax</p>
 			<div>"if" {<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/PARENTHETICAL.php">PARENTHETICAL</a> {<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> {{<a href="/documentation/syntax/IC.php">IC</a>} "elif" {<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/PARENTHETICAL.php">PARENTHETICAL</a> {<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a>} [ {<a href="/documentation/syntax/IC.php">IC</a>} "else" {<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> ]</div>
 		</div>
-		<div class="code">
+		<div class="code2">
 			<p>Example</p>
-			<pre>if (input("What is 1 + 1 ? ") = "2") {
+			<pre>
+if (input("What is 1 + 1 ? ") = "2") {
     print("You are correct!");
 } else {
     print("Sorry, you are incorrect.");
-}</pre>
+}
+</pre>
 		</div>
 
 

@@ -10,18 +10,22 @@
 
 
 		<h2>while</h2>
-		<div class="code">
+		<div class="code2">
 			<p>Example</p>
-			<pre>do {
+			<pre>
+do {
 	gameLogic();
-} while (gameIsRunning);</pre>
+} while (gameIsRunning);
+			</pre>
 		</div>
 		<h2>until</h2>
-		<div class="code">
+		<div class="code2">
 			<p>Example</p>
-			<pre>do {
+			<pre>
+do {
 	gameLogic();
-} until (gameIsExiting);</pre>
+} until (gameIsExiting);
+			</pre>
 		</div>
 		<p>See: <a href="../syntax/DO.php">do (syntax)</a></p>
 

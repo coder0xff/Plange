@@ -30,7 +30,7 @@ def loadExample(example):
         else:
                 result = ""
                 
-        result = result + "\t\t<div class=\"code\">\n\t\t\t<p>Example</p>\n\t\t\t<pre>"
+        result = result + "\t\t<div class=\"code2\">\n\t\t\t<p>Example</p>\n\t\t\t<pre>\n"
         
         if type(example) is str or type(example) is unicode:
                 result = result + cgi.escape(example).strip()
@@ -42,7 +42,7 @@ def loadExample(example):
         else:
                 raise ValueError("unrecognized type for example data")
         
-        result = result + "</pre>\n\t\t</div>"
+        result = result + "\n</pre>\n\t\t</div>"
         return result
 
 indexPageContents = "<meta charset='utf-8'/>\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=0.6\">\n<html>\n\t<head>\n\t\t<title>Syntax Listing - Plange</title>\n\t\t<link rel=StyleSheet href='../css/general.css' type='text/css' />\n\t</head>\n\t<body>\n\t\t<?php require('../header.php') ?>\n\n\n\t\t<p>The root production of the grammar is \"STATEMENT_SCOPE\".</p>\n\t\t<h2>Subpage Listing</h2>\n\t\t<ul>\n"

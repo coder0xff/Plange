@@ -9,9 +9,10 @@
 		<?php require('../../header.php') ?>
 
 
-        <div class="code">
+        <div class="code2">
             <p>Outline</p>
-            <pre>&lt;Type^n * ReturnType → Type&gt TypedFunction :=  {
+            <pre>
+&lt;Type^n * ReturnType → Type&gt TypedFunction :=  {
     return type inheriting GenericFunction {
         &lt;Type&gt; returnType := params[params.length - 1];
         &lt;Array&lt;Parameter&gt;&gt; parameters := { Parameter&lt;T&gt; where (_, T) ∈ params };
@@ -25,7 +26,7 @@ GenericFunction := type inheriting <a href="/documentation/standard-library/Scop
 }
 
 Function := TypedFunction + GenericFunction;
-</pre>
+            </pre>
         </div>
 
 

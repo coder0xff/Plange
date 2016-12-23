@@ -18,9 +18,11 @@
             </ul>
         </p>
 
-        <div class="code">
+        <div class="code2">
             <p>Example</p>
-            <pre>print(Real casts Int32); //prints "true"</pre>
+            <pre>
+print(Real casts Int32); //prints "true"
+            </pre>
         </div>
 
 

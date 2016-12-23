@@ -10,15 +10,17 @@
 
 
 		<p>handle any exceptions thrown within the preceding try block</p>
-		<div class="code">
+		<div class="code2">
 			<p>Example</p>
-			<pre>try {
+			<pre>
+try {
 	open("test.txt");
 } catch (File.NotFoundException) {
 	print("test.txt was not found in the working directory);
 } finally {
 	print("done");
-}</pre>
+}
+			</pre>
 		</div>
 
 		<p>See: <a href="try.php">try</a>, <a href="finally.php">finally</a></p>

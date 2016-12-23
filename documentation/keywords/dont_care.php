@@ -10,9 +10,11 @@
 
 
 		<p>a place holder for an identifier, when the name of that identifier is irrelevant</p>
-		<div class="code">
+		<div class="code2">
 			<p>Example</p>
-			<pre>(_, y) := myVector; //extract the y coordinate of a vector, ignoring the x coordinate</pre>
+			<pre>
+(_, y) := myVector; //extract the y coordinate of a vector, ignoring the x coordinate
+			</pre>
 		</div>
 		<h2>Notes</h2>
 		<p>This keyword has important properties that separates it from <a href="/documentation/syntax/IDENTIFIER.php">identifiers</a>.</p>

@@ -15,25 +15,30 @@
 			<p>syntax</p>
 			<div>"for" {<a href="/documentation/syntax/IC.php">IC</a>} "(" {<a href="/documentation/syntax/IC.php">IC</a>} [ <a href="/documentation/syntax/STATEMENT_SCOPE.php">STATEMENT_SCOPE</a> {<a href="/documentation/syntax/IC.php">IC</a>} ] <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> {<a href="/documentation/syntax/IC.php">IC</a>} ";" {<a href="/documentation/syntax/IC.php">IC</a>} [ <a href="/documentation/syntax/ASSIGNMENT_CHAIN.php">ASSIGNMENT_CHAIN</a> {{<a href="/documentation/syntax/IC.php">IC</a>} "," {<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/ASSIGNMENT_CHAIN.php">ASSIGNMENT_CHAIN</a>} {<a href="/documentation/syntax/IC.php">IC</a>} ] ")" {<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a></div>
 		</div>
-		<div class="code">
+		<div class="code2">
 			<p>Example</p>
-			<pre>for (x ← 0; x &lt; 100; x++) {
+			<pre>
+for (x ← 0; x &lt; 100; x++) {
     print_line(x);
-};</pre>
+};
+</pre>
 		</div>		<p>demonstrates the optional statement_scope
 		</p>
-		<div class="code">
+		<div class="code2">
 			<p>Example</p>
-			<pre>spammer := (&lt;UInt&gt; count) {
+			<pre>
+spammer := (&lt;UInt&gt; count) {
     for (count &gt; 0; count--; ) {
         print("SPAM!!!\n");
     };
-};</pre>
+};
+</pre>
 		</div>		<p>more than one statement may be used to initialize, and a blank may be used for the increment expression
 		</p>
-		<div class="code">
+		<div class="code2">
 			<p>Example</p>
-			<pre>mergeSorted := (List&lt;Int&gt; a, List&lt;Int&gt; b) {
+			<pre>
+mergeSorted := (List&lt;Int&gt; a, List&lt;Int&gt; b) {
     List&lt;Int&gt; result;
     &lt;Int&gt;i;
     &lt;Int&gt;j;
@@ -53,7 +58,8 @@
         result.add(b[j]);
     }
     return result;
-}</pre>
+}
+</pre>
 		</div>
 
 

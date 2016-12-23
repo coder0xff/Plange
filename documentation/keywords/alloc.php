@@ -11,14 +11,16 @@
 
 		<p>create a new value on the heap</p>
 
-		<div class="code">
+		<div class="code2">
 			<p>Example</p>
-			<pre>Complex := class {
+			<pre>
+Complex := class {
 	&lt;Double&gt; real;
 	&lt;Double&gt; imaginary;
 };
 
-&lt;Pointer&lt;Complex&gt;&gt; ptr := alloc(Complex); // create a new value on the heap</pre>
+&lt;Pointer&lt;Complex&gt;&gt; ptr := alloc(Complex); // create a new value on the heap
+			</pre>
 		</div>
 
 

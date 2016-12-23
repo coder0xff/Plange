@@ -10,19 +10,21 @@
 
 
 
-    <p>a non-polymorphic abstraction for manipulating values as first class object</p>
-
-    <div class="code">
-        <p>Outline</p>
-        <pre>Value := type {
+        <p>a non-polymorphic abstraction for manipulating values as first class object</p>
+    
+        <div class="code2">
+            <p>Outline</p>
+            <pre>
+Value := type {
     &lt;List&lt;Relation&gt;&gt; typeConstraints;
     &lt;Maybe&lt;Type*&gt;&gt; T;
     &lt;List&lt;Relation&gt;&gt; constraints;
     &lt;Maybe&lt;Pointer&lt;Any&gt;&gt;&gt; value;
-}</pre>
-    </div>
-
-    <p>See: <a href="../keywords/box.php">box (keyword)</a></p>
+}
+            </pre>
+        </div>
+    
+        <p>See: <a href="../keywords/box.php">box (keyword)</a></p>
 
 
 		<?php require('../../footer.php') ?>

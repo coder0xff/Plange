@@ -13,45 +13,55 @@
 		
 		<p>Here, we declare x as a variable that can store an integer, and assign the value 10.</p>
 
-		<div class="code">
+		<div class="code2">
 			<p>declare and assign a variable</p>
-			<pre>&lt;Int&gt; x ← 10;</pre>
+			<pre>
+&lt;Int&gt; x ← 10;
+			</pre>
 		</div>
 
-		<div class="code">
+		<div class="code2">
 			<p>error caused by contradicting the invariant</p>
-			<pre>&lt;Int&gt; x ← 10;
-<b>x ← 1.5; //error - can't assign a fractional number to an integer</b></pre>
+			<pre>
+&lt;Int&gt; x ← 10;
+<b>x ← 1.5; //error - can't assign a fractional number to an integer</b>
+			</pre>
 		</div>
 
 		<p>To use a type in the declaration of a variable or in the definition of a constant, the type must be enclosed by angle brackets <code>&lt; &gt;</code> (see <a href="/documentation/syntax/TYPE_DEREFERENCE.php">TYPE_DEREFERENCE</a>).</p>
 
-		<div class="code">
+		<div class="code2">
 			<p>Example</p>
-			<pre>&lt;Int&gt; x;
+			<pre>
+&lt;Int&gt; x;
 print(type_of(x).name);         //prints "Int"
 print(type_of(Int).name);       //prints "Type"
-print(type_of(Type).name);      //prints "Type"</pre>
+print(type_of(Type).name);      //prints "Type"
+			</pre>
 		</div>
 
 		<p>Types can be elided in many cases, and can be used to create unquantified generic functions.</p>
 		
-		<div class="code">
+		<div class="code2">
 			<p>Example</p>
-			<pre>identity := (value) { return value; };</pre>
+			<pre>
+identity := (value) { return value; };
+			</pre>
 		</div>
 
 		<h2>Type Constructors</h2>
 		<p>Functions may construct and return Type objects. These functions may be <a href="/documentation/syntax/TYPE_INVOCATION.php">invoked using the angle-bracket syntax</a>. Further, any function that returns an angle-bracket invokable function may also be angle-bracket invoked.</p>
 		
-		<div class="code">
+		<div class="code2">
 			<p>Example</p>
-			<pre>&lt;Type * Int → Type&gt; Vector := (T, s) { return T^s; };  // Vector is a function that return a Type.
+			<pre>
+&lt;Type * Int → Type&gt; Vector := (T, s) { return T^s; };  // Vector is a function that return a Type.
 Float32x3 := Vector&lt;Float32, 3&gt;;                       // type def and a function call
 
 &lt;Float32x3&gt; aVectorVariable;                           // make a variable
 &lt;Vector&lt;Float32, 3&gt;&gt; anotherVectorVariable;            // same type as previous line
-&lt;type_of(aVectorVariable)&gt; yetAnotherVectorVariable;   // contrived but doable</pre>
+&lt;type_of(aVectorVariable)&gt; yetAnotherVectorVariable;   // contrived but doable
+			</pre>
 		</div>
 
 		<p>Despite the function-like definition, simple constructs (e.g. Vector from above) are recognized as parametric types and benefit from the generic features involving variance and deduction.</p>
@@ -62,19 +72,23 @@ Float32x3 := Vector&lt;Float32, 3&gt;;                       // type def and a f
 		<h2>Type inference</h2>
 		<p>Type inference, a feature of static typing, extends beyond inference of elided types in "obvious" scenarios, instead using all logical tools available (specifically constraint propogation and constant folding) for deduction. Type checking benefits from the same sophistication. Consider the following:</p>
 
-		<div class="code">
+		<div class="code2">
 			<p>Example</p>
-			<pre>getParamCount := (&lt;Function&lt;types, retType&gt;&gt; f) {
+			<pre>
+getParamCount := (&lt;Function&lt;types, retType&gt;&gt; f) {
 	&lt;List&lt;Type&gt;&gt; types;
 	return types.length;
-};</pre>
+};
+			</pre>
 		</div>
 
 		<p><code>types</code> is never defined or assigned to, and is therefore unbound, but must be a List of Types. Upon attempting to evaluate <code>types.length</code>, a value for <code>types</code> is computed. An example of implicitly quantified generic programming:</p>
 		
-		<div class="code">
+		<div class="code2">
 			<p>Example</p>
-			<pre>&lt;(X * X → X) → Type&gt; binary_op_type := (&lt;X * X → X&gt; f) { return X; } </pre>
+			<pre>
+&lt;(X * X → X) → Type&gt; binary_op_type := (&lt;X * X → X&gt; f) { return X; }
+			</pre>
 		</div>
 
 		<p><code>X</code> is unbound, so may take on any type.</p>
@@ -84,9 +98,10 @@ Float32x3 := Vector&lt;Float32, 3&gt;;                       // type def and a f
 
 		<h3>Covariance</h3>
 		
-		<div class="code">
+		<div class="code2">
 			<p>Example</p>
-			<pre>Animal := type {
+			<pre>
+Animal := type {
 	&lt;Void → Void&gt; speak &lt;- abstract;
 };
 
@@ -103,25 +118,31 @@ Cat := type implementing Animal {
 &lt;Cat&gt; bernard;
 &lt;Cat&gt; russel;
 List&lt;Cat&gt; kittehs := [ bernard, russel ];
-choir(kittehs);</pre>
+choir(kittehs);
+			</pre>
 		</div>
 
 		<h3>Contravariance</h3>
 		
-		<div class="code">
+		<div class="code2">
 			<p>Example</p>
-			<pre>&lt;Animal → Void&gt; solo := (animal) { animal.speak(); } 
-&lt;Cat → Void&gt; cat_solo = solo;</pre>
+			<pre>
+&lt;Animal → Void&gt; solo := (animal) { animal.speak(); } ;
+&lt;Cat → Void&gt; cat_solo = solo;
+			</pre>
 		</div>
 
 		<h3>Covariant method arguments</h3>
 		<p>Function overloads are ordered. The | operator, which is used to create function overloads, preserves the order of the elements (functions) and dispatches to the first overload that can accept the parameters.</p>
 
-		<div class="code">
+		<div class="code2">
 			<p>Example</p>
-			<pre>&lt;Animal → Void&gt; solo :=
+			<pre>
+&lt;Animal → Void&gt; solo :=
 	(&lt;Cat&gt; _ ) { /* cats never do what you want */ } | // overload
-	(animal) { animal.speak(); };</pre>
+	(animal) { animal.speak(); }
+;
+			</pre>
 		</div>
 
 		<p>Note that the semantics resemble pattern matching.</p>
@@ -130,14 +151,17 @@ choir(kittehs);</pre>
 
 		<p>Types may be combined with the plus + operator to create a new type containing the elements from each. This operation is not associative, as the right hand side operator will override any elements from the left hand side.</p>
 
-		<div class="code">
+		<div class="code2">
 			<p>Example (part 1 of 2)</p>
-			<pre>SomeThing := type {
+			<pre>
+SomeThing := type {
 	&lt;String&gt; data;
 	print_data := { print(data); };
-} + DataProvider;</pre>
+} + DataProvider;
+			</pre>
 			<p>(part 2 of 2)</p>
-			<pre>DataProvider := type {
+			<pre>
+DataProvider := type {
 	&lt;String&gt; data := """
                        .,,uod8B8bou,,.
               ..,uod8BBBBBBBBBBBBBBBBRPFT?l!i:.
@@ -170,18 +194,21 @@ choir(kittehs);</pre>
                     `!9899fT|!^"'
                       `!^"'
 """;
-};</pre>
+};
+			</pre>
 		</div>
 
 		<h2>Algebraic Types</h2>
 
 		<p>Types may be combined with the or | operator to create a new type thats instances must be any one of those types. This operator is associative.<p>
 
-		<div class="code">
+		<div class="code2">
 			<p>Example</p>
-			<pre>InteriorNode := type { &lt;Int&gt; value; <LinkedListNode> next; };
+			<pre>
+InteriorNode := type { &lt;Int&gt; value; <LinkedListNode> next; };
 TerminalNode := type { &lt;Int&gt; value; };
-LinkedListNode := InteriorNode | TerminalNode</pre>
+LinkedListNode := InteriorNode | TerminalNode
+			</pre>
 		</div>
 
 		<p>Further, algebraic types are not limited to simple switching. Like all algebraic values, they may be defined through a system of constraints.</p>

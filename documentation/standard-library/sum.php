@@ -9,9 +9,9 @@
 		<?php require('../../header.php') ?>
 
 
-        <div class="code">
+        <div class="syntax">
             <p>Usage</p>
-            <pre>"Σ(" expression, identifier ("(-"|"∈") expression ")"</pre>
+            <div>"Σ(" expression, identifier ("(-"|"∈") expression ")"</div>
         </div>
 
 

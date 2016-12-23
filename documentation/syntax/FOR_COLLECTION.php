@@ -15,17 +15,21 @@
 			<p>syntax</p>
 			<div>"for" {<a href="/documentation/syntax/IC.php">IC</a>} "(" {<a href="/documentation/syntax/IC.php">IC</a>} (([ (<a href="/documentation/syntax/TYPE_DEREFERENCE.php">TYPE_DEREFERENCE</a> | <a href="/documentation/syntax/IMPLICIT_TYPE_DEREFERENCE.php">IMPLICIT_TYPE_DEREFERENCE</a>) {<a href="/documentation/syntax/IC.php">IC</a>} ] <a href="/documentation/syntax/IDENTIFIER.php">IDENTIFIER</a> ) | <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> ) {<a href="/documentation/syntax/IC.php">IC</a>} ("in"|"∈") {<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> {<a href="/documentation/syntax/IC.php">IC</a>} ")" {<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a></div>
 		</div>
-		<div class="code">
+		<div class="code2">
 			<p>Example</p>
-			<pre>&lt;&gt; fibArray = [ 0, 1, 1, 2, 3, 5, 8, 13 ];
+			<pre>
+&lt;&gt; fibArray = [ 0, 1, 1, 2, 3, 5, 8, 13 ];
 for (element ∈ fibArray) {
     print(element);
-}</pre>
-		</div>		<div class="code">
+}
+</pre>
+		</div>		<div class="code2">
 			<p>Example</p>
-			<pre>for ((key, value) ∈ myMap) {
+			<pre>
+for ((key, value) ∈ myMap) {
     //do something
-}</pre>
+}
+</pre>
 		</div>
 
 

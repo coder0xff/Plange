@@ -17,15 +17,21 @@
 		</div>
 		<p>the empty list
 		</p>
-		<div class="code">
+		<div class="code2">
 			<p>Example</p>
-			<pre>[| |]</pre>
-		</div>		<div class="code">
+			<pre>
+[| |]
+</pre>
+		</div>		<div class="code2">
 			<p>Example</p>
-			<pre>[|1, 5, 2, 2, 2|]</pre>
-		</div>		<div class="code">
+			<pre>
+[|1, 5, 2, 2, 2|]
+</pre>
+		</div>		<div class="code2">
 			<p>Example</p>
-			<pre>short_days_of_week := ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];</pre>
+			<pre>
+short_days_of_week := ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+</pre>
 		</div>
 
 

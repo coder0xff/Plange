@@ -15,12 +15,16 @@
 			<p>syntax</p>
 			<div><a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> {<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/SUPERSET_CHAIN_LOOP.php">SUPERSET_CHAIN_LOOP</a></div>
 		</div>
-		<div class="code">
+		<div class="code2">
 			<p>Example</p>
-			<pre>S ⊃ T;</pre>
-		</div>		<div class="code">
+			<pre>
+S ⊃ T;
+</pre>
+		</div>		<div class="code2">
 			<p>Example</p>
-			<pre>S ⊇ T ⊃ U = V;</pre>
+			<pre>
+S ⊇ T ⊃ U = V;
+</pre>
 		</div>
 
 

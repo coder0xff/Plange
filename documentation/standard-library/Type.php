@@ -9,12 +9,14 @@
 		<?php require('../../header.php') ?>
 
 
-        <div class="code">
+        <div class="code2">
             <p>Outline</p>
-            <pre>Type := type inheriting <a href="/documentation/standard-library/Scope.php">Scope</a> {
+            <pre>
+Type := type inheriting <a href="/documentation/standard-library/Scope.php">Scope</a> {
     &lt;List&lt;Type.Member&gt;&gt; members;
     &lt;String&gt; name;
-};</pre>
+};
+            </pre>
         </div>
 
         <p>See <a href="/documentation/type-system.php">Type System</a>.</p>

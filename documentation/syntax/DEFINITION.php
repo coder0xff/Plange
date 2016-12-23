@@ -15,9 +15,11 @@
 			<p>syntax</p>
 			<div>[<a href="/documentation/syntax/XML_DOC_STRING.php">XML_DOC_STRING</a> {<a href="/documentation/syntax/IC.php">IC</a>}] <a href="/documentation/syntax/IDENTIFIER.php">IDENTIFIER</a> {<a href="/documentation/syntax/IC.php">IC</a>} ":=" {<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a></div>
 		</div>
-		<div class="code">
+		<div class="code2">
 			<p>Example</p>
-			<pre>&lt;Double&gt; almostPi := 355/113;</pre>
+			<pre>
+&lt;Double&gt; almostPi := 355/113;
+</pre>
 		</div>
 
 

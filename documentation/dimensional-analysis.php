@@ -11,12 +11,14 @@
 
 		<p>Dimensional analysis aids in the modeling of physical systems by providing type safety and unit conversion.</p>
 
-		<div class="code">
+		<div class="code2">
 			<p>Example</p>
-			<pre>position ← (0m, 0m, 0m);
+			<pre>
+position ← (0m, 0m, 0m);
 velocity := (1.3 cm/s, 0 cm/s, 1 cm/s);
 elapsed := 5s;
-position ← position + velocity * elapsed;</pre>
+position ← position + velocity * elapsed;
+			</pre>
 		</div>
 
 		<p>The syntax for this feature can be found in <a href="/documentation/syntax/DIMENSIONAL_NUMBER.php">dimensional_number</a> and is referenced by the <a href="/documentation/syntax/EXPRESSION.php">expression</a> syntax.</p>

@@ -10,16 +10,18 @@
 
 
 
-    <p>Codifies a logical or mathematical relationship among two or more values.</p>
-
-    <div class="code">
-        <p>Outline</p>
-        <pre>Relation := type {
+        <p>Codifies a logical or mathematical relationship among two or more values.</p>
+    
+        <div class="code2">
+            <p>Outline</p>
+            <pre>
+Relation := type {
     &lt;Expression&gt; expression;
-}</pre>
-    </div>
-
-    <p>See: <a href="../keywords/box.php">box (keyword)</a></p>
+}
+            </pre>
+        </div>
+    
+        <p>See: <a href="../keywords/box.php">box (keyword)</a></p>
 
 
 		<?php require('../../footer.php') ?>

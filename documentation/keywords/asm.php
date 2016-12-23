@@ -10,9 +10,10 @@
         
 
         <p>indicates that the following block of code enclosed in curly braces is assembler instructions, and creates a nullary void function object</p>
-        <div class="code">
+        <div class="code2">
             <p>Example</p>
-            <pre>&lt;Float32x3 * Float32x3 -&gt; Float32x3&gt; crossMultiply := (lhs, rhs) =&gt; {
+            <pre>
+&lt;Float32x3 * Float32x3 -&gt; Float32x3&gt; crossMultiply := (lhs, rhs) =&gt; {
     &lt;Float32x4&gt; result;
     implementation := asm sse4 {
         //where (a, b, c) = lhs
@@ -40,7 +41,8 @@
     };
     implementation();
     return reinterpret_cast&lt;Float32x3&gt;(result);
-}</pre>
+}
+            </pre>
         </div>
         <h2>Notes</h2>
         <p>Zero or more symbols may be listed after the asm keyword as options. The asm keyword creates an opaque function object that may be or'd together to make a single function object with different implementations for different target platforms. It may also be or'd with a conventional nullary void function so that an implementation is available for platforms that have not been explicitly targeted.</p>

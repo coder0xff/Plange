@@ -12,9 +12,10 @@
 		<p>a function object that can be cast to any function type, and throws when invoked</p>
 		<h2>Notes</h2>
 		<p>The abstract keyword is used to declare interfaces that will be implemented by derived types. This information is also used by the compiler to detect attempts to instantiate types with abstract members.</p>
-		<div class="code">
+		<div class="code2">
 			<p>Example</p>
-			<pre>//Base type
+			<pre>
+//Base type
 Animal := type {
 	&lt;Void → Void&gt; speak ← abstract; //there is no default implementation
 };
@@ -33,7 +34,8 @@ Cat := type inheriting Animal {
 &lt;Cat&gt; bernard;
 &lt;Cat&gt; russel;
 List&lt;Cat&gt; kittehs := [ bernard, russel ];
-choir(kittehs); //covariant argument</pre>
+choir(kittehs); //covariant argument
+			</pre>
 		</div>
 
 

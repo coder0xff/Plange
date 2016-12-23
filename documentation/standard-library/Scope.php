@@ -11,9 +11,10 @@
 
 		<p>provides an abstraction for code scopes, which are delimited by curly braces { }</p>
 		
-		<div class="code">
+		<div class="code2">
 			<p>Outline</p>
-			<pre>Scope := type {
+			<pre>
+Scope := type {
 	&lt;Maybe&lt;Scope&gt;&gt; parent;
 	&lt;Array&lt;Scope&gt;&gt; children;
 	&lt;SourceCode&gt; sourceCode;
@@ -29,7 +30,8 @@
 	&lt;SideEffectSet&gt; sideEffects;
 	&lt;Scope → Bool&gt; is_descendent_of;
 	&lt;&lt;Void → Void&gt; → Bool&gt; can_execute; //based on symbol binding
-};</pre>
+};
+			</pre>
 		</div>
 
 

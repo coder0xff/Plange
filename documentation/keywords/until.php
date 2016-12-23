@@ -10,12 +10,14 @@
 
 
 		<p>if a specified condition is not met, execute the following code block until that condition is met (See <a href="do.php">do</a> for alternate use)</p>
-		<div class="code">
+		<div class="code2">
 			<p>Example</p>
-			<pre>until (asleep) {
+			<pre>
+until (asleep) {
 	countSheep();
-};</pre>
-
+};
+			</pre>
+		</div>
 
 		<?php require('../../footer.php') ?>
 	</body>

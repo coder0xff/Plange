@@ -15,9 +15,11 @@
 			<p>syntax (associativity: right)</p>
 			<div><a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> {<a href="/documentation/syntax/IC.php">IC</a>} "&amp;" {<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a></div>
 		</div>
-		<div class="code">
+		<div class="code2">
 			<p>Example</p>
-			<pre>x := 1 &amp; [2, 3, 4, 5]; y := [1, 2, 3, 4, 5]; x = y;</pre>
+			<pre>
+x := 1 &amp; [2, 3, 4, 5]; y := [1, 2, 3, 4, 5]; x = y;
+</pre>
 		</div>
 
 

@@ -10,10 +10,12 @@
 
 
 		<p>Returns a value of type 'Type' representing the type of the specified value or object.</p>
-		<div class="code">
+		<div class="code2">
 			<p>Example</p>
-			<pre>&lt;Int&gt; a := 1;
-print(type_of(a) = Int); //prints "true"</pre>
+			<pre>
+&lt;Int&gt; a := 1;
+print(type_of(a) = Int); //prints "true"
+			</pre>
 		</div>
 
 

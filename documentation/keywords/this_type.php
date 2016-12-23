@@ -11,16 +11,18 @@
 
 		<p>an alias to the Type of the current type_scope, or the nearest ancestor type_scope, or an error if there is none</p>
 
-		<div class="code">
+		<div class="code2">
 			<p>Example</p>
-			<pre>// A node for a K-Ary tree
+			<pre>
+// A node for a K-Ary tree
 KAryNode := (&lt;Int&gt; k, &lt;Type&gt; t) {
 	return type {
 		&lt;t&gt; value;
 		&lt;this_type&gt; nullNode := this_type();
 		Array&lt;k, this_type&gt; children = [nullNode]*k;
 	};
-};</pre>
+};
+			</pre>
 		</div>
 
 		<h2>Notes</h2>

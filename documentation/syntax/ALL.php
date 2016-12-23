@@ -15,15 +15,17 @@
 			<p>syntax</p>
 			<div>"∀" {<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a></div>
 		</div>
-		<div class="code">
+		<div class="code2">
 			<p>Example</p>
-			<pre>someNumbers := {| -100, 1, 100 |};
+			<pre>
+someNumbers := {| -100, 1, 100 |};
 
 if (∀ { x &gt;= 0 | x ∈ someNumbers}) {
     print("None of the numbers are negative");
 } else {
     print("Some of the numbers are negative");
-}</pre>
+}
+</pre>
 		</div>		<h2>Notes</h2>
 				<p>The values in the collection need not be Bool, so long as Bool casts T is true, where T is the type of each element.
 		</p>

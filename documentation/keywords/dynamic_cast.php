@@ -10,8 +10,9 @@
 
 
 		<p>convert the specified pointer from a type A, to a type B, if B inherits A. Otherwise, the result is a null pointer.</p>
-		<div class="code">
-			<pre>&lt;Type&gt; Mammal = class { };
+		<div class="code2">
+			<pre>
+&lt;Type&gt; Mammal = class { };
 
 &lt;Type&gt; Dog = type inheriting Mammal {
 	&lt;Void → Void&gt; bark;
@@ -30,7 +31,8 @@
 	if (cat != null) {
 		cat.meow();
 	}
-};</pre>
+};
+			</pre>
 		</div>
 
 

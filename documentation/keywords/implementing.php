@@ -10,11 +10,13 @@
 
 
 		<p>used with the type keyword to inherit the interface of the specified Type</p>
-		<div class="code">
+		<div class="code2">
 			<p>Example</p>
-			<pre>TextBox = type implementing Widget {
+			<pre>
+TextBox = type implementing Widget {
 	&lt;Image&gt; draw;
-}</pre>
+}
+			</pre>
 		</div>
 		<h2>Notes</h2>
 		<p>The implementing keyword is similar to inheriting, but only the external interface is inherited. 

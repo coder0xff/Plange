@@ -10,16 +10,18 @@
 
 
 		<p>exit a <a href="do.php">do</a>, <a href="../syntax/LOOP.php">while, until</a>, <a href="for.php">for</a> or <a href="../syntax/FOR_COLLECTION.php">for_collection</a> loop</p>
-		<div class="code">
+		<div class="code2">
 			<p>Example</p>
-			<pre>//echo the users input until they enter nothing
+			<pre>
+//echo the users input until they enter nothing
 do {
 	&lt;String&gt; x := input();
 	if (x = "") {
 		break;
 	};
 	print(x);
-};</pre>
+};
+			</pre>
 		</div>
 
 

@@ -10,13 +10,15 @@
 
 
 		<p>in type_scope, indicates that a member function, field, or property is not an instance member, but one that becomes part of the type object itself</p>
-		<div class="code">
+		<div class="code2">
 			<p>Example</p>
-			<pre>&lt;Type&gt; Dog := type {
+			<pre>
+&lt;Type&gt; Dog := type {
 	&lt;String&gt; name;
 	&lt;Date&gt; birth_date;
 	static &lt;String&gt; binomial_nomenclature := "Canis Familiaris";
-};</pre>
+};
+			</pre>
 		</div>
 
 

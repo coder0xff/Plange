@@ -11,9 +11,10 @@
 
 		<p>an alias for the current ExecutionContext</p>
 
-		<div class="code">
+		<div class="code2">
 			<p>Example</p>
-			<pre>MergeSortedLists := (List&lt;Int&gt; a, List&lt;Int&gt; b) {
+			<pre>
+MergeSortedLists := (List&lt;Int&gt; a, List&lt;Int&gt; b) {
 	&lt;List&lt;Int&gt; result;
 	&lt;Int&gt; q;
 	&lt;ExecutionContext&gt; mainRoutine;
@@ -45,7 +46,8 @@
 		q ← a[0];
 		b.switch(context); //asymmetric context switch returns here when done
 	};
-}</pre>
+}
+			</pre>
 		</div>
 
 	<h2>Notes</h2>

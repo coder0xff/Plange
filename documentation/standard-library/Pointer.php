@@ -9,13 +9,15 @@
 		<?php require('../../header.php') ?>
 
 
-		<div class="code">
-			<p>Usage</p>
-			<pre>x ← 12;
+		<div class="code2">
+			<p>Example</p>
+			<pre>
+x ← 12;
 printLine(x + "\n"); //prints 12
 xPtr ← address_of(x);
 dereference(xPtr) ← 5;
-printLine(x + "\n"); //prints 5</pre>
+printLine(x + "\n"); //prints 5
+			</pre>
 		</div>
 
 

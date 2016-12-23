@@ -15,11 +15,13 @@
 			<p>syntax</p>
 			<div>"type" {<a href="/documentation/syntax/IC.php">IC</a>} ["inheriting" {<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/INHERITANCE_LIST.php">INHERITANCE_LIST</a> {<a href="/documentation/syntax/IC.php">IC</a>}] ["implementing" {<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/INHERITANCE_LIST.php">INHERITANCE_LIST</a> {<a href="/documentation/syntax/IC.php">IC</a>}] "{" <a href="/documentation/syntax/TYPE_SCOPE.php">TYPE_SCOPE</a> "}"</div>
 		</div>
-		<div class="code">
+		<div class="code2">
 			<p>Example</p>
-			<pre>bank_account := type inheriting account {
+			<pre>
+bank_account := type inheriting account {
     &lt;float&gt; balance @ 0;
-};</pre>
+};
+</pre>
 		</div>
 
 

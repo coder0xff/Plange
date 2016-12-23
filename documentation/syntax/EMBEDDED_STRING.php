@@ -15,14 +15,16 @@
 			<p>syntax</p>
 			<div>"\"\"\"" <a href="/documentation/syntax/EMBEDDED_STRING_INTERIOR.php">EMBEDDED_STRING_INTERIOR</a> "\"\"\""</div>
 		</div>
-		<div class="code">
+		<div class="code2">
 			<p>Example</p>
-			<pre>stringWithDoubleQuotes := """""
+			<pre>
+stringWithDoubleQuotes := """""
 The remainder of this is a string literal, excluding the five quotes at the very end.
 We can use four double quotes, like """", but not 5 which is the number of quotes that
 start this string literal. If a string literal with 100 consecutive double quotes in it
 were desired, we would then use 101 double quotes to start and end the string literal.
-"""""</pre>
+"""""
+</pre>
 		</div>		<h2>Notes</h2>
 		<p>An embedded_string is similar to a regular string literal of the form:</p>
 <div class="code">

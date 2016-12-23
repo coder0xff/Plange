@@ -9,13 +9,15 @@
 		<?php require('../../header.php') ?>
 
 
-        <div class="code">
+        <div class="code2">
             <p>Outline</p>
-            <pre>Array := type {
+            <pre>
+Array := type {
     &lt;Int → Int&gt; get_dimension;
     &lt;Int → Any&gt; invoke; //square bracket invocation
     &lt;Int&gt; length;
-}</pre>
+}
+            </pre>
         </div>
 
 

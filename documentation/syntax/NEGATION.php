@@ -13,9 +13,11 @@
 			<p>syntax</p>
 			<div>"-" {<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a></div>
 		</div>
-		<div class="code">
+		<div class="code2">
 			<p>Example</p>
-			<pre>-5</pre>
+			<pre>
+-5
+</pre>
 		</div>
 
 

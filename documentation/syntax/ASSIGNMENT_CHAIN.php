@@ -15,9 +15,11 @@
 			<p>syntax</p>
 			<div>[<a href="/documentation/syntax/XML_DOC_STRING.php">XML_DOC_STRING</a> {<a href="/documentation/syntax/IC.php">IC</a>}] <a href="/documentation/syntax/IDENTIFIER.php">IDENTIFIER</a> {<a href="/documentation/syntax/IC.php">IC</a>} ("←"|"&lt;-") {<a href="/documentation/syntax/IC.php">IC</a>} (<a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a>|ASSIGNMENT_CHAIN)</div>
 		</div>
-		<div class="code">
+		<div class="code2">
 			<p>Example</p>
-			<pre>iPow2 ← -1;</pre>
+			<pre>
+iPow2 ← -1;
+</pre>
 		</div>		<h2>Notes</h2>
 		<p>Note that the left hand side of assignments need not be trivial expressions mapping to a single memory structure - a so called lvalue in some other languages. Rather, arbitrary expressions can be solved when a single free variable is present. Revisiting the above example:</p>
 <div class="code">

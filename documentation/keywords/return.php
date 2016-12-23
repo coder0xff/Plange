@@ -10,9 +10,11 @@
 		
 
         <p>exit the current function, optionaly returning a value</p>
-        <div class="code">
+        <div class="code2">
             <p>Example</p>
-            <pre>mul := (a, b) { return a * b; };</pre>
+            <pre>
+mul := (a, b) { return a * b; };
+			</pre>
         </div>
         
         <p>See: <a href="/documentation/syntax/RETURN.php">return (syntax)</a></p>

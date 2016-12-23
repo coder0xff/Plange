@@ -10,12 +10,14 @@
 
 
 		<p>returns a value of type <a href="/documentation/standard-library/Pointer.php">Pointer</a>&lt;T&gt;</p>
-		<div class="code">
+		<div class="code2">
 			<p>Example</p>
-			<pre>&lt;Int&gt; x = 0xABC123;
+			<pre>
+&lt;Int&gt; x = 0xABC123;
 &lt;Pointer&lt;Int&gt;&gt; ptr = address_of(x);
 print("Address of x: " + ptr);
-print("Value of x: " + <a href="dereference.php">dereference</a>(ptr));</pre>
+print("Value of x: " + <a href="dereference.php">dereference</a>(ptr));
+			</pre>
 		</div>
 		<h2>Notes</h2>
 		<p>address_of is similar in function to C's address-of operator, '&amp;'. See the <a href="dereference.php">dereference</a> keyword.</p>

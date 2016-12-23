@@ -15,15 +15,20 @@
 			<p>syntax</p>
 			<div>[<a href="/documentation/syntax/XML_DOC_STRING.php">XML_DOC_STRING</a> {<a href="/documentation/syntax/IC.php">IC</a>}] <a href="/documentation/syntax/IDENTIFIER.php">IDENTIFIER</a></div>
 		</div>
-		<div class="code">
+		<div class="code2">
 			<p>Example</p>
-			<pre>&lt;Number&gt; x &lt;- 100;</pre>
-		</div>		<div class="code">
+			<pre>
+&lt;Number&gt; x &lt;- 100;
+</pre>
+		</div>		<div class="code2">
 			<p>Example</p>
-			<pre>&lt;&gt; name &lt;- "Alice"; //implicitly type String</pre>
-		</div>		<div class="code">
+			<pre>
+&lt;&gt; name &lt;- "Alice"; //implicitly type String
+</pre>
+		</div>		<div class="code2">
 			<p>Example</p>
-			<pre>object &lt;- {
+			<pre>
+object &lt;- {
     "employees":[
         (|"John", "Doe"|),
         (|"Anna", "Smith"|),
@@ -32,7 +37,8 @@
         (|"Matt", "Williams"|)]
 };
 
-object &lt;- (x) { return x*2; }; //no type constraint</pre>
+object &lt;- (x) { return x*2; }; //no type constraint
+</pre>
 		</div>		<p>See: <a href="STATEMENT.php">STATEMENT</a>
 		</p>
 
