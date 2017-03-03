@@ -49,6 +49,9 @@ context_ref subjob::construct_stepped_context(context_ref const & prior, match f
 }
 
 void subjob::on(context_ref const & c, recognizer const & r, int nextDfaState) {
+	if (c.current_document_position() >= c.owner().owner.document.length()) {
+		return;
+	}
 	increment_lifetime(); //reference code C
 	owner.connect(match_class(r, c.current_document_position()), c, nextDfaState);
 }
