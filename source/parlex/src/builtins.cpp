@@ -10,7 +10,7 @@ namespace details {
 any_character_t::any_character_t() : terminal("any_character") {}
 
 bool any_character_t::test(std::u32string const & document, size_t documentPosition) const {
-	return documentPosition < document.length();
+	return true;
 }
 
 size_t any_character_t::get_length() const {
@@ -20,7 +20,7 @@ size_t any_character_t::get_length() const {
 not_double_quote_t::not_double_quote_t() : terminal("not_double_quote") {}
 
 bool not_double_quote_t::test(std::u32string const & document, size_t documentPosition) const {
-	return documentPosition < document.length() && document[documentPosition] == U'"';
+	return document[documentPosition] == U'"';
 }
 
 size_t not_double_quote_t::get_length() const {
@@ -30,7 +30,7 @@ size_t not_double_quote_t::get_length() const {
 not_newline_t::not_newline_t() : terminal("not_newline") {}
 
 bool not_newline_t::test(std::u32string const & document, size_t documentPosition) const {
-	return documentPosition < document.length() && document[documentPosition] != U'\n';
+	return document[documentPosition] != U'\n';
 }
 
 size_t not_newline_t::get_length() const {

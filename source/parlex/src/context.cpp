@@ -75,7 +75,7 @@ context_ref::context_ref(context_ref const & other) : rc(other.rc), id(++refIDCo
     }
 }
 
-context_ref::context_ref(context_ref&& other) : rc(other.rc), id(++refIDCounter) {
+context_ref::context_ref(context_ref&& other) noexcept : rc(other.rc), id(++refIDCounter) {
 	if (rc) {
 		rc->inc();
         //DBG("Constructed ref:", id, " to c:", rc->id);
@@ -117,7 +117,7 @@ context_ref const & context_ref::prior() const {
 	return temp->prior;
 }
 
-int context_ref::current_document_position() const {
+size_t context_ref::current_document_position() const {
 	assert(rc);
     //DBG("Dereferencing ref:", id, " to c:",rc->id);
 	context* temp = rc->c;
