@@ -16,10 +16,10 @@
 		<p>As you move down the abstraction layers, the components of the bootstrapped compiler are revealed, but the graph remains strongly connected. Several features arise from this concept, such as continuous profile guided optimization, dependency injection, and much more.
 		<h2>Advantages</h2>
 		<ul>
-			<li>Improves upon Eval using homoiconicity and first-class concepts (code is data)</li>
+			<li>Improves upon Eval using homoiconicity and metaobject concepts (everything is data)</li>
 			<li>Mutable introspection </li>
-			<li>Profile-guided optimization occurs at runtime. </li>
-			<li>The number of nodes in a programs dependency graph is unbounded, and can become as interconnected or modular, as complex or as simple as desired, but is always strong because all nodes can use the toplevel.</li>
+			<li>process-time profile-guided optimization.</li>
+			<li>The number of nodes in a program's dependency graph is unbounded, and can become as interconnected or modular, as complex or as simple as desired, but is always strong because all nodes can use the toplevel.</li>
 			<li>Moving up and down levels up abstraction does not break the strong property.</li>
 		</ul>
 		<h2>Disadvantages</h2>

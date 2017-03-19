@@ -17,9 +17,13 @@
 				<tr><td>&lt;Number → Number&gt; abs</td><td>absolute value</td></tr>
 				<tr><td>&lt;UInt8 → Char&gt; ansi_chr</td></tr>
 				<tr><td>&lt;Char → Maybe&lt;UInt8&gt;&gt; ansi_ord</td></tr>
+				<tr><td>&lt;Bool * String → Void&gt; assert</td></tr>
 				<tr><td>&lt;Int32 → Char&gt; chr</td></tr>
 				<tr><td>&lt;File → Void&gt; close</td></tr>
 				<tr><td>&lt;T → U&gt; <a href="/documentation/standard-library/coerce.php">coerce</a></td><td>convert a value to a different representation, possibly using lexographic algorithms</td></tr>
+				<tr><td>&lt;Void → Void&gt; collect</td><td>trigger garbage collection if the runtime deems it sensible</td></tr>
+				<tr><td>&lt;Function&lt;T, T, Pointer, argTypes...&gt;&gt; construct</td></tr>
+				<tr><td>&lt;Function&lt;T, U, ^argTypes&gt; * U → Function&gt;T, argTypes...&gt; curry</td></tr>
 				<tr><td>&lt;_ → Void&gt; debug</td></tr>
 				<tr><td>&lt;_ → String&gt; dump</td></tr>
 				<tr><td>&lt;_ → Void&gt; error</td></tr>
@@ -88,6 +92,7 @@
 				<tr><td>args</td><td></td><td></td><td>the command line arguments</td></tr>
 				<tr><td>env</td><td></td><td></td><td>the environment variables</td></tr>
 				<tr><td>false</td><td></td><td></td><td>one of two values that a Bool may take, the other being true</td></tr>
+				<tr><td>endline</td><td>the platform-specific endline string</td></tr>
 				<tr><td>null</td><td></td><td></td><td>the null pointer</td></tr>
 				<tr><td>true</td><td></td><td></td><td>one of two values that a Bool may take, the other being false</td></tr>
 				<tr><td>π</td><td>pi</td><td>(<a href="http://www.fileformat.info/info/unicode/char/03c0/index.htm">GREEK SMALL LETTER PI U+03CO</a>)</td><td>pi mathematical constant</td></tr>
@@ -115,24 +120,28 @@
 				<tr><td><a href="/documentation/standard-library/Accessor.php">Accessor</a></td></tr>
 				<tr><td>Array, TsArray</td></tr>
 				<tr><td>Bag, CBag</td></tr>
+				<tr><td>BidirectionalIterator</td></tr>
 				<tr><td>BinaryRelation</td><td>(&lt;Type&gt; Left, &lt;Type&gt; Right) { return Left * Right → Bool; };</td></tr>
 				<tr><td>Bimap, HashBimap TsBimap, TsHashBimap</td></tr>
 				<tr><td>BinNode, TsBinNode</td></tr>
+				<tr><td>Cache, TsCache</td></tr>
 				<tr><td>Collection, ReadOnlyCollection</td></tr>
 				<tr><td>Complex</td></tr>
 				<tr><td><a href="/documentation/standard-library/Const.php">Const</a></td></tr>
 				<tr><td>Consumer</td></tr>
 				<tr><td>Deque, TsDeque</td></tr>
-				<tr><td>DynamicArray, TsDynamicArray</td><td>Similar to Array, but of variable size</td></tr>
-				<tr><td>Enumerable</td></tr>
+				<tr><td>Denumerable</td></tr>
 				<tr><td><a href="/documentation/standard-library/Function.php">Function</a></td></tr>
+				<tr><td>FiniteDenumerable</td></tr>
+				<tr><td>ForwardIterator</td></tr>
+				<tr><td>InfiniteDenumerable</td></tr>
 				<tr><td>Iterator</td></tr>
-				<tr><td>KAryNode, TsKAryNode (a node of a K-ary tree)</td></tr>
 				<tr><td>List, TsList</td></tr>
 				<tr><td>Map, HashMap, TsMap, TsHashMap, CMap, CHashMap</td><td>Non "hash" variations are ordered</td></tr>
 				<tr><td>Matrix</td></tr>
-				<tr><td>MaxHeap, MinHeap, TsMaxHeap, TsMinHeap, CoalescingTsMaxHeap</td></tr>
+				<tr><td>MaxHeap, MinHeap, TsMaxHeap, TsMinHeap, TsCoalescingMaxHeap</td></tr>
 				<tr><td>MultiMap, TsMultiMap</span></td></tr>
+				<tr><td>NonDenumerable</td></tr>
 				<tr><td>Octonion</td></tr>
 				<tr><td><a href="/documentation/standard-library/Pointer.php">Pointer</a></td></tr>
 				<tr><td>Predicate</td><td>(&lt;Type&gt; Operand) { return Operand → Bool; };</td></tr>
@@ -140,6 +149,7 @@
 				<tr><td>Producer</td></tr>
 				<tr><td>Quaternion</td></tr>
 				<tr><td>Queue, TsQueue</td></tr>
+				<tr><td>RandomAccessIterator</td></tr>
 				<tr><td>Set, HashSet, TsSet, TsHashSet, CSet, CHashSet</td><td>Non "hash" variations are ordered</td></tr>
 				<tr><td>Singleton</td></tr>
 				<tr><td>Stack, CStack</td></tr>
@@ -150,6 +160,7 @@
 		<h2>Namespaces</h2>
 		<code>
 			<table style="width:2000px;">
+				<tr><td>Allocators</td></tr>
 				<tr><td>Cas</td></tr>
 				<tr><td>Compiler</td></tr>
 				<tr><td>Containers</td></tr>
@@ -162,6 +173,8 @@
 				<tr><td>OpenSLESv11</td></tr>
 				<tr><td>Parser</td></tr>
 				<tr><td><a href="/documentation/standard-library/Runtime.php">Runtime</a></td></tr>
+				<tr><td>Structures</td></tr>
+				<tr><td>Sychronization</td></tr>
 				<tr><td>Task</td></tr>
 				<tr><td>UnitsOfMeasure</td><td>(dimensional analysis)</td></tr>
 				<tr><td>Virtualizations</td><td>instantiate and manage virtual execution environments</td>

@@ -5,6 +5,7 @@
 		<meta name="google-site-verification" content="OKvej4xSIY4zxFPd7v6mor2L0hzDXUJaV2gzl5rKYJY" />
 		<title>Plange</title>
 		<link rel=StyleSheet href='css/general.css' type='text/css' />
+		<link rel="icon" type="image/png" href="/plange_favicon.png" />
 	</head>
 	<body>
 		<?php require('header.php') ?>
@@ -393,7 +394,9 @@ advanceProjectilePosition := (
 		<div class="code2">
 			<p>Example</p>
 			<pre>
-&lt;Number * Number * Number → Number&gt; linear_interpolation := (min, max, x) { min * (1 - x) + max * x };
+&lt;Number * Number * Number → Number&gt; linear_interpolation :=
+	(min, max, x) { min * (1 - x) + max * x }
+;
 			
 inverted_linear_interpolation := (min, max, interpolated) { 
 	interpolated = linear_interpolation(min, max, x); //x is a free variable
@@ -412,7 +415,7 @@ assert(x = inverted_linear_interpolation(y, z, linear_interpolation(y, z, x));
 			<pre>
 &lt;Collection * BinaryRelation → Collection&gt; sort := (items, ordering) {
 	result ↔ items; // result and items make a bijection
-	∀ { ordering(result[i - 1], result[i]) | i ∈ 𝕎 ∧ i &lt; |result| }; //the result has to be sorted
+	∀ { ordering(result[i - 1], result[i]) | i ∈ (0...|result|) }; //the result has to be sorted
 	return result; // solve, substitute, and return
 };
 			</pre>

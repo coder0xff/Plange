@@ -2,7 +2,7 @@
 </div>
 <hr>
 <center>
-	copyright © Brent Lewis 2015 &nbsp;&nbsp;&nbsp;&nbsp; hits: 
+	copyright © Brent Lewis 2017 &nbsp;&nbsp;&nbsp;&nbsp; hits: 
 <?php
 //Easy Counter code begins
 

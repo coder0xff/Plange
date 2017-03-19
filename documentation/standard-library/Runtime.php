@@ -11,7 +11,7 @@
 		<?php require('../../header.php') ?>
 
 
-		<h2>Constants</h2>
+		<h2>Types</h2>
 		<code>
 			<table style="width:2000px;">
 				<tr><td>StackTrace</td></tr>
