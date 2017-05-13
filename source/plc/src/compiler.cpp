@@ -10,11 +10,9 @@
 #include "utils.hpp"
 #include "symbol.hpp"
 #include "scope.hpp"
+#include "stdafx.hpp"
 
 namespace plc {
-
-llvm::LLVMContext llvmContext;
-llvm::Module module("module", llvmContext);
 
 std::string describe_code_span(source_code const& source, parlex::match const& m) {
 	std::string result = source.pathname == "" ? "[generated]" : source.pathname;
@@ -32,15 +30,18 @@ std::string describe_code_span(source_code const& source, parlex::match const& m
 }
 
 std::shared_ptr<abstract_value> do_concrete_invoke(llvm::Function * function, std::vector<llvm::Value *> arguments, scope& parent, llvm::BasicBlock * unwindDest, llvm::IRBuilder<> & builder) {
-	auto nextBlock = llvm::BasicBlock::Create(llvmContext, "", &parent.getLLVMFunction(), nullptr);
+	ERROR(NotImplemented, "");
+	/*auto nextBlock = llvm::BasicBlock::Create(llvmContext, "", &parent.getLLVMFunction(), nullptr);
 	auto result = std::static_pointer_cast<abstract_value>(std::make_shared<concrete_value>(builder.CreateInvoke(function, nextBlock, unwindDest, arguments, "")));
 	builder.SetInsertPoint(nextBlock);
-	return result;
+	return result;*/
 }
 
 std::shared_ptr<abstract_value> eval_expression(source_code const& source, std::vector<parlex::match> const& parts, scope& parent, llvm::BasicBlock & unwindDest, llvm::IRBuilder<> & builder);
 
 std::shared_ptr<abstract_value> eval_parenthetical_invocation(source_code const& source, std::vector<parlex::match> const& parts, scope& parent, llvm::BasicBlock & unwindDest, llvm::IRBuilder<> & builder) {
+	ERROR(NotImplemented, "");
+/*
 	std::vector<llvm::Value *> arguments;
 	auto func = eval_expression(source, source.get_parts(parts[0]), parent, unwindDest, builder)->try_concretion();
 	if (!func) {
@@ -60,7 +61,7 @@ std::shared_ptr<abstract_value> eval_parenthetical_invocation(source_code const&
 			arguments.push_back(argument->underlying.get());
 		}
 	}
-	return do_concrete_invoke(llvmFunc, arguments, parent, &unwindDest, builder);
+	return do_concrete_invoke(llvmFunc, arguments, parent, &unwindDest, builder);*/
 }
 
 std::shared_ptr<abstract_value> eval_invocation(source_code const& source, std::vector<parlex::match> const& parts, scope& parent, llvm::BasicBlock & unwindDest, llvm::IRBuilder<> & builder) {
@@ -176,6 +177,8 @@ std::shared_ptr<abstract_value> eval_expression(source_code const& source, std::
 }
 
 void eval_statement(source_code const& source, std::vector<parlex::match> const& parts, scope& parent, llvm::BasicBlock & unwindDest, llvm::IRBuilder<> & builder) {
+	ERROR(NotImplemented, "");
+/*
 	auto p = parts[0];
 	if (&p.r == &ASSIGNMENT_CHAIN) {
 		ERROR(NotImplemented, "statement not implemented");
@@ -222,6 +225,7 @@ void eval_statement(source_code const& source, std::vector<parlex::match> const&
 	} else {
 		ERROR(Unknown, "invalid statement type " + p.r.id);
 	}
+*/
 }
 
 symbol_table flatten_symbol_tables(symbol_table const & parent, symbol_table const & child) {
@@ -335,7 +339,9 @@ symbol_table compute_scope_symbol_table(source_code const& source, std::vector<p
 }
 
 std::shared_ptr<abstract_value> eval_statement_scope(source_code const & source, std::vector<parlex::match> const& parts, scope& parent, llvm::BasicBlock & unwindBlock) {
-	auto result = std::make_shared<scope>(source, parent, llvmContext, module);
+	ERROR(NotImplemented, "");
+/*
+	auto result = std::make_shared<scope>(source, parent);
 	auto entryPointBlock = llvm::BasicBlock::Create(llvmContext, "", &parent.getLLVMFunction());
 	llvm::IRBuilder<> scopeBuilder(entryPointBlock);
 	for (auto part : parts) {
@@ -343,22 +349,11 @@ std::shared_ptr<abstract_value> eval_statement_scope(source_code const & source,
 			eval_statement(source, source.get_parts(part), *result, unwindBlock, scopeBuilder);
 		}
 	}
-	return result;
-}
-
-llvm::Value* source_code::get_or_add_global_string(llvm::LLVMContext& context, std::u32string const& s) {
-	auto i = global_strings.find(s);
-	if (i != global_strings.end()) return i->second;
-	llvm::StringRef Str(to_utf8(s));
-	auto StrConstant = llvm::ConstantDataArray::getString(context, Str);
-	auto gv = new llvm::GlobalVariable(module, StrConstant->getType(), true, llvm::GlobalValue::PrivateLinkage, StrConstant);
-	auto name = "str" + std::to_string(global_strings.size());
-	gv->setName(name);
-	//gv->setUnnamedAddr(true)
-	return global_strings[s] = gv;
+	return result;*/
 }
 
 void compile(std::vector<std::reference_wrapper<source_code const>> sources) {
+	/*
 	std::vector<llvm::Type*> mainFuncArgTypes = {
 		llvm::Type::getInt32Ty(llvmContext),
 		llvm::Type::getInt8PtrTy(llvmContext)->getPointerTo()
@@ -383,7 +378,7 @@ void compile(std::vector<std::reference_wrapper<source_code const>> sources) {
 	for (auto source : sources) {
 		eval_statement_scope(source.get(), source.get().get_parts(source.get().asg.root), rootScope, *unwindBlock);
 	}
-
+	*/
 
 }
 }

@@ -10,8 +10,6 @@
 
 namespace plc {
 
-void compile(std::vector<std::reference_wrapper<source_code const>> sources);
-
 }
 
 #endif //PLC_UTILS_HPP
