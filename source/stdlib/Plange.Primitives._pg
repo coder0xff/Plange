@@ -1,0 +1,11 @@
+return {
+	call <- 
+		(<UInt32> address) _x86 asm {
+			call address
+		}
+	|
+		(<UInt64> address) _x84_64 asm {
+			call address
+		}
+
+};

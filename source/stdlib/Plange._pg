@@ -1,0 +1,254 @@
+return {
+	abs <- CStdlib.abs | CStdlib.fabs;
+
+	abstract <- {
+		get := { throw[1] PureVirtualException(); };
+	} 
+
+	copy_construct <- (<T> value1, <T> value2) {
+		value.constructor(value2);
+		(dereference((Pointer<T>)address)).construct(value);
+	}
+
+	curry <- (<Function<T, U, ArgTypes...>> func, <U> val) {
+		return ArgTypes.size = 0 ?
+			func(val) :
+			(Function<T, ArgTypes...>) (args...) { return func(val, args...); }
+		;
+	}
+
+	err_print <- (info) {
+		<String> s := coerce(info);
+		write(standard_error, s.get_bytes(Encoding.ascii))
+	}
+
+	fold <- (<A * B -> B> f, <Collection<A>> collection, <B> accumulator) {
+		if (collection.size = 0)
+			accumulator
+		else
+			fold (f, collection.tail, f(collection.head, accumulator))
+		;
+	};
+
+	ForwardIterator <-
+		(<Type> T) {
+			return type inheriting ForwardIterator, Iterator<T> {
+			public:
+
+				Inheritor inherits this_type;
+				<Void -> this_type> pre_increment <- abstract;
+				<Void -> this_type> post_increment <- {
+					return ++this_type(this);
+				};
+			}
+		}
+	|
+		type inheriting Iterator {
+			<Void -> this_type> pre_increment <- abstract;
+			<Void -> this_type> post_increment <- {
+				return ++this_type(this);
+			};
+		}
+	;
+
+	Function <-
+		(<Type> retT, <FiniteDenumerableCollection<Type>> argTypes...) {
+			return type inheriting public Function<retT> {
+				invoke <- (<argTypes> args...) {
+					<retT> result;
+					Runtime.todo();
+				}
+			};
+		}
+	|
+		(<Type> retT) {
+			return type inheriting public Function {
+				<T> returnType := retT;
+				invoke <- (args...) {
+					Runtime.todo();
+				}
+			}
+		}
+	|
+		type {
+		private:
+			<Scope> implementation;
+		public:
+			invoke <- (args...) {
+				<Any> result;
+				_llvm asm {
+					%result = call 
+				}
+				if (all {  })
+				<Scope> s;
+				for (arg in arguments) {
+					s.symbols[arg.name] = arg.value;
+				}
+				return evaluate(implementation, s);
+			}
+		}
+	;
+
+	in_place_construct <- (<Pointer<T>> address, args...) {
+		dereference(address).construct(args...);
+	}
+
+	in_place_destruct <- (<Pointer<T>> address) {
+		dereference(address).destructor();
+	}
+
+	```alias for Plange.Internationalization namespace```
+	I18n = Internationalization;
+
+	IndexableCollection <-
+		(<Type> elementT) {
+			return type inheriting IndexableCollection {
+				<Void -> IndexableCollectionIterator<elementT>> get_iterator <- abstract;
+			};
+		}
+	|
+		type inheriting DenumerableCollection {
+			<Void -> IndexableCollectionIterator> get_iterator <- abstract;
+			<Maybe<Any>> current;
+		}
+	;
+
+	ℤ <- type inheriting IntegralDomain<ℤ> {
+		todo();
+	};
+	Int = ℤ;
+
+	Maybe <-
+		(<Type> t) {
+			return Some<t> | None;
+		};
+
+	Memoization <-
+	|
+		type {
+			<Cache<Tuple, Any>> storage;
+			<Function<Any, _...>> func;
+
+			get := (args...) {
+				find_result := storage.find(Tuple.make(args...));
+				match := 
+					(None) -> {
+						value := func(args...);
+						storage.add(Tuple(args...), value);
+						return value;
+					}
+			}
+		}
+
+	Nondenumerable <- 
+		(<Type> T) {
+			return type inheriting Nondenumerable {
+				<Type> T := T;
+				<T -> Bool> contains <- abstract
+				<UInt -> Array<T>> sample <- abstract
+			}
+		}
+	|
+		type {
+			T is Type; //unbound variable
+			<T -> Bool> contains <- (value) { return value is Real; }
+			<UInt -> Array<T>> sample <- (count) { return coerce([0...count)); }
+		}
+	;
+
+	None <-	type {};
+
+	Offset <- type_abstraction(UInt);
+
+	```The constant π (pi) to arbitrary precision```
+	<ℝ> π <- (4*Math.arctan(1/5)-Math.arctan(1/239))/4; //Machin series https://en.wikipedia.org/wiki/Machin-like_formula
+	pi = π;
+
+	print <-
+		(value) {
+			<String> s := coerce(value);
+			buffer = s.get_bytes(Encoding.ascii);
+			CStdLib.puts address_of(buffer[0]);
+			print(s);
+		}
+	;
+
+	ℚ <- type inheriting Math.Algebra.InfiniteField<ℚ> {
+		<Bool> negative;
+		<UInt> numerator;
+		<UInt> denominator;
+	};
+	Rationals = ℚ;
+
+	ℝ <- 
+		type inheriting Math.Algebra.InfiniteField<ℝ> {
+		public:
+			<Bool> negative;
+			<UInt> magnitude <- abstract; // Math.floor(Math.log(|value|, 10))
+			<UInt -> UInt> get_digit <- abstract;
+
+			get <- (<UInt> position, <UInt> base <- 10) {
+				if (base = 10) {
+					return get_digit(position);
+				} else {
+					throw RuntimeNotImplementedException();
+				}
+			}
+
+			<ℝ * ℝ -> ℝ> addition <- abstract;
+			<ℝ> additive_identity <- abstract;
+			<ℝ -> ℝ> additive_inverse <- abstract;
+			<ℝ * ℝ -> ℝ> subtraction <- (left, right) { return addition(left, inverse(right)); };
+			<ℝ> multiplicative_identity <- abstract;
+		}
+	| 
+		object inheriting Nondenumerable<ℝ> {
+			<Any -> Bool> contains <- (value) { return value is ℝ; }
+			<UInt -> Array<ℝ>> sample <- (count) { return coerce([0...count)); }
+		};
+	Real = ℝ;
+
+	Some <-
+		(<Type> t) {
+			return type {
+				<t> value;
+			}
+		}
+	;
+
+	```Alias for the Plange.Synchronization namespace```
+	S13n = Plange.Synchronization;
+
+	```
+	<summary>Creates a new type that has static-typing distinct from the underlying type</summary>
+	<example><![CDATA[
+	Offset <- type_abstraction(UInt);
+	offset_ptr <- (Pointer<Void>> address, <Offset> offset) { return Offset((UInt)address + (UInt)offset); };
+	offset_ptr(coerce(0xDEADBEEF), 10) //fails because no implicit cast from UInt to Offset
+	offset_ptr(coerce(0xDEADBEEF), (Offset)10); //ok
+	]]></example>
+	```
+	type_abstraction <- (<Type> t) {
+		return type {
+		private:
+			<t> value;
+
+			construct <- (<t> v) {
+				value <- v;
+			};
+
+			explicit_cast <- 
+				(<t> v) {
+					return this_type(v);
+				}
+			|
+				() {
+					return this.value;
+				}
+
+			get <- { return value; };
+
+			set <- (<t> v) { value <- v };
+		};
+	}
+}

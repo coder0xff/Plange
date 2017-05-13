@@ -1,0 +1,10 @@
+return {
+	Encoding <- enum {
+		ASCII,
+		UTF7,
+		UTF8,
+		UTF16,
+		UTF32
+	};
+
+};

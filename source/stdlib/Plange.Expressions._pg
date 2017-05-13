@@ -1,0 +1,14 @@
+return {
+	Expression <- 
+		(<Type> T) {
+			return type inheriting Expression {
+				<Void -> Maybe<T>> concretion <- abstract;		
+			}
+		}
+	|
+		type {
+			<Void -> Maybe<Any>> concretion <- abstract;
+		}
+	;
+
+};

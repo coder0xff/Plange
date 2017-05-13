@@ -1,0 +1,27 @@
+return {
+	IndexableCollectionIterator <- 
+		type inheriting Iterator{
+		}
+	;
+
+	Iterator <-
+		(<Type> T) {
+			return type inheriting Iterator {
+			public:
+				Inheritor inherits this_type;
+				<Inheritor -> T> dereference <- abstract;
+			}
+		}
+	|
+		type {
+		public:
+			Inheritor inherits this_type;
+			<Inheritor -> Iterator> construct <- abstract;
+			<Inheritor -> Inheritor> assign <- abstract;
+			<Inheritor -> Bool> equality <- abstract;
+			<Inheritor -> Bool> inequality <- abstract;
+			<Inheritor -> Any> dereference <- abstract;
+		}
+	;
+
+};

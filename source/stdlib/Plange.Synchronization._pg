@@ -1,0 +1,37 @@
+return {
+	Lock <- type {
+		<Mutex> mutex;
+
+		destruct <- () {
+			mutex.direct_unlock();
+		}
+	};
+
+	Mutex <- type {
+		<PThread.pthread_mutex_t> underlying;
+
+		construct <- () {
+			PThread.pthread_mutex_init(address_of(underlying));
+		};
+
+		destruct <- () {
+			PThread.pthread_mutex_destroy(address_of(underlying));
+		};
+
+		direct_lock() {
+			PThread.pthread_mutex_lock(address_of(underlying));
+		};
+
+		direct_unlock <- () {
+			PThread.pthread_mutex_unlock(address_of(underlying));
+		}
+
+		lock <- () {
+			direct_lock();
+			<Lock> result;
+			result.mutex = this;
+			return result;
+		}
+
+	};
+};

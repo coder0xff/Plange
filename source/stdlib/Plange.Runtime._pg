@@ -1,0 +1,43 @@
+return {
+	default_assigner <- (<T> left) {
+		return (<T> right) {
+			left.destructor();
+			left.construct(right);
+		};
+	};
+
+	default_move_assigner <- (<T> left) {
+		return (<T> right) {
+			left.destructor();
+			left.mover(right);
+		};
+	}
+
+	default_mover <- (<T> left) {
+		throw RuntimeNotImplementedException();		
+	}
+
+	default_swapper <- (<T> left) {
+		if (all { !i.constant | i in T.members }) {
+			return[1] (<T> right) {
+				for (<Meta.Member> member in T.members) {
+					swap(member[left], member[right]);
+				}
+			}
+		} else {
+			todo();
+		}
+	};
+
+	RuntimeNotImplementedException <- type inheriting Plange.Exceptions.NotImplementedException {
+		construct <- (<String> additionInformation <- "No additional information") {
+			((NotImplementedException)this).construct(additionalInformation);
+		};
+	};
+
+	todo <- (_...) {
+		//todo();  jk
+		throw[1] RuntimeNotImplementedException();
+	};
+
+};
