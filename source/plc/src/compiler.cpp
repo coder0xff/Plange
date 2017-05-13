@@ -139,8 +139,6 @@ std::shared_ptr<analytic_value> eval_expression(source_code const& source, std::
 		ERROR(NotImplemented, "expression not implemented");
 	} else if (expressionType == &PARENTHETICAL) {
 		ERROR(NotImplemented, "expression not implemented");
-	} else if (expressionType == &PROPERTY) {
-		ERROR(NotImplemented, "expression not implemented");
 	} else if (expressionType == &RADICAL) {
 		ERROR(NotImplemented, "expression not implemented");
 	} else if (expressionType == &RANGE) {

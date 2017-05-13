@@ -473,7 +473,6 @@ DOT_PRODUCT:
 DOWNCASTS:
     syntax: >
         EXPRESSION {IC} "downcasts" {IC} EXPRESSION
-    assoc: none
 
 EMBEDDED_COMMENT:
     syntax: >
@@ -834,8 +833,7 @@ IMPLICIT_TYPE_DEREFERENCE:
 IMPLEMENTS:
     syntax: >
         EXPRESSION {IC} "implements" {IC} EXPRESSION
-    assoc: none
-        
+
 IMPORT:
     syntax: >
         "import" {IC} EXPRESSION
@@ -857,13 +855,16 @@ INEQUALITY:
 INHERITS:
     syntax: >
         EXPRESSION {IC} "inherits" {IC} EXPRESSION
-    assoc: none
-    
+
 INHERITANCE_LIST:
     syntax: >
-        [(VISIBILITY_MODIFIER | VISIBILITY_MODIFIER ICR "diamond" | "diamond") IRC] |  "EXPRESSION {{IC} "," {IC} [VISIBILITY_MODIFIER {IC}] EXPRESSION}
+         [INHERITANCE_ITEM_PREFIX] EXPRESSION {{IC} "," {IC} [INHERITANCE_ITEM_PREFIX] EXPRESSION}
     doc: >
         see: type
+
+INHERITANCE_ITEM_PREFIX:
+    syntax: >
+        (VISIBILITY_MODIFIER | VISIBILITY_MODIFIER ICR "diamond" | "diamond") ICR
 
 INTEGER_DIVISION:
     syntax: >
@@ -1494,7 +1495,7 @@ UPCASTS:
         
 USING:
     syntax: >
-        "using" {IC} "(" {IC} expression {IC} ")" {IC} BLOCK
+        "using" {IC} "(" {IC} EXPRESSION {IC} ")" {IC} BLOCK
     doc: >
         values in the specified value are visible, and any value constructed inside the expression that is not visible from outside scopes, is destructed when the scope exits
         
