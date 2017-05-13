@@ -19,7 +19,7 @@ ADDITION:
 
 ALL:
     syntax: >
-        "∀" {IC} EXPRESSION
+        ("∀"|"all") {IC} EXPRESSION
     doc: >
         constrain ALL elements of a Collection to be true
     example: |
@@ -48,13 +48,21 @@ AND:
     assoc: either
     precedes: [OR, IMPLICATION, XOR, IFF]
 
+ARGUMENT:
+    syntax: >
+        EXPRESSION
+
+ARGUMENT_PACK:
+    syntax: >
+        EXPRESSION {IC} "..."
+
 ARRAY:
     syntax: >
         "[" {IC} [EXPRESSION {{IC} "," {IC} EXPRESSION} {IC} ] "]"
 
 ARRAY_INVOCATION:
     syntax: >
-        EXPRESSION "[" [{IC} (EXPRESSION|SLICE)] {{IC} "," [{IC} (EXPRESSION|SLICE)]} {IC} "]"
+        EXPRESSION "[" [{IC} (ARGUMENT|ARGUMENT_PACK|SLICE)] {{IC} "," [{IC} (ARGUMENT|ARGUMENT_PACK|SLICE)]} {IC} "]"
 
 ASM_EXPRESSION:
     syntax: >
@@ -101,22 +109,11 @@ ASSIGNMENT_CHAIN:
     example: |
         iPow2 ← -1;
     notes: |
-        <p>Note that the left hand side of assignments need not be trivial expressions mapping to a single memory structure - a so called lvalue in some other languages. Rather, arbitrary expressions can be solved when a single free variable is present. Revisiting the above example:</p>
-        <div class="code">
-            <p>A variable</p>
-            <pre><span style="color:red">iPow2</span> ← -1;</pre>
-            <p>is assigned</p>
-            <pre>iPow2 <span style="color:red">←</span> -1;</pre>
-            <p>a value</p>
-            <pre>iPow2 ← <span style="color:red">-1</span>;</pre>
-        </div>
-        <p>It is straightforward in that a single value is being put in a single variable, and both of them are clearly defined. However:</p>
+        <p>The left hand side may not be an lvalue (in C parlance). Rather, some algebras and solvers reduce free variables.</p>
         <div class="code">
             <p>Example</p>
             <pre>x + 1 ← 0;</pre>
         </div>
-        <p>The above example is contrived, but provides a simple segue to constraint based programming. When this statement is executed the value -1 is stored in <code>x</code>. Substituting -1 for x yields <code>(-1) + 1 = 0</code>.</p>
-
         <p>Assignment operations can be chained together</p>
         <div class="code">
             <p>Example</p>
@@ -132,7 +129,7 @@ BIJECTION:
 
 BINARY_ARITHMETIC_OP:
     syntax: >
-        ADD_SUB | ADDITION | DIVISION | EXPONENTIATION | MULTIPLICATIVE_OP | SHIFTL | SHIFTR | SUBTRACTION
+        ADD_SUB | ADDITION | DIVISION | EXPONENTIATION | INTEGER_DIVISION | MODULATION | MULTIPLICATIVE_OP | SHIFTL | SHIFTR | SUBTRACTION
     doc: >
         the collection of binary operators that work on numbers (among other things)
 
@@ -148,7 +145,7 @@ BINARY_LOGICAL_OP:
 
 BINARY_OP:
     syntax: >
-        BINARY_ARITHMETIC_OP | BINARY_COLLECTION_OP | BINARY_LOGICAL_OP | BITWISE_OP | CONSTRUCTIVE_OP | INTEGER_DIVISION | MODULATION | RELATIONAL_OP
+        BINARY_ARITHMETIC_OP | BINARY_COLLECTION_OP | BINARY_LOGICAL_OP | BITWISE_OP | CONSTRUCTIVE_OP | RELATIONAL_OP
     doc: >
         a sequence of one or more punctuation (and special) characters representing an infix operator
     notes: >
@@ -267,6 +264,10 @@ BITWISE_OP:
     syntax: >
         BIT_AND | BIT_OR | BIT_XOR
 
+BLOCK:
+    syntax: >
+        "{" STATEMENT_SCOPE "}"
+
 BOOL:
     syntax: >
         "true" | "false"
@@ -274,6 +275,20 @@ BOOL:
         the two ordinals of the Bool type
     notes: >
         These are included as syntax elements as they are literals, not constants.
+
+BREAK:
+    syntax: >
+        "break" [({IC} "[" {IC} EXPRESSION {IC} "]") | ({ICR} IDENTIFIER)]
+    doc: >
+        terminate the containing for, do, or while/until loop
+    notes: >
+        If a square-bracketed value is appended to a the "break" keyword, that many scope levels plus one will terminate. "break" is the same as "break[0]". If a variable identifier follows the "break" keyword, the iterative flow-control primitive associated with that variable will be affected.
+    example: >
+        for (i in X) {
+            for (j in Y) {
+                break i;
+            }
+        }
 
 CARDINALITY:
     syntax: >
@@ -310,6 +325,8 @@ COMPLEMENT:
     syntax: >
         EXPRESSION {IC} "ᶜ"
     precedes: [BINARY_OP]
+    doc: >
+        the universal set excluding the elements of the collection
 
 COMPOSITION:
     syntax: >
@@ -333,6 +350,20 @@ CONSTRUCTIVE_OP:
     doc: >
         operators that are constructive for making values
 
+CONTINUE:
+    syntax: >
+        "continue" [({IC} "[" {IC} EXPRESSION {IC} "]") | ({ICR} IDENTIFIER)]
+    doc: >
+        begin the next iteration in the containing for, do, or while/until loop
+    notes: >
+        If a square-bracketed value is appended to the "continue" keyword, that many scope levels plus one will continue. "continue" is the same as "continue[0]". If a variable identifier follows to the continue keyword, the iterative flow-control primitive associated with that variable is affected.
+    example: >
+        for (i in X) {
+            for (j in Y) {
+                continue i;
+            }
+        }
+
 CROSS_PRODUCT:
     syntax: >
         EXPRESSION {IC} ("×"|"_x_") {IC} EXPRESSION
@@ -340,6 +371,25 @@ CROSS_PRODUCT:
     precedes: [DOT_PRODUCT]
     doc: >
         scalar multiplication or Vector<3, N> cross product
+
+DATE:
+    syntax: >
+        DATE_YEAR_MONTH_DAY | DATE_YEAR_DAY
+
+DATE_YEAR_MONTH_DAY:
+    syntax: >
+        decimal_digit decimal_digit decimal_digit decimal_digit "-" decimal_digit decimal_digit "-" decimal_digit decimal_digit
+    precedes: [SUBTRACTION]
+    doc: >
+        a date literal
+
+DATE_YEAR_DAY:
+    syntax: >
+        decimal_digit decimal_digit decimal_digit decimal_digit "-" decimal_digit decimal_digit decimal_digit
+
+DATE_TIME:
+    syntax: >
+        DATE "T" TIME
 
 DECLARATION:
     syntax: >
@@ -419,6 +469,11 @@ DOT_PRODUCT:
     assoc: left
     doc: >
         scalar multiplication or Vector<D, N> inner product
+        
+DOWNCASTS:
+    syntax: >
+        EXPRESSION {IC} "downcasts" {IC} EXPRESSION
+    assoc: none
 
 EMBEDDED_COMMENT:
     syntax: >
@@ -442,7 +497,7 @@ EMBEDDED_COMMENT_INTERIOR:
 
 EMBEDDED_NEWLINE_STRING:
     syntax: >
-        ("\"\"\"" EMBEDDED_NEWLINE_STRING_INTERIOR "\"\"\"")
+        "\"\"\"" EMBEDDED_NEWLINE_STRING_INTERIOR "\"\"\""
     precedes: [EMBEDDED_STRING, STRING]
 
 EMBEDDED_NEWLINE_STRING_INTERIOR:
@@ -478,6 +533,16 @@ END_OF_LINE_COMMENT:
     syntax: >
         "//" {not_newline} "\n"
 
+ENUM:
+    syntax: >
+        "enum" {IC} ["inheriting" {IC} INHERITANCE_LIST {IC}] ["implementing" {IC} INHERITANCE_LIST {IC}] "{" [ENUM_ELEMENT {{IC} "," {IC} ENUM_ELEMENT}] "}"
+    doc: >
+        makes a compound type with static members for each of the elements, and each of those elements inherit/implement those specified inheritance list 
+        
+ENUM_ELEMENT:
+    syntax: >
+        IDENTIFIER [{IC} ":=" {IC} EXPRESSION]
+        
 EQUALITY_CHAIN:
     syntax:
         EXPRESSION {IC} EQUALITY_CHAIN_LOOP
@@ -497,9 +562,13 @@ EQUALITY_CHAIN_LOOP:
     see:
         - EQUALITY_CHAIN
 
+EXACTLY:
+    syntax: >
+        EXPRESSION {IC} "exactly" {IC} EXPRESSION
+    
 EXISTS:
     syntax: >
-        "∃" {IC} EXPRESSION
+        ("∃"|"exists") {IC} EXPRESSION
     doc: >
         a constraint asserting that at least one element of the specified Collection is true
     notes: >
@@ -514,7 +583,7 @@ EXISTS:
 
 EXISTS_ONE:
     syntax: >
-        "∃!" {IC} EXPRESSION
+        ("∃!"|"exists!") {IC} EXPRESSION
     doc: >
         a constraint asserting that exactly one element of the specified Collection is true
     see:
@@ -529,7 +598,7 @@ EXPONENTIATION:
 
 EXPRESSION:
     syntax: >
-        ALLOCATION | ARRAY | ASM_FUNCTION | BINARY_OP | BOOL | CAST | CEILING | COMPLEMENT | CONDITIONAL | DELTA | DIMENSIONAL_NUMBER | EMBEDDED_STRING | EQUALITY_CHAIN | FACTORIAL | FLOOR | FUNCTION | GREATER_CHAIN | IDENTIFIER | IF | INVOCATION | LESSER_CHAIN | LIST | MAGNITUDE | MAP | MEMBER_ACCESS | NEAREST_INTEGER | NON_NEG_NUMBER | PARENTHETICAL | PROPERTY | RADICAL | RANGE | SET | SET_COMPREHENSION | STRING | SUBSET_CHAIN | SUPERSET_CHAIN | TUPLE | TYPE | UNARY_OP | VECTOR_NORM | "null" | "this" | "this_func" | "this_type"
+        ALLOCATION | ARRAY | ASM_FUNCTION | BINARY_OP | BOOL | CAST | CEILING | COMPLEMENT | CONDITIONAL | DATE | DATE_TIME | DELTA | DIMENSIONAL_NUMBER | EMBEDDED_STRING | ENUM | EQUALITY_CHAIN | FLOOR | FUNCTION | GREATER_CHAIN | IDENTIFIER | IF | INVOCATION | LESSER_CHAIN | LIST | MAGNITUDE | MAP | MEMBER_ACCESS | NEAREST_INTEGER | NON_NEG_NUMBER | OBJECT | PARENTHETICAL | RANGE | REGEX | SET | SET_COMPREHENSION | STRING | SUBSET_CHAIN | SUPERSET_CHAIN | SWIZZLE | THIS | THIS_FUNC | THIS_TYPE | TIME | TUPLE | TYPE | UNARY_OP | VECTOR_NORM | "null"
     doc: >
         a linearization of an evaluation tree containing constants, variables, operators, invocations, and sub expressions
     notes: >
@@ -611,33 +680,37 @@ FREE:
 
 FUNCTION_MODIFIER:
     syntax: >
-        (FUNCTION_MODIFIER_STABILITY|FUNCTION_MODIFIER_NO_THROW|FUNCTION_MODIFIER_ATOMIC|FUNCTION_MODIFIER_PLATFORM|FUNCTION_MODIFIER_MODEL) {IC}
+        (FUNCTION_MODIFIER_STABILITY|FUNCTION_MODIFIER_NO_THROW|FUNCTION_MODIFIER_ATOMIC|FUNCTION_MODIFIER_PLATFORM|FUNCTION_MODIFIER_MODEL|FUNCTION_MODIFIER_CALLING_CONVENTION) {IC}
     doc: >
         The FUNCTION_MODIFIER_* rules model: ["stable" | "unstable"] ["no_throw"] ["atomic"] {PLATFORM} ["pure"|"imperative"|"opaque"] with the caveat that there has to be an IC between any modifier and the next (if there is a next)
 
 FUNCTION_MODIFIER_ATOMIC:
     syntax: >
-        "atomic" [ICR (FUNCTION_MODIFIER_PLATFORM|FUNCTION_MODIFIER_MODEL)]
+        "atomic" [ICR (FUNCTION_MODIFIER_PLATFORM|FUNCTION_MODIFIER_MODEL|FUNCTION_MODIFIER_CALLING_CONVENTION)]
+
+FUNCTION_MODIFIER_CALLING_CONVENTION:
+    syntax: >
+        "c_call" | "fast_call" | "cold_call" | "ghc_call" | "hipe_call" | "webkit_js_call" | "any_reg_call" | "preserve_most_call" | "preserve_all_call" | "swift_call" | "cxx_fast_tls_call" | "first_target_call" | "x86_std_call" | "X86_fast_call" | "arm_apcs_call" | "arm_aapcs_call" | "arm_aapcs_vfp_call" | "msp430_intr_call" | "x86_this_call" | "ptx_kernel_call" | "ptx_device_call" | "spir_func_call" | "spir_kernel_call" | "intel_ocl_bi_call" | "x86_64_sysv_call" | "x86_64_win64_call" | "x86_vector_call" | "hhvm_call" | "x86_intr_call" | "avr_intr_call" | "avr_signal_call" | "avr_builtin_call"
 
 FUNCTION_MODIFIER_MODEL:
     syntax: >
-        "pure" | "imperative" | "opaque"
+        ("pure" | "imperative" | "opaque") [ICR FUNCTION_MODIFIER_CALLING_CONVENTION]
 
 FUNCTION_MODIFIER_NO_THROW:
     syntax: >
-        "no_throw" [ICR (FUNCTION_MODIFIER_ATOMIC|FUNCTION_MODIFIER_PLATFORM|FUNCTION_MODIFIER_MODEL)]
+        "no_throw" [ICR (FUNCTION_MODIFIER_ATOMIC|FUNCTION_MODIFIER_PLATFORM|FUNCTION_MODIFIER_MODEL|FUNCTION_MODIFIER_CALLING_CONVENTION)]
 
 FUNCTION_MODIFIER_PLATFORM:
     syntax: >
-        PLATFORM {ICR PLATFORM} [ICR FUNCTION_MODIFIER_MODEL]
+        PLATFORM {ICR PLATFORM} [ICR (FUNCTION_MODIFIER_MODEL|FUNCTION_MODIFIER_CALLING_CONVENTION)]
 
 FUNCTION_MODIFIER_STABILITY:
     syntax: >
-        ("stable" | "unstable") [ICR (FUNCTION_MODIFIER_NO_THROW | FUNCTION_MODIFIER_ATOMIC | FUNCTION_MODIFIER_PLATFORM | FUNCTION_MODIFIER_MODEL)]
+        ("stable" | "unstable") [ICR (FUNCTION_MODIFIER_NO_THROW | FUNCTION_MODIFIER_ATOMIC | FUNCTION_MODIFIER_PLATFORM | FUNCTION_MODIFIER_MODEL | FUNCTION_MODIFIER_CALLING_CONVENTION)]
 
 FUNCTION:
     syntax: >
-        [ "(" {IC} [ PARAMETER {{IC} "," {IC} PARAMETER} {IC} ] ")" {IC} ] [FUNCTION_MODIFIER] "{" STATEMENT_SCOPE "}"
+        [ "(" {IC} [ PARAMETER {{IC} "," {IC} PARAMETER} {IC} ] ")" {IC} ] [FUNCTION_MODIFIER] BLOCK
     precedes: [CAST]
     doc: >
         creates a function
@@ -652,10 +725,7 @@ FUNCTION:
             <int → int> factorial := (x) { return x == 0 ? 1 : x * factorial(x - 1); };
         - |
             <Collection<T> → T> head := (a&b) { return a; }
-
-GETTER:
-    syntax: >
-        "get" {IC} ":=" {IC} EXPRESSION
+        - | 
 
 GREATER_CHAIN:
     syntax: >
@@ -761,6 +831,15 @@ IMPLICIT_TYPE_DEREFERENCE:
     doc: >
         use the type inferred on the right hand side
 
+IMPLEMENTS:
+    syntax: >
+        EXPRESSION {IC} "implements" {IC} EXPRESSION
+    assoc: none
+        
+IMPORT:
+    syntax: >
+        "import" {IC} EXPRESSION
+
 IN:
     syntax: >
         EXPRESSION {IC} ("∈"|"in") {IC} EXPRESSION
@@ -775,9 +854,14 @@ INEQUALITY:
         EXPRESSION {IC} ("≠"|"/=") {IC} EXPRESSION
     assoc: left
 
+INHERITS:
+    syntax: >
+        EXPRESSION {IC} "inherits" {IC} EXPRESSION
+    assoc: none
+    
 INHERITANCE_LIST:
     syntax: >
-        [VISIBILITY_MODIFIER {IC}] EXPRESSION {{IC} "," {IC} [VISIBILITY_MODIFIER {IC}] EXPRESSION}
+        [(VISIBILITY_MODIFIER | VISIBILITY_MODIFIER ICR "diamond" | "diamond") IRC] |  "EXPRESSION {{IC} "," {IC} [VISIBILITY_MODIFIER {IC}] EXPRESSION}
     doc: >
         see: type
 
@@ -811,10 +895,6 @@ INVOCATION:
             print myArray[4]; //4 is ordered and denumerable, myArray implements RandomlyAccessible
     notes: >
         The < > syntactic variety requires the returned value to be a type (it must implement Type), or a function (it must implement Function) that when invoked results in such a type or function. Note that this definition is deliberately recursive. The [ ] syntactic variety requires that each given "indexer" is some element of an ordered set, such as the natural numbers or enum values, and that the invokee is randomly accessible (implements RandomlyAccessible). Lastly, the angle bracket and square bracket syntax are optional; the behavior is identical to being invoked using parentheses. However, alternate syntax is encouraged whenever such requirements are met and helps to both document and enforce the invariants assumed by the author.
-
-IMPORT:
-    syntax: >
-        "import" {IC} EXPRESSION
 
 IS:
     syntax: >
@@ -862,6 +942,10 @@ LIST:
         - |
             short_days_of_week := ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
+LOCK:
+    syntax: >
+        "lock" {IC} PARENTHETICAL {IC} BLOCK
+            
 LOOP:
     syntax: >
         ( "while" | "until" ) {IC} PARENTHETICAL {IC} EXPRESSION
@@ -1011,6 +1095,10 @@ NULL_COALESCE:
     notes: >
         may be chained together
 
+OBJECT:
+    syntax: >
+        "object" {IC} ["inheriting" {IC} INHERITANCE_LIST {IC}] ["implementing" {IC} INHERITANCE_LIST {IC}] "{" TYPE_SCOPE "}"
+
 OCTAL:
     syntax: >
         "0" octal_digit {octal_digit}
@@ -1025,7 +1113,7 @@ OR:
 
 PARAMETER:
     syntax: >
-        PARAMETER_NORMAL | PARAMETER_ABSTRACT
+        PARAMETER_NATURAL | PARAMETER_ANALYTIC
     doc: >
         declares a formal argument of a function
     notes: >
@@ -1033,14 +1121,14 @@ PARAMETER:
     see:
         - FUNCTION
 
-PARAMETER_ABSTRACT:
+PARAMETER_ANALYTIC:
     syntax: >
         EXPRESSION [ {IC} "=" {IC} EXPRESSION ]
 
-PARAMETER_NORMAL:
+PARAMETER_NATURAL:
     syntax: >
-        ([ TYPE_DEREFERENCE {IC} ] IDENTIFIER) | ([ (TYPE_DEREFERENCE | IMPLICIT_TYPE_DEREFERENCE) {IC} ] IDENTIFIER {IC} "=" {IC} EXPRESSION)
-    precedes: [PARAMETER_ABSTRACT]
+        ([ TYPE_DEREFERENCE {IC} ] IDENTIFIER ["..."]) | ([ (TYPE_DEREFERENCE | IMPLICIT_TYPE_DEREFERENCE) {IC} ] IDENTIFIER ["..."] {IC} "=" {IC} EXPRESSION ["..."])
+    precedes: [PARAMETER_ANALYTIC]
 
 PARENTHETICAL:
     syntax: >
@@ -1052,7 +1140,7 @@ PARENTHETICAL:
 
 PARENTHETICAL_INVOCATION:
     syntax: >
-        EXPRESSION {IC} "(" [{IC} EXPRESSION] {{IC} "," [{IC} EXPRESSION]} {IC} ")"
+        EXPRESSION {IC} "(" [{IC} (ARGUMENT|ARGUMENT_PACK)] {{IC} "," [{IC} (ARGUMENT|ARGUMENT_PACK)]} {IC} ")"
 
 PAYLOAD:
     syntax: >
@@ -1063,8 +1151,9 @@ PAYLOAD:
 PLATFORM:
     syntax: >
         "_" {letter | number | PLATFORM}
-    doc: >
-        see: function
+    filter: longest
+    see:
+        - FUNCTION
 
 POST_DEC:
     syntax: >
@@ -1097,10 +1186,6 @@ PREPEND:
         y := [1, 2, 3, 4, 5];
         x = y;
 
-PROPERTY:
-    syntax: >
-        ("{" {IC} GETTER {IC} "}") | ("{" {IC} SETTER {IC} "}") | ("{" {IC} GETTER {IC} "," {IC} SETTER {IC} "}")
-
 RADICAL:
     syntax: >
         "√" {IC} EXPRESSION
@@ -1119,6 +1204,18 @@ RANGE:
         - |
             negativeReals := ( ... 0.0 ) // the negative real numbers - the set is infinite and nondenumerable
 
+READ_LOCK:
+    syntax: >
+        "read_lock" {IC} PARENTHETICAL {IC} BLOCK
+
+RECORD:
+    syntax: >
+        "record" {ICR} TYPE
+
+REGEX:
+    syntax: >
+        "R" STRING
+
 RELATIONAL_COLLECTION_OP:
     syntax: >
         HAS | IN | NOT_HAS | NOT_IN
@@ -1127,14 +1224,16 @@ RELATIONAL_COLLECTION_OP:
 
 RELATIONAL_OP:
     syntax: >
-        CASTS | INEQUALITY | IS | RELATIONAL_COLLECTION_OP
+        CASTS | DOWNCASTS | EXACTLY | IMPLEMENTS | INEQUALITY | INHERITS | IS | RELATIONAL_COLLECTION_OP | UPCASTS
     precedes: [BINARY_LOGICAL_OP]
 
 RETURN:
     syntax: >
-        "return" [ {IC} EXPRESSION ]
+        "return" [{IC} "[" {IC} EXPRESSION {IC} "]"] [ {IC} EXPRESSION ]
     doc: >
         exit the current function, optionally returning a value
+    notes: >
+        if a square-bracketed value is appended to a the "return" keyword, that many scope levels plus one will return. "return" is the same as "return[0]".
 
 SET:
     syntax: >
@@ -1148,10 +1247,6 @@ SET_COMPREHENSION:
         create a Collection, substituting variables bound in the right hand side into the left hand side
     example: |
         { x | x ∈ ℝ ∧ x < 3 }
-
-SETTER:
-    syntax: >
-        "set" {IC} ":=" {IC} EXPRESSION
 
 SHIFTL:
     syntax: >
@@ -1175,7 +1270,7 @@ SLICE:
 
 STATEMENT:
     syntax: >
-        ( ASSIGNMENT_CHAIN | DEFINITION | DO | EXPRESSION | FOR | FOR_COLLECTION | FREE | IMPORT | LOOP | RETURN | THROW | TRY | TYPE_CONSTRAINT | "break" | "continue" ) {IC} ";"
+        ( ASSIGNMENT_CHAIN | BREAK | CONTINUE | DEFINITION | DO | EXPRESSION | FOR | FOR_COLLECTION | FREE | IMPORT | LOCK | LOOP | READ_LOCK | RETURN | THROW | TRY | TYPE_CONSTRAINT | WRITE_LOCK | USING ) {IC} ";"
     doc: >
         top-level statement syntax
 
@@ -1230,6 +1325,10 @@ SUPERSET_CHAIN_LOOP:
     see:
         - SUPERSET_CHAIN
 
+SWIZZLE:
+    syntax: >
+        EXPRESSION {IC} ("⋮" | "_swiz_") {IC} EXPRESSION
+
 SYMMETRIC_DIFFERENCE:
     syntax: >
         EXPRESSION {IC} "⊖" {IC} EXPRESSION
@@ -1237,13 +1336,32 @@ SYMMETRIC_DIFFERENCE:
     doc: >
         the set-theoretic symmetric disjunction (Collection xor)
 
+THIS:
+    syntax: >
+        "this" [{IC} "[" {IC} EXPRESSION {IC} "]"]
+      
+THIS_FUNC:
+    syntax: >
+        "this_func" [{IC} "[" {IC} EXPRESSION {IC} "]"]
+    
+THIS_TYPE:
+    syntax: >
+        "this_type" [{IC} "[" {IC} EXPRESSION {IC} "]"]
+    
 THROW:
     syntax: >
-        "throw" [{IC} EXPRESSION]
+        "throw" [{IC} "[" {IC} EXPRESSION {IC} "]" ] [{IC} EXPRESSION]
     doc: >
         raise an exception with an optional value which must implement Exception if specified
+    notes: >
+        if throw is followed by a square-bracketed expression, that many stack frames will unwind before throwing the exception. "throw" is the same as "throw[0]".
+        
     see:
         - TRY
+
+TIME:
+    syntax: >
+        ["-"] decimal_digit decimal_digit ":" decimal_digit decimal_digit ":" decimal_digit decimal_digit ["." decimal_digit {decimal_digit}] ["Z" | (("+"|"-") decimal_digit decimal_digit [":" decimal_digit decimal_digit])]
 
 TRY:
     syntax: >
@@ -1288,7 +1406,7 @@ TYPE_DEREFERENCE:
 
 TYPE_INVOCATION:
     syntax: >
-        EXPRESSION ( "<" [{IC} EXPRESSION] {{IC} "," [{IC} EXPRESSION]} {IC} ">" )
+        EXPRESSION ( "<" [{IC} (ARGUMENT|ARGUMENT_PACK)] {{IC} "," [{IC} (ARGUMENT|ARGUMENT_PACK)]} {IC} ">" )
 
 TYPE_SCOPE:
     syntax: >
@@ -1370,6 +1488,16 @@ UNIT_MULTIPLICATION:
     see:
         - DIMENSIONAL_NUMBER
 
+UPCASTS:
+    syntax: >
+        EXPRESSION {IC} "upcasts" {IC} EXPRESSION
+        
+USING:
+    syntax: >
+        "using" {IC} "(" {IC} expression {IC} ")" {IC} BLOCK
+    doc: >
+        values in the specified value are visible, and any value constructed inside the expression that is not visible from outside scopes, is destructed when the scope exits
+        
 VECTOR_NORM:
     syntax: >
         "||" {IC} EXPRESSION {IC} "||"
@@ -1393,6 +1521,10 @@ WHOLE_NUMBER:
         ("1"|"2"|"3"|"4"|"5"|"6"|"7"|"8"|"9") {"0"|"1"|"2"|"3"|"4"|"5"|"6"|"7"|"8"|"9"}
     see:
         - TYPE_SCOPE
+
+WRITE_LOCK:
+    syntax: >
+        "write_lock" PARENTHETICAL BLOCK
 
 WS:
     syntax: >
