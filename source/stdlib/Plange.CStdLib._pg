@@ -1,0 +1,1 @@
+extern <Pointer<Char> -> Void> puts;
