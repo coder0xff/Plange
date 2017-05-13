@@ -2,10 +2,6 @@
 #define SOURCE_CODE_HPP
 
 #include "parlex/parser.hpp"
-#pragma warning(push, 0)
-#include <llvm/IR/Module.h>
-#include <llvm/IR/Value.h>
-#pragma warning(pop)
 
 namespace plc {
 
@@ -23,9 +19,6 @@ public:
 	std::u32string get_text(parlex::match const & m) const;
 private:
 	std::map<int, int> line_number_by_first_character;
-	std::map<std::u32string, llvm::Value *> global_strings;
-
-	llvm::Value* get_or_add_global_string(llvm::LLVMContext& context, std::u32string const& s);
 };
 
 }
