@@ -54,7 +54,7 @@ std::string enquote(std::string s) {
 	return result.str();
 }
 
-#if _MSC_VER == 1900
+#if _MSC_VER == 1900 || _MSC_VER == 1910
 
 std::string to_utf8(const std::u16string &s)
 {
