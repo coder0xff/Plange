@@ -1,0 +1,15 @@
+#ifndef ${NAME}_HPP
+#define ${NAME}_HPP
+
+namespace interpreter {
+	
+class $name : public expression {
+public:
+	$name(source_info )
+	SP(value) eval();
+	SP(expression) left, right;
+};
+
+}
+
+#endif
