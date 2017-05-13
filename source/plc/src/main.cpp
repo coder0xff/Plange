@@ -41,7 +41,6 @@ int main(int argc, const char* argv[]) {
 		realpaths.push_back(realpath(filename));
 	}
 
-	parlex::parser p;
 	std::map<std::string, std::unique_ptr<source_code>> parses;
 	std::vector<std::reference_wrapper<source_code const>> sources;
 	std::unique_ptr<module> m;
@@ -57,7 +56,7 @@ int main(int argc, const char* argv[]) {
 			ERROR(CouldNotOpenFile, filename);
 		}
 		std::u32string s = read_with_bom(ifs);
-		auto emplaceResult = parses.emplace(std::piecewise_construct, forward_as_tuple(filename), std::forward_as_tuple(new source_code(filename, s, p)));
+		auto emplaceResult = parses.emplace(std::piecewise_construct, forward_as_tuple(filename), std::forward_as_tuple(new source_code(filename, s)));
 		assert(emplaceResult.second);
 		sources.emplace_back(*emplaceResult.first->second);
 	}

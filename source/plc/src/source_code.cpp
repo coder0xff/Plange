@@ -76,7 +76,7 @@ std::vector<std::set<parlex::match>> matches_by_height(parlex::abstract_syntax_g
 	return result;
 }
 
-plc::source_code::source_code(std::string const& pathname, std::u32string const& document, parlex::parser& parser) :
+plc::source_code::source_code(std::string const& pathname, std::u32string const& document) :
 	pathname(pathname),
 	document(document),
 	asg(parser.parse(plange, { payload_postprocess }, document))

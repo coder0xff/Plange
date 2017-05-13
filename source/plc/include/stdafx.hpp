@@ -8,7 +8,10 @@
 
 #include <llvm/IR/LLVMContext.h>
 
+#include "parlex/parser.hpp"
+
 namespace plc {
+	extern parlex::parser parser;
 	extern llvm::LLVMContext llvmContext;
 }
 
