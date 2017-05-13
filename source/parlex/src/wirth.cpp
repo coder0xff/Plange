@@ -27,6 +27,7 @@ parlex::builtins::string_terminal & closeParen = parlex::builtins::wirth.add_lit
 parlex::builtins::string_terminal & openCurly = parlex::builtins::wirth.add_literal(U"{");
 parlex::builtins::string_terminal & closeCurly = parlex::builtins::wirth.add_literal(U"}");
 parlex::builtins::string_terminal & underscore = parlex::builtins::wirth.add_literal(U"_");
+parlex::builtins::string_terminal & dollarSign = parlex::builtins::wirth.add_literal(U"$");
 
 
 parlex::state_machine & whiteSpaceDfa = parlex::builtins::wirth.add_production("whiteSpace", 0, 1, &parlex::builtins::longest);
@@ -34,6 +35,8 @@ parlex::state_machine & commentDfa = parlex::builtins::wirth.add_production("com
 parlex::state_machine & productionDfa = parlex::builtins::wirth.add_production("production", 0, 1);
 parlex::state_machine & expressionDfa = parlex::builtins::wirth.add_production("expression", 0, 1);
 parlex::state_machine & termDfa = parlex::builtins::wirth.add_production("term", 0, 1);
+parlex::state_machine & parentheticalDfa = parlex::builtins::wirth.add_production("parenthetical", 0, 1);
+parlex::state_machine & tagDfa = parlex::builtins::wirth.add_production("tag", 0, 1);
 parlex::state_machine & factorDfa = parlex::builtins::wirth.add_production("factor", 0, 1);
 parlex::state_machine & identifierDfa = parlex::builtins::wirth.add_production("identifier", 0, 1, &parlex::builtins::longest);
 parlex::state_machine & root = parlex::builtins::wirth.add_production("root", 0, 1);
@@ -75,32 +78,38 @@ int build() {
 	termDfa.add_transition(1, whiteSpaceDfa, 0);
 	termDfa.add_transition(1, factorDfa, 1);
 
-	factorDfa.add_transition(0, identifierDfa, 13);
-	factorDfa.add_transition(0, parlex::builtins::c_string, 13);
+	parentheticalDfa.add_transition(0, openSquare, 1);
+	parentheticalDfa.add_transition(1, whiteSpaceDfa, 2);
+	parentheticalDfa.add_transition(1, expressionDfa, 3);
+	parentheticalDfa.add_transition(2, expressionDfa, 3);
+	parentheticalDfa.add_transition(3, whiteSpaceDfa, 4);
+	parentheticalDfa.add_transition(3, closeSquare, 13);
+	parentheticalDfa.add_transition(4, closeSquare, 13);
 
-	factorDfa.add_transition(0, openSquare, 1);
-	factorDfa.add_transition(1, whiteSpaceDfa, 2);
-	factorDfa.add_transition(1, expressionDfa, 3);
-	factorDfa.add_transition(2, expressionDfa, 3);
-	factorDfa.add_transition(3, whiteSpaceDfa, 4);
-	factorDfa.add_transition(3, closeSquare, 13);
-	factorDfa.add_transition(4, closeSquare, 13);
+	parentheticalDfa.add_transition(0, openParen, 5);
+	parentheticalDfa.add_transition(5, whiteSpaceDfa, 6);
+	parentheticalDfa.add_transition(5, expressionDfa, 7);
+	parentheticalDfa.add_transition(6, expressionDfa, 7);
+	parentheticalDfa.add_transition(7, whiteSpaceDfa, 8);
+	parentheticalDfa.add_transition(7, closeParen, 13);
+	parentheticalDfa.add_transition(8, closeParen, 13);
 
-	factorDfa.add_transition(0, openParen, 5);
-	factorDfa.add_transition(5, whiteSpaceDfa, 6);
-	factorDfa.add_transition(5, expressionDfa, 7);
-	factorDfa.add_transition(6, expressionDfa, 7);
-	factorDfa.add_transition(7, whiteSpaceDfa, 8);
-	factorDfa.add_transition(7, closeParen, 13);
-	factorDfa.add_transition(8, closeParen, 13);
+	parentheticalDfa.add_transition(0, openCurly, 9);
+	parentheticalDfa.add_transition(9, whiteSpaceDfa, 10);
+	parentheticalDfa.add_transition(9, expressionDfa, 11);
+	parentheticalDfa.add_transition(10, expressionDfa, 11);
+	parentheticalDfa.add_transition(11, whiteSpaceDfa, 12);
+	parentheticalDfa.add_transition(11, closeCurly, 13);
+	parentheticalDfa.add_transition(12, closeCurly, 13);
 
-	factorDfa.add_transition(0, openCurly, 9);
-	factorDfa.add_transition(9, whiteSpaceDfa, 10);
-	factorDfa.add_transition(9, expressionDfa, 11);
-	factorDfa.add_transition(10, expressionDfa, 11);
-	factorDfa.add_transition(11, whiteSpaceDfa, 12);
-	factorDfa.add_transition(11, closeCurly, 13);
-	factorDfa.add_transition(12, closeCurly, 13);
+	tagDfa.add_transition(0, dollarSign, 1);
+	tagDfa.add_transition(1, identifierDfa, 2);
+
+	factorDfa.add_transition(0, identifierDfa, 2);
+	factorDfa.add_transition(0, parlex::builtins::c_string, 2);
+	factorDfa.add_transition(0, parentheticalDfa, 2);
+	factorDfa.add_transition(0, tagDfa, 1);
+	factorDfa.add_transition(1, parentheticalDfa, 2);
 
 	identifierDfa.add_transition(0, parlex::builtins::letter, 1);
 	identifierDfa.add_transition(1, parlex::builtins::letter, 1);

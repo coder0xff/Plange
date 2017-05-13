@@ -7,7 +7,28 @@
 namespace parlex {
 namespace builtins {
 
-	// https://en.wikipedia.org/wiki/Wirth_syntax_notation
+/* similar to https://en.wikipedia.org/wiki/Wirth_syntax_notation but with tagging (TWSN)
+
+SYNTAX        = { PRODUCTION } .
+
+PRODUCTION    = IDENTIFIER "=" EXPRESSION "." .
+
+EXPRESSION    = TERM { "|" TERM } .
+
+TERM          = FACTOR { FACTOR } .
+
+PARENTHETICAL = "[" EXPRESSION "]"
+              | "(" EXPRESSION ")"
+              | "{" EXPRESSION "}" .
+
+TAG           = "$" IDENTIFIER
+
+FACTOR        = IDENTIFIER
+              | LITERAL
+              | [TAG] PARENTHETICAL
+
+*/
+
 extern grammar wirth;
 
 }
