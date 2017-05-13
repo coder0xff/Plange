@@ -1,27 +1,25 @@
+#include "stdafx.hpp"
+#include <array>
+
 #include "scope.hpp"
 #include "compiler.hpp"
+#include "module.hpp"
 
 namespace plc {
 
-llvm::Function *buildScopeFunction(llvm::LLVMContext & llvmContext, llvm::Module & module) {
-	static auto nullaryVoidFuncType = llvm::FunctionType::get(llvm::Type::getVoidTy(llvmContext), std::vector<llvm::Type*>(), false);
-	return llvm::Function::Create(nullaryVoidFuncType, llvm::Function::ExternalLinkage, "", &module);
+llvm::Value * buildConcreteValue(module * module) {
+	std::vector<llvm::Type*> elements;
+	llvm::StructType* llvm_scope_type = llvm::StructType::get(llvmContext, llvm::ArrayRef<llvm::Type*>(elements));
+	std::vector<llvm::Constant*> initial_values;
+	auto initial_value = llvm::ConstantStruct::get(llvm_scope_type, llvm::ArrayRef<llvm::Constant*>(initial_values));
+	return new llvm::GlobalVariable(module->get_llvm_module(), llvm_scope_type, false, llvm::GlobalValue::InternalLinkage, initial_value);	
 }
 
-scope::scope(source_code const & source_ptr, scope & parent, llvm::LLVMContext & llvmContext, llvm::Module & module) :
-		concrete_value(buildScopeFunction(llvmContext, module)),
+scope::scope(source_code const & source_ptr, scope & parent, module * m) :
+		concrete_value(buildConcreteValue(m)),
 		source_ptr(&source_ptr),
-		parent(&parent)
+		parent(&parent),
+		m(m)
 {}
-
-scope::scope(llvm::Function* llvmFunction) :
-		concrete_value(llvmFunction),
-		source_ptr(nullptr),
-		parent(nullptr)
-{}
-
-llvm::Function& scope::getLLVMFunction() const {
-	return *static_cast<llvm::Function*>(underlying.get());
-}
 
 }
