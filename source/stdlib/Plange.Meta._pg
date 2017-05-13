@@ -67,6 +67,10 @@ return {
 		}
 	;
 
+	Module <- type {
+		throw NotImplementedException();
+	};
+
 	NaturalValue <- type {
 		<Type> t;
 	};
