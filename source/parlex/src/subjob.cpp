@@ -57,11 +57,14 @@ void subjob::on(context_ref const & c, recognizer const & r, int nextDfaState) {
 }
 
 void subjob::accept(context_ref const & c) {
+	int len = c.current_document_position() - c.owner().document_position;
+	if (!len) {
+		return;
+	}
 	assert(&c.owner() == this);
 	permutation p = c.result();
 	//DBG("Accepting r:", r.id, " p:", documentPosition, " l:", c.current_document_position() - documentPosition);
 	if (!machine.filter) {
-		int len = c.current_document_position() - c.owner().document_position;
 		enque_permutation(len, p);
 	} else {
 		std::unique_lock<std::mutex> lock(mutex);

@@ -11,7 +11,6 @@ public:
 	not_double_quote_t();
 	virtual ~not_double_quote_t() = default;
 	bool test(std::u32string const & document, size_t documentPosition) const override final;
-	size_t get_length() const override final;
 };
 
 }

@@ -7,34 +7,22 @@
 namespace parlex {
 namespace details {
 
-any_character_t::any_character_t() : terminal("any_character") {}
+any_character_t::any_character_t() : terminal("any_character", 1) {}
 
 bool any_character_t::test(std::u32string const & document, size_t documentPosition) const {
 	return true;
 }
 
-size_t any_character_t::get_length() const {
-	return 1;
-}
-
-not_double_quote_t::not_double_quote_t() : terminal("not_double_quote") {}
+not_double_quote_t::not_double_quote_t() : terminal("not_double_quote", 1) {}
 
 bool not_double_quote_t::test(std::u32string const & document, size_t documentPosition) const {
 	return document[documentPosition] == U'"';
 }
 
-size_t not_double_quote_t::get_length() const {
-	return 1;
-}
-
-not_newline_t::not_newline_t() : terminal("not_newline") {}
+not_newline_t::not_newline_t() : terminal("not_newline", 1) {}
 
 bool not_newline_t::test(std::u32string const & document, size_t documentPosition) const {
 	return document[documentPosition] != U'\n';
-}
-
-size_t not_newline_t::get_length() const {
-	return 1;
 }
 
 } //namespace details
@@ -52,18 +40,10 @@ details::any_character_t any_character;
 details::not_double_quote_t not_double_quote;
 details::not_newline_t not_newline;
 
-string_terminal::string_terminal(std::u32string const & s) : terminal(to_utf8(s)), s(s), length(s.length()) {}
+string_terminal::string_terminal(std::u32string const & s) : terminal(to_utf8(s), s.length()), s(s) {}
 
 bool string_terminal::test(std::u32string const & document, size_t const documentPosition) const {
 	return document.compare(documentPosition, length, s) == 0;
-}
-
-size_t string_terminal::get_length() const {
-	return length;
-}
-
-std::string string_terminal::get_id() const {
-	return id;
 }
 
 std::u32string string_terminal::get_content() const {
