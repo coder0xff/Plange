@@ -14,7 +14,7 @@ public:
 	std::shared_ptr<abstract_value> const value;
 	bool const isVariable;
 	bool const isLocal;
-	//is unbound if !constant && !isVariable
+	//is unbound if isVariable && value.get() == nullptr
 
 	symbol(std::u32string const & name, std::shared_ptr<abstract_value> const & value, bool isVariable, bool isLocal = true);
 	symbol & operator=(symbol const & other) = delete;
