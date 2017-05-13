@@ -4,7 +4,7 @@
 #include <llvm/IR/Constants.h>
 #include "utils.hpp"
 
-plc::module::module(std::vector<std::reference_wrapper<source_code const>> sources) : sources(sources), llvm_module("module", llvmContext)
+plc::module::module(std::vector<std::reference_wrapper<source_code const>> sources) : sources(sources), llvm_module("module", llvmContext), global(*this, nullptr, nullptr)
 {
 }
 

@@ -379,4 +379,34 @@ void compile(std::vector<std::reference_wrapper<source_code const>> sources) {
 	*/
 
 }
+
+compiler::compiler() : c_std_lib_source(__FILE__ "../../stdlib/Plange.CStdLib._pg")
+{
+
+}
+
+
+
+void compiler::inject_c_std_lib(module & m)
+{
+	std::shared_ptr<scope> cStdLibScope(new scope(m, &c_std_lib_source, &m.global));
+
+	auto cStdLibTopStatementScopeParts = c_std_lib_source.get_parts(c_std_lib_source.asg.root);
+	for (auto const& topStatementScopePart : cStdLibTopStatementScopeParts) {
+		if (&topStatementScopePart.r == &plc::STATEMENT) {
+			auto statementParts = c_std_lib_source.get_parts(topStatementScopePart);
+			auto firstStatementPart = statementParts[0];
+			if (&firstStatementPart.r == &plc::TYPE_CONSTRAINT) {
+				auto typeContraintParts = c_std_lib_source.get_parts(firstStatementPart);
+				auto typeContraintHeadPart = typeContraintParts[0];
+
+			}
+		}
+	}
+
+	symbol cStdLib(U"CStdLib", cStdLibScope, false);
+	bool didAddSymbol = m.global.add_symbol(cStdLib);
+	assert(didAddSymbol);
+}
+
 }
