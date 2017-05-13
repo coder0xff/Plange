@@ -1,4 +1,4 @@
-#include "concrete_value.hpp"
+#include "natural_value.hpp"
 
 #include <memory>
 
@@ -6,7 +6,7 @@
 
 namespace plc {
 
-std::map<std::string, std::unique_ptr<abstract_value>> concrete_value::get_constrained_symbols() const
+std::map<std::string, std::unique_ptr<analytic_value>> concrete_value::get_constrained_symbols() const
 {
 	ERROR(NotImplemented, "");
 }

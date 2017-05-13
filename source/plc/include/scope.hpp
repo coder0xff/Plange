@@ -9,9 +9,9 @@
 
 #include "source_code.hpp"
 #include "statement.hpp"
-#include "abstract_value.hpp"
+#include "analytic_value.hpp"
 #include "symbol.hpp"
-#include "concrete_value.hpp"
+#include "natural_value.hpp"
 
 namespace plc {
 
