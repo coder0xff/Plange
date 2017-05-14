@@ -1,3 +1,6 @@
+#ifndef BEHAVIOR_HPP
+#define BEHAVIOR_HPP
+
 #include <memory>
 
 #include "parlex/details/nfa.hpp"
@@ -24,7 +27,7 @@ std::string to_dot(intermediate_nfa const & nfa);
 class behavior_node {
 public:
 	std::string tag;
-
+	virtual std::vector<std::shared_ptr<behavior_node>> get_children() = 0;
 protected:
 	~behavior_node();
 
@@ -38,6 +41,7 @@ public:
 
 	virtual recognizer const & get_recognizer(std::map<std::string, state_machine> const & productions, std::map<std::u32string, builtins::string_terminal> & literals) const = 0;
 	virtual std::string get_id() const = 0;
+	std::vector<std::shared_ptr<behavior_node>> get_children() override;
 };
 
 class choice : public behavior_node {
@@ -46,6 +50,7 @@ public:
 
 	std::vector<std::shared_ptr<behavior_node>> children;
 	intermediate_nfa to_intermediate_nfa() const override;
+	std::vector<std::shared_ptr<behavior_node>> get_children() override;
 };
 
 class literal : public behavior_leaf {
@@ -64,6 +69,7 @@ public:
 	std::shared_ptr<behavior_node> child;
 	explicit optional(std::shared_ptr<behavior_node> && child);
 	intermediate_nfa to_intermediate_nfa() const override;
+	std::vector<std::shared_ptr<behavior_node>> get_children() override;
 };
 
 class production : public behavior_leaf {
@@ -82,6 +88,7 @@ public:
 	std::shared_ptr<behavior_node> child;
 	explicit repetition(std::shared_ptr<behavior_node> && child);
 	intermediate_nfa to_intermediate_nfa() const override;
+	std::vector<std::shared_ptr<behavior_node>> get_children() override;
 };
 
 class sequence : public behavior_node {
@@ -90,7 +97,10 @@ public:
 
 	std::vector<std::shared_ptr<behavior_node>> children;
 	intermediate_nfa to_intermediate_nfa() const override;
+	std::vector<std::shared_ptr<behavior_node>> get_children() override;
 };
 
 }
 }
+
+#endif BEHAVIOR_HPP

@@ -8,6 +8,7 @@
 #include "parlex/builtins.hpp"
 #include "parlex/details/behavior.hpp"
 #include "utils.hpp"
+#include <queue>
 
 namespace parlex {
 
@@ -229,6 +230,38 @@ namespace parlex {
 			}
 		}
 	}
+
+std::string grammar::hierarchy_dot(std::map<std::string, production_def> const & productions) {
+	std::set<std::pair<std::string, std::string>> arrows;
+	for (auto const & pair: productions) {
+		auto const & name = pair.first;
+		auto const & tree = pair.second.tree;
+		std::queue<std::shared_ptr<details::behavior_node>> descendentsQueue;
+		for (auto const & child : tree->get_children()) {
+			descendentsQueue.push(child);
+		}
+		while (descendentsQueue.size() > 0) {
+			auto const & descendent = descendentsQueue.front();
+			descendentsQueue.pop();
+			auto const & asProduction = std::dynamic_pointer_cast<details::production>(descendent);
+			if (asProduction != nullptr) {
+				arrows.insert(make_pair(name, asProduction->name));
+			} else {
+				for (auto const & subDescendent: descendent->get_children()) {
+					descendentsQueue.push(subDescendent);
+				}
+
+			}
+		}
+	}
+	std::stringstream result;
+	result << "digraph nfa {" << std::endl;
+	for (auto const & arrow : arrows) {
+		result << arrow.first << " -> " << arrow.second << std::endl;
+	}
+	result << "}" << std::endl;
+	return result.str();
+}
 
 	state_machine_base const & grammar::get_main_production() const {
 		auto i = productions.find(main_production_name);

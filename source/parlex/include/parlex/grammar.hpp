@@ -37,6 +37,7 @@ public:
 	state_machine & add_production(std::string id, size_t startState, size_t acceptStateCount, filter_function const * filter, associativity assoc = none);
 	builtins::string_terminal & add_literal(std::u32string contents);
 	std::map<std::u32string, builtins::string_terminal> const & get_literals() const;
+	static std::string hierarchy_dot(std::map<std::string, production_def> const & productions);
 private:
 	std::string main_production_name;
 	std::map<std::string, state_machine> productions;
