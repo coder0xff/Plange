@@ -120,6 +120,10 @@ ASSIGNMENT_CHAIN:
             <pre>a ← b ← c;</pre>
         </div>
 
+ATTRIBUTE:
+    syntax: >
+        "@" {IC} EXPRESSION {IC} "@"
+
 BIJECTION:
     syntax: >
         EXPRESSION {IC} ("↔"|"<->") {IC} EXPRESSION
@@ -679,13 +683,11 @@ FREE:
 
 FUNCTION_MODIFIER_0:
     syntax: >
-        (FUNCTION_MODIFIER_STABILITY|FUNCTION_MODIFIER_1) {IC}
-    doc: >
-        The FUNCTION_MODIFIER_* rules model: ["stable" | "unstable"] ["no_throw"] ["atomic"] {PLATFORM} ["pure"|"imperative"|"opaque"] with the caveat that there has to be an IC between any modifier and the next (if there is a next)
+        FUNCTION_MODIFIER_STABILITY|FUNCTION_MODIFIER_1
 
 FUNCTION_MODIFIER_1:
     syntax: >
-        FUNCTION_MODIFIER_NO_THROW|FUNCTION_MODIFIER_2
+        FUNCTION_MODIFIER_THROWING|FUNCTION_MODIFIER_2
         
 FUNCTION_MODIFIER_2:
     syntax: >
@@ -697,7 +699,9 @@ FUNCTION_MODIFIER_3:
     
 FUNCTION_MODIFIER_4:
     syntax: >
-        FUNCTION_MODIFIER_MODEL|FUNCTION_MODIFIER_CALLING_CONVENTION        
+        FUNCTION_MODIFIER_MODEL|FUNCTION_MODIFIER_CALLING_CONVENTION   
+    see:
+        - FUNCTION
 
 FUNCTION_MODIFIER_ATOMIC:
     syntax: >
@@ -711,10 +715,6 @@ FUNCTION_MODIFIER_MODEL:
     syntax: >
         %model("pure" | "imperative" | "opaque") [ICR FUNCTION_MODIFIER_CALLING_CONVENTION]
 
-FUNCTION_MODIFIER_NO_THROW:
-    syntax: >
-        $"no_throw" [ICR FUNCTION_MODIFIER_2]
-
 FUNCTION_MODIFIER_PLATFORM:
     syntax: >
         PLATFORM {ICR PLATFORM} [ICR FUNCTION_MODIFIER_4]
@@ -723,14 +723,20 @@ FUNCTION_MODIFIER_STABILITY:
     syntax: >
         %stability("stable" | "unstable") [ICR FUNCTION_MODIFIER_1]
 
+FUNCTION_MODIFIER_THROWING:
+    syntax: >
+        $"throwing" [{IC} ARRAY] [ICR FUNCTION_MODIFIER_2]
+
 FUNCTION:
     syntax: >
-        [ "(" {IC} [ $PARAMETER {{IC} "," {IC} $PARAMETER} {IC} ] ")" {IC} ] [FUNCTION_MODIFIER_0] $BLOCK
+        [ "(" {IC} [ $PARAMETER {{IC} "," {IC} $PARAMETER} {IC} ] ")" {IC} ] [FUNCTION_MODIFIER_0 {IC}] $BLOCK
     precedes: [CAST]
     doc: >
         creates a function
-    notes: >
+    notes: |
         Function objects are invoked using the invocation syntax.
+        
+        The FUNCTION_MODIFIER_* rules model: ["stable" | "unstable"] ["throwing" | "throwing []" | "throwing [type0, type1]"] ["atomic"] {PLATFORM} ["pure"|"imperative"|"opaque"] with the caveat that there has to be an IC between any modifier and the next (if there is a next)
 
         The atomic, pure, imperative, and opaque keywords influence assumptions that the compiler may make regarding a functions implementation. The pure keyword indicates that the implementation uses only pull semantics, is idempotent, and has no side effects. Additionally, only constants can be read, which includes value (not by reference/pointer values) passed as formal parameters. Any violation of these constraints causes an error to occur. The imperative keyword indicates that the implementation is likely not tractable, and it may interact with memory or hardware in unknown ways. Without either pure or imperative, the implementation is assumed to be push-pull and tractable. If the tool chain determines that this is not the case, it will fall back to imperative behavior. Pure functions are implicitly atomic.
     examples:
@@ -1413,7 +1419,7 @@ TYPE_CONSTRAINT_CHAIN:
 
 TYPE_CONSTRAINT_HEAD:
     syntax: >
-        [$XML_DOC_STRING {IC}] [$VISIBILITY_MODIFIER {IC}] [$"static" {IC}] [$"extern" {IC}] %type_dereference(TYPE_DEREFERENCE | VOLATILE_TYPE_DEREFERENCE | IMPLICIT_TYPE_DEREFERENCE | VOLATILE_IMPLICIT_TYPE_DEREFERENCE)
+        [$XML_DOC_STRING {IC}] {ATTRIBUTE {IC}} [$VISIBILITY_MODIFIER {IC}] [$"static" {IC}] [$"extern" {IC}] %type_dereference(TYPE_DEREFERENCE | VOLATILE_TYPE_DEREFERENCE | IMPLICIT_TYPE_DEREFERENCE | VOLATILE_IMPLICIT_TYPE_DEREFERENCE)
 
 TYPE_DEREFERENCE:
     syntax: >
