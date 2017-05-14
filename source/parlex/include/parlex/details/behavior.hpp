@@ -22,6 +22,9 @@ typedef nfa<std::shared_ptr<const behavior_leaf>, int> intermediate_nfa;
 std::string to_dot(intermediate_nfa const & nfa);
 
 class behavior_node {
+public:
+	std::string tag;
+
 protected:
 	~behavior_node();
 

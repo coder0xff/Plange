@@ -21,10 +21,10 @@ PARENTHETICAL = "[" EXPRESSION "]"
               | "(" EXPRESSION ")"
               | "{" EXPRESSION "}" .
 
-TAG           = "$" IDENTIFIER
+TAG           = "%" IDENTIFIER
 
-FACTOR        = IDENTIFIER
-              | LITERAL
+FACTOR        = ["$"] IDENTIFIER
+              | ["$"] LITERAL
               | [TAG] PARENTHETICAL
 
 */
