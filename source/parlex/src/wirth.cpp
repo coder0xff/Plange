@@ -116,8 +116,10 @@ int build() {
 	factorDfa.add_transition(2, parlex::builtins::c_string, 3);
 
 	identifierDfa.add_transition(0, parlex::builtins::letter, 1);
+	identifierDfa.add_transition(0, underscore, 1);
 	identifierDfa.add_transition(1, parlex::builtins::letter, 1);
 	identifierDfa.add_transition(1, underscore, 1);
+	identifierDfa.add_transition(1, parlex::builtins::decimal_digit, 1);
 
 	parlex::builtins::wirth.add_precedence(factorDfa, factorDfa);
 
@@ -298,7 +300,10 @@ grammar load_grammar(std::string const & nameOfMain, std::map<std::string, wirth
 	for (auto const & entry : productions) {
 		production_def def;
 		auto asg = p.parse(builtins::wirth, expressionDfa, entry.second.definition);
-		auto test = asg.to_dot(); //TODO: Make sure this is commented out
+		if (!asg.is_rooted()) {
+			throw std::exception("could not parse expression");
+		}
+		//auto test = asg.to_dot(); //TODO: Make sure this is commented out
 		def.tree = process_expression(entry.second.definition, asg.root, asg, literalNodes, productionNodes);
 		def.assoc = entry.second.assoc;
 		def.precedences = entry.second.precedences;
