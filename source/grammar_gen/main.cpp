@@ -26,6 +26,7 @@ int main(int argc, const char* argv[]) {
 	std::string workingDir = argv[1];
 	std::string filename = workingDir + "/syntax.yml";
 	std::ifstream ifs(filename, std::ios::binary);
+	assert(ifs);
 	std::u32string syntaxYaml = read_with_bom(ifs);
 	YAML::Node spec = YAML::Load(to_utf8(syntaxYaml));
 	std::map<std::string, parlex::wirth_production_def> defs;
