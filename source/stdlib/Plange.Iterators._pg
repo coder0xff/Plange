@@ -1,6 +1,6 @@
 return {
 	IndexableCollectionIterator <- 
-		type inheriting Iterator{
+		type inheriting Iterator {
 		}
 	;
 

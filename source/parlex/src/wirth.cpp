@@ -108,12 +108,12 @@ int build() {
 
 	factorDfa.add_transition(0, identifierDfa, 3);
 	factorDfa.add_transition(0, parlex::builtins::c_string, 3);
+	factorDfa.add_transition(0, dollarSign, 1);
+	factorDfa.add_transition(1, identifierDfa, 3);
+	factorDfa.add_transition(1, parlex::builtins::c_string, 3);
 	factorDfa.add_transition(0, parentheticalDfa, 3);
-	factorDfa.add_transition(0, tagDfa, 1);
-	factorDfa.add_transition(1, parentheticalDfa, 3);
-	factorDfa.add_transition(0, dollarSign, 2);
-	factorDfa.add_transition(2, identifierDfa, 3);
-	factorDfa.add_transition(2, parlex::builtins::c_string, 3);
+	factorDfa.add_transition(0, tagDfa, 2);
+	factorDfa.add_transition(2, parentheticalDfa, 3);
 
 	identifierDfa.add_transition(0, parlex::builtins::letter, 1);
 	identifierDfa.add_transition(0, underscore, 1);
@@ -170,14 +170,11 @@ std::shared_ptr<parlex::details::behavior_node> process_factor(std::u32string do
 	}
 
 	if (&i->r == &tagDfa) {
-		auto const & sub = *asg.permutations.find(*i)->second.begin();
+		parlex::permutation const& q = *asg.permutations.find(*i)->second.begin();
+		parlex::match const& j = q[1];
 		++i;
-		tag = to_utf8(document.substr(sub[1].document_position, sub[1].consumed_character_count));
-		assert(&i->r == &parentheticalDfa);
-	}
-
-	if (&i->r == &whiteSpaceDfa) {
-		++i;
+		assert(&j.r == &identifierDfa);
+		tag = to_utf8(document.substr(j.document_position, j.consumed_character_count));
 	}
 
 	std::shared_ptr<parlex::details::behavior_node> result;
@@ -294,7 +291,7 @@ grammar load_grammar(std::string const & nameOfMain, std::u32string const & docu
 grammar load_grammar(std::string const & nameOfMain, std::map<std::string, wirth_production_def> const & productions) {
 	ensure_c_string_present();
 	parser p;
-	std::map<std::string, production_def> temp;
+	std::map<std::string, production_def> trees;
 	std::map<std::u32string, std::shared_ptr<details::literal>> literalNodes;
 	std::map<std::string, std::shared_ptr<details::production>> productionNodes;
 	for (auto const & entry : productions) {
@@ -308,9 +305,10 @@ grammar load_grammar(std::string const & nameOfMain, std::map<std::string, wirth
 		def.assoc = entry.second.assoc;
 		def.precedences = entry.second.precedences;
 		def.filter = entry.second.filter;
-		temp[entry.first] = def;
+		trees[entry.first] = def;
 	}
-	return grammar(nameOfMain, temp);
+	auto test = grammar::hierarchy_dot(trees);
+	return grammar(nameOfMain, trees);
 }
 
 }

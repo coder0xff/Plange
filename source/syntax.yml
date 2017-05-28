@@ -60,9 +60,13 @@ ARRAY:
     syntax: >
         "[" {IC} [$EXPRESSION {{IC} "," {IC} $EXPRESSION} {IC} ] "]"
 
+ARRAY_INDEXER:
+    syntax: >
+        {IC} (ARGUMENT|ARGUMENT_PACK|SLICE)
+
 ARRAY_INVOCATION:
     syntax: >
-        EXPRESSION "[" %indexer[{IC} (ARGUMENT|ARGUMENT_PACK|SLICE)] {{IC} "," %indexer[{IC} (ARGUMENT|ARGUMENT_PACK|SLICE)]} {IC} "]"
+        EXPRESSION "[" [$ARRAY_INDEXER] {{IC} "," [$ARRAY_INDEXER]} {IC} "]"
 
 ASM_EXPRESSION:
     syntax: >
@@ -534,7 +538,7 @@ EMBEDDED_STRING_INTERIOR:
 
 END_OF_LINE_COMMENT:
     syntax: >
-        "//" %content{not_newline} "\n"
+        "//" {not_newline} "\n"
 
 ENUM:
     syntax: >
@@ -709,7 +713,7 @@ FUNCTION_MODIFIER_ATOMIC:
 
 FUNCTION_MODIFIER_CALLING_CONVENTION:
     syntax: >
-        %calling_convention("c_call" | "fast_call" | "cold_call" | "ghc_call" | "hipe_call" | "webkit_js_call" | "any_reg_call" | "preserve_most_call" | "preserve_all_call" | "swift_call" | "cxx_fast_tls_call" | "first_target_call" | "x86_std_call" | "X86_fast_call" | "arm_apcs_call" | "arm_aapcs_call" | "arm_aapcs_vfp_call" | "msp430_intr_call" | "x86_this_call" | "ptx_kernel_call" | "ptx_device_call" | "spir_func_call" | "spir_kernel_call" | "intel_ocl_bi_call" | "x86_64_sysv_call" | "x86_64_win64_call" | "x86_vector_call" | "hhvm_call" | "x86_intr_call" | "avr_intr_call" | "avr_signal_call" | "avr_builtin_call")
+        "c_call" | "fast_call" | "cold_call" | "ghc_call" | "hipe_call" | "webkit_js_call" | "any_reg_call" | "preserve_most_call" | "preserve_all_call" | "swift_call" | "cxx_fast_tls_call" | "first_target_call" | "x86_std_call" | "X86_fast_call" | "arm_apcs_call" | "arm_aapcs_call" | "arm_aapcs_vfp_call" | "msp430_intr_call" | "x86_this_call" | "ptx_kernel_call" | "ptx_device_call" | "spir_func_call" | "spir_kernel_call" | "intel_ocl_bi_call" | "x86_64_sysv_call" | "x86_64_win64_call" | "x86_vector_call" | "hhvm_call" | "x86_intr_call" | "avr_intr_call" | "avr_signal_call" | "avr_builtin_call"
 
 FUNCTION_MODIFIER_MODEL:
     syntax: >
@@ -1167,7 +1171,7 @@ PARENTHETICAL_INVOCATION:
 
 PAYLOAD:
     syntax: >
-        %content{all}
+        all
     doc: >
         used in EMBEDDED_COMMENT, EMBEDDED_STRING
 

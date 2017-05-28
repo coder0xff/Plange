@@ -31,7 +31,9 @@ public:
     grammar(grammar const & other);
 	state_machine_base const & get_main_production() const override;
 	grammar& operator=(grammar const &) = delete;
-	void generate_cpp(std::string grammarName, std::string nameOfMain, std::ostream & cpp, std::ostream & hpp, std::string namespace_, std::string headerPathPrefix = "") const;
+	void generate_hpp(std::string grammarName, std::ostream & hpp, std::string namespace_, std::string upperCaseGrammarName) const;
+	void generate_representation(std::ostream & cpp);
+	void generate_cplusplus_code(std::string grammarName, std::string nameOfMain, std::ostream & cpp, std::ostream & hpp, std::string namespace_, std::string headerPathPrefix = "") const;
 	std::map<std::string, state_machine_base const *> get_productions() const override;
 	state_machine & add_production(std::string id, size_t startState, size_t acceptStateCount, associativity assoc = none);
 	state_machine & add_production(std::string id, size_t startState, size_t acceptStateCount, filter_function const * filter, associativity assoc = none);
@@ -40,6 +42,7 @@ public:
 	static std::string hierarchy_dot(std::map<std::string, production_def> const & productions);
 private:
 	std::string main_production_name;
+	std::map<std::string, production_def> definitions;
 	std::map<std::string, state_machine> productions;
 	std::map<std::u32string, builtins::string_terminal> literals;
 };

@@ -2,12 +2,12 @@ return {
 	Expression <- 
 		(<Type> T) {
 			return type inheriting Expression {
-				<Void -> Maybe<T>> concretion <- abstract;		
+				<Void -> Maybe<T>> naturalize <- abstract;		
 			}
 		}
 	|
 		type {
-			<Void -> Maybe<Any>> concretion <- abstract;
+			<Void -> Maybe<Any>> naturalize <- abstract;
 		}
 	;
 

@@ -1,6 +1,10 @@
 return {
 	Lock <- type {
 		<Mutex> mutex;
+		
+		construct <- () {
+			mutex.direct_lock();
+		}
 
 		destruct <- () {
 			mutex.direct_unlock();

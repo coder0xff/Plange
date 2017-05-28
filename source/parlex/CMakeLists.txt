@@ -31,6 +31,7 @@ set (HEADERS
 	"include/parlex/builder.hpp"
 	"include/parlex/builtins.hpp"
 	"include/parlex/compiled_grammar.hpp"
+	"include/parlex/document_representation.hpp"
 	"include/parlex/filter_function.hpp"
 	"include/parlex/grammar.hpp"
 	"include/parlex/grammar_base.hpp"
@@ -74,7 +75,7 @@ source_group("include\\details" FILES ${DETAILS_HEADERS})
 
 include_directories("include" "${PROJECT_SOURCE_DIR}/utilities")
 add_library(parlex ${SOURCES} ${HEADERS} ${BUILTINS_HEADERS} ${DETAILS_HEADERS})
-set_property(TARGET parlex PROPERTY CXX_STANDARD 11)
+set_property(TARGET parlex PROPERTY CXX_STANDARD 17)
 set_property(TARGET parlex PROPERTY CXX_STANDARD_REQUIRED ON)
 find_package (Threads)
 target_link_libraries(parlex utilities ${CMAKE_THREAD_LIBS_INIT})

@@ -70,5 +70,5 @@ int main(int argc, const char* argv[]) {
 	parlex::grammar g = load_grammar("STATEMENT_SCOPE", defs);
 	std::ofstream cppStream(workingDir + "/plc/src/plange_grammar.cpp");
 	std::ofstream hppStream(workingDir + "/plc/include/plange_grammar.hpp");
-	g.generate_cpp("plange", "STATEMENT_SCOPE", cppStream, hppStream, "plc");
+	g.generate_cplusplus_code("plange", "STATEMENT_SCOPE", cppStream, hppStream, "plc");
 }

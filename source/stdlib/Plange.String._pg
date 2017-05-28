@@ -1,5 +1,5 @@
 return type inheriting Array<Char32> {
-	<Text.Encoding -> Array<Byte>> to_bytes :=
+	<Text.Encoding -> Array<Byte>> get_bytes :=
 		(Text.Encoding.ASCII) {
 			return map((c) { return c < 128 ? ansi_ord("?") : c}, this);
 		}
