@@ -1,7 +1,10 @@
 #include "stdafx.hpp"
 
-#include "module.hpp"
+#pragma warning(push, 0)
 #include <llvm/IR/Constants.h>
+#pragma warning(pop)
+
+#include "module.hpp"
 #include "utils.hpp"
 
 plc::module::module(std::vector<std::reference_wrapper<source_code const>> sources) : sources(sources), llvm_module("module", llvmContext), global(*this, nullptr, nullptr)

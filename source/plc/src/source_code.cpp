@@ -1,6 +1,7 @@
 #include "source_code.hpp"
 
 #include <cassert>
+#include <fstream>
 
 #include "stdafx.hpp"
 #include "parlex/parser.hpp"
@@ -10,7 +11,6 @@
 
 #pragma warning(push, 0)
 #include <llvm/IR/Constants.h>
-#include <fstream>
 #pragma warning(pop)
 
 //filter super delimiters

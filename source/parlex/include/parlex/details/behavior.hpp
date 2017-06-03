@@ -103,4 +103,4 @@ public:
 }
 }
 
-#endif BEHAVIOR_HPP
+#endif //BEHAVIOR_HPP

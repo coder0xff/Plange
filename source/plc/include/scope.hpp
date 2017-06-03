@@ -22,7 +22,7 @@ public:
 	scope(module & m, source_code const * source, scope * parent);
 	~scope() = default;
 
-	module & const m;
+	module & m;
 	source_code const * const source; //will be null if Plange scope, at least while were in c++
 	scope * const parent;
 	std::vector<scope> children;

@@ -1,7 +1,5 @@
 #include <cassert>
 #include <fstream>
-#include <iostream>
-#include <sstream>
 #include <thread>
 #include <codecvt>
 
@@ -467,7 +465,9 @@ TEST(ParlexTest, compiled_1) {
 	std::string concreteDot = result.to_concrete_dot(document);
 }
 
+/*
 int main(int argc, char **argv) {
 	::testing::InitGoogleTest(&argc, argv);
 	return RUN_ALL_TESTS();
 }
+*/

@@ -1,9 +1,12 @@
 #ifndef NATURAL_VALUE_HPP
 #define NATURAL_VALUE_HPP
 
+#pragma warning(push, 0)
+#include <llvm/IR/Value.h>
+#pragma warning(pop)
+
 #include "analytic_value.hpp"
 
-#include <llvm/IR/Value.h>
 #include <memory>
 
 namespace plc {

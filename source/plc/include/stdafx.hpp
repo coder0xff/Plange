@@ -3,10 +3,12 @@
 
 #include <stdexcept>
 
+#pragma warning(push, 0)
+#include <llvm/IR/LLVMContext.h>
+#pragma warning(pop)
+
 #include "warnings.hpp"
 #include "errors.hpp"
-
-#include <llvm/IR/LLVMContext.h>
 
 #include "parlex/parser.hpp"
 

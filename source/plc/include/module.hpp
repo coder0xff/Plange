@@ -3,8 +3,10 @@
 
 #include <unordered_map>
 
+#pragma warning(push, 0)
 #include <llvm/IR/GlobalVariable.h>
 #include <llvm/IR/Module.h>
+#pragma warning(pop)
 
 #include "source_code.hpp"
 #include "scope.hpp"
