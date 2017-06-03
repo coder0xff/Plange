@@ -318,11 +318,11 @@ TEST(ParlexTest, wirth_test_3) {
 }
 
 TEST(ParlexTest, wirth_test_4) {
-	auto grammar = parlex::load_grammar("SYNTAX", to_utf32(wirthInItself), {}, {});
+	auto grammar = parlex::builtins::wirth.load_grammar("SYNTAX", to_utf32(wirthInItself), {}, {});
 }
 
 TEST(ParlexTest, wirth_test_5) {
-	auto grammar = parlex::load_grammar("SYNTAX", U"SYNTAX = \"a\".", {}, {});
+	auto grammar = parlex::builtins::wirth.load_grammar("SYNTAX", U"SYNTAX = \"a\".", {}, {});
 	parlex::parser p;
 	parlex::abstract_syntax_graph result = p.parse(grammar, U"b");
 	if (result.is_rooted()) {
@@ -331,7 +331,7 @@ TEST(ParlexTest, wirth_test_5) {
 }
 
 TEST(ParlexTest, wirth_test_6) {
-	auto grammar = parlex::load_grammar("SYNTAX", U"SYNTAX = letter number.", {}, {});
+	auto grammar = parlex::builtins::wirth.load_grammar("SYNTAX", U"SYNTAX = letter number.", {}, {});
 	parlex::parser p;
 	parlex::abstract_syntax_graph result = p.parse(grammar, U"a1");
 	if (!result.is_rooted()) {
@@ -340,7 +340,7 @@ TEST(ParlexTest, wirth_test_6) {
 }
 
 TEST(ParlexTest, wirth_test_7) {
-	auto grammar = parlex::load_grammar("SYNTAX", U"SYNTAX = letter { number }.", {}, {});
+	auto grammar = parlex::builtins::wirth.load_grammar("SYNTAX", U"SYNTAX = letter { number }.", {}, {});
 	parlex::parser p;
 	parlex::abstract_syntax_graph result = p.parse(grammar, U"a1234");
 	if (!result.is_rooted()) {
@@ -349,7 +349,7 @@ TEST(ParlexTest, wirth_test_7) {
 }
 
 TEST(ParlexTest, wirth_test_8) {
-	auto grammar = parlex::load_grammar("SYNTAX", U"SYNTAX = letter [ number ].", {}, {});
+	auto grammar = parlex::builtins::wirth.load_grammar("SYNTAX", U"SYNTAX = letter [ number ].", {}, {});
 	parlex::parser p;
 	parlex::abstract_syntax_graph result1 = p.parse(grammar, U"a");
 	if (!result1.is_rooted()) {
@@ -362,7 +362,7 @@ TEST(ParlexTest, wirth_test_8) {
 }
 
 TEST(ParlexTest, wirth_test_9) {
-	auto grammar = parlex::load_grammar("SYNTAX", U"SYNTAX = letter ( number | c_string ).", {}, {});
+	auto grammar = parlex::builtins::wirth.load_grammar("SYNTAX", U"SYNTAX = letter ( number | c_string ).", {}, {});
 	parlex::parser p;
 	parlex::abstract_syntax_graph result1 = p.parse(grammar, U"a1");
 	if (!result1.is_rooted()) {
@@ -375,7 +375,7 @@ TEST(ParlexTest, wirth_test_9) {
 }
 
 TEST(ParlexTest, wirth_test_10) {
-	auto grammar = parlex::load_grammar("ARRAY", U"\
+	auto grammar = parlex::builtins::wirth.load_grammar("ARRAY", U"\
 ARRAY = \"[\" {IC} [EXPRESSION {{IC} \", \" {IC} EXPRESSION} {IC} ] \"]\".\
 IC = \"IC\".\
 EXPRESSION = \"EXPRESSION\".", {}, {});
@@ -387,7 +387,7 @@ EXPRESSION = \"EXPRESSION\".", {}, {});
 }
 
 TEST(ParlexTest, wirth_test_11) {
-	auto grammar = parlex::load_grammar("STATEMENT_SCOPE", U"\
+	auto grammar = parlex::builtins::wirth.load_grammar("STATEMENT_SCOPE", U"\
 STATEMENT_SCOPE = {IC | STATEMENT}. \
 IC = \"IC\".\
 STATEMENT = \"STATEMENT\".", {}, {});
