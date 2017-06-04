@@ -1,6 +1,5 @@
 #include "source_code.hpp"
 
-#include <cassert>
 #include <fstream>
 
 #include "stdafx.hpp"
@@ -167,7 +166,7 @@ std::pair<int, int> plc::source_code::get_line_number_and_column(int charIndex) 
 	{
 		return std::make_pair(i->second, 0);
 	}
-	assert(i != line_number_by_first_character.begin());
+	throw_assert(i != line_number_by_first_character.begin());
 	--i;
 	return std::make_pair(i->second, charIndex - i->first);
 }
@@ -175,7 +174,7 @@ std::pair<int, int> plc::source_code::get_line_number_and_column(int charIndex) 
 parlex::permutation plc::source_code::get_parts(parlex::match const& m) const
 {
 	auto i = asg.permutations.find(m);
-	assert(i != asg.permutations.end());
+	throw_assert(i != asg.permutations.end());
 	return *i->second.begin();
 }
 

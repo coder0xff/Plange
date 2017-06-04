@@ -251,3 +251,9 @@ void debugger() {
 	raise(SIGTRAP);
 #endif
 }
+
+void throw_assert(bool pass) {
+	if (!pass) {
+		throw std::runtime_error("failed assert");
+	}
+}

@@ -188,7 +188,7 @@ std::shared_ptr<behavior_node> wirth_t::process_factor(std::u32string document, 
 		permutation const& q = *asg.permutations.find(*i)->second.begin();
 		match const& j = q[1];
 		++i;
-		assert(&j.r == &identifierDfa);
+		throw_assert(&j.r == &identifierDfa);
 		tag = to_utf8(document.substr(j.document_position, j.consumed_character_count));
 	}
 

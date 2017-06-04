@@ -3,6 +3,8 @@
 
 #include <string>
 
+void throw_assert(bool pass);
+
 std::string to_utf8(const std::u16string &s);
 std::string to_utf8(const std::u32string &s);
 std::u16string to_utf16(const std::string &s);

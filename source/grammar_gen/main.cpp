@@ -9,7 +9,6 @@
 
 #include <yaml-cpp/yaml.h>
 #include "utils.hpp"
-#include <cassert>
 #include <fstream>
 #include <iostream>
 #include "parlex/builtins.hpp"
@@ -22,11 +21,11 @@ inline std::string trim(std::string str)
 }
 
 int main(int argc, const char* argv[]) {
-	assert(argc == 2);
+	throw_assert(argc == 2);
 	std::string workingDir = argv[1];
 	std::string filename = workingDir + "/syntax.yml";
 	std::ifstream ifs(filename, std::ios::binary);
-	assert(ifs);
+	throw_assert(bool(ifs));
 	std::u32string syntaxYaml = read_with_bom(ifs);
 	YAML::Node spec = YAML::Load(to_utf8(syntaxYaml));
 	std::map<std::string, parlex::details::wirth_production_def> defs;

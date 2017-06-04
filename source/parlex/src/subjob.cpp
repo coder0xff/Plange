@@ -1,7 +1,5 @@
-#include <string>
-#include <cassert>
-
 #include "parlex/details/subjob.hpp"
+
 #include "parlex/details/context.hpp"
 #include "parlex/details/job.hpp"
 #include "parlex/recognizer.hpp"
@@ -61,7 +59,7 @@ void subjob::accept(context_ref const & c) {
 	if (!len) {
 		return;
 	}
-	assert(&c.owner() == this);
+	throw_assert(&c.owner() == this);
 	permutation p = c.result();
 	//DBG("Accepting r:", r.id, " p:", documentPosition, " l:", c.current_document_position() - documentPosition);
 	if (!machine.filter) {
@@ -95,7 +93,7 @@ void subjob::finish_creation() {
 
 void subjob::increment_lifetime() {
 	int temp = ++lifetimeCounter;
-	assert(temp > 1);
+	throw_assert(temp > 1);
 	//DBG("increment_lifetime m:", machine, " b:", documentPosition, " r:", temp);
 }
 
