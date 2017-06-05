@@ -88,6 +88,16 @@
 					<td>documentation</td>
 					<td>dependency graphs</td>
 				</tr>
+				<tr>
+					<td></td>
+					<td></td>
+					<td>instrumentation</td>
+				</tr>
+				<tr>
+					<td></td>
+					<td></td>
+					<td>profiling</td>
+				</tr>
 			</tbody>
 		</table>
 		<p>See also: <a href="/goals/strongly-connected-model-of-computation.php">Strongly Connected Model Of Computation</a></p>
