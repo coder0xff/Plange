@@ -1,7 +1,9 @@
 #include "parlex/abstract_syntax_graph.hpp"
+
+#include <queue>
+
 #include "parlex/recognizer.hpp"
 #include "utils.hpp"
-#include <queue>
 
 namespace parlex {
 

@@ -1,8 +1,8 @@
 #ifndef BUILDER_HPP
 #define BUILDER_HPP
 
-#include "parlex/state_machine_base.hpp"
-#include "parlex/compiled_grammar.hpp"
+#include "state_machine_base.hpp"
+#include "compiled_grammar.hpp"
 #include "parlex/details/string_terminal.hpp"
 
 #define DECLARE_DFA(name) \

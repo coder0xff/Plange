@@ -3,8 +3,8 @@
 
 #include <map>
 
-#include "parlex/state_machine.hpp"
-#include "parlex/precedence_collection.hpp"
+#include "state_machine.hpp"
+#include "precedence_collection.hpp"
 
 namespace parlex {
 

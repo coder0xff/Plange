@@ -21,7 +21,7 @@ class builtins_t {
 public:
 	using string_terminal = details::string_terminal;
 
-	builtins_t(parser const & p);
+	builtins_t(parser & p);
 	static void progress_bar(int done, int outOf);
 
 	filter_function longest;

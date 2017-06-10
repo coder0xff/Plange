@@ -1,7 +1,7 @@
 #ifndef TERMINAL_HPP
 #define TERMINAL_HPP
 
-#include "parlex/recognizer.hpp"
+#include "recognizer.hpp"
 
 namespace parlex {
 namespace details {

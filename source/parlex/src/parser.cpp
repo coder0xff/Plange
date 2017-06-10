@@ -6,10 +6,8 @@
 #include "parlex/details/job.hpp"
 #include "parlex/details/context.hpp"
 #include "parlex/permutation.hpp"
-#include "parlex/state_machine.hpp"
 #include "parlex/details/producer.hpp"
 #include "parlex/post_processor.hpp"
-#include "parlex/details/c_string.hpp"
 
 //#include "logging.hpp"
 //#include "perf_timer.hpp"
@@ -398,12 +396,12 @@ bool associativity_test(node_props_t & a, node_props_t & b) {
 	}
 	associativity const assoc = dynamic_cast<state_machine_base const *>(&a.m.r)->assoc;
 	switch (assoc) {
-	case left:
-	case any:
+	case associativity::left:
+	case associativity::any:
 		return a.m.document_position < b.m.document_position;
-	case right:
+	case associativity::right:
 		return a.m.document_position > b.m.document_position;
-	case none:
+	case associativity::none:
 		return false;
 	}
 	throw std::domain_error("Invalid associativity value");
@@ -491,7 +489,7 @@ abstract_syntax_graph & apply_precedence_and_associativity(grammar_base const & 
 	throw_assert(asg.is_rooted());
 	bool anyAssociativities = false;
 	for (auto const & entry : g.get_productions()) {
-		anyAssociativities = entry.second->assoc != none;
+		anyAssociativities = entry.second->assoc != associativity::none;
 	}
 
 	//short circuit if no rules are given

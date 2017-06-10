@@ -4,7 +4,6 @@
 #include "parlex/details/job.hpp"
 #include "parlex/recognizer.hpp"
 #include "parlex/parser.hpp"
-#include "parlex/state_machine.hpp"
 
 namespace parlex {
 namespace details {

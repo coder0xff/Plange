@@ -10,7 +10,7 @@ namespace parlex {
 namespace details {
 	
 c_string_t::c_string_t(filter_function const & longest, terminal const & octal_digit, terminal const & hexadecimal_digit) :
-	state_machine("c_string", 0, 1, longest, none),
+	state_machine("c_string", 0, 1, longest, associativity::none),
 	backslash(to_utf32("\\")),
 	double_quote(to_utf32("\"")),
 	x(to_utf32("x")),

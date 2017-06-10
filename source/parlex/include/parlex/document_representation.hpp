@@ -5,7 +5,7 @@
 #include <memory>
 #include <vector>
 
-#include "details/behavior.hpp"
+#include "parlex/details/behavior.hpp"
 
 namespace parlex {
 

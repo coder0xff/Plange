@@ -1,5 +1,3 @@
-
-
 #include "parlex/compiled_grammar.hpp"
 
 namespace parlex {

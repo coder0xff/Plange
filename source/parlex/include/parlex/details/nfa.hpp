@@ -1,13 +1,13 @@
 ﻿#ifndef NFA_H
 #define NFA_H
 
-#include <set>
 #include <map>
+#include <set>
+#include <string>
 #include <vector>
-#include <assert.h>
 
 #include "parlex/details/auto_map.hpp"
-#include <string>
+#include "utils.hpp"
 
 namespace parlex {
 namespace details {
@@ -116,7 +116,7 @@ namespace details {
 			state_indices_t transition_function_extended(state_indices_t fromStateIndices, alphabet_t input) const {
 				std::set<int> result;
 				for (size_t fromStateIndex : fromStateIndices) {
-					assert(fromStateIndex < states.size());
+					throw_assert(fromStateIndex < states.size());
 					auto i = states[fromStateIndex].out_transitions.find(input);
 					if (i != states[fromStateIndex].out_transitions.end()) {
 						for (int toStateIndex : i->second) {

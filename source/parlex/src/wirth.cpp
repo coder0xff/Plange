@@ -1,14 +1,154 @@
 #include "parlex/details/wirth.hpp"
 
-#include "parlex/parser.hpp"
-#include "parlex/details/behavior.hpp"
-
 #include "parlex/builtins.hpp"
+#include "parlex/details/behavior.hpp"
+#include "parlex/parser.hpp"
 #include "utils.hpp"
+#include "parlex/grammar2.hpp"
 
 namespace parlex {
 
 namespace details {
+
+static recognizer const & find_recognizer(grammar2 const & g, std::string const & id) {
+	recognizer const * builtin_ptr;
+	if (g.builtins.resolve_builtin(id, builtin_ptr)) {
+		return *builtin_ptr;
+	}
+	auto i = g.productions.find(id);
+	throw_assert(i != g.productions.end());
+	return i->second.state_machine;
+}
+
+erased<behavior2::node> wirth_t::process_factor2(std::u32string const & document, match const & factor, abstract_syntax_graph const & asg, grammar2 & g)
+{
+	permutation const & p = *asg.permutations.find(factor)->second.begin();
+	auto i = p.begin();
+	std::string tag;
+	if (&i->r == &dollarSign) {
+		++i;
+		if (&i->r == &identifierDfa) {
+			tag = to_utf8(document.substr(i->document_position, i->consumed_character_count));
+		}
+		else if (&i->r == &g.builtins.c_string) {
+			tag = to_utf8(g.builtins.c_string.extract(document, *i, asg));
+		}
+		else {
+			throw;
+		}
+	}
+
+	if (&i->r == &tagDfa) {
+		permutation const& q = *asg.permutations.find(*i)->second.begin();
+		match const& j = q[1];
+		++i;
+		throw_assert(&j.r == &identifierDfa);
+		tag = to_utf8(document.substr(j.document_position, j.consumed_character_count));
+	}
+
+	std::unique_ptr<erased<behavior2::node>> result;
+	auto set = [&result](erased<behavior2::node> const & node) { result.reset(new erased<behavior2::node>(node)); };
+	if (&i->r == &identifierDfa) {
+		std::string name = to_utf8(document.substr(i->document_position, i->consumed_character_count));
+		set(behavior2::leaf(find_recognizer(g, name)));
+	}
+	else if (&i->r == &g.builtins.c_string) {
+		std::u32string text = g.builtins.c_string.extract(document, *i, asg);
+		set(behavior2::leaf(g.get_or_add_literal(text)));
+	}
+	else if (&i->r == &parentheticalDfa) {
+		permutation const & q = *asg.permutations.find(*i)->second.begin();
+		auto j = q.begin();
+		auto parenthetical_type = &j->r;
+		while (&j->r != &expressionDfa) {
+			++j;
+		}
+		if (parenthetical_type == &openSquare) {
+			set(process_expression2(document, *j, asg, g));
+		}
+		else if (parenthetical_type == &openCurly) {
+			set(process_expression2(document, *j, asg, g));
+		}
+		else if (parenthetical_type == &openParen) {
+			set(process_expression2(document, *j, asg, g));
+		}
+		else {
+			throw;
+		}
+	}
+	else {
+		throw;
+	}
+
+	if (tag != "") {
+		(*result)->tag = tag;
+	}
+	return *result;
+}
+
+erased<behavior2::node> wirth_t::process_term2(std::u32string const & document, match const & term, abstract_syntax_graph const & asg, grammar2 & g)
+{
+	std::vector<match> factors;
+
+	permutation const & p = *(*asg.permutations.find(term)).second.begin();
+	for (match const & entry : p) {
+		if (&entry.r == &factorDfa) {
+			factors.push_back(entry);
+		}
+	}
+	if (factors.size() == 1) {
+		return process_factor2(document, factors[0], asg, g);
+	}
+	behavior2::sequence result;
+	for (match const & factor : factors) {
+		result.add_child(process_factor2(document, factor, asg, g));
+	}
+	return result;
+}
+
+erased<behavior2::node> wirth_t::process_expression2(std::u32string const & document, match const & expression, abstract_syntax_graph const & asg, grammar2 & g)
+{
+	std::vector<match> terms;
+
+	permutation const & p = *(*asg.permutations.find(expression)).second.begin();
+	for (match const & entry : p) {
+		if (&entry.r == &termDfa) {
+			terms.push_back(entry);
+		}
+	}
+	if (terms.size() == 1) {
+		return process_term2(document, terms[0], asg, g);
+	}
+	behavior2::choice result;
+	for (match const & term : terms) {
+		result.add_child(process_term2(document, term, asg, g));
+	}
+	return result;
+}
+
+erased<behavior2::node> wirth_t::compile_source(std::u32string const & source, grammar2 & g) {
+	auto asg = p.parse(this->g, expressionDfa, source);
+	if (!asg.is_rooted()) {
+		throw std::exception("could not parse expression");
+	}
+	//auto test = asg.to_dot(); //TODO: Make sure this is commented out
+	return process_expression2(source, asg.root, asg, g);
+
+}
+
+grammar2 wirth_t::load_grammar2(std::string const & nameOfMain, std::map<std::string, definition> const & definitions) {
+	grammar2 result(p.builtins, nameOfMain);
+	for (auto const & definitionEntry : definitions) {
+		std::string const & name = definitionEntry.first;
+		definition const & def = definitionEntry.second;
+		erased<behavior2::node> behavior = compile_source(def.source, result);
+		auto res = result.productions.emplace(std::piecewise_construct, make_tuple(name), make_tuple(name, behavior, def.filter, def.assoc));
+		if (!res.second) {
+			throw std::exception(("duplicate production ID " + name).c_str());
+		}
+	}
+	return result;
+}
 
 grammar wirth_t::load_grammar(std::string const & nameOfMain, std::u32string const & document, std::map<std::string, associativity> const & associativities, std::set<std::string> const & longestNames)
 {
@@ -33,7 +173,7 @@ grammar wirth_t::load_grammar(std::string const & nameOfMain, std::u32string con
 	return grammar(g.builtins, nameOfMain, trees, associativities, longestNames);
 }
 
-grammar wirth_t::load_grammar(std::string const & nameOfMain, std::map<std::string, production_def> const & productions)
+grammar wirth_t::load_grammar(std::string const & nameOfMain, std::map<std::string, definition> const & productions)
 {
 	parser p;
 	std::map<std::string, grammar::production_def> trees;
@@ -41,12 +181,12 @@ grammar wirth_t::load_grammar(std::string const & nameOfMain, std::map<std::stri
 	std::map<std::string, std::shared_ptr<production>> productionNodes;
 	for (auto const & entry : productions) {
 		grammar::production_def def;
-		auto asg = p.parse(g, expressionDfa, entry.second.definition);
+		auto asg = p.parse(g, expressionDfa, entry.second.source);
 		if (!asg.is_rooted()) {
 			throw std::exception("could not parse expression");
 		}
 		//auto test = asg.to_dot(); //TODO: Make sure this is commented out
-		def.tree = process_expression(entry.second.definition, asg.root, asg, literalNodes, productionNodes);
+		def.tree = process_expression(entry.second.source, asg.root, asg, literalNodes, productionNodes);
 		def.assoc = entry.second.assoc;
 		def.precedences = entry.second.precedences;
 		def.filter = entry.second.filter;
@@ -84,7 +224,7 @@ std::shared_ptr<behavior_node> wirth_t::get_or_add_literal(std::map<std::u32stri
 	return l;
 }
 
-wirth_t::wirth_t(parser const & p) : grammar_base(p.builtins), p(p), g(p.builtins, "root"),
+wirth_t::wirth_t(parser & p) : grammar_base(p.builtins), p(p), g(p.builtins, "root"),
 	newline(g.add_literal(U"\n")),
 	hash(g.add_literal(U"#")),
 	period(g.add_literal(U".")),

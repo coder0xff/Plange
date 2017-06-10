@@ -77,7 +77,7 @@ grammar::grammar(builtins_t const & builtins, std::string const & nameOfMain, st
 	for (auto const & nameAndDfa : reorderedDfas) {
 		std::string const & name = nameAndDfa.first;
 		details::intermediate_nfa const & dfa = nameAndDfa.second;
-		associativity assoc = none;
+		associativity assoc = associativity::none;
 		auto const & i = associativities.find(name);
 		if (i != associativities.end()) {
 			assoc = i->second;
@@ -206,7 +206,7 @@ grammar::grammar(grammar const & other) : grammar_base(other), main_production_n
 			emplaceResult = productions.emplace(
 				std::piecewise_construct,
 				forward_as_tuple(name),
-				forward_as_tuple(name, sm.accept_state_count, sm.assoc));
+				forward_as_tuple(name, sm.start_state, sm.accept_state_count, sm.assoc));
 		}
 		recognizersMap[static_cast<recognizer const *>(&sm)] = static_cast<recognizer const *>(&emplaceResult.first->second);
 	}
@@ -432,16 +432,16 @@ void grammar::generate_cplusplus_code(builtins_t const & builtins, std::string g
 
 		std::string associativityString = "parlex::associativity::";
 		switch (sm.assoc) {
-			case none:
+			case associativity::none:
 				associativityString += "none";
 				break;
-			case any:
+			case associativity::any:
 				associativityString += "any";
 				break;
-			case left:
+			case associativity::left:
 				associativityString += "left";
 				break;
-			case right:
+			case associativity::right:
 				associativityString += "right";
 				break;
 			default:

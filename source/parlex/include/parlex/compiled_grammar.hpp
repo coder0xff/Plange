@@ -1,7 +1,7 @@
 #ifndef COMPILED_GRAMMAR_HPP
 #define COMPILED_GRAMMAR_HPP
 
-#include "parlex/grammar_base.hpp"
+#include "grammar_base.hpp"
 
 namespace parlex {
 

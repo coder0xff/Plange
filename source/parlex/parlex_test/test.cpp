@@ -3,13 +3,13 @@
 #include <codecvt>
 
 #include "gtest/gtest.h"
-#include "parlex/abstract_syntax_graph.hpp"
-#include "parlex/builtins.hpp"
-#include "parlex/parser.hpp"
-#include "parlex/state_machine.hpp"
-#include "parlex/builder.hpp"
+#include "abstract_syntax_graph.hpp"
+#include "builtins.hpp"
+#include "parser.hpp"
+#include "state_machine.hpp"
+#include "builder.hpp"
 #include "utils.hpp"
-#include "parlex/compiled_grammar.hpp"
+#include "compiled_grammar.hpp"
 
 TEST(ParlexTest, parser_test_1) {
 	//DBG("************ parser_test_1 ************");

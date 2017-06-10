@@ -117,7 +117,7 @@ std::map<std::string, recognizer const *> builtins_t::generate_lookup_table() co
 }
 
 
-builtins_t::builtins_t(parser const & p) : longest(new std::function<std::set<int>(std::u32string const & /*document*/, std::list<permutation> const &)>(longest_f)), c_string(longest, octal_digit, hexadecimal_digit), recognizer_table(generate_lookup_table()), wirth(p) {
+builtins_t::builtins_t(parser & p) : longest(new std::function<std::set<int>(std::u32string const & /*document*/, std::list<permutation> const &)>(longest_f)), c_string(longest, octal_digit, hexadecimal_digit), recognizer_table(generate_lookup_table()), wirth(p) {
 
 }
 

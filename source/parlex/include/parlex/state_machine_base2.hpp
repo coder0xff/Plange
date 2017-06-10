@@ -1,5 +1,5 @@
-#ifndef STATE_MACHINE_BASE_HPP
-#define STATE_MACHINE_BASE_HPP
+#ifndef STATE_MACHINE_BASE2_HPP
+#define STATE_MACHINE_BASE2_HPP
 
 #include "recognizer.hpp"
 #include "filter_function.hpp"
@@ -18,14 +18,13 @@ class parser;
 //simulates a dfa
 //State 0 is the start state
 //States from N-a to N-1 are the accept states, where N is states.size() and a is accept_state_count
-class state_machine_base : public recognizer {
+class state_machine_base2 : public recognizer {
 public:
-	state_machine_base(std::string const & id, size_t startState, associativity assoc = associativity::none);
-	state_machine_base(std::string const & id, size_t startState, filter_function filter, associativity assoc = associativity::none);
-	virtual ~state_machine_base() = default;
-	int const start_state;
-	filter_function filter;
-	associativity const assoc;
+	state_machine_base2(std::string const & id);
+	virtual ~state_machine_base2() = default;
+	virtual int get_start_state() const = 0;
+	virtual filter_function get_filter() const = 0;
+	virtual associativity get_assoc() const = 0;
 protected:
 	friend class parser;
 	friend class details::subjob;
@@ -36,6 +35,6 @@ protected:
 	static void accept(details::context_ref const & c);
 };
 
-}
+} // namespace parlex
 
-#endif
+#endif // STATE_MACHINE_BASE2_HPP

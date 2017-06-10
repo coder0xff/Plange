@@ -2,7 +2,7 @@
 #define ASSOCIATIVITY_H
 
 namespace parlex {
-	enum associativity {
+	enum class associativity {
 		none,
 		any,
 		left,

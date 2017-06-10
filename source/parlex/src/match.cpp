@@ -1,7 +1,7 @@
 #include "parlex/match.hpp"
 
-#include "utils.hpp"
 #include "parlex/recognizer.hpp"
+#include "utils.hpp"
 
 namespace parlex {
 

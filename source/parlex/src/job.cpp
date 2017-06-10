@@ -5,7 +5,6 @@
 #include "parlex/details/context.hpp"
 #include "parlex/parser.hpp"
 #include "parlex/token.hpp"
-#include "parlex/grammar.hpp"
 #include "logging.hpp"
 
 namespace parlex {

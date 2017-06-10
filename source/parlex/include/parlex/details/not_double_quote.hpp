@@ -1,7 +1,7 @@
 #ifndef NOT_DOUBLE_QUOTE_HPP
 #define NOT_DOUBLE_QUOTE_HPP
 
-#include "parlex/terminal.hpp"
+#include "terminal.hpp"
 
 namespace parlex {
 namespace details {

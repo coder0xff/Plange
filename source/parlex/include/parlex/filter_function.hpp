@@ -3,11 +3,10 @@
 
 #include <functional>
 #include <set>
-#include <string>
 #include <list>
 #include <memory>
 
-#include "parlex/permutation.hpp"
+#include "permutation.hpp"
 
 namespace parlex {
 	//a function that takes a vector of permutations and returns

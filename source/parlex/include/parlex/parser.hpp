@@ -6,12 +6,11 @@
 #include <atomic>
 #include <queue>
 
-#include "parlex/abstract_syntax_graph.hpp"
-#include "parlex/grammar.hpp"
-#include "parlex/post_processor.hpp"
+#include "abstract_syntax_graph.hpp"
+#include "post_processor.hpp"
 
 #include "parlex/details/context.hpp"
-#include "parlex/builtins.hpp"
+#include "builtins.hpp"
 
 namespace parlex {
 namespace details {

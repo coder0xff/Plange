@@ -5,9 +5,8 @@
 #include <sstream>
 #include <string>
 
-#include "parlex/state_machine.hpp"
-#include "parlex/builtins.hpp"
 #include "utils.hpp"
+#include "parlex/builtins.hpp"
 
 namespace parlex {
 namespace details {
