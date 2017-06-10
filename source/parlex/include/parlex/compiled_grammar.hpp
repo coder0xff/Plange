@@ -4,11 +4,13 @@
 #include "parlex/grammar_base.hpp"
 
 namespace parlex {
-	
-class compiled_grammar : public grammar_base {
-	
+
+class builtins_t;
+
+class compiled_grammar final : public grammar_base {
 public:
 	compiled_grammar(
+		builtins_t const & builtins,
 		state_machine_base const & main,
 		std::vector<std::reference_wrapper<state_machine_base const>> productions,
 		std::vector<std::pair<std::reference_wrapper<state_machine_base const>, std::reference_wrapper<state_machine_base const>>> precedences

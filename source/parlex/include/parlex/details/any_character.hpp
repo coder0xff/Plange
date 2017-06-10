@@ -13,13 +13,7 @@ public:
 	bool test(std::u32string const & document, size_t documentPosition) const override final;
 };
 
-}
-
-namespace builtins {
-	extern details::any_character_t any_character;
-}
-
-}
-
+} // namespace details
+} // namespace parlex
 
 #endif

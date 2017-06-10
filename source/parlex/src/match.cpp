@@ -1,6 +1,6 @@
-#include <cassert>
-
 #include "parlex/match.hpp"
+
+#include "utils.hpp"
 #include "parlex/recognizer.hpp"
 
 namespace parlex {
@@ -34,6 +34,6 @@ bool match::operator==(match const & rhs) const
 	return !(*this != rhs);
 }*/
 
-match::match(struct match_class const & matchClass, int consumedCharacterCount) : match_class(matchClass), consumed_character_count(consumedCharacterCount) { assert(consumedCharacterCount >= 0); }
+match::match(struct match_class const & matchClass, int consumedCharacterCount) : match_class(matchClass), consumed_character_count(consumedCharacterCount) { throw_assert(consumedCharacterCount >= 0); }
 
 }

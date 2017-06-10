@@ -4,17 +4,13 @@
 #include <memory>
 
 #include "parlex/details/nfa.hpp"
+#include "parlex/details/string_terminal.hpp"
 #include "parlex/recognizer.hpp"
 
 namespace parlex {
+class builtins_t;
 
 class state_machine;
-
-namespace builtins {
-
-class string_terminal;
-
-}
 
 namespace details {
 
@@ -39,7 +35,7 @@ class behavior_leaf : public behavior_node, public std::enable_shared_from_this<
 public:
 	virtual ~behavior_leaf();
 
-	virtual recognizer const & get_recognizer(std::map<std::string, state_machine> const & productions, std::map<std::u32string, builtins::string_terminal> & literals) const = 0;
+	virtual recognizer const & get_recognizer(builtins_t const & builtins, std::map<std::string, state_machine> const & productions, std::map<std::u32string, string_terminal> & literals) const = 0;
 	virtual std::string get_id() const = 0;
 	std::vector<std::shared_ptr<behavior_node>> get_children() override;
 };
@@ -58,7 +54,7 @@ public:
 	std::u32string contents;
 	explicit literal(std::u32string contents);
 	intermediate_nfa to_intermediate_nfa() const override;
-	recognizer const & get_recognizer(std::map<std::string, state_machine> const & productions, std::map<std::u32string, builtins::string_terminal> & literals) const final;
+	recognizer const & get_recognizer(builtins_t const & builtins, std::map<std::string, state_machine> const & productions, std::map<std::u32string, string_terminal> & literals) const override final;
 	std::string get_id() const final;
 };
 
@@ -77,8 +73,9 @@ public:
 	std::string name;
 	explicit production(std::string name);
 	intermediate_nfa to_intermediate_nfa() const override;
-	recognizer const & get_recognizer(std::map<std::string, state_machine> const & productions, std::map<std::u32string, builtins::string_terminal> & literals) const override;
+	
 	std::string get_id() const final;
+	recognizer const & get_recognizer(builtins_t const & builtins, std::map<std::string, state_machine> const & productions, std::map<std::u32string, string_terminal> & literals) const override;
 };
 
 class repetition : public behavior_node {

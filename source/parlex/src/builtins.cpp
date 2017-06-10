@@ -2,24 +2,26 @@
 #include <mutex>
 
 #include "parlex/builtins.hpp"
-#include "utils.hpp"
 
 namespace parlex {
 namespace details {
 
-any_character_t::any_character_t() : terminal("any_character", 1) {}
+any_character_t::any_character_t() : terminal("any_character", 1) {
+}
 
 bool any_character_t::test(std::u32string const & document, size_t documentPosition) const {
 	return true;
 }
 
-not_double_quote_t::not_double_quote_t() : terminal("not_double_quote", 1) {}
+not_double_quote_t::not_double_quote_t() : terminal("not_double_quote", 1) {
+}
 
 bool not_double_quote_t::test(std::u32string const & document, size_t documentPosition) const {
 	return document[documentPosition] == U'"';
 }
 
-not_newline_t::not_newline_t() : terminal("not_newline", 1) {}
+not_newline_t::not_newline_t() : terminal("not_newline", 1) {
+}
 
 bool not_newline_t::test(std::u32string const & document, size_t documentPosition) const {
 	return document[documentPosition] != U'\n';
@@ -27,30 +29,7 @@ bool not_newline_t::test(std::u32string const & document, size_t documentPositio
 
 } //namespace details
 
-namespace builtins {
-
-void progress_bar(int done, int outOf) {
-	static std::mutex m;
-	std::unique_lock<std::mutex> lock(m);
-	int ticks = done * 25 / outOf;
-	std::cout << "\r[" << std::string(ticks, '*') << std::string(25 - ticks, ' ') << "]";
-}
-
-details::any_character_t any_character;
-details::not_double_quote_t not_double_quote;
-details::not_newline_t not_newline;
-
-string_terminal::string_terminal(std::u32string const & s) : terminal(to_utf8(s), s.length()), s(s) {}
-
-bool string_terminal::test(std::u32string const & document, size_t const documentPosition) const {
-	return document.compare(documentPosition, length, s) == 0;
-}
-
-std::u32string string_terminal::get_content() const {
-	return s;
-}
-
-filter_function longest = [](std::u32string document, std::list<permutation> const & permutations) {
+std::set<int> builtins_t::longest_f(std::u32string document, std::list<permutation> const & permutations) {
 	int selectedSize = 0;
 	for (permutation const & p : permutations) {
 		int len = p.size() > 0 ? p.back().document_position + p.back().consumed_character_count - p.front().document_position : 0;
@@ -68,120 +47,85 @@ filter_function longest = [](std::u32string document, std::list<permutation> con
 		counter++;
 	}
 	return result;
-};
+}
 
-details::all_t all;
-details::alphanumeric_t alphanumeric;
-details::close_punctuation_t close_punctuation;
-details::connector_punctuation_t connector_punctuation;
-details::control_t control;
-details::currency_symbol_t currency_symbol;
-details::dash_punctuation_t dash_punctuation;
-details::decimal_digit_t decimal_digit;
-details::enclosing_mark_t enclosing_mark;
-details::final_quote_punctuation_t final_quote_punctuation;
-details::format_t format;
-details::hexadecimal_digit_t hexadecimal_digit;
-details::initial_quote_punctuation_t initial_quote_punctuation;
-details::latin_digit_t latin_digit;
-details::letter_number_t letter_number;
-details::letter_t letter;
-details::line_separator_t line_separator;
-details::lowercase_letter_t lowercase_letter;
-details::math_symbol_t math_symbol;
-details::modifier_letter_t modifier_letter;
-details::modifier_symbol_t modifier_symbol;
-details::nonspacing_mark_t nonspacing_mark;
-details::number_t number;
-details::octal_digit_t octal_digit;
-details::open_punctuation_t open_punctuation;
-details::other_letter_t other_letter;
-details::other_number_t other_number;
-details::other_punctuation_t other_punctuation;
-details::other_symbol_t other_symbol;
-details::paragraph_separator_t paragraph_separator;
-details::printable_t printable;
-details::public_use_t public_use;
-details::space_separator_t space_separator;
-details::spacing_combining_mark_t spacing_combining_mark;
-details::surrogate_t surrogate;
-details::titlecase_letter_t titlecase_letter;
-details::uppercase_letter_t uppercase_letter;
-details::white_space_t white_space;
-details::white_space_control_t white_space_control;
-
-std::map<std::string, recognizer *> const & get_builtins_table() {
-	static std::map<std::string, recognizer *> result;
-	if (result.size() == 0) {
-		recognizer * table_initializer[] = {
-			&all,
-			&any_character,
-			&alphanumeric,
-			&c_string,
-			&close_punctuation,
-			&connector_punctuation,
-			&control,
-			&currency_symbol,
-			&dash_punctuation,
-			&decimal_digit,
-			&enclosing_mark,
-			&final_quote_punctuation,
-			&format,
-			&octal_digit,
-			&hexadecimal_digit,
-			&initial_quote_punctuation,
-			&latin_digit,
-			&letter_number,
-			&letter,
-			&line_separator,
-			&lowercase_letter,
-			&not_double_quote,
-			&not_newline,
-			&math_symbol,
-			&modifier_letter,
-			&modifier_symbol,
-			&nonspacing_mark,
-			&number,
-			&open_punctuation,
-			&other_letter,
-			&other_number,
-			&other_punctuation,
-			&other_symbol,
-			&paragraph_separator,
-			&printable,
-			&public_use,
-			&space_separator,
-			&spacing_combining_mark,
-			&surrogate,
-			&titlecase_letter,
-			&uppercase_letter,
-			&white_space,
-			&white_space_control
-		};
-
-		unsigned int count = sizeof(table_initializer) / sizeof(*table_initializer);
-		for (unsigned int i = 0; i < count; ++i) {
-			recognizer * item = table_initializer[i];
-			std::string const name = item->id;
-			result[name] = item;
-		}
+bool builtins_t::resolve_builtin(std::string const & name, recognizer const *& ptr) const {
+	auto i = recognizer_table.find(name);
+	if (i == recognizer_table.end()) {
+		return false;
 	}
+	ptr = i->second;
+	return true;
+}
+
+std::map<std::string, recognizer const *> builtins_t::generate_lookup_table() const {
+	std::map<std::string, recognizer const *> result;
+	recognizer const * table_initializer[] = {
+		&all,
+		&any_character,
+		&alphanumeric,
+		&c_string,
+		&close_punctuation,
+		&connector_punctuation,
+		&control,
+		&currency_symbol,
+		&dash_punctuation,
+		&decimal_digit,
+		&enclosing_mark,
+		&final_quote_punctuation,
+		&format,
+		&octal_digit,
+		&hexadecimal_digit,
+		&initial_quote_punctuation,
+		&latin_digit,
+		&letter_number,
+		&letter,
+		&line_separator,
+		&lowercase_letter,
+		&not_double_quote,
+		&not_newline,
+		&math_symbol,
+		&modifier_letter,
+		&modifier_symbol,
+		&nonspacing_mark,
+		&number,
+		&open_punctuation,
+		&other_letter,
+		&other_number,
+		&other_punctuation,
+		&other_symbol,
+		&paragraph_separator,
+		&printable,
+		&public_use,
+		&space_separator,
+		&spacing_combining_mark,
+		&surrogate,
+		&titlecase_letter,
+		&uppercase_letter,
+		&white_space,
+		&white_space_control
+	};
+
+	unsigned int count = sizeof(table_initializer) / sizeof(*table_initializer);
+	for (unsigned int i = 0; i < count; ++i) {
+		recognizer const * item = table_initializer[i];
+		std::string const name = item->id;
+		result[name] = item;
+	}
+
 	return result;
 }
 
-bool resolve_builtin(std::string const & name, recognizer const *& ptr)
-{
-	static std::map<std::string, recognizer *> builtins_table = get_builtins_table();
-	auto i = builtins_table.find(name);
-	if (i == builtins_table.end()) {
-		return false;
-	}
-	else {
-		ptr = i->second;
-		return true;
-	}
+
+builtins_t::builtins_t(parser const & p) : longest(new std::function<std::set<int>(std::u32string const & /*document*/, std::list<permutation> const &)>(longest_f)), c_string(longest, octal_digit, hexadecimal_digit), recognizer_table(generate_lookup_table()), wirth(p) {
+
 }
 
-} //namespace builtins
+void builtins_t::progress_bar(int done, int outOf) {
+	static std::mutex m;
+	std::unique_lock<std::mutex> lock(m);
+	int ticks = done * 25 / outOf;
+	std::cout << "\r[" << std::string(ticks, '*') << std::string(25 - ticks, ' ') << "]";
 }
 
+}

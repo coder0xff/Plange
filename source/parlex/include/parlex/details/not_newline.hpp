@@ -15,11 +15,6 @@ public:
 
 }
 
-namespace builtins {
-
-extern details::not_newline_t not_newline;
-
-}
 }
 
 #endif

@@ -1,8 +1,9 @@
-#include <cassert>
+#include "parlex/details/context.hpp"
+
 #include <csignal>
 #include <iostream>
 
-#include "parlex/details/context.hpp"
+#include "utils.hpp"
 #include "parlex/details/subjob.hpp"
 #include "logging.hpp"
 
@@ -34,14 +35,14 @@ context::context(subjob & owner, context_ref const & prior, int documentPosition
  currentDocumentPosition(documentPosition),
  fromTransition(fromTransition != nullptr ? new match(*fromTransition) : nullptr), rc(*new context_ref_counter(this))
 {
-	assert(&owner);
-	assert(!prior.is_null() == (fromTransition != nullptr));
+	throw_assert(&owner);
+	throw_assert(!prior.is_null() == (fromTransition != nullptr));
 	//DBG("constructed context ", id);
 }
 
 context::~context() {
 	context* self = rc.c.exchange(nullptr);
-	assert(self);
+	throw_assert(self);
 	rc.dec();
 	//DBG("descructed context ", id);
 }
@@ -102,34 +103,34 @@ bool context_ref::is_null() const {
 }
 
 subjob & context_ref::owner() const {
-	assert(rc);
+	throw_assert(rc);
     //DBG("Dereferencing ref:", id, " to c:",rc->id);
 	context* temp = rc->c;
-	assert(temp);
+	throw_assert(temp);
 	return temp->owner;
 }
 
 context_ref const & context_ref::prior() const {
-	assert(rc);
+	throw_assert(rc);
     //DBG("Dereferencing ref:", id, " to c:",rc->id);
 	context* temp = rc->c;
-	assert(temp);
+	throw_assert(temp);
 	return temp->prior;
 }
 
 size_t context_ref::current_document_position() const {
-	assert(rc);
+	throw_assert(rc);
     //DBG("Dereferencing ref:", id, " to c:",rc->id);
 	context* temp = rc->c;
-	assert(temp);
+	throw_assert(temp);
 	return temp->currentDocumentPosition;
 }
 
 std::unique_ptr<match> context_ref::from_transition() const {
-	assert(rc);
+	throw_assert(rc);
     //DBG("Dereferencing ref:", id, " to c:",rc->id);
 	context* temp = rc->c;
-	assert(temp);
+	throw_assert(temp);
 	if (temp->fromTransition) {
 		return std::unique_ptr<match>(new match(*temp->fromTransition));
 	}
@@ -137,9 +138,9 @@ std::unique_ptr<match> context_ref::from_transition() const {
 }
 
 std::vector<match> context_ref::result() const {
-	assert(rc);
+	throw_assert(rc);
 	context* temp = rc->c;
-	assert(temp);
+	throw_assert(temp);
 	return temp->result();
 }
 

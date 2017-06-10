@@ -7,8 +7,11 @@
 #include <queue>
 
 #include "parlex/abstract_syntax_graph.hpp"
-#include "grammar.hpp"
-#include "post_processor.hpp"
+#include "parlex/grammar.hpp"
+#include "parlex/post_processor.hpp"
+
+#include "parlex/details/context.hpp"
+#include "parlex/builtins.hpp"
 
 namespace parlex {
 namespace details {
@@ -31,6 +34,7 @@ public:
 	abstract_syntax_graph parse(grammar_base const & g, std::vector<post_processor> posts, std::u32string const & document);
 	abstract_syntax_graph parse(grammar_base const & g, std::u32string const & document);
 	void set_update_progress_handler(std::function<void(int /*done*/, int /*total*/)>);
+	builtins_t builtins;
 private:
 	friend class details::job;
 	friend class details::subjob;

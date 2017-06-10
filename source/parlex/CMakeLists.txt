@@ -47,18 +47,6 @@ set (HEADERS
 	"include/parlex/terminal.hpp"
 	"include/parlex/token.hpp")
 
-set (BUILTINS_HEADERS
-	"include/parlex/builtins/any_character.hpp"
-	"include/parlex/builtins/c_string.hpp"
-	"include/parlex/builtins/longest.hpp"
-	"include/parlex/builtins/not_double_quote.hpp"
-	"include/parlex/builtins/not_newline.hpp"
-	"include/parlex/builtins/progress_bar.hpp"
-	"include/parlex/builtins/set_terminal.hpp"
-	"include/parlex/builtins/string_terminal.hpp"
-	"include/parlex/builtins/unicode.hpp"
-	"include/parlex/builtins/wirth.hpp")
-
 set (DETAILS_HEADERS
 	"include/parlex/details/auto_map.hpp"
 	"include/parlex/details/behavior.hpp"
@@ -66,7 +54,14 @@ set (DETAILS_HEADERS
 	"include/parlex/details/job.hpp"
 	"include/parlex/details/nfa.hpp"
 	"include/parlex/details/producer.hpp"
-	"include/parlex/details/subjob.hpp")
+	"include/parlex/details/subjob.hpp"
+	"include/parlex/details/any_character.hpp"
+	"include/parlex/details/c_string.hpp"
+	"include/parlex/details/not_double_quote.hpp"
+	"include/parlex/details/not_newline.hpp"
+	"include/parlex/details/string_terminal.hpp"
+	"include/parlex/details/unicode.hpp"
+	"include/parlex/details/wirth.hpp")
 
 source_group("src" FILES ${SOURCES})
 source_group("include" FILES ${HEADERS})

@@ -1,6 +1,8 @@
 #ifndef STATE_MACHINE_HPP
 #define STATE_MACHINE_HPP
 
+#include <map>
+
 #include "parlex/recognizer.hpp"
 #include "parlex/filter_function.hpp"
 #include "parlex/associativity.hpp"
@@ -24,7 +26,7 @@ public:
 	size_t const accept_state_count; //must be greater than 0
 
 	state_machine(std::string id, size_t startState, size_t acceptStateCount, associativity assoc=none);
-	state_machine(std::string id, size_t startState, size_t acceptStateCount, filter_function const * filter, associativity assoc = none);
+	state_machine(std::string id, size_t startState, size_t acceptStateCount, filter_function const & filter, associativity assoc = none);
 	virtual ~state_machine() = default;
 	void add_transition(size_t fromState, recognizer const & recognizer, size_t toState);
 	typedef std::vector<std::map<std::reference_wrapper<recognizer const>, size_t, details::recognizer_reference_comparer>> states_t;

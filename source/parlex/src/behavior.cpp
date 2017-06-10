@@ -1,19 +1,16 @@
 #include "parlex/details/behavior.hpp"
 
 #include <algorithm>
-#include <cassert>
 #include <iterator>
 #include <sstream>
 #include <string>
 
-#include "parlex/builtins/string_terminal.hpp"
 #include "parlex/state_machine.hpp"
 #include "parlex/builtins.hpp"
 #include "utils.hpp"
 
 namespace parlex {
 namespace details {
-
 
 std::vector<std::shared_ptr<behavior_node>> behavior_leaf::get_children() {
 	return {};
@@ -48,7 +45,7 @@ intermediate_nfa literal::to_intermediate_nfa() const {
 	return result;
 }
 
-recognizer const& literal::get_recognizer(std::map<std::string, state_machine> const &, std::map<std::u32string, builtins::string_terminal> & literals) const {
+recognizer const& literal::get_recognizer(builtins_t const & builtins, std::map<std::string, state_machine> const &, std::map<std::u32string, builtins_t::string_terminal> & literals) const {
 	auto i = literals.find(contents);
 	if (i == literals.end()) {
 		return literals.emplace(std::piecewise_construct, forward_as_tuple(contents), forward_as_tuple(contents)).first->second;
@@ -93,12 +90,12 @@ intermediate_nfa production::to_intermediate_nfa() const {
 	return result;
 }
 
-recognizer const& production::get_recognizer(std::map<std::string, state_machine> const & productions, std::map<std::u32string, builtins::string_terminal> &) const {
+recognizer const& production::get_recognizer(builtins_t const & builtins, std::map<std::string, state_machine> const & productions, std::map<std::u32string, builtins_t::string_terminal> &) const {
 	recognizer const * builtin_ptr;
-	if (builtins::resolve_builtin(name, builtin_ptr)) {
+	if (builtins.resolve_builtin(name, builtin_ptr)) {
 		return *builtin_ptr;
 	}
-	assert(productions.count(name) == 1);
+	throw_assert(productions.count(name) == 1);
 	recognizer const & result = productions.find(name)->second;
 	return result;
 }

@@ -1,10 +1,10 @@
-#include <cassert>
+#include "parlex/details/producer.hpp"
+
 #include <mutex>
 
 #include "parlex/details/job.hpp"
 #include "parlex/details/subjob.hpp"
 #include "parlex/parser.hpp"
-#include "parlex/details/producer.hpp"
 
 namespace parlex {
 namespace details {
@@ -52,7 +52,7 @@ void producer::enque_permutation(size_t consumedCharacterCount, permutation cons
 	bool newMatch = false;
 	{
 		std::unique_lock<std::mutex> lock(mutex);
-		assert(!completed);
+		throw_assert(!completed);
 		match m(match_class(r, document_position), consumedCharacterCount);
 		if (!match_to_permutations.count(m)) {
 			match_to_permutations[m] = std::set<permutation>();

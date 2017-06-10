@@ -19,16 +19,6 @@ namespace parlex {
 
 	}
 
-	namespace builtins {
-
-#define U32(name, condition) \
-		extern details::name##_t name;
-		
-#include "parlex/unicode.inc"
-
-#undef U32
-
-	}
 }
 
 #endif

@@ -13,11 +13,13 @@ std::map<std::string, state_machine_base const *> transform_productions(std::vec
 }
 
 compiled_grammar::compiled_grammar(
+		builtins_t const & builtins,
 		state_machine_base const & main,
 		std::vector<std::reference_wrapper<state_machine_base const>> productions,
 		std::vector<std::pair<std::reference_wrapper<state_machine_base const>,
 		std::reference_wrapper<state_machine_base const>>> precedences
 ) : 
+		grammar_base(builtins),
 		main(&main),
 		productions(transform_productions(productions))
 {

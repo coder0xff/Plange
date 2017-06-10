@@ -15,11 +15,6 @@ public:
 
 }
 
-namespace builtins {
-
-extern details::not_double_quote_t not_double_quote;
-
-}
 }
 
 #endif

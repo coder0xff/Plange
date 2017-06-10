@@ -2,6 +2,10 @@
 
 namespace parlex {
 
+
+grammar_base::grammar_base(builtins_t const & builtins) : builtins(builtins) {
+}
+
 void grammar_base::add_precedence(state_machine_base const & productionA, state_machine_base const & productionB) {
 	precedences[&productionA].insert(&productionB);
 }
@@ -14,7 +18,7 @@ bool grammar_base::test_precedence(state_machine_base const & productionA, state
 	return i->second.count(&productionB) > 0;
 }
 
-precedence_collection const & grammar_base::get_precedences() const {
+precedence_collection const& grammar_base::get_precedences() const {
 	return precedences;
 }
 

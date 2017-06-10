@@ -2,15 +2,18 @@
 #define FILTER_FUNCTION_HPP
 
 #include <functional>
+#include <set>
 #include <string>
+#include <list>
+#include <memory>
 
-#include "details/subjob.hpp"
 #include "parlex/permutation.hpp"
 
 namespace parlex {
 	//a function that takes a vector of permutations and returns
 	//the set of indices into the vector that are passed by the filter
-	typedef std::function<std::set<int> (std::u32string const & /*document*/, std::list<permutation> const &)> filter_function;
+	//shared_ptr because std::functions have no equality operator
+	typedef std::shared_ptr<std::function<std::set<int> (std::u32string const & /*document*/, std::list<permutation> const &)>> filter_function;
 }
 
 #endif

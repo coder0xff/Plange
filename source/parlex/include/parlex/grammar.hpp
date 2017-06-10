@@ -2,11 +2,13 @@
 #define GRAMMAR_HPP
 
 #include <map>
+#include <memory>
 #include <set>
 
 #include "parlex/state_machine.hpp"
-#include "parlex/builtins/string_terminal.hpp"
+#include "parlex/details/string_terminal.hpp"
 #include "grammar_base.hpp"
+#include <list>
 
 namespace parlex {
 
@@ -16,35 +18,37 @@ class behavior_node;
 
 }
 
-struct production_def {
-	std::shared_ptr<details::behavior_node> tree;
-	associativity assoc;
-	std::set<std::string> precedences;
-	filter_function const * filter;
-};
+class builtins_t;
 
-class grammar : public grammar_base {
+class grammar final: public grammar_base {
 public:
-	grammar(std::string const & nameOfMain);
-    grammar(std::string const & nameOfMain, std::map<std::string, std::shared_ptr<details::behavior_node>> const & trees, std::map<std::string, associativity> const & associativities, std::set<std::string> const & longestNames);
-    grammar(std::string const & nameOfMain, std::map<std::string, production_def> const & productions);
+	struct production_def {
+		std::shared_ptr<details::behavior_node> tree;
+		associativity assoc;
+		std::set<std::string> precedences;
+		filter_function filter;
+	};
+
+	grammar(builtins_t const & builtins, std::string const & nameOfMain);
+    grammar(builtins_t const & builtins, std::string const & nameOfMain, std::map<std::string, std::shared_ptr<details::behavior_node>> const & trees, std::map<std::string, associativity> const & associativities, std::set<std::string> const & longestNames);
+    grammar(builtins_t const & builtins, std::string const & nameOfMain, std::map<std::string, production_def> const & productions);
     grammar(grammar const & other);
 	state_machine_base const & get_main_production() const override;
 	grammar& operator=(grammar const &) = delete;
 	void generate_hpp(std::string grammarName, std::ostream & hpp, std::string namespace_, std::string upperCaseGrammarName) const;
 	void generate_representation(std::ostream & cpp);
-	void generate_cplusplus_code(std::string grammarName, std::string nameOfMain, std::ostream & cpp, std::ostream & hpp, std::string namespace_, std::string headerPathPrefix = "") const;
+	void generate_cplusplus_code(builtins_t const & builtins, std::string grammarName, std::string nameOfMain, std::ostream & cpp, std::ostream & hpp, std::string namespace_, std::string headerPathPrefix = "") const;
 	std::map<std::string, state_machine_base const *> get_productions() const override;
 	state_machine & add_production(std::string id, size_t startState, size_t acceptStateCount, associativity assoc = none);
-	state_machine & add_production(std::string id, size_t startState, size_t acceptStateCount, filter_function const * filter, associativity assoc = none);
-	builtins::string_terminal & add_literal(std::u32string contents);
-	std::map<std::u32string, builtins::string_terminal> const & get_literals() const;
+	state_machine & add_production(std::string id, size_t startState, size_t acceptStateCount, filter_function filter, associativity assoc = none);
+	details::string_terminal & add_literal(std::u32string contents);
+	std::map<std::u32string, details::string_terminal> const & get_literals() const;
 	static std::string hierarchy_dot(std::map<std::string, production_def> const & productions);
 private:
 	std::string main_production_name;
 	std::map<std::string, production_def> definitions;
 	std::map<std::string, state_machine> productions;
-	std::map<std::u32string, builtins::string_terminal> literals;
+	std::map<std::u32string, details::string_terminal> literals;
 };
 
 }
