@@ -8,6 +8,7 @@
 #include "parlex/permutation.hpp"
 #include "parlex/details/producer.hpp"
 #include "parlex/post_processor.hpp"
+#include "parlex/grammar_base.hpp"
 
 //#include "logging.hpp"
 //#include "perf_timer.hpp"
@@ -387,14 +388,14 @@ bool precedence_test(grammar_base const & g, node_props_t & a, node_props_t & b)
 	if (&a.m.r == &b.m.r) {
 		return false;
 	}
-	return g.test_precedence(*dynamic_cast<state_machine_base const *>(&a.m.r), *dynamic_cast<state_machine_base const *>(&b.m.r));
+	return g.test_precedence(*dynamic_cast<state_machine_base2 const *>(&a.m.r), *dynamic_cast<state_machine_base2 const *>(&b.m.r));
 }
 
 bool associativity_test(node_props_t & a, node_props_t & b) {
 	if (&a.m.r != &b.m.r) {
 		return false;
 	}
-	associativity const assoc = dynamic_cast<state_machine_base const *>(&a.m.r)->assoc;
+	associativity const assoc = dynamic_cast<state_machine_base2 const *>(&a.m.r)->get_assoc();
 	switch (assoc) {
 	case associativity::left:
 	case associativity::any:
@@ -417,8 +418,7 @@ void select_trees(abstract_syntax_graph & asg, grammar_base const & g, std::map<
 		std::set<match> const & matches = orderedMatchesByHeight[height];
 		for (match const & m : matches) {
 			bool anyPermutationSelected = false;
-			node_props_t * a = nullptr;
-			std::set<match> preservedIntersections; //used towards the end, but needs to be initialized before "goto matchLoop"
+			node_props_t * a;
 			auto const & i = nodes.find(m);
 			if (i == nodes.end()) {
 				goto matchLoop;  //continue
@@ -454,7 +454,7 @@ void select_trees(abstract_syntax_graph & asg, grammar_base const & g, std::map<
 			}
 
 			a->selected = true;
-			preservedIntersections = a->allIntersections;
+			std::set<match> const & preservedIntersections = a->allIntersections;
 			for (match const & intersected : preservedIntersections) {
 				auto const & pair = nodes.find(intersected);
 				if (pair == nodes.end()) {
@@ -489,7 +489,7 @@ abstract_syntax_graph & apply_precedence_and_associativity(grammar_base const & 
 	throw_assert(asg.is_rooted());
 	bool anyAssociativities = false;
 	for (auto const & entry : g.get_productions()) {
-		anyAssociativities = entry.second->assoc != associativity::none;
+		anyAssociativities = entry.second->get_assoc() != associativity::none;
 	}
 
 	//short circuit if no rules are given
@@ -503,9 +503,7 @@ abstract_syntax_graph & apply_precedence_and_associativity(grammar_base const & 
 		construct_nodes(asg, nodes, flattened);
 		resolve_nodes(nodes);
 		compute_intersections(flattened);
-		std::vector<std::set<match>> matchesByHeight;
-		matchesByHeight = ordered_matches_by_height(nodes);
-
+		std::vector<std::set<match>> matchesByHeight = ordered_matches_by_height(nodes);
 		select_trees(asg, g, nodes, matchesByHeight);
 	}
 	throw_assert(asg.is_rooted());

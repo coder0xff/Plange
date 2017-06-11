@@ -4,187 +4,12 @@
 #include <sstream>
 
 #include "parlex/builtins.hpp"
-#include "parlex/details/behavior.hpp"
 #include "utils.hpp"
 #include <queue>
 
 namespace parlex {
 
 grammar::grammar(builtins_t const & builtins, std::string const & nameOfMain) : grammar_base(builtins), main_production_name(nameOfMain) {
-}
-
-grammar::grammar(builtins_t const & builtins, std::string const & nameOfMain, std::map<std::string, std::shared_ptr<details::behavior_node>> const & trees, std::map<std::string, associativity> const & associativities, std::set<std::string> const & longestNames) : grammar_base(builtins), main_production_name(nameOfMain) {
-	std::map<std::string, details::intermediate_nfa> dfas;
-	for (auto const & nameAndBehaviorNode : trees) {
-		auto temp = nameAndBehaviorNode.second->to_intermediate_nfa().minimal_dfa().relabel();
-		dfas[nameAndBehaviorNode.first] = temp;
-		//std::string check = parlex::details::to_dot(temp);
-	}
-
-	throw_assert(dfas.count(main_production_name) == 1);
-
-	std::map<std::string, details::intermediate_nfa> reorderedDfas;
-
-	for (auto const & nameAndDfa : dfas) {
-		std::string const & name = nameAndDfa.first;
-		details::intermediate_nfa const & dfa = nameAndDfa.second;
-		//construct a map from dfa states to reordered states
-		std::map<int, int> stateMap;
-		unsigned int startState = *dfa.startStates.begin();
-		bool startIsAccept = dfa.acceptStates.count(startState) > 0;
-		if (!startIsAccept) {
-			stateMap[*dfa.startStates.begin()] = 0;
-		}
-		for (unsigned int i = 0; i < dfa.states.size(); ++i) {
-			//all the un-added non-accept states
-			if (i != startState && dfa.acceptStates.count(i) == 0) {
-				stateMap[i] = stateMap.size();
-			}
-		}
-		if (startIsAccept) {
-			stateMap[*dfa.startStates.begin()] = stateMap.size();
-		}
-		for (unsigned int i = 0; i < dfa.states.size(); ++i) {
-			//all the un-added accept states
-			if (i != startState && dfa.acceptStates.count(i) > 0) {
-				stateMap[i] = stateMap.size();
-			}
-		}
-
-		//it's a bimap, construct reverse lookup
-		std::map<int, int> stateMapDual;
-		for (auto const & i : stateMap) {
-			stateMapDual[i.second] = i.first;
-		}
-
-		//construct the reordered dfa
-		details::intermediate_nfa reordered;
-		unsigned int firstAcceptState = dfa.states.size() - dfa.acceptStates.size();
-		for (unsigned int i = 0; i < dfa.states.size(); ++i) {
-			unsigned int const dual = stateMapDual[i];
-			details::intermediate_nfa::state const & dfa_state = dfa.states[dual];
-			reordered.add_state(i, i >= firstAcceptState, dual == startState);
-			details::intermediate_nfa::state & reordered_state = reordered.states[i];
-			for (auto out_transition : dfa_state.out_transitions) {
-				reordered_state.out_transitions[out_transition.first] = {stateMap[*out_transition.second.begin()]};
-			}
-		}
-
-		reorderedDfas[name] = reordered;
-	}
-
-	//construct all the productions, without transitions
-	for (auto const & nameAndDfa : reorderedDfas) {
-		std::string const & name = nameAndDfa.first;
-		details::intermediate_nfa const & dfa = nameAndDfa.second;
-		associativity assoc = associativity::none;
-		auto const & i = associativities.find(name);
-		if (i != associativities.end()) {
-			assoc = i->second;
-		}
-		if (longestNames.count(name) > 0) {
-			productions.emplace(std::piecewise_construct, forward_as_tuple(name), forward_as_tuple(name, *dfa.startStates.begin(), dfa.acceptStates.size(), builtins.longest, assoc));
-		} else {
-			productions.emplace(std::piecewise_construct, forward_as_tuple(name), forward_as_tuple(name, *dfa.startStates.begin(), dfa.acceptStates.size(), assoc));
-		}
-	}
-
-	//add transitions, linking productions
-	for (auto const & nameAndDfa : reorderedDfas) {
-		std::string const & name = nameAndDfa.first;
-		details::intermediate_nfa const & dfa = nameAndDfa.second;
-		state_machine & sm = productions.find(name)->second;
-		auto transitions = dfa.get_transitions();
-		for (auto const & t : transitions) {
-			recognizer const & r = t.symbol->get_recognizer(builtins, productions, literals);
-			sm.add_transition(t.from, r, t.to);
-		}
-	}
-}
-
-grammar::grammar(builtins_t const & builtins, std::string const & nameOfMain, std::map<std::string, production_def> const & defs) : grammar_base(builtins), main_production_name(nameOfMain), definitions(defs) {
-	std::map<std::string, details::intermediate_nfa> dfas;
-	for (auto const & nameAndDef : defs) {
-		auto temp = nameAndDef.second.tree->to_intermediate_nfa().minimal_dfa().relabel();
-		dfas[nameAndDef.first] = temp;
-	}
-
-	throw_assert(dfas.count(main_production_name) == 1);
-
-	std::map<std::string, details::intermediate_nfa> reorderedDfas;
-
-	for (auto const & nameAndDfa : dfas) {
-		std::string const & name = nameAndDfa.first;
-		details::intermediate_nfa const & dfa = nameAndDfa.second;
-		//construct a map from dfa states to reordered states
-		std::map<int, int> stateMap;
-		unsigned int startState = *dfa.startStates.begin();
-		bool startIsAccept = dfa.acceptStates.count(startState) > 0;
-		if (!startIsAccept) {
-			stateMap[*dfa.startStates.begin()] = 0;
-		}
-		for (unsigned int i = 0; i < dfa.states.size(); ++i) {
-			//all the un-added non-accept states
-			if (i != startState && dfa.acceptStates.count(i) == 0) {
-				stateMap[i] = stateMap.size();
-			}
-		}
-		if (startIsAccept) {
-			stateMap[*dfa.startStates.begin()] = stateMap.size();
-		}
-		for (unsigned int i = 0; i < dfa.states.size(); ++i) {
-			//all the un-added accept states
-			if (i != startState && dfa.acceptStates.count(i) > 0) {
-				stateMap[i] = stateMap.size();
-			}
-		}
-
-		//it's a bimap, construct reverse lookup
-		std::map<int, int> stateMapDual;
-		for (auto const & i : stateMap) {
-			stateMapDual[i.second] = i.first;
-		}
-
-		//construct the reordered dfa
-		details::intermediate_nfa reordered;
-		unsigned int firstAcceptState = dfa.states.size() - dfa.acceptStates.size();
-		for (unsigned int i = 0; i < dfa.states.size(); ++i) {
-			unsigned int const dual = stateMapDual[i];
-			details::intermediate_nfa::state const & dfa_state = dfa.states[dual];
-			reordered.add_state(i, i >= firstAcceptState, dual == startState);
-			details::intermediate_nfa::state & reordered_state = reordered.states[i];
-			for (auto out_transition : dfa_state.out_transitions) {
-				reordered_state.out_transitions[out_transition.first] = {stateMap[*out_transition.second.begin()]};
-			}
-		}
-
-		reorderedDfas[name] = reordered;
-	}
-
-	//construct all the productions, without transitions
-	for (auto const & nameAndDfa : reorderedDfas) {
-		std::string const & name = nameAndDfa.first;
-		details::intermediate_nfa const & dfa = nameAndDfa.second;
-		associativity assoc = defs.find(name)->second.assoc;
-		filter_function filter = defs.find(name)->second.filter;
-		productions.emplace(std::piecewise_construct, forward_as_tuple(name), forward_as_tuple(name, *dfa.startStates.begin(), dfa.acceptStates.size(), filter, assoc));
-	}
-
-	//add transitions, "link" productions, add precedences
-	for (auto const & nameAndDfa : reorderedDfas) {
-		std::string const & name = nameAndDfa.first;
-		details::intermediate_nfa const & dfa = nameAndDfa.second;
-		state_machine & sm = productions.find(name)->second;
-		auto transitions = dfa.get_transitions();
-		for (auto const & t : transitions) {
-			recognizer const & r = t.symbol->get_recognizer(builtins, productions, literals);
-			sm.add_transition(t.from, r, t.to);
-		}
-		production_def const & def = defs.find(name)->second;
-		for (std::string i : def.precedences) {
-			add_precedence(sm, productions.find(i)->second);
-		}
-	}
 }
 
 grammar::grammar(grammar const & other) : grammar_base(other), main_production_name(other.main_production_name), literals(other.literals) {
@@ -196,37 +21,30 @@ grammar::grammar(grammar const & other) : grammar_base(other), main_production_n
 	for (auto const & nameAndStateMachine : other.productions) {
 		std::string name = nameAndStateMachine.first;
 		state_machine const & sm = nameAndStateMachine.second;
-		std::pair<std::map<std::string, state_machine>::iterator, bool> emplaceResult;
-		if (sm.filter) {
-			emplaceResult = productions.emplace(
-				std::piecewise_construct,
-				forward_as_tuple(name),
-				forward_as_tuple(name, sm.start_state, sm.accept_state_count, sm.filter, sm.assoc));
-		} else {
-			emplaceResult = productions.emplace(
-				std::piecewise_construct,
-				forward_as_tuple(name),
-				forward_as_tuple(name, sm.start_state, sm.accept_state_count, sm.assoc));
-		}
+		std::pair<std::map<std::string, state_machine>::iterator, bool> emplaceResult = productions.emplace(
+			std::piecewise_construct,
+			forward_as_tuple(name),
+			forward_as_tuple(name, sm.start_state, sm.accept_state_count, sm.filter, sm.assoc));
 		recognizersMap[static_cast<recognizer const *>(&sm)] = static_cast<recognizer const *>(&emplaceResult.first->second);
 	}
 
 	for (auto const & nameAndStateMachine : other.productions) {
 		state_machine const & sm = nameAndStateMachine.second;
 		state_machine & outProduction = productions.find(nameAndStateMachine.first)->second;
-		state_machine::states_t const & othersStates = sm.get_states();
+		state_machine::states_t const & othersStates = sm.states;
 		for (unsigned int j = 0; j < othersStates.size(); ++j) {
 			for (auto const & symbolAndToState : othersStates[j]) {
-				recognizer const * mappedSymbol = &symbolAndToState.first.get();
+				recognizer const * mappedSymbol = symbolAndToState.first;
 				if (recognizersMap.count(mappedSymbol) == 1) {
 					mappedSymbol = recognizersMap[mappedSymbol];
 				}
-				outProduction.add_transition(j, *mappedSymbol, symbolAndToState.second);
+				outProduction.states[j][mappedSymbol] = symbolAndToState.second;
 			}
 		}
 	}
 }
 
+#if 0 //to move
 std::string grammar::hierarchy_dot(std::map<std::string, production_def> const & productions) {
 	std::set<std::pair<std::string, std::string>> arrows;
 	for (auto const & pair: productions) {
@@ -258,35 +76,32 @@ std::string grammar::hierarchy_dot(std::map<std::string, production_def> const &
 	result << "}" << std::endl;
 	return result.str();
 }
+#endif
 
-state_machine_base const& grammar::get_main_production() const {
+state_machine_base2 const& grammar::get_main_production() const {
 	auto i = productions.find(main_production_name);
 	throw_assert(i != productions.end());
 	return i->second;
 }
 
-std::map<std::string, state_machine_base const *> grammar::get_productions() const {
-	std::map<std::string, state_machine_base const *> results;
+std::map<std::string, state_machine_base2 const *> grammar::get_productions() const {
+	std::map<std::string, state_machine_base2 const *> results;
 	for (auto const & i : productions) {
 		results[i.first] = &i.second;
 	}
 	return results;
 }
 
-builtins_t::string_terminal& grammar::add_literal(std::u32string contents) {
+builtins_t::string_terminal& grammar::get_or_add_literal(std::u32string const & contents) {
 	auto result = literals.emplace(std::piecewise_construct, forward_as_tuple(contents), forward_as_tuple(contents));
-	if (!result.second) {
-		throw "literal already added.";
-	}
 	return result.first->second;
 }
-
 std::map<std::u32string, builtins_t::string_terminal> const& grammar::get_literals() const {
 	return literals;
 }
 
 state_machine& grammar::add_production(std::string id, size_t startState, size_t acceptStateCount, associativity assoc) {
-	return productions.emplace(std::piecewise_construct, forward_as_tuple(id), forward_as_tuple(id, startState, acceptStateCount, assoc)).first->second;
+	return productions.emplace(std::piecewise_construct, forward_as_tuple(id), forward_as_tuple(id, startState, acceptStateCount, filter_function(), assoc)).first->second;
 }
 
 state_machine& grammar::add_production(std::string id, size_t startState, size_t acceptStateCount, filter_function filter, associativity assoc) {
@@ -331,6 +146,7 @@ void grammar::generate_hpp(std::string grammarName, std::ostream & hpp, std::str
 	hpp << "#endif" << std::endl;
 }
 
+#if 0 //to move
 void grammar::generate_representation(std::ostream & cpp) {
 	std::map<std::string, bool> needsClass;
 	for (auto const & pair: definitions) {
@@ -352,6 +168,7 @@ void grammar::generate_representation(std::ostream & cpp) {
 		}
 	}
 }
+#endif
 
 void grammar::generate_cplusplus_code(builtins_t const & builtins, std::string grammarName, std::string nameOfMain, std::ostream & cpp, std::ostream & hpp, std::string namespace_, std::string headerPathPrefix) const {
 	std::string upperCaseGrammarName = grammarName;
@@ -414,7 +231,7 @@ void grammar::generate_cplusplus_code(builtins_t const & builtins, std::string g
 		std::string const & id = production.first;
 		state_machine const & sm = production.second;
 		cpp << "DEFINE_DFA(" << id << "," << std::endl;
-		auto const states = sm.get_states();
+		auto const states = sm.states;
 		for (size_t j = 0; j < states.size(); ++j) {
 			auto const & state = states[j];
 			cpp << "\tDFA_STATE " << j << ":" << std::endl;
@@ -423,7 +240,7 @@ void grammar::generate_cplusplus_code(builtins_t const & builtins, std::string g
 				cpp << "\t\tDFA_ACCEPT;" << std::endl;
 			}
 			for (auto const & edge : state) {
-				auto const & transition = edge.first.get();
+				auto const & transition = *edge.first;
 				int nextState = edge.second;
 				cpp << "\t\tDFA_EDGE(" << recognizerToStringMap[&transition] << "," << nextState << ");" << std::endl;
 			}
@@ -482,5 +299,23 @@ void grammar::generate_cplusplus_code(builtins_t const & builtins, std::string g
 
 }
 
+bool grammar::test_precedence(state_machine_base2 const & productionA, state_machine_base2 const & productionB) const {
+	auto i = precedences.find(static_cast<state_machine const *>(&productionA));
+	if (i == precedences.end()) {
+		return false;
+	}
+	return i->second.count(static_cast<state_machine const *>(&productionB)) > 0;
+}
+
+precedence_collection grammar::get_precedences() const {
+	precedence_collection results;
+	for (auto const & precedence : precedences) {
+		std::set<state_machine_base2 const *> & s = results[precedence.first];
+		for (auto const & then : precedence.second) {
+			s.insert(static_cast<state_machine_base2 const *>(then));
+		}
+	}
+	return results;
+}
 
 }

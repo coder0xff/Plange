@@ -3,31 +3,32 @@
 #include <iterator>
 
 namespace parlex {
+namespace behavior2 {
 
-void behavior2::node::add_child(erased<node> child) {
+void node::add_child(erased<node> child) {
 	children.push_back(child);
 	children.back()->parent = this;
 }
 
-behavior2::node::children_t const& behavior2::node::get_children() const {
+node::children_t const& node::get_children() const {
 	return children;
 }
 
-behavior2::node::node(node const & other) : tag(other.tag), children(other.children) {
+node::node(node const & other) : tag(other.tag), children(other.children) {
 	for (auto & child : children) {
 		child->parent = this;
 	}
 }
 
-behavior2::nfa behavior2::compile(erased<node> const root) {
-	return root->to_nfa().minimal_dfa().relabel();
+nfa2 node::compile() const {
+	return to_nfa().minimal_dfa().relabel();
 }
 
-behavior2::leaf::leaf(recognizer const & r) : r(r) {
+leaf::leaf(recognizer const & r) : r(r), id(r.id) {
 }
 
-behavior2::nfa behavior2::leaf::to_nfa() const {
-	nfa result;
+nfa2 leaf::to_nfa() const {
+	nfa2 result;
 	result.states.emplace_back(0);
 	result.states.emplace_back(1);
 	result.startStates.insert(0);
@@ -36,24 +37,24 @@ behavior2::nfa behavior2::leaf::to_nfa() const {
 	return result;
 }
 
-behavior2::nfa behavior2::choice::to_nfa() const {
-	std::vector<nfa> parts;
+nfa2 choice::to_nfa() const {
+	std::vector<nfa2> parts;
 	for (erased<node> const & child : children) {
 		parts.push_back(child->to_nfa());
 	}
-	return nfa::union_(parts);
+	return nfa2::union_(parts);
 }
 
-behavior2::nfa behavior2::optional::to_nfa() const {
-	nfa result = children[0]->to_nfa();
+nfa2 optional::to_nfa() const {
+	nfa2 result = children[0]->to_nfa();
 	for (int startStateIndex : result.startStates) {
 		result.acceptStates.insert(startStateIndex);
 	}
 	return result;
 }
 
-behavior2::nfa behavior2::repetition::to_nfa() const {
-	nfa result = children[0]->to_nfa();
+nfa2 repetition::to_nfa() const {
+	nfa2 result = children[0]->to_nfa();
 	auto originalTransitions = result.get_transitions();
 
 	//copy transitions (start_state, symbol, to_state) to (accept_state, symbol, to_state)
@@ -72,8 +73,8 @@ behavior2::nfa behavior2::repetition::to_nfa() const {
 	return result;
 }
 
-behavior2::nfa behavior2::sequence::to_nfa() const {
-	nfa result;
+nfa2 sequence::to_nfa() const {
+	nfa2 result;
 	result.states.emplace_back(0);
 	result.startStates.insert(0);
 	result.acceptStates.insert(0);
@@ -81,7 +82,7 @@ behavior2::nfa behavior2::sequence::to_nfa() const {
 		bool anyOriginalStartIsAccept; {
 			std::set<int> intersection;
 			set_intersection(result.startStates.begin(), result.startStates.end(),
-			                 result.acceptStates.begin(), result.acceptStates.end(), inserter(intersection, intersection.begin()));
+				result.acceptStates.begin(), result.acceptStates.end(), inserter(intersection, intersection.begin()));
 			anyOriginalStartIsAccept = !intersection.empty();
 		}
 
@@ -90,9 +91,9 @@ behavior2::nfa behavior2::sequence::to_nfa() const {
 		auto part = child->to_nfa();
 
 		//add the part's states
-		for (nfa::state const & partFromState : part.states) {
+		for (nfa2::state const & partFromState : part.states) {
 			result.states.emplace_back(partFromState.label);
-			nfa::state & newState = result.states.back();
+			nfa2::state & newState = result.states.back();
 			for (auto & symbolAndToStateIndices : partFromState.out_transitions) {
 				for (int toStateIndex : symbolAndToStateIndices.second) {
 					newState.out_transitions[symbolAndToStateIndices.first].insert(toStateIndex + newStateIndexOffset);
@@ -104,7 +105,7 @@ behavior2::nfa behavior2::sequence::to_nfa() const {
 		swap(originalAcceptStateIndices, result.acceptStates);
 		//for each (originalFromState, symbol, originalAcceptState) create for each partStartState (originalFromState, symbol, partStartState)
 		for (int originalStateIndex = 0; originalStateIndex < newStateIndexOffset; ++originalStateIndex) {
-			nfa::state & fromState = result.states[originalStateIndex];
+			nfa2::state & fromState = result.states[originalStateIndex];
 			for (auto & symbolAndToStateIndices : fromState.out_transitions) {
 				std::set<int> toStatesIntersectionOriginalAcceptStates;
 				set_intersection(
@@ -133,4 +134,5 @@ behavior2::nfa behavior2::sequence::to_nfa() const {
 	return result;
 }
 
-}
+} //namespace behavior2
+} //namespace parlex

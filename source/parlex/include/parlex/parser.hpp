@@ -13,15 +13,18 @@
 #include "builtins.hpp"
 
 namespace parlex {
+class grammar_base;
+
 namespace details {
 
-class job;
-class subjob;
-class producer;
 class context_ref;
+class job;
+class producer;
+class subjob;
 
 }
 
+class grammar2;
 class recognizer;
 
 class parser {

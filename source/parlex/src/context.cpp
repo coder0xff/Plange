@@ -33,9 +33,9 @@ struct context_ref_counter {
 context::context(subjob & owner, context_ref const & prior, int documentPosition, match const * fromTransition) :
  id (++contextIDCounter), owner(owner), prior(prior),
  currentDocumentPosition(documentPosition),
- fromTransition(fromTransition != nullptr ? new match(*fromTransition) : nullptr), rc(*new context_ref_counter(this))
+ fromTransition(fromTransition != nullptr ? new match(*fromTransition) : nullptr),
+ rc(*new context_ref_counter(this))
 {
-	throw_assert(&owner);
 	throw_assert(!prior.is_null() == (fromTransition != nullptr));
 	//DBG("constructed context ", id);
 }

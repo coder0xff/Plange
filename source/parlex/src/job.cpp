@@ -1,5 +1,4 @@
 #include "parlex/details/subjob.hpp"
-#include "parlex/state_machine.hpp"
 #include "parlex/details/job.hpp"
 #include "parlex/terminal.hpp"
 #include "parlex/details/context.hpp"
@@ -30,7 +29,7 @@ job::job(parser & owner, std::u32string const & document, grammar_base const & g
 				std::forward_as_tuple(result)
 			);
 		} else {
-			state_machine_base const * machine = static_cast<state_machine_base const *>(&main);
+			state_machine_base2 const * machine = static_cast<state_machine_base2 const *>(&main);
 			subjob * result = new subjob(*this, *machine, 0);
 			producers.emplace(
 				std::piecewise_construct,
@@ -47,8 +46,8 @@ job::job(parser & owner, std::u32string const & document, grammar_base const & g
 		}
 }
 
-void job::connect(match_class const & matchClass, context_ref const & c, int nextDfaState) {
-	get_producer(matchClass).add_subscription(c, nextDfaState);
+void job::connect(match_class const & matchClass, context_ref const & c, int nextDfaState, behavior2::leaf const * leaf) {
+	get_producer(matchClass).add_subscription(c, nextDfaState, leaf);
 }
 
 producer & job::get_producer(match_class const & matchClass) {
@@ -67,7 +66,7 @@ producer & job::get_producer(match_class const & matchClass) {
 				std::forward_as_tuple(result)
 			).first->second.get();
 		} else {
-			state_machine_base const * machine = static_cast<state_machine_base const *>(&matchClass.r);
+			state_machine_base2 const * machine = static_cast<state_machine_base2 const *>(&matchClass.r);
 			subjob * sj = new subjob(*this, *machine, matchClass.document_position);
 			lock.lock();
 			auto temp = producers.emplace(

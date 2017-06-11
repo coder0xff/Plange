@@ -9,10 +9,10 @@ namespace parlex {
 
 class state_machine;
 
-class behavior2 {
-public:
+namespace behavior2 {
+
 	class leaf;
-	typedef details::nfa<leaf const *, int> nfa;
+	using nfa2 = details::nfa<leaf const *, int>;
 
 	class node {
 	public:
@@ -21,7 +21,8 @@ public:
 		std::string tag;
 		void add_child(erased<node> child);
 		children_t const& get_children() const;
-		virtual nfa to_nfa() const = 0;
+		virtual nfa2 to_nfa() const = 0;
+		nfa2 compile() const;
 	protected:
 		node() = default;
 
@@ -35,37 +36,33 @@ public:
 	class leaf final : public node {
 	public:
 		explicit leaf(recognizer const & r);
-
-	private:
-		nfa to_nfa() const override;
-	public:
 		recognizer const & r;
+		std::string const & id;
+	private:
+		nfa2 to_nfa() const override;
 	};
 
 	class choice final : public node {
 	public:
-		nfa to_nfa() const override;
+		nfa2 to_nfa() const override;
 	};
 
 	class optional final : public node {
 	public:
-		nfa to_nfa() const override;
+		nfa2 to_nfa() const override;
 	};
 
 	class repetition final : public node {
 	public:
-		nfa to_nfa() const override;
+		nfa2 to_nfa() const override;
 	};
 
 	class sequence final : public node {
 	public:
-		nfa to_nfa() const override;
+		nfa2 to_nfa() const override;
 	};
 
-	static nfa compile(erased<node> const root);
-
-}; //class behavior2
-
+} // namespace behavior2
 } // namespace parlex
 
 #endif //BEHAVIOR2_HPP

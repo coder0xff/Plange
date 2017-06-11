@@ -3,11 +3,11 @@
 
 #include <map>
 
-#include "state_machine.hpp"
+#include "state_machine_base2.hpp"
 
 namespace parlex {
 
-typedef std::map<state_machine_base const *, std::set<state_machine_base const *>> precedence_collection;
+typedef std::map<state_machine_base2 const *, std::set<state_machine_base2 const *>> precedence_collection;
 
 }
 

@@ -25,7 +25,8 @@ public:
 		size_t next_index;
 		context_ref const c;
 		size_t next_dfa_state;
-		inline subscription(context_ref const & c, size_t const nextDfaState) : next_index(0), c(c), next_dfa_state(nextDfaState) {}
+		behavior2::leaf const * leaf;
+		subscription(context_ref const & c, size_t const nextDfaState, behavior2::leaf const * leaf);
 	};
 
 	void do_events();
@@ -40,7 +41,7 @@ public:
 	std::mutex mutex;
 
 	producer(job & owner, recognizer const & r, size_t const documentPosition);
-	void add_subscription(context_ref const & c, size_t const nextDfaState);
+	void add_subscription(context_ref const & c, size_t const nextDfaState, behavior2::leaf const * leaf);
 	void enque_permutation(size_t consumedCharacterCount, permutation const & p);
 	void terminate();
 };

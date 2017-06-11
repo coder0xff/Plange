@@ -1,9 +1,9 @@
 #ifndef C_STRING_HPP
 #define C_STRING_HPP
 
-#include "parlex/state_machine.hpp"
 #include "parlex/abstract_syntax_graph.hpp"
 #include "parlex/details/string_terminal.hpp"
+#include "parlex/state_machine.hpp"
 
 namespace parlex {
 namespace details {

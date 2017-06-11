@@ -1,18 +1,14 @@
 #ifndef WIRTH_HPP
 #define WIRTH_HPP
 
-#include "parlex/grammar.hpp"
-//#include "parlex/grammar2.hpp"
-#include "parlex/state_machine.hpp"
-#include "parlex/details/behavior.hpp"
 #include "parlex/filter_function.hpp"
+#include "parlex/grammar.hpp"
+
 #include "erased.hpp"
-#include "behavior2.hpp"
 
 namespace parlex {
 class grammar2;
 struct abstract_syntax_graph;
-
 class builtins_t;
 
 namespace details {
@@ -39,29 +35,23 @@ FACTOR        = ["$"] IDENTIFIER
 
 */
 
-class wirth_t final : public grammar_base {
+class wirth_t final : public grammar {
 public:
 	struct definition {
-		std::u32string source;
-		associativity assoc;
-		filter_function filter;
-		std::set<std::string> precedences;
+		definition(std::u32string const & source, associativity assoc, filter_function filter, std::set<std::string> const & precedences);
+		std::u32string const source;
+		associativity const assoc;
+		filter_function const filter;
+		std::set<std::string> const precedences;
 	};
 
 	wirth_t(parser & p);
-	state_machine_base const & get_main_production() const override;
-	std::map<std::string, state_machine_base const *> get_productions() const override;
 
-	grammar load_grammar(std::string const & nameOfMain, std::u32string const & document, std::map<std::string, associativity> const & associativities, std::set<std::string> const & longestNames);
-	grammar load_grammar(std::string const & nameOfMain, std::map<std::string, definition> const & productions);
-	grammar2 load_grammar2(std::string const & nameOfMain, std::map<std::string, definition> const & productions);
+	std::unique_ptr<grammar2> load_grammar2(std::string const & nameOfMain, std::map<std::string, definition> const & productions);
+	std::unique_ptr<grammar2> load_grammar2(std::string const & nameOfMain, std::u32string const & document, std::map<std::string, associativity> const & associativities, std::set<std::string> const & longestNames);
 
 private:
-	static std::shared_ptr<behavior_node> get_or_add_production(std::map<std::string, std::shared_ptr<production>> & productionNodes, std::string name);
-	static std::shared_ptr<behavior_node> get_or_add_literal(std::map<std::u32string, std::shared_ptr<literal>> & literalNodes, std::u32string temp);
-
 	parser & p;
-	grammar g;
 
 	string_terminal & newline;
 	string_terminal & hash;
@@ -88,20 +78,13 @@ private:
 	state_machine & tagDfa;
 	state_machine & factorDfa;
 	state_machine & identifierDfa;
-	state_machine & root;
+	state_machine & rootDfa;
 
-	std::shared_ptr<behavior_node> process_factor(std::u32string document, match const & factor, abstract_syntax_graph const & asg, std::map<std::u32string, std::shared_ptr<literal>> & literalNodes, std::map<std::string, std::shared_ptr<production>> & productionNodes);
-
-	std::shared_ptr<behavior_node> process_term(std::u32string document, match const & term, abstract_syntax_graph const & asg, std::map<std::u32string, std::shared_ptr<literal>> & literalNodes, std::map<std::string, std::shared_ptr<production>> & productionNodes);
-
-	std::shared_ptr<behavior_node> process_expression(std::u32string document, match const & expression, abstract_syntax_graph const & asg, std::map<std::u32string, std::shared_ptr<literal>> & literalNodes, std::map<std::string, std::shared_ptr<production>> & productionNodes);
-
-	std::shared_ptr<behavior_node> process_production(std::u32string document, match const & production, abstract_syntax_graph const & asg);
-
-	erased<behavior2::node> process_factor2(std::u32string const & document, match const & factor, abstract_syntax_graph const & asg, grammar2 & g);
-	erased<behavior2::node> process_term2(std::u32string const & document, match const & term, abstract_syntax_graph const & asg, grammar2 & g);
-	erased<behavior2::node> process_expression2(std::u32string const & document, match const & expression, abstract_syntax_graph const & asg, grammar2 & g);
-	erased<behavior2::node> compile_source(std::u32string const & source, grammar2 & g);
+	erased<parlex::behavior2::node> process_factor2(std::u32string const & document, match const & factor, abstract_syntax_graph const & asg, grammar2 & g);
+	erased<parlex::behavior2::node> process_term2(std::u32string const & document, match const & term, abstract_syntax_graph const & asg, grammar2 & g);
+	erased<parlex::behavior2::node> process_expression2(std::u32string const & document, match const & expression, abstract_syntax_graph const & asg, grammar2 & g);
+	erased<parlex::behavior2::node> process_production2(std::u32string const & document, match const & expression, abstract_syntax_graph const & asg, grammar2 & g);
+	erased<parlex::behavior2::node> compile_source(std::u32string const & source, grammar2 & g);
 
 };
 

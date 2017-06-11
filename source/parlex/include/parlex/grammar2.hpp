@@ -7,31 +7,43 @@
 #include "parlex/details/string_terminal.hpp"
 #include "parlex/details/behavior2.hpp"
 #include "state_machine2.hpp"
+#include "precedence_collection.hpp"
+#include "grammar_base.hpp"
 
 namespace parlex {
 class builtins_t;
+class grammar2;
 
-class grammar2 {
+// you must first create all the productions objects
+// then create the behaviors
+// then call set_behavior on each production
+class grammar2 : public grammar_base {
 public:
-	typedef std::map<recognizer const *, std::set<recognizer const *>> precedence_collection;
-
 	struct production {
-		production(std::string const & id, erased<behavior2::node> const & behavior, filter_function const & filter, associativity assoc = associativity::none);
-		production(std::string const & id, erased<behavior2::node> const & behavior, associativity assoc = associativity::none);
-		erased<behavior2::node> const behavior;
-		state_machine2 const state_machine;
+		production(state_machine2_info const & info);
+	private:
+		friend class grammar2;
+		state_machine2 state_machine;
+		std::unique_ptr<behavior2::node> behavior;
+		void set_behavior(erased<behavior2::node> const & behavior);
 	};
 
-	grammar2(builtins_t const & builtins, std::string const & mainProductionName);
+	grammar2(builtins_t const & builtins, std::string const & rootName, std::vector<state_machine2_info> const & infos, std::function<erased<behavior2::node> (std::string const &, grammar2 & g)> behavior_function);
+	virtual ~grammar2() = default;
 
-	builtins_t const & builtins;
-	std::string const main_production_name;
-	std::map<std::string, production> productions;
+	std::string const root_name;
 	std::map<std::u32string, details::string_terminal> literals;
-	precedence_collection precedences;
+	std::map<state_machine2 const *, std::set<state_machine2 const *>> precedences;
 
-	state_machine_base2 const & get_main_production() const;
 	details::string_terminal & get_or_add_literal(std::u32string const & contents);
+	state_machine2 const & get_state_machine(std::string const & id) const;
+
+	state_machine_base2 const & get_main_production() const override;
+	std::map<std::string, state_machine_base2 const *> get_productions() const override;
+	bool test_precedence(state_machine_base2 const & productionA, state_machine_base2 const & productionB) const override;
+	precedence_collection get_precedences() const override;
+private:
+	std::map<std::string, production> productions;
 };
 
 }

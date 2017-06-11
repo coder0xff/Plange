@@ -8,6 +8,12 @@
 #include "parlex/permutation.hpp"
 
 namespace parlex {
+namespace behavior2 {
+
+class leaf;
+
+} // namespace behavior2
+
 namespace details {
 
 class subjob;
@@ -41,7 +47,7 @@ public:
 	subjob & owner;
 	context_ref const prior;
 	int const currentDocumentPosition;
-	std::unique_ptr<match const> const fromTransition;	//unique_ptr serves as optional
+	std::unique_ptr<match> const fromTransition; // optional
 private:
 	context_ref_counter & rc;
 

@@ -3,43 +3,60 @@
 
 #include <map>
 
-#include "recognizer.hpp"
-#include "filter_function.hpp"
-#include "associativity.hpp"
-#include "state_machine_base.hpp"
+#include "parlex/recognizer.hpp"
+#include "parlex/filter_function.hpp"
+#include "parlex/associativity.hpp"
+#include "parlex/state_machine_base2.hpp"
+#include "details/nfa.hpp"
 
 namespace parlex {
+namespace behavior2 {
+
+class node;
+class leaf;
+using nfa2 = details::nfa<leaf const *, int>;
+
+} // namespace behavior2
+
 namespace details {
 
 class context_ref;
 class subjob;
 
-}
+} // namespace details
 
 class parser;
 
 //simulates a dfa
 //State 0 is the start state
 //States from N-a to N-1 are the accept states, where N is states.size() and a is accept_state_count
-class state_machine : public state_machine_base {
+class state_machine : public state_machine_base2 {
 public:
-	size_t const accept_state_count; //must be greater than 0
+	typedef std::vector<std::map<recognizer const *, size_t>> states_t;
 
-	state_machine(std::string id, size_t startState, size_t acceptStateCount, associativity assoc = associativity::none);
-	state_machine(std::string id, size_t startState, size_t acceptStateCount, filter_function const & filter, associativity assoc = associativity::none);
+	state_machine(std::string const & id, int startState, int acceptStateCount, filter_function const & filter, associativity = associativity::none);
+	state_machine(std::string const & id, filter_function const & filter, associativity = associativity::none);
+	state_machine(std::string const & id, associativity = associativity::none);
 	virtual ~state_machine() = default;
-	void add_transition(size_t fromState, recognizer const & recognizer, size_t toState);
-	typedef std::vector<std::map<std::reference_wrapper<recognizer const>, size_t, details::recognizer_reference_comparer>> states_t;
-	states_t get_states() const;
+
+	filter_function filter;
+	associativity assoc;
+	states_t states;
+	int start_state;
+	size_t accept_state_count; //must be greater than 0
 private:
 	friend class parser;
 	friend class details::subjob;
 
-	states_t states;
-
 	void process(details::context_ref const & c, size_t dfaState) const override;
+
+public:
+	bool is_terminal() const override;
+	int get_start_state() const override;
+	filter_function get_filter() const override;
+	associativity get_assoc() const override;
 };
 
-}
+} // namespace parlex
 
-#endif
+#endif //STATE_MACHINE_HPP

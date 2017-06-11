@@ -5,8 +5,6 @@
 #include <memory>
 #include <vector>
 
-#include "parlex/details/behavior.hpp"
-
 namespace parlex {
 
 struct node {
@@ -36,8 +34,6 @@ struct variant_node : node {
 struct terminal_node : node {
 	std::string user_tag;
 };
-
-std::map<std::string, std::shared_ptr<type_node>> make(std::shared_ptr<details::behavior_node> root);
 
 
 #endif

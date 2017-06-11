@@ -1,17 +1,23 @@
 #ifndef STATE_MACHINE_BASE2_HPP
 #define STATE_MACHINE_BASE2_HPP
 
-#include "recognizer.hpp"
-#include "filter_function.hpp"
-#include "associativity.hpp"
+#include "parlex/recognizer.hpp"
+#include "parlex/filter_function.hpp"
+#include "parlex/associativity.hpp"
 
 namespace parlex {
+namespace behavior2 {
+
+class node;
+
+} // namespace behavior2
+
 namespace details {
 
 class context_ref;
 class subjob;
 
-}
+} // namespace details
 
 class parser;
 
@@ -31,7 +37,7 @@ protected:
 
 	void start(details::subjob & sj, size_t documentPosition) const;
 	virtual void process(details::context_ref const & c, size_t dfaState) const = 0;
-	static void on(details::context_ref const & c, recognizer const & r, int nextDfaState);
+	static void on(details::context_ref const & c, recognizer const & r, int nextDfaState, behavior2::leaf const * leaf);
 	static void accept(details::context_ref const & c);
 };
 
