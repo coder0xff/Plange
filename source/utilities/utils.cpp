@@ -253,7 +253,9 @@ void debugger() {
 }
 
 void throw_assert(bool pass) {
-	if (!pass) {
-		throw std::runtime_error("failed assert");
+	if (CMAKE_INTDIR == "debug") {
+		if (!pass) {
+			throw std::runtime_error("failed assert");
+		}
 	}
 }
