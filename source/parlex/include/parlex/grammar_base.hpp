@@ -20,7 +20,6 @@ public:
 protected:
 	~grammar_base() = default;
 	explicit grammar_base(builtins_t const & builtins);
-
 	grammar_base(grammar_base const & other);
 };
 

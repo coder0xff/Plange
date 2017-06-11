@@ -5,7 +5,7 @@
 
 namespace parlex {
 
-correlated_state_machine::correlated_state_machine(correlated_state_machine_info const & info) : state_machine_base(id), filter(info.filter), assoc(info.assoc), behavior(nullptr), start_state(-1), accept_state_count(-1) {
+correlated_state_machine::correlated_state_machine(std::string const & id, filter_function const & filter, associativity assoc) : state_machine_base(id), filter(filter), assoc(assoc), behavior(nullptr), start_state(-1), accept_state_count(-1) {
 }
 
 void correlated_state_machine::set_behavior(behavior::node const & behavior) {
@@ -93,13 +93,6 @@ filter_function correlated_state_machine::get_filter() const {
 
 associativity correlated_state_machine::get_assoc() const {
 	return assoc;
-}
-
-
-correlated_state_machine_info::correlated_state_machine_info(std::string const & id, filter_function const & function, associativity assoc) : id(id), filter(function), assoc(assoc) {
-}
-
-correlated_state_machine_info::correlated_state_machine_info(std::string const & id, associativity assoc) : correlated_state_machine_info(id, filter_function(), assoc) {
 }
 
 } // namespace parlex

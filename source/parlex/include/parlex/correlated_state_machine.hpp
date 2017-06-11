@@ -27,16 +27,6 @@ class subjob;
 
 class parser;
 
-struct correlated_state_machine_info {
-	correlated_state_machine_info(std::string const & id, filter_function const & filter, associativity assoc = associativity::none);
-	correlated_state_machine_info(std::string const & id, associativity assoc = associativity::none);
-
-	std::string const id;
-	filter_function const filter;
-	associativity const assoc;
-
-};
-
 //simulates a dfa
 //State 0 is the start state
 //States from N-a to N-1 are the accept states, where N is states.size() and a is accept_state_count
@@ -44,7 +34,7 @@ class correlated_state_machine : public state_machine_base {
 public:
 	typedef std::vector<std::map<behavior::leaf const *, size_t>> states_t;
 
-	correlated_state_machine(correlated_state_machine_info const & info);
+	correlated_state_machine(std::string const & id, filter_function const & filter, associativity assoc);
 	virtual ~correlated_state_machine() = default;
 
 	filter_function const filter;

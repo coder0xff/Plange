@@ -37,6 +37,7 @@ set (HEADERS
 	"include/parlex/filter_function.hpp"
 	"include/parlex/grammar.hpp"
 	"include/parlex/grammar_base.hpp"
+	"include/parlex/grammar_definition.hpp"
 	"include/parlex/match.hpp"
 	"include/parlex/match_class.hpp"
 	"include/parlex/parser.hpp"

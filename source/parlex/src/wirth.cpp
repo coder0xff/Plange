@@ -2,22 +2,13 @@
 
 #include "parlex/builtins.hpp"
 #include "parlex/parser.hpp"
-#include "parlex/correlated_grammar.hpp"
 
 #include "utils.hpp"
 
 namespace parlex {
 namespace details {
 
-static recognizer const& find_recognizer(correlated_grammar const & g, std::string const & id) {
-	recognizer const * builtin_ptr;
-	if (g.builtins.resolve_builtin(id, builtin_ptr)) {
-		return *builtin_ptr;
-	}
-	return g.get_state_machine(id);
-}
-
-erased<behavior::node> wirth_t::process_factor2(std::u32string const & document, match const & factor, abstract_syntax_graph const & asg, correlated_grammar & g) {
+erased<grammar_definition::node> wirth_t::process_factor2(std::u32string const & document, match const & factor, abstract_syntax_graph const & asg) {
 	permutation const & p = *asg.permutations.find(factor)->second.begin();
 	auto i = p.begin();
 	std::string tag;
@@ -25,8 +16,8 @@ erased<behavior::node> wirth_t::process_factor2(std::u32string const & document,
 		++i;
 		if (&i->r == &identifierDfa) {
 			tag = to_utf8(document.substr(i->document_position, i->consumed_character_count));
-		} else if (&i->r == &g.builtins.c_string) {
-			tag = to_utf8(g.builtins.c_string.extract(document, *i, asg));
+		} else if (&i->r == &builtins.c_string) {
+			tag = to_utf8(builtins.c_string.extract(document, *i, asg));
 		} else {
 			throw;
 		}
@@ -40,14 +31,14 @@ erased<behavior::node> wirth_t::process_factor2(std::u32string const & document,
 		tag = to_utf8(document.substr(j.document_position, j.consumed_character_count));
 	}
 
-	std::unique_ptr<erased<behavior::node>> result;
-	auto set = [&result](erased<behavior::node> const & node) { result.reset(new erased<behavior::node>(node)); };
+	std::unique_ptr<erased<grammar_definition::node>> result;
+	auto set = [&result](erased<grammar_definition::node> const & node) { result.reset(new erased<grammar_definition::node>(node)); };
 	if (&i->r == &identifierDfa) {
 		std::string name = to_utf8(document.substr(i->document_position, i->consumed_character_count));
-		set(behavior::leaf(find_recognizer(g, name)));
-	} else if (&i->r == &g.builtins.c_string) {
-		std::u32string text = g.builtins.c_string.extract(document, *i, asg);
-		set(behavior::leaf(g.get_or_add_literal(text)));
+		set(grammar_definition::production(name));
+	} else if (&i->r == &builtins.c_string) {
+		std::u32string text = builtins.c_string.extract(document, *i, asg);
+		set(grammar_definition::literal(text));
 	} else if (&i->r == &parentheticalDfa) {
 		permutation const & q = *asg.permutations.find(*i)->second.begin();
 		auto j = q.begin();
@@ -56,11 +47,11 @@ erased<behavior::node> wirth_t::process_factor2(std::u32string const & document,
 			++j;
 		}
 		if (parenthetical_type == &openSquare) {
-			set(process_expression2(document, *j, asg, g));
+			set(process_expression2(document, *j, asg));
 		} else if (parenthetical_type == &openCurly) {
-			set(process_expression2(document, *j, asg, g));
+			set(process_expression2(document, *j, asg));
 		} else if (parenthetical_type == &openParen) {
-			set(process_expression2(document, *j, asg, g));
+			set(process_expression2(document, *j, asg));
 		} else {
 			throw;
 		}
@@ -74,7 +65,7 @@ erased<behavior::node> wirth_t::process_factor2(std::u32string const & document,
 	return *result;
 }
 
-erased<behavior::node> wirth_t::process_term2(std::u32string const & document, match const & term, abstract_syntax_graph const & asg, correlated_grammar & g) {
+erased<grammar_definition::node> wirth_t::process_term2(std::u32string const & document, match const & term, abstract_syntax_graph const & asg) {
 	std::vector<match> factors;
 
 	permutation const & p = *(*asg.permutations.find(term)).second.begin();
@@ -84,16 +75,16 @@ erased<behavior::node> wirth_t::process_term2(std::u32string const & document, m
 		}
 	}
 	if (factors.size() == 1) {
-		return process_factor2(document, factors[0], asg, g);
+		return process_factor2(document, factors[0], asg);
 	}
-	behavior::sequence result;
+	grammar_definition::sequence result;
 	for (match const & factor : factors) {
-		result.add_child(process_factor2(document, factor, asg, g));
+		result.children.push_back(process_factor2(document, factor, asg));
 	}
 	return result;
 }
 
-erased<behavior::node> wirth_t::process_expression2(std::u32string const & document, match const & expression, abstract_syntax_graph const & asg, correlated_grammar & g) {
+erased<grammar_definition::node> wirth_t::process_expression2(std::u32string const & document, match const & expression, abstract_syntax_graph const & asg) {
 	std::vector<match> terms;
 
 	permutation const & p = *(*asg.permutations.find(expression)).second.begin();
@@ -103,26 +94,27 @@ erased<behavior::node> wirth_t::process_expression2(std::u32string const & docum
 		}
 	}
 	if (terms.size() == 1) {
-		return process_term2(document, terms[0], asg, g);
+		return process_term2(document, terms[0], asg);
 	}
-	behavior::choice result;
+	grammar_definition::choice result;
 	for (match const & term : terms) {
-		result.add_child(process_term2(document, term, asg, g));
+		result.children.push_back(process_term2(document, term, asg));
 	}
 	return result;
 }
 
-erased<behavior::node> wirth_t::compile_source(std::u32string const & source, correlated_grammar & g) {
+erased<grammar_definition::node> wirth_t::compile_source(std::u32string const & source) {
 	auto asg = p.parse(*this, expressionDfa, source);
 	if (!asg.is_rooted()) {
 		throw std::exception("could not parse expression");
 	}
 	//auto test = asg.to_dot(); //TODO: Make sure this is commented out
-	return process_expression2(source, asg.root, asg, g);
-
+	return process_expression2(source, asg.root, asg);
 }
 
-std::unique_ptr<correlated_grammar> wirth_t::load_grammar2(std::string const & nameOfMain, std::map<std::string, definition> const & definitions) {
+#if 0 //to move
+grammar_definition wirth_t::load_grammar(std::string const & rootId, std::map<std::string, definition> const & definitions) {
+
 	std::set<std::string> names;
 	std::vector<correlated_state_machine_info> infos;
 	for (auto const & definitionEntry : definitions) {
@@ -134,16 +126,39 @@ std::unique_ptr<correlated_grammar> wirth_t::load_grammar2(std::string const & n
 		}
 		infos.emplace_back(name, def.filter, def.assoc);
 	}
-	std::unique_ptr<correlated_grammar> result(new correlated_grammar(p.builtins, nameOfMain, infos, [this, &definitions](std::string const & id, correlated_grammar & g) {
+	std::unique_ptr<correlated_grammar> result(new correlated_grammar(p.builtins, rootId, infos, [this, &definitions](std::string const & id, correlated_grammar & g) {
 	                                              return compile_source(definitions.find(id)->second.source, g);
                                               }));
 	return result;
 }
+#endif
 
-std::unique_ptr<correlated_grammar> wirth_t::load_grammar2(std::string const & nameOfMain, std::u32string const & document, std::map<std::string, associativity> const & associativities, std::set<std::string> const & longestNames) {
+grammar_definition wirth_t::load_grammar(std::string const & rootId, std::map<std::string, definition> const & definitions) {
+	std::set<std::string> names;
+	grammar_definition result;
+	result.root_id = rootId;
+	for (auto const & entry : definitions) {
+		auto const & id = entry.first;
+		auto const & definition = entry.second;
+		auto res = names.insert(entry.first);
+		if (!res.second) {
+			throw std::exception(("duplicate production ID " + id).c_str());
+		}
+		grammar_definition::definition resultDefinition;
+		resultDefinition.id = id;
+		resultDefinition.behavior = compile_source(definition.source);
+		resultDefinition.assoc = definition.assoc;
+		resultDefinition.filter = definition.filter;
+		result.productions.push_back(resultDefinition);
+	}
+	return result;
+}
+
+
+grammar_definition wirth_t::load_grammar(std::string const & rootId, std::u32string const & document, std::map<std::string, associativity> const & associativities, std::set<std::string> const & longestNames) {
 	std::set<std::u32string> names;
-	std::map<std::string, definition> definitions;
 	abstract_syntax_graph asg = p.parse(*this, document);
+	std::map<std::string, definition> definitions;
 	//std::string check = asg.to_dot();
 	permutation const & top = *asg.permutations[asg.root].begin();
 	for (match const & entry : top) {
@@ -155,15 +170,18 @@ std::unique_ptr<correlated_grammar> wirth_t::load_grammar2(std::string const & n
 			if (!res.second) {
 				throw std::exception(("duplicate production ID " + name).c_str());
 			}
+			std::u32string source;
+			for (match const & entry2 : *(*asg.permutations.find(entry)).second.begin()) {
+				if (&entry2.r == &expressionDfa) {
+					source = document.substr(entry2.document_position, entry2.consumed_character_count);
+				}
+			}
 			auto assoc = associativities.count(name) > 0 ? associativities.find(name)->second : associativity::none;
 			auto filter = longestNames.count(name) > 0 ? builtins.longest : filter_function();
-			definitions.emplace(std::piecewise_construct, forward_as_tuple(name), forward_as_tuple(u32Name, assoc, filter, std::set<std::string>()));
+			definitions.emplace(std::piecewise_construct, forward_as_tuple(name), forward_as_tuple(source, assoc, filter, std::set<std::string>()));
 		}
 	}
-	return load_grammar2(nameOfMain, definitions);
-}
-
-wirth_t::definition::definition(std::u32string const & source, associativity assoc, filter_function filter, std::set<std::string> const & precedences) : source(source), assoc(assoc), filter(filter), precedences(precedences) {
+	return load_grammar(rootId, definitions);
 }
 
 wirth_t::wirth_t(parser & p) : grammar(p.builtins, "root"), p(p),
@@ -274,10 +292,10 @@ wirth_t::wirth_t(parser & p) : grammar(p.builtins, "root"), p(p),
 	precedences[&factorDfa].insert(&factorDfa);
 }
 
-erased<behavior::node> wirth_t::process_production2(std::u32string const & document, match const & production, abstract_syntax_graph const & asg, correlated_grammar & g) {
+erased<grammar_definition::node> wirth_t::process_production2(std::u32string const & document, match const & production, abstract_syntax_graph const & asg) {
 	for (match const & entry : *(*asg.permutations.find(production)).second.begin()) {
 		if (&entry.r == &expressionDfa) {
-			return process_expression2(document, entry, asg, g);
+			return process_expression2(document, entry, asg);
 		}
 	}
 	throw;

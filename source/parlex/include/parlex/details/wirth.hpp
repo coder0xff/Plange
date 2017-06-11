@@ -5,9 +5,9 @@
 #include "parlex/grammar.hpp"
 
 #include "erased.hpp"
+#include "parlex/grammar_definition.hpp"
 
 namespace parlex {
-class correlated_grammar;
 struct abstract_syntax_graph;
 class builtins_t;
 
@@ -47,8 +47,8 @@ public:
 
 	wirth_t(parser & p);
 
-	std::unique_ptr<correlated_grammar> load_grammar2(std::string const & nameOfMain, std::map<std::string, definition> const & productions);
-	std::unique_ptr<correlated_grammar> load_grammar2(std::string const & nameOfMain, std::u32string const & document, std::map<std::string, associativity> const & associativities, std::set<std::string> const & longestNames);
+	grammar_definition load_grammar(std::string const & rootId, std::map<std::string, definition> const & definitions);
+	grammar_definition load_grammar(std::string const & rootId, std::u32string const & document, std::map<std::string, associativity> const & associativities, std::set<std::string> const & longestNames);
 
 private:
 	parser & p;
@@ -80,11 +80,11 @@ private:
 	state_machine & identifierDfa;
 	state_machine & rootDfa;
 
-	erased<behavior::node> process_factor2(std::u32string const & document, match const & factor, abstract_syntax_graph const & asg, correlated_grammar & g);
-	erased<behavior::node> process_term2(std::u32string const & document, match const & term, abstract_syntax_graph const & asg, correlated_grammar & g);
-	erased<behavior::node> process_expression2(std::u32string const & document, match const & expression, abstract_syntax_graph const & asg, correlated_grammar & g);
-	erased<behavior::node> process_production2(std::u32string const & document, match const & expression, abstract_syntax_graph const & asg, correlated_grammar & g);
-	erased<behavior::node> compile_source(std::u32string const & source, correlated_grammar & g);
+	erased<grammar_definition::node> process_factor2(std::u32string const & document, match const & factor, abstract_syntax_graph const & asg);
+	erased<grammar_definition::node> process_term2(std::u32string const & document, match const & term, abstract_syntax_graph const & asg);
+	erased<grammar_definition::node> process_expression2(std::u32string const & document, match const & expression, abstract_syntax_graph const & asg);
+	erased<grammar_definition::node> process_production2(std::u32string const & document, match const & expression, abstract_syntax_graph const & asg);
+	erased<grammar_definition::node> compile_source(std::u32string const & source);
 
 };
 
