@@ -1,5 +1,5 @@
-#ifndef BEHAVIOR2_HPP
-#define BEHAVIOR2_HPP
+#ifndef BEHAVIOR_HPP
+#define BEHAVIOR_HPP
 
 #include "parlex/details/nfa.hpp"
 #include "parlex/recognizer.hpp"
@@ -9,7 +9,7 @@ namespace parlex {
 
 class state_machine;
 
-namespace behavior2 {
+namespace behavior {
 
 class leaf;
 using nfa2 = details::nfa<leaf const *, int>;
@@ -62,7 +62,7 @@ public:
 	nfa2 to_nfa() const override;
 };
 
-} // namespace behavior2
+} // namespace behavior
 } // namespace parlex
 
-#endif //BEHAVIOR2_HPP
+#endif //BEHAVIOR_HPP

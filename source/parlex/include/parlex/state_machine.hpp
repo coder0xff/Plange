@@ -6,17 +6,17 @@
 #include "parlex/recognizer.hpp"
 #include "parlex/filter_function.hpp"
 #include "parlex/associativity.hpp"
-#include "parlex/state_machine_base2.hpp"
+#include "parlex/state_machine_base.hpp"
 #include "details/nfa.hpp"
 
 namespace parlex {
-namespace behavior2 {
+namespace behavior {
 
 class node;
 class leaf;
 using nfa2 = details::nfa<leaf const *, int>;
 
-} // namespace behavior2
+} // namespace behavior
 
 namespace details {
 
@@ -30,7 +30,7 @@ class parser;
 //simulates a dfa
 //State 0 is the start state
 //States from N-a to N-1 are the accept states, where N is states.size() and a is accept_state_count
-class state_machine : public state_machine_base2 {
+class state_machine : public state_machine_base {
 public:
 	typedef std::vector<std::map<recognizer const *, size_t>> states_t;
 

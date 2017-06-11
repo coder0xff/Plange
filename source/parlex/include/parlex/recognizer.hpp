@@ -4,7 +4,7 @@
 #include <string>
 
 namespace parlex {
-namespace behavior2 {
+namespace behavior {
 
 class leaf;
 

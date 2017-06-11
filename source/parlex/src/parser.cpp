@@ -382,14 +382,14 @@ bool precedence_test(grammar_base const & g, node_props_t & a, node_props_t & b)
 	if (&a.m.r == &b.m.r) {
 		return false;
 	}
-	return g.test_precedence(*dynamic_cast<state_machine_base2 const *>(&a.m.r), *dynamic_cast<state_machine_base2 const *>(&b.m.r));
+	return g.test_precedence(*dynamic_cast<state_machine_base const *>(&a.m.r), *dynamic_cast<state_machine_base const *>(&b.m.r));
 }
 
 bool associativity_test(node_props_t & a, node_props_t & b) {
 	if (&a.m.r != &b.m.r) {
 		return false;
 	}
-	associativity const assoc = dynamic_cast<state_machine_base2 const *>(&a.m.r)->get_assoc();
+	associativity const assoc = dynamic_cast<state_machine_base const *>(&a.m.r)->get_assoc();
 	switch (assoc) {
 		case associativity::left:
 		case associativity::any:

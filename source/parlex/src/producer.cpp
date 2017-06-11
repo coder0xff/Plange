@@ -2,7 +2,7 @@
 
 #include <mutex>
 
-#include "parlex/behavior2.hpp"
+#include "parlex/behavior.hpp"
 #include "parlex/parser.hpp"
 
 #include "parlex/details/job.hpp"
@@ -19,7 +19,7 @@ producer::producer(job & owner, recognizer const & r, size_t const documentPosit
 }
 
 
-void producer::add_subscription(context_ref const & c, size_t nextDfaState, behavior2::leaf const * leaf) { {
+void producer::add_subscription(context_ref const & c, size_t nextDfaState, behavior::leaf const * leaf) { {
 		std::unique_lock<std::mutex> lock(mutex);
 		consumers.emplace_back(c, nextDfaState, leaf);
 	} //release the lock
@@ -74,7 +74,7 @@ void producer::terminate() {
 }
 
 
-producer::subscription::subscription(context_ref const & c, size_t const nextDfaState, behavior2::leaf const * leaf) : next_index(0), c(c), next_dfa_state(nextDfaState), leaf(leaf) {
+producer::subscription::subscription(context_ref const & c, size_t const nextDfaState, behavior::leaf const * leaf) : next_index(0), c(c), next_dfa_state(nextDfaState), leaf(leaf) {
 
 }
 

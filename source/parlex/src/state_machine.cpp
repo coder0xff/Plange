@@ -1,14 +1,14 @@
 #include "parlex/state_machine.hpp"
 
 #include "parlex/associativity.hpp"
-#include "parlex/behavior2.hpp"
+#include "parlex/behavior.hpp"
 
 namespace parlex {
 
-state_machine::state_machine(std::string const & id, int startState, int acceptStateCount, filter_function const & filter, associativity assoc) : state_machine_base2(id), start_state(startState), accept_state_count(acceptStateCount), filter(filter), assoc(assoc) {
+state_machine::state_machine(std::string const & id, int startState, int acceptStateCount, filter_function const & filter, associativity assoc) : state_machine_base(id), start_state(startState), accept_state_count(acceptStateCount), filter(filter), assoc(assoc) {
 }
 
-state_machine::state_machine(std::string const & id, filter_function const & filter, associativity assoc) : state_machine_base2(id), filter(filter), assoc(assoc), start_state(-1), accept_state_count(-1) {
+state_machine::state_machine(std::string const & id, filter_function const & filter, associativity assoc) : state_machine_base(id), filter(filter), assoc(assoc), start_state(-1), accept_state_count(-1) {
 }
 
 state_machine::state_machine(std::string const & id, associativity assoc) : state_machine(id, filter_function(), assoc) {

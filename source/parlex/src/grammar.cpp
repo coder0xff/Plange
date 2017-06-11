@@ -79,14 +79,14 @@ std::string grammar::hierarchy_dot(std::map<std::string, production_def> const &
 }
 #endif
 
-state_machine_base2 const& grammar::get_main_production() const {
+state_machine_base const& grammar::get_main_production() const {
 	auto i = productions.find(main_production_name);
 	throw_assert(i != productions.end());
 	return i->second;
 }
 
-std::map<std::string, state_machine_base2 const *> grammar::get_productions() const {
-	std::map<std::string, state_machine_base2 const *> results;
+std::map<std::string, state_machine_base const *> grammar::get_productions() const {
+	std::map<std::string, state_machine_base const *> results;
 	for (auto const & i : productions) {
 		results[i.first] = &i.second;
 	}
@@ -310,7 +310,7 @@ void grammar::generate_cplusplus_code(builtins_t const & builtins, std::string g
 
 }
 
-bool grammar::test_precedence(state_machine_base2 const & productionA, state_machine_base2 const & productionB) const {
+bool grammar::test_precedence(state_machine_base const & productionA, state_machine_base const & productionB) const {
 	auto i = precedences.find(static_cast<state_machine const *>(&productionA));
 	if (i == precedences.end()) {
 		return false;
@@ -321,9 +321,9 @@ bool grammar::test_precedence(state_machine_base2 const & productionA, state_mac
 precedence_collection grammar::get_precedences() const {
 	precedence_collection results;
 	for (auto const & precedence : precedences) {
-		std::set<state_machine_base2 const *> & s = results[precedence.first];
+		std::set<state_machine_base const *> & s = results[precedence.first];
 		for (auto const & then : precedence.second) {
-			s.insert(static_cast<state_machine_base2 const *>(then));
+			s.insert(static_cast<state_machine_base const *>(then));
 		}
 	}
 	return results;

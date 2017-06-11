@@ -8,11 +8,11 @@
 #include "parlex/permutation.hpp"
 
 namespace parlex {
-namespace behavior2 {
+namespace behavior {
 
 class leaf;
 
-} // namespace behavior2
+} // namespace behavior
 
 namespace details {
 

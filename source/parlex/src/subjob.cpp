@@ -11,7 +11,7 @@ namespace details {
 
 subjob::subjob(
 	job & owner,
-	state_machine_base2 const & machine,
+	state_machine_base const & machine,
 	int documentPosition
 ):
 	producer(owner, machine, documentPosition),
@@ -46,7 +46,7 @@ context_ref subjob::construct_stepped_context(context_ref const & prior, match c
 	return contexts.back().get_ref();
 }
 
-void subjob::on(context_ref const & c, recognizer const & r, int nextDfaState, behavior2::leaf const * leaf) {
+void subjob::on(context_ref const & c, recognizer const & r, int nextDfaState, behavior::leaf const * leaf) {
 	if (c.current_document_position() >= c.owner().owner.document.length()) {
 		return;
 	}

@@ -25,7 +25,7 @@ class subjob;
 
 }
 
-class grammar2;
+class correlated_grammar;
 class recognizer;
 
 class parser {

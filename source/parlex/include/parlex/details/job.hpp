@@ -7,7 +7,7 @@
 
 namespace parlex {
 
-class grammar2;
+class correlated_grammar;
 class parser;
 class state_machine;
 class grammar_base;
@@ -26,7 +26,7 @@ public:
 	std::atomic<int> progress;
 
 	job(parser & owner, std::u32string const & document, grammar_base const & g, recognizer const & main);
-	void connect(match_class const & matchClass, context_ref const & c, int nextState, behavior2::leaf const * leaf);
+	void connect(match_class const & matchClass, context_ref const & c, int nextState, behavior::leaf const * leaf);
 private:
 	producer& get_producer(match_class const & matchClass);
 	parser & owner;

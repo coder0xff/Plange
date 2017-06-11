@@ -6,7 +6,7 @@
 #include "forward_list_c.hpp"
 
 namespace parlex {
-namespace behavior2 {
+namespace behavior {
 
 class leaf;
 
@@ -14,7 +14,7 @@ class leaf;
 
 struct match : match_class {
 	int const consumed_character_count;
-	forward_list_c<behavior2::leaf const *> leafs; //lock free for our use case
+	forward_list_c<behavior::leaf const *> leafs; //lock free for our use case
 
 	match(struct match_class const & matchClass, int consumedCharacterCount);
 	match(match const & other) = default;

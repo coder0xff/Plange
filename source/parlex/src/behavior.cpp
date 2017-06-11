@@ -1,10 +1,10 @@
 #include <algorithm>
 #include <iterator>
 
-#include "parlex/behavior2.hpp"
+#include "parlex/behavior.hpp"
 
 namespace parlex {
-namespace behavior2 {
+namespace behavior {
 
 void node::add_child(erased<node> child) {
 	children.push_back(child);
@@ -135,5 +135,5 @@ nfa2 sequence::to_nfa() const {
 	return result;
 }
 
-} //namespace behavior2
+} //namespace behavior
 } //namespace parlex
