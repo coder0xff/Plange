@@ -1,4 +1,5 @@
 #include "parlex/grammar2.hpp"
+
 #include "parlex/builtins.hpp"
 
 namespace parlex {
@@ -27,7 +28,7 @@ builtins_t::string_terminal& grammar2::get_or_add_literal(std::u32string const &
 	return result.first->second;
 }
 
-state_machine_base2 const & grammar2::get_main_production() const {
+state_machine_base2 const& grammar2::get_main_production() const {
 	return productions.find(root_name)->second.state_machine;
 }
 
@@ -58,10 +59,10 @@ precedence_collection grammar2::get_precedences() const {
 	return results;
 }
 
-state_machine2 const & grammar2::get_state_machine(std::string const & id) const {
+state_machine2 const& grammar2::get_state_machine(std::string const & id) const {
 	auto i = productions.find(id);
 	throw_assert(i != productions.end());
 	return i->second.state_machine;
 }
 
-}
+} // namespace parlex

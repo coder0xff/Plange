@@ -5,10 +5,10 @@
 #include <set>
 
 #include "parlex/details/string_terminal.hpp"
-#include "parlex/details/behavior2.hpp"
-#include "state_machine2.hpp"
-#include "precedence_collection.hpp"
-#include "grammar_base.hpp"
+#include "parlex/behavior2.hpp"
+#include "parlex/state_machine2.hpp"
+#include "parlex/precedence_collection.hpp"
+#include "parlex/grammar_base.hpp"
 
 namespace parlex {
 class builtins_t;
@@ -35,10 +35,10 @@ public:
 	std::map<std::u32string, details::string_terminal> literals;
 	std::map<state_machine2 const *, std::set<state_machine2 const *>> precedences;
 
-	details::string_terminal & get_or_add_literal(std::u32string const & contents);
-	state_machine2 const & get_state_machine(std::string const & id) const;
+	details::string_terminal& get_or_add_literal(std::u32string const & contents);
+	state_machine2 const& get_state_machine(std::string const & id) const;
 
-	state_machine_base2 const & get_main_production() const override;
+	state_machine_base2 const& get_main_production() const override;
 	std::map<std::string, state_machine_base2 const *> get_productions() const override;
 	bool test_precedence(state_machine_base2 const & productionA, state_machine_base2 const & productionB) const override;
 	precedence_collection get_precedences() const override;
@@ -46,6 +46,6 @@ private:
 	std::map<std::string, production> productions;
 };
 
-}
+} //namespace parlex
 
-#endif
+#endif //GRAMMAR2_HPP

@@ -1,7 +1,7 @@
 #ifndef BUILDER_HPP
 #define BUILDER_HPP
 
-#include "state_machine_base.hpp"
+#include "parlex/state_machine_base2.hpp"
 #include "compiled_grammar.hpp"
 #include "parlex/details/string_terminal.hpp"
 
@@ -26,7 +26,7 @@
 	} \
 	name##_t name
 
-#define DFA_STATE case 
+#define DFA_STATE case
 #define DFA_ACCEPT accept(c)
 #define DFA_EDGE(recognizer, out_neighbor) on(c, recognizer, out_neighbor)
 

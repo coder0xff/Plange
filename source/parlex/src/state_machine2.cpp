@@ -1,7 +1,7 @@
 #include "parlex/state_machine2.hpp"
 
 #include "parlex/associativity.hpp"
-#include "parlex/details/behavior2.hpp"
+#include "parlex/behavior2.hpp"
 
 namespace parlex {
 
@@ -99,7 +99,7 @@ associativity state_machine2::get_assoc() const {
 state_machine2_info::state_machine2_info(std::string const & id, filter_function const & function, associativity assoc) : id(id), filter(function), assoc(assoc) {
 }
 
-state_machine2_info::state_machine2_info(std::string const & id, associativity assoc) : state_machine2_info(id, filter_function(), assoc){
+state_machine2_info::state_machine2_info(std::string const & id, associativity assoc) : state_machine2_info(id, filter_function(), assoc) {
 }
 
-}
+} // namespace parlex

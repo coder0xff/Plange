@@ -4,7 +4,7 @@
 #include "parlex/terminal.hpp"
 
 namespace parlex {
-	namespace details {
+namespace details {
 
 #define  U32(name, condition) \
 		class name##_t : public terminal { \
@@ -17,8 +17,7 @@ namespace parlex {
 
 #undef U32
 
-	}
+} // namespace details
+} // namespace parlex
 
-}
-
-#endif
+#endif //UNICODE_HPP

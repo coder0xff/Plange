@@ -1,13 +1,15 @@
 #ifndef TERMINAL_HPP
 #define TERMINAL_HPP
 
-#include "recognizer.hpp"
+#include "parlex/recognizer.hpp"
 
 namespace parlex {
 namespace details {
-	class job;
-	class token;
-}
+
+class job;
+class token;
+
+} // namespace details
 
 class terminal : public recognizer {
 public:
@@ -20,6 +22,6 @@ protected:
 	terminal(std::string id, size_t length);
 };
 
-}
+} // namespace parlex
 
-#endif
+#endif //TERMINAL_HPP

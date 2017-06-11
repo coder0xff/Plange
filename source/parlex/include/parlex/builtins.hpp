@@ -85,6 +85,6 @@ private:
 	static std::set<int> longest_f(std::u32string document, std::list<permutation> const & permutations);
 };
 
-}
+} // namespace parlex
 
-#endif
+#endif //BUILTINS_HPP

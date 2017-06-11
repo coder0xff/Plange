@@ -1,7 +1,7 @@
 #ifndef NOT_DOUBLE_QUOTE_HPP
 #define NOT_DOUBLE_QUOTE_HPP
 
-#include "terminal.hpp"
+#include "parlex/terminal.hpp"
 
 namespace parlex {
 namespace details {
@@ -13,8 +13,7 @@ public:
 	bool test(std::u32string const & document, size_t documentPosition) const override final;
 };
 
-}
+} // namespace details
+} // namespace parlex
 
-}
-
-#endif
+#endif //NOT_DOUBLE_QUOTE_HPP

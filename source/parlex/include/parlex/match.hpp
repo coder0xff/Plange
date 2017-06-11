@@ -1,8 +1,8 @@
 #ifndef MATCH_HPP
 #define MATCH_HPP
 
-#include "match_class.hpp"
-#include <set>
+#include "parlex/match_class.hpp"
+
 #include "forward_list_c.hpp"
 
 namespace parlex {
@@ -23,11 +23,8 @@ struct match : match_class {
 
 	bool operator <(match const & rhs) const;
 
-	/*bool operator !=(match const & rhs) const;
-
-	bool operator ==(match const & rhs) const;*/
 };
 
-}
+} // namespace parlex
 
-#endif
+#endif //MATCH_HPP

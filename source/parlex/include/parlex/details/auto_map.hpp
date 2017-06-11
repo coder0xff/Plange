@@ -7,25 +7,26 @@
 namespace parlex {
 namespace details {
 
-template<typename TKey, typename TValue>
+template <typename TKey, typename TValue>
 class auto_map {
 	std::function<TValue (TKey const &)> value_factory;
 	std::map<TKey, TValue> storage;
 	mutable std::mutex mutex;
 public:
-	auto_map(std::function<TValue (TKey const &)> valueFactory) : value_factory(valueFactory) {}
+	auto_map(std::function<TValue (TKey const &)> valueFactory) : value_factory(valueFactory) {
+	}
 
-	auto_map() : value_factory([](TKey) { return TValue(); }) {}
+	auto_map() : value_factory([](TKey) { return TValue(); }) {
+	}
 
-	TValue const & operator()(TKey key) {
+	TValue const& operator()(TKey key) {
 		std::unique_lock<std::mutex> lock(mutex);
 		auto i = storage.find(key);
 		if (i == storage.end()) {
 			TValue result = value_factory(key);
 			storage.insert(std::pair<TKey, TValue>(key, result));
 			return result;
-		}
-		else {
+		} else {
 			return *i;
 		}
 	}

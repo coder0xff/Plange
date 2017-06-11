@@ -1,7 +1,7 @@
 #ifndef NOT_NEWLINE_HPP
 #define NOT_NEWLINE_HPP
 
-#include "terminal.hpp"
+#include "parlex/terminal.hpp"
 
 namespace parlex {
 namespace details {
@@ -13,8 +13,7 @@ public:
 	bool test(std::u32string const & document, size_t documentPosition) const override final;
 };
 
-}
+} // namespace details
+} // namespace parlex
 
-}
-
-#endif
+#endif //NOT_NEWLINE_HPP

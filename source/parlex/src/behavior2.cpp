@@ -1,6 +1,7 @@
-#include "parlex/details/behavior2.hpp"
 #include <algorithm>
 #include <iterator>
+
+#include "parlex/behavior2.hpp"
 
 namespace parlex {
 namespace behavior2 {
@@ -82,7 +83,7 @@ nfa2 sequence::to_nfa() const {
 		bool anyOriginalStartIsAccept; {
 			std::set<int> intersection;
 			set_intersection(result.startStates.begin(), result.startStates.end(),
-				result.acceptStates.begin(), result.acceptStates.end(), inserter(intersection, intersection.begin()));
+			                 result.acceptStates.begin(), result.acceptStates.end(), inserter(intersection, intersection.begin()));
 			anyOriginalStartIsAccept = !intersection.empty();
 		}
 

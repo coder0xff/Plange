@@ -1,56 +1,58 @@
-#include "parlex/details/subjob.hpp"
 #include "parlex/details/job.hpp"
-#include "parlex/terminal.hpp"
-#include "parlex/details/context.hpp"
+
 #include "parlex/parser.hpp"
+#include "parlex/terminal.hpp"
 #include "parlex/token.hpp"
+
+#include "parlex/details/context.hpp"
+#include "parlex/details/subjob.hpp"
+
 #include "logging.hpp"
 
 namespace parlex {
 namespace details {
 
 job::job(parser & owner, std::u32string const & document, grammar_base const & g, recognizer const & main) :
-  document(document),
-  g(g),
-  main(main),
-  progress(0),
-  owner(owner)
-	{
-		//DBG("starting job using recognizer '", main, "'");
+	document(document),
+	g(g),
+	main(main),
+	progress(0),
+	owner(owner) {
+	//DBG("starting job using recognizer '", main, "'");
 
-		//similar to get_product, but different for constructor
-		match_class matchClass(main, 0);
-		if (main.is_terminal()) {
-			terminal const * const t = static_cast<terminal const *>(&main);
-			token * result = new token(*this, *t, 0);
-			producers.emplace(
-				std::piecewise_construct,
-				std::forward_as_tuple(matchClass),
-				std::forward_as_tuple(result)
-			);
-		} else {
-			state_machine_base2 const * machine = static_cast<state_machine_base2 const *>(&main);
-			subjob * result = new subjob(*this, *machine, 0);
-			producers.emplace(
-				std::piecewise_construct,
-				std::forward_as_tuple(matchClass),
-				std::forward_as_tuple(result)
-			);
-			//seed the parser with the root state
-			result->increment_lifetime(); //reference code A
-			owner.work.emplace(std::make_tuple(result->construct_start_state_context(0), 0));
-			++owner.activeCount;
-			//give it a tickle!
-			owner.work_cv.notify_one(); //parser::parse has mutex locked
-			result->finish_creation();
-		}
+	//similar to get_product, but different for constructor
+	match_class matchClass(main, 0);
+	if (main.is_terminal()) {
+		terminal const * const t = static_cast<terminal const *>(&main);
+		token * result = new token(*this, *t, 0);
+		producers.emplace(
+			std::piecewise_construct,
+			std::forward_as_tuple(matchClass),
+			std::forward_as_tuple(result)
+		);
+	} else {
+		state_machine_base2 const * machine = static_cast<state_machine_base2 const *>(&main);
+		subjob * result = new subjob(*this, *machine, 0);
+		producers.emplace(
+			std::piecewise_construct,
+			std::forward_as_tuple(matchClass),
+			std::forward_as_tuple(result)
+		);
+		//seed the parser with the root state
+		result->increment_lifetime(); //reference code A
+		owner.work.emplace(std::make_tuple(result->construct_start_state_context(0), 0));
+		++owner.activeCount;
+		//give it a tickle!
+		owner.work_cv.notify_one(); //parser::parse has mutex locked
+		result->finish_creation();
+	}
 }
 
 void job::connect(match_class const & matchClass, context_ref const & c, int nextDfaState, behavior2::leaf const * leaf) {
 	get_producer(matchClass).add_subscription(c, nextDfaState, leaf);
 }
 
-producer & job::get_producer(match_class const & matchClass) {
+producer& job::get_producer(match_class const & matchClass) {
 	std::unique_lock<std::mutex> lock(producers_mutex);
 	if (producers.count(matchClass)) {
 		return *producers[matchClass];

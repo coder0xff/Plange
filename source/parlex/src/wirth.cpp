@@ -2,14 +2,14 @@
 
 #include "parlex/builtins.hpp"
 #include "parlex/parser.hpp"
-#include "utils.hpp"
 #include "parlex/grammar2.hpp"
 
-namespace parlex {
+#include "utils.hpp"
 
+namespace parlex {
 namespace details {
 
-static recognizer const & find_recognizer(grammar2 const & g, std::string const & id) {
+static recognizer const& find_recognizer(grammar2 const & g, std::string const & id) {
 	recognizer const * builtin_ptr;
 	if (g.builtins.resolve_builtin(id, builtin_ptr)) {
 		return *builtin_ptr;
@@ -17,8 +17,7 @@ static recognizer const & find_recognizer(grammar2 const & g, std::string const 
 	return g.get_state_machine(id);
 }
 
-erased<behavior2::node> wirth_t::process_factor2(std::u32string const & document, match const & factor, abstract_syntax_graph const & asg, grammar2 & g)
-{
+erased<behavior2::node> wirth_t::process_factor2(std::u32string const & document, match const & factor, abstract_syntax_graph const & asg, grammar2 & g) {
 	permutation const & p = *asg.permutations.find(factor)->second.begin();
 	auto i = p.begin();
 	std::string tag;
@@ -26,18 +25,16 @@ erased<behavior2::node> wirth_t::process_factor2(std::u32string const & document
 		++i;
 		if (&i->r == &identifierDfa) {
 			tag = to_utf8(document.substr(i->document_position, i->consumed_character_count));
-		}
-		else if (&i->r == &g.builtins.c_string) {
+		} else if (&i->r == &g.builtins.c_string) {
 			tag = to_utf8(g.builtins.c_string.extract(document, *i, asg));
-		}
-		else {
+		} else {
 			throw;
 		}
 	}
 
 	if (&i->r == &tagDfa) {
-		permutation const& q = *asg.permutations.find(*i)->second.begin();
-		match const& j = q[1];
+		permutation const & q = *asg.permutations.find(*i)->second.begin();
+		match const & j = q[1];
 		++i;
 		throw_assert(&j.r == &identifierDfa);
 		tag = to_utf8(document.substr(j.document_position, j.consumed_character_count));
@@ -48,12 +45,10 @@ erased<behavior2::node> wirth_t::process_factor2(std::u32string const & document
 	if (&i->r == &identifierDfa) {
 		std::string name = to_utf8(document.substr(i->document_position, i->consumed_character_count));
 		set(behavior2::leaf(find_recognizer(g, name)));
-	}
-	else if (&i->r == &g.builtins.c_string) {
+	} else if (&i->r == &g.builtins.c_string) {
 		std::u32string text = g.builtins.c_string.extract(document, *i, asg);
 		set(behavior2::leaf(g.get_or_add_literal(text)));
-	}
-	else if (&i->r == &parentheticalDfa) {
+	} else if (&i->r == &parentheticalDfa) {
 		permutation const & q = *asg.permutations.find(*i)->second.begin();
 		auto j = q.begin();
 		auto parenthetical_type = &j->r;
@@ -62,18 +57,14 @@ erased<behavior2::node> wirth_t::process_factor2(std::u32string const & document
 		}
 		if (parenthetical_type == &openSquare) {
 			set(process_expression2(document, *j, asg, g));
-		}
-		else if (parenthetical_type == &openCurly) {
+		} else if (parenthetical_type == &openCurly) {
 			set(process_expression2(document, *j, asg, g));
-		}
-		else if (parenthetical_type == &openParen) {
+		} else if (parenthetical_type == &openParen) {
 			set(process_expression2(document, *j, asg, g));
-		}
-		else {
+		} else {
 			throw;
 		}
-	}
-	else {
+	} else {
 		throw;
 	}
 
@@ -83,8 +74,7 @@ erased<behavior2::node> wirth_t::process_factor2(std::u32string const & document
 	return *result;
 }
 
-erased<behavior2::node> wirth_t::process_term2(std::u32string const & document, match const & term, abstract_syntax_graph const & asg, grammar2 & g)
-{
+erased<behavior2::node> wirth_t::process_term2(std::u32string const & document, match const & term, abstract_syntax_graph const & asg, grammar2 & g) {
 	std::vector<match> factors;
 
 	permutation const & p = *(*asg.permutations.find(term)).second.begin();
@@ -103,8 +93,7 @@ erased<behavior2::node> wirth_t::process_term2(std::u32string const & document, 
 	return result;
 }
 
-erased<behavior2::node> wirth_t::process_expression2(std::u32string const & document, match const & expression, abstract_syntax_graph const & asg, grammar2 & g)
-{
+erased<behavior2::node> wirth_t::process_expression2(std::u32string const & document, match const & expression, abstract_syntax_graph const & asg, grammar2 & g) {
 	std::vector<match> terms;
 
 	permutation const & p = *(*asg.permutations.find(expression)).second.begin();
@@ -145,14 +134,13 @@ std::unique_ptr<grammar2> wirth_t::load_grammar2(std::string const & nameOfMain,
 		}
 		infos.emplace_back(name, def.filter, def.assoc);
 	}
-	std::unique_ptr<grammar2> result(new grammar2(p.builtins, nameOfMain, infos, [this, &definitions](std::string const & id, grammar2 & g){
-		return compile_source(definitions.find(id)->second.source, g);
-	}));
+	std::unique_ptr<grammar2> result(new grammar2(p.builtins, nameOfMain, infos, [this, &definitions](std::string const & id, grammar2 & g) {
+	                                              return compile_source(definitions.find(id)->second.source, g);
+                                              }));
 	return result;
 }
 
-std::unique_ptr<grammar2> wirth_t::load_grammar2(std::string const & nameOfMain, std::u32string const & document, std::map<std::string, associativity> const & associativities, std::set<std::string> const & longestNames)
-{
+std::unique_ptr<grammar2> wirth_t::load_grammar2(std::string const & nameOfMain, std::u32string const & document, std::map<std::string, associativity> const & associativities, std::set<std::string> const & longestNames) {
 	std::set<std::u32string> names;
 	std::map<std::string, definition> definitions;
 	abstract_syntax_graph asg = p.parse(*this, document);
@@ -179,34 +167,32 @@ wirth_t::definition::definition(std::u32string const & source, associativity ass
 }
 
 wirth_t::wirth_t(parser & p) : grammar(p.builtins, "root"), p(p),
-	newline(add_literal(U"\n")),
-	hash(add_literal(U"#")),
-	period(add_literal(U".")),
-	equals(add_literal(U"=")),
-	quote(add_literal(U"\"")),
-	pipe(add_literal(U"|")),
-	openSquare(add_literal(U"[")),
-	closeSquare(add_literal(U"]")),
-	openParen(add_literal(U"(")),
-	closeParen(add_literal(U")")),
-	openCurly(add_literal(U"{")),
-	closeCurly(add_literal(U"}")),
-	underscore(add_literal(U"_")),
-	dollarSign(add_literal(U"$")),
-	percentageSign(add_literal(U"%")),
-	
-	whiteSpaceDfa(add_production("whiteSpace", 0, 1, p.builtins.longest)),
-	commentDfa(add_production("comment", 0, 1)),
-	productionDfa(add_production("production", 0, 1)),
-	expressionDfa(add_production("expression", 0, 1)),
-	termDfa(add_production("term", 0, 1)),
-	parentheticalDfa(add_production("parenthetical", 0, 1)),
-	tagDfa(add_production("tag", 0, 1)),
-	factorDfa(add_production("factor", 0, 1)),
-	identifierDfa(add_production("identifier", 0, 1, p.builtins.longest)),
-	rootDfa(add_production("root", 0, 1))
-	
-	{
+                               newline(get_or_add_literal(U"\n")),
+                               hash(get_or_add_literal(U"#")),
+                               period(get_or_add_literal(U".")),
+                               equals(get_or_add_literal(U"=")),
+                               quote(get_or_add_literal(U"\"")),
+                               pipe(get_or_add_literal(U"|")),
+                               openSquare(get_or_add_literal(U"[")),
+                               closeSquare(get_or_add_literal(U"]")),
+                               openParen(get_or_add_literal(U"(")),
+                               closeParen(get_or_add_literal(U")")),
+                               openCurly(get_or_add_literal(U"{")),
+                               closeCurly(get_or_add_literal(U"}")),
+                               underscore(get_or_add_literal(U"_")),
+                               dollarSign(get_or_add_literal(U"$")),
+                               percentageSign(get_or_add_literal(U"%")),
+
+                               whiteSpaceDfa(add_production("whiteSpace", 0, 1, p.builtins.longest)),
+                               commentDfa(add_production("comment", 0, 1)),
+                               productionDfa(add_production("production", 0, 1)),
+                               expressionDfa(add_production("expression", 0, 1)),
+                               termDfa(add_production("term", 0, 1)),
+                               parentheticalDfa(add_production("parenthetical", 0, 1)),
+                               tagDfa(add_production("tag", 0, 1)),
+                               factorDfa(add_production("factor", 0, 1)),
+                               identifierDfa(add_production("identifier", 0, 1, p.builtins.longest)),
+                               rootDfa(add_production("root", 0, 1)) {
 	rootDfa.states[0][&productionDfa] = 0;
 	rootDfa.states[0][&whiteSpaceDfa] = 0;
 	rootDfa.states[0][&commentDfa] = 0;
@@ -288,8 +274,7 @@ wirth_t::wirth_t(parser & p) : grammar(p.builtins, "root"), p(p),
 	precedences[&factorDfa].insert(&factorDfa);
 }
 
-erased<behavior2::node> wirth_t::process_production2(std::u32string const & document, match const & production, abstract_syntax_graph const & asg, grammar2 & g)
-{
+erased<behavior2::node> wirth_t::process_production2(std::u32string const & document, match const & production, abstract_syntax_graph const & asg, grammar2 & g) {
 	for (match const & entry : *(*asg.permutations.find(production)).second.begin()) {
 		if (&entry.r == &expressionDfa) {
 			return process_expression2(document, entry, asg, g);
@@ -300,6 +285,4 @@ erased<behavior2::node> wirth_t::process_production2(std::u32string const & docu
 
 
 } //namespace details
-
 } //namespace parlex
-

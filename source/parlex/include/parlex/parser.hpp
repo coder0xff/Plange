@@ -6,10 +6,11 @@
 #include <atomic>
 #include <queue>
 
-#include "abstract_syntax_graph.hpp"
-#include "post_processor.hpp"
+#include "parlex/abstract_syntax_graph.hpp"
+#include "parlex/post_processor.hpp"
 
 #include "parlex/details/context.hpp"
+
 #include "builtins.hpp"
 
 namespace parlex {
@@ -65,6 +66,6 @@ private:
 	bool handle_deadlocks(details::job const & j) const;
 };
 
-}
+} // namespace parlex
 
-#endif
+#endif //PARSER_HPP

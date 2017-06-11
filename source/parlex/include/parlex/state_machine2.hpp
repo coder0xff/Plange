@@ -3,11 +3,11 @@
 
 #include <map>
 
-#include "parlex/recognizer.hpp"
-#include "parlex/filter_function.hpp"
 #include "parlex/associativity.hpp"
+#include "parlex/filter_function.hpp"
 #include "parlex/state_machine_base2.hpp"
-#include "details/nfa.hpp"
+
+#include "parlex/details/nfa.hpp"
 
 namespace parlex {
 namespace behavior2 {
@@ -36,6 +36,7 @@ struct state_machine2_info {
 	associativity const assoc;
 
 };
+
 //simulates a dfa
 //State 0 is the start state
 //States from N-a to N-1 are the accept states, where N is states.size() and a is accept_state_count

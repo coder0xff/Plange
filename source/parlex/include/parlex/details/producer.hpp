@@ -20,7 +20,8 @@ class job;
 
 class producer {
 public:
-    virtual ~producer() = default;
+	virtual ~producer() = default;
+
 	struct subscription {
 		size_t next_index;
 		context_ref const c;
@@ -46,7 +47,7 @@ public:
 	void terminate();
 };
 
-}
-}
+} // namespace details
+} // namespace parlex
 
 #endif //PRODUCER_HPP

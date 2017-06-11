@@ -14,7 +14,7 @@ public:
 	token(job & owner, terminal const & t, size_t documentPosition);
 };
 
-}
-}
+} // namespace details
+} // namespace parlex
 
 #endif //TOKEN_HPP

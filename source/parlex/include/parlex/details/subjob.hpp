@@ -43,7 +43,7 @@ public:
 	void flush();
 };
 
-}
-}
+} // namespace details
+} // namespace parlex
 
-#endif
+#endif //SUBJOB_HPP

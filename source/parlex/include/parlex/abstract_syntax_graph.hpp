@@ -5,8 +5,8 @@
 #include <set>
 #include <list>
 
-#include "match.hpp"
-#include "permutation.hpp"
+#include "parlex/match.hpp"
+#include "parlex/permutation.hpp"
 
 namespace parlex {
 
@@ -22,6 +22,6 @@ struct abstract_syntax_graph {
 	std::list<std::string> warnings;
 };
 
-}
+} // namespace parlex
 
-#endif
+#endif //ABSTRACT_SYNTAX_GRAPH_HPP

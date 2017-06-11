@@ -1,9 +1,10 @@
 #include "parlex/details/subjob.hpp"
 
+#include "parlex/parser.hpp"
+#include "parlex/recognizer.hpp"
+
 #include "parlex/details/context.hpp"
 #include "parlex/details/job.hpp"
-#include "parlex/recognizer.hpp"
-#include "parlex/parser.hpp"
 
 namespace parlex {
 namespace details {
@@ -116,5 +117,5 @@ void subjob::flush() {
 	}
 }
 
-}
-}
+} // namespace details
+} // namespace parlex

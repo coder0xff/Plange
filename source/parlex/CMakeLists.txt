@@ -2,11 +2,9 @@ add_subdirectory(parlex_test)
 
 set (SOURCES
 	"src/abstract_syntax_graph.cpp"
-	"src/behavior.cpp"
 	"src/behavior2.cpp"
 	"src/builtins.cpp"
 	"src/c_string.cpp"
-	"src/compiled_grammar.cpp"
 	"src/context.cpp"
 	"src/grammar.cpp"
 	"src/grammar2.cpp"
@@ -14,12 +12,10 @@ set (SOURCES
 	"src/job.cpp"
 	"src/match.cpp"
 	"src/match_class.cpp"
-	"src/nfa.cpp"
 	"src/parser.cpp"
 	"src/producer.cpp"
 	"src/recognizer.cpp"
 	"src/state_machine.cpp"
-	"src/state_machine_base.cpp"
 	"src/state_machine_base2.cpp"
 	"src/state_machine2.cpp"
 	"src/subjob.cpp"
@@ -32,6 +28,7 @@ set (SOURCES
 set (HEADERS
 	"include/parlex/abstract_syntax_graph.hpp"
 	"include/parlex/associativity.hpp"
+	"include/parlex/behavior2.hpp"
 	"include/parlex/builder.hpp"
 	"include/parlex/builtins.hpp"
 	"include/parlex/document_representation.hpp"
@@ -47,7 +44,6 @@ set (HEADERS
 	"include/parlex/precedence_collection.hpp"
 	"include/parlex/recognizer.hpp"
 	"include/parlex/state_machine.hpp"
-	"include/parlex/state_machine_base.hpp"
 	"include/parlex/state_machine_base2.hpp"
 	"include/parlex/state_machine2.hpp"
 	"include/parlex/terminal.hpp"
@@ -55,8 +51,6 @@ set (HEADERS
 
 set (DETAILS_HEADERS
 	"include/parlex/details/auto_map.hpp"
-	"include/parlex/details/behavior.hpp"
-	"include/parlex/details/behavior2.hpp"
 	"include/parlex/details/context.hpp"
 	"include/parlex/details/job.hpp"
 	"include/parlex/details/nfa.hpp"

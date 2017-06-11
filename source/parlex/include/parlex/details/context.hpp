@@ -29,12 +29,12 @@ public:
 	context_ref();
 	context_ref(context_ref_counter & rc);
 	context_ref(context_ref const & other);
-	context_ref(context_ref&& other) noexcept;
+	context_ref(context_ref && other) noexcept;
 	~context_ref();
 
 	bool is_null() const;
-	subjob & owner() const;
-	context_ref const & prior() const;
+	subjob& owner() const;
+	context_ref const& prior() const;
 	size_t current_document_position() const;
 	std::unique_ptr<match> from_transition() const; //unique_ptr serves as optional
 	permutation result() const;
@@ -54,7 +54,7 @@ private:
 public:
 	context(subjob & owner, context_ref const & prior, int documentPosition, match const * from_transition);
 	context(context const & other) = delete;
-	context(context&& move) = delete;
+	context(context && move) = delete;
 	~context();
 
 	context_ref get_ref() const;

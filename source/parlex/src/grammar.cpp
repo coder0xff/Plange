@@ -1,11 +1,12 @@
 #include "parlex/grammar.hpp"
 
 #include <algorithm>
+#include <queue>
 #include <sstream>
 
 #include "parlex/builtins.hpp"
+
 #include "utils.hpp"
-#include <queue>
 
 namespace parlex {
 
@@ -96,6 +97,7 @@ builtins_t::string_terminal& grammar::get_or_add_literal(std::u32string const & 
 	auto result = literals.emplace(std::piecewise_construct, forward_as_tuple(contents), forward_as_tuple(contents));
 	return result.first->second;
 }
+
 std::map<std::u32string, builtins_t::string_terminal> const& grammar::get_literals() const {
 	return literals;
 }
@@ -106,6 +108,15 @@ state_machine& grammar::add_production(std::string id, size_t startState, size_t
 
 state_machine& grammar::add_production(std::string id, size_t startState, size_t acceptStateCount, filter_function filter, associativity assoc) {
 	return productions.emplace(std::piecewise_construct, forward_as_tuple(id), forward_as_tuple(id, startState, acceptStateCount, filter, assoc)).first->second;
+}
+
+details::string_terminal const& grammar::get_add_literal(std::u32string contents) {
+	auto i = literals.find(contents);
+	if (i != literals.end()) {
+		i->second;
+	}
+	auto res = literals.emplace(std::piecewise_construct, forward_as_tuple(contents), forward_as_tuple(contents));
+	return res.first->second;
 }
 
 void print_sorted_lines(std::ostream & os, std::string lines) {

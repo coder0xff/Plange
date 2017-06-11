@@ -1,13 +1,14 @@
 #include "parlex/details/c_string.hpp"
 
-#include "parlex/terminal.hpp"
-#include "parlex/builtins.hpp"
-#include "utils.hpp"
 #include "parlex/abstract_syntax_graph.hpp"
+#include "parlex/builtins.hpp"
+#include "parlex/terminal.hpp"
+
+#include "utils.hpp"
 
 namespace parlex {
 namespace details {
-	
+
 c_string_t::c_string_t(filter_function const & longest, terminal const & octal_digit, terminal const & hexadecimal_digit) :
 	state_machine("c_string", longest, associativity::none),
 	backslash(to_utf32("\\")),
@@ -15,7 +16,7 @@ c_string_t::c_string_t(filter_function const & longest, terminal const & octal_d
 	x(to_utf32("x")),
 	octal_escape_sequence("octal_escape_sequence", longest),
 	hex_escape_sequence("hex_escape_sequence", longest) {
-	
+
 	octal_escape_sequence.states[0][&backslash] = 1;
 	octal_escape_sequence.states[1][&octal_digit] = 2;
 	octal_escape_sequence.states[2][&octal_digit] = 3;
@@ -56,48 +57,45 @@ std::u32string c_string_t::extract(std::u32string document, match const & m, abs
 	for (; i != end; ++i) {
 		if (&i->r == &content) {
 			result.append(1, document[i->document_position]);
-		}
-		else if (&i->r == &basic_escape_sequence) {
+		} else if (&i->r == &basic_escape_sequence) {
 			char32_t const c = document[i->document_position + 1];
 			switch (c) {
-			case '"':
-			case '\'':
-			case '?':
-			case '\\':
-				result.append(1, c);
-				break;
-			case 97:
-				result.append(1, static_cast<char32_t>(7));
-				break;
-			case 98:
-				result.append(1, static_cast<char32_t>(8));
-				break;
-			case 102:
-				result.append(1, static_cast<char32_t>(12));
-				break;
-			case 110:
-				result.append(1, static_cast<char32_t>(10));
-				break;
-			case 114:
-				result.append(1, static_cast<char32_t>(13));
-				break;
-			case 116:
-				result.append(1, static_cast<char32_t>(9));
-				break;
-			case 118:
-				result.append(1, static_cast<char32_t>(11));
-				break;
+				case '"':
+				case '\'':
+				case '?':
+				case '\\':
+					result.append(1, c);
+					break;
+				case 97:
+					result.append(1, static_cast<char32_t>(7));
+					break;
+				case 98:
+					result.append(1, static_cast<char32_t>(8));
+					break;
+				case 102:
+					result.append(1, static_cast<char32_t>(12));
+					break;
+				case 110:
+					result.append(1, static_cast<char32_t>(10));
+					break;
+				case 114:
+					result.append(1, static_cast<char32_t>(13));
+					break;
+				case 116:
+					result.append(1, static_cast<char32_t>(9));
+					break;
+				case 118:
+					result.append(1, static_cast<char32_t>(11));
+					break;
 			}
-		}
-		else if (&i->r == &octal_escape_sequence) {
+		} else if (&i->r == &octal_escape_sequence) {
 			char32_t c = 0;
 			for (int j = 1; j < i->consumed_character_count; ++j) {
 				c = c << 3;
 				c += document[i->document_position + j] - '0';
 			}
 			result.append(1, c);
-		}
-		else if (&i->r == &hex_escape_sequence) {
+		} else if (&i->r == &hex_escape_sequence) {
 			char32_t c = 0;
 			for (int j = 1; j < i->consumed_character_count; ++j) {
 				c = c << 4;
@@ -130,4 +128,3 @@ bool c_string_t::basic_escape_sequence_t::test(std::u32string const & document, 
 
 } //namespace details
 } //namespace parlex
-

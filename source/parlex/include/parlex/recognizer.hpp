@@ -18,11 +18,9 @@ public:
 	virtual bool is_terminal() const;
 	std::string const id;
 
-	friend std::ostream& operator<<(std::ostream& os, const recognizer & r);
+	friend std::ostream& operator<<(std::ostream & os, const recognizer & r);
 };
 
+} // namespace parlex
 
-
-}
-
-#endif
+#endif //RECOGNIZER_HPP

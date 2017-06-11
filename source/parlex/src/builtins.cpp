@@ -128,4 +128,15 @@ void builtins_t::progress_bar(int done, int outOf) {
 	std::cout << "\r[" << std::string(ticks, '*') << std::string(25 - ticks, ' ') << "]";
 }
 
+details::string_terminal::string_terminal(std::u32string const & s) : terminal(to_utf8(s), s.length()), s(s) {
 }
+
+bool details::string_terminal::test(std::u32string const & document, size_t documentPosition) const {
+	return document.compare(documentPosition, length, s) == 0;
+}
+
+std::u32string details::string_terminal::get_content() const {
+	return s;
+}
+
+} // namespace parlex

@@ -35,5 +35,6 @@ struct terminal_node : node {
 	std::string user_tag;
 };
 
+} // namespace parlex
 
-#endif
+#endif //DOCUMENT_REPRESENTATION_HPP

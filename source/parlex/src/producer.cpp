@@ -2,10 +2,11 @@
 
 #include <mutex>
 
+#include "parlex/behavior2.hpp"
+#include "parlex/parser.hpp"
+
 #include "parlex/details/job.hpp"
 #include "parlex/details/subjob.hpp"
-#include "parlex/parser.hpp"
-#include "parlex/details/behavior2.hpp"
 
 namespace parlex {
 namespace details {
@@ -77,5 +78,5 @@ producer::subscription::subscription(context_ref const & c, size_t const nextDfa
 
 }
 
-}
-}
+} // namespace details
+} // namespace parlex

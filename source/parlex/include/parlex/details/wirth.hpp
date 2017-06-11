@@ -80,16 +80,15 @@ private:
 	state_machine & identifierDfa;
 	state_machine & rootDfa;
 
-	erased<parlex::behavior2::node> process_factor2(std::u32string const & document, match const & factor, abstract_syntax_graph const & asg, grammar2 & g);
-	erased<parlex::behavior2::node> process_term2(std::u32string const & document, match const & term, abstract_syntax_graph const & asg, grammar2 & g);
-	erased<parlex::behavior2::node> process_expression2(std::u32string const & document, match const & expression, abstract_syntax_graph const & asg, grammar2 & g);
-	erased<parlex::behavior2::node> process_production2(std::u32string const & document, match const & expression, abstract_syntax_graph const & asg, grammar2 & g);
-	erased<parlex::behavior2::node> compile_source(std::u32string const & source, grammar2 & g);
+	erased<behavior2::node> process_factor2(std::u32string const & document, match const & factor, abstract_syntax_graph const & asg, grammar2 & g);
+	erased<behavior2::node> process_term2(std::u32string const & document, match const & term, abstract_syntax_graph const & asg, grammar2 & g);
+	erased<behavior2::node> process_expression2(std::u32string const & document, match const & expression, abstract_syntax_graph const & asg, grammar2 & g);
+	erased<behavior2::node> process_production2(std::u32string const & document, match const & expression, abstract_syntax_graph const & asg, grammar2 & g);
+	erased<behavior2::node> compile_source(std::u32string const & source, grammar2 & g);
 
 };
 
 } //namespace details
-
 } //namespace parlex
 
-#endif
+#endif //WIRTH_HPP

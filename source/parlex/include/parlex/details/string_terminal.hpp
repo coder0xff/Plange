@@ -9,14 +9,14 @@ namespace details {
 
 class string_terminal : public terminal {
 public:
-	string_terminal(std::u32string const & s) : terminal(to_utf8(s), s.length()), s(s) {}
+	string_terminal(std::u32string const & s);
+
 	virtual ~string_terminal() = default;
-	bool test(std::u32string const & document, size_t documentPosition) const override final {
-		return document.compare(documentPosition, length, s) == 0;
-	}
-	std::u32string get_content() const {
-		return s;
-	}
+
+	bool test(std::u32string const & document, size_t documentPosition) const override final;
+
+	std::u32string get_content() const;
+
 private:
 	std::u32string const s;
 };
@@ -24,4 +24,4 @@ private:
 } //namespace details
 } //namespace parlex
 
-#endif
+#endif //STRING_TERMINAL_HPP
