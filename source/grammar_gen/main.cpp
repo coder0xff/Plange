@@ -9,7 +9,6 @@
 
 #include <yaml-cpp/yaml.h>
 #include "utils.hpp"
-#include <cassert>
 #include <fstream>
 #include <iostream>
 #include "parlex/builtins.hpp"
@@ -22,20 +21,21 @@ inline std::string trim(std::string str)
 }
 
 int main(int argc, const char* argv[]) {
-	assert(argc == 2);
+	throw_assert(argc == 2);
 	std::string workingDir = argv[1];
 	std::string filename = workingDir + "/syntax.yml";
 	std::ifstream ifs(filename, std::ios::binary);
+	throw_assert(bool(ifs));
 	std::u32string syntaxYaml = read_with_bom(ifs);
 	YAML::Node spec = YAML::Load(to_utf8(syntaxYaml));
-	std::map<std::string, parlex::wirth_production_def> defs;
+	std::map<std::string, parlex::details::wirth_production_def> defs;
 	for (auto const & elem : spec) {
 		std::string name = elem.first.as<std::string>();
 		auto data = elem.second;
 		std::cout << name << "\n";
 		std::string syntax = trim(data["syntax"].as<std::string>());
 		std::cout << syntax << "\n";
-		parlex::wirth_production_def temp;
+		parlex::details::wirth_production_def temp;
 		temp.definition = to_utf32(syntax);
 		temp.assoc = parlex::associativity::none;
 		if (data["assoc"]) {
@@ -66,8 +66,8 @@ int main(int argc, const char* argv[]) {
 		}
 		defs[name] = temp;
 	}
-	parlex::grammar g = load_grammar("STATEMENT_SCOPE", defs);
+	parlex::grammar g = parlex::builtins::wirth.load_grammar("STATEMENT_SCOPE", defs);
 	std::ofstream cppStream(workingDir + "/plc/src/plange_grammar.cpp");
 	std::ofstream hppStream(workingDir + "/plc/include/plange_grammar.hpp");
-	g.generate_cpp("plange", "STATEMENT_SCOPE", cppStream, hppStream, "plc");
+	g.generate_cplusplus_code("plange", "STATEMENT_SCOPE", cppStream, hppStream, "plc");
 }

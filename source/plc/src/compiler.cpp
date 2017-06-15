@@ -6,15 +6,13 @@
 
 #include "plange_grammar.hpp"
 #include "errors.hpp"
-#include "concrete_value.hpp"
+#include "natural_value.hpp"
 #include "utils.hpp"
 #include "symbol.hpp"
 #include "scope.hpp"
+#include "stdafx.hpp"
 
 namespace plc {
-
-llvm::LLVMContext llvmContext;
-llvm::Module module("module", llvmContext);
 
 std::string describe_code_span(source_code const& source, parlex::match const& m) {
 	std::string result = source.pathname == "" ? "[generated]" : source.pathname;
@@ -31,16 +29,19 @@ std::string describe_code_span(source_code const& source, parlex::match const& m
 	return result;
 }
 
-std::shared_ptr<abstract_value> do_concrete_invoke(llvm::Function * function, std::vector<llvm::Value *> arguments, scope& parent, llvm::BasicBlock * unwindDest, llvm::IRBuilder<> & builder) {
-	auto nextBlock = llvm::BasicBlock::Create(llvmContext, "", &parent.getLLVMFunction(), nullptr);
-	auto result = std::static_pointer_cast<abstract_value>(std::make_shared<concrete_value>(builder.CreateInvoke(function, nextBlock, unwindDest, arguments, "")));
+std::shared_ptr<analytic_value> do_concrete_invoke(llvm::Function * function, std::vector<llvm::Value *> arguments, scope& parent, llvm::BasicBlock * unwindDest, llvm::IRBuilder<> & builder) {
+	ERROR(NotImplemented, "");
+	/*auto nextBlock = llvm::BasicBlock::Create(llvmContext, "", &parent.getLLVMFunction(), nullptr);
+	auto result = std::static_pointer_cast<analytic_value>(std::make_shared<concrete_value>(builder.CreateInvoke(function, nextBlock, unwindDest, arguments, "")));
 	builder.SetInsertPoint(nextBlock);
-	return result;
+	return result;*/
 }
 
-std::shared_ptr<abstract_value> eval_expression(source_code const& source, std::vector<parlex::match> const& parts, scope& parent, llvm::BasicBlock & unwindDest, llvm::IRBuilder<> & builder);
+std::shared_ptr<analytic_value> eval_expression(source_code const& source, std::vector<parlex::match> const& parts, scope& parent, llvm::BasicBlock & unwindDest, llvm::IRBuilder<> & builder);
 
-std::shared_ptr<abstract_value> eval_parenthetical_invocation(source_code const& source, std::vector<parlex::match> const& parts, scope& parent, llvm::BasicBlock & unwindDest, llvm::IRBuilder<> & builder) {
+std::shared_ptr<analytic_value> eval_parenthetical_invocation(source_code const& source, std::vector<parlex::match> const& parts, scope& parent, llvm::BasicBlock & unwindDest, llvm::IRBuilder<> & builder) {
+	ERROR(NotImplemented, "");
+/*
 	std::vector<llvm::Value *> arguments;
 	auto func = eval_expression(source, source.get_parts(parts[0]), parent, unwindDest, builder)->try_concretion();
 	if (!func) {
@@ -60,10 +61,10 @@ std::shared_ptr<abstract_value> eval_parenthetical_invocation(source_code const&
 			arguments.push_back(argument->underlying.get());
 		}
 	}
-	return do_concrete_invoke(llvmFunc, arguments, parent, &unwindDest, builder);
+	return do_concrete_invoke(llvmFunc, arguments, parent, &unwindDest, builder);*/
 }
 
-std::shared_ptr<abstract_value> eval_invocation(source_code const& source, std::vector<parlex::match> const& parts, scope& parent, llvm::BasicBlock & unwindDest, llvm::IRBuilder<> & builder) {
+std::shared_ptr<analytic_value> eval_invocation(source_code const& source, std::vector<parlex::match> const& parts, scope& parent, llvm::BasicBlock & unwindDest, llvm::IRBuilder<> & builder) {
 	auto expressionType = &parts[0].r;
 	if (expressionType == &PARENTHETICAL_INVOCATION) {
 		return eval_parenthetical_invocation(source, source.get_parts(parts[0]), parent, unwindDest, builder);
@@ -71,7 +72,7 @@ std::shared_ptr<abstract_value> eval_invocation(source_code const& source, std::
 	ERROR(NotImplemented, "");
 }
 
-std::shared_ptr<abstract_value> eval_identifier(const source_code& source, const std::u32string& name, const scope& parent, const llvm::BasicBlock & unwindDest, const llvm::IRBuilder<>& builder) {
+std::shared_ptr<analytic_value> eval_identifier(const source_code& source, const std::u32string& name, const scope& parent, const llvm::BasicBlock & unwindDest, const llvm::IRBuilder<>& builder) {
 	auto i = parent.symbols.find(name);
 	if (i == parent.symbols.end()) {
 		ERROR(UnknownSymbol, to_utf8(name));
@@ -79,7 +80,7 @@ std::shared_ptr<abstract_value> eval_identifier(const source_code& source, const
 	return i->second.value;
 }
 
-std::shared_ptr<abstract_value> eval_expression(source_code const& source, std::vector<parlex::match> const& parts, scope& parent, llvm::BasicBlock & unwindDest, llvm::IRBuilder<> & builder) {
+std::shared_ptr<analytic_value> eval_expression(source_code const& source, std::vector<parlex::match> const& parts, scope& parent, llvm::BasicBlock & unwindDest, llvm::IRBuilder<> & builder) {
 	auto expressionType = &parts[0].r;
 
 	if (expressionType == &ALLOCATION) {
@@ -138,8 +139,6 @@ std::shared_ptr<abstract_value> eval_expression(source_code const& source, std::
 		ERROR(NotImplemented, "expression not implemented");
 	} else if (expressionType == &PARENTHETICAL) {
 		ERROR(NotImplemented, "expression not implemented");
-	} else if (expressionType == &PROPERTY) {
-		ERROR(NotImplemented, "expression not implemented");
 	} else if (expressionType == &RADICAL) {
 		ERROR(NotImplemented, "expression not implemented");
 	} else if (expressionType == &RANGE) {
@@ -176,6 +175,8 @@ std::shared_ptr<abstract_value> eval_expression(source_code const& source, std::
 }
 
 void eval_statement(source_code const& source, std::vector<parlex::match> const& parts, scope& parent, llvm::BasicBlock & unwindDest, llvm::IRBuilder<> & builder) {
+	ERROR(NotImplemented, "");
+/*
 	auto p = parts[0];
 	if (&p.r == &ASSIGNMENT_CHAIN) {
 		ERROR(NotImplemented, "statement not implemented");
@@ -222,6 +223,7 @@ void eval_statement(source_code const& source, std::vector<parlex::match> const&
 	} else {
 		ERROR(Unknown, "invalid statement type " + p.r.id);
 	}
+*/
 }
 
 symbol_table flatten_symbol_tables(symbol_table const & parent, symbol_table const & child) {
@@ -260,7 +262,7 @@ symbol_table compute_assignment_chain_symbol_table(source_code const& source, st
 
 symbol compute_definition_symbol(source_code const& source, std::vector<parlex::match> const& parts, scope & parent, llvm::BasicBlock & unwindBlock, llvm::IRBuilder<> & builder) {
 	std::u32string name;
-	std::shared_ptr<abstract_value> value;
+	std::shared_ptr<analytic_value> value;
 	for (auto const & part : parts) {
 		if (&part.r == &IDENTIFIER) {
 			name = source.get_text(part);
@@ -334,8 +336,10 @@ symbol_table compute_scope_symbol_table(source_code const& source, std::vector<p
 	return flatten_symbol_tables(parent.symbols, results);
 }
 
-std::shared_ptr<abstract_value> eval_statement_scope(source_code const & source, std::vector<parlex::match> const& parts, scope& parent, llvm::BasicBlock & unwindBlock) {
-	auto result = std::make_shared<scope>(source, parent, llvmContext, module);
+std::shared_ptr<analytic_value> eval_statement_scope(source_code const & source, std::vector<parlex::match> const& parts, scope& parent, llvm::BasicBlock & unwindBlock) {
+	ERROR(NotImplemented, "");
+/*
+	auto result = std::make_shared<scope>(source, parent);
 	auto entryPointBlock = llvm::BasicBlock::Create(llvmContext, "", &parent.getLLVMFunction());
 	llvm::IRBuilder<> scopeBuilder(entryPointBlock);
 	for (auto part : parts) {
@@ -343,22 +347,11 @@ std::shared_ptr<abstract_value> eval_statement_scope(source_code const & source,
 			eval_statement(source, source.get_parts(part), *result, unwindBlock, scopeBuilder);
 		}
 	}
-	return result;
-}
-
-llvm::Value* source_code::get_or_add_global_string(llvm::LLVMContext& context, std::u32string const& s) {
-	auto i = global_strings.find(s);
-	if (i != global_strings.end()) return i->second;
-	llvm::StringRef Str(to_utf8(s));
-	auto StrConstant = llvm::ConstantDataArray::getString(context, Str);
-	auto gv = new llvm::GlobalVariable(module, StrConstant->getType(), true, llvm::GlobalValue::PrivateLinkage, StrConstant);
-	auto name = "str" + std::to_string(global_strings.size());
-	gv->setName(name);
-	//gv->setUnnamedAddr(true)
-	return global_strings[s] = gv;
+	return result;*/
 }
 
 void compile(std::vector<std::reference_wrapper<source_code const>> sources) {
+	/*
 	std::vector<llvm::Type*> mainFuncArgTypes = {
 		llvm::Type::getInt32Ty(llvmContext),
 		llvm::Type::getInt8PtrTy(llvmContext)->getPointerTo()
@@ -383,7 +376,37 @@ void compile(std::vector<std::reference_wrapper<source_code const>> sources) {
 	for (auto source : sources) {
 		eval_statement_scope(source.get(), source.get().get_parts(source.get().asg.root), rootScope, *unwindBlock);
 	}
-
+	*/
 
 }
+
+compiler::compiler() : c_std_lib_source(__FILE__ "../../stdlib/Plange.CStdLib._pg")
+{
+
+}
+
+
+
+void compiler::inject_c_std_lib(module & m)
+{
+	std::shared_ptr<scope> cStdLibScope(new scope(m, &c_std_lib_source, &m.global));
+
+	auto cStdLibTopStatementScopeParts = c_std_lib_source.get_parts(c_std_lib_source.asg.root);
+	for (auto const& topStatementScopePart : cStdLibTopStatementScopeParts) {
+		if (&topStatementScopePart.r == &plc::STATEMENT) {
+			auto statementParts = c_std_lib_source.get_parts(topStatementScopePart);
+			auto firstStatementPart = statementParts[0];
+			if (&firstStatementPart.r == &plc::TYPE_CONSTRAINT) {
+				auto typeContraintParts = c_std_lib_source.get_parts(firstStatementPart);
+				auto typeContraintHeadPart = typeContraintParts[0];
+
+			}
+		}
+	}
+
+	symbol cStdLib(U"CStdLib", cStdLibScope, false);
+	bool didAddSymbol = m.global.add_symbol(cStdLib);
+	assert(didAddSymbol);
+}
+
 }

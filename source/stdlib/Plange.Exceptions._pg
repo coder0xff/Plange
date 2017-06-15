@@ -1,0 +1,12 @@
+return {
+	NotImplementedException <- type inheriting Exception {
+	public:
+		<String> additionalInformation;
+		construct <- (<String> additionalInformation) {
+			this.additionalInformation <- additionalInformation;
+		}
+	};
+
+	PureVirtualException <- type inheriting Exception {}
+
+};

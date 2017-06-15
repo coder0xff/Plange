@@ -22,6 +22,6 @@ struct abstract_syntax_graph {
 	std::list<std::string> warnings;
 };
 
-}
+} // namespace parlex
 
-#endif
+#endif //ABSTRACT_SYNTAX_GRAPH_HPP

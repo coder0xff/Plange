@@ -1,19 +1,21 @@
 #include "parlex/abstract_syntax_graph.hpp"
+
+#include <queue>
+
 #include "parlex/recognizer.hpp"
 #include "utils.hpp"
-#include <queue>
 
 namespace parlex {
 
-abstract_syntax_graph::abstract_syntax_graph(match root) : root(root) {}
+abstract_syntax_graph::abstract_syntax_graph(match root) : root(root) {
+}
 
 bool abstract_syntax_graph::is_rooted() const {
 	auto i = permutations.find(root);
 	return i != permutations.end() && i->second.size() > 0;
 }
 
-void abstract_syntax_graph::cut(std::set<match> const & matches)
-{
+void abstract_syntax_graph::cut(std::set<match> const & matches) {
 	std::map<match, std::set<match>> reversedDependencies;
 	for (auto const & entry : permutations) {
 		for (auto const & p : entry.second) {
@@ -55,7 +57,7 @@ void abstract_syntax_graph::cut(std::set<match> const & matches)
 		}
 	}
 	if (anyCut) {
-		
+
 	}
 }
 
@@ -101,7 +103,7 @@ std::string abstract_syntax_graph::to_dot() const {
 	return result;
 }
 
-std::string abstract_syntax_graph::to_concrete_dot(std::u32string const& document) {
+std::string abstract_syntax_graph::to_concrete_dot(std::u32string const & document) {
 	std::string result = "digraph {\n";
 	std::set<match> completed;
 	for (auto const & entry : permutations) {

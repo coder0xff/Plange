@@ -1,0 +1,120 @@
+return {
+	Argument <- abstract;
+
+	is_natural_value <- (x) {
+		
+	};
+
+	KnowledgeBase <- type_abstraction<Array<Expression>>;
+
+	Member <- 
+		(<Type> T) {
+			return type inheriting Member {
+				construct <- (<String> name, <Bool> isConstant = true, <Bool> isLocal = true) {
+					((Member)this).construct(T, name, isConstant, isLocal);
+				};
+
+				load <- (<Any> value) {
+					<Pointer<Byte>> baseAddress = coerce(address_of(value));
+					<Offset> offset = offset_of(type_of(value));
+					<Pointer<T>> memberAddress = coerce(baseAddress + offset);
+					return dereference(memberAddress);
+				}
+
+				store <- (value1, <T> value2) {
+					<Pointer<Byte>> baseAddress = coerce(address_of(value1));
+					<Offset> offset = offset_of(type_of(value1));
+					<Pointer<T>> memberAddress = coerce(baseAddress + offset);
+					dereference(memberAddress) <- value2;
+				}
+			};				
+		}
+	|
+		type {
+			<Type> T;
+			<String> name;
+			<Bool> isConstant;
+			<Bool> isLocal;
+
+			<Type * String * Bool * Bool -> Member> construct <- (t, name, isConstant = true, isLocal = true) {
+				T <- t;
+				this.name <- name;
+				this.isConstant <- isConstant;
+			}
+
+			<Offset> offset_of <- (<Type> t) {
+				for (member in t.get_offsets) {
+					if (member[0] = this) {
+						return[1] member[1];
+					}
+				}
+				throw InvalidArgumentException("t", "The type " + enquote(t.name) + " does not contain the member " + enquote(this.name));
+			}
+
+			<Any -> Any> load <- (<Any> value) {
+				<Pointer<Byte>> baseAddress = coerce(address_of(value));
+				<Offset> offset = offset_of(type_of(value));
+				<Pointer<type>> memberAddress = coerce(baseAddress + offset);
+				return dereference(memberAddress);
+			}
+
+			<Any * Any -> Void> store <- (value1, value2) {
+				<Pointer<Byte>> baseAddress = coerce(address_of(value1));
+				<Offset> offset = offset_of(type_of(value1));
+				<Pointer<type>> memberAddress = coerce(baseAddress + offset);
+				dereference(memberAddress) <- value2;
+			}
+		}
+	;
+
+	Module <- type {
+		throw NotImplementedException();
+	};
+
+	NaturalValue <- type {
+		<Type> t;
+	};
+
+
+	Scope <- type {
+		KnowledgeBase kb;
+		<Array<Symbol>> 
+	};
+
+	SourceCode <- type {
+	public:
+		<Maybe<String>> pathname;
+		<String> document;
+		<Parsing.AbstractSyntaxGraph> asg;
+		<UInt -> UInt * UInt> getLineAndColumn <- (charIndex) {
+			<Map<UInt -> UInt>.Iterator> i <- lineNumberByFirstCharacter.lowerBound(charIndex);
+			if (i = lineNumberByFirstCharacter.end() || i.first /= charIndex) {
+				i /= lineNumberByFirstCharacter.begin();
+				i--;
+			};
+			return (| i.second, charIndex - i.first)
+		};
+
+		<Parser.Match -> Parser.Permutation> getParts <- (match) {
+			return asg.permutations[m].front();
+		};
+
+		<Parser.Match -> String> get_test <- (match) {
+			return document.substr(match.documentPosition, m.consumedCharacterCount);
+		}
+	private:
+		<Map<UInt -> UInt>> lineNumberByFirstCharacter;
+	}
+
+	SourceSpan <- type {
+		<SourceCode> source;
+		<UInt> position;
+		<UInt> length;
+	}
+
+	Symbol <- type inheriting Expressions.Expression {
+		<String> name;
+		<Maybe<NaturalValue>> naturalValue;
+	}
+
+};

@@ -8,18 +8,21 @@
 
 namespace parlex {
 
+class builtins_t;
+
 class grammar_base {
 public:
-	virtual ~grammar_base() = default;
-	virtual state_machine_base const & get_main_production() const = 0;
+	virtual state_machine_base const& get_main_production() const = 0;
 	virtual std::map<std::string, state_machine_base const *> get_productions() const = 0;
-	void add_precedence(state_machine_base const & productionA, state_machine_base const & productionB);
-	bool test_precedence(state_machine_base const & productionA, state_machine_base const & productionB) const;
-	precedence_collection const & get_precedences() const;
-private:
-	precedence_collection precedences;
+	virtual bool test_precedence(state_machine_base const & productionA, state_machine_base const & productionB) const = 0;
+	virtual precedence_collection get_precedences() const = 0;
+	builtins_t const & builtins;
+protected:
+	~grammar_base() = default;
+	explicit grammar_base(builtins_t const & builtins);
+	grammar_base(grammar_base const & other);
 };
 
-}
+} // namespace parlex
 
-#endif
+#endif //GRAMMAR_BASE_HPP

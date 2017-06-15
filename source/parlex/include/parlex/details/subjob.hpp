@@ -31,9 +31,10 @@ public:
 	virtual ~subjob();
 
 	void start();
-	context_ref construct_stepped_context(context_ref const & prior, match const fromTransition);
-	void on(context_ref const & c, recognizer const & r, int nextDfaState);
+	context_ref construct_stepped_context(context_ref const & prior, match const & fromTransition);
+	void on(context_ref const & c, recognizer const & r, int nextDfaState, behavior::leaf const * leaf);
 	void accept(context_ref const & c);
+	// for special use by the parser to seed the queue
 	context_ref construct_start_state_context(int documentPosition);
 	void end_dependency();
 	void finish_creation();
@@ -42,7 +43,7 @@ public:
 	void flush();
 };
 
-}
-}
+} // namespace details
+} // namespace parlex
 
-#endif
+#endif //SUBJOB_HPP

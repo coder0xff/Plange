@@ -1,10 +1,12 @@
-#include <cassert>
+#include "parlex/details/producer.hpp"
+
 #include <mutex>
+
+#include "parlex/behavior.hpp"
+#include "parlex/parser.hpp"
 
 #include "parlex/details/job.hpp"
 #include "parlex/details/subjob.hpp"
-#include "parlex/parser.hpp"
-#include "parlex/details/producer.hpp"
 
 namespace parlex {
 namespace details {
@@ -13,14 +15,14 @@ producer::producer(job & owner, recognizer const & r, size_t const documentPosit
 	owner(owner),
 	r(r),
 	document_position(documentPosition),
-	completed(false) {}
+	completed(false) {
+}
 
 
-void producer::add_subscription(context_ref const & c, size_t nextDfaState) {
-	{
+void producer::add_subscription(context_ref const & c, size_t nextDfaState, behavior::leaf const * leaf) { {
 		std::unique_lock<std::mutex> lock(mutex);
-		consumers.emplace_back(c, nextDfaState);
-	}  //release the lock
+		consumers.emplace_back(c, nextDfaState, leaf);
+	} //release the lock
 	do_events();
 }
 
@@ -30,7 +32,8 @@ void producer::do_events() {
 	for (subscription & subscription : consumers) {
 		subjob & targetSubjob = subscription.c.owner();
 		while (subscription.next_index < match_to_permutations.size()) {
-			auto match = matches[subscription.next_index];
+			auto & match = matches[subscription.next_index];
+			match.leafs.push_front(subscription.leaf);
 			subscription.next_index++;
 			context_ref next = targetSubjob.construct_stepped_context(subscription.c, match);
 			targetSubjob.increment_lifetime(); //reference code A - the target may not halt until this is handled
@@ -49,10 +52,9 @@ void producer::do_events() {
 }
 
 void producer::enque_permutation(size_t consumedCharacterCount, permutation const & p) {
-	bool newMatch = false;
-	{
+	bool newMatch = false; {
 		std::unique_lock<std::mutex> lock(mutex);
-		assert(!completed);
+		throw_assert(!completed);
 		match m(match_class(r, document_position), consumedCharacterCount);
 		if (!match_to_permutations.count(m)) {
 			match_to_permutations[m] = std::set<permutation>();
@@ -71,5 +73,10 @@ void producer::terminate() {
 	do_events();
 }
 
+
+producer::subscription::subscription(context_ref const & c, size_t const nextDfaState, behavior::leaf const * leaf) : next_index(0), c(c), next_dfa_state(nextDfaState), leaf(leaf) {
+
 }
-}
+
+} // namespace details
+} // namespace parlex

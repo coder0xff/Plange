@@ -6,9 +6,11 @@ set (SOURCES
 	"utils.cpp")
 	
 set (HEADERS
+	"forward_list_c.hpp"
 	"logging.hpp"
 	"one_shot.hpp"
 	"perf_timer.hpp"
+	"erased.hpp"
 	"utils.hpp")
 	
 add_library(utilities ${HEADERS} ${SOURCES})

@@ -1,0 +1,26 @@
+return type {
+public:
+	<Const<Bool>> isPacked;
+	<Const<Scope>> content;
+	<Const<UInt>> size;
+
+	construct <- (<Denumerable<Type * String * Bool>> members, <Bool> isConstant) {
+
+	}
+
+	<Array<Meta.Member * Offset>> get_offsets <- () {
+		<Offset> accumulator <- 0;
+
+		temp <- members.select((member) {
+			return member.isLocal;
+		});
+
+		temp <- temp.map((member) {
+			result := (| member, accumulator |);
+			accumulator <- accumulator + member.type.size;
+			return Some result;
+		});
+
+		return temp;
+	};
+};

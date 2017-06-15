@@ -54,7 +54,7 @@ std::string enquote(std::string s) {
 	return result.str();
 }
 
-#if _MSC_VER == 1900
+#if _MSC_VER == 1900 || _MSC_VER == 1910
 
 std::string to_utf8(const std::u16string &s)
 {
@@ -250,4 +250,12 @@ void debugger() {
 #else
 	raise(SIGTRAP);
 #endif
+}
+
+void throw_assert(bool pass) {
+	if (CMAKE_INTDIR == "debug") {
+		if (!pass) {
+			throw std::runtime_error("failed assert");
+		}
+	}
 }

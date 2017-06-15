@@ -3,10 +3,11 @@
 
 #include <functional>
 
-#include "abstract_syntax_graph.hpp"
-
 namespace parlex {
-	typedef std::function<void(abstract_syntax_graph &)> post_processor;
-}
 
-#endif
+struct abstract_syntax_graph;
+typedef std::function<void(abstract_syntax_graph &)> post_processor;
+
+} // namespace parlex
+
+#endif //POST_PROCESSOR_HPP

@@ -1,115 +1,61 @@
-#include "parlex/details/behavior.hpp"
-
 #include <algorithm>
-#include <cassert>
 #include <iterator>
-#include <sstream>
-#include <string>
 
-#include "parlex/builtins/string_terminal.hpp"
-#include "parlex/state_machine.hpp"
-#include "parlex/builtins.hpp"
-#include "utils.hpp"
+#include "parlex/behavior.hpp"
 
 namespace parlex {
-namespace details {
+namespace behavior {
 
-
-	choice::~choice()
-	{
-
-	}
-
-	intermediate_nfa choice::to_intermediate_nfa() const
-{
-	std::vector<intermediate_nfa> parts;
-	for (std::shared_ptr<behavior_node> const & child : children) {
-		parts.push_back(child->to_intermediate_nfa());
-	}
-	return intermediate_nfa::union_(parts);
+void node::add_child(erased<node> child) {
+	children.push_back(child);
+	children.back()->parent = this;
 }
 
-literal::literal(std::u32string contents) : contents(contents) {}
+node::children_t const& node::get_children() const {
+	return children;
+}
 
-intermediate_nfa literal::to_intermediate_nfa() const
-{
-	intermediate_nfa result;
+node::node(node const & other) : tag(other.tag), children(other.children) {
+	for (auto & child : children) {
+		child->parent = this;
+	}
+}
+
+nfa2 node::compile() const {
+	return to_nfa().minimal_dfa().relabel();
+}
+
+leaf::leaf(recognizer const & r) : r(r), id(r.id) {
+}
+
+nfa2 leaf::to_nfa() const {
+	nfa2 result;
 	result.states.emplace_back(0);
 	result.states.emplace_back(1);
 	result.startStates.insert(0);
 	result.acceptStates.insert(1);
-	result.states[0].out_transitions[shared_from_this()].insert(1);
+	result.states[0].out_transitions[this].insert(1);
 	return result;
 }
 
-recognizer const & literal::get_recognizer(std::map<std::string, state_machine> const &, std::map<std::u32string, builtins::string_terminal> & literals) const {
-	auto i = literals.find(contents);
-	if (i == literals.end()) {
-		return literals.emplace(std::piecewise_construct, forward_as_tuple(contents), forward_as_tuple(contents)).first->second;
-	} else {
-		return i->second;
+nfa2 choice::to_nfa() const {
+	std::vector<nfa2> parts;
+	for (erased<node> const & child : children) {
+		parts.push_back(child->to_nfa());
 	}
+	return nfa2::union_(parts);
 }
 
-std::string literal::get_id() const {
-	return to_utf8(contents);
-}
-
-
-optional::~optional()
-{
-
-}
-
-optional::optional(std::shared_ptr<behavior_node> && child) : child(move(child)) { child.reset(); }
-
-intermediate_nfa optional::to_intermediate_nfa() const
-{
-	intermediate_nfa result = child->to_intermediate_nfa();
+nfa2 optional::to_nfa() const {
+	nfa2 result = children[0]->to_nfa();
 	for (int startStateIndex : result.startStates) {
 		result.acceptStates.insert(startStateIndex);
 	}
 	return result;
 }
 
-production::production(std::string name) : name(name) {}
-
-intermediate_nfa production::to_intermediate_nfa() const
-{
-	intermediate_nfa result;
-	result.states.emplace_back(0);
-	result.states.emplace_back(1);
-	result.startStates.insert(0);
-	result.acceptStates.insert(1);
-	result.states[0].out_transitions[shared_from_this()].insert(1);
-	return result;
-}
-
-recognizer const & production::get_recognizer(std::map<std::string, state_machine> const & productions, std::map<std::u32string, builtins::string_terminal> &) const {
-	recognizer const * builtin_ptr;
-	if (builtins::resolve_builtin(name, builtin_ptr)) {
-		return *builtin_ptr;
-	}
-    assert(productions.count(name) == 1);
-	recognizer const & result = productions.find(name)->second;
-    return result;
-}
-
-std::string production::get_id() const {
-	return name;
-}
-
-
-repetition::~repetition()
-{
-
-}
-
-repetition::repetition(std::shared_ptr<behavior_node> && child) : child(move(child)) { child.reset(); }
-
-intermediate_nfa repetition::to_intermediate_nfa() const
-{
-	intermediate_nfa result = child->to_intermediate_nfa();
+nfa2 repetition::to_nfa() const {
+	nfa2 result = children[0]->to_nfa();
 	auto originalTransitions = result.get_transitions();
 
 	//copy transitions (start_state, symbol, to_state) to (accept_state, symbol, to_state)
@@ -128,35 +74,27 @@ intermediate_nfa repetition::to_intermediate_nfa() const
 	return result;
 }
 
-
-sequence::~sequence()
-{
-
-}
-
-intermediate_nfa sequence::to_intermediate_nfa() const
-{
-	intermediate_nfa result;
+nfa2 sequence::to_nfa() const {
+	nfa2 result;
 	result.states.emplace_back(0);
 	result.startStates.insert(0);
 	result.acceptStates.insert(0);
-	for (std::shared_ptr<behavior_node> const & child : children) {
-		bool anyOriginalStartIsAccept;
-		{
+	for (erased<node> const & child : children) {
+		bool anyOriginalStartIsAccept; {
 			std::set<int> intersection;
 			set_intersection(result.startStates.begin(), result.startStates.end(),
-				result.acceptStates.begin(), result.acceptStates.end(), inserter(intersection, intersection.begin()));
+			                 result.acceptStates.begin(), result.acceptStates.end(), inserter(intersection, intersection.begin()));
 			anyOriginalStartIsAccept = !intersection.empty();
 		}
 
 		int newStateIndexOffset = result.states.size();
 
-		auto part = child->to_intermediate_nfa();
+		auto part = child->to_nfa();
 
 		//add the part's states
-		for (intermediate_nfa::state const & partFromState : part.states) {
+		for (nfa2::state const & partFromState : part.states) {
 			result.states.emplace_back(partFromState.label);
-			intermediate_nfa::state & newState = result.states.back();
+			nfa2::state & newState = result.states.back();
 			for (auto & symbolAndToStateIndices : partFromState.out_transitions) {
 				for (int toStateIndex : symbolAndToStateIndices.second) {
 					newState.out_transitions[symbolAndToStateIndices.first].insert(toStateIndex + newStateIndexOffset);
@@ -167,21 +105,21 @@ intermediate_nfa sequence::to_intermediate_nfa() const
 		std::set<int> originalAcceptStateIndices;
 		swap(originalAcceptStateIndices, result.acceptStates);
 		//for each (originalFromState, symbol, originalAcceptState) create for each partStartState (originalFromState, symbol, partStartState)
-        for (int originalStateIndex = 0; originalStateIndex < newStateIndexOffset; ++originalStateIndex) {
-            intermediate_nfa::state & fromState = result.states[originalStateIndex];
-            for (auto & symbolAndToStateIndices : fromState.out_transitions) {
-                std::set<int> toStatesIntersectionOriginalAcceptStates;
-                set_intersection(
-                    symbolAndToStateIndices.second.begin(), symbolAndToStateIndices.second.end(),
-                    originalAcceptStateIndices.begin(), originalAcceptStateIndices.end(),
-                    inserter(toStatesIntersectionOriginalAcceptStates, toStatesIntersectionOriginalAcceptStates.begin()));
-                if (!toStatesIntersectionOriginalAcceptStates.empty()) {
-                    for (int partStartIndex : part.startStates) {
-                        fromState.out_transitions[symbolAndToStateIndices.first].insert(partStartIndex + newStateIndexOffset);
-                    }
-                }
-            }
-        }
+		for (int originalStateIndex = 0; originalStateIndex < newStateIndexOffset; ++originalStateIndex) {
+			nfa2::state & fromState = result.states[originalStateIndex];
+			for (auto & symbolAndToStateIndices : fromState.out_transitions) {
+				std::set<int> toStatesIntersectionOriginalAcceptStates;
+				set_intersection(
+					symbolAndToStateIndices.second.begin(), symbolAndToStateIndices.second.end(),
+					originalAcceptStateIndices.begin(), originalAcceptStateIndices.end(),
+					inserter(toStatesIntersectionOriginalAcceptStates, toStatesIntersectionOriginalAcceptStates.begin()));
+				if (!toStatesIntersectionOriginalAcceptStates.empty()) {
+					for (int partStartIndex : part.startStates) {
+						fromState.out_transitions[symbolAndToStateIndices.first].insert(partStartIndex + newStateIndexOffset);
+					}
+				}
+			}
+		}
 
 		if (anyOriginalStartIsAccept) {
 			for (int partStartStateIndex : part.startStates) {
@@ -197,39 +135,5 @@ intermediate_nfa sequence::to_intermediate_nfa() const
 	return result;
 }
 
-std::string to_dot(intermediate_nfa const & nfa) {
-	std::stringstream result;
-	result << "digraph nfa {\n";
-	result << "\trankdir=LR;\n";
-	result << "\tsize=\"8,5\";\n";
-	result << "\tnode[shape = point]; start;";
-	result << "\tnode [shape = doublecircle];";
-	for (int acceptState : nfa.acceptStates) {
-		result << " " << std::to_string(acceptState);
-	}
-	result << ";\n";
-	result << "\tnode [shape = circle];\n";
-	for (int startState : nfa.startStates) {
-		result << "\tstart -> " << std::to_string(startState) << ";\n";
-	}
-	for (auto t : nfa.get_transitions()) {
-		result << "\t" << std::to_string(t.from) << " -> " << std::to_string(t.to) << " [ label = \"" << t.symbol->get_id() << "\" ];\n";
-	}
-	result << "}\n";
-	return result.str();
-}
-
-
-behavior_leaf::~behavior_leaf()
-{
-
-}
-
-
-behavior_node::~behavior_node()
-{
-
-}
-
-}
-}
+} //namespace behavior
+} //namespace parlex

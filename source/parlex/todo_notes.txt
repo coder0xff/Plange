@@ -1,0 +1,49 @@
+A context is a snapshot of a DFA execution
+A subjob is an invocation of a given DFA at a given document position, and holds a set of DFA contexts
+
+k is the number of DFAs
+P is the set of DFAs { p(0), p(1), ... p(k - 1) }
+n is the length of the input document.
+
+S* is the set of ordered subset of S
+:: is the ordered set builder
+
+∀p ∈ P
+	the DFA p is the tuple (Q(p), Σ(p), δ(p), q0(p), F(p))
+		Q(p) is the set of states in p
+		Σ(p) is the alphabet of p
+		δ(p) : Q(j)*Σ(j) -> Q(j) is the transition function of p
+		q0(p) is the start state of p
+		F(p) is the set of accept states of p
+
+I is the set of integers [0 - n)
+Z = { z(i,p) : i ∈ I ∧ p ∈ P } is the set of possible subjobs
+|Z| = n * k, the worst-case space complexity for subjobs
+
+a DFA context:
+	x ∈ I the position of the state machine read head
+	i ∈ I the document position of the subjob (where the DFA was invoked)
+	p ∈ P the state machine used by the subjob
+	z ∈ Z = z(i, p) the subjob
+	l ∈ Q(p) the active state in the DFA
+	h ∈ H(x,p)* the history
+	c(x,z,h,l) ∈ D(x,z)^2
+
+The possible children of context c(x,z,h,l), D(x,z,h,l) = { c(y,z,i,m) | ∀y ∈ I ∧ ∀m ∈ Q(p) ∧ x < y ∧ i = c(x,z,h,l)::h }
+
+The possible ancestors of context c(x,z,h,l), H(x,z,h,l) = { c(y,z,i,m) | c(x,z,h,l) ∈ D(y,z,i,m) }
+
+DFA contexts owned by subjob z, C(z) = { c(x,z,h,l) | ∀x ∈ I ∧ h ⊆ C(z)* ∧ z(i, p) = z ∧ l ∈ Q(p) };
+
+The first context created by a subjob:
+	c(i,z(i,p),{}*,q0(p))
+
+No transition can match the null string, and each transition creates a child context that must have a later document position. Therefore:
+∀c(x,z,h,l) ∈ C(z), z(i,p) = z, |h| <= i ∧ | c(x,z,h,l) | <= n - x
+
+Or differently,
+	∀z ∈ Z, | C(z) | < ∞
+
+Thus:
+	| { c | ∀c ∈ C(z), ∀z ∈ Z } | < ∞
+Which proves termination

@@ -5,13 +5,18 @@
 
 #include "parlex/match.hpp"
 
-#include "abstract_value.hpp"
-#include "source_code.hpp"
+#include "module.hpp"
 
 namespace plc {
 
-void compile(std::vector<std::reference_wrapper<source_code const>> sources);
-
+	class compiler
+	{
+	public:
+		compiler();
+		void inject_c_std_lib(module & m);
+	private:
+		source_code c_std_lib_source;
+	};
 }
 
 #endif //PLC_UTILS_HPP

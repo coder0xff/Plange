@@ -5,21 +5,23 @@
 
 namespace parlex {
 namespace details {
-	class job;
-	class token;
-}
+
+class job;
+class token;
+
+} // namespace details
 
 class terminal : public recognizer {
 public:
 	virtual ~terminal() = default;
 
 	virtual bool test(std::u32string const & document, size_t documentPosition) const = 0;
-	virtual size_t get_length() const = 0;
-	bool is_terminal() const final;
+	size_t const length;
+	bool is_terminal() const final { return true; }
 protected:
-	terminal(std::string id);
+	terminal(std::string id, size_t length);
 };
 
-}
+} // namespace parlex
 
-#endif
+#endif //TERMINAL_HPP

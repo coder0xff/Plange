@@ -1,10 +1,12 @@
-#include <cassert>
+#include "parlex/details/context.hpp"
+
 #include <csignal>
 #include <iostream>
 
-#include "parlex/details/context.hpp"
 #include "parlex/details/subjob.hpp"
+
 #include "logging.hpp"
+#include "utils.hpp"
 
 std::atomic<int> refIDCounter(0);
 std::atomic<int> contextIDCounter(0);
@@ -18,10 +20,11 @@ struct context_ref_counter {
 	int const id;
 
 	context_ref_counter(context * c) : c(c), counter(1), id(c->id) {
-        //DBG("Constructed rc:", id);
+		//DBG("Constructed rc:", id);
 	}
 
 	void inc() { ++counter; }
+
 	void dec() {
 		if (--counter == 0) {
 			delete this;
@@ -30,18 +33,17 @@ struct context_ref_counter {
 };
 
 context::context(subjob & owner, context_ref const & prior, int documentPosition, match const * fromTransition) :
- id (++contextIDCounter), owner(owner), prior(prior),
- currentDocumentPosition(documentPosition),
- fromTransition(fromTransition != nullptr ? new match(*fromTransition) : nullptr), rc(*new context_ref_counter(this))
-{
-	assert(&owner);
-	assert(!prior.is_null() == (fromTransition != nullptr));
+	id(++contextIDCounter), owner(owner), prior(prior),
+	currentDocumentPosition(documentPosition),
+	fromTransition(fromTransition != nullptr ? new match(*fromTransition) : nullptr),
+	rc(*new context_ref_counter(this)) {
+	throw_assert(!prior.is_null() == (fromTransition != nullptr));
 	//DBG("constructed context ", id);
 }
 
 context::~context() {
-	context* self = rc.c.exchange(nullptr);
-	assert(self);
+	context * self = rc.c.exchange(nullptr);
+	throw_assert(self);
 	rc.dec();
 	//DBG("descructed context ", id);
 }
@@ -61,32 +63,33 @@ std::vector<match> context::result() const {
 	return std::vector<match>(result.rbegin(), result.rend());
 }
 
-context_ref::context_ref() : rc(nullptr), id(++refIDCounter) { }
+context_ref::context_ref() : rc(nullptr), id(++refIDCounter) {
+}
 
-context_ref::context_ref(context_ref_counter &rc_) : rc(&rc_), id(++refIDCounter) {
+context_ref::context_ref(context_ref_counter & rc_) : rc(&rc_), id(++refIDCounter) {
 	rc_.inc();
-    //DBG("Constructed ref:", id, " to c:", rc_.id);
+	//DBG("Constructed ref:", id, " to c:", rc_.id);
 }
 
 context_ref::context_ref(context_ref const & other) : rc(other.rc), id(++refIDCounter) {
 	if (rc) {
 		rc->inc();
-        //DBG("Constructed ref:", id, " to c:", rc->id);
-    }
+		//DBG("Constructed ref:", id, " to c:", rc->id);
+	}
 }
 
-context_ref::context_ref(context_ref&& other) : rc(other.rc), id(++refIDCounter) {
+context_ref::context_ref(context_ref && other) noexcept : rc(other.rc), id(++refIDCounter) {
 	if (rc) {
 		rc->inc();
-        //DBG("Constructed ref:", id, " to c:", rc->id);
-    }
+		//DBG("Constructed ref:", id, " to c:", rc->id);
+	}
 }
 
 context_ref::~context_ref() {
 	if (rc) {
-        //DBG("Destructing ref:", id, " to c:", rc->id);
+		//DBG("Destructing ref:", id, " to c:", rc->id);
 		rc->dec();
-    }
+	}
 }
 
 bool context_ref::is_null() const {
@@ -101,35 +104,35 @@ bool context_ref::is_null() const {
 	}
 }
 
-subjob & context_ref::owner() const {
-	assert(rc);
-    //DBG("Dereferencing ref:", id, " to c:",rc->id);
-	context* temp = rc->c;
-	assert(temp);
+subjob& context_ref::owner() const {
+	throw_assert(rc);
+	//DBG("Dereferencing ref:", id, " to c:",rc->id);
+	context * temp = rc->c;
+	throw_assert(temp);
 	return temp->owner;
 }
 
-context_ref const & context_ref::prior() const {
-	assert(rc);
-    //DBG("Dereferencing ref:", id, " to c:",rc->id);
-	context* temp = rc->c;
-	assert(temp);
+context_ref const& context_ref::prior() const {
+	throw_assert(rc);
+	//DBG("Dereferencing ref:", id, " to c:",rc->id);
+	context * temp = rc->c;
+	throw_assert(temp);
 	return temp->prior;
 }
 
-int context_ref::current_document_position() const {
-	assert(rc);
-    //DBG("Dereferencing ref:", id, " to c:",rc->id);
-	context* temp = rc->c;
-	assert(temp);
+size_t context_ref::current_document_position() const {
+	throw_assert(rc);
+	//DBG("Dereferencing ref:", id, " to c:",rc->id);
+	context * temp = rc->c;
+	throw_assert(temp);
 	return temp->currentDocumentPosition;
 }
 
 std::unique_ptr<match> context_ref::from_transition() const {
-	assert(rc);
-    //DBG("Dereferencing ref:", id, " to c:",rc->id);
-	context* temp = rc->c;
-	assert(temp);
+	throw_assert(rc);
+	//DBG("Dereferencing ref:", id, " to c:",rc->id);
+	context * temp = rc->c;
+	throw_assert(temp);
 	if (temp->fromTransition) {
 		return std::unique_ptr<match>(new match(*temp->fromTransition));
 	}
@@ -137,10 +140,11 @@ std::unique_ptr<match> context_ref::from_transition() const {
 }
 
 std::vector<match> context_ref::result() const {
-	assert(rc);
-	context* temp = rc->c;
-	assert(temp);
+	throw_assert(rc);
+	context * temp = rc->c;
+	throw_assert(temp);
 	return temp->result();
 }
 
-}}
+}
+}

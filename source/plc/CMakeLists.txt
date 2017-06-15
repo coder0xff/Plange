@@ -5,25 +5,18 @@ include("${DEP_DIR}/llvm/lib/cmake/llvm/LLVMConfig.cmake")
 add_definitions(${LLVM_DEFINITIONS})
 include_directories("${LLVM_INCLUDE_DIRS}")
 
-if(${MSVC})
-	include("${DEP_DIR}/symengine/CMake/SymEngineConfig.cmake")
-else()
-	include("${DEP_DIR}/symengine/lib/cmake/symengine/SymEngineConfig.cmake")
-endif()
-
-include_directories("${SYMENGINE_INCLUDE_DIRS}")
-
 include_directories("${CMAKE_CURRENT_SOURCE_DIR}") #for tclap
 
 include_directories("${CMAKE_CURRENT_SOURCE_DIR}/../parlex/include")
 include_directories("${CMAKE_CURRENT_SOURCE_DIR}/../utilities")
 
 set(SOURCES
-	"src/abstract_value.cpp"
+	"src/analytic_value.cpp"
 	"src/compiler.cpp"
-	"src/concrete_value.cpp"
 	"src/errors.cpp"
 	"src/main.cpp"
+	"src/module.cpp"
+	"src/natural_value.cpp"
 	"src/plange_grammar.cpp"
 	"src/scope.cpp"
 	"src/source_code.cpp"
@@ -34,10 +27,11 @@ set(SOURCES
 	"src/warnings.cpp")
 
 set(HEADERS
-	"include/abstract_value.hpp"
+	"include/analytic_value.hpp"
 	"include/compiler.hpp"
-	"include/concrete_value.hpp"
 	"include/errors.hpp"
+	"include/module.hpp"
+	"include/natural_value.hpp"
 	"include/plange_grammar.hpp"
 	"include/relation.hpp"
 	"include/scope.hpp"
@@ -52,7 +46,7 @@ add_executable(plc ${HEADERS} ${SOURCES})
 source_group("src" FILES ${SOURCES})
 source_group("include" FILES ${HEADERS})
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include)
-set_property(TARGET plc PROPERTY CXX_STANDARD 11)
+set_property(TARGET plc PROPERTY CXX_STANDARD 17)
 set_property(TARGET plc PROPERTY CXX_STANDARD_REQUIRED ON)
 #add_precompiled_header(plc "include/stdafx.hpp" FORCEINCLUDE SOURCE_CXX "src/stdafx.cpp")
-target_link_libraries(plc parlex utilities LLVMCore LLVMSupport ${SYMENGINE_LIBRARIES})
+target_link_libraries(plc parlex utilities LLVMCore LLVMSupport)

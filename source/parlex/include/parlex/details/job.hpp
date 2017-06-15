@@ -1,5 +1,5 @@
-#ifndef JOB_H
-#define JOB_H
+#ifndef JOB_HPP
+#define JOB_HPP
 
 #include "parlex/match_class.hpp"
 #include "parlex/details/subjob.hpp"
@@ -7,6 +7,7 @@
 
 namespace parlex {
 
+class correlated_grammar;
 class parser;
 class state_machine;
 class grammar_base;
@@ -25,14 +26,14 @@ public:
 	std::atomic<int> progress;
 
 	job(parser & owner, std::u32string const & document, grammar_base const & g, recognizer const & main);
-	void connect(match_class const & matchClass, context_ref const & c, int nextState);
+	void connect(match_class const & matchClass, context_ref const & c, int nextState, behavior::leaf const * leaf);
 private:
-	producer & get_producer(match_class const & matchClass);
+	producer& get_producer(match_class const & matchClass);
 	parser & owner;
 	friend class producer;
 };
 
-}
-}
+} // namespace details
+} // namespace parlex
 
-#endif
+#endif //JOB_HPP

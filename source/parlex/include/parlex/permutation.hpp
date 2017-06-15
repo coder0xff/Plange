@@ -9,6 +9,6 @@ namespace parlex {
 
 typedef std::vector<match> permutation;
 
-}
+} // namespace parlex
 
-#endif
+#endif //PERMUTATION_HPP
