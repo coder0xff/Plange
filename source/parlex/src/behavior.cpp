@@ -22,7 +22,7 @@ node::node(node const & other) : tag(other.tag), children(other.children) {
 }
 
 nfa2 node::compile() const {
-	return to_nfa().minimal_dfa().relabel();
+	return to_nfa().minimal_dfa().map_to_ints();
 }
 
 leaf::leaf(recognizer const & r) : r(r), id(r.id) {

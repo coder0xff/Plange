@@ -1,5 +1,6 @@
 #include "parlex/correlated_grammar.hpp"
 
+#include "parlex/builder.hpp"
 #include "parlex/builtins.hpp"
 
 namespace parlex {
@@ -13,7 +14,7 @@ void correlated_grammar::production::set_behavior(erased<behavior::node> const &
 	state_machine.set_behavior(*this->behavior);
 }
 
-correlated_grammar::correlated_grammar(builtins_t const & builtins, grammar_definition const & grammarDefinition) : grammar_base(builtins), root_id(grammarDefinition.root_id) {
+correlated_grammar::correlated_grammar(builtins_t const & builtins, builder::grammar const & grammarDefinition) : grammar_base(builtins), root_id(grammarDefinition.root_id) {
 	for (auto const & definition : grammarDefinition.productions) {
 		auto const & id = definition.id;
 		productions.emplace(std::piecewise_construct, forward_as_tuple(id), forward_as_tuple(id, definition.filter, definition.assoc));
@@ -82,18 +83,18 @@ recognizer const& correlated_grammar::get_recognizer(std::string const & id) con
 	return get_state_machine(id);
 }
 
-erased<behavior::node> correlated_grammar::get_behavior(grammar_definition::node const & b) {
-#define DO_AS(t) \
-	grammar_definition::t const * as_##t = dynamic_cast<grammar_definition::t const *>(&b); \
-	if (as_##t != nullptr)
+erased<behavior::node> correlated_grammar::get_behavior(builder::node const & b) {
+#define DO_AS(name) \
+	builder::name##_t const * as_##name = dynamic_cast<builder::name##_t const *>(&b); \
+	if (as_##name != nullptr)
 
 	DO_AS(literal) {
 		auto const & l = get_or_add_literal(as_literal->content);
 		return behavior::leaf(l);
 	}
 
-	DO_AS(production) {
-		auto const & r = get_recognizer(as_production->id);
+	DO_AS(reference) {
+		auto const & r = get_recognizer(as_reference->id);
 		return behavior::leaf(r);
 	}
 

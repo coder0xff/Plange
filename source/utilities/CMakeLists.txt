@@ -6,6 +6,7 @@ set (SOURCES
 	"utils.cpp")
 	
 set (HEADERS
+	"auto_map_c.hpp"
 	"forward_list_c.hpp"
 	"logging.hpp"
 	"one_shot.hpp"

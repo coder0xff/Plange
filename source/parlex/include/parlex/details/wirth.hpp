@@ -5,11 +5,15 @@
 #include "parlex/grammar.hpp"
 
 #include "erased.hpp"
-#include "parlex/grammar_definition.hpp"
-
+ 
 namespace parlex {
 struct abstract_syntax_graph;
 class builtins_t;
+
+namespace builder {
+struct grammar;
+struct node;
+}
 
 namespace details {
 
@@ -37,8 +41,8 @@ FACTOR        = ["$"] IDENTIFIER
 
 class wirth_t final : public grammar {
 public:
-	struct definition {
-		definition(std::u32string const & source, associativity assoc, filter_function filter, std::set<std::string> const & precedences);
+	struct production {
+		production(std::u32string const & source, associativity assoc, filter_function filter, std::set<std::string> const & precedences);
 		std::u32string const source;
 		associativity const assoc;
 		filter_function const filter;
@@ -47,8 +51,8 @@ public:
 
 	wirth_t(parser & p);
 
-	grammar_definition load_grammar(std::string const & rootId, std::map<std::string, definition> const & definitions);
-	grammar_definition load_grammar(std::string const & rootId, std::u32string const & document, std::map<std::string, associativity> const & associativities, std::set<std::string> const & longestNames);
+	builder::grammar load_grammar(std::string const & rootId, std::map<std::string, production> const & definitions);
+	builder::grammar load_grammar(std::string const & rootId, std::u32string const & document, std::map<std::string, associativity> const & associativities, std::set<std::string> const & longestNames);
 
 private:
 	parser & p;
@@ -80,11 +84,11 @@ private:
 	state_machine & identifierDfa;
 	state_machine & rootDfa;
 
-	erased<grammar_definition::node> process_factor2(std::u32string const & document, match const & factor, abstract_syntax_graph const & asg);
-	erased<grammar_definition::node> process_term2(std::u32string const & document, match const & term, abstract_syntax_graph const & asg);
-	erased<grammar_definition::node> process_expression2(std::u32string const & document, match const & expression, abstract_syntax_graph const & asg);
-	erased<grammar_definition::node> process_production2(std::u32string const & document, match const & expression, abstract_syntax_graph const & asg);
-	erased<grammar_definition::node> compile_source(std::u32string const & source);
+	erased<builder::node> process_factor2(std::u32string const & document, match const & factor, abstract_syntax_graph const & asg);
+	erased<builder::node> process_term2(std::u32string const & document, match const & term, abstract_syntax_graph const & asg);
+	erased<builder::node> process_expression2(std::u32string const & document, match const & expression, abstract_syntax_graph const & asg);
+	erased<builder::node> process_production2(std::u32string const & document, match const & expression, abstract_syntax_graph const & asg);
+	erased<builder::node> compile_source(std::u32string const & source);
 
 };
 

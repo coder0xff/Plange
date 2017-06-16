@@ -32,14 +32,15 @@ grammar::grammar(grammar const & other) : grammar_base(other), main_production_n
 	for (auto const & nameAndStateMachine : other.productions) {
 		state_machine const & sm = nameAndStateMachine.second;
 		state_machine & outProduction = productions.find(nameAndStateMachine.first)->second;
-		state_machine::states_t const & othersStates = sm.states;
-		for (unsigned int j = 0; j < othersStates.size(); ++j) {
-			for (auto const & symbolAndToState : othersStates[j]) {
+		state_machine::states_t const & othersStates = sm.get_states();
+		for (size_t j = 0; j < othersStates.size(); ++j) {
+			auto const & othersState = othersStates[j];
+			for (auto const & symbolAndToState : othersState) {
 				recognizer const * mappedSymbol = symbolAndToState.first;
 				if (recognizersMap.count(mappedSymbol) == 1) {
 					mappedSymbol = recognizersMap[mappedSymbol];
 				}
-				outProduction.states[j][mappedSymbol] = symbolAndToState.second;
+				outProduction.add_transition(j, mappedSymbol, symbolAndToState.second);
 			}
 		}
 	}
@@ -58,7 +59,7 @@ std::string grammar::hierarchy_dot(std::map<std::string, production_def> const &
 		while (descendentsQueue.size() > 0) {
 			auto const & descendent = descendentsQueue.front();
 			descendentsQueue.pop();
-			auto const & asProduction = std::dynamic_pointer_cast<details::production>(descendent);
+			auto const & asProduction = std::dynamic_pointer_cast<details::reference>(descendent);
 			if (asProduction != nullptr) {
 				arrows.insert(make_pair(name, asProduction->name));
 			} else {
@@ -220,7 +221,7 @@ void grammar::generate_cplusplus_code(builtins_t const & builtins, std::string g
 	for (std::u32string content : sortedContentStrings) {
 		details::string_terminal const & literal = *contentToLiterals[content];
 		std::ostringstream nameStream;
-		nameStream << "literal" << i;
+		nameStream << "literal_t" << i;
 		cpp << "DEFINE_TERMINAL(" << nameStream.str() << ", U" << enquote(to_utf8(literal.get_content())) << ");" << std::endl;
 		recognizerToStringMap[static_cast<recognizer const *>(&literal)] = nameStream.str();
 		i++;
@@ -242,7 +243,7 @@ void grammar::generate_cplusplus_code(builtins_t const & builtins, std::string g
 		std::string const & id = production.first;
 		state_machine const & sm = production.second;
 		cpp << "DEFINE_DFA(" << id << "," << std::endl;
-		auto const states = sm.states;
+		auto const states = sm.get_states();
 		for (size_t j = 0; j < states.size(); ++j) {
 			auto const & state = states[j];
 			cpp << "\tDFA_STATE " << j << ":" << std::endl;

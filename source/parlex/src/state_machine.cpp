@@ -8,10 +8,18 @@ namespace parlex {
 state_machine::state_machine(std::string const & id, int startState, int acceptStateCount, filter_function const & filter, associativity assoc) : state_machine_base(id), start_state(startState), accept_state_count(acceptStateCount), filter(filter), assoc(assoc) {
 }
 
-state_machine::state_machine(std::string const & id, filter_function const & filter, associativity assoc) : state_machine_base(id), filter(filter), assoc(assoc), start_state(-1), accept_state_count(-1) {
+void state_machine::add_transition(size_t from, recognizer const * transition, size_t to) {
+	while (states.size() <= from || states.size() <= to) {
+		states.emplace_back();
+	}
+	if (states[from].count(transition) > 0) {
+		throw std::runtime_error("there is already a transition using the specified recognizer");
+	}
+	states[from][transition] = to;
 }
 
-state_machine::state_machine(std::string const & id, associativity assoc) : state_machine(id, filter_function(), assoc) {
+state_machine::states_t const & state_machine::get_states() const {
+	return states;
 }
 
 void state_machine::process(details::context_ref const & c, size_t const s) const {

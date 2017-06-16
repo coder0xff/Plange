@@ -3,7 +3,7 @@
 
 #include <vector>
 
-#include "parlex/match.hpp"
+#include "match.hpp"
 
 #include "module.hpp"
 

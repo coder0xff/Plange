@@ -6,11 +6,13 @@
 #include "parlex/state_machine.hpp"
 
 namespace parlex {
+class builtins_t;
+
 namespace details {
 
 class c_string_t : public state_machine {
 public:
-	c_string_t(filter_function const & longest, terminal const & octal_digit, terminal const & hexadecimal_digit);
+	c_string_t(builtins_t const & builtins);
 	std::u32string extract(std::u32string document, match const & m, abstract_syntax_graph const & asg) const;
 
 private:

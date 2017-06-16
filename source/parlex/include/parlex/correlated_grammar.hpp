@@ -4,19 +4,33 @@
 #include <map>
 #include <set>
 
-#include "parlex/details/string_terminal.hpp"
+#include "erased.hpp"
+
 #include "parlex/behavior.hpp"
 #include "parlex/correlated_state_machine.hpp"
 #include "parlex/precedence_collection.hpp"
+
+#include "parlex/details/string_terminal.hpp"
 #include "parlex/grammar_base.hpp"
-#include "grammar_definition.hpp"
 
 namespace parlex {
+namespace behavior {
+
+	class node;
+} // namespace behavior
+
+namespace builder {
+
+struct grammar;
+struct node;
+
+} // namespace builder
+
 class builtins_t;
 
 // you must first create all the productions objects
 // then create the behaviors
-// then call set_behavior on each production
+// then call set_behavior on each reference
 class correlated_grammar : public grammar_base {
 public:
 	struct production {
@@ -28,7 +42,7 @@ public:
 		void set_behavior(erased<behavior::node> const & behavior);
 	};
 
-	correlated_grammar(builtins_t const & builtins, grammar_definition const & grammarDefinition);
+	correlated_grammar(builtins_t const & builtins, builder::grammar const & grammarDefinition);
 	correlated_grammar(correlated_grammar const & copy) = delete;
 	virtual ~correlated_grammar() = default;
 
@@ -45,7 +59,7 @@ private:
 	details::string_terminal& get_or_add_literal(std::u32string const & contents);
 	correlated_state_machine const& get_state_machine(std::string const & id) const;
 	recognizer const & get_recognizer(std::string const & id) const;
-	erased<behavior::node> get_behavior(grammar_definition::node const & b);
+	erased<behavior::node> get_behavior(builder::node const & b);
 };
 
 } //namespace parlex

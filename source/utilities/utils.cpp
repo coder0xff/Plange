@@ -252,8 +252,10 @@ void debugger() {
 #endif
 }
 
+static std::string cmake_intdir(CMAKE_INTDIR);
+
 void throw_assert(bool pass) {
-	if (CMAKE_INTDIR == "debug") {
+	if (cmake_intdir == "Debug") {
 		if (!pass) {
 			throw std::runtime_error("failed assert");
 		}

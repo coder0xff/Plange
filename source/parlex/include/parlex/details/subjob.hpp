@@ -21,7 +21,7 @@ class job;
 class subjob : public producer {
 public:
 	state_machine_base const & machine;
-	std::list<context> contexts;
+	forward_list_c<context> contexts;
 	std::list<permutation> queuedPermutations;
 	std::mutex mutex;
 	std::atomic<int> lifetimeCounter;

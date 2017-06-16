@@ -28,7 +28,7 @@ subjob::~subjob() {
 void subjob::start() {
 	{
 		std::unique_lock<std::mutex> lock(mutex);
-		contexts.emplace_back(*this, context_ref(), document_position, nullptr);
+		contexts.emplace_front(*this, context_ref(), document_position, nullptr);
 	}
 	machine.start(*this, document_position);
 	end_dependency(); //reference code B
@@ -36,14 +36,14 @@ void subjob::start() {
 
 context_ref subjob::construct_start_state_context(int documentPosition) {
 	std::unique_lock<std::mutex> lock(mutex);
-	contexts.emplace_back(*this, context_ref(), documentPosition, nullptr);
-	return contexts.back().get_ref();
+	auto i = contexts.emplace_front(*this, context_ref(), documentPosition, nullptr);
+	return i->get_ref();
 }
 
 context_ref subjob::construct_stepped_context(context_ref const & prior, match const & fromTransition) {
 	std::unique_lock<std::mutex> lock(mutex);
-	contexts.emplace_back(*this, prior, prior.current_document_position() + fromTransition.consumed_character_count, &fromTransition);
-	return contexts.back().get_ref();
+	auto i = contexts.emplace_front(*this, prior, prior.current_document_position() + fromTransition.consumed_character_count, &fromTransition);
+	return i->get_ref();
 }
 
 void subjob::on(context_ref const & c, recognizer const & r, int nextDfaState, behavior::leaf const * leaf) {

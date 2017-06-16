@@ -40,13 +40,14 @@ public:
 	filter_function const filter;
 	associativity const assoc;
 	behavior::node const * behavior;
-	states_t states;
 	int start_state;
 	size_t accept_state_count; //must be greater than 0
 	void set_behavior(behavior::node const & behavior);
 private:
 	friend class parser;
 	friend class details::subjob;
+
+	states_t states;
 
 	void process(details::context_ref const & c, size_t dfaState) const override;
 	static behavior::nfa2 reorder(behavior::nfa2 const & original);

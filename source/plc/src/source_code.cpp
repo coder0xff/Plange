@@ -3,7 +3,7 @@
 #include <fstream>
 
 #include "stdafx.hpp"
-#include "parlex/parser.hpp"
+#include "parser.hpp"
 #include "plange_grammar.hpp"
 #include "utils.hpp"
 #include "scope.hpp"

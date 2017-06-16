@@ -3,7 +3,7 @@
 #ifndef PLANGE_GRAMMAR_HPP
 #define PLANGE_GRAMMAR_HPP
 
-#include "parlex/builder.hpp"
+#include "builder.hpp"
 
 namespace plc {
 

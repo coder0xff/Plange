@@ -6,7 +6,7 @@
 #include <string>
 #include <vector>
 
-#include "parlex/details/auto_map.hpp"
+#include "auto_map_c.hpp"
 #include "utils.hpp"
 
 namespace parlex {
@@ -58,11 +58,11 @@ struct nfa {
 	}
 
 	struct transition {
-		int from;
+		size_t from;
 		alphabet_t symbol;
-		int to;
+		size_t to;
 
-		inline transition(int from, alphabet_t symbol, int to) : from(from), symbol(symbol), to(to) {
+		transition(size_t from, alphabet_t symbol, size_t to) : from(from), symbol(symbol), to(to) {
 		}
 	};
 
@@ -177,7 +177,7 @@ struct nfa {
 		return dual().determinize().dual().determinize();
 	}
 
-	nfa<alphabet_t, int> relabel() {
+	nfa<alphabet_t, int> map_to_ints() {
 		nfa<alphabet_t, int> result;
 		for (unsigned int i = 0; i < states.size(); ++i) {
 			result.states.emplace_back(i);

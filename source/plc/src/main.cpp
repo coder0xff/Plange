@@ -3,7 +3,7 @@
 #include <iostream>
 
 #include "stdafx.hpp"
-#include "parlex/parser.hpp"
+#include "parser.hpp"
 #include "plange_grammar.hpp"
 #include "tclap/CmdLine.h"
 #include "utils.hpp"
@@ -57,7 +57,7 @@ int main(int argc, const char* argv[]) {
 		}
 		std::u32string s = read_with_bom(ifs);
 		auto emplaceResult = parses.emplace(std::piecewise_construct, forward_as_tuple(filename), std::forward_as_tuple(new source_code(filename)));
-		assert(emplaceResult.second);
+		throw_assert(emplaceResult.second);
 		sources.emplace_back(*emplaceResult.first->second);
 	}
 

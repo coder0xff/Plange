@@ -84,151 +84,163 @@ DEFINE_TERMINAL(literal76, U"_dot_");
 DEFINE_TERMINAL(literal77, U"_o_");
 DEFINE_TERMINAL(literal78, U"_swiz_");
 DEFINE_TERMINAL(literal79, U"_x_");
-DEFINE_TERMINAL(literal80, U"`");
-DEFINE_TERMINAL(literal81, U"```");
-DEFINE_TERMINAL(literal82, U"all");
-DEFINE_TERMINAL(literal83, U"alloc");
-DEFINE_TERMINAL(literal84, U"and");
-DEFINE_TERMINAL(literal85, U"any_reg_call");
-DEFINE_TERMINAL(literal86, U"arm_aapcs_call");
-DEFINE_TERMINAL(literal87, U"arm_aapcs_vfp_call");
-DEFINE_TERMINAL(literal88, U"arm_apcs_call");
-DEFINE_TERMINAL(literal89, U"atomic");
-DEFINE_TERMINAL(literal90, U"avr_builtin_call");
-DEFINE_TERMINAL(literal91, U"avr_intr_call");
-DEFINE_TERMINAL(literal92, U"avr_signal_call");
-DEFINE_TERMINAL(literal93, U"break");
-DEFINE_TERMINAL(literal94, U"c_call");
-DEFINE_TERMINAL(literal95, U"casts");
-DEFINE_TERMINAL(literal96, U"catch");
-DEFINE_TERMINAL(literal97, U"cold_call");
-DEFINE_TERMINAL(literal98, U"context");
-DEFINE_TERMINAL(literal99, U"continue");
-DEFINE_TERMINAL(literal100, U"cxx_fast_tls_call");
-DEFINE_TERMINAL(literal101, U"diamond");
-DEFINE_TERMINAL(literal102, U"downcasts");
-DEFINE_TERMINAL(literal103, U"enum");
-DEFINE_TERMINAL(literal104, U"exactly");
-DEFINE_TERMINAL(literal105, U"exists");
-DEFINE_TERMINAL(literal106, U"exists!");
-DEFINE_TERMINAL(literal107, U"extern");
-DEFINE_TERMINAL(literal108, U"false");
-DEFINE_TERMINAL(literal109, U"fast_call");
-DEFINE_TERMINAL(literal110, U"finally");
-DEFINE_TERMINAL(literal111, U"first_target_call");
-DEFINE_TERMINAL(literal112, U"for");
-DEFINE_TERMINAL(literal113, U"free");
-DEFINE_TERMINAL(literal114, U"ghc_call");
-DEFINE_TERMINAL(literal115, U"has");
-DEFINE_TERMINAL(literal116, U"hhvm_call");
-DEFINE_TERMINAL(literal117, U"hipe_call");
-DEFINE_TERMINAL(literal118, U"imperative");
-DEFINE_TERMINAL(literal119, U"implementing");
-DEFINE_TERMINAL(literal120, U"implements");
-DEFINE_TERMINAL(literal121, U"import");
-DEFINE_TERMINAL(literal122, U"in");
-DEFINE_TERMINAL(literal123, U"inheriting");
-DEFINE_TERMINAL(literal124, U"inherits");
-DEFINE_TERMINAL(literal125, U"intel_ocl_bi_call");
-DEFINE_TERMINAL(literal126, U"internal");
-DEFINE_TERMINAL(literal127, U"is");
-DEFINE_TERMINAL(literal128, U"lock");
-DEFINE_TERMINAL(literal129, U"msp430_intr_call");
-DEFINE_TERMINAL(literal130, U"null");
-DEFINE_TERMINAL(literal131, U"object");
-DEFINE_TERMINAL(literal132, U"opaque");
-DEFINE_TERMINAL(literal133, U"or");
-DEFINE_TERMINAL(literal134, U"preserve_all_call");
-DEFINE_TERMINAL(literal135, U"preserve_most_call");
-DEFINE_TERMINAL(literal136, U"private");
-DEFINE_TERMINAL(literal137, U"protected");
-DEFINE_TERMINAL(literal138, U"protected internal");
-DEFINE_TERMINAL(literal139, U"psubs");
-DEFINE_TERMINAL(literal140, U"psups");
-DEFINE_TERMINAL(literal141, U"ptx_device_call");
-DEFINE_TERMINAL(literal142, U"ptx_kernel_call");
-DEFINE_TERMINAL(literal143, U"public");
-DEFINE_TERMINAL(literal144, U"pure");
-DEFINE_TERMINAL(literal145, U"read_lock");
-DEFINE_TERMINAL(literal146, U"record");
-DEFINE_TERMINAL(literal147, U"spir_func_call");
-DEFINE_TERMINAL(literal148, U"spir_kernel_call");
-DEFINE_TERMINAL(literal149, U"stable");
-DEFINE_TERMINAL(literal150, U"static");
-DEFINE_TERMINAL(literal151, U"subs");
-DEFINE_TERMINAL(literal152, U"sups");
-DEFINE_TERMINAL(literal153, U"swift_call");
-DEFINE_TERMINAL(literal154, U"this");
-DEFINE_TERMINAL(literal155, U"this_func");
-DEFINE_TERMINAL(literal156, U"this_type");
-DEFINE_TERMINAL(literal157, U"throw");
-DEFINE_TERMINAL(literal158, U"throwing");
-DEFINE_TERMINAL(literal159, U"true");
-DEFINE_TERMINAL(literal160, U"try");
-DEFINE_TERMINAL(literal161, U"type");
-DEFINE_TERMINAL(literal162, U"unstable");
-DEFINE_TERMINAL(literal163, U"upcasts");
-DEFINE_TERMINAL(literal164, U"using");
-DEFINE_TERMINAL(literal165, U"volatile");
-DEFINE_TERMINAL(literal166, U"webkit_js_call");
-DEFINE_TERMINAL(literal167, U"write_lock");
-DEFINE_TERMINAL(literal168, U"x86_64_sysv_call");
-DEFINE_TERMINAL(literal169, U"x86_64_win64_call");
-DEFINE_TERMINAL(literal170, U"x86_intr_call");
-DEFINE_TERMINAL(literal171, U"x86_std_call");
-DEFINE_TERMINAL(literal172, U"x86_this_call");
-DEFINE_TERMINAL(literal173, U"x86_vector_call");
-DEFINE_TERMINAL(literal174, U"xor");
-DEFINE_TERMINAL(literal175, U"{");
-DEFINE_TERMINAL(literal176, U"{|");
-DEFINE_TERMINAL(literal177, U"|");
-DEFINE_TERMINAL(literal178, U"|)");
-DEFINE_TERMINAL(literal179, U"|]");
-DEFINE_TERMINAL(literal180, U"|_");
-DEFINE_TERMINAL(literal181, U"||");
-DEFINE_TERMINAL(literal182, U"|}");
-DEFINE_TERMINAL(literal183, U"}");
-DEFINE_TERMINAL(literal184, U"~");
-DEFINE_TERMINAL(literal185, U"~~");
-DEFINE_TERMINAL(literal186, U"¬");
-DEFINE_TERMINAL(literal187, U"±");
-DEFINE_TERMINAL(literal188, U"×");
-DEFINE_TERMINAL(literal189, U"÷");
-DEFINE_TERMINAL(literal190, U"Δ");
-DEFINE_TERMINAL(literal191, U"ᶜ");
-DEFINE_TERMINAL(literal192, U"←");
-DEFINE_TERMINAL(literal193, U"↑");
-DEFINE_TERMINAL(literal194, U"→");
-DEFINE_TERMINAL(literal195, U"↓");
-DEFINE_TERMINAL(literal196, U"↔");
-DEFINE_TERMINAL(literal197, U"⇒");
-DEFINE_TERMINAL(literal198, U"⇔");
-DEFINE_TERMINAL(literal199, U"∀");
-DEFINE_TERMINAL(literal200, U"∃");
-DEFINE_TERMINAL(literal201, U"∃!");
-DEFINE_TERMINAL(literal202, U"∈");
-DEFINE_TERMINAL(literal203, U"∉");
-DEFINE_TERMINAL(literal204, U"∋");
-DEFINE_TERMINAL(literal205, U"∌");
-DEFINE_TERMINAL(literal206, U"∘");
-DEFINE_TERMINAL(literal207, U"√");
-DEFINE_TERMINAL(literal208, U"∧");
-DEFINE_TERMINAL(literal209, U"∨");
-DEFINE_TERMINAL(literal210, U"∩");
-DEFINE_TERMINAL(literal211, U"∪");
-DEFINE_TERMINAL(literal212, U"≠");
-DEFINE_TERMINAL(literal213, U"≤");
-DEFINE_TERMINAL(literal214, U"≥");
-DEFINE_TERMINAL(literal215, U"⊂");
-DEFINE_TERMINAL(literal216, U"⊃");
-DEFINE_TERMINAL(literal217, U"⊆");
-DEFINE_TERMINAL(literal218, U"⊇");
-DEFINE_TERMINAL(literal219, U"⊕");
-DEFINE_TERMINAL(literal220, U"⊖");
-DEFINE_TERMINAL(literal221, U"⋅");
-DEFINE_TERMINAL(literal222, U"⋮");
-DEFINE_TERMINAL(literal223, U"⌈");
-DEFINE_TERMINAL(literal224, U"⌉");
+DEFINE_TERMINAL(literal80, U"_|");
+DEFINE_TERMINAL(literal81, U"`");
+DEFINE_TERMINAL(literal82, U"```");
+DEFINE_TERMINAL(literal83, U"all");
+DEFINE_TERMINAL(literal84, U"alloc");
+DEFINE_TERMINAL(literal85, U"and");
+DEFINE_TERMINAL(literal86, U"any_reg_call");
+DEFINE_TERMINAL(literal87, U"arm_aapcs_call");
+DEFINE_TERMINAL(literal88, U"arm_aapcs_vfp_call");
+DEFINE_TERMINAL(literal89, U"arm_apcs_call");
+DEFINE_TERMINAL(literal90, U"asm");
+DEFINE_TERMINAL(literal91, U"atomic");
+DEFINE_TERMINAL(literal92, U"avr_builtin_call");
+DEFINE_TERMINAL(literal93, U"avr_intr_call");
+DEFINE_TERMINAL(literal94, U"avr_signal_call");
+DEFINE_TERMINAL(literal95, U"break");
+DEFINE_TERMINAL(literal96, U"c_call");
+DEFINE_TERMINAL(literal97, U"casts");
+DEFINE_TERMINAL(literal98, U"catch");
+DEFINE_TERMINAL(literal99, U"cold_call");
+DEFINE_TERMINAL(literal100, U"context");
+DEFINE_TERMINAL(literal101, U"continue");
+DEFINE_TERMINAL(literal102, U"cxx_fast_tls_call");
+DEFINE_TERMINAL(literal103, U"diamond");
+DEFINE_TERMINAL(literal104, U"do");
+DEFINE_TERMINAL(literal105, U"downcasts");
+DEFINE_TERMINAL(literal106, U"elif");
+DEFINE_TERMINAL(literal107, U"else");
+DEFINE_TERMINAL(literal108, U"enum");
+DEFINE_TERMINAL(literal109, U"exactly");
+DEFINE_TERMINAL(literal110, U"exists");
+DEFINE_TERMINAL(literal111, U"exists!");
+DEFINE_TERMINAL(literal112, U"extern");
+DEFINE_TERMINAL(literal113, U"false");
+DEFINE_TERMINAL(literal114, U"fast_call");
+DEFINE_TERMINAL(literal115, U"finally");
+DEFINE_TERMINAL(literal116, U"first_target_call");
+DEFINE_TERMINAL(literal117, U"for");
+DEFINE_TERMINAL(literal118, U"free");
+DEFINE_TERMINAL(literal119, U"ghc_call");
+DEFINE_TERMINAL(literal120, U"has");
+DEFINE_TERMINAL(literal121, U"hhvm_call");
+DEFINE_TERMINAL(literal122, U"hipe_call");
+DEFINE_TERMINAL(literal123, U"if");
+DEFINE_TERMINAL(literal124, U"imperative");
+DEFINE_TERMINAL(literal125, U"implementing");
+DEFINE_TERMINAL(literal126, U"implements");
+DEFINE_TERMINAL(literal127, U"import");
+DEFINE_TERMINAL(literal128, U"in");
+DEFINE_TERMINAL(literal129, U"inheriting");
+DEFINE_TERMINAL(literal130, U"inherits");
+DEFINE_TERMINAL(literal131, U"intel_ocl_bi_call");
+DEFINE_TERMINAL(literal132, U"internal");
+DEFINE_TERMINAL(literal133, U"is");
+DEFINE_TERMINAL(literal134, U"lock");
+DEFINE_TERMINAL(literal135, U"msp430_intr_call");
+DEFINE_TERMINAL(literal136, U"null");
+DEFINE_TERMINAL(literal137, U"object");
+DEFINE_TERMINAL(literal138, U"opaque");
+DEFINE_TERMINAL(literal139, U"or");
+DEFINE_TERMINAL(literal140, U"preserve_all_call");
+DEFINE_TERMINAL(literal141, U"preserve_most_call");
+DEFINE_TERMINAL(literal142, U"private");
+DEFINE_TERMINAL(literal143, U"protected");
+DEFINE_TERMINAL(literal144, U"protected internal");
+DEFINE_TERMINAL(literal145, U"psubs");
+DEFINE_TERMINAL(literal146, U"psups");
+DEFINE_TERMINAL(literal147, U"ptx_device_call");
+DEFINE_TERMINAL(literal148, U"ptx_kernel_call");
+DEFINE_TERMINAL(literal149, U"public");
+DEFINE_TERMINAL(literal150, U"pure");
+DEFINE_TERMINAL(literal151, U"read_lock");
+DEFINE_TERMINAL(literal152, U"record");
+DEFINE_TERMINAL(literal153, U"return");
+DEFINE_TERMINAL(literal154, U"spir_func_call");
+DEFINE_TERMINAL(literal155, U"spir_kernel_call");
+DEFINE_TERMINAL(literal156, U"stable");
+DEFINE_TERMINAL(literal157, U"static");
+DEFINE_TERMINAL(literal158, U"subs");
+DEFINE_TERMINAL(literal159, U"sups");
+DEFINE_TERMINAL(literal160, U"swift_call");
+DEFINE_TERMINAL(literal161, U"this");
+DEFINE_TERMINAL(literal162, U"this_func");
+DEFINE_TERMINAL(literal163, U"this_type");
+DEFINE_TERMINAL(literal164, U"throw");
+DEFINE_TERMINAL(literal165, U"throwing");
+DEFINE_TERMINAL(literal166, U"true");
+DEFINE_TERMINAL(literal167, U"try");
+DEFINE_TERMINAL(literal168, U"type");
+DEFINE_TERMINAL(literal169, U"unstable");
+DEFINE_TERMINAL(literal170, U"until");
+DEFINE_TERMINAL(literal171, U"upcasts");
+DEFINE_TERMINAL(literal172, U"using");
+DEFINE_TERMINAL(literal173, U"volatile");
+DEFINE_TERMINAL(literal174, U"webkit_js_call");
+DEFINE_TERMINAL(literal175, U"while");
+DEFINE_TERMINAL(literal176, U"write_lock");
+DEFINE_TERMINAL(literal177, U"x86_64_sysv_call");
+DEFINE_TERMINAL(literal178, U"x86_64_win64_call");
+DEFINE_TERMINAL(literal179, U"x86_intr_call");
+DEFINE_TERMINAL(literal180, U"x86_std_call");
+DEFINE_TERMINAL(literal181, U"x86_this_call");
+DEFINE_TERMINAL(literal182, U"x86_vector_call");
+DEFINE_TERMINAL(literal183, U"xor");
+DEFINE_TERMINAL(literal184, U"{");
+DEFINE_TERMINAL(literal185, U"{|");
+DEFINE_TERMINAL(literal186, U"|");
+DEFINE_TERMINAL(literal187, U"|\'");
+DEFINE_TERMINAL(literal188, U"|)");
+DEFINE_TERMINAL(literal189, U"|]");
+DEFINE_TERMINAL(literal190, U"|_");
+DEFINE_TERMINAL(literal191, U"||");
+DEFINE_TERMINAL(literal192, U"|}");
+DEFINE_TERMINAL(literal193, U"}");
+DEFINE_TERMINAL(literal194, U"~");
+DEFINE_TERMINAL(literal195, U"~~");
+DEFINE_TERMINAL(literal196, U"¬");
+DEFINE_TERMINAL(literal197, U"±");
+DEFINE_TERMINAL(literal198, U"×");
+DEFINE_TERMINAL(literal199, U"÷");
+DEFINE_TERMINAL(literal200, U"Δ");
+DEFINE_TERMINAL(literal201, U"ᶜ");
+DEFINE_TERMINAL(literal202, U"←");
+DEFINE_TERMINAL(literal203, U"↑");
+DEFINE_TERMINAL(literal204, U"→");
+DEFINE_TERMINAL(literal205, U"↓");
+DEFINE_TERMINAL(literal206, U"↔");
+DEFINE_TERMINAL(literal207, U"⇒");
+DEFINE_TERMINAL(literal208, U"⇔");
+DEFINE_TERMINAL(literal209, U"∀");
+DEFINE_TERMINAL(literal210, U"∃");
+DEFINE_TERMINAL(literal211, U"∃!");
+DEFINE_TERMINAL(literal212, U"∈");
+DEFINE_TERMINAL(literal213, U"∉");
+DEFINE_TERMINAL(literal214, U"∋");
+DEFINE_TERMINAL(literal215, U"∌");
+DEFINE_TERMINAL(literal216, U"∘");
+DEFINE_TERMINAL(literal217, U"√");
+DEFINE_TERMINAL(literal218, U"∧");
+DEFINE_TERMINAL(literal219, U"∨");
+DEFINE_TERMINAL(literal220, U"∩");
+DEFINE_TERMINAL(literal221, U"∪");
+DEFINE_TERMINAL(literal222, U"≠");
+DEFINE_TERMINAL(literal223, U"≤");
+DEFINE_TERMINAL(literal224, U"≥");
+DEFINE_TERMINAL(literal225, U"⊂");
+DEFINE_TERMINAL(literal226, U"⊃");
+DEFINE_TERMINAL(literal227, U"⊆");
+DEFINE_TERMINAL(literal228, U"⊇");
+DEFINE_TERMINAL(literal229, U"⊕");
+DEFINE_TERMINAL(literal230, U"⊖");
+DEFINE_TERMINAL(literal231, U"⋅");
+DEFINE_TERMINAL(literal232, U"⋮");
+DEFINE_TERMINAL(literal233, U"⌈");
+DEFINE_TERMINAL(literal234, U"⌉");
+DEFINE_TERMINAL(literal235, U"⌊");
+DEFINE_TERMINAL(literal236, U"⌋");
 
 DEFINE_DFA(ADDITION,
 	DFA_STATE 0:
@@ -252,7 +264,7 @@ DEFINE_DFA(ADD_SUB,
 		DFA_EDGE(EXPRESSION,1);
 		break;
 	DFA_STATE 1:
-		DFA_EDGE(literal187,2);
+		DFA_EDGE(literal197,2);
 		DFA_EDGE(literal18,2);
 		DFA_EDGE(IC,1);
 		break;
@@ -267,8 +279,8 @@ DEFINE_DFA(ADD_SUB,
 
 DEFINE_DFA(ALL,
 	DFA_STATE 0:
-		DFA_EDGE(literal82,1);
-		DFA_EDGE(literal199,1);
+		DFA_EDGE(literal209,1);
+		DFA_EDGE(literal83,1);
 		break;
 	DFA_STATE 1:
 		DFA_EDGE(EXPRESSION,2);
@@ -281,7 +293,7 @@ DEFINE_DFA(ALL,
 
 DEFINE_DFA(ALLOCATION,
 	DFA_STATE 0:
-		DFA_EDGE(literal83,1);
+		DFA_EDGE(literal84,1);
 		break;
 	DFA_STATE 1:
 		DFA_EDGE(PARENTHETICAL_INVOCATION,2);
@@ -297,8 +309,8 @@ DEFINE_DFA(AND,
 		DFA_EDGE(EXPRESSION,1);
 		break;
 	DFA_STATE 1:
-		DFA_EDGE(literal84,2);
-		DFA_EDGE(literal208,2);
+		DFA_EDGE(literal85,2);
+		DFA_EDGE(literal218,2);
 		DFA_EDGE(IC,1);
 		break;
 	DFA_STATE 2:
@@ -337,8 +349,8 @@ DEFINE_DFA(ARRAY,
 		DFA_EDGE(literal68,1);
 		break;
 	DFA_STATE 1:
-		DFA_EDGE(literal71,4);
 		DFA_EDGE(EXPRESSION,2);
+		DFA_EDGE(literal71,4);
 		DFA_EDGE(IC,1);
 		break;
 	DFA_STATE 2:
@@ -357,9 +369,9 @@ DEFINE_DFA(ARRAY,
 
 DEFINE_DFA(ARRAY_INDEXER,
 	DFA_STATE 0:
-		DFA_EDGE(SLICE,1);
-		DFA_EDGE(ARGUMENT,1);
 		DFA_EDGE(ARGUMENT_PACK,1);
+		DFA_EDGE(ARGUMENT,1);
+		DFA_EDGE(SLICE,1);
 		DFA_EDGE(IC,0);
 		break;
 	DFA_STATE 1:
@@ -375,9 +387,9 @@ DEFINE_DFA(ARRAY_INVOCATION,
 		DFA_EDGE(literal68,2);
 		break;
 	DFA_STATE 2:
+		DFA_EDGE(ARRAY_INDEXER,3);
 		DFA_EDGE(literal19,2);
 		DFA_EDGE(literal71,4);
-		DFA_EDGE(ARRAY_INDEXER,3);
 		DFA_EDGE(IC,3);
 		break;
 	DFA_STATE 3:
@@ -392,9 +404,9 @@ DEFINE_DFA(ARRAY_INVOCATION,
 
 DEFINE_DFA(ASM_EXPRESSION,
 	DFA_STATE 0:
-		DFA_EDGE(ASM_PTR_ARITHMETIC_INTEL,1);
-		DFA_EDGE(ASM_PTR_ARITHMETIC_ATT,1);
 		DFA_EDGE(ASM_IDENTIFIER,1);
+		DFA_EDGE(ASM_PTR_ARITHMETIC_ATT,1);
+		DFA_EDGE(ASM_PTR_ARITHMETIC_INTEL,1);
 		DFA_EDGE(NON_FRACTIONAL,1);
 		break;
 	DFA_STATE 1:
@@ -403,6 +415,46 @@ DEFINE_DFA(ASM_EXPRESSION,
 , 0, parlex::associativity::none);
 
 DEFINE_DFA(ASM_FUNCTION,
+	DFA_STATE 0:
+		DFA_EDGE(literal90,3);
+		DFA_EDGE(literal10,2);
+		DFA_EDGE(FUNCTION_MODIFIER_0,1);
+		break;
+	DFA_STATE 1:
+		DFA_EDGE(literal90,3);
+		break;
+	DFA_STATE 2:
+		DFA_EDGE(PARAMETER,4);
+		DFA_EDGE(literal12,5);
+		DFA_EDGE(IC,2);
+		break;
+	DFA_STATE 3:
+		DFA_EDGE(literal184,6);
+		DFA_EDGE(IC,3);
+		break;
+	DFA_STATE 4:
+		DFA_EDGE(literal19,7);
+		DFA_EDGE(literal12,5);
+		DFA_EDGE(IC,4);
+		break;
+	DFA_STATE 5:
+		DFA_EDGE(literal90,3);
+		DFA_EDGE(FUNCTION_MODIFIER_0,1);
+		DFA_EDGE(IC,5);
+		break;
+	DFA_STATE 6:
+		DFA_EDGE(ASM_SCOPE,8);
+		break;
+	DFA_STATE 7:
+		DFA_EDGE(PARAMETER,4);
+		DFA_EDGE(IC,7);
+		break;
+	DFA_STATE 8:
+		DFA_EDGE(literal193,9);
+		break;
+	DFA_STATE 9:
+		DFA_ACCEPT;
+		break;
 , 0, parlex::associativity::none);
 
 DEFINE_DFA(ASM_IDENTIFIER,
@@ -456,16 +508,16 @@ DEFINE_DFA(ASM_PTR_ARITHMETIC_ATT_REG,
 		DFA_EDGE(literal10,1);
 		break;
 	DFA_STATE 1:
-		DFA_EDGE(literal19,3);
+		DFA_EDGE(ASM_IDENTIFIER,3);
+		DFA_EDGE(literal19,2);
 		DFA_EDGE(literal12,7);
-		DFA_EDGE(ASM_IDENTIFIER,2);
 		break;
 	DFA_STATE 2:
-		DFA_EDGE(literal19,3);
-		DFA_EDGE(literal12,7);
+		DFA_EDGE(ASM_IDENTIFIER,4);
 		break;
 	DFA_STATE 3:
-		DFA_EDGE(ASM_IDENTIFIER,4);
+		DFA_EDGE(literal19,2);
+		DFA_EDGE(literal12,7);
 		break;
 	DFA_STATE 4:
 		DFA_EDGE(literal19,5);
@@ -484,11 +536,11 @@ DEFINE_DFA(ASM_PTR_ARITHMETIC_ATT_REG,
 
 DEFINE_DFA(ASM_PTR_ARITHMETIC_INTEL,
 	DFA_STATE 0:
+		DFA_EDGE(literal68,1);
 		DFA_EDGE(literal61,2);
+		DFA_EDGE(literal65,2);
 		DFA_EDGE(literal60,2);
 		DFA_EDGE(literal62,2);
-		DFA_EDGE(literal65,2);
-		DFA_EDGE(literal68,1);
 		break;
 	DFA_STATE 1:
 		DFA_EDGE(ASM_IDENTIFIER,3);
@@ -497,10 +549,10 @@ DEFINE_DFA(ASM_PTR_ARITHMETIC_INTEL,
 		DFA_EDGE(literal1,4);
 		break;
 	DFA_STATE 3:
-		DFA_EDGE(literal16,5);
-		DFA_EDGE(literal21,6);
-		DFA_EDGE(literal44,7);
+		DFA_EDGE(literal44,6);
 		DFA_EDGE(literal71,13);
+		DFA_EDGE(literal16,5);
+		DFA_EDGE(literal21,7);
 		break;
 	DFA_STATE 4:
 		DFA_EDGE(literal68,1);
@@ -510,32 +562,32 @@ DEFINE_DFA(ASM_PTR_ARITHMETIC_INTEL,
 		DFA_EDGE(NON_NEG_INTEGER,9);
 		break;
 	DFA_STATE 6:
-		DFA_EDGE(NON_NEG_INTEGER,9);
-		break;
-	DFA_STATE 7:
 		DFA_EDGE(ASM_IDENTIFIER,10);
 		break;
+	DFA_STATE 7:
+		DFA_EDGE(NON_NEG_INTEGER,9);
+		break;
 	DFA_STATE 8:
-		DFA_EDGE(literal16,6);
-		DFA_EDGE(literal13,11);
-		DFA_EDGE(literal21,6);
 		DFA_EDGE(literal71,13);
+		DFA_EDGE(literal16,7);
+		DFA_EDGE(literal21,7);
+		DFA_EDGE(literal13,11);
 		break;
 	DFA_STATE 9:
 		DFA_EDGE(literal71,13);
 		break;
 	DFA_STATE 10:
-		DFA_EDGE(literal16,5);
-		DFA_EDGE(literal21,6);
 		DFA_EDGE(literal71,13);
+		DFA_EDGE(literal16,5);
+		DFA_EDGE(literal21,7);
 		break;
 	DFA_STATE 11:
 		DFA_EDGE(NON_NEG_NON_FRACTIONAL,12);
 		break;
 	DFA_STATE 12:
-		DFA_EDGE(literal16,6);
-		DFA_EDGE(literal21,6);
 		DFA_EDGE(literal71,13);
+		DFA_EDGE(literal16,7);
+		DFA_EDGE(literal21,7);
 		break;
 	DFA_STATE 13:
 		DFA_ACCEPT;
@@ -556,8 +608,8 @@ DEFINE_DFA(ASM_STATEMENT,
 		break;
 	DFA_STATE 1:
 		DFA_EDGE(literal0,6);
-		DFA_EDGE(IC,2);
 		DFA_EDGE(ICR,3);
+		DFA_EDGE(IC,2);
 		break;
 	DFA_STATE 2:
 		DFA_EDGE(literal0,6);
@@ -567,14 +619,14 @@ DEFINE_DFA(ASM_STATEMENT,
 		DFA_EDGE(ASM_EXPRESSION,4);
 		break;
 	DFA_STATE 4:
-		DFA_EDGE(literal19,5);
 		DFA_EDGE(literal0,6);
+		DFA_EDGE(literal19,5);
 		DFA_EDGE(IC,4);
 		break;
 	DFA_STATE 5:
-		DFA_EDGE(literal19,5);
-		DFA_EDGE(literal0,6);
 		DFA_EDGE(ASM_EXPRESSION,4);
+		DFA_EDGE(literal0,6);
+		DFA_EDGE(literal19,5);
 		DFA_EDGE(IC,5);
 		break;
 	DFA_STATE 6:
@@ -584,8 +636,8 @@ DEFINE_DFA(ASM_STATEMENT,
 
 DEFINE_DFA(ASSIGNMENT_CHAIN,
 	DFA_STATE 0:
-		DFA_EDGE(XML_DOC_STRING,1);
 		DFA_EDGE(IDENTIFIER,2);
+		DFA_EDGE(XML_DOC_STRING,1);
 		break;
 	DFA_STATE 1:
 		DFA_EDGE(IDENTIFIER,2);
@@ -593,7 +645,7 @@ DEFINE_DFA(ASSIGNMENT_CHAIN,
 		break;
 	DFA_STATE 2:
 		DFA_EDGE(literal48,3);
-		DFA_EDGE(literal192,3);
+		DFA_EDGE(literal202,3);
 		DFA_EDGE(IC,2);
 		break;
 	DFA_STATE 3:
@@ -629,7 +681,7 @@ DEFINE_DFA(BIJECTION,
 		break;
 	DFA_STATE 1:
 		DFA_EDGE(literal49,2);
-		DFA_EDGE(literal196,2);
+		DFA_EDGE(literal206,2);
 		DFA_EDGE(IC,1);
 		break;
 	DFA_STATE 2:
@@ -643,16 +695,16 @@ DEFINE_DFA(BIJECTION,
 
 DEFINE_DFA(BINARY_ARITHMETIC_OP,
 	DFA_STATE 0:
-		DFA_EDGE(SHIFTL,1);
-		DFA_EDGE(SUBTRACTION,1);
-		DFA_EDGE(SHIFTR,1);
 		DFA_EDGE(ADDITION,1);
 		DFA_EDGE(ADD_SUB,1);
 		DFA_EDGE(DIVISION,1);
 		DFA_EDGE(EXPONENTIATION,1);
+		DFA_EDGE(SUBTRACTION,1);
+		DFA_EDGE(SHIFTL,1);
+		DFA_EDGE(SHIFTR,1);
+		DFA_EDGE(MULTIPLICATIVE_OP,1);
 		DFA_EDGE(INTEGER_DIVISION,1);
 		DFA_EDGE(MODULATION,1);
-		DFA_EDGE(MULTIPLICATIVE_OP,1);
 		break;
 	DFA_STATE 1:
 		DFA_ACCEPT;
@@ -661,9 +713,9 @@ DEFINE_DFA(BINARY_ARITHMETIC_OP,
 
 DEFINE_DFA(BINARY_COLLECTION_OP,
 	DFA_STATE 0:
-		DFA_EDGE(UNION,1);
-		DFA_EDGE(SYMMETRIC_DIFFERENCE,1);
 		DFA_EDGE(BIJECTION,1);
+		DFA_EDGE(SYMMETRIC_DIFFERENCE,1);
+		DFA_EDGE(UNION,1);
 		DFA_EDGE(INTERSECTION,1);
 		break;
 	DFA_STATE 1:
@@ -673,14 +725,14 @@ DEFINE_DFA(BINARY_COLLECTION_OP,
 
 DEFINE_DFA(BINARY_LOGICAL_OP,
 	DFA_STATE 0:
-		DFA_EDGE(XOR,1);
-		DFA_EDGE(OR,1);
 		DFA_EDGE(AND,1);
-		DFA_EDGE(IFF,1);
-		DFA_EDGE(IMPLICATION,1);
-		DFA_EDGE(MAPS_TO,1);
 		DFA_EDGE(NOR,1);
+		DFA_EDGE(OR,1);
 		DFA_EDGE(NAND,1);
+		DFA_EDGE(MAPS_TO,1);
+		DFA_EDGE(IMPLICATION,1);
+		DFA_EDGE(IFF,1);
+		DFA_EDGE(XOR,1);
 		break;
 	DFA_STATE 1:
 		DFA_ACCEPT;
@@ -689,12 +741,12 @@ DEFINE_DFA(BINARY_LOGICAL_OP,
 
 DEFINE_DFA(BINARY_OP,
 	DFA_STATE 0:
-		DFA_EDGE(RELATIONAL_OP,1);
 		DFA_EDGE(BINARY_LOGICAL_OP,1);
-		DFA_EDGE(BINARY_COLLECTION_OP,1);
-		DFA_EDGE(BITWISE_OP,1);
 		DFA_EDGE(BINARY_ARITHMETIC_OP,1);
+		DFA_EDGE(BITWISE_OP,1);
+		DFA_EDGE(BINARY_COLLECTION_OP,1);
 		DFA_EDGE(CONSTRUCTIVE_OP,1);
+		DFA_EDGE(RELATIONAL_OP,1);
 		break;
 	DFA_STATE 1:
 		DFA_ACCEPT;
@@ -703,9 +755,9 @@ DEFINE_DFA(BINARY_OP,
 
 DEFINE_DFA(BITWISE_OP,
 	DFA_STATE 0:
+		DFA_EDGE(BIT_OR,1);
 		DFA_EDGE(BIT_AND,1);
 		DFA_EDGE(BIT_XOR,1);
-		DFA_EDGE(BIT_OR,1);
 		break;
 	DFA_STATE 1:
 		DFA_ACCEPT;
@@ -731,7 +783,7 @@ DEFINE_DFA(BIT_AND,
 
 DEFINE_DFA(BIT_NOT,
 	DFA_STATE 0:
-		DFA_EDGE(literal185,1);
+		DFA_EDGE(literal195,1);
 		break;
 	DFA_STATE 1:
 		DFA_EDGE(EXPRESSION,2);
@@ -747,7 +799,7 @@ DEFINE_DFA(BIT_OR,
 		DFA_EDGE(EXPRESSION,1);
 		break;
 	DFA_STATE 1:
-		DFA_EDGE(literal181,2);
+		DFA_EDGE(literal191,2);
 		DFA_EDGE(IC,1);
 		break;
 	DFA_STATE 2:
@@ -778,13 +830,13 @@ DEFINE_DFA(BIT_XOR,
 
 DEFINE_DFA(BLOCK,
 	DFA_STATE 0:
-		DFA_EDGE(literal175,1);
+		DFA_EDGE(literal184,1);
 		break;
 	DFA_STATE 1:
 		DFA_EDGE(STATEMENT_SCOPE,2);
 		break;
 	DFA_STATE 2:
-		DFA_EDGE(literal183,3);
+		DFA_EDGE(literal193,3);
 		break;
 	DFA_STATE 3:
 		DFA_ACCEPT;
@@ -793,8 +845,8 @@ DEFINE_DFA(BLOCK,
 
 DEFINE_DFA(BOOL,
 	DFA_STATE 0:
-		DFA_EDGE(literal159,1);
-		DFA_EDGE(literal108,1);
+		DFA_EDGE(literal113,1);
+		DFA_EDGE(literal166,1);
 		break;
 	DFA_STATE 1:
 		DFA_ACCEPT;
@@ -803,7 +855,7 @@ DEFINE_DFA(BOOL,
 
 DEFINE_DFA(BREAK,
 	DFA_STATE 0:
-		DFA_EDGE(literal93,3);
+		DFA_EDGE(literal95,3);
 		break;
 	DFA_STATE 1:
 		DFA_EDGE(EXPRESSION,2);
@@ -816,9 +868,9 @@ DEFINE_DFA(BREAK,
 	DFA_STATE 3:
 		DFA_ACCEPT;
 		DFA_EDGE(literal68,1);
+		DFA_EDGE(ICR,5);
 		DFA_EDGE(IDENTIFIER,6);
 		DFA_EDGE(IC,4);
-		DFA_EDGE(ICR,5);
 		break;
 	DFA_STATE 4:
 		DFA_ACCEPT;
@@ -827,8 +879,8 @@ DEFINE_DFA(BREAK,
 		break;
 	DFA_STATE 5:
 		DFA_ACCEPT;
-		DFA_EDGE(IDENTIFIER,6);
 		DFA_EDGE(ICR,5);
+		DFA_EDGE(IDENTIFIER,6);
 		break;
 	DFA_STATE 6:
 		DFA_ACCEPT;
@@ -866,7 +918,7 @@ DEFINE_DFA(CASTS,
 		DFA_EDGE(EXPRESSION,1);
 		break;
 	DFA_STATE 1:
-		DFA_EDGE(literal95,2);
+		DFA_EDGE(literal97,2);
 		DFA_EDGE(IC,1);
 		break;
 	DFA_STATE 2:
@@ -880,17 +932,26 @@ DEFINE_DFA(CASTS,
 
 DEFINE_DFA(CEILING,
 	DFA_STATE 0:
-		DFA_EDGE(literal223,1);
+		DFA_EDGE(literal187,2);
+		DFA_EDGE(literal233,1);
 		break;
 	DFA_STATE 1:
-		DFA_EDGE(EXPRESSION,2);
+		DFA_EDGE(EXPRESSION,3);
 		DFA_EDGE(IC,1);
 		break;
 	DFA_STATE 2:
-		DFA_EDGE(literal224,3);
+		DFA_EDGE(EXPRESSION,4);
 		DFA_EDGE(IC,2);
 		break;
 	DFA_STATE 3:
+		DFA_EDGE(literal234,5);
+		DFA_EDGE(IC,3);
+		break;
+	DFA_STATE 4:
+		DFA_EDGE(literal9,5);
+		DFA_EDGE(IC,4);
+		break;
+	DFA_STATE 5:
 		DFA_ACCEPT;
 		break;
 , 0, parlex::associativity::none);
@@ -900,8 +961,8 @@ DEFINE_DFA(COMMENT,
 		DFA_EDGE(literal27,1);
 		break;
 	DFA_STATE 1:
-		DFA_EDGE(parlex::builtins::all,1);
 		DFA_EDGE(literal15,2);
+		DFA_EDGE(parlex::builtins::all,1);
 		break;
 	DFA_STATE 2:
 		DFA_ACCEPT;
@@ -913,7 +974,7 @@ DEFINE_DFA(COMPLEMENT,
 		DFA_EDGE(EXPRESSION,1);
 		break;
 	DFA_STATE 1:
-		DFA_EDGE(literal191,2);
+		DFA_EDGE(literal201,2);
 		DFA_EDGE(IC,1);
 		break;
 	DFA_STATE 2:
@@ -926,8 +987,8 @@ DEFINE_DFA(COMPOSITION,
 		DFA_EDGE(EXPRESSION,1);
 		break;
 	DFA_STATE 1:
+		DFA_EDGE(literal216,2);
 		DFA_EDGE(literal77,2);
-		DFA_EDGE(literal206,2);
 		DFA_EDGE(IC,1);
 		break;
 	DFA_STATE 2:
@@ -944,7 +1005,7 @@ DEFINE_DFA(COMPOUND,
 		DFA_EDGE(EXPRESSION,1);
 		break;
 	DFA_STATE 1:
-		DFA_EDGE(literal177,2);
+		DFA_EDGE(literal186,2);
 		DFA_EDGE(IC,1);
 		break;
 	DFA_STATE 2:
@@ -983,9 +1044,9 @@ DEFINE_DFA(CONDITIONAL,
 
 DEFINE_DFA(CONSTRUCTIVE_OP,
 	DFA_STATE 0:
-		DFA_EDGE(PREPEND,1);
 		DFA_EDGE(COMPOSITION,1);
 		DFA_EDGE(COMPOUND,1);
+		DFA_EDGE(PREPEND,1);
 		DFA_EDGE(NULL_COALESCE,1);
 		break;
 	DFA_STATE 1:
@@ -995,7 +1056,7 @@ DEFINE_DFA(CONSTRUCTIVE_OP,
 
 DEFINE_DFA(CONTINUE,
 	DFA_STATE 0:
-		DFA_EDGE(literal99,3);
+		DFA_EDGE(literal101,3);
 		break;
 	DFA_STATE 1:
 		DFA_EDGE(EXPRESSION,2);
@@ -1008,9 +1069,9 @@ DEFINE_DFA(CONTINUE,
 	DFA_STATE 3:
 		DFA_ACCEPT;
 		DFA_EDGE(literal68,1);
+		DFA_EDGE(ICR,5);
 		DFA_EDGE(IDENTIFIER,6);
 		DFA_EDGE(IC,4);
-		DFA_EDGE(ICR,5);
 		break;
 	DFA_STATE 4:
 		DFA_ACCEPT;
@@ -1019,8 +1080,8 @@ DEFINE_DFA(CONTINUE,
 		break;
 	DFA_STATE 5:
 		DFA_ACCEPT;
-		DFA_EDGE(IDENTIFIER,6);
 		DFA_EDGE(ICR,5);
+		DFA_EDGE(IDENTIFIER,6);
 		break;
 	DFA_STATE 6:
 		DFA_ACCEPT;
@@ -1032,7 +1093,7 @@ DEFINE_DFA(CROSS_PRODUCT,
 		DFA_EDGE(EXPRESSION,1);
 		break;
 	DFA_STATE 1:
-		DFA_EDGE(literal188,2);
+		DFA_EDGE(literal198,2);
 		DFA_EDGE(literal79,2);
 		DFA_EDGE(IC,1);
 		break;
@@ -1047,8 +1108,8 @@ DEFINE_DFA(CROSS_PRODUCT,
 
 DEFINE_DFA(DATE,
 	DFA_STATE 0:
-		DFA_EDGE(DATE_YEAR_DAY,1);
 		DFA_EDGE(DATE_YEAR_MONTH_DAY,1);
+		DFA_EDGE(DATE_YEAR_DAY,1);
 		break;
 	DFA_STATE 1:
 		DFA_ACCEPT;
@@ -1138,8 +1199,8 @@ DEFINE_DFA(DATE_YEAR_MONTH_DAY,
 
 DEFINE_DFA(DECLARATION,
 	DFA_STATE 0:
-		DFA_EDGE(XML_DOC_STRING,1);
 		DFA_EDGE(IDENTIFIER,2);
+		DFA_EDGE(XML_DOC_STRING,1);
 		break;
 	DFA_STATE 1:
 		DFA_EDGE(IDENTIFIER,2);
@@ -1152,8 +1213,8 @@ DEFINE_DFA(DECLARATION,
 
 DEFINE_DFA(DEFINITION,
 	DFA_STATE 0:
-		DFA_EDGE(XML_DOC_STRING,1);
 		DFA_EDGE(IDENTIFIER,2);
+		DFA_EDGE(XML_DOC_STRING,1);
 		break;
 	DFA_STATE 1:
 		DFA_EDGE(IDENTIFIER,2);
@@ -1174,12 +1235,12 @@ DEFINE_DFA(DEFINITION,
 
 DEFINE_DFA(DELTA,
 	DFA_STATE 0:
-		DFA_EDGE(literal190,1);
+		DFA_EDGE(literal200,1);
 		DFA_EDGE(literal75,1);
 		break;
 	DFA_STATE 1:
-		DFA_EDGE(literal72,2);
 		DFA_EDGE(EXPRESSION,4);
+		DFA_EDGE(literal72,2);
 		break;
 	DFA_STATE 2:
 		DFA_EDGE(WHOLE_NUMBER,3);
@@ -1204,9 +1265,9 @@ DEFINE_DFA(DIMENSION,
 
 DEFINE_DFA(DIMENSIONAL_ANALYSIS_OP,
 	DFA_STATE 0:
+		DFA_EDGE(UNIT_DIVISION,1);
 		DFA_EDGE(UNIT_EXPONENTIATION,1);
 		DFA_EDGE(UNIT_MULTIPLICATION,1);
-		DFA_EDGE(UNIT_DIVISION,1);
 		break;
 	DFA_STATE 1:
 		DFA_ACCEPT;
@@ -1230,7 +1291,7 @@ DEFINE_DFA(DIVISION,
 		DFA_EDGE(EXPRESSION,1);
 		break;
 	DFA_STATE 1:
-		DFA_EDGE(literal189,2);
+		DFA_EDGE(literal199,2);
 		DFA_EDGE(literal26,2);
 		DFA_EDGE(IC,1);
 		break;
@@ -1244,6 +1305,26 @@ DEFINE_DFA(DIVISION,
 , 0, parlex::associativity::left);
 
 DEFINE_DFA(DO,
+	DFA_STATE 0:
+		DFA_EDGE(literal104,1);
+		break;
+	DFA_STATE 1:
+		DFA_EDGE(EXPRESSION,3);
+		DFA_EDGE(IC,1);
+		break;
+	DFA_STATE 2:
+		DFA_EDGE(PARENTHETICAL,4);
+		DFA_EDGE(IC,2);
+		break;
+	DFA_STATE 3:
+		DFA_ACCEPT;
+		DFA_EDGE(literal170,2);
+		DFA_EDGE(literal175,2);
+		DFA_EDGE(IC,3);
+		break;
+	DFA_STATE 4:
+		DFA_ACCEPT;
+		break;
 , 0, parlex::associativity::none);
 
 DEFINE_DFA(DOT_PRODUCT,
@@ -1251,8 +1332,8 @@ DEFINE_DFA(DOT_PRODUCT,
 		DFA_EDGE(EXPRESSION,1);
 		break;
 	DFA_STATE 1:
-		DFA_EDGE(literal221,2);
 		DFA_EDGE(literal76,2);
+		DFA_EDGE(literal231,2);
 		DFA_EDGE(IC,1);
 		break;
 	DFA_STATE 2:
@@ -1269,7 +1350,7 @@ DEFINE_DFA(DOWNCASTS,
 		DFA_EDGE(EXPRESSION,1);
 		break;
 	DFA_STATE 1:
-		DFA_EDGE(literal102,2);
+		DFA_EDGE(literal105,2);
 		DFA_EDGE(IC,1);
 		break;
 	DFA_STATE 2:
@@ -1298,8 +1379,8 @@ DEFINE_DFA(EMBEDDED_COMMENT,
 
 DEFINE_DFA(EMBEDDED_COMMENT_INTERIOR,
 	DFA_STATE 0:
-		DFA_EDGE(literal13,1);
 		DFA_EDGE(PAYLOAD,3);
+		DFA_EDGE(literal13,1);
 		break;
 	DFA_STATE 1:
 		DFA_EDGE(EMBEDDED_COMMENT_INTERIOR,2);
@@ -1329,20 +1410,20 @@ DEFINE_DFA(EMBEDDED_NEWLINE_STRING,
 
 DEFINE_DFA(EMBEDDED_NEWLINE_STRING_INTERIOR,
 	DFA_STATE 0:
-		DFA_EDGE(literal0,1);
-		DFA_EDGE(literal3,2);
+		DFA_EDGE(literal0,2);
+		DFA_EDGE(literal3,1);
 		break;
 	DFA_STATE 1:
-		DFA_EDGE(PAYLOAD,3);
+		DFA_EDGE(EMBEDDED_NEWLINE_STRING_INTERIOR,3);
 		break;
 	DFA_STATE 2:
-		DFA_EDGE(EMBEDDED_NEWLINE_STRING_INTERIOR,4);
+		DFA_EDGE(PAYLOAD,4);
 		break;
 	DFA_STATE 3:
-		DFA_EDGE(literal0,5);
+		DFA_EDGE(literal3,5);
 		break;
 	DFA_STATE 4:
-		DFA_EDGE(literal3,5);
+		DFA_EDGE(literal0,5);
 		break;
 	DFA_STATE 5:
 		DFA_ACCEPT;
@@ -1366,8 +1447,8 @@ DEFINE_DFA(EMBEDDED_STRING,
 
 DEFINE_DFA(EMBEDDED_STRING_INTERIOR,
 	DFA_STATE 0:
-		DFA_EDGE(literal3,1);
 		DFA_EDGE(PAYLOAD,3);
+		DFA_EDGE(literal3,1);
 		break;
 	DFA_STATE 1:
 		DFA_EDGE(EMBEDDED_STRING_INTERIOR,2);
@@ -1385,8 +1466,8 @@ DEFINE_DFA(END_OF_LINE_COMMENT,
 		DFA_EDGE(literal29,1);
 		break;
 	DFA_STATE 1:
-		DFA_EDGE(parlex::builtins::not_newline,1);
 		DFA_EDGE(literal0,2);
+		DFA_EDGE(parlex::builtins::not_newline,1);
 		break;
 	DFA_STATE 2:
 		DFA_ACCEPT;
@@ -1395,42 +1476,42 @@ DEFINE_DFA(END_OF_LINE_COMMENT,
 
 DEFINE_DFA(ENUM,
 	DFA_STATE 0:
-		DFA_EDGE(literal103,1);
+		DFA_EDGE(literal108,1);
 		break;
 	DFA_STATE 1:
-		DFA_EDGE(literal175,2);
-		DFA_EDGE(literal123,3);
-		DFA_EDGE(literal119,4);
+		DFA_EDGE(literal184,4);
+		DFA_EDGE(literal129,2);
+		DFA_EDGE(literal125,3);
 		DFA_EDGE(IC,1);
 		break;
 	DFA_STATE 2:
-		DFA_EDGE(literal183,9);
-		DFA_EDGE(ENUM_ELEMENT,5);
+		DFA_EDGE(INHERITANCE_LIST,5);
+		DFA_EDGE(IC,2);
 		break;
 	DFA_STATE 3:
 		DFA_EDGE(INHERITANCE_LIST,6);
 		DFA_EDGE(IC,3);
 		break;
 	DFA_STATE 4:
-		DFA_EDGE(INHERITANCE_LIST,7);
-		DFA_EDGE(IC,4);
+		DFA_EDGE(ENUM_ELEMENT,7);
+		DFA_EDGE(literal193,9);
 		break;
 	DFA_STATE 5:
-		DFA_EDGE(literal183,9);
+		DFA_EDGE(literal184,4);
+		DFA_EDGE(literal125,3);
 		DFA_EDGE(IC,5);
-		DFA_EDGE(literal46,8);
 		break;
 	DFA_STATE 6:
-		DFA_EDGE(literal175,2);
-		DFA_EDGE(literal119,4);
+		DFA_EDGE(literal184,4);
 		DFA_EDGE(IC,6);
 		break;
 	DFA_STATE 7:
-		DFA_EDGE(literal175,2);
+		DFA_EDGE(literal193,9);
+		DFA_EDGE(literal46,8);
 		DFA_EDGE(IC,7);
 		break;
 	DFA_STATE 8:
-		DFA_EDGE(ENUM_ELEMENT,5);
+		DFA_EDGE(ENUM_ELEMENT,7);
 		DFA_EDGE(IC,8);
 		break;
 	DFA_STATE 9:
@@ -1492,8 +1573,8 @@ DEFINE_DFA(EXACTLY,
 		DFA_EDGE(EXPRESSION,1);
 		break;
 	DFA_STATE 1:
+		DFA_EDGE(literal109,2);
 		DFA_EDGE(IC,1);
-		DFA_EDGE(literal104,2);
 		break;
 	DFA_STATE 2:
 		DFA_EDGE(EXPRESSION,3);
@@ -1506,8 +1587,8 @@ DEFINE_DFA(EXACTLY,
 
 DEFINE_DFA(EXISTS,
 	DFA_STATE 0:
-		DFA_EDGE(literal200,1);
-		DFA_EDGE(literal105,1);
+		DFA_EDGE(literal210,1);
+		DFA_EDGE(literal110,1);
 		break;
 	DFA_STATE 1:
 		DFA_EDGE(EXPRESSION,2);
@@ -1520,8 +1601,8 @@ DEFINE_DFA(EXISTS,
 
 DEFINE_DFA(EXISTS_ONE,
 	DFA_STATE 0:
-		DFA_EDGE(literal106,1);
-		DFA_EDGE(literal201,1);
+		DFA_EDGE(literal111,1);
+		DFA_EDGE(literal211,1);
 		break;
 	DFA_STATE 1:
 		DFA_EDGE(EXPRESSION,2);
@@ -1551,54 +1632,54 @@ DEFINE_DFA(EXPONENTIATION,
 
 DEFINE_DFA(EXPRESSION,
 	DFA_STATE 0:
-		DFA_EDGE(VECTOR_NORM,1);
-		DFA_EDGE(SET_COMPREHENSION,1);
-		DFA_EDGE(STRING,1);
-		DFA_EDGE(RANGE,1);
-		DFA_EDGE(SUBSET_CHAIN,1);
-		DFA_EDGE(PARENTHETICAL,1);
-		DFA_EDGE(REGEX,1);
-		DFA_EDGE(SET,1);
-		DFA_EDGE(SWIZZLE,1);
-		DFA_EDGE(THIS_FUNC,1);
-		DFA_EDGE(TUPLE,1);
+		DFA_EDGE(ARRAY,1);
+		DFA_EDGE(ASM_FUNCTION,1);
+		DFA_EDGE(BINARY_OP,1);
+		DFA_EDGE(DIMENSIONAL_NUMBER,1);
+		DFA_EDGE(DATE,1);
+		DFA_EDGE(COMPLEMENT,1);
+		DFA_EDGE(BOOL,1);
+		DFA_EDGE(DATE_TIME,1);
+		DFA_EDGE(DELTA,1);
+		DFA_EDGE(CEILING,1);
+		DFA_EDGE(CAST,1);
+		DFA_EDGE(CONDITIONAL,1);
+		DFA_EDGE(FLOOR,1);
+		DFA_EDGE(EQUALITY_CHAIN,1);
+		DFA_EDGE(EMBEDDED_STRING,1);
+		DFA_EDGE(ENUM,1);
 		DFA_EDGE(UNARY_OP,1);
+		DFA_EDGE(STRING,1);
+		DFA_EDGE(TUPLE,1);
+		DFA_EDGE(SWIZZLE,1);
+		DFA_EDGE(SUBSET_CHAIN,1);
 		DFA_EDGE(THIS_TYPE,1);
-		DFA_EDGE(SUPERSET_CHAIN,1);
+		DFA_EDGE(THIS_FUNC,1);
 		DFA_EDGE(TYPE,1);
 		DFA_EDGE(THIS,1);
 		DFA_EDGE(TIME,1);
-		DFA_EDGE(ASM_FUNCTION,1);
-		DFA_EDGE(BINARY_OP,1);
-		DFA_EDGE(ARRAY,1);
-		DFA_EDGE(DELTA,1);
-		DFA_EDGE(DIMENSIONAL_NUMBER,1);
-		DFA_EDGE(CEILING,1);
-		DFA_EDGE(DATE_TIME,1);
-		DFA_EDGE(CAST,1);
-		DFA_EDGE(BOOL,1);
-		DFA_EDGE(COMPLEMENT,1);
-		DFA_EDGE(CONDITIONAL,1);
-		DFA_EDGE(DATE,1);
-		DFA_EDGE(EMBEDDED_STRING,1);
-		DFA_EDGE(EQUALITY_CHAIN,1);
-		DFA_EDGE(ENUM,1);
-		DFA_EDGE(FLOOR,1);
-		DFA_EDGE(FUNCTION,1);
-		DFA_EDGE(MAGNITUDE,1);
-		DFA_EDGE(INVOCATION,1);
-		DFA_EDGE(IDENTIFIER,1);
-		DFA_EDGE(GREATER_CHAIN,1);
-		DFA_EDGE(IF,1);
-		DFA_EDGE(LESSER_CHAIN,1);
-		DFA_EDGE(LIST,1);
-		DFA_EDGE(NEAREST_INTEGER,1);
+		DFA_EDGE(SUPERSET_CHAIN,1);
+		DFA_EDGE(RANGE,1);
+		DFA_EDGE(REGEX,1);
+		DFA_EDGE(SET,1);
+		DFA_EDGE(SET_COMPREHENSION,1);
 		DFA_EDGE(NON_NEG_NUMBER,1);
-		DFA_EDGE(MEMBER_ACCESS,1);
 		DFA_EDGE(OBJECT,1);
+		DFA_EDGE(PARENTHETICAL,1);
+		DFA_EDGE(NEAREST_INTEGER,1);
+		DFA_EDGE(literal136,1);
+		DFA_EDGE(literal100,1);
+		DFA_EDGE(IF,1);
+		DFA_EDGE(INVOCATION,1);
+		DFA_EDGE(LESSER_CHAIN,1);
+		DFA_EDGE(MEMBER_ACCESS,1);
+		DFA_EDGE(IDENTIFIER,1);
+		DFA_EDGE(LIST,1);
+		DFA_EDGE(MAGNITUDE,1);
 		DFA_EDGE(MAP,1);
-		DFA_EDGE(literal98,1);
-		DFA_EDGE(literal130,1);
+		DFA_EDGE(GREATER_CHAIN,1);
+		DFA_EDGE(FUNCTION,1);
+		DFA_EDGE(VECTOR_NORM,1);
 		break;
 	DFA_STATE 1:
 		DFA_ACCEPT;
@@ -1610,8 +1691,8 @@ DEFINE_DFA(FACTORIAL,
 		DFA_EDGE(EXPRESSION,1);
 		break;
 	DFA_STATE 1:
-		DFA_EDGE(IC,1);
 		DFA_EDGE(literal2,2);
+		DFA_EDGE(IC,1);
 		break;
 	DFA_STATE 2:
 		DFA_ACCEPT;
@@ -1619,14 +1700,34 @@ DEFINE_DFA(FACTORIAL,
 , 0, parlex::associativity::none);
 
 DEFINE_DFA(FLOOR,
+	DFA_STATE 0:
+		DFA_EDGE(literal235,1);
+		DFA_EDGE(literal190,2);
+		break;
+	DFA_STATE 1:
+		DFA_EDGE(EXPRESSION,3);
+		DFA_EDGE(IC,1);
+		break;
+	DFA_STATE 2:
+		DFA_EDGE(EXPRESSION,4);
+		DFA_EDGE(IC,2);
+		break;
+	DFA_STATE 3:
+		DFA_EDGE(literal236,5);
+		DFA_EDGE(IC,3);
+		break;
+	DFA_STATE 4:
+		DFA_EDGE(literal80,5);
+		DFA_EDGE(IC,4);
+		break;
+	DFA_STATE 5:
+		DFA_ACCEPT;
+		break;
 , 0, parlex::associativity::none);
 
 DEFINE_DFA(FOR,
-, 0, parlex::associativity::none);
-
-DEFINE_DFA(FOR_COLLECTION,
 	DFA_STATE 0:
-		DFA_EDGE(literal112,1);
+		DFA_EDGE(literal117,1);
 		break;
 	DFA_STATE 1:
 		DFA_EDGE(literal10,2);
@@ -1634,33 +1735,84 @@ DEFINE_DFA(FOR_COLLECTION,
 		break;
 	DFA_STATE 2:
 		DFA_EDGE(EXPRESSION,3);
+		DFA_EDGE(STATEMENT_SCOPE,4);
 		DFA_EDGE(IC,2);
 		break;
 	DFA_STATE 3:
+		DFA_EDGE(literal46,5);
 		DFA_EDGE(IC,3);
-		DFA_EDGE(literal202,4);
-		DFA_EDGE(literal122,4);
 		break;
 	DFA_STATE 4:
-		DFA_EDGE(EXPRESSION,5);
+		DFA_EDGE(EXPRESSION,3);
 		DFA_EDGE(IC,4);
 		break;
 	DFA_STATE 5:
+		DFA_EDGE(ASSIGNMENT_CHAIN,7);
 		DFA_EDGE(literal12,6);
 		DFA_EDGE(IC,5);
 		break;
 	DFA_STATE 6:
-		DFA_EDGE(EXPRESSION,7);
+		DFA_EDGE(EXPRESSION,9);
 		DFA_EDGE(IC,6);
 		break;
 	DFA_STATE 7:
+		DFA_EDGE(literal19,8);
+		DFA_EDGE(literal12,6);
+		DFA_EDGE(IC,7);
+		break;
+	DFA_STATE 8:
+		DFA_EDGE(ASSIGNMENT_CHAIN,7);
+		DFA_EDGE(IC,8);
+		break;
+	DFA_STATE 9:
+		DFA_ACCEPT;
+		break;
+, 0, parlex::associativity::none);
+
+DEFINE_DFA(FOR_COLLECTION,
+	DFA_STATE 0:
+		DFA_EDGE(literal117,1);
+		break;
+	DFA_STATE 1:
+		DFA_EDGE(literal10,2);
+		DFA_EDGE(IC,1);
+		break;
+	DFA_STATE 2:
+		DFA_EDGE(EXPRESSION,3);
+		DFA_EDGE(TYPE_DEREFERENCE,4);
+		DFA_EDGE(IDENTIFIER,3);
+		DFA_EDGE(IMPLICIT_TYPE_DEREFERENCE,4);
+		DFA_EDGE(IC,2);
+		break;
+	DFA_STATE 3:
+		DFA_EDGE(literal212,5);
+		DFA_EDGE(literal128,5);
+		DFA_EDGE(IC,3);
+		break;
+	DFA_STATE 4:
+		DFA_EDGE(IDENTIFIER,3);
+		DFA_EDGE(IC,4);
+		break;
+	DFA_STATE 5:
+		DFA_EDGE(EXPRESSION,6);
+		DFA_EDGE(IC,5);
+		break;
+	DFA_STATE 6:
+		DFA_EDGE(literal12,7);
+		DFA_EDGE(IC,6);
+		break;
+	DFA_STATE 7:
+		DFA_EDGE(EXPRESSION,8);
+		DFA_EDGE(IC,7);
+		break;
+	DFA_STATE 8:
 		DFA_ACCEPT;
 		break;
 , 0, parlex::associativity::none);
 
 DEFINE_DFA(FREE,
 	DFA_STATE 0:
-		DFA_EDGE(literal113,1);
+		DFA_EDGE(literal118,1);
 		break;
 	DFA_STATE 1:
 		DFA_EDGE(EXPRESSION,2);
@@ -1672,12 +1824,43 @@ DEFINE_DFA(FREE,
 , 0, parlex::associativity::none);
 
 DEFINE_DFA(FUNCTION,
+	DFA_STATE 0:
+		DFA_EDGE(BLOCK,6);
+		DFA_EDGE(literal10,2);
+		DFA_EDGE(FUNCTION_MODIFIER_0,1);
+		break;
+	DFA_STATE 1:
+		DFA_EDGE(BLOCK,6);
+		DFA_EDGE(IC,1);
+		break;
+	DFA_STATE 2:
+		DFA_EDGE(PARAMETER,3);
+		DFA_EDGE(literal12,4);
+		DFA_EDGE(IC,2);
+		break;
+	DFA_STATE 3:
+		DFA_EDGE(literal19,5);
+		DFA_EDGE(literal12,4);
+		DFA_EDGE(IC,3);
+		break;
+	DFA_STATE 4:
+		DFA_EDGE(BLOCK,6);
+		DFA_EDGE(FUNCTION_MODIFIER_0,1);
+		DFA_EDGE(IC,4);
+		break;
+	DFA_STATE 5:
+		DFA_EDGE(PARAMETER,3);
+		DFA_EDGE(IC,5);
+		break;
+	DFA_STATE 6:
+		DFA_ACCEPT;
+		break;
 , 0, parlex::associativity::none);
 
 DEFINE_DFA(FUNCTION_MODIFIER_0,
 	DFA_STATE 0:
-		DFA_EDGE(FUNCTION_MODIFIER_1,1);
 		DFA_EDGE(FUNCTION_MODIFIER_STABILITY,1);
+		DFA_EDGE(FUNCTION_MODIFIER_1,1);
 		break;
 	DFA_STATE 1:
 		DFA_ACCEPT;
@@ -1686,8 +1869,8 @@ DEFINE_DFA(FUNCTION_MODIFIER_0,
 
 DEFINE_DFA(FUNCTION_MODIFIER_1,
 	DFA_STATE 0:
-		DFA_EDGE(FUNCTION_MODIFIER_2,1);
 		DFA_EDGE(FUNCTION_MODIFIER_THROWING,1);
+		DFA_EDGE(FUNCTION_MODIFIER_2,1);
 		break;
 	DFA_STATE 1:
 		DFA_ACCEPT;
@@ -1696,8 +1879,8 @@ DEFINE_DFA(FUNCTION_MODIFIER_1,
 
 DEFINE_DFA(FUNCTION_MODIFIER_2,
 	DFA_STATE 0:
-		DFA_EDGE(FUNCTION_MODIFIER_3,1);
 		DFA_EDGE(FUNCTION_MODIFIER_ATOMIC,1);
+		DFA_EDGE(FUNCTION_MODIFIER_3,1);
 		break;
 	DFA_STATE 1:
 		DFA_ACCEPT;
@@ -1706,8 +1889,8 @@ DEFINE_DFA(FUNCTION_MODIFIER_2,
 
 DEFINE_DFA(FUNCTION_MODIFIER_3,
 	DFA_STATE 0:
-		DFA_EDGE(FUNCTION_MODIFIER_4,1);
 		DFA_EDGE(FUNCTION_MODIFIER_PLATFORM,1);
+		DFA_EDGE(FUNCTION_MODIFIER_4,1);
 		break;
 	DFA_STATE 1:
 		DFA_ACCEPT;
@@ -1716,8 +1899,8 @@ DEFINE_DFA(FUNCTION_MODIFIER_3,
 
 DEFINE_DFA(FUNCTION_MODIFIER_4,
 	DFA_STATE 0:
-		DFA_EDGE(FUNCTION_MODIFIER_MODEL,1);
 		DFA_EDGE(FUNCTION_MODIFIER_CALLING_CONVENTION,1);
+		DFA_EDGE(FUNCTION_MODIFIER_MODEL,1);
 		break;
 	DFA_STATE 1:
 		DFA_ACCEPT;
@@ -1726,7 +1909,7 @@ DEFINE_DFA(FUNCTION_MODIFIER_4,
 
 DEFINE_DFA(FUNCTION_MODIFIER_ATOMIC,
 	DFA_STATE 0:
-		DFA_EDGE(literal89,2);
+		DFA_EDGE(literal91,2);
 		break;
 	DFA_STATE 1:
 		DFA_EDGE(FUNCTION_MODIFIER_3,3);
@@ -1742,38 +1925,38 @@ DEFINE_DFA(FUNCTION_MODIFIER_ATOMIC,
 
 DEFINE_DFA(FUNCTION_MODIFIER_CALLING_CONVENTION,
 	DFA_STATE 0:
-		DFA_EDGE(literal86,1);
+		DFA_EDGE(literal89,1);
+		DFA_EDGE(literal93,1);
+		DFA_EDGE(literal179,1);
 		DFA_EDGE(literal88,1);
-		DFA_EDGE(literal129,1);
-		DFA_EDGE(literal142,1);
-		DFA_EDGE(literal141,1);
-		DFA_EDGE(literal169,1);
-		DFA_EDGE(literal168,1);
+		DFA_EDGE(literal102,1);
+		DFA_EDGE(literal160,1);
 		DFA_EDGE(literal87,1);
-		DFA_EDGE(literal173,1);
-		DFA_EDGE(literal90,1);
-		DFA_EDGE(literal125,1);
-		DFA_EDGE(literal172,1);
+		DFA_EDGE(literal94,1);
+		DFA_EDGE(literal155,1);
+		DFA_EDGE(literal181,1);
+		DFA_EDGE(literal92,1);
+		DFA_EDGE(literal141,1);
+		DFA_EDGE(literal148,1);
+		DFA_EDGE(literal154,1);
+		DFA_EDGE(literal177,1);
+		DFA_EDGE(literal135,1);
+		DFA_EDGE(literal96,1);
+		DFA_EDGE(literal131,1);
+		DFA_EDGE(literal121,1);
+		DFA_EDGE(literal140,1);
 		DFA_EDGE(literal66,1);
 		DFA_EDGE(literal116,1);
+		DFA_EDGE(literal180,1);
+		DFA_EDGE(literal178,1);
+		DFA_EDGE(literal122,1);
 		DFA_EDGE(literal147,1);
-		DFA_EDGE(literal148,1);
+		DFA_EDGE(literal99,1);
+		DFA_EDGE(literal182,1);
+		DFA_EDGE(literal86,1);
 		DFA_EDGE(literal114,1);
-		DFA_EDGE(literal85,1);
-		DFA_EDGE(literal153,1);
-		DFA_EDGE(literal94,1);
-		DFA_EDGE(literal111,1);
-		DFA_EDGE(literal100,1);
-		DFA_EDGE(literal117,1);
-		DFA_EDGE(literal97,1);
-		DFA_EDGE(literal92,1);
-		DFA_EDGE(literal134,1);
-		DFA_EDGE(literal171,1);
-		DFA_EDGE(literal166,1);
-		DFA_EDGE(literal135,1);
-		DFA_EDGE(literal109,1);
-		DFA_EDGE(literal170,1);
-		DFA_EDGE(literal91,1);
+		DFA_EDGE(literal119,1);
+		DFA_EDGE(literal174,1);
 		break;
 	DFA_STATE 1:
 		DFA_ACCEPT;
@@ -1782,9 +1965,9 @@ DEFINE_DFA(FUNCTION_MODIFIER_CALLING_CONVENTION,
 
 DEFINE_DFA(FUNCTION_MODIFIER_MODEL,
 	DFA_STATE 0:
-		DFA_EDGE(literal144,2);
-		DFA_EDGE(literal118,2);
-		DFA_EDGE(literal132,2);
+		DFA_EDGE(literal150,2);
+		DFA_EDGE(literal138,2);
+		DFA_EDGE(literal124,2);
 		break;
 	DFA_STATE 1:
 		DFA_EDGE(FUNCTION_MODIFIER_CALLING_CONVENTION,3);
@@ -1817,8 +2000,8 @@ DEFINE_DFA(FUNCTION_MODIFIER_PLATFORM,
 
 DEFINE_DFA(FUNCTION_MODIFIER_STABILITY,
 	DFA_STATE 0:
-		DFA_EDGE(literal162,2);
-		DFA_EDGE(literal149,2);
+		DFA_EDGE(literal169,2);
+		DFA_EDGE(literal156,2);
 		break;
 	DFA_STATE 1:
 		DFA_EDGE(FUNCTION_MODIFIER_1,3);
@@ -1834,7 +2017,7 @@ DEFINE_DFA(FUNCTION_MODIFIER_STABILITY,
 
 DEFINE_DFA(FUNCTION_MODIFIER_THROWING,
 	DFA_STATE 0:
-		DFA_EDGE(literal158,2);
+		DFA_EDGE(literal165,2);
 		break;
 	DFA_STATE 1:
 		DFA_EDGE(FUNCTION_MODIFIER_2,4);
@@ -1842,8 +2025,8 @@ DEFINE_DFA(FUNCTION_MODIFIER_THROWING,
 	DFA_STATE 2:
 		DFA_ACCEPT;
 		DFA_EDGE(ARRAY,3);
-		DFA_EDGE(IC,2);
 		DFA_EDGE(ICR,1);
+		DFA_EDGE(IC,2);
 		break;
 	DFA_STATE 3:
 		DFA_ACCEPT;
@@ -1871,7 +2054,7 @@ DEFINE_DFA(GREATER_CHAIN_LOOP,
 	DFA_STATE 0:
 		DFA_EDGE(literal55,1);
 		DFA_EDGE(literal54,1);
-		DFA_EDGE(literal214,1);
+		DFA_EDGE(literal224,1);
 		DFA_EDGE(literal52,1);
 		break;
 	DFA_STATE 1:
@@ -1893,8 +2076,8 @@ DEFINE_DFA(HAS,
 		DFA_EDGE(EXPRESSION,1);
 		break;
 	DFA_STATE 1:
-		DFA_EDGE(literal115,2);
-		DFA_EDGE(literal204,2);
+		DFA_EDGE(literal214,2);
+		DFA_EDGE(literal120,2);
 		DFA_EDGE(IC,1);
 		break;
 	DFA_STATE 2:
@@ -1921,10 +2104,10 @@ DEFINE_DFA(HEX,
 
 DEFINE_DFA(IC,
 	DFA_STATE 0:
-		DFA_EDGE(WS,1);
 		DFA_EDGE(COMMENT,1);
 		DFA_EDGE(EMBEDDED_COMMENT,1);
 		DFA_EDGE(END_OF_LINE_COMMENT,1);
+		DFA_EDGE(WS,1);
 		break;
 	DFA_STATE 1:
 		DFA_ACCEPT;
@@ -1943,18 +2126,42 @@ DEFINE_DFA(ICR,
 
 DEFINE_DFA(IDENTIFIER,
 	DFA_STATE 0:
-		DFA_EDGE(parlex::builtins::letter,1);
 		DFA_EDGE(literal74,1);
+		DFA_EDGE(parlex::builtins::letter,1);
 		break;
 	DFA_STATE 1:
 		DFA_ACCEPT;
+		DFA_EDGE(literal74,1);
 		DFA_EDGE(parlex::builtins::letter,1);
 		DFA_EDGE(parlex::builtins::number,1);
-		DFA_EDGE(literal74,1);
 		break;
 , 0, &parlex::builtins::longest, parlex::associativity::none); 
 
 DEFINE_DFA(IF,
+	DFA_STATE 0:
+		DFA_EDGE(literal123,1);
+		break;
+	DFA_STATE 1:
+		DFA_EDGE(PARENTHETICAL,2);
+		DFA_EDGE(IC,1);
+		break;
+	DFA_STATE 2:
+		DFA_EDGE(EXPRESSION,4);
+		DFA_EDGE(IC,2);
+		break;
+	DFA_STATE 3:
+		DFA_EDGE(EXPRESSION,5);
+		DFA_EDGE(IC,3);
+		break;
+	DFA_STATE 4:
+		DFA_ACCEPT;
+		DFA_EDGE(literal107,3);
+		DFA_EDGE(literal106,1);
+		DFA_EDGE(IC,4);
+		break;
+	DFA_STATE 5:
+		DFA_ACCEPT;
+		break;
 , 0, parlex::associativity::none);
 
 DEFINE_DFA(IFF,
@@ -1963,7 +2170,7 @@ DEFINE_DFA(IFF,
 		break;
 	DFA_STATE 1:
 		DFA_EDGE(literal51,2);
-		DFA_EDGE(literal198,2);
+		DFA_EDGE(literal208,2);
 		DFA_EDGE(IC,1);
 		break;
 	DFA_STATE 2:
@@ -1980,7 +2187,7 @@ DEFINE_DFA(IMPLEMENTS,
 		DFA_EDGE(EXPRESSION,1);
 		break;
 	DFA_STATE 1:
-		DFA_EDGE(literal120,2);
+		DFA_EDGE(literal126,2);
 		DFA_EDGE(IC,1);
 		break;
 	DFA_STATE 2:
@@ -1997,8 +2204,8 @@ DEFINE_DFA(IMPLICATION,
 		DFA_EDGE(EXPRESSION,1);
 		break;
 	DFA_STATE 1:
-		DFA_EDGE(literal197,2);
 		DFA_EDGE(literal54,2);
+		DFA_EDGE(literal207,2);
 		DFA_EDGE(IC,1);
 		break;
 	DFA_STATE 2:
@@ -2025,7 +2232,7 @@ DEFINE_DFA(IMPLICIT_TYPE_DEREFERENCE,
 
 DEFINE_DFA(IMPORT,
 	DFA_STATE 0:
-		DFA_EDGE(literal121,1);
+		DFA_EDGE(literal127,1);
 		break;
 	DFA_STATE 1:
 		DFA_EDGE(EXPRESSION,2);
@@ -2041,9 +2248,9 @@ DEFINE_DFA(IN,
 		DFA_EDGE(EXPRESSION,1);
 		break;
 	DFA_STATE 1:
+		DFA_EDGE(literal212,2);
+		DFA_EDGE(literal128,2);
 		DFA_EDGE(IC,1);
-		DFA_EDGE(literal202,2);
-		DFA_EDGE(literal122,2);
 		break;
 	DFA_STATE 2:
 		DFA_EDGE(EXPRESSION,3);
@@ -2059,8 +2266,8 @@ DEFINE_DFA(INEQUALITY,
 		DFA_EDGE(EXPRESSION,1);
 		break;
 	DFA_STATE 1:
+		DFA_EDGE(literal222,2);
 		DFA_EDGE(literal30,2);
-		DFA_EDGE(literal212,2);
 		DFA_EDGE(IC,1);
 		break;
 	DFA_STATE 2:
@@ -2074,8 +2281,8 @@ DEFINE_DFA(INEQUALITY,
 
 DEFINE_DFA(INHERITANCE_ITEM_PREFIX,
 	DFA_STATE 0:
+		DFA_EDGE(literal103,2);
 		DFA_EDGE(VISIBILITY_MODIFIER,1);
-		DFA_EDGE(literal101,2);
 		break;
 	DFA_STATE 1:
 		DFA_EDGE(ICR,3);
@@ -2085,7 +2292,7 @@ DEFINE_DFA(INHERITANCE_ITEM_PREFIX,
 		break;
 	DFA_STATE 3:
 		DFA_ACCEPT;
-		DFA_EDGE(literal101,2);
+		DFA_EDGE(literal103,2);
 		break;
 	DFA_STATE 4:
 		DFA_ACCEPT;
@@ -2102,8 +2309,8 @@ DEFINE_DFA(INHERITANCE_LIST,
 		break;
 	DFA_STATE 2:
 		DFA_EDGE(EXPRESSION,3);
-		DFA_EDGE(IC,2);
 		DFA_EDGE(INHERITANCE_ITEM_PREFIX,1);
+		DFA_EDGE(IC,2);
 		break;
 	DFA_STATE 3:
 		DFA_ACCEPT;
@@ -2117,7 +2324,7 @@ DEFINE_DFA(INHERITS,
 		DFA_EDGE(EXPRESSION,1);
 		break;
 	DFA_STATE 1:
-		DFA_EDGE(literal124,2);
+		DFA_EDGE(literal130,2);
 		DFA_EDGE(IC,1);
 		break;
 	DFA_STATE 2:
@@ -2151,7 +2358,7 @@ DEFINE_DFA(INTERSECTION,
 		DFA_EDGE(EXPRESSION,1);
 		break;
 	DFA_STATE 1:
-		DFA_EDGE(literal210,2);
+		DFA_EDGE(literal220,2);
 		DFA_EDGE(IC,1);
 		break;
 	DFA_STATE 2:
@@ -2165,9 +2372,9 @@ DEFINE_DFA(INTERSECTION,
 
 DEFINE_DFA(INVOCATION,
 	DFA_STATE 0:
-		DFA_EDGE(PARENTHETICAL_INVOCATION,1);
-		DFA_EDGE(TYPE_INVOCATION,1);
 		DFA_EDGE(ARRAY_INVOCATION,1);
+		DFA_EDGE(TYPE_INVOCATION,1);
+		DFA_EDGE(PARENTHETICAL_INVOCATION,1);
 		break;
 	DFA_STATE 1:
 		DFA_ACCEPT;
@@ -2179,7 +2386,7 @@ DEFINE_DFA(IS,
 		DFA_EDGE(EXPRESSION,1);
 		break;
 	DFA_STATE 1:
-		DFA_EDGE(literal127,2);
+		DFA_EDGE(literal133,2);
 		DFA_EDGE(IC,1);
 		break;
 	DFA_STATE 2:
@@ -2221,7 +2428,7 @@ DEFINE_DFA(LESSER_CHAIN_LOOP,
 	DFA_STATE 0:
 		DFA_EDGE(literal53,1);
 		DFA_EDGE(literal47,1);
-		DFA_EDGE(literal213,1);
+		DFA_EDGE(literal223,1);
 		DFA_EDGE(literal52,1);
 		break;
 	DFA_STATE 1:
@@ -2243,13 +2450,13 @@ DEFINE_DFA(LIST,
 		DFA_EDGE(literal69,1);
 		break;
 	DFA_STATE 1:
-		DFA_EDGE(literal179,4);
 		DFA_EDGE(EXPRESSION,2);
+		DFA_EDGE(literal189,4);
 		DFA_EDGE(IC,1);
 		break;
 	DFA_STATE 2:
+		DFA_EDGE(literal189,4);
 		DFA_EDGE(literal20,3);
-		DFA_EDGE(literal179,4);
 		DFA_EDGE(IC,2);
 		break;
 	DFA_STATE 3:
@@ -2263,7 +2470,7 @@ DEFINE_DFA(LIST,
 
 DEFINE_DFA(LOCK,
 	DFA_STATE 0:
-		DFA_EDGE(literal128,1);
+		DFA_EDGE(literal134,1);
 		break;
 	DFA_STATE 1:
 		DFA_EDGE(PARENTHETICAL,2);
@@ -2279,18 +2486,33 @@ DEFINE_DFA(LOCK,
 , 0, parlex::associativity::none);
 
 DEFINE_DFA(LOOP,
+	DFA_STATE 0:
+		DFA_EDGE(literal170,1);
+		DFA_EDGE(literal175,1);
+		break;
+	DFA_STATE 1:
+		DFA_EDGE(PARENTHETICAL,2);
+		DFA_EDGE(IC,1);
+		break;
+	DFA_STATE 2:
+		DFA_EDGE(EXPRESSION,3);
+		DFA_EDGE(IC,2);
+		break;
+	DFA_STATE 3:
+		DFA_ACCEPT;
+		break;
 , 0, parlex::associativity::none);
 
 DEFINE_DFA(MAGNITUDE,
 	DFA_STATE 0:
-		DFA_EDGE(literal177,1);
+		DFA_EDGE(literal186,1);
 		break;
 	DFA_STATE 1:
 		DFA_EDGE(EXPRESSION,2);
 		DFA_EDGE(IC,1);
 		break;
 	DFA_STATE 2:
-		DFA_EDGE(literal177,3);
+		DFA_EDGE(literal186,3);
 		DFA_EDGE(IC,2);
 		break;
 	DFA_STATE 3:
@@ -2300,11 +2522,11 @@ DEFINE_DFA(MAGNITUDE,
 
 DEFINE_DFA(MAP,
 	DFA_STATE 0:
-		DFA_EDGE(literal175,1);
+		DFA_EDGE(literal184,1);
 		break;
 	DFA_STATE 1:
-		DFA_EDGE(literal183,6);
 		DFA_EDGE(EXPRESSION,2);
+		DFA_EDGE(literal193,6);
 		DFA_EDGE(IC,1);
 		break;
 	DFA_STATE 2:
@@ -2316,8 +2538,8 @@ DEFINE_DFA(MAP,
 		DFA_EDGE(IC,3);
 		break;
 	DFA_STATE 4:
+		DFA_EDGE(literal193,6);
 		DFA_EDGE(literal19,5);
-		DFA_EDGE(literal183,6);
 		DFA_EDGE(IC,4);
 		break;
 	DFA_STATE 5:
@@ -2334,8 +2556,8 @@ DEFINE_DFA(MAPS_TO,
 		DFA_EDGE(EXPRESSION,1);
 		break;
 	DFA_STATE 1:
+		DFA_EDGE(literal204,2);
 		DFA_EDGE(literal23,2);
-		DFA_EDGE(literal194,2);
 		DFA_EDGE(IC,1);
 		break;
 	DFA_STATE 2:
@@ -2369,8 +2591,8 @@ DEFINE_DFA(MEMBER_OFFSET,
 		DFA_EDGE(literal59,1);
 		break;
 	DFA_STATE 1:
-		DFA_EDGE(WHOLE_NUMBER,2);
 		DFA_EDGE(IC,1);
+		DFA_EDGE(WHOLE_NUMBER,2);
 		break;
 	DFA_STATE 2:
 		DFA_ACCEPT;
@@ -2427,7 +2649,7 @@ DEFINE_DFA(NAND,
 		DFA_EDGE(EXPRESSION,1);
 		break;
 	DFA_STATE 1:
-		DFA_EDGE(literal193,2);
+		DFA_EDGE(literal203,2);
 		DFA_EDGE(IC,1);
 		break;
 	DFA_STATE 2:
@@ -2441,17 +2663,26 @@ DEFINE_DFA(NAND,
 
 DEFINE_DFA(NEAREST_INTEGER,
 	DFA_STATE 0:
-		DFA_EDGE(literal180,1);
+		DFA_EDGE(literal235,1);
+		DFA_EDGE(literal190,2);
 		break;
 	DFA_STATE 1:
-		DFA_EDGE(EXPRESSION,2);
+		DFA_EDGE(EXPRESSION,3);
 		DFA_EDGE(IC,1);
 		break;
 	DFA_STATE 2:
-		DFA_EDGE(literal9,3);
+		DFA_EDGE(EXPRESSION,4);
 		DFA_EDGE(IC,2);
 		break;
 	DFA_STATE 3:
+		DFA_EDGE(literal234,5);
+		DFA_EDGE(IC,3);
+		break;
+	DFA_STATE 4:
+		DFA_EDGE(literal9,5);
+		DFA_EDGE(IC,4);
+		break;
+	DFA_STATE 5:
 		DFA_ACCEPT;
 		break;
 , 0, parlex::associativity::none);
@@ -2471,8 +2702,8 @@ DEFINE_DFA(NEGATION,
 
 DEFINE_DFA(NON_FRACTIONAL,
 	DFA_STATE 0:
-		DFA_EDGE(literal21,1);
 		DFA_EDGE(NON_NEG_NON_FRACTIONAL,2);
+		DFA_EDGE(literal21,1);
 		break;
 	DFA_STATE 1:
 		DFA_EDGE(NON_NEG_NON_FRACTIONAL,2);
@@ -2484,15 +2715,15 @@ DEFINE_DFA(NON_FRACTIONAL,
 
 DEFINE_DFA(NON_NEG_FRACTIONAL,
 	DFA_STATE 0:
-		DFA_EDGE(parlex::builtins::decimal_digit,2);
-		DFA_EDGE(literal24,1);
+		DFA_EDGE(literal24,2);
+		DFA_EDGE(parlex::builtins::decimal_digit,1);
 		break;
 	DFA_STATE 1:
-		DFA_EDGE(parlex::builtins::decimal_digit,3);
+		DFA_EDGE(literal24,3);
+		DFA_EDGE(parlex::builtins::decimal_digit,1);
 		break;
 	DFA_STATE 2:
-		DFA_EDGE(parlex::builtins::decimal_digit,2);
-		DFA_EDGE(literal24,3);
+		DFA_EDGE(parlex::builtins::decimal_digit,3);
 		break;
 	DFA_STATE 3:
 		DFA_ACCEPT;
@@ -2502,8 +2733,8 @@ DEFINE_DFA(NON_NEG_FRACTIONAL,
 
 DEFINE_DFA(NON_NEG_INTEGER,
 	DFA_STATE 0:
-		DFA_EDGE(literal33,2);
 		DFA_EDGE(NON_ZERO_DECIMAL_DIGIT,1);
+		DFA_EDGE(literal33,2);
 		break;
 	DFA_STATE 1:
 		DFA_ACCEPT;
@@ -2516,9 +2747,9 @@ DEFINE_DFA(NON_NEG_INTEGER,
 
 DEFINE_DFA(NON_NEG_NON_FRACTIONAL,
 	DFA_STATE 0:
-		DFA_EDGE(HEX,1);
-		DFA_EDGE(NON_NEG_INTEGER,1);
 		DFA_EDGE(OCTAL,1);
+		DFA_EDGE(NON_NEG_INTEGER,1);
+		DFA_EDGE(HEX,1);
 		break;
 	DFA_STATE 1:
 		DFA_ACCEPT;
@@ -2537,15 +2768,15 @@ DEFINE_DFA(NON_NEG_NUMBER,
 
 DEFINE_DFA(NON_ZERO_DECIMAL_DIGIT,
 	DFA_STATE 0:
-		DFA_EDGE(literal35,1);
-		DFA_EDGE(literal37,1);
-		DFA_EDGE(literal43,1);
-		DFA_EDGE(literal36,1);
-		DFA_EDGE(literal42,1);
-		DFA_EDGE(literal38,1);
-		DFA_EDGE(literal40,1);
 		DFA_EDGE(literal41,1);
+		DFA_EDGE(literal40,1);
+		DFA_EDGE(literal38,1);
+		DFA_EDGE(literal43,1);
+		DFA_EDGE(literal42,1);
 		DFA_EDGE(literal39,1);
+		DFA_EDGE(literal35,1);
+		DFA_EDGE(literal36,1);
+		DFA_EDGE(literal37,1);
 		break;
 	DFA_STATE 1:
 		DFA_ACCEPT;
@@ -2557,7 +2788,7 @@ DEFINE_DFA(NOR,
 		DFA_EDGE(EXPRESSION,1);
 		break;
 	DFA_STATE 1:
-		DFA_EDGE(literal195,2);
+		DFA_EDGE(literal205,2);
 		DFA_EDGE(IC,1);
 		break;
 	DFA_STATE 2:
@@ -2571,8 +2802,8 @@ DEFINE_DFA(NOR,
 
 DEFINE_DFA(NOT,
 	DFA_STATE 0:
-		DFA_EDGE(literal184,1);
-		DFA_EDGE(literal186,1);
+		DFA_EDGE(literal194,1);
+		DFA_EDGE(literal196,1);
 		break;
 	DFA_STATE 1:
 		DFA_EDGE(EXPRESSION,2);
@@ -2588,7 +2819,7 @@ DEFINE_DFA(NOT_HAS,
 		DFA_EDGE(EXPRESSION,1);
 		break;
 	DFA_STATE 1:
-		DFA_EDGE(literal205,2);
+		DFA_EDGE(literal215,2);
 		DFA_EDGE(literal31,2);
 		DFA_EDGE(IC,1);
 		break;
@@ -2606,8 +2837,8 @@ DEFINE_DFA(NOT_IN,
 		DFA_EDGE(EXPRESSION,1);
 		break;
 	DFA_STATE 1:
-		DFA_EDGE(literal203,2);
 		DFA_EDGE(literal32,2);
+		DFA_EDGE(literal213,2);
 		DFA_EDGE(IC,1);
 		break;
 	DFA_STATE 2:
@@ -2638,36 +2869,36 @@ DEFINE_DFA(NULL_COALESCE,
 
 DEFINE_DFA(OBJECT,
 	DFA_STATE 0:
-		DFA_EDGE(literal131,1);
+		DFA_EDGE(literal137,1);
 		break;
 	DFA_STATE 1:
-		DFA_EDGE(literal175,2);
-		DFA_EDGE(literal123,3);
-		DFA_EDGE(literal119,4);
+		DFA_EDGE(literal184,4);
+		DFA_EDGE(literal129,2);
+		DFA_EDGE(literal125,3);
 		DFA_EDGE(IC,1);
 		break;
 	DFA_STATE 2:
-		DFA_EDGE(TYPE_SCOPE,5);
+		DFA_EDGE(INHERITANCE_LIST,5);
+		DFA_EDGE(IC,2);
 		break;
 	DFA_STATE 3:
 		DFA_EDGE(INHERITANCE_LIST,6);
 		DFA_EDGE(IC,3);
 		break;
 	DFA_STATE 4:
-		DFA_EDGE(INHERITANCE_LIST,7);
-		DFA_EDGE(IC,4);
+		DFA_EDGE(TYPE_SCOPE,7);
 		break;
 	DFA_STATE 5:
-		DFA_EDGE(literal183,8);
+		DFA_EDGE(literal184,4);
+		DFA_EDGE(literal125,3);
+		DFA_EDGE(IC,5);
 		break;
 	DFA_STATE 6:
-		DFA_EDGE(literal175,2);
-		DFA_EDGE(literal119,4);
+		DFA_EDGE(literal184,4);
 		DFA_EDGE(IC,6);
 		break;
 	DFA_STATE 7:
-		DFA_EDGE(literal175,2);
-		DFA_EDGE(IC,7);
+		DFA_EDGE(literal193,8);
 		break;
 	DFA_STATE 8:
 		DFA_ACCEPT;
@@ -2692,8 +2923,8 @@ DEFINE_DFA(OR,
 		DFA_EDGE(EXPRESSION,1);
 		break;
 	DFA_STATE 1:
-		DFA_EDGE(literal209,2);
-		DFA_EDGE(literal133,2);
+		DFA_EDGE(literal139,2);
+		DFA_EDGE(literal219,2);
 		DFA_EDGE(IC,1);
 		break;
 	DFA_STATE 2:
@@ -2707,8 +2938,8 @@ DEFINE_DFA(OR,
 
 DEFINE_DFA(PARAMETER,
 	DFA_STATE 0:
-		DFA_EDGE(PARAMETER_NATURAL,1);
 		DFA_EDGE(PARAMETER_ANALYTIC,1);
+		DFA_EDGE(PARAMETER_NATURAL,1);
 		break;
 	DFA_STATE 1:
 		DFA_ACCEPT;
@@ -2716,9 +2947,68 @@ DEFINE_DFA(PARAMETER,
 , 0, parlex::associativity::none);
 
 DEFINE_DFA(PARAMETER_ANALYTIC,
+	DFA_STATE 0:
+		DFA_EDGE(EXPRESSION,2);
+		break;
+	DFA_STATE 1:
+		DFA_EDGE(EXPRESSION,3);
+		DFA_EDGE(IC,1);
+		break;
+	DFA_STATE 2:
+		DFA_ACCEPT;
+		DFA_EDGE(literal52,1);
+		DFA_EDGE(IC,2);
+		break;
+	DFA_STATE 3:
+		DFA_ACCEPT;
+		break;
 , 0, parlex::associativity::none);
 
 DEFINE_DFA(PARAMETER_NATURAL,
+	DFA_STATE 0:
+		DFA_EDGE(TYPE_DEREFERENCE,2);
+		DFA_EDGE(IDENTIFIER,6);
+		DFA_EDGE(IMPLICIT_TYPE_DEREFERENCE,1);
+		break;
+	DFA_STATE 1:
+		DFA_EDGE(IDENTIFIER,5);
+		DFA_EDGE(IC,1);
+		break;
+	DFA_STATE 2:
+		DFA_EDGE(IDENTIFIER,6);
+		DFA_EDGE(IC,2);
+		break;
+	DFA_STATE 3:
+		DFA_EDGE(literal52,4);
+		DFA_EDGE(IC,3);
+		break;
+	DFA_STATE 4:
+		DFA_EDGE(EXPRESSION,8);
+		DFA_EDGE(IC,4);
+		break;
+	DFA_STATE 5:
+		DFA_EDGE(literal25,3);
+		DFA_EDGE(literal52,4);
+		DFA_EDGE(IC,3);
+		break;
+	DFA_STATE 6:
+		DFA_ACCEPT;
+		DFA_EDGE(literal25,7);
+		DFA_EDGE(literal52,4);
+		DFA_EDGE(IC,3);
+		break;
+	DFA_STATE 7:
+		DFA_ACCEPT;
+		DFA_EDGE(literal52,4);
+		DFA_EDGE(IC,3);
+		break;
+	DFA_STATE 8:
+		DFA_ACCEPT;
+		DFA_EDGE(literal25,9);
+		break;
+	DFA_STATE 9:
+		DFA_ACCEPT;
+		break;
 , 0, parlex::associativity::none);
 
 DEFINE_DFA(PARENTHETICAL,
@@ -2747,10 +3037,10 @@ DEFINE_DFA(PARENTHETICAL_INVOCATION,
 		DFA_EDGE(IC,1);
 		break;
 	DFA_STATE 2:
+		DFA_EDGE(ARGUMENT_PACK,3);
+		DFA_EDGE(ARGUMENT,3);
 		DFA_EDGE(literal19,2);
 		DFA_EDGE(literal12,4);
-		DFA_EDGE(ARGUMENT,3);
-		DFA_EDGE(ARGUMENT_PACK,3);
 		DFA_EDGE(IC,2);
 		break;
 	DFA_STATE 3:
@@ -2778,9 +3068,9 @@ DEFINE_DFA(PLATFORM,
 		break;
 	DFA_STATE 1:
 		DFA_ACCEPT;
+		DFA_EDGE(PLATFORM,1);
 		DFA_EDGE(parlex::builtins::letter,1);
 		DFA_EDGE(parlex::builtins::number,1);
-		DFA_EDGE(PLATFORM,1);
 		break;
 , 0, &parlex::builtins::longest, parlex::associativity::none); 
 
@@ -2855,7 +3145,7 @@ DEFINE_DFA(PRE_INC,
 
 DEFINE_DFA(RADICAL,
 	DFA_STATE 0:
-		DFA_EDGE(literal207,1);
+		DFA_EDGE(literal217,1);
 		break;
 	DFA_STATE 1:
 		DFA_EDGE(EXPRESSION,2);
@@ -2867,11 +3157,45 @@ DEFINE_DFA(RADICAL,
 , 0, parlex::associativity::none);
 
 DEFINE_DFA(RANGE,
+	DFA_STATE 0:
+		DFA_EDGE(literal68,1);
+		DFA_EDGE(literal10,2);
+		break;
+	DFA_STATE 1:
+		DFA_EDGE(EXPRESSION,3);
+		DFA_EDGE(IC,1);
+		break;
+	DFA_STATE 2:
+		DFA_EDGE(EXPRESSION,3);
+		DFA_EDGE(literal25,4);
+		DFA_EDGE(IC,2);
+		break;
+	DFA_STATE 3:
+		DFA_EDGE(literal25,5);
+		DFA_EDGE(IC,3);
+		break;
+	DFA_STATE 4:
+		DFA_EDGE(EXPRESSION,6);
+		DFA_EDGE(IC,4);
+		break;
+	DFA_STATE 5:
+		DFA_EDGE(EXPRESSION,6);
+		DFA_EDGE(literal12,7);
+		DFA_EDGE(IC,5);
+		break;
+	DFA_STATE 6:
+		DFA_EDGE(literal12,7);
+		DFA_EDGE(literal71,7);
+		DFA_EDGE(IC,6);
+		break;
+	DFA_STATE 7:
+		DFA_ACCEPT;
+		break;
 , 0, parlex::associativity::none);
 
 DEFINE_DFA(READ_LOCK,
 	DFA_STATE 0:
-		DFA_EDGE(literal145,1);
+		DFA_EDGE(literal151,1);
 		break;
 	DFA_STATE 1:
 		DFA_EDGE(PARENTHETICAL,2);
@@ -2888,7 +3212,7 @@ DEFINE_DFA(READ_LOCK,
 
 DEFINE_DFA(RECORD,
 	DFA_STATE 0:
-		DFA_EDGE(literal146,1);
+		DFA_EDGE(literal152,1);
 		break;
 	DFA_STATE 1:
 		DFA_EDGE(TYPE,2);
@@ -2913,10 +3237,10 @@ DEFINE_DFA(REGEX,
 
 DEFINE_DFA(RELATIONAL_COLLECTION_OP,
 	DFA_STATE 0:
-		DFA_EDGE(IN,1);
-		DFA_EDGE(HAS,1);
 		DFA_EDGE(NOT_IN,1);
 		DFA_EDGE(NOT_HAS,1);
+		DFA_EDGE(IN,1);
+		DFA_EDGE(HAS,1);
 		break;
 	DFA_STATE 1:
 		DFA_ACCEPT;
@@ -2925,15 +3249,15 @@ DEFINE_DFA(RELATIONAL_COLLECTION_OP,
 
 DEFINE_DFA(RELATIONAL_OP,
 	DFA_STATE 0:
-		DFA_EDGE(RELATIONAL_COLLECTION_OP,1);
-		DFA_EDGE(UPCASTS,1);
-		DFA_EDGE(CASTS,1);
 		DFA_EDGE(DOWNCASTS,1);
+		DFA_EDGE(CASTS,1);
 		DFA_EDGE(EXACTLY,1);
-		DFA_EDGE(IMPLEMENTS,1);
-		DFA_EDGE(INHERITS,1);
+		DFA_EDGE(RELATIONAL_COLLECTION_OP,1);
 		DFA_EDGE(IS,1);
 		DFA_EDGE(INEQUALITY,1);
+		DFA_EDGE(IMPLEMENTS,1);
+		DFA_EDGE(INHERITS,1);
+		DFA_EDGE(UPCASTS,1);
 		break;
 	DFA_STATE 1:
 		DFA_ACCEPT;
@@ -2941,20 +3265,45 @@ DEFINE_DFA(RELATIONAL_OP,
 , 0, parlex::associativity::none);
 
 DEFINE_DFA(RETURN,
-, 0, parlex::associativity::none);
-
-DEFINE_DFA(SET,
 	DFA_STATE 0:
-		DFA_EDGE(literal176,1);
+		DFA_EDGE(literal153,3);
 		break;
 	DFA_STATE 1:
-		DFA_EDGE(literal182,4);
 		DFA_EDGE(EXPRESSION,2);
 		DFA_EDGE(IC,1);
 		break;
 	DFA_STATE 2:
+		DFA_EDGE(literal71,5);
+		DFA_EDGE(IC,2);
+		break;
+	DFA_STATE 3:
+		DFA_ACCEPT;
+		DFA_EDGE(EXPRESSION,4);
+		DFA_EDGE(literal68,1);
+		DFA_EDGE(IC,3);
+		break;
+	DFA_STATE 4:
+		DFA_ACCEPT;
+		break;
+	DFA_STATE 5:
+		DFA_ACCEPT;
+		DFA_EDGE(EXPRESSION,4);
+		DFA_EDGE(IC,5);
+		break;
+, 0, parlex::associativity::none);
+
+DEFINE_DFA(SET,
+	DFA_STATE 0:
+		DFA_EDGE(literal185,1);
+		break;
+	DFA_STATE 1:
+		DFA_EDGE(EXPRESSION,2);
+		DFA_EDGE(literal192,4);
+		DFA_EDGE(IC,1);
+		break;
+	DFA_STATE 2:
+		DFA_EDGE(literal192,4);
 		DFA_EDGE(literal19,3);
-		DFA_EDGE(literal182,4);
 		DFA_EDGE(IC,2);
 		break;
 	DFA_STATE 3:
@@ -2968,14 +3317,14 @@ DEFINE_DFA(SET,
 
 DEFINE_DFA(SET_COMPREHENSION,
 	DFA_STATE 0:
-		DFA_EDGE(literal175,1);
+		DFA_EDGE(literal184,1);
 		break;
 	DFA_STATE 1:
 		DFA_EDGE(EXPRESSION,2);
 		DFA_EDGE(IC,1);
 		break;
 	DFA_STATE 2:
-		DFA_EDGE(literal177,3);
+		DFA_EDGE(literal186,3);
 		DFA_EDGE(IC,2);
 		break;
 	DFA_STATE 3:
@@ -2983,7 +3332,7 @@ DEFINE_DFA(SET_COMPREHENSION,
 		DFA_EDGE(IC,3);
 		break;
 	DFA_STATE 4:
-		DFA_EDGE(literal183,5);
+		DFA_EDGE(literal193,5);
 		DFA_EDGE(IC,4);
 		break;
 	DFA_STATE 5:
@@ -3043,6 +3392,34 @@ DEFINE_DFA(SLICE,
 , 0, parlex::associativity::none);
 
 DEFINE_DFA(STATEMENT,
+	DFA_STATE 0:
+		DFA_EDGE(ASSIGNMENT_CHAIN,1);
+		DFA_EDGE(CONTINUE,1);
+		DFA_EDGE(DO,1);
+		DFA_EDGE(BREAK,1);
+		DFA_EDGE(DEFINITION,1);
+		DFA_EDGE(EXPRESSION,1);
+		DFA_EDGE(FOR,1);
+		DFA_EDGE(FOR_COLLECTION,1);
+		DFA_EDGE(THROW,1);
+		DFA_EDGE(TRY,1);
+		DFA_EDGE(TYPE_CONSTRAINT,1);
+		DFA_EDGE(RETURN,1);
+		DFA_EDGE(READ_LOCK,1);
+		DFA_EDGE(IMPORT,1);
+		DFA_EDGE(LOOP,1);
+		DFA_EDGE(LOCK,1);
+		DFA_EDGE(FREE,1);
+		DFA_EDGE(WRITE_LOCK,1);
+		DFA_EDGE(USING,1);
+		break;
+	DFA_STATE 1:
+		DFA_EDGE(literal46,2);
+		DFA_EDGE(IC,1);
+		break;
+	DFA_STATE 2:
+		DFA_ACCEPT;
+		break;
 , 0, parlex::associativity::none);
 
 DEFINE_DFA(STATEMENT_SCOPE,
@@ -3077,11 +3454,11 @@ DEFINE_DFA(SUBSET_CHAIN,
 
 DEFINE_DFA(SUBSET_CHAIN_LOOP,
 	DFA_STATE 0:
-		DFA_EDGE(literal139,1);
-		DFA_EDGE(literal217,1);
-		DFA_EDGE(literal151,1);
-		DFA_EDGE(literal215,1);
+		DFA_EDGE(literal225,1);
+		DFA_EDGE(literal145,1);
 		DFA_EDGE(literal52,1);
+		DFA_EDGE(literal158,1);
+		DFA_EDGE(literal227,1);
 		break;
 	DFA_STATE 1:
 		DFA_EDGE(EXPRESSION,2);
@@ -3129,11 +3506,11 @@ DEFINE_DFA(SUPERSET_CHAIN,
 
 DEFINE_DFA(SUPERSET_CHAIN_LOOP,
 	DFA_STATE 0:
-		DFA_EDGE(literal140,1);
-		DFA_EDGE(literal218,1);
-		DFA_EDGE(literal216,1);
-		DFA_EDGE(literal152,1);
 		DFA_EDGE(literal52,1);
+		DFA_EDGE(literal146,1);
+		DFA_EDGE(literal159,1);
+		DFA_EDGE(literal226,1);
+		DFA_EDGE(literal228,1);
 		break;
 	DFA_STATE 1:
 		DFA_EDGE(EXPRESSION,2);
@@ -3154,8 +3531,8 @@ DEFINE_DFA(SWIZZLE,
 		DFA_EDGE(EXPRESSION,1);
 		break;
 	DFA_STATE 1:
+		DFA_EDGE(literal232,2);
 		DFA_EDGE(literal78,2);
-		DFA_EDGE(literal222,2);
 		DFA_EDGE(IC,1);
 		break;
 	DFA_STATE 2:
@@ -3172,7 +3549,7 @@ DEFINE_DFA(SYMMETRIC_DIFFERENCE,
 		DFA_EDGE(EXPRESSION,1);
 		break;
 	DFA_STATE 1:
-		DFA_EDGE(literal220,2);
+		DFA_EDGE(literal230,2);
 		DFA_EDGE(IC,1);
 		break;
 	DFA_STATE 2:
@@ -3186,7 +3563,7 @@ DEFINE_DFA(SYMMETRIC_DIFFERENCE,
 
 DEFINE_DFA(THIS,
 	DFA_STATE 0:
-		DFA_EDGE(literal154,3);
+		DFA_EDGE(literal161,3);
 		break;
 	DFA_STATE 1:
 		DFA_EDGE(EXPRESSION,2);
@@ -3208,7 +3585,7 @@ DEFINE_DFA(THIS,
 
 DEFINE_DFA(THIS_FUNC,
 	DFA_STATE 0:
-		DFA_EDGE(literal155,3);
+		DFA_EDGE(literal162,3);
 		break;
 	DFA_STATE 1:
 		DFA_EDGE(EXPRESSION,2);
@@ -3230,7 +3607,7 @@ DEFINE_DFA(THIS_FUNC,
 
 DEFINE_DFA(THIS_TYPE,
 	DFA_STATE 0:
-		DFA_EDGE(literal156,3);
+		DFA_EDGE(literal163,3);
 		break;
 	DFA_STATE 1:
 		DFA_EDGE(EXPRESSION,2);
@@ -3252,7 +3629,7 @@ DEFINE_DFA(THIS_TYPE,
 
 DEFINE_DFA(THROW,
 	DFA_STATE 0:
-		DFA_EDGE(literal157,3);
+		DFA_EDGE(literal164,3);
 		break;
 	DFA_STATE 1:
 		DFA_EDGE(EXPRESSION,2);
@@ -3264,8 +3641,8 @@ DEFINE_DFA(THROW,
 		break;
 	DFA_STATE 3:
 		DFA_ACCEPT;
-		DFA_EDGE(literal68,1);
 		DFA_EDGE(EXPRESSION,4);
+		DFA_EDGE(literal68,1);
 		DFA_EDGE(IC,3);
 		break;
 	DFA_STATE 4:
@@ -3280,14 +3657,14 @@ DEFINE_DFA(THROW,
 
 DEFINE_DFA(TIME,
 	DFA_STATE 0:
-		DFA_EDGE(parlex::builtins::decimal_digit,2);
-		DFA_EDGE(literal21,1);
+		DFA_EDGE(literal21,2);
+		DFA_EDGE(parlex::builtins::decimal_digit,1);
 		break;
 	DFA_STATE 1:
-		DFA_EDGE(parlex::builtins::decimal_digit,2);
+		DFA_EDGE(parlex::builtins::decimal_digit,3);
 		break;
 	DFA_STATE 2:
-		DFA_EDGE(parlex::builtins::decimal_digit,3);
+		DFA_EDGE(parlex::builtins::decimal_digit,1);
 		break;
 	DFA_STATE 3:
 		DFA_EDGE(literal44,4);
@@ -3308,10 +3685,10 @@ DEFINE_DFA(TIME,
 		DFA_EDGE(parlex::builtins::decimal_digit,14);
 		break;
 	DFA_STATE 9:
-		DFA_EDGE(parlex::builtins::decimal_digit,16);
+		DFA_EDGE(parlex::builtins::decimal_digit,11);
 		break;
 	DFA_STATE 10:
-		DFA_EDGE(parlex::builtins::decimal_digit,11);
+		DFA_EDGE(parlex::builtins::decimal_digit,16);
 		break;
 	DFA_STATE 11:
 		DFA_EDGE(parlex::builtins::decimal_digit,17);
@@ -3324,9 +3701,9 @@ DEFINE_DFA(TIME,
 		break;
 	DFA_STATE 14:
 		DFA_ACCEPT;
-		DFA_EDGE(literal16,10);
-		DFA_EDGE(literal21,10);
-		DFA_EDGE(literal24,9);
+		DFA_EDGE(literal24,10);
+		DFA_EDGE(literal16,9);
+		DFA_EDGE(literal21,9);
 		DFA_EDGE(literal67,15);
 		break;
 	DFA_STATE 15:
@@ -3334,10 +3711,10 @@ DEFINE_DFA(TIME,
 		break;
 	DFA_STATE 16:
 		DFA_ACCEPT;
-		DFA_EDGE(parlex::builtins::decimal_digit,16);
-		DFA_EDGE(literal16,10);
-		DFA_EDGE(literal21,10);
+		DFA_EDGE(literal16,9);
+		DFA_EDGE(literal21,9);
 		DFA_EDGE(literal67,15);
+		DFA_EDGE(parlex::builtins::decimal_digit,16);
 		break;
 	DFA_STATE 17:
 		DFA_ACCEPT;
@@ -3347,14 +3724,14 @@ DEFINE_DFA(TIME,
 
 DEFINE_DFA(TRY,
 	DFA_STATE 0:
-		DFA_EDGE(literal160,1);
+		DFA_EDGE(literal167,1);
 		break;
 	DFA_STATE 1:
 		DFA_EDGE(EXPRESSION,2);
 		DFA_EDGE(IC,1);
 		break;
 	DFA_STATE 2:
-		DFA_EDGE(literal96,3);
+		DFA_EDGE(literal98,3);
 		DFA_EDGE(IC,2);
 		break;
 	DFA_STATE 3:
@@ -3367,13 +3744,13 @@ DEFINE_DFA(TRY,
 		break;
 	DFA_STATE 5:
 		DFA_ACCEPT;
-		DFA_EDGE(literal96,3);
-		DFA_EDGE(literal110,4);
+		DFA_EDGE(literal98,3);
+		DFA_EDGE(literal115,4);
 		DFA_EDGE(IC,6);
 		break;
 	DFA_STATE 6:
 		DFA_ACCEPT;
-		DFA_EDGE(literal110,4);
+		DFA_EDGE(literal115,4);
 		DFA_EDGE(IC,6);
 		break;
 	DFA_STATE 7:
@@ -3391,7 +3768,7 @@ DEFINE_DFA(TUPLE,
 		break;
 	DFA_STATE 2:
 		DFA_EDGE(literal19,1);
-		DFA_EDGE(literal178,3);
+		DFA_EDGE(literal188,3);
 		DFA_EDGE(IC,2);
 		break;
 	DFA_STATE 3:
@@ -3401,36 +3778,36 @@ DEFINE_DFA(TUPLE,
 
 DEFINE_DFA(TYPE,
 	DFA_STATE 0:
-		DFA_EDGE(literal161,1);
+		DFA_EDGE(literal168,1);
 		break;
 	DFA_STATE 1:
-		DFA_EDGE(literal175,2);
-		DFA_EDGE(literal123,3);
-		DFA_EDGE(literal119,4);
+		DFA_EDGE(literal184,4);
+		DFA_EDGE(literal129,2);
+		DFA_EDGE(literal125,3);
 		DFA_EDGE(IC,1);
 		break;
 	DFA_STATE 2:
-		DFA_EDGE(TYPE_SCOPE,5);
+		DFA_EDGE(INHERITANCE_LIST,5);
+		DFA_EDGE(IC,2);
 		break;
 	DFA_STATE 3:
 		DFA_EDGE(INHERITANCE_LIST,6);
 		DFA_EDGE(IC,3);
 		break;
 	DFA_STATE 4:
-		DFA_EDGE(INHERITANCE_LIST,7);
-		DFA_EDGE(IC,4);
+		DFA_EDGE(TYPE_SCOPE,7);
 		break;
 	DFA_STATE 5:
-		DFA_EDGE(literal183,8);
+		DFA_EDGE(literal184,4);
+		DFA_EDGE(literal125,3);
+		DFA_EDGE(IC,5);
 		break;
 	DFA_STATE 6:
-		DFA_EDGE(literal175,2);
-		DFA_EDGE(literal119,4);
+		DFA_EDGE(literal184,4);
 		DFA_EDGE(IC,6);
 		break;
 	DFA_STATE 7:
-		DFA_EDGE(literal175,2);
-		DFA_EDGE(IC,7);
+		DFA_EDGE(literal193,8);
 		break;
 	DFA_STATE 8:
 		DFA_ACCEPT;
@@ -3472,50 +3849,50 @@ DEFINE_DFA(TYPE_CONSTRAINT_CHAIN,
 
 DEFINE_DFA(TYPE_CONSTRAINT_HEAD,
 	DFA_STATE 0:
-		DFA_EDGE(VISIBILITY_MODIFIER,1);
-		DFA_EDGE(VOLATILE_IMPLICIT_TYPE_DEREFERENCE,5);
-		DFA_EDGE(VOLATILE_TYPE_DEREFERENCE,5);
-		DFA_EDGE(XML_DOC_STRING,2);
-		DFA_EDGE(literal107,3);
-		DFA_EDGE(literal150,4);
+		DFA_EDGE(ATTRIBUTE,1);
 		DFA_EDGE(TYPE_DEREFERENCE,5);
-		DFA_EDGE(ATTRIBUTE,2);
+		DFA_EDGE(literal112,3);
+		DFA_EDGE(literal157,2);
 		DFA_EDGE(IMPLICIT_TYPE_DEREFERENCE,5);
+		DFA_EDGE(VOLATILE_TYPE_DEREFERENCE,5);
+		DFA_EDGE(VISIBILITY_MODIFIER,4);
+		DFA_EDGE(VOLATILE_IMPLICIT_TYPE_DEREFERENCE,5);
+		DFA_EDGE(XML_DOC_STRING,1);
 		break;
 	DFA_STATE 1:
-		DFA_EDGE(VOLATILE_IMPLICIT_TYPE_DEREFERENCE,5);
-		DFA_EDGE(VOLATILE_TYPE_DEREFERENCE,5);
-		DFA_EDGE(literal107,3);
-		DFA_EDGE(literal150,4);
+		DFA_EDGE(ATTRIBUTE,1);
 		DFA_EDGE(TYPE_DEREFERENCE,5);
-		DFA_EDGE(IC,1);
+		DFA_EDGE(literal112,3);
+		DFA_EDGE(literal157,2);
 		DFA_EDGE(IMPLICIT_TYPE_DEREFERENCE,5);
+		DFA_EDGE(IC,1);
+		DFA_EDGE(VOLATILE_TYPE_DEREFERENCE,5);
+		DFA_EDGE(VISIBILITY_MODIFIER,4);
+		DFA_EDGE(VOLATILE_IMPLICIT_TYPE_DEREFERENCE,5);
 		break;
 	DFA_STATE 2:
-		DFA_EDGE(VISIBILITY_MODIFIER,1);
-		DFA_EDGE(VOLATILE_IMPLICIT_TYPE_DEREFERENCE,5);
-		DFA_EDGE(VOLATILE_TYPE_DEREFERENCE,5);
-		DFA_EDGE(literal107,3);
-		DFA_EDGE(literal150,4);
 		DFA_EDGE(TYPE_DEREFERENCE,5);
-		DFA_EDGE(ATTRIBUTE,2);
-		DFA_EDGE(IC,2);
+		DFA_EDGE(literal112,3);
 		DFA_EDGE(IMPLICIT_TYPE_DEREFERENCE,5);
+		DFA_EDGE(IC,2);
+		DFA_EDGE(VOLATILE_TYPE_DEREFERENCE,5);
+		DFA_EDGE(VOLATILE_IMPLICIT_TYPE_DEREFERENCE,5);
 		break;
 	DFA_STATE 3:
-		DFA_EDGE(VOLATILE_IMPLICIT_TYPE_DEREFERENCE,5);
-		DFA_EDGE(VOLATILE_TYPE_DEREFERENCE,5);
 		DFA_EDGE(TYPE_DEREFERENCE,5);
-		DFA_EDGE(IC,3);
 		DFA_EDGE(IMPLICIT_TYPE_DEREFERENCE,5);
+		DFA_EDGE(IC,3);
+		DFA_EDGE(VOLATILE_TYPE_DEREFERENCE,5);
+		DFA_EDGE(VOLATILE_IMPLICIT_TYPE_DEREFERENCE,5);
 		break;
 	DFA_STATE 4:
-		DFA_EDGE(VOLATILE_IMPLICIT_TYPE_DEREFERENCE,5);
-		DFA_EDGE(VOLATILE_TYPE_DEREFERENCE,5);
-		DFA_EDGE(literal107,3);
 		DFA_EDGE(TYPE_DEREFERENCE,5);
-		DFA_EDGE(IC,4);
+		DFA_EDGE(literal112,3);
+		DFA_EDGE(literal157,2);
 		DFA_EDGE(IMPLICIT_TYPE_DEREFERENCE,5);
+		DFA_EDGE(IC,4);
+		DFA_EDGE(VOLATILE_TYPE_DEREFERENCE,5);
+		DFA_EDGE(VOLATILE_IMPLICIT_TYPE_DEREFERENCE,5);
 		break;
 	DFA_STATE 5:
 		DFA_ACCEPT;
@@ -3540,6 +3917,27 @@ DEFINE_DFA(TYPE_DEREFERENCE,
 , 0, parlex::associativity::none);
 
 DEFINE_DFA(TYPE_INVOCATION,
+	DFA_STATE 0:
+		DFA_EDGE(EXPRESSION,1);
+		break;
+	DFA_STATE 1:
+		DFA_EDGE(literal47,2);
+		break;
+	DFA_STATE 2:
+		DFA_EDGE(ARGUMENT_PACK,3);
+		DFA_EDGE(ARGUMENT,3);
+		DFA_EDGE(literal55,4);
+		DFA_EDGE(literal19,2);
+		DFA_EDGE(IC,2);
+		break;
+	DFA_STATE 3:
+		DFA_EDGE(literal55,4);
+		DFA_EDGE(literal19,2);
+		DFA_EDGE(IC,3);
+		break;
+	DFA_STATE 4:
+		DFA_ACCEPT;
+		break;
 , 0, parlex::associativity::none);
 
 DEFINE_DFA(TYPE_SCOPE,
@@ -3552,8 +3950,8 @@ DEFINE_DFA(TYPE_SCOPE,
 
 DEFINE_DFA(TYPE_SCOPE_ASSIGNMENT_CHAIN,
 	DFA_STATE 0:
-		DFA_EDGE(XML_DOC_STRING,1);
 		DFA_EDGE(IDENTIFIER,2);
+		DFA_EDGE(XML_DOC_STRING,1);
 		break;
 	DFA_STATE 1:
 		DFA_EDGE(IDENTIFIER,2);
@@ -3561,9 +3959,9 @@ DEFINE_DFA(TYPE_SCOPE_ASSIGNMENT_CHAIN,
 		break;
 	DFA_STATE 2:
 		DFA_EDGE(literal48,3);
-		DFA_EDGE(literal192,3);
-		DFA_EDGE(IC,2);
+		DFA_EDGE(literal202,3);
 		DFA_EDGE(MEMBER_OFFSET,4);
+		DFA_EDGE(IC,2);
 		break;
 	DFA_STATE 3:
 		DFA_EDGE(ASSIGNMENT_CHAIN,5);
@@ -3572,7 +3970,7 @@ DEFINE_DFA(TYPE_SCOPE_ASSIGNMENT_CHAIN,
 		break;
 	DFA_STATE 4:
 		DFA_EDGE(literal48,3);
-		DFA_EDGE(literal192,3);
+		DFA_EDGE(literal202,3);
 		DFA_EDGE(IC,4);
 		break;
 	DFA_STATE 5:
@@ -3582,8 +3980,8 @@ DEFINE_DFA(TYPE_SCOPE_ASSIGNMENT_CHAIN,
 
 DEFINE_DFA(TYPE_SCOPE_DECLARATION,
 	DFA_STATE 0:
-		DFA_EDGE(XML_DOC_STRING,1);
 		DFA_EDGE(IDENTIFIER,2);
+		DFA_EDGE(XML_DOC_STRING,1);
 		break;
 	DFA_STATE 1:
 		DFA_EDGE(IDENTIFIER,2);
@@ -3591,8 +3989,8 @@ DEFINE_DFA(TYPE_SCOPE_DECLARATION,
 		break;
 	DFA_STATE 2:
 		DFA_ACCEPT;
-		DFA_EDGE(IC,2);
 		DFA_EDGE(MEMBER_OFFSET,3);
+		DFA_EDGE(IC,2);
 		break;
 	DFA_STATE 3:
 		DFA_ACCEPT;
@@ -3614,15 +4012,15 @@ DEFINE_DFA(TYPE_SCOPE_TYPE_CONSTRAINT,
 
 DEFINE_DFA(TYPE_SCOPE_TYPE_CONSTRAINT_CHAIN,
 	DFA_STATE 0:
-		DFA_EDGE(XML_DOC_STRING,1);
-		DFA_EDGE(TYPE_SCOPE_DECLARATION,3);
-		DFA_EDGE(TYPE_SCOPE_ASSIGNMENT_CHAIN,3);
 		DFA_EDGE(DEFINITION,3);
+		DFA_EDGE(TYPE_SCOPE_ASSIGNMENT_CHAIN,3);
+		DFA_EDGE(TYPE_SCOPE_DECLARATION,3);
+		DFA_EDGE(XML_DOC_STRING,1);
 		break;
 	DFA_STATE 1:
-		DFA_EDGE(TYPE_SCOPE_DECLARATION,3);
-		DFA_EDGE(TYPE_SCOPE_ASSIGNMENT_CHAIN,3);
 		DFA_EDGE(DEFINITION,3);
+		DFA_EDGE(TYPE_SCOPE_ASSIGNMENT_CHAIN,3);
+		DFA_EDGE(TYPE_SCOPE_DECLARATION,3);
 		DFA_EDGE(IC,1);
 		break;
 	DFA_STATE 2:
@@ -3641,9 +4039,9 @@ DEFINE_DFA(TYPE_SCOPE_TYPE_CONSTRAINT_CHAIN,
 
 DEFINE_DFA(TYPE_STATEMENT,
 	DFA_STATE 0:
-		DFA_EDGE(VISIBILITY_MODIFIER,1);
-		DFA_EDGE(STATEMENT,2);
 		DFA_EDGE(TYPE_SCOPE_TYPE_CONSTRAINT,2);
+		DFA_EDGE(STATEMENT,2);
+		DFA_EDGE(VISIBILITY_MODIFIER,1);
 		break;
 	DFA_STATE 1:
 		DFA_EDGE(literal44,2);
@@ -3656,13 +4054,13 @@ DEFINE_DFA(TYPE_STATEMENT,
 
 DEFINE_DFA(UNARY_ARITHMETIC_OP,
 	DFA_STATE 0:
-		DFA_EDGE(POST_INC,1);
-		DFA_EDGE(POST_DEC,1);
-		DFA_EDGE(RADICAL,1);
-		DFA_EDGE(PRE_INC,1);
-		DFA_EDGE(PRE_DEC,1);
 		DFA_EDGE(FACTORIAL,1);
+		DFA_EDGE(PRE_INC,1);
+		DFA_EDGE(RADICAL,1);
+		DFA_EDGE(PRE_DEC,1);
 		DFA_EDGE(NEGATION,1);
+		DFA_EDGE(POST_DEC,1);
+		DFA_EDGE(POST_INC,1);
 		break;
 	DFA_STATE 1:
 		DFA_ACCEPT;
@@ -3683,10 +4081,10 @@ DEFINE_DFA(UNARY_LOGICAL_OP,
 
 DEFINE_DFA(UNARY_OP,
 	DFA_STATE 0:
-		DFA_EDGE(UNARY_ARITHMETIC_OP,1);
-		DFA_EDGE(UNARY_LOGICAL_OP,1);
 		DFA_EDGE(ALLOCATION,1);
 		DFA_EDGE(CARDINALITY,1);
+		DFA_EDGE(UNARY_ARITHMETIC_OP,1);
+		DFA_EDGE(UNARY_LOGICAL_OP,1);
 		DFA_EDGE(KLEENE_STAR,1);
 		break;
 	DFA_STATE 1:
@@ -3699,7 +4097,7 @@ DEFINE_DFA(UNION,
 		DFA_EDGE(EXPRESSION,1);
 		break;
 	DFA_STATE 1:
-		DFA_EDGE(literal211,2);
+		DFA_EDGE(literal221,2);
 		DFA_EDGE(IC,1);
 		break;
 	DFA_STATE 2:
@@ -3761,7 +4159,7 @@ DEFINE_DFA(UPCASTS,
 		DFA_EDGE(EXPRESSION,1);
 		break;
 	DFA_STATE 1:
-		DFA_EDGE(literal163,2);
+		DFA_EDGE(literal171,2);
 		DFA_EDGE(IC,1);
 		break;
 	DFA_STATE 2:
@@ -3775,7 +4173,7 @@ DEFINE_DFA(UPCASTS,
 
 DEFINE_DFA(USING,
 	DFA_STATE 0:
-		DFA_EDGE(literal164,1);
+		DFA_EDGE(literal172,1);
 		break;
 	DFA_STATE 1:
 		DFA_EDGE(literal10,2);
@@ -3800,14 +4198,14 @@ DEFINE_DFA(USING,
 
 DEFINE_DFA(VECTOR_NORM,
 	DFA_STATE 0:
-		DFA_EDGE(literal181,1);
+		DFA_EDGE(literal191,1);
 		break;
 	DFA_STATE 1:
 		DFA_EDGE(EXPRESSION,2);
 		DFA_EDGE(IC,1);
 		break;
 	DFA_STATE 2:
-		DFA_EDGE(literal181,3);
+		DFA_EDGE(literal191,3);
 		DFA_EDGE(IC,2);
 		break;
 	DFA_STATE 3:
@@ -3817,11 +4215,11 @@ DEFINE_DFA(VECTOR_NORM,
 
 DEFINE_DFA(VISIBILITY_MODIFIER,
 	DFA_STATE 0:
+		DFA_EDGE(literal142,1);
+		DFA_EDGE(literal149,1);
 		DFA_EDGE(literal143,1);
-		DFA_EDGE(literal126,1);
-		DFA_EDGE(literal136,1);
-		DFA_EDGE(literal137,1);
-		DFA_EDGE(literal138,1);
+		DFA_EDGE(literal144,1);
+		DFA_EDGE(literal132,1);
 		break;
 	DFA_STATE 1:
 		DFA_ACCEPT;
@@ -3833,7 +4231,7 @@ DEFINE_DFA(VOLATILE_IMPLICIT_TYPE_DEREFERENCE,
 		DFA_EDGE(literal47,1);
 		break;
 	DFA_STATE 1:
-		DFA_EDGE(literal165,2);
+		DFA_EDGE(literal173,2);
 		DFA_EDGE(IC,1);
 		break;
 	DFA_STATE 2:
@@ -3850,7 +4248,7 @@ DEFINE_DFA(VOLATILE_TYPE_DEREFERENCE,
 		DFA_EDGE(literal47,1);
 		break;
 	DFA_STATE 1:
-		DFA_EDGE(literal165,2);
+		DFA_EDGE(literal173,2);
 		DFA_EDGE(IC,1);
 		break;
 	DFA_STATE 2:
@@ -3868,34 +4266,34 @@ DEFINE_DFA(VOLATILE_TYPE_DEREFERENCE,
 
 DEFINE_DFA(WHOLE_NUMBER,
 	DFA_STATE 0:
-		DFA_EDGE(literal35,1);
-		DFA_EDGE(literal37,1);
-		DFA_EDGE(literal43,1);
-		DFA_EDGE(literal36,1);
-		DFA_EDGE(literal42,1);
-		DFA_EDGE(literal38,1);
-		DFA_EDGE(literal40,1);
 		DFA_EDGE(literal41,1);
+		DFA_EDGE(literal40,1);
+		DFA_EDGE(literal38,1);
+		DFA_EDGE(literal43,1);
+		DFA_EDGE(literal42,1);
 		DFA_EDGE(literal39,1);
+		DFA_EDGE(literal35,1);
+		DFA_EDGE(literal36,1);
+		DFA_EDGE(literal37,1);
 		break;
 	DFA_STATE 1:
 		DFA_ACCEPT;
-		DFA_EDGE(literal35,1);
-		DFA_EDGE(literal37,1);
-		DFA_EDGE(literal43,1);
-		DFA_EDGE(literal36,1);
-		DFA_EDGE(literal42,1);
 		DFA_EDGE(literal33,1);
-		DFA_EDGE(literal38,1);
-		DFA_EDGE(literal40,1);
 		DFA_EDGE(literal41,1);
+		DFA_EDGE(literal40,1);
+		DFA_EDGE(literal38,1);
+		DFA_EDGE(literal43,1);
+		DFA_EDGE(literal42,1);
 		DFA_EDGE(literal39,1);
+		DFA_EDGE(literal35,1);
+		DFA_EDGE(literal36,1);
+		DFA_EDGE(literal37,1);
 		break;
 , 0, parlex::associativity::none);
 
 DEFINE_DFA(WRITE_LOCK,
 	DFA_STATE 0:
-		DFA_EDGE(literal167,1);
+		DFA_EDGE(literal176,1);
 		break;
 	DFA_STATE 1:
 		DFA_EDGE(PARENTHETICAL,2);
@@ -3922,6 +4320,22 @@ DEFINE_DFA(WS,
 
 DEFINE_DFA(XML_DOC_STRING,
 	DFA_STATE 0:
+		DFA_EDGE(literal82,1);
+		break;
+	DFA_STATE 1:
+		DFA_EDGE(XML_DOC_STRING_INTERIOR,2);
+		break;
+	DFA_STATE 2:
+		DFA_EDGE(literal82,3);
+		break;
+	DFA_STATE 3:
+		DFA_ACCEPT;
+		break;
+, 0, parlex::associativity::none);
+
+DEFINE_DFA(XML_DOC_STRING_INTERIOR,
+	DFA_STATE 0:
+		DFA_EDGE(PAYLOAD,3);
 		DFA_EDGE(literal81,1);
 		break;
 	DFA_STATE 1:
@@ -3935,29 +4349,13 @@ DEFINE_DFA(XML_DOC_STRING,
 		break;
 , 0, parlex::associativity::none);
 
-DEFINE_DFA(XML_DOC_STRING_INTERIOR,
-	DFA_STATE 0:
-		DFA_EDGE(literal80,1);
-		DFA_EDGE(PAYLOAD,3);
-		break;
-	DFA_STATE 1:
-		DFA_EDGE(XML_DOC_STRING_INTERIOR,2);
-		break;
-	DFA_STATE 2:
-		DFA_EDGE(literal80,3);
-		break;
-	DFA_STATE 3:
-		DFA_ACCEPT;
-		break;
-, 0, parlex::associativity::none);
-
 DEFINE_DFA(XOR,
 	DFA_STATE 0:
 		DFA_EDGE(EXPRESSION,1);
 		break;
 	DFA_STATE 1:
-		DFA_EDGE(literal174,2);
-		DFA_EDGE(literal219,2);
+		DFA_EDGE(literal183,2);
+		DFA_EDGE(literal229,2);
 		DFA_EDGE(IC,1);
 		break;
 	DFA_STATE 2:
@@ -4195,103 +4593,103 @@ DEFINE_GRAMMAR(
 		XOR, 
 	}),
 	({
-		GRAMMAR_PRECEDENCE(RELATIONAL_OP, BINARY_LOGICAL_OP),
-		GRAMMAR_PRECEDENCE(POST_INC, BINARY_OP),
-		GRAMMAR_PRECEDENCE(POST_INC, NEGATION),
-		GRAMMAR_PRECEDENCE(OR, XOR),
-		GRAMMAR_PRECEDENCE(OR, IFF),
-		GRAMMAR_PRECEDENCE(OR, IMPLICATION),
-		GRAMMAR_PRECEDENCE(POST_DEC, BINARY_OP),
-		GRAMMAR_PRECEDENCE(POST_DEC, NEGATION),
-		GRAMMAR_PRECEDENCE(RADICAL, SUBTRACTION),
-		GRAMMAR_PRECEDENCE(RADICAL, ADDITION),
-		GRAMMAR_PRECEDENCE(RADICAL, ADD_SUB),
-		GRAMMAR_PRECEDENCE(RADICAL, DIVISION),
-		GRAMMAR_PRECEDENCE(RADICAL, INTEGER_DIVISION),
-		GRAMMAR_PRECEDENCE(RADICAL, MODULATION),
-		GRAMMAR_PRECEDENCE(RADICAL, MULTIPLICATIVE_OP),
-		GRAMMAR_PRECEDENCE(SUBSET_CHAIN_LOOP, EXPRESSION),
-		GRAMMAR_PRECEDENCE(PRE_INC, BINARY_OP),
-		GRAMMAR_PRECEDENCE(PRE_INC, NEGATION),
-		GRAMMAR_PRECEDENCE(PARAMETER_NATURAL, PARAMETER_ANALYTIC),
-		GRAMMAR_PRECEDENCE(PRE_DEC, BINARY_OP),
-		GRAMMAR_PRECEDENCE(PRE_DEC, NEGATION),
-		GRAMMAR_PRECEDENCE(SET, MAGNITUDE),
-		GRAMMAR_PRECEDENCE(TUPLE, MAGNITUDE),
-		GRAMMAR_PRECEDENCE(UNIT_EXPONENTIATION, UNIT_MULTIPLICATION),
-		GRAMMAR_PRECEDENCE(UNIT_EXPONENTIATION, UNIT_DIVISION),
-		GRAMMAR_PRECEDENCE(TYPE_SCOPE_ASSIGNMENT_CHAIN, EXPRESSION),
-		GRAMMAR_PRECEDENCE(UNARY_LOGICAL_OP, BINARY_LOGICAL_OP),
-		GRAMMAR_PRECEDENCE(SUPERSET_CHAIN_LOOP, EXPRESSION),
-		GRAMMAR_PRECEDENCE(TYPE_SCOPE_TYPE_CONSTRAINT, TYPE_CONSTRAINT),
+		GRAMMAR_PRECEDENCE(AND, OR),
+		GRAMMAR_PRECEDENCE(AND, IMPLICATION),
+		GRAMMAR_PRECEDENCE(AND, IFF),
+		GRAMMAR_PRECEDENCE(AND, XOR),
 		GRAMMAR_PRECEDENCE(ASSIGNMENT_CHAIN, EXPRESSION),
 		GRAMMAR_PRECEDENCE(ASSIGNMENT_CHAIN, LESSER_CHAIN),
-		GRAMMAR_PRECEDENCE(AND, XOR),
-		GRAMMAR_PRECEDENCE(AND, OR),
-		GRAMMAR_PRECEDENCE(AND, IFF),
-		GRAMMAR_PRECEDENCE(AND, IMPLICATION),
-		GRAMMAR_PRECEDENCE(DELTA, BINARY_OP),
-		GRAMMAR_PRECEDENCE(DELTA, EXPONENTIATION),
-		GRAMMAR_PRECEDENCE(CROSS_PRODUCT, DOT_PRODUCT),
 		GRAMMAR_PRECEDENCE(DIMENSIONAL_NUMBER, BINARY_OP),
 		GRAMMAR_PRECEDENCE(DIMENSIONAL_NUMBER, EXPONENTIATION),
-		GRAMMAR_PRECEDENCE(DIVISION, SUBTRACTION),
-		GRAMMAR_PRECEDENCE(DIVISION, ADDITION),
-		GRAMMAR_PRECEDENCE(DIVISION, ADD_SUB),
-		GRAMMAR_PRECEDENCE(DIVISION, INTEGER_DIVISION),
-		GRAMMAR_PRECEDENCE(DIVISION, MODULATION),
-		GRAMMAR_PRECEDENCE(CAST, BINARY_OP),
+		GRAMMAR_PRECEDENCE(CROSS_PRODUCT, DOT_PRODUCT),
 		GRAMMAR_PRECEDENCE(COMPLEMENT, BINARY_OP),
 		GRAMMAR_PRECEDENCE(DATE_YEAR_MONTH_DAY, SUBTRACTION),
 		GRAMMAR_PRECEDENCE(CARDINALITY, BINARY_OP),
-		GRAMMAR_PRECEDENCE(EMBEDDED_STRING, STRING),
+		GRAMMAR_PRECEDENCE(DELTA, BINARY_OP),
+		GRAMMAR_PRECEDENCE(DELTA, EXPONENTIATION),
 		GRAMMAR_PRECEDENCE(EMBEDDED_COMMENT, COMMENT),
-		GRAMMAR_PRECEDENCE(EQUALITY_CHAIN_LOOP, EXPRESSION),
-		GRAMMAR_PRECEDENCE(EQUALITY_CHAIN, SUBSET_CHAIN),
-		GRAMMAR_PRECEDENCE(EQUALITY_CHAIN, SUPERSET_CHAIN),
-		GRAMMAR_PRECEDENCE(EQUALITY_CHAIN, GREATER_CHAIN),
-		GRAMMAR_PRECEDENCE(EQUALITY_CHAIN, LESSER_CHAIN),
-		GRAMMAR_PRECEDENCE(FACTORIAL, BINARY_OP),
-		GRAMMAR_PRECEDENCE(EXPONENTIATION, SUBTRACTION),
+		GRAMMAR_PRECEDENCE(CAST, BINARY_OP),
+		GRAMMAR_PRECEDENCE(DIVISION, ADDITION),
+		GRAMMAR_PRECEDENCE(DIVISION, ADD_SUB),
+		GRAMMAR_PRECEDENCE(DIVISION, SUBTRACTION),
+		GRAMMAR_PRECEDENCE(DIVISION, INTEGER_DIVISION),
+		GRAMMAR_PRECEDENCE(DIVISION, MODULATION),
 		GRAMMAR_PRECEDENCE(EXPONENTIATION, ADDITION),
 		GRAMMAR_PRECEDENCE(EXPONENTIATION, ADD_SUB),
 		GRAMMAR_PRECEDENCE(EXPONENTIATION, DIVISION),
+		GRAMMAR_PRECEDENCE(EXPONENTIATION, SUBTRACTION),
+		GRAMMAR_PRECEDENCE(EXPONENTIATION, MULTIPLICATIVE_OP),
 		GRAMMAR_PRECEDENCE(EXPONENTIATION, INTEGER_DIVISION),
 		GRAMMAR_PRECEDENCE(EXPONENTIATION, MODULATION),
-		GRAMMAR_PRECEDENCE(EXPONENTIATION, MULTIPLICATIVE_OP),
-		GRAMMAR_PRECEDENCE(FUNCTION, CAST),
-		GRAMMAR_PRECEDENCE(EMBEDDED_NEWLINE_STRING, STRING),
+		GRAMMAR_PRECEDENCE(FACTORIAL, BINARY_OP),
 		GRAMMAR_PRECEDENCE(EMBEDDED_NEWLINE_STRING, EMBEDDED_STRING),
-		GRAMMAR_PRECEDENCE(INTEGER_DIVISION, SUBTRACTION),
-		GRAMMAR_PRECEDENCE(INTEGER_DIVISION, ADDITION),
-		GRAMMAR_PRECEDENCE(INTEGER_DIVISION, ADD_SUB),
-		GRAMMAR_PRECEDENCE(LESSER_CHAIN_LOOP, EXPRESSION),
-		GRAMMAR_PRECEDENCE(INVOCATION, RADICAL),
-		GRAMMAR_PRECEDENCE(INVOCATION, BINARY_OP),
-		GRAMMAR_PRECEDENCE(INVOCATION, NEGATION),
-		GRAMMAR_PRECEDENCE(GREATER_CHAIN_LOOP, EXPRESSION),
-		GRAMMAR_PRECEDENCE(IMPLICATION, XOR),
-		GRAMMAR_PRECEDENCE(IMPLICATION, IFF),
+		GRAMMAR_PRECEDENCE(EMBEDDED_NEWLINE_STRING, STRING),
+		GRAMMAR_PRECEDENCE(EQUALITY_CHAIN, SUBSET_CHAIN),
+		GRAMMAR_PRECEDENCE(EQUALITY_CHAIN, SUPERSET_CHAIN),
+		GRAMMAR_PRECEDENCE(EQUALITY_CHAIN, LESSER_CHAIN),
+		GRAMMAR_PRECEDENCE(EQUALITY_CHAIN, GREATER_CHAIN),
+		GRAMMAR_PRECEDENCE(EQUALITY_CHAIN_LOOP, EXPRESSION),
+		GRAMMAR_PRECEDENCE(EMBEDDED_STRING, STRING),
+		GRAMMAR_PRECEDENCE(SUPERSET_CHAIN_LOOP, EXPRESSION),
+		GRAMMAR_PRECEDENCE(SUBSET_CHAIN_LOOP, EXPRESSION),
+		GRAMMAR_PRECEDENCE(TUPLE, MAGNITUDE),
+		GRAMMAR_PRECEDENCE(TYPE_SCOPE_ASSIGNMENT_CHAIN, EXPRESSION),
+		GRAMMAR_PRECEDENCE(TYPE_SCOPE_TYPE_CONSTRAINT, TYPE_CONSTRAINT),
+		GRAMMAR_PRECEDENCE(UNARY_LOGICAL_OP, BINARY_LOGICAL_OP),
+		GRAMMAR_PRECEDENCE(PRE_INC, BINARY_OP),
+		GRAMMAR_PRECEDENCE(PRE_INC, NEGATION),
+		GRAMMAR_PRECEDENCE(RADICAL, ADDITION),
+		GRAMMAR_PRECEDENCE(RADICAL, ADD_SUB),
+		GRAMMAR_PRECEDENCE(RADICAL, DIVISION),
+		GRAMMAR_PRECEDENCE(RADICAL, SUBTRACTION),
+		GRAMMAR_PRECEDENCE(RADICAL, MULTIPLICATIVE_OP),
+		GRAMMAR_PRECEDENCE(RADICAL, INTEGER_DIVISION),
+		GRAMMAR_PRECEDENCE(RADICAL, MODULATION),
+		GRAMMAR_PRECEDENCE(RELATIONAL_OP, BINARY_LOGICAL_OP),
+		GRAMMAR_PRECEDENCE(PRE_DEC, BINARY_OP),
+		GRAMMAR_PRECEDENCE(PRE_DEC, NEGATION),
+		GRAMMAR_PRECEDENCE(SET, MAGNITUDE),
 		GRAMMAR_PRECEDENCE(NEGATION, BINARY_OP),
-		GRAMMAR_PRECEDENCE(NOT, BINARY_OP),
-		GRAMMAR_PRECEDENCE(NOR, XOR),
 		GRAMMAR_PRECEDENCE(NOR, OR),
-		GRAMMAR_PRECEDENCE(NOR, IFF),
 		GRAMMAR_PRECEDENCE(NOR, IMPLICATION),
-		GRAMMAR_PRECEDENCE(MODULATION, SUBTRACTION),
-		GRAMMAR_PRECEDENCE(MODULATION, ADDITION),
-		GRAMMAR_PRECEDENCE(MODULATION, ADD_SUB),
-		GRAMMAR_PRECEDENCE(MAP, FUNCTION),
-		GRAMMAR_PRECEDENCE(MULTIPLICATION, MAPS_TO),
-		GRAMMAR_PRECEDENCE(MULTIPLICATIVE_OP, SUBTRACTION),
+		GRAMMAR_PRECEDENCE(NOR, IFF),
+		GRAMMAR_PRECEDENCE(NOR, XOR),
+		GRAMMAR_PRECEDENCE(PARAMETER_NATURAL, PARAMETER_ANALYTIC),
+		GRAMMAR_PRECEDENCE(POST_DEC, BINARY_OP),
+		GRAMMAR_PRECEDENCE(POST_DEC, NEGATION),
+		GRAMMAR_PRECEDENCE(POST_INC, BINARY_OP),
+		GRAMMAR_PRECEDENCE(POST_INC, NEGATION),
+		GRAMMAR_PRECEDENCE(NOT, BINARY_OP),
+		GRAMMAR_PRECEDENCE(OR, IMPLICATION),
+		GRAMMAR_PRECEDENCE(OR, IFF),
+		GRAMMAR_PRECEDENCE(OR, XOR),
 		GRAMMAR_PRECEDENCE(MULTIPLICATIVE_OP, ADDITION),
 		GRAMMAR_PRECEDENCE(MULTIPLICATIVE_OP, ADD_SUB),
+		GRAMMAR_PRECEDENCE(MULTIPLICATIVE_OP, SUBTRACTION),
 		GRAMMAR_PRECEDENCE(MULTIPLICATIVE_OP, INTEGER_DIVISION),
 		GRAMMAR_PRECEDENCE(MULTIPLICATIVE_OP, MODULATION),
-		GRAMMAR_PRECEDENCE(NAND, XOR),
 		GRAMMAR_PRECEDENCE(NAND, OR),
-		GRAMMAR_PRECEDENCE(NAND, IFF),
 		GRAMMAR_PRECEDENCE(NAND, IMPLICATION),
+		GRAMMAR_PRECEDENCE(NAND, IFF),
+		GRAMMAR_PRECEDENCE(NAND, XOR),
+		GRAMMAR_PRECEDENCE(IMPLICATION, IFF),
+		GRAMMAR_PRECEDENCE(IMPLICATION, XOR),
+		GRAMMAR_PRECEDENCE(INTEGER_DIVISION, ADDITION),
+		GRAMMAR_PRECEDENCE(INTEGER_DIVISION, ADD_SUB),
+		GRAMMAR_PRECEDENCE(INTEGER_DIVISION, SUBTRACTION),
+		GRAMMAR_PRECEDENCE(INVOCATION, BINARY_OP),
+		GRAMMAR_PRECEDENCE(INVOCATION, RADICAL),
+		GRAMMAR_PRECEDENCE(INVOCATION, NEGATION),
+		GRAMMAR_PRECEDENCE(LESSER_CHAIN_LOOP, EXPRESSION),
+		GRAMMAR_PRECEDENCE(MAP, FUNCTION),
+		GRAMMAR_PRECEDENCE(MODULATION, ADDITION),
+		GRAMMAR_PRECEDENCE(MODULATION, ADD_SUB),
+		GRAMMAR_PRECEDENCE(MODULATION, SUBTRACTION),
+		GRAMMAR_PRECEDENCE(MULTIPLICATION, MAPS_TO),
+		GRAMMAR_PRECEDENCE(GREATER_CHAIN_LOOP, EXPRESSION),
+		GRAMMAR_PRECEDENCE(FUNCTION, CAST),
+		GRAMMAR_PRECEDENCE(UNIT_EXPONENTIATION, UNIT_DIVISION),
+		GRAMMAR_PRECEDENCE(UNIT_EXPONENTIATION, UNIT_MULTIPLICATION),
 	})
 );
 

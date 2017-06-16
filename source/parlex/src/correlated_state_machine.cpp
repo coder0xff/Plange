@@ -13,6 +13,9 @@ void correlated_state_machine::set_behavior(behavior::node const & behavior) {
 	behavior::nfa2 dfa = reorder(behavior.compile());
 	auto transitions = dfa.get_transitions();
 	for (auto const & t : transitions) {
+		while (states.size() <= t.to || states.size() <= t.from) {
+			states.emplace_back();
+		}
 		states[t.from][t.symbol] = t.to;
 	}
 	start_state = *dfa.startStates.begin();
@@ -34,7 +37,7 @@ void correlated_state_machine::process(details::context_ref const & c, size_t co
 }
 
 behavior::nfa2 correlated_state_machine::reorder(behavior::nfa2 const & original) {
-	behavior::nfa2 dfa = original.minimal_dfa().relabel();
+	behavior::nfa2 dfa = original.minimal_dfa().map_to_ints();
 	//construct a map from dfa states to reordered states
 	std::map<int, int> stateMap;
 	unsigned int startState = *dfa.startStates.begin();

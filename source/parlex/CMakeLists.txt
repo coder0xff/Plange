@@ -37,7 +37,7 @@ set (HEADERS
 	"include/parlex/filter_function.hpp"
 	"include/parlex/grammar.hpp"
 	"include/parlex/grammar_base.hpp"
-	"include/parlex/grammar_definition.hpp"
+	"include/parlex/builder.hpp"
 	"include/parlex/match.hpp"
 	"include/parlex/match_class.hpp"
 	"include/parlex/parser.hpp"
@@ -53,7 +53,6 @@ set (HEADERS
 
 set (DETAILS_HEADERS
 	"include/parlex/details/any_character.hpp"
-	"include/parlex/details/auto_map.hpp"
 	"include/parlex/details/c_string.hpp"
 	"include/parlex/details/context.hpp"
 	"include/parlex/details/job.hpp"

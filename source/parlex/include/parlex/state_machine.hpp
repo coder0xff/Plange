@@ -35,18 +35,20 @@ public:
 	typedef std::vector<std::map<recognizer const *, size_t>> states_t;
 
 	state_machine(std::string const & id, int startState, int acceptStateCount, filter_function const & filter, associativity = associativity::none);
-	state_machine(std::string const & id, filter_function const & filter, associativity = associativity::none);
-	state_machine(std::string const & id, associativity = associativity::none);
 	virtual ~state_machine() = default;
 
-	filter_function filter;
-	associativity assoc;
-	states_t states;
-	int start_state;
-	size_t accept_state_count; //must be greater than 0
+	filter_function const filter;
+	associativity const assoc;
+	int const start_state;
+	size_t const accept_state_count; //must be greater than 0
+
+	void add_transition(size_t from, recognizer const * transition, size_t to);
+	states_t const & get_states() const;
 private:
 	friend class parser;
 	friend class details::subjob;
+
+	states_t states;
 
 	void process(details::context_ref const & c, size_t dfaState) const override;
 

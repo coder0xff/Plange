@@ -230,7 +230,7 @@ symbol_table flatten_symbol_tables(symbol_table const & parent, symbol_table con
 	symbol_table results;
 	for (auto const & i : parent) {
 		auto emplaceResult = results.emplace(i.first, std::move(i.second.delocalize())).second;
-		assert(emplaceResult);
+		throw_assert(emplaceResult);
 	}
 	for (auto symbol : child) {
 		auto i = results.find(symbol.first);
@@ -254,7 +254,7 @@ symbol_table compute_assignment_chain_symbol_table(source_code const& source, st
 		if (&part.r == &IDENTIFIER) {
 			std::u32string name = source.get_text(part);
 			auto emplaceResult = results.emplace(name, symbol(name, nullptr, true, true)).second;
-			assert(emplaceResult);
+			throw_assert(emplaceResult);
 		}
 	}
 	return results;
@@ -406,7 +406,7 @@ void compiler::inject_c_std_lib(module & m)
 
 	symbol cStdLib(U"CStdLib", cStdLibScope, false);
 	bool didAddSymbol = m.global.add_symbol(cStdLib);
-	assert(didAddSymbol);
+	throw_assert(didAddSymbol);
 }
 
 }
