@@ -13,7 +13,7 @@
 
 namespace parlex {
 
-parser::parser(int threadCount) : builtins(*this), activeCount(0), terminating(false) {
+void parser::start_workers(int threadCount) {
 	for (; threadCount > 0; --threadCount) {
 		workers.emplace_back([=]() {
 			//DBG("thread ", threadCount, " started");
@@ -39,7 +39,7 @@ parser::parser(int threadCount) : builtins(*this), activeCount(0), terminating(f
 							update_progress_handler(docPos, docLen + 1);
 						}
 					}
-					//INF("thread ", threadCount, " executing dfa state");
+					//INF("thread ", threadCount, " executing DFA state");
 					context.owner().machine.process(context, nextDfaState);
 					context.owner().end_dependency(); //reference code A
 					if (--activeCount == 0) {
@@ -54,6 +54,10 @@ parser::parser(int threadCount) : builtins(*this), activeCount(0), terminating(f
 	}
 }
 
+parser::parser(int threadCount) : builtins(*this), activeCount(0), terminating(false) {
+	start_workers(threadCount);
+}
+
 parser::~parser() {
 	terminating = true;
 	work_cv.notify_all();
@@ -63,6 +67,21 @@ parser::~parser() {
 }
 
 abstract_syntax_graph construct_result(details::job const & j, match const & m);
+
+abstract_syntax_graph parser::construct_result_and_postprocess(recognizer const & overrideMain, std::vector<post_processor> posts, std::u32string const & document, details::job const & j) {
+	abstract_syntax_graph result = construct_result(j, match(match_class(overrideMain, 0), document.size()));
+	if (!posts.empty()) {
+		//std::string preDot = result.to_dot();
+		for (auto const & post : posts) {
+			post(result);
+		}
+		if (result.is_rooted()) {
+			result.prune_detached();
+		}
+		//std::string postDot = result.to_dot();
+	}
+	return result;
+}
 
 abstract_syntax_graph parser::parse(grammar_base const & g, recognizer const & overrideMain, std::vector<post_processor> posts, std::u32string const & document) {
 	//perf_timer timer("parse");
@@ -77,23 +96,12 @@ abstract_syntax_graph parser::parse(grammar_base const & g, recognizer const & o
 		if (handle_deadlocks(j)) {
 			break;
 		}
-	};
+	}
 	throw_assert(activeCount == 0);
 	if (update_progress_handler) {
 		update_progress_handler(document.length() + 1, document.length() + 1);
 	}
-	abstract_syntax_graph result = construct_result(j, match(match_class(overrideMain, 0), document.size()));
-	if (!posts.empty()) {
-		//std::string preDot = result.to_dot();
-		for (auto const & post : posts) {
-			post(result);
-		}
-		if (result.is_rooted()) {
-			result.prune_detached();
-		}
-		//std::string postDot = result.to_dot();
-	}
-	return result;
+	return construct_result_and_postprocess(overrideMain, posts, document, j);
 }
 
 abstract_syntax_graph parser::parse(grammar_base const & g, recognizer const & overrideMain, std::u32string const & document) {

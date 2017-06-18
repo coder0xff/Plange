@@ -30,8 +30,10 @@ class recognizer;
 
 class parser {
 public:
+	void start_workers(int threadCount);
 	parser(int threadCount = std::thread::hardware_concurrency());
 	~parser();
+	static abstract_syntax_graph construct_result_and_postprocess(recognizer const & overrideMain, std::vector<post_processor> posts, std::u32string const & document, details::job const & j);
 	abstract_syntax_graph parse(grammar_base const & g, recognizer const & overrideMain, std::vector<post_processor> posts, std::u32string const & document);
 	abstract_syntax_graph parse(grammar_base const & g, recognizer const & overrideMain, std::u32string const & document);
 	abstract_syntax_graph parse(grammar_base const & g, std::vector<post_processor> posts, std::u32string const & document);

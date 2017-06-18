@@ -19,7 +19,7 @@ subjob::subjob(
 	machine(machine),
 	lifetimeCounter(1) //see finish_creation
 {
-	DBG("constructed subjob b:", documentPosition, " m:", machine);
+	//DBG("constructed subjob b:", documentPosition, " m:", machine);
 }
 
 subjob::~subjob() {
@@ -62,7 +62,7 @@ void subjob::accept(context_ref const & c) {
 	}
 	throw_assert(&c.owner() == this);
 	permutation p = c.result();
-	DBG("Accepting r:", r.id, " p:", c.owner().document_position, " l:", c.current_document_position() - c.owner().document_position);
+	//DBG("Accepting r:", r.id, " p:", c.owner().document_position, " l:", c.current_document_position() - c.owner().document_position);
 	if (!machine.get_filter()) {
 		enque_permutation(len, p);
 	} else {
