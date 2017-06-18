@@ -23,7 +23,7 @@ struct nfa {
 	template <typename X, typename Y, typename Z>
 	friend struct nfa;
 
-	typedef std::set<int> state_indices_t;
+	using state_indices_t = std::set<int>;
 
 	struct state {
 		label_t label;
@@ -82,7 +82,7 @@ struct nfa {
 
 	std::string to_dot() const {
 		std::string result;
-		auto_map<int, std::string> nodeNames([](int x) { return "state" + std::to_string(x); });
+		auto_map_c<int, std::string> nodeNames([](int x) { return "state" + std::to_string(x); });
 
 		result.append("digraph nfa {\n");
 		result.append("\trankdir=LR\n;");
@@ -106,7 +106,7 @@ struct nfa {
 			result.append(nodeNames(t.from));
 			result.append(" -> ");
 			result.append(nodeNames(t.to));
-			result.append(" [ label = \"");
+			result.append(R"( [ label = ")");
 			result.append(t.symbol.to_string());
 			result.append("\" ];\n");
 		}
@@ -209,8 +209,7 @@ struct nfa {
 		return result;
 	}
 
-	nfa() {
-	}
+	nfa() = default;
 
 	nfa(nfa const & other) = default;
 

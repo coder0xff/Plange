@@ -2,6 +2,7 @@
 
 #include "parlex/builder.hpp"
 #include "parlex/builtins.hpp"
+#include "utf.hpp"
 
 namespace parlex {
 

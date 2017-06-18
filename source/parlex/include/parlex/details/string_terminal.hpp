@@ -2,7 +2,6 @@
 #define STRING_TERMINAL_HPP
 
 #include "parlex/terminal.hpp"
-#include "utils.hpp"
 
 namespace parlex {
 namespace details {
@@ -11,7 +10,7 @@ class string_terminal : public terminal {
 public:
 	string_terminal(std::u32string const & s);
 
-	virtual ~string_terminal() = default;
+	~string_terminal() override = default;
 
 	bool test(std::u32string const & document, size_t documentPosition) const override final;
 

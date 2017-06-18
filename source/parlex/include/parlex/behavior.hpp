@@ -17,7 +17,7 @@ using nfa2 = details::nfa<leaf const *, int>;
 class node {
 public:
 	virtual ~node() = default;
-	typedef std::vector<erased<node>> children_t;
+	using children_t = std::vector<erased<node>>;
 	std::string tag;
 	void add_child(erased<node> child);
 	children_t const& get_children() const;

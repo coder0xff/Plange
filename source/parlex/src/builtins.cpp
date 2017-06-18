@@ -2,6 +2,7 @@
 #include <mutex>
 
 #include "parlex/builtins.hpp"
+#include "utf.hpp"
 
 namespace parlex {
 namespace details {

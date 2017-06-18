@@ -33,13 +33,14 @@ void producer::do_events() {
 		subjob & targetSubjob = subscription.c.owner();
 		while (subscription.next_index < match_to_permutations.size()) {
 			auto & match = matches[subscription.next_index];
-			//TODO: only push if leaf != nullptr
-			match.leafs.push_front(subscription.leaf);
+			if (subscription.leaf != nullptr) {
+				match.leafs.push_front(subscription.leaf);
+			}
 			subscription.next_index++;
 			context_ref next = targetSubjob.construct_stepped_context(subscription.c, match);
 			targetSubjob.increment_lifetime(); //reference code A - the target may not halt until this is handled
 			parser.schedule(next, subscription.next_dfa_state);
-		};
+		}
 	}
 	if (completed) {
 		std::list<subscription> temp;

@@ -4,6 +4,7 @@
 
 #include "parlex/recognizer.hpp"
 #include "utils.hpp"
+#include "utf.hpp"
 
 namespace parlex {
 

@@ -5,6 +5,7 @@
 
 #include "utils.hpp"
 #include "parlex/builder.hpp"
+#include "utf.hpp"
 
 namespace parlex {
 namespace details {

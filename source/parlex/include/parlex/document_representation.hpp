@@ -2,39 +2,33 @@
 #define DOCUMENT_REPRESENTATION_HPP
 
 #include <map>
-#include <memory>
-#include <vector>
+
+#include "builder.hpp"
 
 namespace parlex {
-
-struct node {
-	std::vector<std::shared_ptr<node>> parents;
+namespace builder {
+	
+// represents a unit type that can reduce a parent to a simpler type 
+struct unit_t : node {
+	
 };
 
-struct type_node : node {
-	std::string name;
-	std::map<std::string, std::shared_ptr<node>> elements;
+struct aggregate_t : node {
+	std::map<std::string, erased<node> const *> data_members;
 };
 
-struct vector_node : node {
-	std::string user_tag;
-	std::shared_ptr<node> child;
+struct field {
+	node const * behavior;
+};
+	
+struct struct_t {
+	std::map<std::string, field> fields;
 };
 
-struct option_node : node {
-	std::string user_tag;
-	std::shared_ptr<node> child;
-};
+// simplify builder nodes into struct-like representations
+erased<node> simplify(grammar g);
 
-struct variant_node : node {
-	std::string user_tag;
-	std::vector<std::shared_ptr<node>> children;
-};
-
-struct terminal_node : node {
-	std::string user_tag;
-};
-
+} // namespace builder
 } // namespace parlex
 
 #endif //DOCUMENT_REPRESENTATION_HPP

@@ -5,5 +5,5 @@ link_directories("${DEP_DIR}/googletest/lib")
 
 add_executable(parlex_test "test.cpp")
 target_link_libraries(parlex_test gtest gtest_main parlex utilities)
-set_property(TARGET parlex_test PROPERTY CXX_STANDARD 11)
+set_property(TARGET parlex_test PROPERTY CXX_STANDARD 17)
 set_property(TARGET parlex_test PROPERTY CXX_STANDARD_REQUIRED ON)

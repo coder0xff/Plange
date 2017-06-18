@@ -5,6 +5,7 @@
 
 #include "parlex/details/context.hpp"
 #include "parlex/details/job.hpp"
+#include "logging.hpp"
 
 namespace parlex {
 namespace details {
@@ -18,7 +19,7 @@ subjob::subjob(
 	machine(machine),
 	lifetimeCounter(1) //see finish_creation
 {
-	//DBG("constructed subjob b:", documentPosition, " m:", machine);
+	DBG("constructed subjob b:", documentPosition, " m:", machine);
 }
 
 subjob::~subjob() {
@@ -56,12 +57,12 @@ void subjob::on(context_ref const & c, recognizer const & r, int nextDfaState, b
 
 void subjob::accept(context_ref const & c) {
 	int len = c.current_document_position() - c.owner().document_position;
-	if (!len) {
+	if (len == 0) {
 		return;
 	}
 	throw_assert(&c.owner() == this);
 	permutation p = c.result();
-	//DBG("Accepting r:", r.id, " p:", documentPosition, " l:", c.current_document_position() - documentPosition);
+	DBG("Accepting r:", r.id, " p:", c.owner().document_position, " l:", c.current_document_position() - c.owner().document_position);
 	if (!machine.get_filter()) {
 		enque_permutation(len, p);
 	} else {

@@ -11,7 +11,7 @@
 namespace parlex {
 
 struct abstract_syntax_graph {
-	abstract_syntax_graph(match root);
+	explicit abstract_syntax_graph(match root);
 	std::map<match, std::set<permutation>> permutations;
 	match root;
 	bool is_rooted() const;

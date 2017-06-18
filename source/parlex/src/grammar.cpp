@@ -7,6 +7,7 @@
 #include "parlex/builtins.hpp"
 
 #include "utils.hpp"
+#include "utf.hpp"
 
 namespace parlex {
 

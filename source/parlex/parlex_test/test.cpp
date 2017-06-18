@@ -10,6 +10,7 @@
 #include "parlex/state_machine.hpp"
 
 #include "utils.hpp"
+#include "utf.hpp"
 
 
 using namespace parlex;
@@ -374,7 +375,7 @@ TEST(ParlexTest, wirth_test_9) {
 TEST(ParlexTest, wirth_test_10) {
 	parser p;
 	correlated_grammar grammar(p.builtins, p.builtins.wirth.load_grammar("ARRAY", U"\
-ARRAY = \"[\" {IC} [EXPRESSION {{IC} \", \" {IC} EXPRESSION} {IC} ] \"]\".\
+ARRAY = \"[\" [EXPRESSION { \", \" EXPRESSION} ] \"]\".\
 IC = \"IC\".\
 EXPRESSION = \"EXPRESSION\".", {}, {}));
 	abstract_syntax_graph result = p.parse(grammar, U"[]");
