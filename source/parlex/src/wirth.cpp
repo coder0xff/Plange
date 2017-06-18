@@ -108,7 +108,7 @@ erased<builder::node> wirth_t::process_expression2(std::u32string const & docume
 erased<builder::node> wirth_t::compile_source(std::u32string const & source) {
 	auto asg = p.parse(*this, expressionDfa, source);
 	if (!asg.is_rooted()) {
-		throw std::exception("could not parse expression");
+		throw std::runtime_error("could not parse expression");
 	}
 	//auto test = asg.to_dot(); //TODO: Make sure this is commented out
 	return process_expression2(source, asg.root, asg);
@@ -144,7 +144,7 @@ builder::grammar wirth_t::load_grammar(std::string const & rootId, std::map<std:
 		auto const & definition = entry.second;
 		auto res = names.insert(entry.first);
 		if (!res.second) {
-			throw std::exception(("duplicate reference ID " + id).c_str());
+			throw std::runtime_error(("duplicate reference ID " + id).c_str());
 		}
 		builder::production resultDefinition(id, compile_source(definition.source), definition.assoc, definition.filter, definition.precedences);
 		resultDefinition.id = id;
@@ -170,7 +170,7 @@ builder::grammar wirth_t::load_grammar(std::string const & rootId, std::u32strin
 			std::string const name = to_utf8(u32Name);
 			auto res = names.insert(u32Name);
 			if (!res.second) {
-				throw std::exception(("duplicate reference ID " + name).c_str());
+				throw std::runtime_error(("duplicate reference ID " + name).c_str());
 			}
 			std::u32string source;
 			for (match const & entry2 : *(*asg.permutations.find(entry)).second.begin()) {

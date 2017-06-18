@@ -1,6 +1,8 @@
 #ifndef MATCH_CLASS_HPP
 #define MATCH_CLASS_HPP
 
+#include <cstddef>
+
 namespace parlex {
 
 class recognizer;

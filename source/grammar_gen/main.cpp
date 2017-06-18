@@ -14,6 +14,8 @@
 #include "parlex/parser.hpp"
 #include "parlex/grammar.hpp"
 #include "parlex/builtins.hpp"
+#include "parlex/builder.hpp"
+#include "utf.hpp"
 
 inline std::string trim(std::string str)
 {
@@ -69,10 +71,11 @@ int main(int argc, const char* argv[]) {
 				precedences.insert(element.as<std::string>());
 			}
 		}
-		defs[name] = parlex::details::wirth_t::production(source, assoc, filter, precedences);
+		defs.emplace(std::piecewise_construct, forward_as_tuple(name), forward_as_tuple(source, assoc, filter, precedences));
 	}
-	std::unique_ptr<parlex::correlated_grammar> g = p.builtins.wirth.load_grammar("STATEMENT_SCOPE", defs);
+	parlex::builder::grammar g = p.builtins.wirth.load_grammar("STATEMENT_SCOPE", defs);
 	std::ofstream cppStream(workingDir + "/plc/src/plange_grammar.cpp");
 	std::ofstream hppStream(workingDir + "/plc/include/plange_grammar.hpp");
-	g.generate_cplusplus_code(p.builtins, "plange", "STATEMENT_SCOPE", cppStream, hppStream, "plc");
+	throw std::logic_error("not implemented");
+	//g.generate_cplusplus_code(p.builtins, "plange", "STATEMENT_SCOPE", cppStream, hppStream, "plc");
 }

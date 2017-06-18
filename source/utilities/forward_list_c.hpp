@@ -43,13 +43,15 @@ constexpr std::memory_order combine_memory_order(std::memory_order loadOrder, st
 template <class T>
 class forward_list_c {
 
+public:
 	template <class U>
 	class ForwardIterator;
 
+private:
 	class node;
 
-	static constexpr node * terminal = (node*)details::forward_list_c_details::dead;
-	static constexpr node * spin = (node*)details::forward_list_c_details::spin;
+	static node * terminal() { return (node*)::details::forward_list_c_details::dead; }
+	static node * spin() { return (node*)::details::forward_list_c_details::spin; }
 
 	class node {
 	public:
@@ -58,21 +60,21 @@ class forward_list_c {
 		std::atomic<node*> next;
 		std::atomic<int> referenceCount; // for keeping a node referenced by an iterator alive
 
-		node(T const & value) : value(value), next(terminal), referenceCount(1) {
+		node(T const & value) : value(value), next(terminal()), referenceCount(1) {
 		}
 
-		node(T && value) : value(std::move(value)), next(terminal), referenceCount(1) {
+		node(T && value) : value(std::move(value)), next(terminal()), referenceCount(1) {
 		}
 
 		template <class... U>
-		node(U&& ... params) : value(std::forward<U>(params)...), next(terminal), referenceCount(1) {
+		node(U&& ... params) : value(std::forward<U>(params)...), next(terminal()), referenceCount(1) {
 		}
 
 		~node() {			
 			node * n = owner_lock(next, std::memory_order_seq_cst); // change next to spin
-			if (n != terminal) {
+			if (n != terminal()) {
 				decrement_reference_count(n, std::memory_order_seq_cst, std::memory_order_seq_cst); // release ownership of next
-				next.store(terminal, std::memory_order_relaxed); // observer will see spin until terminal
+				next.store(terminal(), std::memory_order_relaxed); // observer will see spin until terminal
 			}
 		}
 	};
@@ -80,8 +82,8 @@ class forward_list_c {
 	// lock free, increment node::referenceCount, used for iterator and for prior-node's link
 	static void decrement_reference_count(node *& n, std::memory_order loadOrder, std::memory_order storeOrder) {
 		throw_assert(n != nullptr);
-		throw_assert(n != terminal); // not a valid node
-		throw_assert(n != spin); // not a valid node
+		throw_assert(n != terminal()); // not a valid node
+		throw_assert(n != spin()); // not a valid node
 		if (n->referenceCount.fetch_sub(1, ::details::forward_list_c_details::combine_memory_order(loadOrder, storeOrder)) == 1) {
 			delete n;
 		}
@@ -92,8 +94,8 @@ class forward_list_c {
 	// return a new "ownership"
 	static node* increment_reference_count(node * n, std::memory_order loadOrder, std::memory_order storeOrder) {
 		throw_assert(n != nullptr);
-		throw_assert(n != terminal);
-		throw_assert(n != spin);
+		throw_assert(n != terminal());
+		throw_assert(n != spin());
 		n->referenceCount.fetch_add(1, details::forward_list_c_details::combine_memory_order(loadOrder, storeOrder));
 		return n;
 	}
@@ -101,10 +103,10 @@ class forward_list_c {
 	// lock free, swap the node *s in left and right, 
 	static void exchange(std::atomic<node*> & left, node * & right, std::memory_order loadOrder, std::memory_order storeOrder) {
 		throw_assert(right != nullptr);
-		throw_assert(right != spin); // invalid node
+		throw_assert(right != spin()); // invalid node
 		node * n = left.load(loadOrder);
 		do {
-			while (n == spin) {
+			while (n == spin()) {
 				n = left.load(loadOrder);
 			}
 		} while (!left.compare_exchange_weak(n, right, storeOrder, loadOrder));
@@ -116,10 +118,10 @@ class forward_list_c {
 	static void exchange(std::atomic<node*> & left, std::atomic<node*> & right, std::memory_order loadOrder, std::memory_order storeOrder) {
 		node * temp = owner_lock(left, loadOrder);
 		exchange(right, temp, loadOrder, storeOrder);
-		if (temp != terminal) {
+		if (temp != terminal()) {
 			owner_unlock(left, temp, storeOrder);
 		} else {
-			left.store(terminal, storeOrder);
+			left.store(terminal(), storeOrder);
 		}
 	}
 
@@ -128,15 +130,15 @@ class forward_list_c {
 	static node* owner_lock(std::atomic<node*> & atomic_ptr, std::memory_order loadOrder) {
 		node * n = atomic_ptr.load(loadOrder);
 		do {
-			while (n == spin) { // wait for owner_unlock
+			while (n == spin()) { // wait for owner_unlock
 				n = atomic_ptr.load(loadOrder);
 			}
-		} while (!atomic_ptr.compare_exchange_weak(n, spin, std::memory_order_release)); // weak and no acquire because lock can occur at systems leisure, release because observers must see spin immediately
+		} while (!atomic_ptr.compare_exchange_weak(n, spin(), std::memory_order_release)); // weak and no acquire because lock can occur at systems leisure, release because observers must see spin immediately
 		// n has been updated to final value (per loadOrder) before atomic_ptr was set to spin
-		if (n == terminal) { // the node has been deleted already
+		if (n == terminal()) { // the node has been deleted already
 			// put terminal back in to owner_unlock
-			atomic_ptr.store(terminal, std::memory_order_relaxed); // relaxed because observer will see spin if not terminal
-			return terminal;
+			atomic_ptr.store(terminal(), std::memory_order_relaxed); // relaxed because observer will see spin if not terminal
+			return terminal();
 		} // else stays locked
 		return n;
 	}
@@ -145,8 +147,8 @@ class forward_list_c {
 	// "ownership" is transfered from n to atomic_ptr
 	static void owner_unlock(std::atomic<node*> & atomic_ptr, node * & n, std::memory_order storeOrder) {
 		throw_assert(n != nullptr);
-		throw_assert(n != spin);
-		throw_assert(atomic_ptr.load(std::memory_order_relaxed) == spin); // relaxed because it was set to spin by the current thread
+		throw_assert(n != spin());
+		throw_assert(atomic_ptr.load(std::memory_order_relaxed) == spin()); // relaxed because it was set to spin by the current thread
 		atomic_ptr.store(n, storeOrder);
 		n = nullptr; // make sure the caller cant use the pointer anymore
 	}
@@ -154,10 +156,10 @@ class forward_list_c {
 	// NOT lock free, 
 	static node* new_ownership(std::atomic<node*> & atomic_ptr, std::memory_order loadOrder, std::memory_order storeOrder) {
 		node * temp = owner_lock(atomic_ptr, loadOrder);
-		if (temp == terminal) {
-			return terminal;
+		if (temp == terminal()) {
+			return terminal();
 		}
-		node * result = temp != terminal ? increment_reference_count(temp, loadOrder, storeOrder) : terminal;
+		node * result = temp != terminal() ? increment_reference_count(temp, loadOrder, storeOrder) : terminal();
 		owner_unlock(atomic_ptr, temp, storeOrder);
 		return result;
 	}
@@ -175,72 +177,72 @@ public:
 		typedef U * pointer;
 
 	public:
-		ForwardIterator() : current(terminal) {
+		ForwardIterator() : current(terminal()) {
 		}
 
-		ForwardIterator(node * n) : current(n != terminal ? increment_reference_count(n, std::memory_order_seq_cst, std::memory_order_seq_cst) : terminal) {
+		ForwardIterator(node * n) : current(n != terminal() ? increment_reference_count(n, std::memory_order_seq_cst, std::memory_order_seq_cst) : terminal()) {
 		}
 
-		ForwardIterator(ForwardIterator const & other) : current(other.current != terminal ? increment_reference_count(other.current, std::memory_order_seq_cst, std::memory_order_seq_cst) : terminal) {
+		ForwardIterator(ForwardIterator const & other) : current(other.current != terminal() ? increment_reference_count(other.current, std::memory_order_seq_cst, std::memory_order_seq_cst) : terminal()) {
 		}
 
-		ForwardIterator(ForwardIterator && other) noexcept : current(terminal) { std::swap(current, other.current); }
+		ForwardIterator(ForwardIterator && other) noexcept : current(terminal()) { std::swap(current, other.current); }
 
 		~ForwardIterator() {
-			if (current == terminal) {
+			if (current == terminal()) {
 				return;
 			}
 			decrement_reference_count(current, std::memory_order_seq_cst, std::memory_order_seq_cst);
 		}
 
 		ForwardIterator& operator=(ForwardIterator const & other) {
-			if (current != terminal) {
+			if (current != terminal()) {
 				decrement_reference_count(current, std::memory_order_seq_cst, std::memory_order_seq_cst);
 			}
-			current = other.current != terminal ? increment_reference_count(other.current, std::memory_order_seq_cst, std::memory_order_seq_cst) : terminal;
+			current = other.current != terminal() ? increment_reference_count(other.current, std::memory_order_seq_cst, std::memory_order_seq_cst) : terminal();
 			return *this;
 		}
 
 		T & operator*() { 
-			if (current == terminal) {
+			if (current == terminal()) {
 				throw std::logic_error("invalid iterator");
 			}
 			return current->value;
 		}
 
 		T const & operator*() const {
-			if (current == terminal) {
+			if (current == terminal()) {
 				throw std::logic_error("invalid iterator");
 			}
 			return current->value;
 		}
 
 		T * operator->()  {
-			if (current == terminal) {
+			if (current == terminal()) {
 				throw std::logic_error("invalid iterator");
 			}
 			return &current->value;
 		}
 
 		T const * operator->() const { 
-			if (current == terminal) {
+			if (current == terminal()) {
 				throw std::logic_error("invalid iterator");
 			}
 			return &current->value;
 		}
 
 		ForwardIterator operator++() {
-			throw_assert(current != terminal); // this is the end()
+			throw_assert(current != terminal()); // this is the end()
 			node * temp = new_ownership(current->next, std::memory_order_seq_cst, std::memory_order_seq_cst);
 			std::swap(current, temp);
-			if (temp != terminal) {
+			if (temp != terminal()) {
 				decrement_reference_count(temp, std::memory_order_seq_cst, std::memory_order_seq_cst);
 			}
 			return *this;
 		}
 
 		ForwardIterator operator++(int) {
-			throw_assert(current != terminal); // this is the end()
+			throw_assert(current != terminal()); // this is the end()
 			ForwardIterator temp = *this;
 			++*this;
 			return temp;
@@ -272,11 +274,11 @@ public:
 	typedef ForwardIterator<T> iterator;
 	typedef ForwardIterator<const T> const_iterator;
 
-	forward_list_c() : first(terminal) {
+	forward_list_c() : first(terminal()) {
 	}
 
-	forward_list_c(forward_list_c const & copy) : first(terminal) {
-		if (first == terminal) {
+	forward_list_c(forward_list_c const & copy) : first(terminal()) {
+		if (first == terminal()) {
 			return;
 		}
 		std::atomic<node *> * nextPtr = &first;
@@ -288,7 +290,7 @@ public:
 		}
 	}
 
-	forward_list_c(forward_list_c&& move) noexcept : first(terminal) {
+	forward_list_c(forward_list_c&& move) noexcept : first(terminal()) {
 		exchange(move.first, first, std::memory_order_seq_cst, std::memory_order_seq_cst);
 	}
 
@@ -298,26 +300,26 @@ public:
 
 	// lock free
 	bool empty(std::memory_order loadOrder = std::memory_order_seq_cst) {
-		return first.load(loadOrder) == terminal;
+		return first.load(loadOrder) == terminal();
 	}
 
 	// lock free
 	// iterators will still contain correct values,
 	// but incrementing them or inserting after them will result in the end() iterator
 	int clear(std::memory_order loadOrder = std::memory_order_seq_cst, std::memory_order storeOrder = std::memory_order_seq_cst) {
-		node * current = terminal;
+		node * current = terminal();
 		// detach the elements first so that blocking is minimal
 		exchange(first, current, loadOrder, storeOrder);
-		if (current == terminal) {
+		if (current == terminal()) {
 			return 0;
 		}
 		// if we just delete the first node, it may cascade down all the
 		// subsequent nodes. This would be fine, if not for the possibility
 		// of blowing the stack. Instead we delete them in reverse.
 		std::vector<node*> nodes;
-		while (current != terminal) {
+		while (current != terminal()) {
 			nodes.push_back(current);
-			node * temp = terminal;
+			node * temp = terminal();
 			// take ownership of the next node
 			exchange(current->next, temp, loadOrder, storeOrder);
 			current = temp;
@@ -336,21 +338,21 @@ public:
 	int locked_clear(std::memory_order loadOrder = std::memory_order_seq_cst, std::memory_order storeOrder = std::memory_order_seq_cst) {
 		std::list<node*> nodes;
 		{
-			node * i = terminal;
+			node * i = terminal();
 			exchange(first, i, loadOrder, storeOrder);
 			// if we just delete the first node, it may cascade down all the
 			// subsequent nodes. This would be fine, if not for the possibility
 			// of blowing the stack. Instead we delete them in reverse.
 			while (i) {
 				nodes.push_back(i);
-				node * temp = spin;
+				node * temp = spin();
 				exchange(i->next, temp, loadOrder, storeOrder); // lock all the nodes
 				i = temp;
 			}
 		}
 		for (auto const & i = nodes.rbegin(); i != nodes.rend(); ++i) {
 			decrement_reference_count(*i, loadOrder, storeOrder); // remove prior nodes reference
-			i->next.store(terminal, storeOrder); // unlink
+			i->next.store(terminal(), storeOrder); // unlink
 		}
 		return nodes.size(); // return number of delete elements
 	}
@@ -369,7 +371,7 @@ public:
 	// lock free
 	iterator push_front(T && value, std::memory_order loadOrder = std::memory_order_seq_cst, std::memory_order storeOrder = std::memory_order_seq_cst) {
 		auto result = insert_node(first, new node(std::move(value)), loadOrder, storeOrder);
-		return throw_assert(result.current != terminal);
+		return throw_assert(result.current != terminal());
 	}
 
 	// lock free
@@ -405,7 +407,7 @@ public:
 	// NOT lock free
 	const_iterator begin(std::memory_order loadOrder = std::memory_order_seq_cst, std::memory_order storeOrder = std::memory_order_seq_cst) const {
 		node * n = new_ownership(first, loadOrder, storeOrder);
-		if (n == terminal) {
+		if (n == terminal()) {
 			return end();
 		}
 		const_iterator result(n);
@@ -506,39 +508,39 @@ private:
 
 	// lock-free, removes all the nodes from *atomic_ptr forward, and returns that node with links still intact
 	static node* seperate(std::atomic<node*> & atomic_ptr, std::memory_order loadOrder, std::memory_order storeOrder) {
-		node * oldNext = terminal;
+		node * oldNext = terminal();
 		exchange(atomic_ptr, oldNext, loadOrder, storeOrder);
 		return oldNext;
 	}
 
 	static void concat(std::atomic<node*> & first, node * n, std::memory_order loadOrder, std::memory_order storeOrder) {
-		if (n == terminal) return;
+		if (n == terminal()) return;
 		std::atomic<node*> * atomic_ptr_ptr = &first;
-		node * temp = terminal;
+		node * temp = terminal();
 		while (!atomic_ptr_ptr->compare_exchange_weak(temp, n, storeOrder, loadOrder)) {
-			while ((temp = atomic_ptr_ptr->load(reinterpret_cast<node*>(loadOrder))) == spin); // empty loop
-			if (temp == terminal) { // start over
+			while ((temp = atomic_ptr_ptr->load(reinterpret_cast<node*>(loadOrder))) == spin()); // empty loop
+			if (temp == terminal()) { // start over
 				atomic_ptr_ptr = &first;
-				temp = terminal;
+				temp = terminal();
 			} else {
 				atomic_ptr_ptr = &temp->next;
-				temp = terminal;
+				temp = terminal();
 			}
 		}
 	}
 
 	static bool remove_node(std::atomic<node*> & atomic_ptr, T & value, std::memory_order loadOrder, std::memory_order storeOrder) {
 		node * x = owner_lock(atomic_ptr, loadOrder);
-		if (x == terminal) {
-			if (atomic_ptr.load(loadOrder) == terminal) return false;
-			node * temp = terminal;
+		if (x == terminal()) {
+			if (atomic_ptr.load(loadOrder) == terminal()) return false;
+			node * temp = terminal();
 			owner_unlock(atomic_ptr, temp, storeOrder, loadOrder);
 			return false;
 		}
 		value = x->value;
 		node * y = owner_lock(x->next, loadOrder);
 		owner_unlock(atomic_ptr, y, loadOrder, storeOrder);
-		node * temp = terminal;
+		node * temp = terminal();
 		owner_unlock(x->next, temp, loadOrder, storeOrder);
 		decrement_reference_count(x, loadOrder, storeOrder);
 		return true;

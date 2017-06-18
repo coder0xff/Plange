@@ -11,7 +11,7 @@ correlated_grammar::production::production(std::string const & id, filter_functi
 
 
 void correlated_grammar::production::set_behavior(erased<behavior::node> const & behavior) {
-	this->behavior.swap(move(behavior.clone()));
+	this->behavior = behavior.clone();
 	state_machine.set_behavior(*this->behavior);
 }
 

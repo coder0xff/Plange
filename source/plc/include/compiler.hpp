@@ -1,15 +1,12 @@
 #ifndef PLC_UTILS_HPP
 #define PLC_UTILS_HPP
 
-#include <vector>
-
-#include "match.hpp"
-
-#include "module.hpp"
+#include "source_code.hpp"
 
 namespace plc {
+class module;
 
-	class compiler
+class compiler
 	{
 	public:
 		compiler();

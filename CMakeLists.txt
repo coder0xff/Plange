@@ -1,24 +1,33 @@
-cmake_minimum_required (VERSION 2.6)
+cmake_minimum_required (VERSION 3.8)
 include(ExternalProject)
 
 set(CMAKE_MODULE_PATH "${CMAKE_MODULE_PATH}" "${CMAKE_SOURCE_DIR}/cmake/Modules/")
 
-ExternalProject_Add(yaml-cpp
-	PREFIX "${CMAKE_BINARY_DIR}/Downloads/yaml-cpp" 
-	GIT_REPOSITORY "https://github.com/jbeder/yaml-cpp.git"
-	GIT_TAG 519d33fea3fbcbe7e1f89f97ee0fa539cec33eb7
-	BINARY_DIR "${CMAKE_BINARY_DIR}/Downloads/yaml-cpp/build"
-	CMAKE_ARGS "-DCMAKE_INSTALL_PREFIX=${CMAKE_BINARY_DIR}/Dependencies/yaml-cpp"
-)
+find_package(YAML-CPP QUIET)
+if (NOT YAML-CPP_FOUND)
+	set(YAML-CPP_INSTALL_TARGET "yaml-cpp")
+	ExternalProject_Add(yaml-cpp
+		PREFIX "${CMAKE_BINARY_DIR}/Downloads/yaml-cpp" 
+		GIT_REPOSITORY "https://github.com/jbeder/yaml-cpp.git"
+		GIT_TAG 519d33fea3fbcbe7e1f89f97ee0fa539cec33eb7
+		BINARY_DIR "${CMAKE_BINARY_DIR}/Downloads/yaml-cpp/build"
+		CMAKE_ARGS "-DCMAKE_INSTALL_PREFIX=${CMAKE_BINARY_DIR}/Dependencies/yaml-cpp"
+	)
+endif()
 
-ExternalProject_Add(llvm
-	PREFIX "${CMAKE_BINARY_DIR}/Downloads/llvm"
-	GIT_REPOSITORY "https://github.com/llvm-mirror/llvm.git"
-	GIT_TAG "release_39"
-	BINARY_DIR "${CMAKE_BINARY_DIR}/Downloads/llvm/${CMAKE_CFG_INTDIR}/build"
-	CMAKE_ARGS "-DCMAKE_INSTALL_PREFIX=${CMAKE_BINARY_DIR}/Dependencies/llvm" "-DLLVM_TARGETS_TO_BUILD=X86" "-DLLVM_ENABLE_RTTI=ON"
-)
+find_package(LLVM 3.9.1 QUIET)
+if (NOT LLVM_FOUND)
+	set(LLVM_INSTALL_TARGET "llvm")
+	ExternalProject_Add(llvm
+		PREFIX "${CMAKE_BINARY_DIR}/Downloads/llvm"
+		GIT_REPOSITORY "https://github.com/llvm-mirror/llvm.git"
+		GIT_TAG "release_39"
+		BINARY_DIR "${CMAKE_BINARY_DIR}/Downloads/llvm/${CMAKE_CFG_INTDIR}/build"
+		CMAKE_ARGS "-DCMAKE_INSTALL_PREFIX=${CMAKE_BINARY_DIR}/Dependencies/llvm" "-DLLVM_TARGETS_TO_BUILD=X86" "-DLLVM_ENABLE_RTTI=ON"
+	)
+endif()
 
+# don't bother with find_package, because it does not include the libraries https://askubuntu.com/questions/145887/why-no-library-files-installed-for-google-test
 ExternalProject_Add(googletest
 	PREFIX "${CMAKE_BINARY_DIR}/Downloads/googletest"
 	GIT_REPOSITORY "https://github.com/google/googletest.git"
@@ -28,9 +37,9 @@ ExternalProject_Add(googletest
 )
 
 ExternalProject_Add(plange
-	DEPENDS yaml-cpp llvm googletest
+	DEPENDS ${YAML-CPP_INSTALL_TARGET} ${LLVM_INSTALL_TARGET} googletest
 	PREFIX "${CMAKE_BINARY_DIR}/prefix"
 	SOURCE_DIR "${PROJECT_SOURCE_DIR}/source"
-	CMAKE_ARGS "-DCMAKE_INSTALL_PREFIX=${CMAKE_BINARY_DIR}"
+	CMAKE_ARGS "-DCMAKE_INSTALL_PREFIX=${CMAKE_BINARY_DIR}" "-DCMAKE_CXX_COMPILER=${CMAKE_CXX_COMPILER}"
 	INSTALL_COMMAND ""
 )

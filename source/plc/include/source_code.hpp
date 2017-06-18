@@ -1,7 +1,7 @@
 #ifndef SOURCE_CODE_HPP
 #define SOURCE_CODE_HPP
 
-#include "parser.hpp"
+#include "parlex/parser.hpp"
 
 namespace plc {
 

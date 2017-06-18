@@ -1,6 +1,6 @@
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${PROJECT_SOURCE_DIR}/cmake/Modules/")
 
-find_package(yaml-cpp HINTS "${CMAKE_BINARY_DIR}/yaml-cpp/CMake")
+find_package(yaml-cpp REQUIRED HINTS "${CMAKE_BINARY_DIR}/yaml-cpp/CMake")
 
 set(SOURCES
 	"main.cpp")

@@ -83,7 +83,28 @@ abstract_syntax_graph parser::construct_result_and_postprocess(recognizer const 
 	return result;
 }
 
-abstract_syntax_graph parser::parse(grammar_base const & g, recognizer const & overrideMain, std::vector<post_processor> posts, std::u32string const & document) {
+void parser::complete_progress_handler(std::u32string const & document) const {
+	if (update_progress_handler) {
+		update_progress_handler(document.length() + 1, document.length() + 1);
+	}
+}
+
+abstract_syntax_graph parser::single_thread_parse(grammar_base const & g, recognizer const & overrideMain, std::vector<post_processor> posts, std::u32string const & document) {
+	//perf_timer timer("parse");
+	details::job j(*this, document, g, overrideMain);
+	throw_assert(activeCount > 0);
+	while (true) {
+		//DBG("parser is idle; checking for deadlocks");
+		if (handle_deadlocks(j)) {
+			break;
+		}
+	}
+	throw_assert(activeCount == 0);
+	complete_progress_handler(document);
+	return construct_result_and_postprocess(overrideMain, posts, document, j);
+}
+
+abstract_syntax_graph parser::multi_thread_parse(grammar_base const & g, recognizer const & overrideMain, std::vector<post_processor> posts, std::u32string const & document) {
 	//perf_timer timer("parse");
 	std::unique_lock<std::mutex> lock(mutex); //use the lock to make sure we see activeCount != 0
 	details::job j(*this, document, g, overrideMain);
@@ -98,10 +119,12 @@ abstract_syntax_graph parser::parse(grammar_base const & g, recognizer const & o
 		}
 	}
 	throw_assert(activeCount == 0);
-	if (update_progress_handler) {
-		update_progress_handler(document.length() + 1, document.length() + 1);
-	}
+	complete_progress_handler(document);
 	return construct_result_and_postprocess(overrideMain, posts, document, j);
+}
+
+abstract_syntax_graph parser::parse(grammar_base const & g, recognizer const & overrideMain, std::vector<post_processor> posts, std::u32string const & document) {
+	return multi_thread_parse(g, overrideMain, posts, document);
 }
 
 abstract_syntax_graph parser::parse(grammar_base const & g, recognizer const & overrideMain, std::u32string const & document) {
@@ -418,6 +441,7 @@ void select_trees(abstract_syntax_graph & asg, grammar_base const & g, std::map<
 	}
 	for (size_t height = 1; height < orderedMatchesByHeight.size(); ++height) {
 		std::set<match> const & matches = orderedMatchesByHeight[height];
+		std::set<match> preservedIntersections; //needs to be define well before use due to gotos skipping initializtion
 		for (match const & m : matches) {
 			bool anyPermutationSelected = false;
 			node_props_t * a;
@@ -441,9 +465,11 @@ void select_trees(abstract_syntax_graph & asg, grammar_base const & g, std::map<
 					break;
 				}
 			}
+
 			if (!anyPermutationSelected) {
 				goto matchLoop; //continue
 			}
+
 			//is it possibly preempted by another match that it intersects with?
 			for (match const & intersected : a->allIntersections) {
 				auto pair = nodes.find(intersected);
@@ -456,7 +482,7 @@ void select_trees(abstract_syntax_graph & asg, grammar_base const & g, std::map<
 			}
 
 			a->selected = true;
-			std::set<match> const & preservedIntersections = a->allIntersections;
+			preservedIntersections = a->allIntersections; //needs to be defined well before use, because of gotos skipping initialization otherwise
 			for (match const & intersected : preservedIntersections) {
 				auto const & pair = nodes.find(intersected);
 				if (pair == nodes.end()) {
