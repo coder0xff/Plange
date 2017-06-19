@@ -30,13 +30,8 @@ class recognizer;
 
 class parser {
 public:
-	void start_workers(int threadCount);
-	parser(int threadCount = std::thread::hardware_concurrency());
+	parser(unsigned threadCount = std::thread::hardware_concurrency());
 	~parser();
-	static abstract_syntax_graph construct_result_and_postprocess(recognizer const & overrideMain, std::vector<post_processor> posts, std::u32string const & document, details::job const & j);
-	void complete_progress_handler(std::u32string const & document) const;
-	abstract_syntax_graph single_thread_parse(grammar_base const & g, recognizer const & overrideMain, std::vector<post_processor> posts, std::u32string const & document);
-	abstract_syntax_graph multi_thread_parse(grammar_base const & g, recognizer const & overrideMain, std::vector<post_processor> posts, std::u32string const & document);
 	abstract_syntax_graph parse(grammar_base const & g, recognizer const & overrideMain, std::vector<post_processor> posts, std::u32string const & document);
 	abstract_syntax_graph parse(grammar_base const & g, recognizer const & overrideMain, std::u32string const & document);
 	abstract_syntax_graph parse(grammar_base const & g, std::vector<post_processor> posts, std::u32string const & document);
@@ -47,6 +42,7 @@ private:
 	friend class details::job;
 	friend class details::subjob;
 	friend class details::producer;
+	bool const single_thread_mode;
 	mutable std::mutex mutex;
 	std::condition_variable halt_cv;
 	std::atomic<int> activeCount;
@@ -57,6 +53,13 @@ private:
 	std::condition_variable work_cv;
 	std::function<void(int, int)> update_progress_handler;
 
+	void start_workers(int threadCount);
+	static abstract_syntax_graph construct_result(details::job const & j, match const & m);
+	static abstract_syntax_graph construct_result_and_postprocess(recognizer const & overrideMain, std::vector<post_processor> posts, std::u32string const & document, details::job const & j);
+	void complete_progress_handler(std::u32string const & document) const;
+	void update_progress(std::tuple_element<0, std::tuple<details::context_ref, int>>::type const & context) const;
+	abstract_syntax_graph single_thread_parse(grammar_base const & g, recognizer const & overrideMain, std::vector<post_processor> posts, std::u32string const & document);
+	abstract_syntax_graph multi_thread_parse(grammar_base const & g, recognizer const & overrideMain, std::vector<post_processor> posts, std::u32string const & document);
 	void schedule(details::context_ref const & c, int nextDfaState);
 
 	//returns true if the job is complete

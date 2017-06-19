@@ -26,19 +26,7 @@ void parser::start_workers(int threadCount) {
 					lock.unlock();
 					auto const & context = std::get<0>(item);
 					auto const nextDfaState = std::get<1>(item);
-					if (update_progress_handler) {
-						std::atomic<int> & progress = context.owner().owner.progress;
-						int oldProgress;
-						bool didSet = false;
-						int const docPos = context.current_document_position();
-						while (docPos > (oldProgress = progress)) {
-							didSet = progress.compare_exchange_weak(oldProgress, docPos);
-						}
-						if (didSet) {
-							int const docLen = context.owner().owner.document.length();
-							update_progress_handler(docPos, docLen + 1);
-						}
-					}
+					update_progress(context);
 					//INF("thread ", threadCount, " executing DFA state");
 					context.owner().machine.process(context, nextDfaState);
 					context.owner().end_dependency(); //reference code A
@@ -54,8 +42,10 @@ void parser::start_workers(int threadCount) {
 	}
 }
 
-parser::parser(int threadCount) : builtins(*this), activeCount(0), terminating(false) {
-	start_workers(threadCount);
+parser::parser(unsigned threadCount) : builtins(*this), single_thread_mode(threadCount == 1), activeCount(0), terminating(false) {
+	if (!single_thread_mode) {
+		start_workers(threadCount);
+	}
 }
 
 parser::~parser() {
@@ -65,8 +55,6 @@ parser::~parser() {
 		thread.join();
 	}
 }
-
-abstract_syntax_graph construct_result(details::job const & j, match const & m);
 
 abstract_syntax_graph parser::construct_result_and_postprocess(recognizer const & overrideMain, std::vector<post_processor> posts, std::u32string const & document, details::job const & j) {
 	abstract_syntax_graph result = construct_result(j, match(match_class(overrideMain, 0), document.size()));
@@ -89,11 +77,40 @@ void parser::complete_progress_handler(std::u32string const & document) const {
 	}
 }
 
+void parser::update_progress(std::tuple_element<0, std::tuple<details::context_ref, int>>::type const & context) const {
+	if (update_progress_handler) {
+		std::atomic<int> & progress = context.owner().owner.progress;
+		int oldProgress;
+		bool didSet = false;
+		int const docPos = context.current_document_position();
+		while (docPos > (oldProgress = progress)) {
+			didSet = progress.compare_exchange_weak(oldProgress, docPos);
+		}
+		if (didSet) {
+			int const docLen = context.owner().owner.document.length();
+			update_progress_handler(docPos, docLen + 1);
+		}
+	}
+}
+
 abstract_syntax_graph parser::single_thread_parse(grammar_base const & g, recognizer const & overrideMain, std::vector<post_processor> posts, std::u32string const & document) {
 	//perf_timer timer("parse");
 	details::job j(*this, document, g, overrideMain);
 	throw_assert(activeCount > 0);
 	while (true) {
+		while (work.size() > 0) {
+			std::tuple<details::context_ref, int> item = work.front();
+			work.pop();
+			auto const & context = std::get<0>(item);
+			auto const nextDfaState = std::get<1>(item);
+			update_progress(context);
+			//INF("thread ", threadCount, " executing DFA state");
+			context.owner().machine.process(context, nextDfaState);
+			context.owner().end_dependency(); //reference code A
+			if (--activeCount == 0) {
+				halt_cv.notify_one();
+			}
+		}
 		//DBG("parser is idle; checking for deadlocks");
 		if (handle_deadlocks(j)) {
 			break;
@@ -124,6 +141,9 @@ abstract_syntax_graph parser::multi_thread_parse(grammar_base const & g, recogni
 }
 
 abstract_syntax_graph parser::parse(grammar_base const & g, recognizer const & overrideMain, std::vector<post_processor> posts, std::u32string const & document) {
+	if (single_thread_mode) {
+		return single_thread_parse(g, overrideMain, posts, document);
+	}
 	return multi_thread_parse(g, overrideMain, posts, document);
 }
 
@@ -538,7 +558,7 @@ abstract_syntax_graph& apply_precedence_and_associativity(grammar_base const & g
 }
 
 //Construct an ASG, and if a solution was found, prunes unreachable nodes
-abstract_syntax_graph construct_result(details::job const & j, match const & m) {
+abstract_syntax_graph parser::construct_result(details::job const & j, match const & m) {
 	//perf_timer timer("construct_result");
 	abstract_syntax_graph result(m);
 	for (auto const & pair : j.producers) {
