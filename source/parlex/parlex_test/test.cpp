@@ -4,12 +4,12 @@
 
 #include "gtest/gtest.h"
 
-#include "parlex/correlated_grammar.hpp"
 #include "parlex/builder.hpp"
+#include "parlex/correlated_grammar.hpp"
+#include "parlex/grammar.hpp"
 #include "parlex/parser.hpp"
 #include "parlex/state_machine.hpp"
 
-#include "utils.hpp"
 #include "utf.hpp"
 
 
@@ -403,7 +403,7 @@ TEST(ParlexTest, behavior_1) {
 			                                      reference("MUL"),
 			                                      sequence({
 				                                      reference("number"),
-				                                      repetition({reference("number")})
+				                                      repetition(reference("number"))
 			                                      })
 		                                      })
 		                           ),

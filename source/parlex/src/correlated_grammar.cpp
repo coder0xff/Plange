@@ -34,11 +34,11 @@ builtins_t::string_terminal& correlated_grammar::get_or_add_literal(std::u32stri
 	return result.first->second;
 }
 
-state_machine_base const& correlated_grammar::get_main_production() const {
-	return productions.find(root_id)->second.state_machine;
+state_machine_base const& correlated_grammar::get_main_state_machine() const {
+	return get_state_machine(root_id);
 }
 
-std::map<std::string, state_machine_base const *> correlated_grammar::get_productions() const {
+std::map<std::string, state_machine_base const *> correlated_grammar::get_state_machines() const {
 	std::map<std::string, state_machine_base const *> results;
 	for (auto const & production : productions) {
 		results[production.first] = &production.second.state_machine;
@@ -65,10 +65,16 @@ precedence_collection correlated_grammar::get_precedences() const {
 	return results;
 }
 
-correlated_state_machine const& correlated_grammar::get_state_machine(std::string const & id) const {
+state_machine_base const & correlated_grammar::get_state_machine(std::string const & id) const {
 	auto i = productions.find(id);
 	throw_assert(i != productions.end());
 	return i->second.state_machine;
+}
+
+details::string_terminal const & correlated_grammar::get_literal(std::string const & id) const {
+	auto i = literals.find(id);
+	throw_assert(i != literals.end());
+	return i->second;
 }
 
 recognizer const& correlated_grammar::get_recognizer(std::string const & id) const {

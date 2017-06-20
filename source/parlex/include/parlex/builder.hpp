@@ -39,6 +39,9 @@ erased<node> literal(std::u32string const & content);
 erased<node> literal(std::string const & tag, std::u32string const & content);
 erased<node> literal(std::u32string && content);
 erased<node> literal(std::string && tag, std::u32string && content);
+erased<node> literal(std::string const & content);
+erased<node> literal(std::string const & tag, std::string const & content);
+erased<node> literal(std::string && tag, std::string const & content);
 
 struct reference_t final : node {
 	explicit reference_t(std::string const & id);

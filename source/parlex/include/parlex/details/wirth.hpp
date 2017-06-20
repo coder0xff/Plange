@@ -1,11 +1,11 @@
 #ifndef WIRTH_HPP
 #define WIRTH_HPP
 
+#include "parlex/correlated_grammar.hpp"
 #include "parlex/filter_function.hpp"
-#include "parlex/grammar.hpp"
 
 #include "erased.hpp"
- 
+
 namespace parlex {
 struct abstract_syntax_graph;
 class builtins_t;
@@ -17,7 +17,7 @@ struct node;
 
 namespace details {
 
-/* similar to https://en.wikipedia.org/wiki/Wirth_syntax_notation but with tagging (TWSN)
+/* similar to https://en.wikipedia.org/wiki/Wirth_syntax_notation but with tagging
 
 SYNTAX        = { PRODUCTION } .
 
@@ -39,7 +39,7 @@ FACTOR        = ["$"] IDENTIFIER
 
 */
 
-class wirth_t final : public grammar {
+class wirth_t final : public correlated_grammar {
 public:
 	struct production {
 		production(std::u32string const & source, associativity assoc, filter_function filter, std::set<std::string> const & precedences);
@@ -49,7 +49,7 @@ public:
 		std::set<std::string> const precedences;
 	};
 
-	wirth_t(parser & p);
+	explicit wirth_t(parser & p);
 
 	builder::grammar load_grammar(std::string const & rootId, std::map<std::string, production> const & definitions);
 	builder::grammar load_grammar(std::string const & rootId, std::u32string const & document, std::map<std::string, associativity> const & associativities, std::set<std::string> const & longestNames);
@@ -57,32 +57,18 @@ public:
 private:
 	parser & p;
 
-	string_terminal & newline;
-	string_terminal & hash;
-	string_terminal & period;
-	string_terminal & equals;
-	string_terminal & quote;
-	string_terminal & pipe;
-	string_terminal & openSquare;
-	string_terminal & closeSquare;
-	string_terminal & openParen;
-	string_terminal & closeParen;
-	string_terminal & openCurly;
-	string_terminal & closeCurly;
-	string_terminal & underscore;
-	string_terminal & dollarSign;
-	string_terminal & percentageSign;
+	string_terminal const & openSquare;
+	string_terminal const & openParen;
+	string_terminal const & openCurly;
+	string_terminal const & dollarSign;
 
-	state_machine & whiteSpaceDfa;
-	state_machine & commentDfa;
-	state_machine & productionDfa;
-	state_machine & expressionDfa;
-	state_machine & termDfa;
-	state_machine & parentheticalDfa;
-	state_machine & tagDfa;
-	state_machine & factorDfa;
-	state_machine & identifierDfa;
-	state_machine & rootDfa;
+	state_machine_base const & productionDfa;
+	state_machine_base const & expressionDfa;
+	state_machine_base const & termDfa;
+	state_machine_base const & parentheticalDfa;
+	state_machine_base const & tagDfa;
+	state_machine_base const & factorDfa;
+	state_machine_base const & identifierDfa;
 
 	erased<builder::node> process_factor2(std::u32string const & document, match const & factor, abstract_syntax_graph const & asg);
 	erased<builder::node> process_term2(std::u32string const & document, match const & term, abstract_syntax_graph const & asg);

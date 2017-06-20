@@ -149,11 +149,11 @@ abstract_syntax_graph parser::parse(grammar_base const & g, recognizer const & o
 }
 
 abstract_syntax_graph parser::parse(grammar_base const & g, std::vector<post_processor> posts, std::u32string const & document) {
-	return parse(g, g.get_main_production(), posts, document);
+	return parse(g, g.get_main_state_machine(), posts, document);
 }
 
 abstract_syntax_graph parser::parse(grammar_base const & g, std::u32string const & document) {
-	return parse(g, g.get_main_production(), document);
+	return parse(g, g.get_main_state_machine(), document);
 }
 
 void parser::schedule(details::context_ref const & c, int nextDfaState) {
@@ -528,7 +528,7 @@ void select_trees(abstract_syntax_graph & asg, grammar_base const & g, std::map<
 abstract_syntax_graph& apply_precedence_and_associativity(grammar_base const & g, abstract_syntax_graph & asg) {
 	throw_assert(asg.is_rooted());
 	bool anyAssociativities = false;
-	for (auto const & entry : g.get_productions()) {
+	for (auto const & entry : g.get_state_machines()) {
 		anyAssociativities = entry.second->get_assoc() != associativity::none;
 	}
 

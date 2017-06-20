@@ -40,6 +40,11 @@ erased<node> literal(std::u32string && content) { return erased<node>(literal_t(
 
 erased<node> literal(std::string && tag, std::u32string && content) { return erased<node>(literal_t(move(tag), move(content))); }
 
+erased<node> literal(std::string const & content) { return erased<node>(literal_t(to_utf32(content))); }
+
+erased<node> literal(std::string const & tag, std::string const & content) { return erased<node>(literal_t(tag, to_utf32(content))); }
+
+erased<node> literal(std::string && tag, std::string const & content) { return erased<node>(literal_t(move(tag), to_utf32(content))); }
 
 reference_t::reference_t(std::string const & id) : id(id) {
 }

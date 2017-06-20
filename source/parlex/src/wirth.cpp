@@ -160,6 +160,7 @@ builder::grammar wirth_t::load_grammar(std::string const & rootId, std::map<std:
 builder::grammar wirth_t::load_grammar(std::string const & rootId, std::u32string const & document, std::map<std::string, associativity> const & associativities, std::set<std::string> const & longestNames) {
 	std::set<std::u32string> names;
 	abstract_syntax_graph asg = p.parse(*this, document);
+	throw_assert(asg.is_rooted());
 	std::map<std::string, production> definitions;
 	//std::string check = asg.to_dot();
 	permutation const & top = *asg.permutations[asg.root].begin();
@@ -189,112 +190,98 @@ builder::grammar wirth_t::load_grammar(std::string const & rootId, std::u32strin
 wirth_t::production::production(std::u32string const & source, associativity assoc, filter_function filter, std::set<std::string> const & precedences) : source(source), assoc(assoc), filter(filter), precedences(precedences) {
 }
 
-wirth_t::wirth_t(parser & p) : grammar(p.builtins, "root"), p(p),
-                               newline(get_or_add_literal(U"\n")),
-                               hash(get_or_add_literal(U"#")),
-                               period(get_or_add_literal(U".")),
-                               equals(get_or_add_literal(U"=")),
-                               quote(get_or_add_literal(U"\"")),
-                               pipe(get_or_add_literal(U"|")),
-                               openSquare(get_or_add_literal(U"[")),
-                               closeSquare(get_or_add_literal(U"]")),
-                               openParen(get_or_add_literal(U"(")),
-                               closeParen(get_or_add_literal(U")")),
-                               openCurly(get_or_add_literal(U"{")),
-                               closeCurly(get_or_add_literal(U"}")),
-                               underscore(get_or_add_literal(U"_")),
-                               dollarSign(get_or_add_literal(U"$")),
-                               percentageSign(get_or_add_literal(U"%")),
+builder::grammar generate_wirth(builtins_t const & builtins) {
+	using namespace builder;
+	return builder::grammar("root", {
+		                        production("whiteSpace", sequence({
+			                                   reference("white_space"),
+			                                   repetition(reference("white_space"))}),
+		                                   associativity::none, builtins.longest
+		                        ),
 
-                               whiteSpaceDfa(add_production("whiteSpace", 0, 1, p.builtins.longest)),
-                               commentDfa(add_production("comment", 0, 1)),
-                               productionDfa(add_production("reference", 0, 1)),
-                               expressionDfa(add_production("expression", 0, 1)),
-                               termDfa(add_production("term", 0, 1)),
-                               parentheticalDfa(add_production("parenthetical", 0, 1)),
-                               tagDfa(add_production("tag", 0, 1)),
-                               factorDfa(add_production("factor", 0, 1)),
-                               identifierDfa(add_production("identifier", 0, 1, p.builtins.longest)),
-                               rootDfa(add_production("root", 0, 1)) {
-	rootDfa.add_transition(0, &productionDfa, 0);
-	rootDfa.add_transition(0, &whiteSpaceDfa, 0);
-	rootDfa.add_transition(0, &commentDfa, 0);
+		                        production("comment", sequence({
+			                                   literal("#"),
+			                                   repetition(reference("not_newline")),
+			                                   literal("\n")
+		                                   })),
 
-	whiteSpaceDfa.add_transition(0, &p.builtins.white_space, 1);
-	whiteSpaceDfa.add_transition(1, &p.builtins.white_space, 1);
+		                        production("identifier", sequence({
+			                                   choice({reference("letter"), literal("_")}),
+			                                   repetition(choice({reference("letter"), literal("_"), reference("decimal_digit")}))
+		                                   }),
+									associativity::none, builtins.longest),
 
-	commentDfa.add_transition(0, &hash, 1);
-	commentDfa.add_transition(1, &p.builtins.not_newline, 1);
-	commentDfa.add_transition(1, &newline, 2);
+		                        production("production", sequence({
+			                                   reference("identifier"),
+			                                   optional(reference("whiteSpace")),
+			                                   literal(U"="),
+			                                   optional(reference("whiteSpace")),
+			                                   reference("expression"),
+			                                   optional(reference("whiteSpace")),
+			                                   literal(U".")
+		                                   })),
 
-	productionDfa.add_transition(0, &identifierDfa, 1);
+		                        production("expression", sequence({
+			                                   reference("term"),
+			                                   repetition(sequence({
+				                                   optional(reference("whiteSpace")),
+				                                   literal("|"),
+				                                   optional(reference("whiteSpace")),
+				                                   reference("term")
+			                                   }))
+		                                   })),
 
-	productionDfa.add_transition(1, &whiteSpaceDfa, 2);
-	productionDfa.add_transition(2, &equals, 3);
-	productionDfa.add_transition(1, &equals, 3);
+		                        production("term", sequence({
+			                                   reference("factor"),
+			                                   repetition(sequence({
+				                                   optional(reference("whiteSpace")),
+				                                   reference("factor")
+			                                   }))
+		                                   })),
 
-	productionDfa.add_transition(3, &whiteSpaceDfa, 4);
-	productionDfa.add_transition(4, &expressionDfa, 5);
-	productionDfa.add_transition(3, &expressionDfa, 5);
+		                        production("parenthetical", choice({
+			                                   sequence({
+				                                   literal("["), optional(reference("whiteSpace")), reference("expression"), optional(reference("whiteSpace")), literal("]")
+			                                   }),
+			                                   sequence({
+				                                   literal("("), optional(reference("whiteSpace")), reference("expression"), optional(reference("whiteSpace")), literal(")")
+			                                   }),
+			                                   sequence({
+				                                   literal("{"), optional(reference("whiteSpace")), reference("expression"), optional(reference("whiteSpace")), literal("}")
+			                                   })
+		                                   })),
 
-	productionDfa.add_transition(5, &whiteSpaceDfa, 6);
-	productionDfa.add_transition(6, &period, 7);
-	productionDfa.add_transition(5, &period, 7);
+		                        production("tag", sequence({literal("%"), reference("identifier")})),
 
-	expressionDfa.add_transition(0, &termDfa, 3);
-	expressionDfa.add_transition(1, &termDfa, 3);
-	expressionDfa.add_transition(1, &whiteSpaceDfa, 0);
-	expressionDfa.add_transition(2, &pipe, 1);
-	expressionDfa.add_transition(3, &pipe, 1);
-	expressionDfa.add_transition(3, &whiteSpaceDfa, 2);
+		                        production("factor", choice({
+			                                   sequence({optional(literal("$")), reference("identifier")}),
+			                                   sequence({optional(literal("$")), reference("c_string")}),
+			                                   sequence({optional(reference("tag")), reference("parenthetical")})
+		                                   }), associativity::none, filter_function(), {"factor"}),
 
-	termDfa.add_transition(0, &factorDfa, 1);
-	termDfa.add_transition(1, &whiteSpaceDfa, 0);
-	termDfa.add_transition(1, &factorDfa, 1);
+		                        production("root", repetition(choice({
+			                                   reference("production"),
+			                                   reference("comment"),
+			                                   reference("whiteSpace")
+		                                   })))
+	                        });
 
-	parentheticalDfa.add_transition(0, &openSquare, 1);
-	parentheticalDfa.add_transition(1, &whiteSpaceDfa, 2);
-	parentheticalDfa.add_transition(1, &expressionDfa, 3);
-	parentheticalDfa.add_transition(2, &expressionDfa, 3);
-	parentheticalDfa.add_transition(3, &whiteSpaceDfa, 4);
-	parentheticalDfa.add_transition(3, &closeSquare, 13);
-	parentheticalDfa.add_transition(4, &closeSquare, 13);
+}
 
-	parentheticalDfa.add_transition(0, &openParen, 5);
-	parentheticalDfa.add_transition(5, &whiteSpaceDfa, 6);
-	parentheticalDfa.add_transition(5, &expressionDfa, 7);
-	parentheticalDfa.add_transition(6, &expressionDfa, 7);
-	parentheticalDfa.add_transition(7, &whiteSpaceDfa, 8);
-	parentheticalDfa.add_transition(7, &closeParen, 13);
-	parentheticalDfa.add_transition(8, &closeParen, 13);
+wirth_t::wirth_t(parser & p) : correlated_grammar(p.builtins, generate_wirth(p.builtins)), p(p),
+                               openSquare(get_literal("[")),
+                               openParen(get_literal("(")),
+                               openCurly(get_literal("{")),
+                               dollarSign(get_literal("$")),
 
-	parentheticalDfa.add_transition(0, &openCurly, 9);
-	parentheticalDfa.add_transition(9, &whiteSpaceDfa, 10);
-	parentheticalDfa.add_transition(9, &expressionDfa, 11);
-	parentheticalDfa.add_transition(10, &expressionDfa, 11);
-	parentheticalDfa.add_transition(11, &whiteSpaceDfa, 12);
-	parentheticalDfa.add_transition(11, &closeCurly, 13);
-	parentheticalDfa.add_transition(12, &closeCurly, 13);
+                               productionDfa(get_state_machine("production")),
+                               expressionDfa(get_state_machine("expression")),
+                               termDfa(get_state_machine("term")),
+                               parentheticalDfa(get_state_machine("parenthetical")),
+                               tagDfa(get_state_machine("tag")),
+                               factorDfa(get_state_machine("factor")),
+                               identifierDfa(get_state_machine("identifier")) {
 
-	tagDfa.add_transition(0, &percentageSign, 1);
-	tagDfa.add_transition(1, &identifierDfa, 2);
-
-	factorDfa.add_transition(0, &identifierDfa, 3);
-	factorDfa.add_transition(0, &p.builtins.c_string, 3);
-	factorDfa.add_transition(0, &dollarSign, 1);
-	factorDfa.add_transition(1, &identifierDfa, 3);
-	factorDfa.add_transition(1, &p.builtins.c_string, 3);
-	factorDfa.add_transition(0, &parentheticalDfa, 3);
-	factorDfa.add_transition(0, &tagDfa, 2);
-	factorDfa.add_transition(2, &parentheticalDfa, 3);
-
-	identifierDfa.add_transition(0, &p.builtins.letter, 1);
-	identifierDfa.add_transition(0, &underscore, 1);
-	identifierDfa.add_transition(1, &p.builtins.letter, 1);
-	identifierDfa.add_transition(1, &underscore, 1);
-	identifierDfa.add_transition(1, &p.builtins.decimal_digit, 1);
-
-	precedences[&factorDfa].insert(&factorDfa);
 }
 
 erased<builder::node> wirth_t::process_production2(std::u32string const & document, match const & production, abstract_syntax_graph const & asg) {

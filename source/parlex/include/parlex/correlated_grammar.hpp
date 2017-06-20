@@ -46,8 +46,10 @@ public:
 	correlated_grammar(correlated_grammar const & copy) = delete;
 	virtual ~correlated_grammar() = default;
 
-	state_machine_base const& get_main_production() const override;
-	std::map<std::string, state_machine_base const *> get_productions() const override;
+	state_machine_base const& get_main_state_machine() const override;
+	std::map<std::string, state_machine_base const *> get_state_machines() const override;
+	state_machine_base const& get_state_machine(std::string const & id) const override;
+	details::string_terminal const & get_literal(std::string const & id) const override;
 	bool test_precedence(state_machine_base const & productionA, state_machine_base const & productionB) const override;
 	precedence_collection get_precedences() const override;
 private:
@@ -57,7 +59,6 @@ private:
 	std::map<correlated_state_machine const *, std::set<correlated_state_machine const *>> precedences;
 
 	details::string_terminal& get_or_add_literal(std::u32string const & contents);
-	correlated_state_machine const& get_state_machine(std::string const & id) const;
 	recognizer const & get_recognizer(std::string const & id) const;
 	erased<behavior::node> get_behavior(builder::node const & b);
 };

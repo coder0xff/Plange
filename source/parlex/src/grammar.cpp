@@ -47,47 +47,13 @@ grammar::grammar(grammar const & other) : grammar_base(other), main_production_n
 	}
 }
 
-#if 0 //to move
-std::string grammar::hierarchy_dot(std::map<std::string, production_def> const & productions) {
-	std::set<std::pair<std::string, std::string>> arrows;
-	for (auto const & pair: productions) {
-		auto const & name = pair.first;
-		auto const & tree = pair.second.tree;
-		std::queue<std::shared_ptr<details::behavior_node>> descendentsQueue;
-		for (auto const & child : tree->get_children()) {
-			descendentsQueue.push(child);
-		}
-		while (descendentsQueue.size() > 0) {
-			auto const & descendent = descendentsQueue.front();
-			descendentsQueue.pop();
-			auto const & asProduction = std::dynamic_pointer_cast<details::reference>(descendent);
-			if (asProduction != nullptr) {
-				arrows.insert(make_pair(name, asProduction->name));
-			} else {
-				for (auto const & subDescendent: descendent->get_children()) {
-					descendentsQueue.push(subDescendent);
-				}
-
-			}
-		}
-	}
-	std::stringstream result;
-	result << "digraph nfa {" << std::endl;
-	for (auto const & arrow : arrows) {
-		result << arrow.first << " -> " << arrow.second << std::endl;
-	}
-	result << "}" << std::endl;
-	return result.str();
-}
-#endif
-
-state_machine_base const& grammar::get_main_production() const {
+state_machine_base const& grammar::get_main_state_machine() const {
 	auto i = productions.find(main_production_name);
 	throw_assert(i != productions.end());
 	return i->second;
 }
 
-std::map<std::string, state_machine_base const *> grammar::get_productions() const {
+std::map<std::string, state_machine_base const *> grammar::get_state_machines() const {
 	std::map<std::string, state_machine_base const *> results;
 	for (auto const & i : productions) {
 		results[i.first] = &i.second;
@@ -100,8 +66,19 @@ builtins_t::string_terminal& grammar::get_or_add_literal(std::u32string const & 
 	return result.first->second;
 }
 
-std::map<std::u32string, builtins_t::string_terminal> const& grammar::get_literals() const {
-	return literals;
+
+state_machine_base const & grammar::get_state_machine(std::string const & id) const
+{
+	auto i = productions.find(id);
+	throw_assert(i != productions.end());
+	return i->second;
+}
+
+
+details::string_terminal const & grammar::get_literal(std::string const & id) const {
+	auto i = literals.find(to_utf32(id));
+	throw_assert(i != literals.end());
+	return i->second;
 }
 
 state_machine& grammar::add_production(std::string id, size_t startState, size_t acceptStateCount, associativity assoc) {
