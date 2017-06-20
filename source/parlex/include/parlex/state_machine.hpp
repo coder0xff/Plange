@@ -43,7 +43,7 @@ public:
 	size_t const accept_state_count; //must be greater than 0
 
 	void add_transition(size_t from, recognizer const * transition, size_t to);
-	states_t const & get_states() const;
+	states_t const& get_states() const;
 private:
 	friend class parser;
 	friend class details::subjob;

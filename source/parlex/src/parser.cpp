@@ -203,7 +203,7 @@ bool parser::handle_deadlocks(details::job const & j) const {
 		for (auto const & next : direct_subscriptions[entry.first]) {
 			if (all_subscriptions[entry.first].insert(next).second) {
 				s.push(std::pair<match_class, match_class>(entry.first, next));
-			};
+			}
 		}
 	}
 
@@ -254,7 +254,7 @@ struct node_props_t {
 	bool selected;
 
 
-	inline node_props_t(abstract_syntax_graph & asg, match const & m) : m(m), r(m.r), permutations(asg.permutations[m]), children(getChildren(asg, m)), height(0), selected(false) {
+	node_props_t(abstract_syntax_graph & asg, match const & m) : m(m), r(m.r), permutations(asg.permutations[m]), children(getChildren(asg, m)), height(0), selected(false) {
 	}
 };
 

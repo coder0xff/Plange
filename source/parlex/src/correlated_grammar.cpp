@@ -65,13 +65,13 @@ precedence_collection correlated_grammar::get_precedences() const {
 	return results;
 }
 
-state_machine_base const & correlated_grammar::get_state_machine(std::string const & id) const {
+state_machine_base const& correlated_grammar::get_state_machine(std::string const & id) const {
 	auto i = productions.find(id);
 	throw_assert(i != productions.end());
 	return i->second.state_machine;
 }
 
-details::string_terminal const & correlated_grammar::get_literal(std::string const & id) const {
+details::string_terminal const& correlated_grammar::get_literal(std::string const & id) const {
 	auto i = literals.find(id);
 	throw_assert(i != literals.end());
 	return i->second;

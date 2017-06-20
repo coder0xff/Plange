@@ -26,8 +26,7 @@ subjob::~subjob() {
 	//DBG("destructing subjob b:", documentPosition, " m:", machine);
 }
 
-void subjob::start() {
-	{
+void subjob::start() { {
 		std::unique_lock<std::mutex> lock(mutex);
 		contexts.emplace_front(*this, context_ref(), document_position, nullptr);
 	}
@@ -81,8 +80,7 @@ void subjob::decrement_lifetime() {
 	terminate();
 }
 
-void subjob::end_dependency()
-{
+void subjob::end_dependency() {
 	//DBG("end_dependency m:", machine, " b:", documentPosition);
 	decrement_lifetime();
 }

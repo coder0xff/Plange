@@ -67,15 +67,14 @@ builtins_t::string_terminal& grammar::get_or_add_literal(std::u32string const & 
 }
 
 
-state_machine_base const & grammar::get_state_machine(std::string const & id) const
-{
+state_machine_base const& grammar::get_state_machine(std::string const & id) const {
 	auto i = productions.find(id);
 	throw_assert(i != productions.end());
 	return i->second;
 }
 
 
-details::string_terminal const & grammar::get_literal(std::string const & id) const {
+details::string_terminal const& grammar::get_literal(std::string const & id) const {
 	auto i = literals.find(to_utf32(id));
 	throw_assert(i != literals.end());
 	return i->second;

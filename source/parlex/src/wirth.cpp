@@ -192,79 +192,79 @@ wirth_t::production::production(std::u32string const & source, associativity ass
 
 builder::grammar generate_wirth(builtins_t const & builtins) {
 	using namespace builder;
-	return builder::grammar("root", {
-		                        production("whiteSpace", sequence({
-			                                   reference("white_space"),
-			                                   repetition(reference("white_space"))}),
-		                                   associativity::none, builtins.longest
-		                        ),
+	return grammar("root", {
+		               production("whiteSpace", sequence({
+			                          reference("white_space"),
+			                          repetition(reference("white_space"))}),
+		                          associativity::none, builtins.longest
+		               ),
 
-		                        production("comment", sequence({
-			                                   literal("#"),
-			                                   repetition(reference("not_newline")),
-			                                   literal("\n")
-		                                   })),
+		               production("comment", sequence({
+			                          literal("#"),
+			                          repetition(reference("not_newline")),
+			                          literal("\n")
+		                          })),
 
-		                        production("identifier", sequence({
-			                                   choice({reference("letter"), literal("_")}),
-			                                   repetition(choice({reference("letter"), literal("_"), reference("decimal_digit")}))
-		                                   }),
-									associativity::none, builtins.longest),
+		               production("identifier", sequence({
+			                          choice({reference("letter"), literal("_")}),
+			                          repetition(choice({reference("letter"), literal("_"), reference("decimal_digit")}))
+		                          }),
+		                          associativity::none, builtins.longest),
 
-		                        production("production", sequence({
-			                                   reference("identifier"),
-			                                   optional(reference("whiteSpace")),
-			                                   literal(U"="),
-			                                   optional(reference("whiteSpace")),
-			                                   reference("expression"),
-			                                   optional(reference("whiteSpace")),
-			                                   literal(U".")
-		                                   })),
+		               production("production", sequence({
+			                          reference("identifier"),
+			                          optional(reference("whiteSpace")),
+			                          literal(U"="),
+			                          optional(reference("whiteSpace")),
+			                          reference("expression"),
+			                          optional(reference("whiteSpace")),
+			                          literal(U".")
+		                          })),
 
-		                        production("expression", sequence({
-			                                   reference("term"),
-			                                   repetition(sequence({
-				                                   optional(reference("whiteSpace")),
-				                                   literal("|"),
-				                                   optional(reference("whiteSpace")),
-				                                   reference("term")
-			                                   }))
-		                                   })),
+		               production("expression", sequence({
+			                          reference("term"),
+			                          repetition(sequence({
+				                          optional(reference("whiteSpace")),
+				                          literal("|"),
+				                          optional(reference("whiteSpace")),
+				                          reference("term")
+			                          }))
+		                          })),
 
-		                        production("term", sequence({
-			                                   reference("factor"),
-			                                   repetition(sequence({
-				                                   optional(reference("whiteSpace")),
-				                                   reference("factor")
-			                                   }))
-		                                   })),
+		               production("term", sequence({
+			                          reference("factor"),
+			                          repetition(sequence({
+				                          optional(reference("whiteSpace")),
+				                          reference("factor")
+			                          }))
+		                          })),
 
-		                        production("parenthetical", choice({
-			                                   sequence({
-				                                   literal("["), optional(reference("whiteSpace")), reference("expression"), optional(reference("whiteSpace")), literal("]")
-			                                   }),
-			                                   sequence({
-				                                   literal("("), optional(reference("whiteSpace")), reference("expression"), optional(reference("whiteSpace")), literal(")")
-			                                   }),
-			                                   sequence({
-				                                   literal("{"), optional(reference("whiteSpace")), reference("expression"), optional(reference("whiteSpace")), literal("}")
-			                                   })
-		                                   })),
+		               production("parenthetical", choice({
+			                          sequence({
+				                          literal("["), optional(reference("whiteSpace")), reference("expression"), optional(reference("whiteSpace")), literal("]")
+			                          }),
+			                          sequence({
+				                          literal("("), optional(reference("whiteSpace")), reference("expression"), optional(reference("whiteSpace")), literal(")")
+			                          }),
+			                          sequence({
+				                          literal("{"), optional(reference("whiteSpace")), reference("expression"), optional(reference("whiteSpace")), literal("}")
+			                          })
+		                          })),
 
-		                        production("tag", sequence({literal("%"), reference("identifier")})),
+		               production("tag", sequence({literal("%"), reference("identifier")})),
 
-		                        production("factor", choice({
-			                                   sequence({optional(literal("$")), reference("identifier")}),
-			                                   sequence({optional(literal("$")), reference("c_string")}),
-			                                   sequence({optional(reference("tag")), reference("parenthetical")})
-		                                   }), associativity::none, filter_function(), {"factor"}),
+		               production("factor", choice({
+			                          sequence({optional(literal("$")), reference("identifier")}),
+			                          sequence({optional(literal("$")), reference("c_string")}),
+			                          sequence({optional(reference("tag")), reference("parenthetical")})
+		                          }), associativity::none, filter_function(), {"factor"}),
 
-		                        production("root", repetition(choice({
-			                                   reference("production"),
-			                                   reference("comment"),
-			                                   reference("whiteSpace")
-		                                   })))
-	                        });
+		               production("root", repetition(choice({
+			                          reference("production"),
+			                          reference("comment"),
+			                          reference("whiteSpace")
+		                          })))
+	               });
 
 }
 

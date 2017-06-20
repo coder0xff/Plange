@@ -29,7 +29,7 @@ struct nfa {
 		label_t label;
 		std::map<alphabet_t, state_indices_t, compare> out_transitions;
 
-		inline state(label_t label) : label(label) {
+		state(label_t label) : label(label) {
 		};
 	};
 

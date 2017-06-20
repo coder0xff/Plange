@@ -95,13 +95,12 @@ context_ref::~context_ref() {
 bool context_ref::is_null() const {
 	if (!rc) {
 		return true;
-	} else {
-		if (!static_cast<context *>(rc->c)) {
-			std::cerr << "ERROR: dangling ref id: " << id << ", context id: " << rc->id;
-			raise(SIGABRT);
-		}
-		return false;
 	}
+	if (!static_cast<context *>(rc->c)) {
+		std::cerr << "ERROR: dangling ref id: " << id << ", context id: " << rc->id;
+		raise(SIGABRT);
+	}
+	return false;
 }
 
 subjob& context_ref::owner() const {
@@ -134,7 +133,7 @@ std::unique_ptr<match> context_ref::from_transition() const {
 	context * temp = rc->c;
 	throw_assert(temp);
 	if (temp->fromTransition) {
-		return std::unique_ptr<match>(new match(*temp->fromTransition));
+		return std::make_unique<match>(*temp->fromTransition);
 	}
 	return std::unique_ptr<match>();
 }

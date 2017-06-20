@@ -31,8 +31,8 @@ public:
 	//void generate_representation(std::ostream & cpp);
 	void generate_cplusplus_code(builtins_t const & builtins, std::string grammarName, std::string nameOfMain, std::ostream & cpp, std::ostream & hpp, std::string namespace_, std::string headerPathPrefix = "") const;
 	std::map<std::string, state_machine_base const *> get_state_machines() const override;
-	state_machine_base const & get_state_machine(std::string const & id) const override;
-	details::string_terminal const & get_literal(std::string const & id) const override;
+	state_machine_base const& get_state_machine(std::string const & id) const override;
+	details::string_terminal const& get_literal(std::string const & id) const override;
 	state_machine& add_production(std::string id, size_t startState, size_t acceptStateCount, associativity assoc = associativity::none);
 	state_machine& add_production(std::string id, size_t startState, size_t acceptStateCount, filter_function filter, associativity assoc = associativity::none);
 	details::string_terminal const& get_add_literal(std::u32string contents);

@@ -56,34 +56,32 @@ producer& job::get_producer(match_class const & matchClass) {
 	std::unique_lock<std::mutex> lock(producers_mutex);
 	if (producers.count(matchClass)) {
 		return *producers[matchClass];
-	} else {
-		lock.unlock();
-		if (matchClass.r.is_terminal()) {
-			terminal const * t = static_cast<terminal const *>(&matchClass.r);
-			token * result = new token(*this, *t, matchClass.document_position);
-			lock.lock();
-			return *producers.emplace(
-				std::piecewise_construct,
-				std::forward_as_tuple(matchClass),
-				std::forward_as_tuple(result)
-			).first->second.get();
-		} else {
-			state_machine_base const * machine = static_cast<state_machine_base const *>(&matchClass.r);
-			subjob * sj = new subjob(*this, *machine, matchClass.document_position);
-			lock.lock();
-			auto temp = producers.emplace(
-				std::piecewise_construct,
-				std::forward_as_tuple(matchClass),
-				std::forward_as_tuple(sj)
-			);
-			subjob * result = static_cast<subjob*>(temp.first->second.get());
-			lock.unlock();
-			if (temp.second) {
-				result->start();
-			}
-			return *result;
-		}
 	}
+	lock.unlock();
+	if (matchClass.r.is_terminal()) {
+		terminal const * t = static_cast<terminal const *>(&matchClass.r);
+		token * result = new token(*this, *t, matchClass.document_position);
+		lock.lock();
+		return *producers.emplace(
+			std::piecewise_construct,
+			std::forward_as_tuple(matchClass),
+			std::forward_as_tuple(result)
+		).first->second.get();
+	}
+	state_machine_base const * machine = static_cast<state_machine_base const *>(&matchClass.r);
+	subjob * sj = new subjob(*this, *machine, matchClass.document_position);
+	lock.lock();
+	auto temp = producers.emplace(
+		std::piecewise_construct,
+		std::forward_as_tuple(matchClass),
+		std::forward_as_tuple(sj)
+	);
+	subjob * result = static_cast<subjob*>(temp.first->second.get());
+	lock.unlock();
+	if (temp.second) {
+		result->start();
+	}
+	return *result;
 }
 
 

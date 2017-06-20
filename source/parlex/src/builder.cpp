@@ -70,9 +70,9 @@ production::production(std::string const & id, erased<node> const & behavior, as
 }
 
 static std::string node_to_name(node const * n) {
-	///////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////
 #define DO_AS(name)                                                                       \
-	builder::name##_t const * as_##name = dynamic_cast<builder::name##_t const *>(n);     \
+	builder::name##_t const * as_##name = dynamic_cast<builder::name##_t const *>(n);      \
 	if (as_##name != nullptr)                                                               \
 /////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -88,7 +88,7 @@ static std::string node_to_name(node const * n) {
 	}                                           \
 /////////////////////////////////////////////////
 
-	std::stringstream result;	
+	std::stringstream result;
 	DO_AS(literal) {
 		result << as_literal->id;
 	}

@@ -99,7 +99,7 @@ static std::string build_type(std::stringstream & buffer, builder::node const & 
 		return "std::vector<" + childString + ">";
 	}
 	DO_AS(sequence) {
-		
+
 	}
 
 #undef DO_AS
