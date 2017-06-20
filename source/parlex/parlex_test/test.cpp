@@ -376,7 +376,6 @@ TEST(ParlexTest, wirth_test_10) {
 	parser p;
 	correlated_grammar grammar(p.builtins, p.builtins.wirth.load_grammar("ARRAY", U"\
 ARRAY = \"[\" [EXPRESSION { \", \" EXPRESSION} ] \"]\".\
-IC = \"IC\".\
 EXPRESSION = \"EXPRESSION\".", {}, {}));
 	abstract_syntax_graph result = p.parse(grammar, U"[]");
 	if (!result.is_rooted()) {
@@ -396,14 +395,19 @@ using namespace builder;
 
 TEST(ParlexTest, behavior_1) {
 	builder::grammar g_builder("EXPR", {
-		production("ADD", sequence({ reference("EXPR"), literal(U"+"), reference("EXPR") })),
-		production("MUL", sequence({ reference("EXPR"), literal(U"*"), reference("EXPR") })),
-		production("EXPR", choice({
-		reference("ADD"),
-		reference("MUL"),
-		sequence({ reference("number"), repetition({ reference("number") }) })
-	})),
-	});
+		                           production("ADD", sequence({reference("EXPR"), literal(U"+"), reference("EXPR")})),
+		                           production("MUL", sequence({reference("EXPR"), literal(U"*"), reference("EXPR")})),
+		                           production("EXPR",
+		                                      choice({
+			                                      reference("ADD"),
+			                                      reference("MUL"),
+			                                      sequence({
+				                                      reference("number"),
+				                                      repetition({reference("number")})
+			                                      })
+		                                      })
+		                           ),
+	                           });
 
 	parser p;
 	correlated_grammar g(p.builtins, g_builder);

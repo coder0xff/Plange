@@ -49,9 +49,9 @@ erased<builder::node> wirth_t::process_factor2(std::u32string const & document, 
 			++j;
 		}
 		if (parenthetical_type == &openSquare) {
-			set(process_expression2(document, *j, asg));
+			set(builder::optional_t(process_expression2(document, *j, asg)));
 		} else if (parenthetical_type == &openCurly) {
-			set(process_expression2(document, *j, asg));
+			set(builder::repetition_t(process_expression2(document, *j, asg)));
 		} else if (parenthetical_type == &openParen) {
 			set(process_expression2(document, *j, asg));
 		} else {

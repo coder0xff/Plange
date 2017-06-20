@@ -107,10 +107,9 @@ abstract_syntax_graph parser::single_thread_parse(grammar_base const & g, recogn
 			//INF("thread ", threadCount, " executing DFA state");
 			context.owner().machine.process(context, nextDfaState);
 			context.owner().end_dependency(); //reference code A
-			if (--activeCount == 0) {
-				halt_cv.notify_one();
-			}
+			--activeCount;
 		}
+		throw_assert(activeCount == 0);
 		//DBG("parser is idle; checking for deadlocks");
 		if (handle_deadlocks(j)) {
 			break;
@@ -125,9 +124,7 @@ abstract_syntax_graph parser::multi_thread_parse(grammar_base const & g, recogni
 	//perf_timer timer("parse");
 	std::unique_lock<std::mutex> lock(mutex); //use the lock to make sure we see activeCount != 0
 	details::job j(*this, document, g, overrideMain);
-#ifndef FORCE_RECURSION
 	throw_assert(activeCount > 0);
-#endif
 	while (true) {
 		halt_cv.wait(lock, [this]() { return activeCount == 0; });
 		//DBG("parser is idle; checking for deadlocks");
@@ -161,14 +158,10 @@ abstract_syntax_graph parser::parse(grammar_base const & g, std::u32string const
 
 void parser::schedule(details::context_ref const & c, int nextDfaState) {
 	//DBG("scheduling m: ", c.owner().machine.id, " b:", c.owner().documentPosition, " s:", nextDfaState, " p:", c.current_document_position());
-#ifndef FORCE_RECURSION
 	++activeCount;
 	std::unique_lock<std::mutex> lock(mutex);
 	work.emplace(std::make_tuple(c, nextDfaState));
 	work_cv.notify_one();
-#else
-	c.owner().machine.process(c, nextDfaState);
-#endif
 }
 
 void parser::set_update_progress_handler(std::function<void(int /*done*/, int /*total*/)> func) {

@@ -1,4 +1,8 @@
 #include "parlex/builder.hpp"
+
+#include <queue>
+#include <sstream>
+
 #include "utf.hpp"
 
 namespace parlex {
@@ -58,6 +62,61 @@ erased<node> reference(std::string && id) { return erased<node>(reference_t(move
 erased<node> reference(std::string && tag, std::string && id) { return erased<node>(reference_t(move(tag), move(id))); }
 
 production::production(std::string const & id, erased<node> const & behavior, associativity assoc /*= associativity::none*/, filter_function const & filter /*= filter_function()*/, std::set<std::string> const & precedences /*= set<string>() */) : id(id), behavior(behavior), filter(filter), assoc(assoc), precedences(precedences) {
+}
+
+static std::string node_to_name(node const * n) {
+	///////////////////////////////////////////////////////////////////////////////////////////
+#define DO_AS(name)                                                                       \
+	builder::name##_t const * as_##name = dynamic_cast<builder::name##_t const *>(n);     \
+	if (as_##name != nullptr)                                                               \
+/////////////////////////////////////////////////////////////////////////////////////////////
+
+/////////////////////////////////////////
+#define DO_AS2(name)                    \
+	DO_AS(name) {                        \
+		result << #name << " ";           \
+		if (as_##name->tag != "") {        \
+			result << as_##name->tag;       \
+		} else {                             \
+			result << as_##name;              \
+		}                                      \
+	}                                           \
+/////////////////////////////////////////////////
+
+	std::stringstream result;	
+	DO_AS(literal) {
+		result << as_literal->id;
+	}
+	DO_AS(reference) {
+		result << as_reference->id;
+	}
+	DO_AS2(choice)
+	DO_AS2(optional)
+	DO_AS2(repetition)
+	DO_AS2(sequence)
+#undef DO_AS2
+#undef DO_AS
+	return enquote(result.str());
+
+}
+
+std::string production::to_dot() const {
+	std::stringstream result;
+	result << "digraph {\n";
+	std::queue<node const *> q;
+	q.push(&*behavior);
+	while (q.size() > 0) {
+		node const * n = q.front();
+		q.pop();
+		std::string fromId = node_to_name(n);
+		for (auto const & child: n->children) {
+			std::string toId = node_to_name(&*child);
+			result << "\t" << fromId << " -> " << toId << "\n";
+			q.push(&*child);
+		}
+	}
+	result << "}\n";
+	return result.str();
 }
 
 grammar::grammar(std::string rootId, std::list<production> const & productions) : root_id(rootId), productions(move(productions)) {
