@@ -107,10 +107,7 @@ erased<builder::node> wirth_t::process_expression2(std::u32string const & docume
 }
 
 erased<builder::node> wirth_t::compile_expression(std::u32string const & source) {
-	auto progressHandler = [](size_t completed, size_t total) {
-		std::cout << completed << "/" << total << std::endl;
-	};
-	auto asg = p.parse(*this, expressionDfa, source, progressHandler);
+	auto asg = p.parse(*this, expressionDfa, source, p.builtins.progress_bar);
 	if (!asg.is_rooted()) {
 		throw std::runtime_error("could not parse expression");
 	}
@@ -153,10 +150,9 @@ builder::grammar wirth_t::load_grammar(std::string const & rootId, std::map<std:
 		if (!res.second) {
 			throw std::runtime_error(("duplicate reference ID " + id).c_str());
 		}
-		std::cout << id << "\n";
+		std::cout << "\n" << id << "\n";
 		builder::production resultDefinition(id, compile_expression(definition.source), definition.assoc, definition.filter, definition.precedences);
 		resultDefinition.id = id;
-		resultDefinition.behavior = compile_expression(definition.source);
 		resultDefinition.assoc = definition.assoc;
 		resultDefinition.filter = definition.filter;
 		result.productions.push_back(resultDefinition);
