@@ -199,7 +199,7 @@ std::string node_to_cpp(builder::node const & n, int indentLevel) {
 	auto write_children = [&]()
 	{		
 		for (auto const & child : n.children) {
-			ss << std::string('\t', indentLevel + 1);
+			ss << std::string(indentLevel + 1, '\t');
 			ss << node_to_cpp(*child, indentLevel + 1);
 			if (&*child != &**n.children.rbegin()) {
 				ss << ",";
