@@ -11,7 +11,7 @@
 
 namespace parlex {
 
-grammar::grammar(builtins_t const & builtins, std::string const & nameOfMain) : grammar_base(builtins), main_production_name(nameOfMain) {
+grammar::grammar(std::string const & nameOfMain) : main_production_name(nameOfMain) {
 }
 
 grammar::grammar(grammar const & other) : grammar_base(other), main_production_name(other.main_production_name), literals(other.literals) {
@@ -61,7 +61,7 @@ std::map<std::string, state_machine_base const *> grammar::get_state_machines() 
 	return results;
 }
 
-builtins_t::string_terminal& grammar::get_or_add_literal(std::u32string const & contents) {
+details::string_terminal& grammar::get_or_add_literal(std::u32string const & contents) {
 	auto result = literals.emplace(std::piecewise_construct, forward_as_tuple(contents), forward_as_tuple(contents));
 	return result.first->second;
 }
@@ -159,7 +159,7 @@ void grammar::generate_representation(std::ostream & cpp) {
 }
 #endif
 
-void grammar::generate_cplusplus_code(builtins_t const & builtins, std::string grammarName, std::string nameOfMain, std::ostream & cpp, std::ostream & hpp, std::string namespace_, std::string headerPathPrefix) const {
+void grammar::generate_cplusplus_code(std::string grammarName, std::string nameOfMain, std::ostream & cpp, std::ostream & hpp, std::string namespace_, std::string headerPathPrefix) const {
 	std::string upperCaseGrammarName = grammarName;
 	transform(upperCaseGrammarName.begin(), upperCaseGrammarName.end(), upperCaseGrammarName.begin(), toupper);
 
@@ -167,11 +167,11 @@ void grammar::generate_cplusplus_code(builtins_t const & builtins, std::string g
 
 	std::map<recognizer const *, std::string> recognizerToStringMap;
 	std::set<std::string> sortedBuiltInNames;
-	for (auto const & entry : builtins.recognizer_table) {
+	for (auto const & entry : builtins().recognizer_table) {
 		sortedBuiltInNames.insert(entry.first);
 	}
 	for (std::string const & name : sortedBuiltInNames) {
-		auto const & entry = builtins.recognizer_table.find(name);
+		auto const & entry = builtins().recognizer_table.find(name);
 		recognizerToStringMap[entry->second] = "parlex::builtins::" + entry->first;
 	}
 
@@ -254,7 +254,7 @@ void grammar::generate_cplusplus_code(builtins_t const & builtins, std::string g
 				throw std::logic_error("invalid value for associativity");
 		}
 
-		if (sm.filter == builtins.longest) {
+		if (sm.filter == builtins().longest) {
 			cpp << ", " << sm.start_state << ", &parlex::builtins::longest, " << associativityString << "); " << std::endl;
 		} else {
 			cpp << ", " << sm.start_state << ", " << associativityString << ");" << std::endl;

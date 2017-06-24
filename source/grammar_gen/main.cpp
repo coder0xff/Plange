@@ -75,8 +75,8 @@ int main(int argc, const char* argv[]) {
 		defs.emplace(std::piecewise_construct, forward_as_tuple(name), forward_as_tuple(source, assoc, filter, precedences));
 	}
 	parlex::builder::grammar g = p.builtins.wirth.load_grammar("STATEMENT_SCOPE", defs);
-	std::ofstream cppStream(workingDir + "/plc/src/plange_grammar.cpp");
-	std::ofstream hppStream(workingDir + "/plc/include/plange_grammar.hpp");
+	std::ofstream cppStream(workingDir + "/plc/src/plange_grammar.cpp.inc");
+	std::ofstream hppStream(workingDir + "/plc/include/plange_grammar.hpp.inc");
 	hppStream << parlex::cpp_generator::generate(p.builtins, g);
 	throw std::logic_error("not implemented");
 }

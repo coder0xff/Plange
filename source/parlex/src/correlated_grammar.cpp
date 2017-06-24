@@ -15,7 +15,7 @@ void correlated_grammar::production::set_behavior(erased<behavior::node> const &
 	state_machine.set_behavior(*this->behavior);
 }
 
-correlated_grammar::correlated_grammar(builtins_t const & builtins, builder::grammar const & grammarDefinition) : grammar_base(builtins), root_id(grammarDefinition.root_id) {
+correlated_grammar::correlated_grammar(builder::grammar const & grammarDefinition) : root_id(grammarDefinition.root_id) {
 	for (auto const & definition : grammarDefinition.productions) {
 		auto const & id = definition.id;
 		productions.emplace(std::piecewise_construct, forward_as_tuple(id), forward_as_tuple(id, definition.filter, definition.assoc));
@@ -30,7 +30,7 @@ correlated_grammar::correlated_grammar(builtins_t const & builtins, builder::gra
 
 }
 
-builtins_t::string_terminal& correlated_grammar::get_or_add_literal(std::u32string const & contents) {
+details::string_terminal& correlated_grammar::get_or_add_literal(std::u32string const & contents) {
 	auto result = literals.emplace(std::piecewise_construct, forward_as_tuple(to_utf8(contents)), forward_as_tuple(contents));
 	return result.first->second;
 }
@@ -80,7 +80,7 @@ details::string_terminal const& correlated_grammar::get_literal(std::string cons
 
 recognizer const& correlated_grammar::get_recognizer(std::string const & id) const {
 	recognizer const * r;
-	if (builtins.resolve_builtin(id, r)) {
+	if (builtins().resolve_builtin(id, r)) {
 		return *r;
 	} {
 		auto i = literals.find(id);

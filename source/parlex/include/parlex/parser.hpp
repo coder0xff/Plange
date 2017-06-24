@@ -11,9 +11,9 @@
 
 #include "parlex/details/context.hpp"
 
-#include "builtins.hpp"
 
 namespace parlex {
+class grammar_base;
 typedef std::function<void(size_t /*done*/, size_t /*total*/)> progress_handler_t;
 
 namespace details {
@@ -33,7 +33,6 @@ public:
 	abstract_syntax_graph parse(grammar_base const & g, recognizer const & overrideMain, std::u32string const & document, progress_handler_t progressHandler = progress_handler_t());
 	abstract_syntax_graph parse(grammar_base const & g, std::vector<post_processor> posts, std::u32string const & document, progress_handler_t progressHandler = progress_handler_t());
 	abstract_syntax_graph parse(grammar_base const & g, std::u32string const & document, progress_handler_t progressHandler = progress_handler_t());
-	builtins_t builtins;
 private:
 	friend class details::job;
 	friend class details::subjob;

@@ -13,7 +13,7 @@ struct grammar;
 
 class cpp_generator {
 public:
-	static std::string generate(builtins_t const & builtins, builder::grammar const & g);
+	static std::map<std::string /* filename */, std::string /* content */> generate(std::string const & name, builder::grammar const & g);
 };
 
 } // namespace parlex

@@ -43,7 +43,7 @@ public:
 		void set_behavior(erased<behavior::node> const & behavior);
 	};
 
-	correlated_grammar(builtins_t const & builtins, builder::grammar const & grammarDefinition);
+	correlated_grammar(builder::grammar const & grammarDefinition);
 	correlated_grammar(correlated_grammar const & copy) = delete;
 	virtual ~correlated_grammar() = default;
 

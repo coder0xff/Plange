@@ -11,7 +11,7 @@
 namespace parlex {
 namespace details {
 
-erased<builder::node> wirth_t::process_factor2(std::u32string const & document, match const & factor, abstract_syntax_graph const & asg) {
+erased<builder::node> wirth_t::process_factor(std::u32string const & document, match const & factor, abstract_syntax_graph const & asg) const {
 	permutation const & p = *asg.permutations.find(factor)->second.begin();
 	auto i = p.begin();
 	std::string tag;
@@ -19,8 +19,8 @@ erased<builder::node> wirth_t::process_factor2(std::u32string const & document, 
 		++i;
 		if (&i->r == &identifierDfa) {
 			tag = to_utf8(document.substr(i->document_position, i->consumed_character_count));
-		} else if (&i->r == &builtins.c_string) {
-			tag = to_utf8(builtins.c_string.extract(document, *i, asg));
+		} else if (&i->r == &builtins().c_string) {
+			tag = to_utf8(builtins().c_string.extract(document, *i, asg));
 		} else {
 			throw;
 		}
@@ -39,8 +39,8 @@ erased<builder::node> wirth_t::process_factor2(std::u32string const & document, 
 	if (&i->r == &identifierDfa) {
 		std::string name = to_utf8(document.substr(i->document_position, i->consumed_character_count));
 		set(builder::reference(name));
-	} else if (&i->r == &builtins.c_string) {
-		std::u32string text = builtins.c_string.extract(document, *i, asg);
+	} else if (&i->r == &builtins().c_string) {
+		std::u32string text = builtins().c_string.extract(document, *i, asg);
 		set(builder::literal(text));
 	} else if (&i->r == &parentheticalDfa) {
 		permutation const & q = *asg.permutations.find(*i)->second.begin();
@@ -50,11 +50,11 @@ erased<builder::node> wirth_t::process_factor2(std::u32string const & document, 
 			++j;
 		}
 		if (parenthetical_type == &openSquare) {
-			set(builder::optional_t(process_expression2(document, *j, asg)));
+			set(builder::optional_t(process_expression(document, *j, asg)));
 		} else if (parenthetical_type == &openCurly) {
-			set(builder::repetition_t(process_expression2(document, *j, asg)));
+			set(builder::repetition_t(process_expression(document, *j, asg)));
 		} else if (parenthetical_type == &openParen) {
-			set(process_expression2(document, *j, asg));
+			set(process_expression(document, *j, asg));
 		} else {
 			throw;
 		}
@@ -68,7 +68,7 @@ erased<builder::node> wirth_t::process_factor2(std::u32string const & document, 
 	return *result;
 }
 
-erased<builder::node> wirth_t::process_term2(std::u32string const & document, match const & term, abstract_syntax_graph const & asg) {
+erased<builder::node> wirth_t::process_term(std::u32string const & document, match const & term, abstract_syntax_graph const & asg) const {
 	std::vector<match> factors;
 
 	permutation const & p = *(*asg.permutations.find(term)).second.begin();
@@ -78,16 +78,16 @@ erased<builder::node> wirth_t::process_term2(std::u32string const & document, ma
 		}
 	}
 	if (factors.size() == 1) {
-		return process_factor2(document, factors[0], asg);
+		return process_factor(document, factors[0], asg);
 	}
 	builder::sequence_t result;
 	for (match const & factor : factors) {
-		result.children.push_back(process_factor2(document, factor, asg));
+		result.children.push_back(process_factor(document, factor, asg));
 	}
 	return result;
 }
 
-erased<builder::node> wirth_t::process_expression2(std::u32string const & document, match const & expression, abstract_syntax_graph const & asg) {
+erased<builder::node> wirth_t::process_expression(std::u32string const & document, match const & expression, abstract_syntax_graph const & asg) const {
 	std::vector<match> terms;
 
 	permutation const & p = *(*asg.permutations.find(expression)).second.begin();
@@ -97,17 +97,18 @@ erased<builder::node> wirth_t::process_expression2(std::u32string const & docume
 		}
 	}
 	if (terms.size() == 1) {
-		return process_term2(document, terms[0], asg);
+		return process_term(document, terms[0], asg);
 	}
 	builder::choice_t result;
 	for (match const & term : terms) {
-		result.children.push_back(process_term2(document, term, asg));
+		result.children.push_back(process_term(document, term, asg));
 	}
 	return result;
 }
 
-erased<builder::node> wirth_t::compile_expression(std::u32string const & source) {
-	auto asg = p.parse(*this, expressionDfa, source, p.builtins.progress_bar);
+erased<builder::node> wirth_t::compile_expression(std::u32string const & source) const {
+	parser p;
+	auto asg = p.parse(*this, expressionDfa, source, builtins().progress_bar);
 	if (!asg.is_rooted()) {
 		throw std::runtime_error("could not parse expression");
 	}
@@ -115,31 +116,10 @@ erased<builder::node> wirth_t::compile_expression(std::u32string const & source)
 		throw std::runtime_error("more than one interpretation of the source");
 	}
 	//auto test = asg.to_dot(); //TODO: Make sure this is commented out
-	return process_expression2(source, asg.root, asg);
+	return process_expression(source, asg.root, asg);
 }
 
-#if 0 //to move
-builder::grammar wirth_t::load_grammar(std::string const & rootId, std::map<std::string, production> const & definitions) {
-
-	std::set<std::string> names;
-	std::vector<correlated_state_machine_info> infos;
-	for (auto const & definitionEntry : definitions) {
-		std::string const & name = definitionEntry.first;
-		production const & def = definitionEntry.second;
-		auto res = names.insert(name);
-		if (!res.second) {
-			throw std::exception(("duplicate reference ID " + name).c_str());
-		}
-		infos.emplace_back(name, def.filter, def.assoc);
-	}
-	std::unique_ptr<correlated_grammar> result(new correlated_grammar(p.builtins, rootId, infos, [this, &definitions](std::string const & id, correlated_grammar & g) {
-	                                              return compile_expression(definitions.find(id)->second.source, g);
-                                              }));
-	return result;
-}
-#endif
-
-builder::grammar wirth_t::load_grammar(std::string const & rootId, std::map<std::string, production> const & definitions) {
+builder::grammar wirth_t::load_grammar(std::string const & rootId, std::map<std::string, production> const & definitions) const {
 	std::set<std::string> names;
 	builder::grammar result;
 	result.root_id = rootId;
@@ -161,9 +141,10 @@ builder::grammar wirth_t::load_grammar(std::string const & rootId, std::map<std:
 }
 
 
-builder::grammar wirth_t::load_grammar(std::string const & rootId, std::u32string const & document, std::map<std::string, associativity> const & associativities, std::set<std::string> const & longestNames) {
-	std::set<std::u32string> names;
+builder::grammar wirth_t::load_grammar(std::string const & rootId, std::u32string const & document, std::map<std::string, associativity> const & associativities, std::set<std::string> const & longestNames) const {
+	parser p;
 	abstract_syntax_graph asg = p.parse(*this, document);
+	std::set<std::u32string> names;
 	throw_assert(asg.is_rooted());
 	std::map<std::string, production> definitions;
 	//std::string check = asg.to_dot();
@@ -185,7 +166,7 @@ builder::grammar wirth_t::load_grammar(std::string const & rootId, std::u32strin
 				}
 			}
 			auto assoc = associativities.count(name) > 0 ? associativities.find(name)->second : associativity::none;
-			auto filter = longestNames.count(name) > 0 ? builtins.longest : filter_function();
+			auto filter = longestNames.count(name) > 0 ? builtins().longest : filter_function();
 			definitions.emplace(std::piecewise_construct, forward_as_tuple(name), forward_as_tuple(source, assoc, filter, std::set<std::string>()));
 		}
 	}
@@ -195,13 +176,13 @@ builder::grammar wirth_t::load_grammar(std::string const & rootId, std::u32strin
 wirth_t::production::production(std::u32string const & source, associativity assoc, filter_function filter, std::set<std::string> const & precedences) : source(source), assoc(assoc), filter(filter), precedences(precedences) {
 }
 
-builder::grammar generate_wirth(builtins_t const & builtins) {
+builder::grammar generate_wirth() {
 	using namespace builder;
 	return grammar("root", {
 		               production("whiteSpace", sequence({
 			                          reference("white_space"),
 			                          repetition(reference("white_space"))}),
-		                          associativity::none, builtins.longest
+		                          associativity::none, builtins().longest
 		               ),
 
 		               production("comment", sequence({
@@ -214,7 +195,7 @@ builder::grammar generate_wirth(builtins_t const & builtins) {
 			                          choice({reference("letter"), literal("_")}),
 			                          repetition(choice({reference("letter"), literal("_"), reference("decimal_digit")}))
 		                          }),
-		                          associativity::none, builtins.longest),
+		                          associativity::none, builtins().longest),
 
 		               production("production", sequence({
 			                          reference("identifier"),
@@ -277,7 +258,7 @@ static correlated_state_machine const & convert(state_machine_base const & s) {
 	return *static_cast<correlated_state_machine const *>(&s);
 }
 
-wirth_t::wirth_t(parser & p) : correlated_grammar(p.builtins, generate_wirth(p.builtins)), p(p),
+wirth_t::wirth_t() : correlated_grammar(generate_wirth()),
                                openSquare(get_literal("[")),
                                openParen(get_literal("(")),
                                openCurly(get_literal("{")),
@@ -294,10 +275,10 @@ wirth_t::wirth_t(parser & p) : correlated_grammar(p.builtins, generate_wirth(p.b
 
 }
 
-erased<builder::node> wirth_t::process_production2(std::u32string const & document, match const & production, abstract_syntax_graph const & asg) {
+erased<builder::node> wirth_t::process_production(std::u32string const & document, match const & production, abstract_syntax_graph const & asg) const {
 	for (match const & entry : *(*asg.permutations.find(production)).second.begin()) {
 		if (&entry.r == &expressionDfa) {
-			return process_expression2(document, entry, asg);
+			return process_expression(document, entry, asg);
 		}
 	}
 	throw;
@@ -305,4 +286,8 @@ erased<builder::node> wirth_t::process_production2(std::u32string const & docume
 
 
 } //namespace details
+details::wirth_t const& wirth() {
+	static details::wirth_t value;
+	return value;
+}
 } //namespace parlex

@@ -140,20 +140,19 @@ struct grammar {
 #define DECLARE_DFA(name)                                                                            \
 	class name##_t : public parlex::state_machine_base {                                              \
 	public:                                                                                            \
-		name##_t(parlex::builtins_t const & builtins);                                                  \
+		name##_t();                                                                                     \
 		void process(parlex::details::context_ref const & c, size_t dfaState) const override;            \
-		parlex::builtins_t const & builtins;                                                              \
-		int get_start_state() const final;                                                                 \
-		parlex::filter_function get_filter() const final;                                                   \
-		parlex::associativity get_assoc() const final;                                                       \
-	}                                                                                                         \
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+		int get_start_state() const final;                                                                \
+		parlex::filter_function get_filter() const final;                                                  \
+		parlex::associativity get_assoc() const final;                                                      \
+	}                                                                                                        \
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 #define DEFINE_TERMINAL(name, U32content) static parlex::details::string_terminal name(U32content)
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #define DEFINE_DFA(name, cases, startStates)                                                                          \
-	name##_t::name##_t(parlex::builtins_t const & builtins) : state_machine_base(#name), builtins(builtins) {}         \
+	name##_t::name##_t() : state_machine_base(#name) {}                                                                \
 	void name##_t::process(parlex::details::context_ref const & c, size_t dfaState) const {                             \
 		switch (dfaState) {                                                                                              \
 		cases                                                                                                             \

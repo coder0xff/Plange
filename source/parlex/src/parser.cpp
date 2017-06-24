@@ -42,7 +42,7 @@ void parser::start_workers(int threadCount) {
 	}
 }
 
-parser::parser(unsigned threadCount) : builtins(*this), single_thread_mode(threadCount == 1), activeCount(0), terminating(false) {
+parser::parser(unsigned threadCount) : single_thread_mode(threadCount == 1), activeCount(0), terminating(false) {
 	if (!single_thread_mode) {
 		start_workers(threadCount);
 	}

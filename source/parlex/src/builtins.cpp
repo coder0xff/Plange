@@ -50,6 +50,11 @@ std::set<int> builtins_t::longest_f(std::u32string document, std::list<permutati
 	return result;
 }
 
+builtins_t const& builtins() {
+	static builtins_t value;
+	return value;
+}
+
 bool builtins_t::resolve_builtin(std::string const & name, recognizer const *& ptr) const {
 	auto i = recognizer_table.find(name);
 	if (i == recognizer_table.end()) {
@@ -107,7 +112,7 @@ std::map<std::string, recognizer const *> builtins_t::generate_lookup_table() co
 		&white_space_control
 	};
 
-	unsigned int count = sizeof(table_initializer) / sizeof(*table_initializer);
+	unsigned int count = sizeof table_initializer / sizeof *table_initializer;
 	for (unsigned int i = 0; i < count; ++i) {
 		recognizer const * item = table_initializer[i];
 		std::string const name = item->id;
@@ -118,7 +123,7 @@ std::map<std::string, recognizer const *> builtins_t::generate_lookup_table() co
 }
 
 
-builtins_t::builtins_t(parser & p) : longest(new std::function<std::set<int>(std::u32string const & /*document*/, std::list<permutation> const &)>(longest_f)), c_string(*this), recognizer_table(generate_lookup_table()), wirth(p) {
+builtins_t::builtins_t() : longest(new std::function<std::set<int>(std::u32string const & /*document*/, std::list<permutation> const &)>(longest_f)), c_string(*this), recognizer_table(generate_lookup_table()) {
 
 }
 

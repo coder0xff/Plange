@@ -2,10 +2,10 @@
 
 #include "parlex/parser.hpp"
 #include "parlex/recognizer.hpp"
+#include "parlex/state_machine_base.hpp"
 
 #include "parlex/details/context.hpp"
 #include "parlex/details/job.hpp"
-#include "logging.hpp"
 
 namespace parlex {
 namespace details {

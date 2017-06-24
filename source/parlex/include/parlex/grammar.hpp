@@ -21,7 +21,7 @@ class builtins_t;
 
 class grammar : public grammar_base {
 public:
-	grammar(builtins_t const & builtins, std::string const & nameOfMain);
+	grammar(std::string const & nameOfMain);
 	grammar(grammar const & other);
 	virtual ~grammar() = default;
 
@@ -29,7 +29,7 @@ public:
 	grammar& operator=(grammar const &) = delete;
 	void generate_hpp(std::string grammarName, std::ostream & hpp, std::string namespace_, std::string upperCaseGrammarName) const;
 	//void generate_representation(std::ostream & cpp);
-	void generate_cplusplus_code(builtins_t const & builtins, std::string grammarName, std::string nameOfMain, std::ostream & cpp, std::ostream & hpp, std::string namespace_, std::string headerPathPrefix = "") const;
+	void generate_cplusplus_code(std::string grammarName, std::string nameOfMain, std::ostream & cpp, std::ostream & hpp, std::string namespace_, std::string headerPathPrefix = "") const;
 	std::map<std::string, state_machine_base const *> get_state_machines() const override;
 	state_machine_base const& get_state_machine(std::string const & id) const override;
 	details::string_terminal const& get_literal(std::string const & id) const override;

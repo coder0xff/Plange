@@ -12,10 +12,12 @@ namespace details {
 
 class c_string_t : public state_machine {
 public:
-	c_string_t(builtins_t const & builtins);
 	std::u32string extract(std::u32string document, match const & m, abstract_syntax_graph const & asg) const;
 
 private:
+	friend class builtins_t;
+	c_string_t(builtins_t const &);
+
 	class content_t : public terminal {
 	public:
 		content_t();

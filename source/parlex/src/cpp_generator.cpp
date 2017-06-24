@@ -5,7 +5,7 @@
 #include "parlex/builder.hpp"
 #include "parlex/builtins.hpp"
 #include "parlex/behavior.hpp"
-
+#include "parlex/parser.hpp" //need it for its builtins member
 namespace parlex {
 
 static std::string get_include_guard_name(std::string name) {
@@ -245,15 +245,15 @@ std::string node_to_cpp(builder::node const & n, int indentLevel) {
 	return ss.str();
 }
 
-std::string production_to_cpp(builtins_t const & builtins, builder::production const & p) {
+std::string production_to_cpp(builder::production const & p) {
 	std::stringstream ss;
-	ss << "production(" << enquote(p.id) << ", ";
-	ss << node_to_cpp(*p.behavior, 2);
+	ss << "production(" << enquote(p.id) << ",\n\t";
+	ss << node_to_cpp(*p.behavior, 1);
 	bool needsPrecendences = p.precedences.size() > 0;
 	bool needsFilter = p.filter != filter_function() || needsPrecendences;
 	bool needsAssociativity = p.assoc != associativity::none || needsFilter;
 	if (needsAssociativity) {
-		ss << ",\n\t\tassociativity::";
+		ss << ",\n\tassociativity::";
 		switch (p.assoc) {
 		case associativity::any:
 			ss << "any";
@@ -271,8 +271,8 @@ std::string production_to_cpp(builtins_t const & builtins, builder::production c
 	}
 	if (needsFilter) {
 		ss << ", ";
-		if (p.filter == builtins.longest) {
-			ss << "builtins.longest";
+		if (p.filter == builtins().longest) {
+			ss << "builtins().longest";
 		}
 		else if (!p.filter) {
 			ss << "filter_function()";
@@ -292,15 +292,21 @@ std::string production_to_cpp(builtins_t const & builtins, builder::production c
 	return ss.str();
 }
 
-std::string cpp_generator::generate(builtins_t const & builtins, builder::grammar const & g) {
+std::string generate_grammar_builder(builder::grammar const & g) {
 	std::stringstream ss;
 	ss << "parlex::builder::grammar(" << enquote(g.root_id) << ", {\n";
 	for (auto const & p : g.productions) {
-		ss << production_to_cpp(builtins, p);
+		ss << production_to_cpp(p);
 		ss << ",\n";
 	}
 	ss << "});";
 	return ss.str();
+}
+
+std::map<std::string, std::string> cpp_generator::generate(std::string const & name, builder::grammar const & g) {
+	std::map<std::string, std::string> results;
+	results[name + ".grammar_builder.cpp.inc"] = generate_grammar_builder(g);
+	return results;
 }
 
 } // namespace parlex
