@@ -445,11 +445,8 @@ TEST(ParlexTest, behavior_1) {
 TEST(ParlexTest, behavior_2) {
 	builder::grammar g_builder("A", {
 		production("A", sequence({
-			reference("letter"),
-			repetition(sequence({
-				optional(reference("white_space")),
-				reference("letter")
-			}))
+			optional(reference("white_space")),
+			reference("letter")
 		}))
 	});
 

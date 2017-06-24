@@ -25,7 +25,7 @@ struct nfa {
 	template <typename X, typename Y, typename Z>
 	friend struct nfa;
 
-	using state_indices_t = std::set<int>;
+	using state_indices_t = std::set<size_t>;
 
 	struct state {
 		label_t label;
@@ -116,7 +116,7 @@ struct nfa {
 	}
 
 	state_indices_t transition_function_extended(state_indices_t fromStateIndices, alphabet_t input) const {
-		std::set<int> result;
+		std::set<size_t> result;
 		for (size_t fromStateIndex : fromStateIndices) {
 			throw_assert(fromStateIndex < states.size());
 			auto i = states[fromStateIndex].out_transitions.find(input);
@@ -177,9 +177,9 @@ struct nfa {
 		return dual().determinize().dual().determinize();
 	}
 
-	nfa<alphabet_t, int> map_to_ints() {
-		nfa<alphabet_t, int> result;
-		for (unsigned int i = 0; i < states.size(); ++i) {
+	nfa<alphabet_t, size_t> map_to_uints() {
+		nfa<alphabet_t, size_t> result;
+		for (size_t i = 0; i < states.size(); ++i) {
 			result.states.emplace_back(i);
 			result.states[i].out_transitions = states[i].out_transitions;
 		}

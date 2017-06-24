@@ -83,7 +83,7 @@ std::string node::to_dot() const {
 nfa2 node::compile() const {
 	auto temp = to_nfa();
 	std::string check = nfa2_to_dot(temp); //todo: disable debug code
-	return temp.minimal_dfa().map_to_ints();
+	return temp.minimal_dfa().map_to_uints();
 }
 
 leaf::leaf(recognizer const & r) : r(r), id(r.id) {
@@ -141,50 +141,45 @@ nfa2 sequence::to_nfa() const {
 	result.startStates.insert(0);
 	result.acceptStates.insert(0);
 	for (erased<node> const & child : children) {
-		bool anyOriginalStartIsAccept; {
-			std::set<int> intersection;
-			set_intersection(result.startStates.begin(), result.startStates.end(),
-			                 result.acceptStates.begin(), result.acceptStates.end(), inserter(intersection, intersection.begin()));
-			anyOriginalStartIsAccept = !intersection.empty();
+		auto part = child->to_nfa();
+		size_t newStateIndexOffset = result.states.size();
+
+		//true if any part's start state is also an accept state
+		bool partAcceptsStart; {
+			std::set<size_t> intersection;
+			set_intersection(part.startStates.begin(), part.startStates.end(),
+			                 part.acceptStates.begin(), part.acceptStates.end(), inserter(intersection, intersection.begin()));
+			partAcceptsStart = !intersection.empty();
 		}
 
-		int newStateIndexOffset = result.states.size();
-
-		auto part = child->to_nfa();
+		std::set<size_t> originalAcceptStatesOfResult = result.acceptStates;
+		if (!partAcceptsStart) {
+			result.acceptStates.clear();
+		}
 
 		//add the part's states
-		for (nfa2::state const & partFromState : part.states) {
-			result.states.emplace_back(partFromState.label);
+		for (nfa2::state const & fromStateOfPart : part.states) {
+			result.states.emplace_back(fromStateOfPart.label + newStateIndexOffset);
 			nfa2::state & newState = result.states.back();
-			for (auto & symbolAndToStateIndices : partFromState.out_transitions) {
-				for (int toStateIndex : symbolAndToStateIndices.second) {
-					newState.out_transitions[symbolAndToStateIndices.first].insert(toStateIndex + newStateIndexOffset);
+			for (auto & symbolAndToStateIndicesOfPart : fromStateOfPart.out_transitions) {
+				for (int toStateOfPart : symbolAndToStateIndicesOfPart.second) {
+					newState.out_transitions[symbolAndToStateIndicesOfPart.first].insert(toStateOfPart + newStateIndexOffset);
 				}
 			}
 		}
+		std::string check = nfa2_to_dot(result); //todo: disable debug code
 
-		std::set<int> originalAcceptStateIndices;
-		swap(originalAcceptStateIndices, result.acceptStates);
-		//for each (originalFromState, symbol, originalAcceptState) create for each partStartState (originalFromState, symbol, partStartState)
-		for (int originalStateIndex = 0; originalStateIndex < newStateIndexOffset; ++originalStateIndex) {
-			nfa2::state & fromState = result.states[originalStateIndex];
-			for (auto & symbolAndToStateIndices : fromState.out_transitions) {
-				std::set<int> toStatesIntersectionOriginalAcceptStates;
-				set_intersection(
-					symbolAndToStateIndices.second.begin(), symbolAndToStateIndices.second.end(),
-					originalAcceptStateIndices.begin(), originalAcceptStateIndices.end(),
-					inserter(toStatesIntersectionOriginalAcceptStates, toStatesIntersectionOriginalAcceptStates.begin()));
-				if (!toStatesIntersectionOriginalAcceptStates.empty()) {
-					for (int partStartIndex : part.startStates) {
-						fromState.out_transitions[symbolAndToStateIndices.first].insert(partStartIndex + newStateIndexOffset);
+		//for each transition (startStateOfPart, symbol, stateOfPart) create for each originalAcceptStatesOfResult (originalAcceptStateOfResult, symbol, stateOfPart + newStateIndexOffset) transition
+		for (size_t startStateOfPart : part.startStates) {
+			for (auto const & transition : part.states[startStateOfPart].out_transitions) {
+				auto const & symbol = transition.first;
+				auto const & toStatesOfPart = transition.second;
+				for (size_t toStateOfPart : toStatesOfPart) {
+					for (size_t originalAcceptStateOfResult : originalAcceptStatesOfResult) {
+						std::set<size_t> & toStatesOfOriginalAcceptStateOfResult = result.states[originalAcceptStateOfResult].out_transitions[symbol];
+						toStatesOfOriginalAcceptStateOfResult.insert(toStateOfPart + newStateIndexOffset);
 					}
 				}
-			}
-		}
-
-		if (anyOriginalStartIsAccept) {
-			for (int partStartStateIndex : part.startStates) {
-				result.startStates.insert(partStartStateIndex + newStateIndexOffset);
 			}
 		}
 

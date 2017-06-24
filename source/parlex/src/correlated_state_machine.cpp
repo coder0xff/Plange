@@ -2,6 +2,7 @@
 
 #include "parlex/associativity.hpp"
 #include "parlex/behavior.hpp"
+#include "../../plc/include/source_code.hpp"
 
 namespace parlex {
 
@@ -9,7 +10,7 @@ correlated_state_machine::correlated_state_machine(std::string const & id, filte
 }
 
 void correlated_state_machine::set_behavior(behavior::node const & behavior) {
-	static_assert(std::is_same_v<behavior::nfa2, details::nfa<behavior::leaf const *, int>>, "these should be the same");
+	static_assert(std::is_same_v<behavior::nfa2, details::nfa<behavior::leaf const *, size_t>>, "these should be the same");
 	this->behavior = &behavior;
 	behavior::nfa2 dfa = reorder(behavior.compile());
 	auto check = nfa2_to_dot(dfa); //todo: disable debug code
@@ -38,16 +39,16 @@ void correlated_state_machine::process(details::context_ref const & c, size_t co
 	}
 }
 
-behavior::nfa2 correlated_state_machine::reorder(behavior::nfa2 const & original) {
-	behavior::nfa2 dfa = original.minimal_dfa().map_to_ints();
+behavior::nfa2 correlated_state_machine::reorder(behavior::nfa2 dfa) {
 	//construct a map from dfa states to reordered states
-	std::map<int, int> stateMap;
-	unsigned int startState = *dfa.startStates.begin();
+	std::string check = nfa2_to_dot(dfa); //todo: disable debug code
+	std::map<size_t, size_t> stateMap;
+	size_t startState = *dfa.startStates.begin();
 	bool startIsAccept = dfa.acceptStates.count(startState) > 0;
 	if (!startIsAccept) {
 		stateMap[*dfa.startStates.begin()] = 0;
 	}
-	for (unsigned int i = 0; i < dfa.states.size(); ++i) {
+	for (size_t i = 0; i < dfa.states.size(); ++i) {
 		//all the un-added non-accept states
 		if (i != startState && dfa.acceptStates.count(i) == 0) {
 			stateMap[i] = stateMap.size();
@@ -56,7 +57,7 @@ behavior::nfa2 correlated_state_machine::reorder(behavior::nfa2 const & original
 	if (startIsAccept) {
 		stateMap[*dfa.startStates.begin()] = stateMap.size();
 	}
-	for (unsigned int i = 0; i < dfa.states.size(); ++i) {
+	for (size_t i = 0; i < dfa.states.size(); ++i) {
 		//all the un-added accept states
 		if (i != startState && dfa.acceptStates.count(i) > 0) {
 			stateMap[i] = stateMap.size();
@@ -64,16 +65,16 @@ behavior::nfa2 correlated_state_machine::reorder(behavior::nfa2 const & original
 	}
 
 	//it's a bimap, construct reverse lookup
-	std::map<int, int> stateMapDual;
+	std::map<size_t, size_t> stateMapDual;
 	for (auto const & i : stateMap) {
 		stateMapDual[i.second] = i.first;
 	}
 
 	//construct the reordered dfa
 	behavior::nfa2 reordered;
-	unsigned int firstAcceptState = dfa.states.size() - dfa.acceptStates.size();
-	for (unsigned int i = 0; i < dfa.states.size(); ++i) {
-		unsigned int const dual = stateMapDual[i];
+	size_t firstAcceptState = dfa.states.size() - dfa.acceptStates.size();
+	for (size_t i = 0; i < dfa.states.size(); ++i) {
+		size_t const dual = stateMapDual[i];
 		behavior::nfa2::state const & dfa_state = dfa.states[dual];
 		reordered.add_state(i, i >= firstAcceptState, dual == startState);
 		behavior::nfa2::state & reordered_state = reordered.states[i];

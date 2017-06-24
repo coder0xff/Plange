@@ -12,7 +12,7 @@ class state_machine;
 namespace behavior {
 
 class leaf;
-using nfa2 = details::nfa<leaf const *, int>;
+using nfa2 = details::nfa<leaf const *, size_t>;
 std::string nfa2_to_dot(nfa2 const & nfa);
 
 class node {

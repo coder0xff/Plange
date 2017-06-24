@@ -14,7 +14,7 @@ namespace behavior {
 
 class node;
 class leaf;
-using nfa2 = details::nfa<leaf const *, int>;
+using nfa2 = details::nfa<leaf const *, size_t>;
 
 } // namespace behavior
 
@@ -51,7 +51,7 @@ private:
 	states_t states;
 
 	void process(details::context_ref const & c, size_t dfaState) const override;
-	static behavior::nfa2 reorder(behavior::nfa2 const & original);
+	static behavior::nfa2 reorder(behavior::nfa2 dfa);
 
 public:
 	bool is_terminal() const override;

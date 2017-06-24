@@ -14,7 +14,7 @@ namespace behavior {
 
 class node;
 class leaf;
-using nfa2 = details::nfa<leaf const *, int>;
+using nfa2 = details::nfa<leaf const *, size_t>;
 
 } // namespace behavior
 
