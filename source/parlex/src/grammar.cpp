@@ -8,13 +8,13 @@
 namespace parlex {
 namespace details {
 
-grammar::production::production(std::string const & id, filter_function const & filter, associativity assoc) : state_machine(id, filter, assoc) {
+grammar::production::production(std::string const & id, filter_function const & filter, associativity assoc) : machine(id, filter, assoc) {
 }
 
 
 void grammar::production::set_behavior(erased<behavior::node> const & behavior) {
 	this->behavior = behavior.clone();
-	state_machine.set_behavior(*this->behavior);
+	machine.set_behavior(*this->behavior);
 }
 
 grammar::grammar(builder const & grammarDefinition) : root_id(grammarDefinition.root_id) {
@@ -44,7 +44,7 @@ state_machine_base const& grammar::get_main_state_machine() const {
 std::map<std::string, state_machine_base const *> grammar::get_state_machines() const {
 	std::map<std::string, state_machine_base const *> results;
 	for (auto const & production : productions) {
-		results[production.first] = &production.second.state_machine;
+		results[production.first] = &production.second.machine;
 	}
 	return results;
 }
@@ -71,7 +71,7 @@ precedence_collection grammar::get_precedences() const {
 state_machine_base const& grammar::get_state_machine(std::string const & id) const {
 	auto i = productions.find(id);
 	throw_assert(i != productions.end());
-	return i->second.state_machine;
+	return i->second.machine;
 }
 
 string_terminal const& grammar::get_literal(std::string const & id) const {

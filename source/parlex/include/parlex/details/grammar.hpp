@@ -37,7 +37,7 @@ public:
 		production(std::string const & id, filter_function const & filter, associativity assoc);
 	private:
 		friend class grammar;
-		state_machine state_machine;
+		state_machine machine;
 		std::unique_ptr<behavior::node> behavior;
 		void set_behavior(erased<behavior::node> const & behavior);
 	};
