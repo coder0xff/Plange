@@ -40,9 +40,9 @@ int main(int argc, const char* argv[]) {
 	for (auto const & elem : spec) {
 		std::string name = elem.first.as<std::string>();
 		auto data = elem.second;
-		std::cout << name << "\n";
+		std::cout << "parsing " << name << "\n";
 		std::string syntax = trim(data["syntax"].as<std::string>());
-		std::cout << syntax << "\n";
+		std::cout << "syntax " << syntax << "\n";
 		std::u32string source = to_utf32(syntax);
 		auto assoc = parlex::associativity::none;
 		if (data["assoc"]) {
