@@ -266,7 +266,11 @@ std::string production_to_cpp(builtins_t const & builtins, builder::production c
 		ss << ", ";
 		if (p.filter == builtins.longest) {
 			ss << "builtins.longest";
-		} else {
+		}
+		else if (!p.filter) {
+			ss << "filter_function()";
+		}
+		else {
 			throw;
 		}
 	}
