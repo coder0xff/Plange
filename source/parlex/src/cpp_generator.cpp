@@ -174,6 +174,8 @@ static std::pair<std::string, std::string> generate(std::vector<std::string> con
 std::string node_to_cpp(builder::node const & n, int indentLevel) {
 	std::stringstream ss;
 
+	std::string indentString(std::string(indentLevel, '\t'));
+
 	auto add_tag = [&]()
 	{
 		if (n.tag != "") {
@@ -199,11 +201,12 @@ std::string node_to_cpp(builder::node const & n, int indentLevel) {
 	auto write_children = [&]()
 	{		
 		for (auto const & child : n.children) {
-			ss << std::string(indentLevel + 1, '\t');
-			ss << node_to_cpp(*child, indentLevel + 1);
+			ss << indentString;
+			ss << '\t' << node_to_cpp(*child, indentLevel + 1);
 			if (&*child != &**n.children.rbegin()) {
 				ss << ",";
 			}
+			ss << '\n';
 		}
 	};
 
@@ -212,7 +215,7 @@ std::string node_to_cpp(builder::node const & n, int indentLevel) {
 		add_tag();
 		ss << "{\n";
 		write_children();
-		ss << std::string('\t', indentLevel) << "})";		
+		ss << indentString << "})";		
 	}
 
 	DO_AS(optional) {
@@ -220,7 +223,7 @@ std::string node_to_cpp(builder::node const & n, int indentLevel) {
 		add_tag();
 		ss << "\n";
 		write_children();
-		ss << std::string('\t', indentLevel) << ")";
+		ss << indentString << ")";
 	}
 
 	DO_AS(repetition) {
@@ -228,7 +231,7 @@ std::string node_to_cpp(builder::node const & n, int indentLevel) {
 		add_tag();
 		ss << "\n";
 		write_children();
-		ss << std::string('\t', indentLevel) << ")";
+		ss << indentString << ")";
 	}
 
 	DO_AS(sequence) {
@@ -236,7 +239,7 @@ std::string node_to_cpp(builder::node const & n, int indentLevel) {
 		add_tag();
 		ss << "{\n";
 		write_children();
-		ss << std::string('\t', indentLevel) << "})";
+		ss << indentString << "})";
 	}
 
 	return ss.str();
@@ -254,12 +257,16 @@ std::string production_to_cpp(builtins_t const & builtins, builder::production c
 		switch (p.assoc) {
 		case associativity::any:
 			ss << "any";
+			break;
 		case associativity::left:
 			ss << "left";
+			break;
 		case associativity::none:
 			ss << "none";
+			break;
 		case associativity::right:
 			ss << "right";
+			break;
 		}
 	}
 	if (needsFilter) {
@@ -279,15 +286,18 @@ std::string production_to_cpp(builtins_t const & builtins, builder::production c
 		for (auto const & precedence : p.precedences) {
 			ss << enquote(precedence) << ", ";
 		}
+		ss << "}";
 	}
+	ss << ")";
 	return ss.str();
 }
 
 std::string cpp_generator::generate(builtins_t const & builtins, builder::grammar const & g) {
 	std::stringstream ss;
-	ss << "parlex::builder::grammar(" << enquote(g.root_id) << ", {\n;";
+	ss << "parlex::builder::grammar(" << enquote(g.root_id) << ", {\n";
 	for (auto const & p : g.productions) {
 		ss << production_to_cpp(builtins, p);
+		ss << ",\n";
 	}
 	ss << "});";
 	return ss.str();

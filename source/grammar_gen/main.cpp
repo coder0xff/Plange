@@ -79,5 +79,4 @@ int main(int argc, const char* argv[]) {
 	std::ofstream hppStream(workingDir + "/plc/include/plange_grammar.hpp");
 	hppStream << parlex::cpp_generator::generate(p.builtins, g);
 	throw std::logic_error("not implemented");
-	//g.generate_cplusplus_code(p.builtins, "plange", "STATEMENT_SCOPE", cppStream, hppStream, "plc");
 }
