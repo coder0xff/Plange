@@ -12,12 +12,14 @@
 namespace parlex {
 namespace details {
 
-job::job(parser & owner, std::u32string const & document, grammar_base const & g, recognizer const & main) :
+job::job(parser & owner, std::u32string const & document, grammar_base const & g, recognizer const & main, progress_handler_t progressHandler) :
 	document(document),
 	g(g),
 	main(main),
 	progress(0),
-	owner(owner) {
+	owner(owner),
+	progress_handler(progressHandler),
+	progress_counter(0) {
 	//DBG("starting job using recognizer '", main, "'");
 
 	//similar to get_product, but different for constructor
@@ -84,6 +86,17 @@ producer& job::get_producer(match_class const & matchClass) {
 	return *result;
 }
 
+
+void job::update_progress(size_t completed)
+{
+	if (progress_handler) {
+		size_t old_progress = progress.load();
+		while (!progress_counter.compare_exchange_weak(old_progress, completed) && old_progress < completed);
+		if (old_progress < completed) {
+			progress_handler(completed, document.length());
+		}
+	}
+}
 
 }
 }

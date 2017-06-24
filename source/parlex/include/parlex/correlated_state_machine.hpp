@@ -43,6 +43,7 @@ public:
 	int start_state;
 	size_t accept_state_count; //must be greater than 0
 	void set_behavior(behavior::node const & behavior);
+	std::string to_dot() const;
 private:
 	friend class parser;
 	friend class details::subjob;

@@ -122,5 +122,13 @@ std::string abstract_syntax_graph::to_concrete_dot(std::u32string const & docume
 	return result;
 }
 
+uint64_t abstract_syntax_graph::variation_count() const {
+	uint64_t result = 1;
+	for (auto const & permutation : permutations) {
+		result *= permutation.second.size();
+	}
+	return result;
+}
+
 
 }

@@ -320,6 +320,21 @@ TEST(ParlexTest, wirth_test_3) {
 	}
 }
 
+TEST(ParlexTest, wirth_test_3_1) {
+	parser p;
+	auto grammar = p.builtins.wirth.load_grammar("SYNTAX", U"EXPRESSION = {white_space} .", {}, {});
+}
+
+TEST(ParlexTest, wirth_test_3_2) {
+	parser p;
+	auto grammar = p.builtins.wirth.load_grammar("SYNTAX", U"EXPRESSION = { {white_space} } .", {}, {});
+}
+
+TEST(ParlexTest, wirth_test_3_5) {
+	parser p;
+	auto grammar = p.builtins.wirth.load_grammar("SYNTAX", U"EXPRESSION = { {white_space} \"|\" {white_space} } .", {}, {});
+}
+
 TEST(ParlexTest, wirth_test_4) {
 	parser p;
 	auto grammar = p.builtins.wirth.load_grammar("SYNTAX", to_utf32(wirthInItself), {}, {});
@@ -391,6 +406,12 @@ IC = \"IC\".\
 STATEMENT = \"STATEMENT\".", {}, {}));
 }
 
+TEST(ParlexTest, wirth_test_12) {
+	std::u32string t = U"DIMENSIONAL_NUMBER | EMBEDDED_STRING";
+	parser p(1);
+	p.builtins.wirth.compile_expression(t);
+}
+
 using namespace builder;
 
 TEST(ParlexTest, behavior_1) {
@@ -418,6 +439,22 @@ TEST(ParlexTest, behavior_1) {
 		throw std::logic_error("Test failed");
 	}
 	std::string concreteDot = result.to_concrete_dot(document);
+
+}
+
+TEST(ParlexTest, behavior_2) {
+	builder::grammar g_builder("A", {
+		production("A", sequence({
+			reference("letter"),
+			repetition(sequence({
+				optional(reference("white_space")),
+				reference("letter")
+			}))
+		}))
+	});
+
+	parser p;
+	correlated_grammar g(p.builtins, g_builder);
 
 }
 

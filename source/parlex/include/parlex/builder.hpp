@@ -115,12 +115,13 @@ struct production {
 		std::set<std::string> const & precedences = std::set<std::string>()
 	);
 
-	std::string to_dot() const;
 	std::string id;
 	erased<node> behavior;
 	filter_function filter;
 	associativity assoc;
 	std::set<std::string> precedences;
+
+	std::string to_dot() const;
 };
 
 struct grammar {

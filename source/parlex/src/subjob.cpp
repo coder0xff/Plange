@@ -61,10 +61,11 @@ void subjob::accept(context_ref const & c) {
 	}
 	throw_assert(&c.owner() == this);
 	permutation p = c.result();
-	//DBG("Accepting r:", r.id, " p:", c.owner().document_position, " l:", c.current_document_position() - c.owner().document_position);
 	if (!machine.get_filter()) {
+		//DBG("Accepting r:", r.id, " p:", c.owner().document_position, " l:", c.current_document_position() - c.owner().document_position);
 		enque_permutation(len, p);
 	} else {
+		//DBG("Candidate r:", r.id, " p:", c.owner().document_position, " l:", c.current_document_position() - c.owner().document_position);
 		std::unique_lock<std::mutex> lock(mutex);
 		queuedPermutations.push_back(p);
 	}

@@ -1,5 +1,6 @@
 #collect source files
 set (SOURCES
+	"graphviz_dot.cpp"
 	"logging.cpp"
 	"one_shot.cpp"
 	"perf_timer.cpp"
@@ -9,6 +10,7 @@ set (SOURCES
 set (HEADERS
 	"auto_map_c.hpp"
 	"forward_list_c.hpp"
+	"graphviz_dot.hpp"
 	"logging.hpp"
 	"one_shot.hpp"
 	"perf_timer.hpp"

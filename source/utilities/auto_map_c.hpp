@@ -17,16 +17,15 @@ public:
 	auto_map_c() : value_factory([](TKey) { return TValue(); }) {
 	}
 
-	TValue const& operator()(TKey key) {
+	TValue & operator()(TKey key) {
 		std::unique_lock<std::mutex> lock(mutex);
 		// only run value_factory if not found, i.e. no emplace_back
 		auto i = storage.find(key);
 		if (i == storage.end()) {
-			TValue result = value_factory(key); 
-			storage.insert(std::pair<TKey, TValue>(key, result));
-			return result;
+			TValue value = value_factory(key); 
+			i = storage.insert(std::pair<TKey, TValue>(key, value)).first;
 		}
-		return *i;
+		return i->second;
 	}
 
 	void Set(TKey key, TValue value) {

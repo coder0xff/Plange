@@ -11,6 +11,7 @@ class correlated_grammar;
 class parser;
 class state_machine;
 class grammar_base;
+typedef std::function<void(size_t /*done*/, size_t /*total*/)> progress_handler_t;
 
 namespace details {
 
@@ -25,11 +26,17 @@ public:
 	mutable std::mutex producers_mutex;
 	std::atomic<int> progress;
 
-	job(parser & owner, std::u32string const & document, grammar_base const & g, recognizer const & main);
+	job(parser & owner, std::u32string const & document, grammar_base const & g, recognizer const & main, progress_handler_t progressHandler);
 	void connect(match_class const & matchClass, context_ref const & c, int nextState, behavior::leaf const * leaf);
 private:
-	producer& get_producer(match_class const & matchClass);
 	parser & owner;
+	progress_handler_t progress_handler;
+	std::atomic<size_t> progress_counter;
+
+	producer& get_producer(match_class const & matchClass);
+	void update_progress(size_t completed);
+
+	friend class parser;
 	friend class producer;
 };
 

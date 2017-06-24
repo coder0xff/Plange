@@ -6,6 +6,7 @@
 #include "utils.hpp"
 #include "parlex/builder.hpp"
 #include "utf.hpp"
+#include <iostream>
 
 namespace parlex {
 namespace details {
@@ -105,10 +106,16 @@ erased<builder::node> wirth_t::process_expression2(std::u32string const & docume
 	return result;
 }
 
-erased<builder::node> wirth_t::compile_source(std::u32string const & source) {
-	auto asg = p.parse(*this, expressionDfa, source);
+erased<builder::node> wirth_t::compile_expression(std::u32string const & source) {
+	auto progressHandler = [](size_t completed, size_t total) {
+		std::cout << completed << "/" << total << std::endl;
+	};
+	auto asg = p.parse(*this, expressionDfa, source, progressHandler);
 	if (!asg.is_rooted()) {
 		throw std::runtime_error("could not parse expression");
+	}
+	if (asg.variation_count() > 1) {
+		throw std::runtime_error("more than one interpretation of the source");
 	}
 	//auto test = asg.to_dot(); //TODO: Make sure this is commented out
 	return process_expression2(source, asg.root, asg);
@@ -129,7 +136,7 @@ builder::grammar wirth_t::load_grammar(std::string const & rootId, std::map<std:
 		infos.emplace_back(name, def.filter, def.assoc);
 	}
 	std::unique_ptr<correlated_grammar> result(new correlated_grammar(p.builtins, rootId, infos, [this, &definitions](std::string const & id, correlated_grammar & g) {
-	                                              return compile_source(definitions.find(id)->second.source, g);
+	                                              return compile_expression(definitions.find(id)->second.source, g);
                                               }));
 	return result;
 }
@@ -146,9 +153,10 @@ builder::grammar wirth_t::load_grammar(std::string const & rootId, std::map<std:
 		if (!res.second) {
 			throw std::runtime_error(("duplicate reference ID " + id).c_str());
 		}
-		builder::production resultDefinition(id, compile_source(definition.source), definition.assoc, definition.filter, definition.precedences);
+		std::cout << id << "\n";
+		builder::production resultDefinition(id, compile_expression(definition.source), definition.assoc, definition.filter, definition.precedences);
 		resultDefinition.id = id;
-		resultDefinition.behavior = compile_source(definition.source);
+		resultDefinition.behavior = compile_expression(definition.source);
 		resultDefinition.assoc = definition.assoc;
 		resultDefinition.filter = definition.filter;
 		result.productions.push_back(resultDefinition);
@@ -177,6 +185,7 @@ builder::grammar wirth_t::load_grammar(std::string const & rootId, std::u32strin
 			for (match const & entry2 : *(*asg.permutations.find(entry)).second.begin()) {
 				if (&entry2.r == &expressionDfa) {
 					source = document.substr(entry2.document_position, entry2.consumed_character_count);
+					break;
 				}
 			}
 			auto assoc = associativities.count(name) > 0 ? associativities.find(name)->second : associativity::none;
@@ -268,19 +277,24 @@ builder::grammar generate_wirth(builtins_t const & builtins) {
 
 }
 
+static correlated_state_machine const & convert(state_machine_base const & s) {
+	return *static_cast<correlated_state_machine const *>(&s);
+}
+
 wirth_t::wirth_t(parser & p) : correlated_grammar(p.builtins, generate_wirth(p.builtins)), p(p),
                                openSquare(get_literal("[")),
                                openParen(get_literal("(")),
                                openCurly(get_literal("{")),
                                dollarSign(get_literal("$")),
 
-                               productionDfa(get_state_machine("production")),
-                               expressionDfa(get_state_machine("expression")),
-                               termDfa(get_state_machine("term")),
-                               parentheticalDfa(get_state_machine("parenthetical")),
-                               tagDfa(get_state_machine("tag")),
-                               factorDfa(get_state_machine("factor")),
-                               identifierDfa(get_state_machine("identifier")) {
+                               productionDfa(convert(get_state_machine("production"))),
+                               expressionDfa(convert(get_state_machine("expression"))),
+                               termDfa(convert(get_state_machine("term"))),
+                               parentheticalDfa(convert(get_state_machine("parenthetical"))),
+                               tagDfa(convert(get_state_machine("tag"))),
+                               factorDfa(convert(get_state_machine("factor"))),
+                               identifierDfa(convert(get_state_machine("identifier"))) {
+	std::string check = termDfa.to_dot();
 
 }
 

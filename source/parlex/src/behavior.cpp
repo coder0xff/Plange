@@ -3,8 +3,14 @@
 
 #include "parlex/behavior.hpp"
 
+#include "graphviz_dot.hpp"
+
 namespace parlex {
 namespace behavior {
+
+std::string nfa2_to_dot(nfa2 const & nfa) {
+	return nfa.to_dot([](int x) { return std::to_string(x); }, [](leaf const * x) { return x->id; });
+}
 
 void node::add_child(erased<node> child) {
 	children.push_back(child);
@@ -21,8 +27,63 @@ node::node(node const & other) : tag(other.tag), children(other.children) {
 	}
 }
 
+static std::string node_to_name(node const * n) {
+	///////////////////////////////////////////////////////////////////////////////////////////
+#define DO_AS(name)                                                                       \
+	name const * as_##name = dynamic_cast<name const *>(n);      \
+	if (as_##name != nullptr)                                                               \
+/////////////////////////////////////////////////////////////////////////////////////////////
+
+	/////////////////////////////////////////
+#define DO_AS2(name)                    \
+	DO_AS(name) {                        \
+		result << #name << " ";           \
+		if (as_##name->tag != "") {        \
+			result << as_##name->tag;       \
+		} else {                             \
+			result << as_##name;              \
+		}                                      \
+	}                                           \
+/////////////////////////////////////////////////
+
+	std::stringstream result;
+	DO_AS(leaf) {
+		result << as_leaf->id;
+	}
+	DO_AS2(choice)
+		DO_AS2(optional)
+		DO_AS2(repetition)
+		DO_AS2(sequence)
+#undef DO_AS2
+#undef DO_AS
+
+	result << " " << n;
+	return result.str();
+
+}
+
+
+std::string node::to_dot() const {
+	return directed_graph<node const *>(
+		this, node_to_name,
+		[&](node const * n)
+		{
+			sequence const * as_sequence = dynamic_cast<sequence const *>(n);
+			std::vector<std::pair<std::string, node const *>> edges;
+			for (size_t childIndex = 0; childIndex < n->children.size(); ++childIndex) {
+				auto const & erasedChild = n->children[childIndex];
+				std::string edgeName = as_sequence != nullptr ? "label=" + std::to_string(childIndex) : "";
+				edges.push_back(make_pair(edgeName, &*erasedChild));
+			}
+			return edges;
+		}
+	);
+}
+
 nfa2 node::compile() const {
-	return to_nfa().minimal_dfa().map_to_ints();
+	auto temp = to_nfa();
+	std::string check = nfa2_to_dot(temp); //todo: disable debug code
+	return temp.minimal_dfa().map_to_ints();
 }
 
 leaf::leaf(recognizer const & r) : r(r), id(r.id) {

@@ -71,31 +71,17 @@ abstract_syntax_graph parser::construct_result_and_postprocess(recognizer const 
 	return result;
 }
 
-void parser::complete_progress_handler(std::u32string const & document) const {
-	if (update_progress_handler) {
-		update_progress_handler(document.length() + 1, document.length() + 1);
-	}
+void parser::complete_progress_handler(details::job & j) {
+	j.update_progress(j.document.length());
 }
 
-void parser::update_progress(std::tuple_element<0, std::tuple<details::context_ref, int>>::type const & context) const {
-	if (update_progress_handler) {
-		std::atomic<int> & progress = context.owner().owner.progress;
-		int oldProgress;
-		bool didSet = false;
-		int const docPos = context.current_document_position();
-		while (docPos > (oldProgress = progress)) {
-			didSet = progress.compare_exchange_weak(oldProgress, docPos);
-		}
-		if (didSet) {
-			int const docLen = context.owner().owner.document.length();
-			update_progress_handler(docPos, docLen + 1);
-		}
-	}
+void parser::update_progress(details::context_ref const & context) const {
+	context.owner().owner.update_progress(context.current_document_position());
 }
 
-abstract_syntax_graph parser::single_thread_parse(grammar_base const & g, recognizer const & overrideMain, std::vector<post_processor> posts, std::u32string const & document) {
+abstract_syntax_graph parser::single_thread_parse(grammar_base const & g, recognizer const & overrideMain, std::vector<post_processor> posts, std::u32string const & document, progress_handler_t progressHandler) {
 	//perf_timer timer("parse");
-	details::job j(*this, document, g, overrideMain);
+	details::job j(*this, document, g, overrideMain, progressHandler);
 	throw_assert(activeCount > 0);
 	while (true) {
 		while (work.size() > 0) {
@@ -116,14 +102,14 @@ abstract_syntax_graph parser::single_thread_parse(grammar_base const & g, recogn
 		}
 	}
 	throw_assert(activeCount == 0);
-	complete_progress_handler(document);
+	complete_progress_handler(j);
 	return construct_result_and_postprocess(overrideMain, posts, document, j);
 }
 
-abstract_syntax_graph parser::multi_thread_parse(grammar_base const & g, recognizer const & overrideMain, std::vector<post_processor> posts, std::u32string const & document) {
+abstract_syntax_graph parser::multi_thread_parse(grammar_base const & g, recognizer const & overrideMain, std::vector<post_processor> posts, std::u32string const & document, progress_handler_t progressHandler) {
 	//perf_timer timer("parse");
 	std::unique_lock<std::mutex> lock(mutex); //use the lock to make sure we see activeCount != 0
-	details::job j(*this, document, g, overrideMain);
+	details::job j(*this, document, g, overrideMain, progressHandler);
 	throw_assert(activeCount > 0);
 	while (true) {
 		halt_cv.wait(lock, [this]() { return activeCount == 0; });
@@ -133,27 +119,27 @@ abstract_syntax_graph parser::multi_thread_parse(grammar_base const & g, recogni
 		}
 	}
 	throw_assert(activeCount == 0);
-	complete_progress_handler(document);
+	complete_progress_handler(j);
 	return construct_result_and_postprocess(overrideMain, posts, document, j);
 }
 
-abstract_syntax_graph parser::parse(grammar_base const & g, recognizer const & overrideMain, std::vector<post_processor> posts, std::u32string const & document) {
+abstract_syntax_graph parser::parse(grammar_base const & g, recognizer const & overrideMain, std::vector<post_processor> posts, std::u32string const & document, progress_handler_t progressHandler) {
 	if (single_thread_mode) {
-		return single_thread_parse(g, overrideMain, posts, document);
+		return single_thread_parse(g, overrideMain, posts, document, progressHandler);
 	}
-	return multi_thread_parse(g, overrideMain, posts, document);
+	return multi_thread_parse(g, overrideMain, posts, document, progressHandler);
 }
 
-abstract_syntax_graph parser::parse(grammar_base const & g, recognizer const & overrideMain, std::u32string const & document) {
-	return parse(g, overrideMain, std::vector<post_processor>(), document);
+abstract_syntax_graph parser::parse(grammar_base const & g, recognizer const & overrideMain, std::u32string const & document, progress_handler_t progressHandler) {
+	return parse(g, overrideMain, std::vector<post_processor>(), document, progressHandler);
 }
 
-abstract_syntax_graph parser::parse(grammar_base const & g, std::vector<post_processor> posts, std::u32string const & document) {
-	return parse(g, g.get_main_state_machine(), posts, document);
+abstract_syntax_graph parser::parse(grammar_base const & g, std::vector<post_processor> posts, std::u32string const & document, progress_handler_t progressHandler) {
+	return parse(g, g.get_main_state_machine(), posts, document, progressHandler);
 }
 
-abstract_syntax_graph parser::parse(grammar_base const & g, std::u32string const & document) {
-	return parse(g, g.get_main_state_machine(), document);
+abstract_syntax_graph parser::parse(grammar_base const & g, std::u32string const & document, progress_handler_t progressHandler) {
+	return parse(g, g.get_main_state_machine(), document, progressHandler);
 }
 
 void parser::schedule(details::context_ref const & c, int nextDfaState) {
@@ -162,10 +148,6 @@ void parser::schedule(details::context_ref const & c, int nextDfaState) {
 	std::unique_lock<std::mutex> lock(mutex);
 	work.emplace(std::make_tuple(c, nextDfaState));
 	work_cv.notify_one();
-}
-
-void parser::set_update_progress_handler(std::function<void(int /*done*/, int /*total*/)> func) {
-	update_progress_handler = func;
 }
 
 bool parser::handle_deadlocks(details::job const & j) const {

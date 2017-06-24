@@ -4,6 +4,7 @@
 #include <sstream>
 
 #include "utf.hpp"
+#include "graphviz_dot.hpp"
 
 namespace parlex {
 namespace builder {
@@ -101,27 +102,27 @@ static std::string node_to_name(node const * n) {
 	DO_AS2(sequence)
 #undef DO_AS2
 #undef DO_AS
-	return enquote(result.str());
+
+	result << " " << n;
+	return result.str();
 
 }
 
 std::string production::to_dot() const {
-	std::stringstream result;
-	result << "digraph {\n";
-	std::queue<node const *> q;
-	q.push(&*behavior);
-	while (q.size() > 0) {
-		node const * n = q.front();
-		q.pop();
-		std::string fromId = node_to_name(n);
-		for (auto const & child: n->children) {
-			std::string toId = node_to_name(&*child);
-			result << "\t" << fromId << " -> " << toId << "\n";
-			q.push(&*child);
+	return directed_graph<node const *>(
+		&*behavior, node_to_name,
+		[&](node const * n)
+		{
+			sequence_t const * as_sequence = dynamic_cast<sequence_t const *>(n);
+			std::vector<std::pair<std::string, node const *>> edges;
+			for (size_t childIndex = 0; childIndex < n->children.size(); ++childIndex) {
+				auto const & erasedChild = n->children[childIndex];
+				std::string edgeName = as_sequence != nullptr ? "label=" + std::to_string(childIndex) : "";
+				edges.push_back(make_pair(edgeName, &*erasedChild));
+			}
+			return edges;
 		}
-	}
-	result << "}\n";
-	return result.str();
+	);
 }
 
 grammar::grammar(std::string rootId, std::list<production> const & productions) : root_id(rootId), productions(move(productions)) {

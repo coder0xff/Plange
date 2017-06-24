@@ -14,7 +14,7 @@
 #include "builtins.hpp"
 
 namespace parlex {
-class grammar_base;
+typedef std::function<void(size_t /*done*/, size_t /*total*/)> progress_handler_t;
 
 namespace details {
 
@@ -25,18 +25,14 @@ class subjob;
 
 }
 
-class correlated_grammar;
-class recognizer;
-
 class parser {
 public:
 	parser(unsigned threadCount = std::thread::hardware_concurrency());
 	~parser();
-	abstract_syntax_graph parse(grammar_base const & g, recognizer const & overrideMain, std::vector<post_processor> posts, std::u32string const & document);
-	abstract_syntax_graph parse(grammar_base const & g, recognizer const & overrideMain, std::u32string const & document);
-	abstract_syntax_graph parse(grammar_base const & g, std::vector<post_processor> posts, std::u32string const & document);
-	abstract_syntax_graph parse(grammar_base const & g, std::u32string const & document);
-	void set_update_progress_handler(std::function<void(int /*done*/, int /*total*/)>);
+	abstract_syntax_graph parse(grammar_base const & g, recognizer const & overrideMain, std::vector<post_processor> posts, std::u32string const & document, progress_handler_t progressHandler = progress_handler_t());
+	abstract_syntax_graph parse(grammar_base const & g, recognizer const & overrideMain, std::u32string const & document, progress_handler_t progressHandler = progress_handler_t());
+	abstract_syntax_graph parse(grammar_base const & g, std::vector<post_processor> posts, std::u32string const & document, progress_handler_t progressHandler = progress_handler_t());
+	abstract_syntax_graph parse(grammar_base const & g, std::u32string const & document, progress_handler_t progressHandler = progress_handler_t());
 	builtins_t builtins;
 private:
 	friend class details::job;
@@ -51,15 +47,14 @@ private:
 	std::vector<std::thread> workers;
 	std::queue<std::tuple<details::context_ref, int>> work;
 	std::condition_variable work_cv;
-	std::function<void(int, int)> update_progress_handler;
 
 	void start_workers(int threadCount);
 	static abstract_syntax_graph construct_result(details::job const & j, match const & m);
 	static abstract_syntax_graph construct_result_and_postprocess(recognizer const & overrideMain, std::vector<post_processor> posts, std::u32string const & document, details::job const & j);
-	void complete_progress_handler(std::u32string const & document) const;
-	void update_progress(std::tuple_element<0, std::tuple<details::context_ref, int>>::type const & context) const;
-	abstract_syntax_graph single_thread_parse(grammar_base const & g, recognizer const & overrideMain, std::vector<post_processor> posts, std::u32string const & document);
-	abstract_syntax_graph multi_thread_parse(grammar_base const & g, recognizer const & overrideMain, std::vector<post_processor> posts, std::u32string const & document);
+	static void complete_progress_handler(details::job & j);
+	void update_progress(details::context_ref const & context) const;
+	abstract_syntax_graph single_thread_parse(grammar_base const & g, recognizer const & overrideMain, std::vector<post_processor> posts, std::u32string const & document, progress_handler_t progressHandler);
+	abstract_syntax_graph multi_thread_parse(grammar_base const & g, recognizer const & overrideMain, std::vector<post_processor> posts, std::u32string const & document, progress_handler_t progressHandler);
 	void schedule(details::context_ref const & c, int nextDfaState);
 
 	//returns true if the job is complete

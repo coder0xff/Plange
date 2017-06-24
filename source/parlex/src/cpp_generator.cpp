@@ -171,9 +171,122 @@ static std::pair<std::string, std::string> generate(std::vector<std::string> con
 	//return std::make_pair(generate_hpp_code(namespaces, p), generate_cpp_code(namespaces, p));
 }
 
+std::string node_to_cpp(builder::node const & n, int indentLevel) {
+	std::stringstream ss;
 
-std::map<std::string, std::string> cpp_generator::generate(builtins_t const & builtins, std::string const & name, builder::grammar const & g, std::vector<std::string> const & namespaces) {
-	throw std::logic_error("not implemented");
+	auto add_tag = [&]()
+	{
+		if (n.tag != "") {
+			ss << enquote(n.tag) << ", ";
+		}
+	};
+
+#define DO_AS(name) auto const * as_##name = dynamic_cast<builder::name##_t const *>(&n); if (as_##name != nullptr)
+	DO_AS(literal) {
+		ss << "literal(";
+		add_tag();
+		ss << enquote(as_literal->id);
+		ss << ")";
+	}
+
+	DO_AS(reference) {
+		ss << "reference(";
+		add_tag();
+		ss << enquote(as_reference->id);
+		ss << ")";
+	}
+
+	auto write_children = [&]()
+	{		
+		for (auto const & child : n.children) {
+			ss << std::string('\t', indentLevel + 1);
+			ss << node_to_cpp(*child, indentLevel + 1);
+			if (&*child != &**n.children.rbegin()) {
+				ss << ",";
+			}
+		}
+	};
+
+	DO_AS(choice) {
+		ss << "choice(";
+		add_tag();
+		ss << "{\n";
+		write_children();
+		ss << std::string('\t', indentLevel) << "})";		
+	}
+
+	DO_AS(optional) {
+		ss << "optional(";
+		add_tag();
+		ss << "\n";
+		write_children();
+		ss << std::string('\t', indentLevel) << ")";
+	}
+
+	DO_AS(repetition) {
+		ss << "repetition(";
+		add_tag();
+		ss << "\n";
+		write_children();
+		ss << std::string('\t', indentLevel) << ")";
+	}
+
+	DO_AS(sequence) {
+		ss << "sequence(";
+		add_tag();
+		ss << "{\n";
+		write_children();
+		ss << std::string('\t', indentLevel) << "})";
+	}
+
+	return ss.str();
+}
+
+std::string production_to_cpp(builtins_t const & builtins, builder::production const & p) {
+	std::stringstream ss;
+	ss << "production(" << enquote(p.id) << ", ";
+	ss << node_to_cpp(*p.behavior, 2);
+	bool needsPrecendences = p.precedences.size() > 0;
+	bool needsFilter = p.filter != filter_function() || needsPrecendences;
+	bool needsAssociativity = p.assoc != associativity::none || needsFilter;
+	if (needsAssociativity) {
+		ss << ",\n\t\tassociativity::";
+		switch (p.assoc) {
+		case associativity::any:
+			ss << "any";
+		case associativity::left:
+			ss << "left";
+		case associativity::none:
+			ss << "none";
+		case associativity::right:
+			ss << "right";
+		}
+	}
+	if (needsFilter) {
+		ss << ", ";
+		if (p.filter == builtins.longest) {
+			ss << "builtins.longest";
+		} else {
+			throw;
+		}
+	}
+	if (needsPrecendences) {
+		ss << ", {";
+		for (auto const & precedence : p.precedences) {
+			ss << enquote(precedence) << ", ";
+		}
+	}
+	return ss.str();
+}
+
+std::string cpp_generator::generate(builtins_t const & builtins, builder::grammar const & g) {
+	std::stringstream ss;
+	ss << "parlex::builder::grammar(" << enquote(g.root_id) << ", {\n;";
+	for (auto const & p : g.productions) {
+		ss << production_to_cpp(builtins, p);
+	}
+	ss << "});";
+	return ss.str();
 }
 
 } // namespace parlex

@@ -25,6 +25,7 @@ correlated_grammar::correlated_grammar(builtins_t const & builtins, builder::gra
 		auto i = productions.find(id);
 		throw_assert(i != productions.end());
 		i->second.set_behavior(get_behavior(*definition.behavior));
+		throw_assert(i->second.behavior != nullptr);
 	}
 
 }

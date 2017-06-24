@@ -10,7 +10,9 @@ correlated_state_machine::correlated_state_machine(std::string const & id, filte
 
 void correlated_state_machine::set_behavior(behavior::node const & behavior) {
 	static_assert(std::is_same_v<behavior::nfa2, details::nfa<behavior::leaf const *, int>>, "these should be the same");
+	this->behavior = &behavior;
 	behavior::nfa2 dfa = reorder(behavior.compile());
+	auto check = nfa2_to_dot(dfa); //todo: disable debug code
 	auto transitions = dfa.get_transitions();
 	for (auto const & t : transitions) {
 		while (states.size() <= t.to || states.size() <= t.from) {
@@ -98,4 +100,39 @@ associativity correlated_state_machine::get_assoc() const {
 	return assoc;
 }
 
+std::string correlated_state_machine::to_dot() const {
+	std::vector<size_t> stateInts;
+	for (size_t i = 0; i < states.size(); ++i) {
+		stateInts.push_back(i);
+	}
+
+	auto get_name = [&](size_t const & i) { return std::to_string(i); };
+
+	auto get_edges = [&](size_t const & i) {
+		std::vector<std::pair<std::string, size_t>> edges;
+		for (auto const & edge : states[i]) {
+			behavior::leaf const * leaf = edge.first;
+			int toState = edge.second;
+			edges.push_back(make_pair("label=" + leaf->id, toState));
+		}
+		return edges;
+	};
+
+	auto get_properties = [&](size_t const & i) {
+		std::string nodeProperties;
+		if (i == start_state) {
+			nodeProperties = "color=red";
+		}
+		if (i >= states.size() - accept_state_count) {
+			if (!nodeProperties.empty()) {
+				nodeProperties += ", ";
+			}
+			nodeProperties += "shape=doublecircle";
+		}
+		return nodeProperties;
+	};
+
+	return directed_graph<size_t>(stateInts, get_name, get_edges, get_properties);
+	                      
+}
 } // namespace parlex

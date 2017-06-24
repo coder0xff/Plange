@@ -13,6 +13,7 @@ namespace behavior {
 
 class leaf;
 using nfa2 = details::nfa<leaf const *, int>;
+std::string nfa2_to_dot(nfa2 const & nfa);
 
 class node {
 public:
@@ -22,6 +23,7 @@ public:
 	void add_child(erased<node> child);
 	children_t const& get_children() const;
 	virtual nfa2 to_nfa() const = 0;
+	std::string to_dot() const;
 	nfa2 compile() const;
 protected:
 	node() = default;

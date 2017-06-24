@@ -54,6 +54,8 @@ public:
 	builder::grammar load_grammar(std::string const & rootId, std::map<std::string, production> const & definitions);
 	builder::grammar load_grammar(std::string const & rootId, std::u32string const & document, std::map<std::string, associativity> const & associativities, std::set<std::string> const & longestNames);
 
+	erased<builder::node> compile_expression(std::u32string const & source);
+
 private:
 	parser & p;
 
@@ -62,19 +64,18 @@ private:
 	string_terminal const & openCurly;
 	string_terminal const & dollarSign;
 
-	state_machine_base const & productionDfa;
-	state_machine_base const & expressionDfa;
-	state_machine_base const & termDfa;
-	state_machine_base const & parentheticalDfa;
-	state_machine_base const & tagDfa;
-	state_machine_base const & factorDfa;
-	state_machine_base const & identifierDfa;
+	correlated_state_machine const & productionDfa;
+	correlated_state_machine const & expressionDfa;
+	correlated_state_machine const & termDfa;
+	correlated_state_machine const & parentheticalDfa;
+	correlated_state_machine const & tagDfa;
+	correlated_state_machine const & factorDfa;
+	correlated_state_machine const & identifierDfa;
 
 	erased<builder::node> process_factor2(std::u32string const & document, match const & factor, abstract_syntax_graph const & asg);
 	erased<builder::node> process_term2(std::u32string const & document, match const & term, abstract_syntax_graph const & asg);
 	erased<builder::node> process_expression2(std::u32string const & document, match const & expression, abstract_syntax_graph const & asg);
 	erased<builder::node> process_production2(std::u32string const & document, match const & expression, abstract_syntax_graph const & asg);
-	erased<builder::node> compile_source(std::u32string const & source);
 
 };
 

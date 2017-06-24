@@ -7,7 +7,9 @@
 #include <vector>
 
 #include "auto_map_c.hpp"
+#include "graphviz_dot.hpp"
 #include "utils.hpp"
+
 
 namespace parlex {
 namespace details {
@@ -80,39 +82,37 @@ struct nfa {
 		return result;
 	}
 
-	std::string to_dot() const {
-		std::string result;
-		auto_map_c<int, std::string> nodeNames([](int x) { return "state" + std::to_string(x); });
-
-		result.append("digraph nfa {\n");
-		result.append("\trankdir=LR\n;");
-		result.append("\tsize=\"8,5\"\n");
-		result.append("\tnode [shape = point]; start;\n");
-
-		result.append("\tnode [shape = doublecircle];");
-		for (int acceptState : acceptStates) {
-			result.append(" ");
-			result.append(nodeNames(acceptState));
-		}
-		result.append(";\n");
-		result.append("\tnode [shape = circle];\n");
-		for (int startState : startStates) {
-			result.append("\tstart -> ");
-			result.append(nodeNames(startState));
-			result.append(";\n");
-		}
-		for (transition t : get_transitions()) {
-			result.append("\t");
-			result.append(nodeNames(t.from));
-			result.append(" -> ");
-			result.append(nodeNames(t.to));
-			result.append(R"( [ label = ")");
-			result.append(t.symbol.to_string());
-			result.append("\" ];\n");
-		}
-		result.append("}\n");
-
-		return result;
+	std::string to_dot(std::function<std::string (label_t const &)> getLabelName, std::function<std::string (alphabet_t const &)> getTransitionName) const {
+		std::vector<int> vertices;
+		for (size_t i = 0; i < states.size(); ++i) { vertices.push_back(i); }
+		return directed_graph<int>(
+			vertices,
+			[&](int i) { return getLabelName(states[i].label); },
+			[&](int i) {
+				std::vector<std::pair<std::string, int>> edges;
+				for (auto transitionAndToStates : states[i].out_transitions) {
+					for (auto toState : transitionAndToStates.second) {
+						auto const & transition = transitionAndToStates.first;
+						std::string properties = "label=" + enquote(getTransitionName(transition));
+						edges.push_back(std::make_pair(properties, toState));
+					}
+				}
+				return edges;
+			},
+			[&](int i) {
+				std::string properties;
+				if (startStates.count(i) > 0) {
+					properties = "color=red";
+				}
+				if (acceptStates.count(i) > 0) {
+					if (!properties.empty()) {
+						properties += ", ";
+					}
+					properties += "shape=doublecircle";
+				}
+				return properties;
+			}
+		);
 	}
 
 	state_indices_t transition_function_extended(state_indices_t fromStateIndices, alphabet_t input) const {

@@ -20,6 +20,7 @@ struct abstract_syntax_graph {
 	std::string to_dot() const;
 	std::string to_concrete_dot(std::u32string const & document);
 	std::list<std::string> warnings;
+	uint64_t variation_count() const;
 };
 
 } // namespace parlex
