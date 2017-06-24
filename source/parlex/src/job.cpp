@@ -1,9 +1,9 @@
 #include "parlex/details/job.hpp"
 
-#include "parlex/parser.hpp"
-#include "parlex/state_machine_base.hpp"
-#include "parlex/terminal.hpp"
-#include "parlex/token.hpp"
+#include "parlex/details/parser.hpp"
+#include "parlex/details/state_machine_base.hpp"
+#include "parlex/details/terminal.hpp"
+#include "parlex/details/token.hpp"
 
 #include "parlex/details/context.hpp"
 #include "parlex/details/subjob.hpp"

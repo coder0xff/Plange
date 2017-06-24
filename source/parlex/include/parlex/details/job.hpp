@@ -1,19 +1,18 @@
 #ifndef JOB_HPP
 #define JOB_HPP
 
-#include "parlex/match_class.hpp"
+#include "parlex/details/match_class.hpp"
 #include "parlex/details/subjob.hpp"
-#include "parlex/abstract_syntax_graph.hpp"
+#include "parlex/details/abstract_syntax_graph.hpp"
 
 namespace parlex {
+namespace details {
 
 class correlated_grammar;
 class parser;
-class state_machine;
+class raw_state_machine;
 class grammar_base;
 typedef std::function<void(size_t /*done*/, size_t /*total*/)> progress_handler_t;
-
-namespace details {
 
 //holds the state of the parser during a parse
 //making it a type makes it easy for the parser to reset its state

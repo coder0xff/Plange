@@ -1,7 +1,7 @@
 #ifndef NOT_NEWLINE_HPP
 #define NOT_NEWLINE_HPP
 
-#include "parlex/terminal.hpp"
+#include "parlex/details/terminal.hpp"
 
 namespace parlex {
 namespace details {

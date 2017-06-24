@@ -1,7 +1,8 @@
 #include "parlex/details/wirth.hpp"
 
-#include "parlex/builtins.hpp"
-#include "parlex/parser.hpp"
+#include "parlex/details/builtins.hpp"
+
+#include "parlex/details/parser.hpp"
 
 #include "utils.hpp"
 #include "parlex/builder.hpp"
@@ -11,7 +12,7 @@
 namespace parlex {
 namespace details {
 
-erased<builder::node> wirth_t::process_factor(std::u32string const & document, match const & factor, abstract_syntax_graph const & asg) const {
+erased<node> wirth_t::process_factor(std::u32string const & document, match const & factor, abstract_syntax_graph const & asg) const {
 	permutation const & p = *asg.permutations.find(factor)->second.begin();
 	auto i = p.begin();
 	std::string tag;
@@ -34,14 +35,14 @@ erased<builder::node> wirth_t::process_factor(std::u32string const & document, m
 		tag = to_utf8(document.substr(j.document_position, j.consumed_character_count));
 	}
 
-	std::unique_ptr<erased<builder::node>> result;
-	auto set = [&result](erased<builder::node> const & node) { result.reset(new erased<builder::node>(node)); };
+	std::unique_ptr<erased<node>> result;
+	auto set = [&result](erased<node> const & node) { result.reset(new erased<details::node>(node)); };
 	if (&i->r == &identifierDfa) {
 		std::string name = to_utf8(document.substr(i->document_position, i->consumed_character_count));
-		set(builder::reference(name));
+		set(reference(name));
 	} else if (&i->r == &builtins().c_string) {
 		std::u32string text = builtins().c_string.extract(document, *i, asg);
-		set(builder::literal(text));
+		set(literal(text));
 	} else if (&i->r == &parentheticalDfa) {
 		permutation const & q = *asg.permutations.find(*i)->second.begin();
 		auto j = q.begin();
@@ -50,9 +51,9 @@ erased<builder::node> wirth_t::process_factor(std::u32string const & document, m
 			++j;
 		}
 		if (parenthetical_type == &openSquare) {
-			set(builder::optional_t(process_expression(document, *j, asg)));
+			set(optional_t(process_expression(document, *j, asg)));
 		} else if (parenthetical_type == &openCurly) {
-			set(builder::repetition_t(process_expression(document, *j, asg)));
+			set(repetition_t(process_expression(document, *j, asg)));
 		} else if (parenthetical_type == &openParen) {
 			set(process_expression(document, *j, asg));
 		} else {
@@ -68,7 +69,7 @@ erased<builder::node> wirth_t::process_factor(std::u32string const & document, m
 	return *result;
 }
 
-erased<builder::node> wirth_t::process_term(std::u32string const & document, match const & term, abstract_syntax_graph const & asg) const {
+erased<node> wirth_t::process_term(std::u32string const & document, match const & term, abstract_syntax_graph const & asg) const {
 	std::vector<match> factors;
 
 	permutation const & p = *(*asg.permutations.find(term)).second.begin();
@@ -80,14 +81,14 @@ erased<builder::node> wirth_t::process_term(std::u32string const & document, mat
 	if (factors.size() == 1) {
 		return process_factor(document, factors[0], asg);
 	}
-	builder::sequence_t result;
+	sequence_t result;
 	for (match const & factor : factors) {
 		result.children.push_back(process_factor(document, factor, asg));
 	}
 	return result;
 }
 
-erased<builder::node> wirth_t::process_expression(std::u32string const & document, match const & expression, abstract_syntax_graph const & asg) const {
+erased<node> wirth_t::process_expression(std::u32string const & document, match const & expression, abstract_syntax_graph const & asg) const {
 	std::vector<match> terms;
 
 	permutation const & p = *(*asg.permutations.find(expression)).second.begin();
@@ -99,14 +100,14 @@ erased<builder::node> wirth_t::process_expression(std::u32string const & documen
 	if (terms.size() == 1) {
 		return process_term(document, terms[0], asg);
 	}
-	builder::choice_t result;
+	choice_t result;
 	for (match const & term : terms) {
 		result.children.push_back(process_term(document, term, asg));
 	}
 	return result;
 }
 
-erased<builder::node> wirth_t::compile_expression(std::u32string const & source) const {
+erased<node> wirth_t::compile_expression(std::u32string const & source) const {
 	parser p;
 	auto asg = p.parse(*this, expressionDfa, source, builtins().progress_bar);
 	if (!asg.is_rooted()) {
@@ -119,9 +120,9 @@ erased<builder::node> wirth_t::compile_expression(std::u32string const & source)
 	return process_expression(source, asg.root, asg);
 }
 
-builder::grammar wirth_t::load_grammar(std::string const & rootId, std::map<std::string, production> const & definitions) const {
+builder wirth_t::load_grammar(std::string const & rootId, std::map<std::string, production> const & definitions) const {
 	std::set<std::string> names;
-	builder::grammar result;
+	builder result;
 	result.root_id = rootId;
 	for (auto const & entry : definitions) {
 		auto const & id = entry.first;
@@ -131,17 +132,13 @@ builder::grammar wirth_t::load_grammar(std::string const & rootId, std::map<std:
 			throw std::runtime_error(("duplicate reference ID " + id).c_str());
 		}
 		std::cout << "\n" << id << "\n";
-		builder::production resultDefinition(id, compile_expression(definition.source), definition.assoc, definition.filter, definition.precedences);
-		resultDefinition.id = id;
-		resultDefinition.assoc = definition.assoc;
-		resultDefinition.filter = definition.filter;
-		result.productions.push_back(resultDefinition);
+		result.productions.emplace_back(id, compile_expression(definition.source), definition.assoc, definition.filter, definition.precedences);
 	}
 	return result;
 }
 
 
-builder::grammar wirth_t::load_grammar(std::string const & rootId, std::u32string const & document, std::map<std::string, associativity> const & associativities, std::set<std::string> const & longestNames) const {
+builder wirth_t::load_grammar(std::string const & rootId, std::u32string const & document, std::map<std::string, associativity> const & associativities, std::set<std::string> const & longestNames) const {
 	parser p;
 	abstract_syntax_graph asg = p.parse(*this, document);
 	std::set<std::u32string> names;
@@ -176,9 +173,8 @@ builder::grammar wirth_t::load_grammar(std::string const & rootId, std::u32strin
 wirth_t::production::production(std::u32string const & source, associativity assoc, filter_function filter, std::set<std::string> const & precedences) : source(source), assoc(assoc), filter(filter), precedences(precedences) {
 }
 
-builder::grammar generate_wirth() {
-	using namespace builder;
-	return grammar("root", {
+builder generate_wirth() {
+	return builder("root", {
 		               production("whiteSpace", sequence({
 			                          reference("white_space"),
 			                          repetition(reference("white_space"))}),
@@ -254,11 +250,11 @@ builder::grammar generate_wirth() {
 
 }
 
-static correlated_state_machine const & convert(state_machine_base const & s) {
-	return *static_cast<correlated_state_machine const *>(&s);
+static state_machine const & convert(state_machine_base const & s) {
+	return *static_cast<state_machine const *>(&s);
 }
 
-wirth_t::wirth_t() : correlated_grammar(generate_wirth()),
+wirth_t::wirth_t() : grammar(generate_wirth()),
                                openSquare(get_literal("[")),
                                openParen(get_literal("(")),
                                openCurly(get_literal("{")),
@@ -275,7 +271,7 @@ wirth_t::wirth_t() : correlated_grammar(generate_wirth()),
 
 }
 
-erased<builder::node> wirth_t::process_production(std::u32string const & document, match const & production, abstract_syntax_graph const & asg) const {
+erased<node> wirth_t::process_production(std::u32string const & document, match const & production, abstract_syntax_graph const & asg) const {
 	for (match const & entry : *(*asg.permutations.find(production)).second.begin()) {
 		if (&entry.r == &expressionDfa) {
 			return process_expression(document, entry, asg);

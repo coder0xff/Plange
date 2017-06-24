@@ -5,18 +5,16 @@
 #include <mutex>
 #include <atomic>
 
-#include "parlex/match.hpp"
-#include "parlex/permutation.hpp"
+#include "parlex/details/match.hpp"
+#include "parlex/details/permutation.hpp"
 #include "parlex/details/context.hpp"
 #include "parlex/details/producer.hpp"
 
 namespace parlex {
-
-class state_machine_base;
-
 namespace details {
 
 class job;
+class state_machine_base;
 
 class subjob : public producer {
 public:

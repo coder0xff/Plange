@@ -1,7 +1,9 @@
 #ifndef ANY_CHARACTER_HPP
 #define ANY_CHARACTER_HPP
 
-#include "parlex/terminal.hpp"
+#include <string>
+
+#include "parlex/details/terminal.hpp"
 
 namespace parlex {
 namespace details {

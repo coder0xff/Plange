@@ -6,4 +6,4 @@ bool parlex::details::name##_t::test(std::u32string const& document, size_t docu
 	return condition; \
 }
 
-#include "parlex/unicode.inc"
+#include "parlex/details/unicode.inc"

@@ -1,8 +1,8 @@
 #include "parlex/details/subjob.hpp"
 
-#include "parlex/parser.hpp"
-#include "parlex/recognizer.hpp"
-#include "parlex/state_machine_base.hpp"
+#include "parlex/details/parser.hpp"
+#include "parlex/details/recognizer.hpp"
+#include "parlex/details/state_machine_base.hpp"
 
 #include "parlex/details/context.hpp"
 #include "parlex/details/job.hpp"

@@ -1,21 +1,19 @@
 #ifndef WIRTH_HPP
 #define WIRTH_HPP
 
-#include "parlex/correlated_grammar.hpp"
+#include "parlex/associativity.hpp"
+#include "parlex/builder.hpp"
 #include "parlex/filter_function.hpp"
+
+#include "parlex/details/grammar.hpp"
 
 #include "erased.hpp"
 
 namespace parlex {
-struct abstract_syntax_graph;
-class builtins_t;
-
-namespace builder {
-struct grammar;
-struct node;
-}
-
 namespace details {
+
+struct abstract_syntax_graph;
+struct node;
 
 /* similar to https://en.wikipedia.org/wiki/Wirth_syntax_notation but with tagging
 
@@ -39,7 +37,7 @@ FACTOR        = ["$"] IDENTIFIER
 
 */
 
-class wirth_t final : public correlated_grammar {
+class wirth_t final : public grammar {
 public:
 	struct production {
 		production(std::u32string const & source, associativity assoc, filter_function filter, std::set<std::string> const & precedences);
@@ -51,10 +49,10 @@ public:
 
 	explicit wirth_t();
 
-	builder::grammar load_grammar(std::string const & rootId, std::map<std::string, production> const & definitions) const;
-	builder::grammar load_grammar(std::string const & rootId, std::u32string const & document, std::map<std::string, associativity> const & associativities, std::set<std::string> const & longestNames) const;
+	builder load_grammar(std::string const & rootId, std::map<std::string, production> const & definitions) const;
+	builder load_grammar(std::string const & rootId, std::u32string const & document, std::map<std::string, associativity> const & associativities, std::set<std::string> const & longestNames) const;
 
-	erased<builder::node> compile_expression(std::u32string const & source) const;
+	erased<node> compile_expression(std::u32string const & source) const;
 
 private:
 	string_terminal const & openSquare;
@@ -62,18 +60,18 @@ private:
 	string_terminal const & openCurly;
 	string_terminal const & dollarSign;
 
-	correlated_state_machine const & productionDfa;
-	correlated_state_machine const & expressionDfa;
-	correlated_state_machine const & termDfa;
-	correlated_state_machine const & parentheticalDfa;
-	correlated_state_machine const & tagDfa;
-	correlated_state_machine const & factorDfa;
-	correlated_state_machine const & identifierDfa;
+	state_machine const & productionDfa;
+	state_machine const & expressionDfa;
+	state_machine const & termDfa;
+	state_machine const & parentheticalDfa;
+	state_machine const & tagDfa;
+	state_machine const & factorDfa;
+	state_machine const & identifierDfa;
 
-	erased<builder::node> process_factor(std::u32string const & document, match const & factor, abstract_syntax_graph const & asg) const;
-	erased<builder::node> process_term(std::u32string const & document, match const & term, abstract_syntax_graph const & asg) const;
-	erased<builder::node> process_expression(std::u32string const & document, match const & expression, abstract_syntax_graph const & asg) const;
-	erased<builder::node> process_production(std::u32string const & document, match const & expression, abstract_syntax_graph const & asg) const;
+	erased<node> process_factor(std::u32string const & document, match const & factor, abstract_syntax_graph const & asg) const;
+	erased<node> process_term(std::u32string const & document, match const & term, abstract_syntax_graph const & asg) const;
+	erased<node> process_expression(std::u32string const & document, match const & expression, abstract_syntax_graph const & asg) const;
+	erased<node> process_production(std::u32string const & document, match const & expression, abstract_syntax_graph const & asg) const;
 
 };
 

@@ -2,17 +2,18 @@
 #define BEHAVIOR_HPP
 
 #include "parlex/details/nfa.hpp"
-#include "parlex/recognizer.hpp"
+#include "parlex/details/recognizer.hpp"
 #include "erased.hpp"
 
 namespace parlex {
+namespace details {
 
-class state_machine;
+class raw_state_machine;
 
 namespace behavior {
 
 class leaf;
-using nfa2 = details::nfa<leaf const *, size_t>;
+using nfa2 = nfa<leaf const *, size_t>;
 std::string nfa2_to_dot(nfa2 const & nfa);
 
 class node {
@@ -65,6 +66,7 @@ public:
 };
 
 } // namespace behavior
+} // namespace details
 } // namespace parlex
 
 #endif //BEHAVIOR_HPP

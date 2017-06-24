@@ -2,11 +2,11 @@
 
 #include <mutex>
 
-#include "parlex/behavior.hpp"
-#include "parlex/parser.hpp"
-
+#include "parlex/details/behavior.hpp"
 #include "parlex/details/job.hpp"
+#include "parlex/details/parser.hpp"
 #include "parlex/details/subjob.hpp"
+
 
 namespace parlex {
 namespace details {

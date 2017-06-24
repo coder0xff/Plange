@@ -3,12 +3,14 @@
 
 #include <vector>
 
-#include "parlex/match.hpp"
+#include "parlex/details/match.hpp"
 
 namespace parlex {
+namespace details {
 
 typedef std::vector<match> permutation;
 
+}
 } // namespace parlex
 
 #endif //PERMUTATION_HPP

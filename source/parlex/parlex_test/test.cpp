@@ -3,28 +3,29 @@
 #include <codecvt>
 
 #include "gtest/gtest.h"
+#include "utf.hpp"
 
 #include "parlex/builder.hpp"
-#include "parlex/correlated_grammar.hpp"
-#include "parlex/grammar.hpp"
-#include "parlex/parser.hpp"
-#include "parlex/state_machine.hpp"
+#include "parlex/details/raw_grammar.hpp"
+#include "parlex/details/grammar.hpp"
+#include "parlex/details/parser.hpp"
+#include "parlex/details/raw_grammar.hpp"
 
 #include "parlex/details/string_terminal.hpp"
 
-#include "utf.hpp"
-#include "parlex/builtins.hpp"
+#include "parlex/details/builtins.hpp"
 #include "parlex/details/wirth.hpp"
 
 
 using namespace parlex;
+using namespace parlex::details;
 
 TEST(ParlexTest, parser_test_1) {
 	//DBG("************ parser_test_1 ************");
 	parser p(1);
-	grammar g("machine");
+	raw_grammar g("machine");
 
-	state_machine & s = g.add_production("machine", 0, 1);
+	raw_state_machine & s = g.add_production("machine", 0, 1);
 
 	s.add_transition(0, &builtins().any_character, 1);
 
@@ -37,11 +38,11 @@ TEST(ParlexTest, parser_test_1) {
 TEST(ParlexTest, parser_test_2) {
 	//DBG("************ parser_test_2 ************");
 	parser p(1);
-	parlex::grammar g("machine");
+	raw_grammar g("machine");
 
 	parlex::details::string_terminal & helloWorld = g.get_or_add_literal(U"Hello, world!");
 
-	state_machine & s = g.add_production("machine", 0, 1);
+	raw_state_machine & s = g.add_production("machine", 0, 1);
 
 	s.add_transition(0, &helloWorld, 1);
 
@@ -54,11 +55,11 @@ TEST(ParlexTest, parser_test_2) {
 TEST(ParlexTest, parser_test_3) {
 	//DBG("************ parser_test_3 ************");
 	parser p(1);
-	parlex::grammar g("machine");
+	raw_grammar g("machine");
 
 	parlex::details::string_terminal & foo = g.get_or_add_literal(U"Foo");
 
-	state_machine & s = g.add_production("machine", 0, 1);
+	raw_state_machine & s = g.add_production("machine", 0, 1);
 
 	s.add_transition(0, &foo, 1);
 
@@ -71,12 +72,12 @@ TEST(ParlexTest, parser_test_3) {
 TEST(ParlexTest, parser_test_4) {
 	//DBG("************ parser_test_4 ************");
 	parser p(1);
-	parlex::grammar g("machine");
+	raw_grammar g("machine");
 
 	parlex::details::string_terminal & hello = g.get_or_add_literal(U"Hello");
 	parlex::details::string_terminal & world = g.get_or_add_literal(U", world");
 
-	state_machine & s = g.add_production("machine", 0, 1);
+	raw_state_machine & s = g.add_production("machine", 0, 1);
 
 	s.add_transition(0, &hello, 1);
 	s.add_transition(1, &world, 2);
@@ -91,8 +92,8 @@ TEST(ParlexTest, parser_test_4) {
 TEST(ParlexTest, parser_test_5) {
 	//DBG("************ parser_test_5 ************");
 	parser p(1);
-	parlex::grammar g("machine");
-	state_machine & s = g.add_production("machine", 0, 1);
+	raw_grammar g("machine");
+	raw_state_machine & s = g.add_production("machine", 0, 1);
 
 	s.add_transition(0, &builtins().decimal_digit, 1);
 	s.add_transition(1, &builtins().decimal_digit, 1);
@@ -106,12 +107,12 @@ TEST(ParlexTest, parser_test_5) {
 TEST(ParlexTest, parser_test_6) {
 	//DBG("************ parser_test_6 ************");
 	parser p(1);
-	parlex::grammar g("csv");
+	raw_grammar g("csv");
 
 	parlex::details::string_terminal & comma = g.get_or_add_literal(U",");
 
-	state_machine & num = g.add_production("num", 0, 1);
-	state_machine & csv = g.add_production("csv", 0, 1);
+	raw_state_machine & num = g.add_production("num", 0, 1);
+	raw_state_machine & csv = g.add_production("csv", 0, 1);
 
 	csv.add_transition(0, &num, 1);
 	csv.add_transition(1, &comma, 0);
@@ -128,15 +129,15 @@ TEST(ParlexTest, parser_test_6) {
 TEST(ParlexTest, parser_test_7) {
 	//DBG("************ parser_test_7 ************");
 	parser p(1);
-	parlex::grammar g("nested_csv");
+	raw_grammar g("nested_csv");
 
 	parlex::details::string_terminal & open_paren = g.get_or_add_literal(U"(");
 	parlex::details::string_terminal & close_paren = g.get_or_add_literal(U")");
 	parlex::details::string_terminal & comma = g.get_or_add_literal(U",");
 
-	state_machine & nested_csv = g.add_production("nested_csv", 0, 1);
-	state_machine & num = g.add_production("num", 0, 1);
-	state_machine & paren = g.add_production("paren", 0, 1);
+	raw_state_machine & nested_csv = g.add_production("nested_csv", 0, 1);
+	raw_state_machine & num = g.add_production("num", 0, 1);
+	raw_state_machine & paren = g.add_production("paren", 0, 1);
 
 	num.add_transition(0, &builtins().decimal_digit, 1);
 	num.add_transition(1, &builtins().decimal_digit, 1);
@@ -163,12 +164,12 @@ TEST(ParlexTest, parser_test_7) {
 TEST(ParlexTest, parser_test_8) {
 	//DBG("************ parser_test_8 ************");
 	parser p(1);
-	parlex::grammar g("expr");
+	raw_grammar g("expr");
 
 	parlex::details::string_terminal & bang = g.get_or_add_literal(U"!");
 
-	state_machine & expr = g.add_production("expr", 0, 1);
-	state_machine & factorial = g.add_production("factorial", 0, 1);
+	raw_state_machine & expr = g.add_production("expr", 0, 1);
+	raw_state_machine & factorial = g.add_production("factorial", 0, 1);
 
 	factorial.add_transition(0, &expr, 1);
 	factorial.add_transition(1, &bang, 2);
@@ -186,7 +187,7 @@ TEST(ParlexTest, parser_test_8) {
 TEST(ParlexTest, parser_test_9) {
 	//DBG("************ parser_test_9 ************");
 	parser p(1);
-	parlex::grammar g("expr");
+	raw_grammar g("expr");
 
 	parlex::details::string_terminal & plus = g.get_or_add_literal(U"+");
 	parlex::details::string_terminal & minus = g.get_or_add_literal(U"-");
@@ -195,13 +196,13 @@ TEST(ParlexTest, parser_test_9) {
 	parlex::details::string_terminal & open_paren = g.get_or_add_literal(U"(");
 	parlex::details::string_terminal & close_paren = g.get_or_add_literal(U")");
 
-	state_machine & num = g.add_production("num", 0, 1);
-	state_machine & expr = g.add_production("expr", 0, 1);
-	state_machine & add = g.add_production("add", 0, 1);
-	state_machine & sub = g.add_production("sub", 0, 1);
-	state_machine & mul = g.add_production("mul", 0, 1);
-	state_machine & div = g.add_production("div", 0, 1);
-	state_machine & paren = g.add_production("paren", 0, 1);
+	raw_state_machine & num = g.add_production("num", 0, 1);
+	raw_state_machine & expr = g.add_production("expr", 0, 1);
+	raw_state_machine & add = g.add_production("add", 0, 1);
+	raw_state_machine & sub = g.add_production("sub", 0, 1);
+	raw_state_machine & mul = g.add_production("mul", 0, 1);
+	raw_state_machine & div = g.add_production("div", 0, 1);
+	raw_state_machine & paren = g.add_production("paren", 0, 1);
 
 	num.add_transition(0, &builtins().decimal_digit, 1);
 	num.add_transition(1, &builtins().decimal_digit, 1);
@@ -242,11 +243,11 @@ TEST(ParlexTest, parser_test_9) {
 TEST(ParlexTest, parser_test_10) {
 	//DBG("************ parser_test_10 ************");
 	parser p(1);
-	parlex::grammar g("identifier");
+	raw_grammar g("identifier");
 
 	parlex::details::string_terminal & underscore = g.get_or_add_literal(U"_");
 
-	state_machine & identifier = g.add_production("identifier", 0, 1);
+	raw_state_machine & identifier = g.add_production("identifier", 0, 1);
 
 	identifier.add_transition(0, &builtins().letter, 1);
 	identifier.add_transition(0, &underscore, 1);
@@ -262,9 +263,9 @@ TEST(ParlexTest, parser_test_10) {
 
 TEST(ParlexTest, c_string_test_1) {
 	parser p(1);
-	parlex::grammar g("s");
+	raw_grammar g("s");
 
-	state_machine & s = g.add_production("s", 0, 1);
+	raw_state_machine & s = g.add_production("s", 0, 1);
 
 	s.add_transition(0, &builtins().c_string, 1);
 
@@ -276,9 +277,9 @@ TEST(ParlexTest, c_string_test_1) {
 
 TEST(ParlexTest, c_string_test_2) {
 	parser p(1);
-	parlex::grammar g("s");
+	raw_grammar g("s");
 
-	state_machine & s = g.add_production("s", 0, 1);
+	raw_state_machine & s = g.add_production("s", 0, 1);
 
 	s.add_transition(0, &builtins().c_string, 1);
 
@@ -346,7 +347,7 @@ TEST(ParlexTest, wirth_test_4) {
 
 TEST(ParlexTest, wirth_test_5) {
 	parser p;
-	correlated_grammar grammar(wirth().load_grammar("SYNTAX", U"SYNTAX = \"a\".", {}, {}));
+	grammar grammar(wirth().load_grammar("SYNTAX", U"SYNTAX = \"a\".", {}, {}));
 	abstract_syntax_graph result = p.parse(grammar, U"b");
 	if (result.is_rooted()) {
 		throw std::logic_error("Test failed");
@@ -355,7 +356,7 @@ TEST(ParlexTest, wirth_test_5) {
 
 TEST(ParlexTest, wirth_test_6) {
 	parser p;
-	correlated_grammar grammar(wirth().load_grammar("SYNTAX", U"SYNTAX = letter number.", {}, {}));
+	grammar grammar(wirth().load_grammar("SYNTAX", U"SYNTAX = letter number.", {}, {}));
 	abstract_syntax_graph result = p.parse(grammar, U"a1");
 	if (!result.is_rooted()) {
 		throw std::logic_error("Test failed");
@@ -364,14 +365,14 @@ TEST(ParlexTest, wirth_test_6) {
 
 TEST(ParlexTest, wirth_test_7) {
 	parser p;
-	correlated_grammar grammar(wirth().load_grammar("SYNTAX", U"SYNTAX = letter { number }.", {}, {}));
+	grammar grammar(wirth().load_grammar("SYNTAX", U"SYNTAX = letter { number }.", {}, {}));
 	abstract_syntax_graph result = p.parse(grammar, U"a1234");
 	EXPECT_TRUE(result.is_rooted());
 }
 
 TEST(ParlexTest, wirth_test_8) {
 	parser p;
-	correlated_grammar grammar(wirth().load_grammar("SYNTAX", U"SYNTAX = letter [ number ].", {}, {}));
+	grammar grammar(wirth().load_grammar("SYNTAX", U"SYNTAX = letter [ number ].", {}, {}));
 	abstract_syntax_graph result1 = p.parse(grammar, U"a");
 	EXPECT_TRUE(result1.is_rooted());
 	abstract_syntax_graph result2 = p.parse(grammar, U"a1");
@@ -380,7 +381,7 @@ TEST(ParlexTest, wirth_test_8) {
 
 TEST(ParlexTest, wirth_test_9) {
 	parser p;
-	correlated_grammar grammar(wirth().load_grammar("SYNTAX", U"SYNTAX = letter ( number | c_string ).", {}, {}));
+	grammar grammar(wirth().load_grammar("SYNTAX", U"SYNTAX = letter ( number | c_string ).", {}, {}));
 	abstract_syntax_graph result1 = p.parse(grammar, U"a1");
 	if (!result1.is_rooted()) {
 		throw std::logic_error("Test failed");
@@ -393,7 +394,7 @@ TEST(ParlexTest, wirth_test_9) {
 
 TEST(ParlexTest, wirth_test_10) {
 	parser p;
-	correlated_grammar grammar(wirth().load_grammar("ARRAY", U"\
+	grammar grammar(wirth().load_grammar("ARRAY", U"\
 ARRAY = \"[\" [EXPRESSION { \", \" EXPRESSION} ] \"]\".\
 EXPRESSION = \"EXPRESSION\".", {}, {}));
 	abstract_syntax_graph result = p.parse(grammar, U"[]");
@@ -404,7 +405,7 @@ EXPRESSION = \"EXPRESSION\".", {}, {}));
 
 TEST(ParlexTest, wirth_test_11) {
 	parser p;
-	correlated_grammar grammar(wirth().load_grammar("STATEMENT_SCOPE", U"\
+	grammar grammar(wirth().load_grammar("STATEMENT_SCOPE", U"\
 STATEMENT_SCOPE = {IC | STATEMENT}. \
 IC = \"IC\".\
 STATEMENT = \"STATEMENT\".", {}, {}));
@@ -416,10 +417,8 @@ TEST(ParlexTest, wirth_test_12) {
 	wirth().compile_expression(t);
 }
 
-using namespace builder;
-
 TEST(ParlexTest, behavior_1) {
-	builder::grammar g_builder("EXPR", {
+	builder g_builder("EXPR", {
 		                           production("ADD", sequence({reference("EXPR"), literal(U"+"), reference("EXPR")})),
 		                           production("MUL", sequence({reference("EXPR"), literal(U"*"), reference("EXPR")})),
 		                           production("EXPR",
@@ -435,7 +434,7 @@ TEST(ParlexTest, behavior_1) {
 	                           });
 
 	parser p;
-	correlated_grammar g(g_builder);
+	grammar g(g_builder);
 
 	std::u32string document = U"5+3*2";
 	abstract_syntax_graph result = p.parse(g, document);
@@ -447,7 +446,7 @@ TEST(ParlexTest, behavior_1) {
 }
 
 TEST(ParlexTest, behavior_2) {
-	builder::grammar g_builder("A", {
+	builder g_builder("A", {
 		                           production("A", sequence({
 			                                      optional(reference("white_space")),
 			                                      reference("letter")
@@ -455,7 +454,7 @@ TEST(ParlexTest, behavior_2) {
 	                           });
 
 	parser p;
-	correlated_grammar g(g_builder);
+	grammar g(g_builder);
 
 }
 

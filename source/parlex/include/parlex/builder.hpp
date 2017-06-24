@@ -8,7 +8,7 @@
 #include "associativity.hpp"
 
 namespace parlex {
-namespace builder {
+namespace details {
 
 struct node {
 	virtual ~node() = default;
@@ -35,13 +35,6 @@ struct literal_t final : node {
 	std::u32string const content;
 };
 
-erased<node> literal(std::u32string const & content);
-erased<node> literal(std::string const & tag, std::u32string const & content);
-erased<node> literal(std::u32string && content);
-erased<node> literal(std::string && tag, std::u32string && content);
-erased<node> literal(std::string const & content);
-erased<node> literal(std::string const & tag, std::string const & content);
-erased<node> literal(std::string && tag, std::string const & content);
 
 struct reference_t final : node {
 	explicit reference_t(std::string const & id);
@@ -53,27 +46,38 @@ struct reference_t final : node {
 
 	std::string const id;
 };
+} // namespace details
 
-erased<node> reference(std::string const & id);
-erased<node> reference(std::string const & tag, std::string const & id);
-erased<node> reference(std::string && id);
-erased<node> reference(std::string && tag, std::string && id);
+erased<details::node> literal(std::u32string const & content);
+erased<details::node> literal(std::string const & tag, std::u32string const & content);
+erased<details::node> literal(std::u32string && content);
+erased<details::node> literal(std::string && tag, std::u32string && content);
+erased<details::node> literal(std::string const & content);
+erased<details::node> literal(std::string const & tag, std::string const & content);
+erased<details::node> literal(std::string && tag, std::string const & content);
 
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-#define MAKE_NODE_TYPE(name)                                                                                                                           \
-struct name##_t final : node {                                                                                                                          \
-	name##_t() {}                                                                                                                                        \
-	name##_t(std::initializer_list<erased<node>> const & children) : node(children) {}                                                                    \
-	name##_t(std::string const & tag, std::initializer_list<erased<node>> const & children) : node(tag, children) {}                                       \
-	name##_t(std::initializer_list<erased<node>>&& children) : node(move(children)) {}                                                                      \
-	name##_t(std::string && tag, std::initializer_list<erased<node>>&& children) : node(move(tag), move(children)) {}                                        \
-	name##_t(name##_t const & copy) = default;                                                                                                                \
-};                                                                                                                                                             \
+erased<details::node> reference(std::string const & id);
+erased<details::node> reference(std::string const & tag, std::string const & id);
+erased<details::node> reference(std::string && id);
+erased<details::node> reference(std::string && tag, std::string && id);
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+#define MAKE_NODE_TYPE(name)                                                                                                                         \
+namespace details {                                                                                                                                   \
+struct name##_t final : node{                                                                                                                          \
+	name##_t() {}                                                                                                                                       \
+	name##_t(std::initializer_list<erased<node>> const & children) : node(children) {}                                                                   \
+	name##_t(std::string const & tag, std::initializer_list<erased<node>> const & children) : node(tag, children) {}                                      \
+	name##_t(std::initializer_list<erased<node>>&& children) : node(move(children)) {}                                                                     \
+	name##_t(std::string && tag, std::initializer_list<erased<node>>&& children) : node(move(tag), move(children)) {}                                       \
+	name##_t(name##_t const & copy) = default;                                                                                                               \
+};                                                                                                                                                            \
+}                                                                                                                                                              \
                                                                                                                                                                 \
-inline erased<node> name(std::initializer_list<erased<node>> const & children) { return erased<node>(name##_t(children)); }                                      \
-inline erased<node> name(std::string const & tag, std::initializer_list<erased<node>> const & children) { return erased<node>(name##_t(tag, children)); }         \
-inline erased<node> name(std::initializer_list<erased<node>>&& children) { return erased<node>(name##_t(move(children))); }                                        \
-inline erased<node> name(std::string && tag, std::initializer_list<erased<node>>&& children) { return erased<node>(name##_t(move(tag), move(children))); }          \
+inline erased<details::node> name(std::initializer_list<erased<details::node>> const & children) { return erased<details::node>(details::name##_t(children)); }                                      \
+inline erased<details::node> name(std::string const & tag, std::initializer_list<erased<details::node>> const & children) { return erased<details::node>(details::name##_t(tag, children)); }         \
+inline erased<details::node> name(std::initializer_list<erased<details::node>>&& children) { return erased<details::node>(details::name##_t(move(children))); }                                        \
+inline erased<details::node> name(std::string && tag, std::initializer_list<erased<details::node>>&& children) { return erased<details::node>(details::name##_t(move(tag), move(children))); }          \
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 MAKE_NODE_TYPE(sequence)
@@ -82,23 +86,17 @@ MAKE_NODE_TYPE(choice)
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #define MAKE_NODE_TYPE(name)                                                                                                                           \
+namespace details {                                                                                                                                   \
 struct name##_t final : node {                                                                                                                          \
 	name##_t() {}                                                                                                                  \
 	name##_t(erased<node> const & child) : node({ child }) {}                                                                                          \
 	name##_t(std::string const & tag, erased<node> const & child) : node(tag, { child }) {}                                                          \
-	name##_t(std::initializer_list<erased<node>> const & children) : node({ sequence_t {children} }) {}                                                                    \
-	name##_t(std::string const & tag, std::initializer_list<erased<node>> const & children) : node(tag, { sequence_t {children} }) {}                                       \
-	name##_t(std::initializer_list<erased<node>>&& children) : node({ sequence_t {move(children)} }) {}                                                                      \
-	name##_t(std::string && tag, std::initializer_list<erased<node>>&& children) : node(move(tag), move(children)) {}                                        \
 	name##_t(name##_t const & copy) = default;                                                                                                              \
 };                                                                                                                                                           \
+}                                                                                                                                                              \
                                                                                                                                                               \
-inline erased<node> name(erased<node> const & child) { return erased<node>(name##_t(child)); }                                                                 \
-inline erased<node> name(std::string const & tag, erased<node> const & child) { return erased<node>(name##_t(tag, child)); }                                    \
-inline erased<node> name(std::initializer_list<erased<node>> const & children) { return erased<node>(name##_t(children)); }                                      \
-inline erased<node> name(std::string const & tag, std::initializer_list<erased<node>> const & children) { return erased<node>(name##_t(tag, children)); }         \
-inline erased<node> name(std::initializer_list<erased<node>>&& children) { return erased<node>(name##_t(move(children))); }                                        \
-inline erased<node> name(std::string && tag, std::initializer_list<erased<node>>&& children) { return erased<node>(name##_t(move(tag), move(children))); }          \
+inline erased<details::node> name(erased<details::node> const & child) { return erased<details::node>(details::name##_t(child)); }                                                                 \
+inline erased<details::node> name(std::string const & tag, erased<details::node> const & child) { return erased<details::node>(details::name##_t(tag, child)); }                                    \
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 MAKE_NODE_TYPE(optional)
@@ -109,14 +107,14 @@ MAKE_NODE_TYPE(repetition)
 struct production {
 	production(
 		std::string const & id,
-		erased<node> const & behavior,
+		erased<details::node> const & behavior,
 		associativity assoc = associativity::none,
 		filter_function const & filter = filter_function(),
 		std::set<std::string> const & precedences = std::set<std::string>()
 	);
 
 	std::string id;
-	erased<node> behavior;
+	erased<details::node> behavior;
 	filter_function filter;
 	associativity assoc;
 	std::set<std::string> precedences;
@@ -124,16 +122,15 @@ struct production {
 	std::string to_dot() const;
 };
 
-struct grammar {
-	grammar() = default;
+struct builder {
+	builder() = default;
 
 	std::string root_id;
 	std::list<production> productions;
 
-	grammar(std::string rootId, std::list<production> const & productions);
+	builder(std::string rootId, std::list<production> const & productions);
 };
 
-} // namespace builder
 } // namespace parlex
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////

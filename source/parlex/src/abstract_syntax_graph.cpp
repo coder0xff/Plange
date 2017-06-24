@@ -1,12 +1,13 @@
-#include "parlex/abstract_syntax_graph.hpp"
+#include "parlex/details/abstract_syntax_graph.hpp"
 
 #include <queue>
 
-#include "parlex/recognizer.hpp"
+#include "parlex/details/recognizer.hpp"
 #include "utils.hpp"
 #include "utf.hpp"
 
 namespace parlex {
+namespace details {
 
 abstract_syntax_graph::abstract_syntax_graph(match root) : root(root) {
 }
@@ -51,7 +52,8 @@ void abstract_syntax_graph::cut(std::set<match> const & matches) {
 				}
 				if (newPermutations.empty()) {
 					pending.push(n);
-				} else {
+				}
+				else {
 					permutations[n].swap(newPermutations);
 				}
 			}
@@ -130,5 +132,5 @@ uint64_t abstract_syntax_graph::variation_count() const {
 	return result;
 }
 
-
-}
+} // namespace details
+} // namespace parlex

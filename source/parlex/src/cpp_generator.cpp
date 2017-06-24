@@ -3,9 +3,11 @@
 #include <sstream>
 
 #include "parlex/builder.hpp"
-#include "parlex/builtins.hpp"
-#include "parlex/behavior.hpp"
-#include "parlex/parser.hpp" //need it for its builtins member
+#include "parlex/details/builtins.hpp"
+
+
+#include "parlex/details/behavior.hpp"
+
 namespace parlex {
 
 static std::string get_include_guard_name(std::string name) {
@@ -48,10 +50,10 @@ static std::string add_namespaces(std::string const & text, std::vector<std::str
 
 //returns the type name to be used in the tree
 //buffer is modified by adding dependency types
-static std::string build_type(std::stringstream & buffer, builder::node const & node, std::string const & name) {
+static std::string build_type(std::stringstream & buffer, details::node const & node, std::string const & name) {
 	/////////////////////////////////////////////////////////////////////////////////////////////////
 #define DO_AS(name)                                                                             \
-		auto const * as_##name = dynamic_cast<builder::name##_t const *>(&node);                  \
+		auto const * as_##name = dynamic_cast<details::name##_t const *>(&node);                  \
 		if (as_##name != nullptr)                                                                 \
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -72,7 +74,7 @@ static std::string build_type(std::stringstream & buffer, builder::node const & 
 		std::stringstream result;
 		result << "std::variant<";
 		for (size_t i = 0; i < node.children.size(); ++i) {
-			builder::node const & child = *node.children[i];
+			details::node const & child = *node.children[i];
 			auto childString = build_type(buffer, child, "");
 			if (childString == "") {
 				result << "std::integral_constant<" << std::to_string(i) << ">";
@@ -83,7 +85,7 @@ static std::string build_type(std::stringstream & buffer, builder::node const & 
 		result << ">";
 	}
 	DO_AS(optional) {
-		builder::node const & child = *node.children[0];
+		details::node const & child = *node.children[0];
 		auto childString = build_type(buffer, child, "");
 		if (childString == "") {
 			return "bool";
@@ -91,7 +93,7 @@ static std::string build_type(std::stringstream & buffer, builder::node const & 
 		return "std::optional<" + childString + ">";
 	}
 	DO_AS(repetition) {
-		builder::node const & child = *node.children[0];
+		details::node const & child = *node.children[0];
 		auto childString = build_type(buffer, child, "");
 		if (childString == "") {
 			return "int";
@@ -107,11 +109,11 @@ static std::string build_type(std::stringstream & buffer, builder::node const & 
 }
 
 
-static std::string generate_grammar_hpp_code(std::string const & name, builder::grammar const & g, std::vector<std::string> const & namespaces) {
+static std::string generate_grammar_hpp_code(std::string const & name, builder const & b, std::vector<std::string> const & namespaces) {
 	std::stringstream result;
 	result << "class " << name << " : public builder::grammar {\n";
 	result << "public:\n";
-	for (auto const & production : g.productions) {
+	for (auto const & production : b.productions) {
 		result << "\tbuilder::production " << production.id << ";\n";
 	}
 	result << "\n";
@@ -119,12 +121,12 @@ static std::string generate_grammar_hpp_code(std::string const & name, builder::
 	throw std::logic_error("not implemented");
 }
 
-static std::string generate_grammar_cpp_behavior_code(builder::node const * node, int indentation) {
+static std::string generate_grammar_cpp_behavior_code(details::node const * node, int indentation) {
 	std::stringstream result;
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////
 #define DO_AS(name)                                                                             \
-		auto const * as_##name = dynamic_cast<builder::name##_t const *>(node);                  \
+		auto const * as_##name = dynamic_cast<details::name##_t const *>(node);                  \
 		if (as_##name != nullptr)                                                                 \
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -149,7 +151,7 @@ static std::string generate_grammar_cpp_behavior_code(builder::node const * node
 #undef DO_AS
 
 		bool firstChild = true;
-		for (erased<builder::node> const & child : node->children) {
+		for (erased<details::node> const & child : node->children) {
 			if (!firstChild) {
 				result << ",\n";
 			}
@@ -163,15 +165,15 @@ static std::string generate_grammar_cpp_behavior_code(builder::node const * node
 }
 
 
-static std::string generate_grammar_cpp_code(std::vector<std::string> const & namespaces, builder::production const & p) {
+static std::string generate_grammar_cpp_code(std::vector<std::string> const & namespaces, production const & p) {
 
 }
 
-static std::pair<std::string, std::string> generate(std::vector<std::string> const & namespaces, builder::production const & p) {
+static std::pair<std::string, std::string> generate(std::vector<std::string> const & namespaces, production const & p) {
 	//return std::make_pair(generate_hpp_code(namespaces, p), generate_cpp_code(namespaces, p));
 }
 
-std::string node_to_cpp(builder::node const & n, int indentLevel) {
+std::string node_to_cpp(details::node const & n, int indentLevel) {
 	std::stringstream ss;
 
 	std::string indentString(std::string(indentLevel, '\t'));
@@ -183,7 +185,7 @@ std::string node_to_cpp(builder::node const & n, int indentLevel) {
 		}
 	};
 
-#define DO_AS(name) auto const * as_##name = dynamic_cast<builder::name##_t const *>(&n); if (as_##name != nullptr)
+#define DO_AS(name) auto const * as_##name = dynamic_cast<details::name##_t const *>(&n); if (as_##name != nullptr)
 	DO_AS(literal) {
 		ss << "literal(";
 		add_tag();
@@ -245,7 +247,7 @@ std::string node_to_cpp(builder::node const & n, int indentLevel) {
 	return ss.str();
 }
 
-std::string production_to_cpp(builder::production const & p) {
+std::string production_to_cpp(production const & p) {
 	std::stringstream ss;
 	ss << "production(" << enquote(p.id) << ",\n\t\t";
 	ss << node_to_cpp(*p.behavior, 2);
@@ -271,7 +273,7 @@ std::string production_to_cpp(builder::production const & p) {
 	}
 	if (needsFilter) {
 		ss << ", ";
-		if (p.filter == builtins().longest) {
+		if (p.filter == details::builtins().longest) {
 			ss << "parlex::builtins().longest";
 		}
 		else if (!p.filter) {
@@ -292,10 +294,10 @@ std::string production_to_cpp(builder::production const & p) {
 	return ss.str();
 }
 
-std::string generate_grammar_builder(builder::grammar const & g) {
+std::string generate_grammar_builder(builder const & b) {
 	std::stringstream ss;
-	ss << "parlex::builder::grammar(" << enquote(g.root_id) << ", {\n";
-	for (auto const & p : g.productions) {
+	ss << "parlex::builder::grammar(" << enquote(b.root_id) << ", {\n";
+	for (auto const & p : b.productions) {
 		ss << "\t" << production_to_cpp(p);
 		ss << ",\n";
 	}
@@ -305,12 +307,12 @@ std::string generate_grammar_builder(builder::grammar const & g) {
 
 
 
-cpp_generator::output_files cpp_generator::generate(std::string const & name, builder::grammar const & g) {
+cpp_generator::output_files cpp_generator::generate(std::string const & name, builder const & b) {
 	output_files results;
 	auto & headers = results.headers;
 	auto & sources = results.sources;
 
-	sources[name + ".grammar_builder.cpp.inc"] = generate_grammar_builder(g);
+	sources[name + ".grammar_builder.cpp.inc"] = generate_grammar_builder(b);
 	return results;
 }
 

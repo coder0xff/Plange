@@ -1,7 +1,7 @@
 #ifndef STRING_TERMINAL_HPP
 #define STRING_TERMINAL_HPP
 
-#include "parlex/terminal.hpp"
+#include "parlex/details/terminal.hpp"
 
 namespace parlex {
 namespace details {

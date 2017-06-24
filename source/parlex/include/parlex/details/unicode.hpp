@@ -1,7 +1,7 @@
 #ifndef UNICODE_HPP
 #define UNICODE_HPP
 
-#include "parlex/terminal.hpp"
+#include "parlex/details/terminal.hpp"
 
 namespace parlex {
 namespace details {
@@ -13,7 +13,7 @@ namespace details {
 			bool test(std::u32string const& document, size_t documentPosition) const override final; \
 		};
 
-#include "parlex/unicode.inc"
+#include "parlex/details/unicode.inc"
 
 #undef U32
 

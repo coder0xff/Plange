@@ -1,10 +1,11 @@
-#include "parlex/match.hpp"
+#include "parlex/details/match.hpp"
 
-#include "parlex/recognizer.hpp"
+#include "parlex/details/recognizer.hpp"
 
 #include "utils.hpp"
 
 namespace parlex {
+namespace details {
 
 bool match::operator<(match const & rhs) const {
 	if (document_position < rhs.document_position) {
@@ -25,4 +26,5 @@ bool match::operator<(match const & rhs) const {
 
 match::match(struct match_class const & matchClass, int consumedCharacterCount) : match_class(matchClass), consumed_character_count(consumedCharacterCount) { throw_assert(consumedCharacterCount >= 0); }
 
-}
+} // namespace details
+} // namespace parlex

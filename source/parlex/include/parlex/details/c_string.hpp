@@ -1,16 +1,17 @@
 #ifndef C_STRING_HPP
 #define C_STRING_HPP
 
-#include "parlex/abstract_syntax_graph.hpp"
+#include "parlex/details/abstract_syntax_graph.hpp"
 #include "parlex/details/string_terminal.hpp"
-#include "parlex/state_machine.hpp"
+#include "parlex/details/raw_state_machine.hpp"
+#include "parlex/details/terminal.hpp"
 
 namespace parlex {
-class builtins_t;
-
 namespace details {
 
-class c_string_t : public state_machine {
+class builtins_t;
+
+class c_string_t : public raw_state_machine {
 public:
 	std::u32string extract(std::u32string document, match const & m, abstract_syntax_graph const & asg) const;
 
@@ -35,8 +36,8 @@ private:
 	string_terminal double_quote;
 	string_terminal x;
 
-	state_machine octal_escape_sequence;
-	state_machine hex_escape_sequence;
+	raw_state_machine octal_escape_sequence;
+	raw_state_machine hex_escape_sequence;
 
 };
 

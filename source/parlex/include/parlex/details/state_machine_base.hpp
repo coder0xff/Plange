@@ -1,9 +1,10 @@
 #ifndef STATE_MACHINE_BASE_HPP
 #define STATE_MACHINE_BASE_HPP
 
-#include "parlex/recognizer.hpp"
 #include "parlex/filter_function.hpp"
 #include "parlex/associativity.hpp"
+
+#include "parlex/details/recognizer.hpp"
 
 namespace parlex {
 namespace behavior {
@@ -14,12 +15,9 @@ class node;
 
 namespace details {
 
+class parser;
 class context_ref;
 class subjob;
-
-} // namespace details
-
-class parser;
 
 //simulates a dfa
 //State 0 is the start state
@@ -32,15 +30,16 @@ public:
 	virtual associativity get_assoc() const = 0;
 protected:
 	friend class parser;
-	friend class details::subjob;
+	friend class subjob;
 
 	state_machine_base(std::string const & id);
-	void start(details::subjob & sj, size_t documentPosition) const;
-	virtual void process(details::context_ref const & c, size_t dfaState) const = 0;
-	static void on(details::context_ref const & c, recognizer const & r, int nextDfaState, behavior::leaf const * leaf);
-	static void accept(details::context_ref const & c);
+	void start(subjob & sj, size_t documentPosition) const;
+	virtual void process(context_ref const & c, size_t dfaState) const = 0;
+	static void on(context_ref const & c, recognizer const & r, int nextDfaState, behavior::leaf const * leaf);
+	static void accept(context_ref const & c);
 };
 
+} // namespace details
 } // namespace parlex
 
 #endif // STATE_MACHINE_BASE_HPP

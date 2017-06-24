@@ -1,17 +1,18 @@
-#include "parlex/parser.hpp"
+#include "parlex/details/parser.hpp"
 
 #include <stack>
 
-#include "parlex/grammar_base.hpp"
-#include "parlex/permutation.hpp"
 #include "parlex/post_processor.hpp"
 
 #include "parlex/details/context.hpp"
+#include "parlex/details/grammar_base.hpp"
 #include "parlex/details/job.hpp"
+#include "parlex/details/permutation.hpp"
 #include "parlex/details/producer.hpp"
 #include "parlex/details/subjob.hpp"
 
 namespace parlex {
+namespace details {
 
 void parser::start_workers(int threadCount) {
 	for (; threadCount > 0; --threadCount) {
@@ -19,9 +20,10 @@ void parser::start_workers(int threadCount) {
 			//DBG("thread ", threadCount, " started");
 			std::unique_lock<std::mutex> lock(mutex);
 			goto wait;
-			while (!terminating) { {
+			while (!terminating) {
+				{
 					//DBG("THREAD ", threadCount, " POPPING ITEM");
-					std::tuple<details::context_ref, int> item = work.front();
+					std::tuple<context_ref, int> item = work.front();
 					work.pop();
 					lock.unlock();
 					auto const & context = std::get<0>(item);
@@ -56,7 +58,7 @@ parser::~parser() {
 	}
 }
 
-abstract_syntax_graph parser::construct_result_and_postprocess(recognizer const & overrideMain, std::vector<post_processor> posts, std::u32string const & document, details::job const & j) {
+abstract_syntax_graph parser::construct_result_and_postprocess(recognizer const & overrideMain, std::vector<post_processor> posts, std::u32string const & document, job const & j) {
 	abstract_syntax_graph result = construct_result(j, match(match_class(overrideMain, 0), document.size()));
 	if (!posts.empty()) {
 		//std::string preDot = result.to_dot();
@@ -71,21 +73,21 @@ abstract_syntax_graph parser::construct_result_and_postprocess(recognizer const 
 	return result;
 }
 
-void parser::complete_progress_handler(details::job & j) {
+void parser::complete_progress_handler(job & j) {
 	j.update_progress(j.document.length());
 }
 
-void parser::update_progress(details::context_ref const & context) const {
+void parser::update_progress(context_ref const & context) const {
 	context.owner().owner.update_progress(context.current_document_position());
 }
 
 abstract_syntax_graph parser::single_thread_parse(grammar_base const & g, recognizer const & overrideMain, std::vector<post_processor> posts, std::u32string const & document, progress_handler_t progressHandler) {
 	//perf_timer timer("parse");
-	details::job j(*this, document, g, overrideMain, progressHandler);
+	job j(*this, document, g, overrideMain, progressHandler);
 	throw_assert(activeCount > 0);
 	while (true) {
 		while (work.size() > 0) {
-			std::tuple<details::context_ref, int> item = work.front();
+			std::tuple<context_ref, int> item = work.front();
 			work.pop();
 			auto const & context = std::get<0>(item);
 			auto const nextDfaState = std::get<1>(item);
@@ -109,7 +111,7 @@ abstract_syntax_graph parser::single_thread_parse(grammar_base const & g, recogn
 abstract_syntax_graph parser::multi_thread_parse(grammar_base const & g, recognizer const & overrideMain, std::vector<post_processor> posts, std::u32string const & document, progress_handler_t progressHandler) {
 	//perf_timer timer("parse");
 	std::unique_lock<std::mutex> lock(mutex); //use the lock to make sure we see activeCount != 0
-	details::job j(*this, document, g, overrideMain, progressHandler);
+	job j(*this, document, g, overrideMain, progressHandler);
 	throw_assert(activeCount > 0);
 	while (true) {
 		halt_cv.wait(lock, [this]() { return activeCount == 0; });
@@ -142,7 +144,7 @@ abstract_syntax_graph parser::parse(grammar_base const & g, std::u32string const
 	return parse(g, g.get_main_state_machine(), document, progressHandler);
 }
 
-void parser::schedule(details::context_ref const & c, int nextDfaState) {
+void parser::schedule(context_ref const & c, int nextDfaState) {
 	//DBG("scheduling m: ", c.owner().machine.id, " b:", c.owner().documentPosition, " s:", nextDfaState, " p:", c.current_document_position());
 	++activeCount;
 	std::unique_lock<std::mutex> lock(mutex);
@@ -150,7 +152,7 @@ void parser::schedule(details::context_ref const & c, int nextDfaState) {
 	work_cv.notify_one();
 }
 
-bool parser::handle_deadlocks(details::job const & j) const {
+bool parser::handle_deadlocks(job const & j) const {
 	throw_assert(activeCount == 0);
 	//perf_timer timer("handle_deadlocks");
 
@@ -165,12 +167,12 @@ bool parser::handle_deadlocks(details::job const & j) const {
 	std::map<match_class, std::set<match_class>> all_subscriptions;
 	for (auto const & i : j.producers) {
 		match_class const & matchClass = i.first;
-		details::producer const & p = *i.second;
+		producer const & p = *i.second;
 		if (p.r.is_terminal() || p.completed) {
 			continue;
 		}
 		for (auto const & subscription : p.consumers) {
-			details::context_ref const & c = subscription.c;
+			context_ref const & c = subscription.c;
 			match_class temp(c.owner().machine, c.owner().document_position);
 			all_subscriptions[matchClass].insert(temp);
 			direct_subscriptions[matchClass].insert(temp);
@@ -193,7 +195,7 @@ bool parser::handle_deadlocks(details::job const & j) const {
 	//halt subjobs that are subscribed to themselves (in)directly
 	for (auto const & i : all_subscriptions) {
 		match_class const & matchClass = i.first;
-		details::producer & p = *j.producers.find(matchClass)->second;
+		producer & p = *j.producers.find(matchClass)->second;
 		if (i.second.count(matchClass) > 0) {
 			p.terminate();
 			anyHalted = true;
@@ -262,7 +264,7 @@ bool can_prune(abstract_syntax_graph & asg, std::map<match, node_props_t> const 
 void prune(abstract_syntax_graph & asg, std::map<match, node_props_t> & nodes, node_props_t & props) {
 	std::queue<match> toPrune;
 	std::set<match> completed;
-	std::function<void(match const &)> add = [&] (match const & m) {
+	std::function<void(match const &)> add = [&](match const & m) {
 		if (completed.insert(m).second) {
 			toPrune.push(m);
 		}
@@ -417,13 +419,13 @@ bool associativity_test(node_props_t & a, node_props_t & b) {
 	}
 	associativity const assoc = dynamic_cast<state_machine_base const *>(&a.m.r)->get_assoc();
 	switch (assoc) {
-		case associativity::left:
-		case associativity::any:
-			return a.m.document_position < b.m.document_position;
-		case associativity::right:
-			return a.m.document_position > b.m.document_position;
-		case associativity::none:
-			return false;
+	case associativity::left:
+	case associativity::any:
+		return a.m.document_position < b.m.document_position;
+	case associativity::right:
+		return a.m.document_position > b.m.document_position;
+	case associativity::none:
+		return false;
 	}
 	throw std::domain_error("Invalid associativity value");
 }
@@ -488,13 +490,15 @@ void select_trees(abstract_syntax_graph & asg, grammar_base const & g, std::map<
 					//if it must be selected, then precedence and associativity must remove preempted intersections
 					if (can_prune(asg, nodes, b)) {
 						prune(asg, nodes, b);
-					} else {
+					}
+					else {
 						if (precedence_test(g, *a, b)) {
 							static auto stringify = [](node_props_t & np) {
 								return np.r.id + " from " + std::to_string(np.m.document_position) + " for " + std::to_string(np.m.consumed_character_count) + " characters at height " + std::to_string(np.height);
 							};
 							asg.warnings.push_back(stringify(*a) + " preempted " + stringify(b) + " by precedence, but was not applied because it would cause a degenerate parse tree.");
-						} else {
+						}
+						else {
 							throw std::exception(); //degenerate parse caused by associativity?
 						}
 
@@ -533,11 +537,11 @@ abstract_syntax_graph& apply_precedence_and_associativity(grammar_base const & g
 }
 
 //Construct an ASG, and if a solution was found, prunes unreachable nodes
-abstract_syntax_graph parser::construct_result(details::job const & j, match const & m) {
+abstract_syntax_graph parser::construct_result(job const & j, match const & m) {
 	//perf_timer timer("construct_result");
 	abstract_syntax_graph result(m);
 	for (auto const & pair : j.producers) {
-		details::producer const & producer = *pair.second;
+		producer const & producer = *pair.second;
 		for (auto const & pair2 : producer.match_to_permutations) {
 			struct match const & n = pair2.first;
 			std::set<permutation> const & permutations = pair2.second;
@@ -551,4 +555,5 @@ abstract_syntax_graph parser::construct_result(details::job const & j, match con
 	return result;
 }
 
+} // namespace details
 } // namespace parlex

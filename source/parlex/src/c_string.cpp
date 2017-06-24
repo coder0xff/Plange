@@ -1,8 +1,9 @@
 #include "parlex/details/c_string.hpp"
 
-#include "parlex/abstract_syntax_graph.hpp"
-#include "parlex/builtins.hpp"
-#include "parlex/terminal.hpp"
+#include "parlex/details/abstract_syntax_graph.hpp"
+#include "parlex/details/builtins.hpp"
+
+#include "parlex/details/terminal.hpp"
 
 #include "utils.hpp"
 #include "utf.hpp"
@@ -11,7 +12,7 @@ namespace parlex {
 namespace details {
 
 c_string_t::c_string_t(builtins_t const & builtins) :
-	state_machine("c_string", 0, 1, builtins.longest, associativity::none),
+	raw_state_machine("c_string", 0, 1, builtins.longest, associativity::none),
 	backslash(to_utf32("\\")),
 	double_quote(to_utf32("\"")),
 	x(to_utf32("x")),

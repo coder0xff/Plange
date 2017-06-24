@@ -4,17 +4,16 @@
 #include <memory>
 #include <vector>
 
-#include "parlex/match.hpp"
-#include "parlex/permutation.hpp"
+#include "parlex/details/match.hpp"
+#include "parlex/details/permutation.hpp"
 
 namespace parlex {
+namespace details {
 namespace behavior {
 
 class leaf;
 
 } // namespace behavior
-
-namespace details {
 
 class subjob;
 struct context_ref_counter;

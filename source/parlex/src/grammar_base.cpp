@@ -1,4 +1,4 @@
-#include "parlex/grammar_base.hpp"
+#include "parlex/details/grammar_base.hpp"
 
 namespace parlex {
 

@@ -1,11 +1,12 @@
 #ifndef MATCH_HPP
 #define MATCH_HPP
 
-#include "parlex/match_class.hpp"
+#include "parlex/details/match_class.hpp"
 
 #include "forward_list_c.hpp"
 
 namespace parlex {
+namespace details {
 namespace behavior {
 
 class leaf;
@@ -25,6 +26,8 @@ struct match : match_class {
 
 };
 
+
+} // namespace details
 } // namespace parlex
 
 #endif //MATCH_HPP

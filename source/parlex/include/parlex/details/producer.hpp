@@ -8,14 +8,17 @@
 #include <mutex>
 
 #include "parlex/details/context.hpp"
-#include "parlex/permutation.hpp"
+#include "parlex/details/permutation.hpp"
 
 namespace parlex {
+namespace details {
+namespace behavior {
+
+class leaf;
+
+} // namespace behavior
 
 class parser;
-
-namespace details {
-
 class job;
 
 class producer {

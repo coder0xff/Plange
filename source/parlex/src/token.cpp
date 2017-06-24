@@ -1,8 +1,7 @@
-#include "parlex/token.hpp"
-
-#include "parlex/terminal.hpp"
+#include "parlex/details/token.hpp"
 
 #include "parlex/details/job.hpp"
+#include "parlex/details/terminal.hpp"
 
 namespace parlex {
 namespace details {

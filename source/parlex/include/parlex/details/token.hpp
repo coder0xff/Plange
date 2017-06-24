@@ -4,10 +4,9 @@
 #include "parlex/details/producer.hpp"
 
 namespace parlex {
+namespace details {
 
 class terminal;
-
-namespace details {
 
 class token : public producer {
 public:

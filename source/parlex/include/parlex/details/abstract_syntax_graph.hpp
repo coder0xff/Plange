@@ -5,10 +5,11 @@
 #include <set>
 #include <list>
 
-#include "parlex/match.hpp"
-#include "parlex/permutation.hpp"
+#include "parlex/details/match.hpp"
+#include "parlex/details/permutation.hpp"
 
 namespace parlex {
+namespace details {
 
 struct abstract_syntax_graph {
 	explicit abstract_syntax_graph(match root);
@@ -23,6 +24,7 @@ struct abstract_syntax_graph {
 	uint64_t variation_count() const;
 };
 
+} // namespace details
 } // namespace parlex
 
 #endif //ABSTRACT_SYNTAX_GRAPH_HPP

@@ -5,11 +5,8 @@
 #include <vector>
 
 namespace parlex {
-class builtins_t;
 
-namespace builder {
-struct grammar;
-}
+struct builder;
 
 class cpp_generator {
 public:
@@ -20,7 +17,7 @@ public:
 		file_dictionary sources;
 	};
 
-	static output_files generate(std::string const & name, builder::grammar const & g);
+	static output_files generate(std::string const & name, builder const & g);
 };
 
 } // namespace parlex

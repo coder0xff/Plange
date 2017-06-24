@@ -1,11 +1,13 @@
 #include <algorithm>
 #include <iterator>
 
-#include "parlex/behavior.hpp"
+#include "parlex/details/behavior.hpp"
 
 #include "graphviz_dot.hpp"
+#include "parlex/details/raw_state_machine.hpp"
 
 namespace parlex {
+namespace details {
 namespace behavior {
 
 std::string nfa2_to_dot(nfa2 const & nfa) {
@@ -57,7 +59,7 @@ static std::string node_to_name(node const * n) {
 #undef DO_AS2
 #undef DO_AS
 
-	result << " " << n;
+		result << " " << n;
 	return result.str();
 
 }
@@ -67,16 +69,16 @@ std::string node::to_dot() const {
 	return directed_graph<node const *>(
 		this, node_to_name,
 		[&](node const * n)
-		{
-			sequence const * as_sequence = dynamic_cast<sequence const *>(n);
-			std::vector<std::pair<std::string, node const *>> edges;
-			for (size_t childIndex = 0; childIndex < n->children.size(); ++childIndex) {
-				auto const & erasedChild = n->children[childIndex];
-				std::string edgeName = as_sequence != nullptr ? "label=" + std::to_string(childIndex) : "";
-				edges.push_back(make_pair(edgeName, &*erasedChild));
-			}
-			return edges;
+	{
+		sequence const * as_sequence = dynamic_cast<sequence const *>(n);
+		std::vector<std::pair<std::string, node const *>> edges;
+		for (size_t childIndex = 0; childIndex < n->children.size(); ++childIndex) {
+			auto const & erasedChild = n->children[childIndex];
+			std::string edgeName = as_sequence != nullptr ? "label=" + std::to_string(childIndex) : "";
+			edges.push_back(make_pair(edgeName, &*erasedChild));
 		}
+		return edges;
+	}
 	);
 }
 
@@ -148,7 +150,7 @@ nfa2 sequence::to_nfa() const {
 		bool partAcceptsStart; {
 			std::set<size_t> intersection;
 			set_intersection(part.startStates.begin(), part.startStates.end(),
-			                 part.acceptStates.begin(), part.acceptStates.end(), inserter(intersection, intersection.begin()));
+				part.acceptStates.begin(), part.acceptStates.end(), inserter(intersection, intersection.begin()));
 			partAcceptsStart = !intersection.empty();
 		}
 
@@ -191,5 +193,6 @@ nfa2 sequence::to_nfa() const {
 	return result;
 }
 
-} //namespace behavior
-} //namespace parlex
+} // namespace behavior
+} // namespace details
+} // namespace parlex

@@ -1,7 +1,8 @@
 #include <iostream>
 #include <mutex>
 
-#include "parlex/builtins.hpp"
+#include "parlex/details/builtins.hpp"
+
 #include "utf.hpp"
 
 namespace parlex {
@@ -27,8 +28,6 @@ not_newline_t::not_newline_t() : terminal("not_newline", 1) {
 bool not_newline_t::test(std::u32string const & document, size_t documentPosition) const {
 	return document[documentPosition] != U'\n';
 }
-
-} //namespace details
 
 std::set<int> builtins_t::longest_f(std::u32string document, std::list<permutation> const & permutations) {
 	int selectedSize = 0;
@@ -134,15 +133,17 @@ void builtins_t::progress_bar(int done, int outOf) {
 	std::cout << "\r[" << std::string(ticks, '*') << std::string(25 - ticks, ' ') << "]";
 }
 
-details::string_terminal::string_terminal(std::u32string const & s) : terminal(to_utf8(s), s.length()), s(s) {
+string_terminal::string_terminal(std::u32string const & s) : terminal(to_utf8(s), s.length()), s(s) {
 }
 
-bool details::string_terminal::test(std::u32string const & document, size_t documentPosition) const {
+bool string_terminal::test(std::u32string const & document, size_t documentPosition) const {
 	return document.compare(documentPosition, length, s) == 0;
 }
 
-std::u32string details::string_terminal::get_content() const {
+std::u32string string_terminal::get_content() const {
 	return s;
 }
 
+
+} //namespace details
 } // namespace parlex

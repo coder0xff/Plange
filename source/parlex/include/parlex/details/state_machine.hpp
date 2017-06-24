@@ -5,37 +5,35 @@
 
 #include "parlex/associativity.hpp"
 #include "parlex/filter_function.hpp"
-#include "parlex/state_machine_base.hpp"
 
 #include "parlex/details/nfa.hpp"
+#include "parlex/details/state_machine_base.hpp"
+
 
 namespace parlex {
+namespace details {
 namespace behavior {
 
-class node;
 class leaf;
-using nfa2 = details::nfa<leaf const *, size_t>;
+class node;
+using nfa2 = nfa<leaf const *, size_t>;
 
 } // namespace behavior
 
-namespace details {
 
 class context_ref;
-class subjob;
-
-} // namespace details
-
 class parser;
+class subjob;
 
 //simulates a dfa
 //State 0 is the start state
 //States from N-a to N-1 are the accept states, where N is states.size() and a is accept_state_count
-class correlated_state_machine : public state_machine_base {
+class state_machine : public state_machine_base {
 public:
 	typedef std::vector<std::map<behavior::leaf const *, size_t>> states_t;
 
-	correlated_state_machine(std::string const & id, filter_function const & filter, associativity assoc);
-	virtual ~correlated_state_machine() = default;
+	state_machine(std::string const & id, filter_function const & filter, associativity assoc);
+	virtual ~state_machine() = default;
 
 	filter_function const filter;
 	associativity const assoc;
@@ -46,11 +44,11 @@ public:
 	std::string to_dot() const;
 private:
 	friend class parser;
-	friend class details::subjob;
+	friend class subjob;
 
 	states_t states;
 
-	void process(details::context_ref const & c, size_t dfaState) const override;
+	void process(context_ref const & c, size_t dfaState) const override;
 	static behavior::nfa2 reorder(behavior::nfa2 dfa);
 
 public:
@@ -60,6 +58,7 @@ public:
 	associativity get_assoc() const override;
 };
 
+} // namespace details
 } // namespace parlex
 
 #endif //CORRELATED_STATE_MACHINE_HPP
