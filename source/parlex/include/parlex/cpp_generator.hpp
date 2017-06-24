@@ -13,7 +13,14 @@ struct grammar;
 
 class cpp_generator {
 public:
-	static std::map<std::string /* filename */, std::string /* content */> generate(std::string const & name, builder::grammar const & g);
+	typedef std::map<std::string /* filename */, std::string /* content */> file_dictionary;
+
+	struct output_files {
+		file_dictionary headers;
+		file_dictionary sources;
+	};
+
+	static output_files generate(std::string const & name, builder::grammar const & g);
 };
 
 } // namespace parlex

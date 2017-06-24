@@ -247,13 +247,13 @@ std::string node_to_cpp(builder::node const & n, int indentLevel) {
 
 std::string production_to_cpp(builder::production const & p) {
 	std::stringstream ss;
-	ss << "production(" << enquote(p.id) << ",\n\t";
-	ss << node_to_cpp(*p.behavior, 1);
+	ss << "production(" << enquote(p.id) << ",\n\t\t";
+	ss << node_to_cpp(*p.behavior, 2);
 	bool needsPrecendences = p.precedences.size() > 0;
 	bool needsFilter = p.filter != filter_function() || needsPrecendences;
 	bool needsAssociativity = p.assoc != associativity::none || needsFilter;
 	if (needsAssociativity) {
-		ss << ",\n\tassociativity::";
+		ss << ",\n\t\tassociativity::";
 		switch (p.assoc) {
 		case associativity::any:
 			ss << "any";
@@ -272,7 +272,7 @@ std::string production_to_cpp(builder::production const & p) {
 	if (needsFilter) {
 		ss << ", ";
 		if (p.filter == builtins().longest) {
-			ss << "builtins().longest";
+			ss << "parlex::builtins().longest";
 		}
 		else if (!p.filter) {
 			ss << "filter_function()";
@@ -296,16 +296,21 @@ std::string generate_grammar_builder(builder::grammar const & g) {
 	std::stringstream ss;
 	ss << "parlex::builder::grammar(" << enquote(g.root_id) << ", {\n";
 	for (auto const & p : g.productions) {
-		ss << production_to_cpp(p);
+		ss << "\t" << production_to_cpp(p);
 		ss << ",\n";
 	}
-	ss << "});";
+	ss << "})";
 	return ss.str();
 }
 
-std::map<std::string, std::string> cpp_generator::generate(std::string const & name, builder::grammar const & g) {
-	std::map<std::string, std::string> results;
-	results[name + ".grammar_builder.cpp.inc"] = generate_grammar_builder(g);
+
+
+cpp_generator::output_files cpp_generator::generate(std::string const & name, builder::grammar const & g) {
+	output_files results;
+	auto & headers = results.headers;
+	auto & sources = results.sources;
+
+	sources[name + ".grammar_builder.cpp.inc"] = generate_grammar_builder(g);
 	return results;
 }
 

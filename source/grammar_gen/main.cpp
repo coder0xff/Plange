@@ -17,6 +17,7 @@
 #include "parlex/builder.hpp"
 #include "utf.hpp"
 #include "parlex/cpp_generator.hpp"
+#include "parlex/details/wirth.hpp"
 
 inline std::string trim(std::string str)
 {
@@ -61,7 +62,7 @@ int main(int argc, const char* argv[]) {
 		if (data["filter"]) {
 			std::string filterName = data["filter"].as<std::string>();
 			if (filterName == "longest") {
-				filter = p.builtins.longest;
+				filter = parlex::builtins().longest;
 			} else {
 				throw std::logic_error(("unrecognized filter " + filterName).c_str());
 			}
@@ -74,9 +75,22 @@ int main(int argc, const char* argv[]) {
 		}
 		defs.emplace(std::piecewise_construct, forward_as_tuple(name), forward_as_tuple(source, assoc, filter, precedences));
 	}
-	parlex::builder::grammar g = p.builtins.wirth.load_grammar("STATEMENT_SCOPE", defs);
+	parlex::builder::grammar g = parlex::wirth().load_grammar("STATEMENT_SCOPE", defs);
 	std::ofstream cppStream(workingDir + "/plc/src/plange_grammar.cpp.inc");
 	std::ofstream hppStream(workingDir + "/plc/include/plange_grammar.hpp.inc");
-	hppStream << parlex::cpp_generator::generate(p.builtins, g);
-	throw std::logic_error("not implemented");
+	auto files = parlex::cpp_generator::generate("plange", g);
+	auto write_files = [&](std::string const & plcDir, parlex::cpp_generator::file_dictionary const & files)
+	{
+		for (auto const & file : files) {
+			std::string filePathname = workingDir + "/" + plcDir + "/" + file.first;
+			std::ofstream s(filePathname);
+			if (!s) {
+				throw std::runtime_error("couldn't open file for writing");
+			}
+			s << file.second;
+		}
+	};
+	write_files("plc/include/document", files.headers);
+	write_files("plc/src/document", files.sources);
+
 }
