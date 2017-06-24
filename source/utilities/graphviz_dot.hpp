@@ -7,6 +7,8 @@
 #include <sstream>
 #include <queue>
 
+#include "utils.hpp"
+
 template<typename VertexT>
 std::string directed_graph(std::vector<VertexT> const & vertices, std::function<std::string(VertexT const &)> get_name, std::function<std::vector<std::pair<std::string /*edge properties*/, VertexT>>(VertexT const &)> get_edges, std::function<std::string(VertexT const &)> get_properties = std::function<std::string(VertexT const &)>()) {
 	std::stringstream result;
