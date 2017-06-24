@@ -187,14 +187,14 @@ std::string node_to_cpp(details::node const & n, int indentLevel) {
 
 #define DO_AS(name) auto const * as_##name = dynamic_cast<details::name##_t const *>(&n); if (as_##name != nullptr)
 	DO_AS(literal) {
-		ss << "literal(";
+		ss << "parlex::literal(";
 		add_tag();
 		ss << enquote(as_literal->id);
 		ss << ")";
 	}
 
 	DO_AS(reference) {
-		ss << "reference(";
+		ss << "parlex::reference(";
 		add_tag();
 		ss << enquote(as_reference->id);
 		ss << ")";
@@ -213,7 +213,7 @@ std::string node_to_cpp(details::node const & n, int indentLevel) {
 	};
 
 	DO_AS(choice) {
-		ss << "choice(";
+		ss << "parlex::choice(";
 		add_tag();
 		ss << "{\n";
 		write_children();
@@ -221,7 +221,7 @@ std::string node_to_cpp(details::node const & n, int indentLevel) {
 	}
 
 	DO_AS(optional) {
-		ss << "optional(";
+		ss << "parlex::optional(";
 		add_tag();
 		ss << "\n";
 		write_children();
@@ -229,7 +229,7 @@ std::string node_to_cpp(details::node const & n, int indentLevel) {
 	}
 
 	DO_AS(repetition) {
-		ss << "repetition(";
+		ss << "parlex::repetition(";
 		add_tag();
 		ss << "\n";
 		write_children();
@@ -237,7 +237,7 @@ std::string node_to_cpp(details::node const & n, int indentLevel) {
 	}
 
 	DO_AS(sequence) {
-		ss << "sequence(";
+		ss << "parlex::sequence(";
 		add_tag();
 		ss << "{\n";
 		write_children();
@@ -249,13 +249,13 @@ std::string node_to_cpp(details::node const & n, int indentLevel) {
 
 std::string production_to_cpp(production const & p) {
 	std::stringstream ss;
-	ss << "production(" << enquote(p.id) << ",\n\t\t";
+	ss << "parlex::production(" << enquote(p.id) << ",\n\t\t";
 	ss << node_to_cpp(*p.behavior, 2);
 	bool needsPrecendences = p.precedences.size() > 0;
 	bool needsFilter = p.filter != filter_function() || needsPrecendences;
 	bool needsAssociativity = p.assoc != associativity::none || needsFilter;
 	if (needsAssociativity) {
-		ss << ",\n\t\tassociativity::";
+		ss << ",\n\t\tparlex::associativity::";
 		switch (p.assoc) {
 		case associativity::any:
 			ss << "any";
@@ -274,10 +274,10 @@ std::string production_to_cpp(production const & p) {
 	if (needsFilter) {
 		ss << ", ";
 		if (p.filter == details::builtins().longest) {
-			ss << "parlex::builtins().longest";
+			ss << "parlex::details::builtins().longest";
 		}
 		else if (!p.filter) {
-			ss << "filter_function()";
+			ss << "parlex::filter_function()";
 		}
 		else {
 			throw;
@@ -296,7 +296,7 @@ std::string production_to_cpp(production const & p) {
 
 std::string generate_grammar_builder(builder const & b) {
 	std::stringstream ss;
-	ss << "parlex::builder::grammar(" << enquote(b.root_id) << ", {\n";
+	ss << "parlex::builder(" << enquote(b.root_id) << ", {\n";
 	for (auto const & p : b.productions) {
 		ss << "\t" << production_to_cpp(p);
 		ss << ",\n";

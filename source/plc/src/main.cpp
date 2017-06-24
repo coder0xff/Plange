@@ -1,22 +1,19 @@
+#include "stdafx.hpp"
+
 #include <fstream>
-#include <stdlib.h>
 #include <iostream>
 
-#include "stdafx.hpp"
-#include "parser.hpp"
-#include "plange_grammar.hpp"
-#include "tclap/CmdLine.h"
-#include "utils.hpp"
-#include "source_code.hpp"
-#include "stdlib.hpp"
-#include "scope.hpp"
-
-#pragma warning(push, 0)
-#include <llvm/IR/LLVMContext.h>
-#include <llvm/IR/Module.h>
-#include <llvm/IR/IRBuilder.h>
 #include "compiler.hpp"
 #include "module.hpp"
+#include "scope.hpp"
+#include "source_code.hpp"
+#include "tclap/CmdLine.h"
+#include "utf.hpp"
+#include "utils.hpp"
+
+#pragma warning(push, 0)
+#include <llvm/IR/IRBuilder.h>
+#include <llvm/IR/LLVMContext.h>
 #pragma warning(pop)
 
 

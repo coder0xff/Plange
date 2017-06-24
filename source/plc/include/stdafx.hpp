@@ -10,10 +10,7 @@
 #include "warnings.hpp"
 #include "errors.hpp"
 
-#include "parlex/parser.hpp"
-
 namespace plc {
-	extern parlex::parser parser;
 	extern llvm::LLVMContext llvmContext;
 }
 

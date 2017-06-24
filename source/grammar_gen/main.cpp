@@ -11,9 +11,9 @@
 #include "utils.hpp"
 #include <fstream>
 #include <iostream>
-#include "parlex/parser.hpp"
-#include "parlex/grammar.hpp"
-#include "parlex/builtins.hpp"
+#include "parlex/details/parser.hpp"
+#include "parlex/details/grammar.hpp"
+#include "parlex/details/builtins.hpp"
 #include "parlex/builder.hpp"
 #include "utf.hpp"
 #include "parlex/cpp_generator.hpp"
@@ -36,7 +36,7 @@ int main(int argc, const char* argv[]) {
 	std::u32string syntaxYaml = read_with_bom(ifs);
 	YAML::Node spec = YAML::Load(to_utf8(syntaxYaml));
 
-	parlex::parser p;
+	parlex::details::parser p;
 	std::map<std::string, parlex::details::wirth_t::production> defs;
 	for (auto const & elem : spec) {
 		std::string name = elem.first.as<std::string>();
@@ -62,7 +62,7 @@ int main(int argc, const char* argv[]) {
 		if (data["filter"]) {
 			std::string filterName = data["filter"].as<std::string>();
 			if (filterName == "longest") {
-				filter = parlex::builtins().longest;
+				filter = parlex::details::builtins().longest;
 			} else {
 				throw std::logic_error(("unrecognized filter " + filterName).c_str());
 			}
@@ -75,7 +75,7 @@ int main(int argc, const char* argv[]) {
 		}
 		defs.emplace(std::piecewise_construct, forward_as_tuple(name), forward_as_tuple(source, assoc, filter, precedences));
 	}
-	parlex::builder::grammar g = parlex::wirth().load_grammar("STATEMENT_SCOPE", defs);
+	parlex::builder g = parlex::wirth().load_grammar("STATEMENT_SCOPE", defs);
 	std::ofstream cppStream(workingDir + "/plc/src/plange_grammar.cpp.inc");
 	std::ofstream hppStream(workingDir + "/plc/include/plange_grammar.hpp.inc");
 	auto files = parlex::cpp_generator::generate("plange", g);

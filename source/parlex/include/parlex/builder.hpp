@@ -4,8 +4,12 @@
 #include <vector>
 
 #include "erased.hpp"
-#include "filter_function.hpp"
-#include "associativity.hpp"
+
+#include "parlex/filter_function.hpp"
+#include "parlex/associativity.hpp"
+
+#include "parlex/details/builtins.hpp"
+
 
 namespace parlex {
 namespace details {

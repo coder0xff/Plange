@@ -1496,7 +1496,7 @@ production("IDENTIFIER",
 			})
 		)
 	}),
-	associativity::none, builtins.longest),
+	associativity::none, builtins().longest),
 production("IF",
 	sequence({
 		literal("if"),
@@ -2310,7 +2310,7 @@ production("PLATFORM",
 			})
 		)
 	}),
-	associativity::none, builtins.longest),
+	associativity::none, builtins().longest),
 production("POST_DEC",
 	sequence({
 		reference("EXPRESSION"),
@@ -3395,7 +3395,7 @@ production("WS",
 			reference("white_space")
 		)
 	}),
-	associativity::none, builtins.longest),
+	associativity::none, builtins().longest),
 production("XML_DOC_STRING",
 	sequence({
 		literal("```"),

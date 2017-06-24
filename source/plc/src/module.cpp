@@ -6,6 +6,7 @@
 
 #include "module.hpp"
 #include "utils.hpp"
+#include "utf.hpp"
 
 plc::module::module(std::vector<std::reference_wrapper<source_code const>> sources) : sources(sources), llvm_module("module", llvmContext), global(*this, nullptr, nullptr)
 {
