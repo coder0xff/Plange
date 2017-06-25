@@ -7,6 +7,7 @@
 
 
 #include "parlex/details/behavior.hpp"
+#include "dynamic_dispatch.hpp"
 
 namespace parlex {
 
@@ -48,67 +49,6 @@ static std::string add_namespaces(std::string const & text, std::vector<std::str
 	return get_namespaces_open(namespaces) + "\n" + text + "\n" + get_namespaces_close(namespaces);
 }
 
-//returns the type name to be used in the tree
-//buffer is modified by adding dependency types
-static std::string build_type(std::stringstream & buffer, details::node const & node, std::string const & name) {
-	/////////////////////////////////////////////////////////////////////////////////////////////////
-#define DO_AS(name)                                                                             \
-		auto const * as_##name = dynamic_cast<details::name##_t const *>(&node);                  \
-		if (as_##name != nullptr)                                                                 \
-///////////////////////////////////////////////////////////////////////////////////////////////////
-
-	if (node.tag != "") {
-		std::string childName = node.tag;
-		if (name != "") {
-			childName = name + "_" + childName;
-		}
-		return build_type(buffer, node, name + "_" + node.tag);
-	}
-	DO_AS(literal) {
-		return "";
-	}
-	DO_AS(reference) {
-		return "";
-	}
-	DO_AS(choice) {
-		std::stringstream result;
-		result << "std::variant<";
-		for (size_t i = 0; i < node.children.size(); ++i) {
-			details::node const & child = *node.children[i];
-			auto childString = build_type(buffer, child, "");
-			if (childString == "") {
-				result << "std::integral_constant<" << std::to_string(i) << ">";
-			} else {
-				result << childString;
-			}
-		}
-		result << ">";
-	}
-	DO_AS(optional) {
-		details::node const & child = *node.children[0];
-		auto childString = build_type(buffer, child, "");
-		if (childString == "") {
-			return "bool";
-		}
-		return "std::optional<" + childString + ">";
-	}
-	DO_AS(repetition) {
-		details::node const & child = *node.children[0];
-		auto childString = build_type(buffer, child, "");
-		if (childString == "") {
-			return "int";
-		}
-		return "std::vector<" + childString + ">";
-	}
-	DO_AS(sequence) {
-
-	}
-
-#undef DO_AS
-
-}
-
-
 static std::string generate_grammar_hpp_code(std::string const & name, builder const & b, std::vector<std::string> const & namespaces) {
 	std::stringstream result;
 	result << "class " << name << " : public builder::grammar {\n";
@@ -121,87 +61,20 @@ static std::string generate_grammar_hpp_code(std::string const & name, builder c
 	throw std::logic_error("not implemented");
 }
 
-static std::string generate_grammar_cpp_behavior_code(details::node const * node, int indentation) {
-	std::stringstream result;
-
-	/////////////////////////////////////////////////////////////////////////////////////////////////
-#define DO_AS(name)                                                                             \
-		auto const * as_##name = dynamic_cast<details::name##_t const *>(node);                  \
-		if (as_##name != nullptr)                                                                 \
-///////////////////////////////////////////////////////////////////////////////////////////////////
-
-	std::string indentString("\t", indentation);
-	bool wasLeaf = false;
-	DO_AS(literal) {
-		result << indentString << "literal(" << node->tag << "U" << as_literal->id << ")";
-		wasLeaf = true;
-	}
-	DO_AS(reference) {
-		result << indentString << "reference(" << as_reference->id << ")";
-		wasLeaf = true;
-	}
-	if (!wasLeaf) {
-#define DO_NON_LEAF_AS(name) DO_AS(name) { result << indentString << #name "(" << node->tag << "\n"; }
-		DO_NON_LEAF_AS(choice);
-		DO_NON_LEAF_AS(optional);
-		DO_NON_LEAF_AS(repetition);
-		DO_NON_LEAF_AS(sequence);
-#undef  DO_NON_LEAF_AS
-
-#undef DO_AS
-
-		bool firstChild = true;
-		for (erased<details::node> const & child : node->children) {
-			if (!firstChild) {
-				result << ",\n";
-			}
-			result << generate_grammar_cpp_behavior_code(&*child, indentation + 1);
-			firstChild = false;
-		}
-		result << "\n" << indentString << ")";
-	}
-
-	return result.str();
-}
-
-
-static std::string generate_grammar_cpp_code(std::vector<std::string> const & namespaces, production const & p) {
-
-}
-
-static std::pair<std::string, std::string> generate(std::vector<std::string> const & namespaces, production const & p) {
-	//return std::make_pair(generate_hpp_code(namespaces, p), generate_cpp_code(namespaces, p));
-}
-
 std::string node_to_cpp(details::node const & n, int indentLevel) {
-	std::stringstream ss;
-
 	std::string indentString(std::string(indentLevel, '\t'));
 
 	auto add_tag = [&]()
 	{
 		if (n.tag != "") {
-			ss << enquote(n.tag) << ", ";
+			return enquote(n.tag) + ", ";
 		}
+		return std::string();
 	};
 
-#define DO_AS(name) auto const * as_##name = dynamic_cast<details::name##_t const *>(&n); if (as_##name != nullptr)
-	DO_AS(literal) {
-		ss << "parlex::literal(";
-		add_tag();
-		ss << enquote(as_literal->id);
-		ss << ")";
-	}
-
-	DO_AS(reference) {
-		ss << "parlex::reference(";
-		add_tag();
-		ss << enquote(as_reference->id);
-		ss << ")";
-	}
-
-	auto write_children = [&]()
-	{		
+	auto add_children = [&]()
+	{
+		std::stringstream ss;
 		for (auto const & child : n.children) {
 			ss << indentString;
 			ss << '\t' << node_to_cpp(*child, indentLevel + 1);
@@ -210,41 +83,26 @@ std::string node_to_cpp(details::node const & n, int indentLevel) {
 			}
 			ss << '\n';
 		}
+		return ss.str();
 	};
 
-	DO_AS(choice) {
-		ss << "parlex::choice(";
-		add_tag();
-		ss << "{\n";
-		write_children();
-		ss << indentString << "})";		
-	}
+#define DO_AS(name)	[&](details::name##_t const & v) { return "parlex::" #name "(" + add_tag() + "{\n" + add_children() + indentString + "})"; }
 
-	DO_AS(optional) {
-		ss << "parlex::optional(";
-		add_tag();
-		ss << "\n";
-		write_children();
-		ss << indentString << ")";
-	}
+	return dynamic_dispatch<std::string>(n,
+		[&](details::literal_t const & v) {
+			return "parlex::literal(" + add_tag() + enquote(v.id) + ")";
+		},
+		[&](details::reference_t const & v) {
+			return "parlex::reference(" + add_tag() + enquote(v.id) + ")";
+		},
+		DO_AS(choice),
+		DO_AS(optional),
+		DO_AS(repetition),
+		DO_AS(sequence)
+	);
 
-	DO_AS(repetition) {
-		ss << "parlex::repetition(";
-		add_tag();
-		ss << "\n";
-		write_children();
-		ss << indentString << ")";
-	}
+#undef DO_AS
 
-	DO_AS(sequence) {
-		ss << "parlex::sequence(";
-		add_tag();
-		ss << "{\n";
-		write_children();
-		ss << indentString << "})";
-	}
-
-	return ss.str();
 }
 
 std::string production_to_cpp(production const & p) {

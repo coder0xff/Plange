@@ -5,6 +5,7 @@
 
 #include "graphviz_dot.hpp"
 #include "parlex/details/raw_state_machine.hpp"
+#include "dynamic_dispatch.hpp"
 
 namespace parlex {
 namespace details {
@@ -30,38 +31,20 @@ node::node(node const & other) : tag(other.tag), children(other.children) {
 }
 
 static std::string node_to_name(node const * n) {
-	///////////////////////////////////////////////////////////////////////////////////////////
-#define DO_AS(name)                                                                       \
-	name const * as_##name = dynamic_cast<name const *>(n);      \
-	if (as_##name != nullptr)                                                               \
-/////////////////////////////////////////////////////////////////////////////////////////////
-
-	/////////////////////////////////////////
-#define DO_AS2(name)                    \
-	DO_AS(name) {                        \
-		result << #name << " ";           \
-		if (as_##name->tag != "") {        \
-			result << as_##name->tag;       \
-		} else {                             \
-			result << as_##name;              \
-		}                                      \
-	}                                           \
-/////////////////////////////////////////////////
-
 	std::stringstream result;
-	DO_AS(leaf) {
-		result << as_leaf->id;
-	}
-	DO_AS2(choice)
-		DO_AS2(optional)
-		DO_AS2(repetition)
-		DO_AS2(sequence)
-#undef DO_AS2
+
+#define DO_AS(name) [](name const & v) { return #name + (v.tag != "" ? " " + v.tag : ""); }
+	result << dynamic_dispatch<std::string>(*n,
+		[](leaf const & v) { return v.id; },
+		DO_AS(choice),
+		DO_AS(optional),
+		DO_AS(repetition),
+		DO_AS(sequence)
+	);
 #undef DO_AS
 
-		result << " " << n;
+	result << " " << n;
 	return result.str();
-
 }
 
 

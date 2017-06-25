@@ -4,6 +4,7 @@
 #include "parlex/details/builtins.hpp"
 
 #include "utf.hpp"
+#include "dynamic_dispatch.hpp"
 
 namespace parlex {
 namespace details {
@@ -94,38 +95,33 @@ recognizer const& grammar::get_recognizer(std::string const & id) const {
 }
 
 erased<behavior::node> grammar::get_behavior(node const & b) {
+
 #define DO_AS(name) \
-	auto const * as_##name = dynamic_cast<details::name##_t const *>(&b); \
-	if (as_##name != nullptr)
+		[&](name##_t const & v) { \
+			behavior::name result; \
+			for (auto const & child : v.children) { \
+				result.add_child(get_behavior(*child)); \
+			} \
+			return result; \
+		}
 
-	DO_AS(literal) {
-		auto const & l = get_or_add_literal(as_literal->content);
-		return behavior::leaf(l);
-	}
 
-	DO_AS(reference) {
-		auto const & r = get_recognizer(as_reference->id);
-		return behavior::leaf(r);
-	}
+	return dynamic_dispatch<erased<behavior::node>>(b,
+		[&](literal_t const & v) {
+			auto const & l = get_or_add_literal(v.content);
+			return behavior::leaf(l);
+		},
+		[&](reference_t const & v) {
+			auto const & r = get_recognizer(v.id);
+			return behavior::leaf(r);
+		},
+		DO_AS(choice),
+		DO_AS(optional),
+		DO_AS(repetition),
+		DO_AS(sequence)
+	);
 
-#define CONVERT_AS(type) \
-	DO_AS(type) { \
-		behavior::type result; \
-		for (auto const & child : b.children) { \
-			result.add_child(get_behavior(*child)); \
-		} \
-		return result; \
-	}
-
-	CONVERT_AS(choice)
-	CONVERT_AS(optional)
-	CONVERT_AS(repetition)
-	CONVERT_AS(sequence)
-
-#undef CONVERT_AS
 #undef DO_AS
-
-		throw std::logic_error("unknown type");
 }
 
 } // namespace details

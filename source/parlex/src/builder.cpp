@@ -5,6 +5,7 @@
 
 #include "utf.hpp"
 #include "graphviz_dot.hpp"
+#include "dynamic_dispatch.hpp"
 
 namespace parlex {
 namespace details {
@@ -76,39 +77,20 @@ production::production(std::string const & id, erased<details::node> const & beh
 namespace details {
 
 static std::string node_to_name(node const * n) {
-	///////////////////////////////////////////////////////////////////////////////////////////
-#define DO_AS(name)                                                                       \
-	name##_t const * as_##name = dynamic_cast<name##_t const *>(n);      \
-	if (as_##name != nullptr)                                                               \
-/////////////////////////////////////////////////////////////////////////////////////////////
-
-/////////////////////////////////////////
-#define DO_AS2(name)                    \
-	DO_AS(name) {                        \
-		result << #name << " ";           \
-		if (as_##name->tag != "") {        \
-			result << as_##name->tag;       \
-		} else {                             \
-			result << as_##name;              \
-		}                                      \
-	}                                           \
-/////////////////////////////////////////////////
-
 	std::stringstream result;
-	DO_AS(literal) {
-		result << as_literal->id;
-	}
-	DO_AS(reference) {
-		result << as_reference->id;
-	}
-	DO_AS2(choice)
-	DO_AS2(optional)
-	DO_AS2(repetition)
-	DO_AS2(sequence)
-#undef DO_AS2
+
+#define DO_AS(name) [](name##_t const & v) { return #name + (v.tag != "" ? " " + v.tag : ""); }
+	result << dynamic_dispatch<std::string>(*n,
+		[](literal_t const & v) { return v.id; },
+		[](reference_t const & v) { return v.id; },
+		DO_AS(choice),
+		DO_AS(optional),
+		DO_AS(repetition),
+		DO_AS(sequence)
+		);
 #undef DO_AS
 
-		result << " " << n;
+	result << " " << n;
 	return result.str();
 }
 
