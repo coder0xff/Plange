@@ -8,6 +8,7 @@ set (SOURCES
 	"src/c_string.cpp"
 	"src/context.cpp"
 	"src/cpp_generator.cpp"
+	"src/document_representation.cpp"
 	"src/grammar.cpp"
 	"src/grammar_base.cpp"
 	"src/job.cpp"

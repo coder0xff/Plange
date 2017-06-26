@@ -6,12 +6,27 @@
 #include "builder.hpp"
 
 namespace parlex {
-namespace representation {
+namespace details {
 
-// simplify builder nodes into struct-like representations
-void simplify(std::list<builder::production> const & productions);
+// a leaf node that may reduce its parent's representation to a simpler form
+struct unit : node {
+	unit(node const & n);
+	node const & original_leaf;
+};
 
-} // namespace representation
+struct type : node {
+	type(std::string const & name);
+	std::string name;
+};
+
+// a leaf node representing a data structure
+struct aggregate : node {
+	std::map<std::string /* data member name */, erased<node>> data_members;
+};
+
+erased<node> compute_document_representation(erased<node> const & root);
+
+} // namespace details
 } // namespace parlex
 
 #endif //DOCUMENT_REPRESENTATION_HPP

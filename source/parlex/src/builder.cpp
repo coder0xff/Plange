@@ -72,6 +72,7 @@ erased<details::node> reference(std::string && id) { return erased<details::node
 erased<details::node> reference(std::string && tag, std::string && id) { return erased<details::node>(details::reference_t(move(tag), move(id))); }
 
 production::production(std::string const & id, erased<details::node> const & behavior, associativity assoc /*= associativity::none*/, filter_function const & filter /*= filter_function()*/, std::set<std::string> const & precedences /*= set<string>() */) : id(id), behavior(behavior), filter(filter), assoc(assoc), precedences(precedences) {
+	this->behavior->tag = id;
 }
 
 namespace details {
