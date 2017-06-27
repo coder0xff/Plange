@@ -29,10 +29,17 @@ void add_files(cpp_generator::output_files & to, cpp_generator::output_files con
 std::string indent(std::string const & s, int count = 1) {
 	std::stringstream in(s);
 	std::stringstream result;
-	std::string indentStr('\t', count);
+	std::string indentStr(count, '\t');
 	std::string line;
 	while (getline(in, line)) {
 		result << indentStr << line;
+		if (in.eof()) { //only add a trailing newline on the last line if there was one in the input
+			if (*s.rbegin() == '\n') {
+				result << "\n";
+			}
+		} else {
+			result << "\n";
+		}
 	}
 	return result.str();
 }
@@ -188,12 +195,12 @@ erased<details::node> flatten_aggregate(details::aggregate const & aggregate, st
 		ss << indent(internalSubResult) << "\n\n";
 	}
 	for (auto const & flattenedDataMember : flattenedDataMembers) {
-		ss << dynamic_dispatch<std::string>(*flattenedDataMember.second,
+		ss << indent(dynamic_dispatch<std::string>(*flattenedDataMember.second,
 			[&](details::unit const &) { return ""; },
 			[&](details::type const & v) {
-				return "\t" + v.name + " " + flattenedDataMember.first + ";\n";
+				return v.name + " " + flattenedDataMember.first + ";\n";
 			}
-		);
+		));
 	}
 	ss << "}";
 
@@ -231,7 +238,7 @@ std::string flattened_choice_variant(details::node::children_t & children) {
 				return v.name;
 			}
 		);
-		ss << "\t" << typeName;
+		ss << indent(typeName);
 		if (i < children.size() - 1) {
 			ss << ",";
 		}
@@ -281,21 +288,29 @@ erased<details::node> flatten_repetition(details::repetition_t const & repetitio
 erased<details::node> flattened_sequence_tuple(details::sequence_t const & sequence, std::vector<std::string> & subResults) {
 	auto children = flatten_children(sequence.children, subResults);
 	std::stringstream ss;
-	ss << "std::tuple<";
+	ss << "std::tuple<\n";
 	int elementCount = 0;
 	for (auto const & child : children) {
-		if (dynamic_cast<details::unit const *>(&*child) == nullptr) {
-			if (elementCount > 0) {
-				ss << ", ";
+		std::string childName = dynamic_dispatch<std::string>(*child,
+			[&](details::type const & v) {
+				return v.name;
+			},
+			[&](details::unit const & v) {
+				return "";
 			}
-			ss << child->tag;
+		);
+		if (!childName.empty()) {
+			if (elementCount > 0) {
+				ss << ",\n";
+			}
+			ss << indent(childName);
 			++elementCount;
 		}
 	}
 	if (elementCount == 0) {
 		return details::unit(sequence);
 	}
-	ss << ">";
+	ss << "\n>";
 	return details::type(ss.str());
 }
 
@@ -336,9 +351,9 @@ erased<details::node> flattened_sequence_forced_aggregate(details::sequence_t co
 erased<details::node> flatten_sequence(details::sequence_t const & sequence, std::vector<std::string> & subResults) {
 	if (sequence.tag == "") {
 		return flattened_sequence_tuple(sequence, subResults);
-	} else { //force creation of a new struct
-		return flattened_sequence_forced_aggregate(sequence, subResults);
 	}
+	//force creation of a new struct
+	return flattened_sequence_forced_aggregate(sequence, subResults);
 }
 
 
@@ -360,25 +375,27 @@ erased<details::node> flatten_node(erased<details::node> const & n, std::vector<
 	return result;
 }
 
-std::string generate_class_declaration(erased<details::node> const & n) {
-	std::vector<std::string> subResults;
-	auto flattened = flatten_node(n, subResults);
-	auto const * ptr = dynamic_cast<details::type const *>(&*flattened);
-	if (ptr == nullptr) {
-		throw std::runtime_error("not a type");
-	}
-	return ptr->name;
-}
-
 cpp_generator::output_files generate_class(production const & p) {
 	cpp_generator::output_files results;
 	auto & headers = results.headers;
 	auto & sources = results.sources;
 
-	auto const & name = p.id;
-
+	std::vector<std::string> subResults;
 	auto representation = compute_document_representation(p.behavior);
-	headers[name + ".hpp.inc"] = generate_class_declaration(representation);
+	auto flattened = flatten_node(representation, subResults);
+	headers[p.id + ".hpp.inc"] = dynamic_dispatch<std::string>(*flattened,
+		[&](details::type const & value) {
+			std::stringstream ss;
+			ss << "// This file was generated using parlex's cpp_generator\n\n";
+			for (auto const & subResult : subResults) {
+				ss << subResult << "\n\n";
+			}
+			if (subResults.size() == 0) {
+				ss << "typedef " << value.name << " " << p.id << ";";
+			}
+			return ss.str();
+		}
+	);
 
 	return results;
 }
