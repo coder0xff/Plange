@@ -1,0 +1,14 @@
+// This file was generated using parlex's cpp_generator
+
+typedef std::variant<
+	ADD_SUB,
+	ADDITION,
+	DIVISION,
+	EXPONENTIATION,
+	INTEGER_DIVISION,
+	MODULATION,
+	MULTIPLICATIVE_OP,
+	SHIFTL,
+	SHIFTR,
+	SUBTRACTION
+> BINARY_ARITHMETIC_OP;
