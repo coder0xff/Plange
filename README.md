@@ -26,7 +26,7 @@ CMake is used to build Plange. Build has been tested on Visual Studio 2017, and 
    * If an installation of yaml-cpp is not found it will downloaded and built automatically.
    * Google test will be downloaded and built.
 
-#### Caveats
+#### Notes
  * The top level CMakeLists.txt is a super build for preparing dependencies.
    * Plange source code resides in `./source` directory as a separate CMake project.
    * Plange build files reside in `build/prefix/src/plange-build` and may be built directly once the super build completes
