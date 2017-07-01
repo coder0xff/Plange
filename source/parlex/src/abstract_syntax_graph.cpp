@@ -132,5 +132,26 @@ uint64_t abstract_syntax_graph::variation_count() const {
 	return result;
 }
 
+
+std::set<permutation> const & abstract_syntax_graph::find_all(match const & m) const
+{
+	auto i = permutations.find(m);
+	if (i == permutations.end()) {
+		throw std::runtime_error("permutations not found");
+	}
+	return i->second;
+}
+
+
+permutation const & abstract_syntax_graph::find(match const & m) const
+{
+	auto const & all = find_all(m);
+	auto i = all.begin();
+	if (i == all.end()) {
+		throw std::runtime_error("permutations not found");
+	}
+	return *i;
+}
+
 } // namespace details
 } // namespace parlex

@@ -79,9 +79,9 @@ int main(int argc, const char* argv[]) {
 	std::ofstream cppStream(workingDir + "/plc/src/plange_grammar.cpp.inc");
 	std::ofstream hppStream(workingDir + "/plc/include/plange_grammar.hpp.inc");
 	auto files = parlex::cpp_generator::generate("plange", g);
-	auto write_files = [&](std::string const & plcDir, parlex::cpp_generator::file_dictionary const & files)
+	auto write_files = [&](std::string const & plcDir, parlex::cpp_generator::file_dictionary const & filesToWrite)
 	{
-		for (auto const & file : files) {
+		for (auto const & file : filesToWrite) {
 			std::string filePathname = workingDir + "/" + plcDir + "/" + file.first;
 			std::ofstream s(filePathname);
 			if (!s) {

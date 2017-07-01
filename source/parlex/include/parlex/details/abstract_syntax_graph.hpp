@@ -22,6 +22,8 @@ struct abstract_syntax_graph {
 	std::string to_concrete_dot(std::u32string const & document);
 	std::list<std::string> warnings;
 	uint64_t variation_count() const;
+	std::set<permutation> const & find_all(match const & m) const;
+	permutation const & find(match const & m) const;
 };
 
 } // namespace details

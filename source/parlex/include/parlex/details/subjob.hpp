@@ -5,7 +5,7 @@
 #include <mutex>
 #include <atomic>
 
-#include "parlex/details/match.hpp"
+#include "parlex/details/fast_match.hpp"
 #include "parlex/details/permutation.hpp"
 #include "parlex/details/context.hpp"
 #include "parlex/details/producer.hpp"
@@ -29,7 +29,7 @@ public:
 	virtual ~subjob();
 
 	void start();
-	context_ref construct_stepped_context(context_ref const & prior, match const & fromTransition);
+	context_ref construct_stepped_context(context_ref const & prior, fast_match const & fromTransition);
 	void on(context_ref const & c, recognizer const & r, int nextDfaState, behavior::leaf const * leaf);
 	void accept(context_ref const & c);
 	// for special use by the parser to seed the queue

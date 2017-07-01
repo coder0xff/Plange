@@ -45,7 +45,7 @@ private:
 	std::condition_variable work_cv;
 
 	void start_workers(int threadCount);
-	static abstract_syntax_graph construct_result(job const & j, match const & m);
+	static abstract_syntax_graph construct_result(job const & j, fast_match const & m);
 	static abstract_syntax_graph construct_result_and_postprocess(recognizer const & overrideMain, std::vector<post_processor> posts, std::u32string const & document, job const & j);
 	static void complete_progress_handler(job & j);
 	void update_progress(context_ref const & context) const;

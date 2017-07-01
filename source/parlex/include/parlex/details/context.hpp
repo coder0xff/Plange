@@ -4,8 +4,9 @@
 #include <memory>
 #include <vector>
 
-#include "parlex/details/match.hpp"
+#include "parlex/details/fast_match.hpp"
 #include "parlex/details/permutation.hpp"
+#include <optional>
 
 namespace parlex {
 namespace details {
@@ -35,8 +36,8 @@ public:
 	subjob& owner() const;
 	context_ref const& prior() const;
 	size_t current_document_position() const;
-	std::unique_ptr<match> from_transition() const; //unique_ptr serves as optional
-	permutation result() const;
+	std::optional<fast_match> from_transition() const; //unique_ptr serves as optional
+	std::vector<match> result() const;
 };
 
 //the parse context for some state_machine's state during one of its executions
@@ -46,12 +47,12 @@ public:
 	subjob & owner;
 	context_ref const prior;
 	int const currentDocumentPosition;
-	std::unique_ptr<match> const fromTransition; // optional
+	std::optional<fast_match> const fromTransition; // optional
 private:
 	context_ref_counter & rc;
 
 public:
-	context(subjob & owner, context_ref const & prior, int documentPosition, match const * from_transition);
+	context(subjob & owner, context_ref const & prior, int documentPosition, std::optional<fast_match> const & from_transition);
 	context(context const & other) = delete;
 	context(context && move) = delete;
 	~context();

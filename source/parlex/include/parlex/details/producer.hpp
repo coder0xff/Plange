@@ -40,8 +40,8 @@ public:
 	int const document_position;
 	bool completed;
 	std::list<subscription> consumers;
-	std::vector<match> matches;
-	std::map<match, std::set<permutation>> match_to_permutations;
+	std::vector<fast_match> matches;
+	std::map<fast_match, std::set<permutation>> match_to_permutations;
 	std::mutex mutex;
 
 	producer(job & owner, recognizer const & r, size_t const documentPosition);

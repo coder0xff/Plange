@@ -14,6 +14,7 @@
 
 namespace parlex {
 
+// merge the files given in from into to
 void add_files(cpp_generator::output_files & to, cpp_generator::output_files const & from) {
 	for (auto const & header : from.headers) {
 		if (to.headers.emplace(header.first, header.second).second == false) {
@@ -27,6 +28,7 @@ void add_files(cpp_generator::output_files & to, cpp_generator::output_files con
 	}
 }
 
+// indent the multi-line string s by count tab characters
 std::string indent(std::string const & s, int count = 1) {
 	std::stringstream in(s);
 	std::stringstream result;
@@ -45,6 +47,7 @@ std::string indent(std::string const & s, int count = 1) {
 	return result.str();
 }
 
+// generate a c++ enum class
 std::string generate_enumeration(std::string const & name, std::set<std::string> const & elements) {
 	std::stringstream ss;
 	ss << "enum class";
@@ -63,6 +66,7 @@ std::string generate_enumeration(std::string const & name, std::set<std::string>
 	return ss.str();
 }
 
+// generate an inline type for the given unit node
 std::string stringize_unit(details::unit const & u, size_t index = std::numeric_limits<size_t>::max()) {
 	if (u.tag.empty()) {
 		if (index != std::numeric_limits<size_t>::max()) {
@@ -73,6 +77,7 @@ std::string stringize_unit(details::unit const & u, size_t index = std::numeric_
 	return "struct " + u.tag + " {}";
 }
 
+// generate a builder expression portion of the cpp.inc that constructs the parlex grammar
 std::string node_to_cpp(details::node const & n) {
 	auto add_tag = [&]() {
 		if (n.tag != "") {
@@ -112,6 +117,7 @@ std::string node_to_cpp(details::node const & n) {
 
 }
 
+// generate a portion of the cpp.inc that construct the parlex grammar
 std::string production_to_cpp(production const & p) {
 	std::stringstream ss;
 	ss << "parlex::production(" << enquote(p.id) << ",\n";
@@ -157,6 +163,7 @@ std::string production_to_cpp(production const & p) {
 	return ss.str();
 }
 
+// generate a cpp.inc that constructs the parlex grammar
 std::string generate_grammar_builder(builder const & b) {
 	std::stringstream ss;
 	ss << "parlex::builder(" << enquote(b.root_id) << ", {\n";
@@ -179,6 +186,7 @@ details::node::children_t flatten_children(details::node::children_t const & chi
 	return results;
 }
 
+// return a type node and any sub results needed to define the referenced type
 erased<details::node> flatten_aggregate(details::aggregate const & aggregate, std::vector<std::string> & subResults) {
 	std::vector<std::string> internalSubResults;
 	std::map<std::string /* data member name */, erased<details::node>> flattenedDataMembers;
@@ -356,7 +364,6 @@ erased<details::node> flatten_sequence(details::sequence_t const & sequence, std
 	//force creation of a new struct
 	return flattened_sequence_forced_aggregate(sequence, subResults);
 }
-
 
 erased<details::node> flatten_node(erased<details::node> const & n, std::vector<std::string> & subResults) {
 	erased<details::node> result = dynamic_dispatch<erased<details::node>>(*n,

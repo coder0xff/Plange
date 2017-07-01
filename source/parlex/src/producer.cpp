@@ -57,7 +57,7 @@ void producer::enque_permutation(size_t consumedCharacterCount, permutation cons
 	bool newMatch = false; {
 		std::unique_lock<std::mutex> lock(mutex);
 		throw_assert(!completed);
-		match m(match_class(r, document_position), consumedCharacterCount);
+		fast_match m(match_class(r, document_position), consumedCharacterCount);
 		if (!match_to_permutations.count(m)) {
 			match_to_permutations[m] = std::set<permutation>();
 			matches.push_back(m);

@@ -59,7 +59,7 @@ parser::~parser() {
 }
 
 abstract_syntax_graph parser::construct_result_and_postprocess(recognizer const & overrideMain, std::vector<post_processor> posts, std::u32string const & document, job const & j) {
-	abstract_syntax_graph result = construct_result(j, match(match_class(overrideMain, 0), document.size()));
+	abstract_syntax_graph result = construct_result(j, fast_match(match_class(overrideMain, 0), document.size()));
 	if (!posts.empty()) {
 		//std::string preDot = result.to_dot();
 		for (auto const & post : posts) {
@@ -204,7 +204,7 @@ bool parser::handle_deadlocks(job const & j) const {
 	return !anyHalted;
 }
 
-bool matches_intersect(match const & left, match const & right) {
+bool matches_intersect(fast_match const & left, fast_match const & right) {
 	return
 		left.document_position < (right.document_position + right.consumed_character_count) &&
 		(left.document_position + left.consumed_character_count) > right.document_position;
@@ -347,12 +347,12 @@ void resolve_nodes(std::map<match, node_props_t> & nodes) {
 
 	for (auto & entry : nodes) {
 		node_props_t & props = entry.second;
-		//seed algorithm with "match A has all of match A's permutation's matches as descendants"
+		//seed algorithm with "fast_match A has all of fast_match A's permutation's matches as descendants"
 		propertyResolveQueue.push(std::make_tuple(&props, &props, 0));
 	}
 
 	//containment algorithm
-	//match A contains all of match B's permutation's matches
+	//fast_match A contains all of fast_match B's permutation's matches
 	while (!propertyResolveQueue.empty()) {
 		std::tuple<node_props_t *, node_props_t *, int> entry = propertyResolveQueue.front();
 		propertyResolveQueue.pop();
@@ -467,7 +467,7 @@ void select_trees(abstract_syntax_graph & asg, grammar_base const & g, std::map<
 				goto matchLoop; //continue
 			}
 
-			//is it possibly preempted by another match that it intersects with?
+			//is it possibly preempted by another fast_match that it intersects with?
 			for (match const & intersected : a->allIntersections) {
 				auto pair = nodes.find(intersected);
 				throw_assert(pair != nodes.end());
@@ -537,13 +537,13 @@ abstract_syntax_graph& apply_precedence_and_associativity(grammar_base const & g
 }
 
 //Construct an ASG, and if a solution was found, prunes unreachable nodes
-abstract_syntax_graph parser::construct_result(job const & j, match const & m) {
+abstract_syntax_graph parser::construct_result(job const & j, fast_match const & m) {
 	//perf_timer timer("construct_result");
-	abstract_syntax_graph result(m);
+	abstract_syntax_graph result = abstract_syntax_graph(match(m));
 	for (auto const & pair : j.producers) {
 		producer const & producer = *pair.second;
 		for (auto const & pair2 : producer.match_to_permutations) {
-			struct match const & n = pair2.first;
+			struct match const & n = match(pair2.first);
 			std::set<permutation> const & permutations = pair2.second;
 			result.permutations[n] = permutations;
 		}

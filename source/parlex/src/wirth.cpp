@@ -13,7 +13,7 @@ namespace parlex {
 namespace details {
 
 erased<node> wirth_t::process_factor(std::u32string const & document, match const & factor, abstract_syntax_graph const & asg) const {
-	permutation const & p = *asg.permutations.find(factor)->second.begin();
+	permutation const & p = asg.find(factor);
 	auto i = p.begin();
 	std::string tag;
 	if (&i->r == &dollarSign) {

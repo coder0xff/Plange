@@ -28,7 +28,7 @@ subjob::~subjob() {
 
 void subjob::start() { {
 		std::unique_lock<std::mutex> lock(mutex);
-		contexts.emplace_front(*this, context_ref(), document_position, nullptr);
+		contexts.emplace_front(*this, context_ref(), document_position, std::optional<fast_match>());
 	}
 	machine.start(*this, document_position);
 	end_dependency(); //reference code B
@@ -36,13 +36,13 @@ void subjob::start() { {
 
 context_ref subjob::construct_start_state_context(int documentPosition) {
 	std::unique_lock<std::mutex> lock(mutex);
-	auto i = contexts.emplace_front(*this, context_ref(), documentPosition, nullptr);
+	auto i = contexts.emplace_front(*this, context_ref(), documentPosition, std::optional<fast_match>());
 	return i->get_ref();
 }
 
-context_ref subjob::construct_stepped_context(context_ref const & prior, match const & fromTransition) {
+context_ref subjob::construct_stepped_context(context_ref const & prior, fast_match const & fromTransition) {
 	std::unique_lock<std::mutex> lock(mutex);
-	auto i = contexts.emplace_front(*this, prior, prior.current_document_position() + fromTransition.consumed_character_count, &fromTransition);
+	auto i = contexts.emplace_front(*this, prior, prior.current_document_position() + fromTransition.consumed_character_count, std::optional<fast_match>(fromTransition));
 	return i->get_ref();
 }
 

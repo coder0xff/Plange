@@ -4,9 +4,13 @@
 #include "parlex/details/match_class.hpp"
 
 #include "forward_list_c.hpp"
+#include <set>
 
 namespace parlex {
 namespace details {
+
+struct fast_match;
+
 namespace behavior {
 
 class leaf;
@@ -15,11 +19,12 @@ class leaf;
 
 struct match : match_class {
 	int const consumed_character_count;
-	forward_list_c<behavior::leaf const *> leafs; //lock free for our use case
+	std::set<behavior::leaf const *> leafs;
 
 	match(struct match_class const & matchClass, int consumedCharacterCount);
 	match(match const & other) = default;
 	match(match && move) = default;
+	explicit match(fast_match const & fastMatch);
 	match() = delete;
 
 	bool operator <(match const & rhs) const;
@@ -30,4 +35,4 @@ struct match : match_class {
 } // namespace details
 } // namespace parlex
 
-#endif //MATCH_HPP
+#endif //FAST_MATCH_HPP
