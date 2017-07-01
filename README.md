@@ -31,6 +31,7 @@ CMake is used to build Plange. Build has been tested on Visual Studio 2017, and 
    * Plange source code resides in `./source` directory as a separate CMake project.
    * Plange build files reside in `build/prefix/src/plange-build` and may be built directly once the super build completes
  * Downloaded dependencies will be stored in `(BUILD_DIRECTORY)/Downloads` and may be deleted once built
+ * The Python prerequisite is only required if LLVM is not installed, because building LLVM requires Python.
  * The Ubuntu 16 LTS package `libyaml-cpp-dev` references files from boost, but does not specify the boost package as a dependency. You may encounter build errors due to missing `boost/shared_ptr.hpp` if boost is not installed. You may:
    * Install boost
    * Uninstall the faulty yaml-cpp package (so the super build will acquire it automatically)
