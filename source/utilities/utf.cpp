@@ -73,7 +73,7 @@ std::u32string to_utf32(const std::u16string &s) {
 	return to_utf32(to_utf8(s));
 }
 
-std::u32string read_with_bom(std::istream & src)
+std::u32string read_with_bom(std::istream && src)
 {
 
 	enum encoding {
@@ -85,7 +85,7 @@ std::u32string read_with_bom(std::istream & src)
 		encoding_ascii,
 	};
 
-	std::vector<std::string> boms = {
+	static std::vector<std::string> boms = {
 		std::string("\x00\x00\xFE\xFF", 4),
 		std::string("\xFF\xFE\x00\x00", 4),
 		std::string("\xFE\xFF", 2),

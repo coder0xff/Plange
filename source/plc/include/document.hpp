@@ -6,4 +6,4 @@
 parlex::details::grammar & plange_grammar();
 
 
-#endif PLC_DOCUMENT_HPP
+#endif //PLC_DOCUMENT_HPP

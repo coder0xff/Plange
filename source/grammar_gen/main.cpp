@@ -33,7 +33,7 @@ int main(int argc, const char* argv[]) {
 	std::string filename = workingDir + "/syntax.yml";
 	std::ifstream ifs(filename, std::ios::binary);
 	throw_assert(bool(ifs));
-	std::u32string syntaxYaml = read_with_bom(ifs);
+	std::u32string syntaxYaml = read_with_bom(move(ifs));
 	YAML::Node spec = YAML::Load(to_utf8(syntaxYaml));
 
 	parlex::details::parser p;

@@ -52,7 +52,7 @@ int main(int argc, const char* argv[]) {
 		if (!ifs) {
 			ERROR(CouldNotOpenFile, filename);
 		}
-		std::u32string s = read_with_bom(ifs);
+		std::u32string s = read_with_bom(move(ifs));
 		auto emplaceResult = parses.emplace(std::piecewise_construct, forward_as_tuple(filename), std::forward_as_tuple(new source_code(filename)));
 		throw_assert(emplaceResult.second);
 		sources.emplace_back(*emplaceResult.first->second);
