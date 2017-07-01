@@ -32,10 +32,16 @@ CMake is used to build Plange. Build has been tested on Visual Studio 2017, and 
    * Plange build files reside in `build/prefix/src/plange-build` and may be built directly once the super build completes
  * Downloaded dependencies will be stored in `(BUILD_DIRECTORY)/Downloads` and may be deleted once built
  * The Python prerequisite is only required if LLVM is not installed, because building LLVM requires Python.
- * The Ubuntu 16 LTS package `libyaml-cpp-dev` references files from boost, but does not specify the boost package as a dependency. You may encounter build errors due to missing `boost/shared_ptr.hpp` if boost is not installed. You may:
-   * Install boost
-   * Uninstall the faulty yaml-cpp package (so the super build will acquire it automatically)
-   * Modify the CMakeLists.txt files to force automatic acquisition
+ * The Ubuntu 16 LTS package `libyaml-cpp-dev` has an undeclared dependency on `libboost-all-dev` and may cause build to fail with fatal `error: boost/shared_ptr.hpp: No such file or directory`. You may:
+   * Install boost `sudo apt install libboost-all-dev`, or
+   * Uninstall the faulty yaml-cpp package (so the super build will acquire it automatically) `sudo apt remove libyaml-cpp-dev`, or
+   * Modify the CMakeLists.txt files to force super build acquisition
      * ./CMakeLists.txt
      * ./source/grammar_gen/CMakeLists.txt
+ * The Ubuntu 16 LTS package `llvm-3.9-dev` has an undeclared dependency on `zlib1g-dev` and may cause build to fail with `cannot find -lz`. You may:
+   * Install zlib `sudo apt install zlib1g-dev`, or
+   * Uninstall the faulty llvm package (so the super build will acquire it automatically) `sudo apt remove llvm-3.9-dev`, or
+   * Modify the CMakeLists.txt files to force super build acquisition
+     * ./CMakeLists.txt
+     * ./source/plc/CMakeLists.txt
  
