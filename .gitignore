@@ -3,3 +3,11 @@
 **/Release/
 **/PlcDebug/
 blog
+
+CMakeFiles/
+Dependencies/
+Downloads/
+prefix/
+/Makefile
+/CMakeCache.txt
+/cmake_install.cmake
