@@ -9,7 +9,6 @@
 #include "parlex/details/raw_grammar.hpp"
 #include "parlex/details/grammar.hpp"
 #include "parlex/details/parser.hpp"
-#include "parlex/details/raw_grammar.hpp"
 
 #include "parlex/details/string_terminal.hpp"
 

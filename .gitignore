@@ -1,7 +1,4 @@
 .c9
-**/Debug/
-**/Release/
-**/PlcDebug/
 blog
 
 CMakeFiles/
@@ -11,3 +8,11 @@ prefix/
 /Makefile
 /CMakeCache.txt
 /cmake_install.cmake
+
+*.sln
+*.suo
+*.VC.db*
+*.vcxproj*
+**/Debug/
+**/Release/
+**/PlcDebug/

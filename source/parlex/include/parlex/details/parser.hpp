@@ -8,9 +8,7 @@
 
 #include "parlex/details/abstract_syntax_graph.hpp"
 #include "parlex/post_processor.hpp"
-
-#include "parlex/details/context.hpp"
-
+#include "erased.hpp"
 
 namespace parlex {
 namespace details {
@@ -41,14 +39,15 @@ private:
 	bool terminating;
 
 	std::vector<std::thread> workers;
-	std::queue<std::tuple<context_ref, int>> work;
+	std::queue<std::tuple<erased<context_ref>, int>> work;
 	std::condition_variable work_cv;
 
 	void start_workers(int threadCount);
 	static abstract_syntax_graph construct_result(job const & j, fast_match const & m);
 	static abstract_syntax_graph construct_result_and_postprocess(recognizer const & overrideMain, std::vector<post_processor> posts, std::u32string const & document, job const & j);
 	static void complete_progress_handler(job & j);
-	void update_progress(context_ref const & context) const;
+	static void update_progress(context_ref const & context);
+	std::tuple<erased<context_ref>, int> get_work_item();
 	abstract_syntax_graph single_thread_parse(grammar_base const & g, recognizer const & overrideMain, std::vector<post_processor> posts, std::u32string const & document, progress_handler_t progressHandler);
 	abstract_syntax_graph multi_thread_parse(grammar_base const & g, recognizer const & overrideMain, std::vector<post_processor> posts, std::u32string const & document, progress_handler_t progressHandler);
 	void schedule(context_ref const & c, int nextDfaState);

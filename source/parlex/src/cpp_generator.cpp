@@ -1,7 +1,6 @@
 #include "parlex/cpp_generator.hpp"
 
 #include <cmath>
-#include <optional>
 #include <sstream>
 
 #include "parlex/builder.hpp"

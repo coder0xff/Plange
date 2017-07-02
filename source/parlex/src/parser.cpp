@@ -23,11 +23,10 @@ void parser::start_workers(int threadCount) {
 			while (!terminating) {
 				{
 					//DBG("THREAD ", threadCount, " POPPING ITEM");
-					std::tuple<context_ref, int> item = work.front();
-					work.pop();
+					auto item = get_work_item();
 					lock.unlock();
-					auto const & context = std::get<0>(item);
-					auto const nextDfaState = std::get<1>(item);
+					context_ref const & context = *std::get<0>(item);
+					int const nextDfaState = std::get<1>(item);
 					update_progress(context);
 					//INF("thread ", threadCount, " executing DFA state");
 					context.owner().machine.process(context, nextDfaState);
@@ -77,8 +76,14 @@ void parser::complete_progress_handler(job & j) {
 	j.update_progress(j.document.length());
 }
 
-void parser::update_progress(context_ref const & context) const {
+void parser::update_progress(context_ref const & context) {
 	context.owner().owner.update_progress(context.current_document_position());
+}
+
+std::tuple<erased<context_ref>, int> parser::get_work_item() {
+	std::tuple<erased<context_ref>, int> item = work.front();
+	work.pop();
+	return item;
 }
 
 abstract_syntax_graph parser::single_thread_parse(grammar_base const & g, recognizer const & overrideMain, std::vector<post_processor> posts, std::u32string const & document, progress_handler_t progressHandler) {
@@ -87,9 +92,8 @@ abstract_syntax_graph parser::single_thread_parse(grammar_base const & g, recogn
 	throw_assert(activeCount > 0);
 	while (true) {
 		while (work.size() > 0) {
-			std::tuple<context_ref, int> item = work.front();
-			work.pop();
-			auto const & context = std::get<0>(item);
+			auto item = get_work_item();
+			auto const & context = *std::get<0>(item);
 			auto const nextDfaState = std::get<1>(item);
 			update_progress(context);
 			//INF("thread ", threadCount, " executing DFA state");
