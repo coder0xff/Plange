@@ -30,6 +30,7 @@ CMake is used to build Plange. The C++ compiler must have (partial) C++17 suppor
  * Run either clean.sh or clean.bat to delete in-source build artifacts
  
  #### Visual Studio .sln files
+ * CMake 3.9.0-rc5 does not set the language standard to C++17 in the generated project files. For the time being, it is necessary to set this in Visual Studio. See the [bug report](https://gitlab.kitware.com/cmake/cmake/issues/17028).
  * On Windows, building will generate `BUILD/project.sln`, and `BUILD/prefix/src/plange-build/plange.sln`. They may be opened in Visual Studio 2017 or later. These solutions correspond to the super build, which need be built only once. Afterwords, the Plange solution can be used for working with the source code.
 
 #### Notes
