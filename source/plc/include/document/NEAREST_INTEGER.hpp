@@ -2,15 +2,21 @@
 
 #ifndef INCLUDED_NEAREST_INTEGER_HPP
 #define INCLUDED_NEAREST_INTEGER_HPP
+
+struct EXPRESSION;
+struct IC;
+
 typedef std::variant<
 	std::tuple<
-		std::vector<IC>,
-		EXPRESSION,
-		std::vector<IC>
+		std::vector<erased<IC>>,
+		erased<EXPRESSION>,
+		std::vector<erased<IC>>
 	>,
 	std::tuple<
-		std::vector<IC>,
-		EXPRESSION,
-		std::vector<IC>
+		std::vector<erased<IC>>,
+		erased<EXPRESSION>,
+		std::vector<erased<IC>>
 	>
-> NEAREST_INTEGER;#endif //INCLUDED_NEAREST_INTEGER_HPP
+> NEAREST_INTEGER;
+
+#endif //INCLUDED_NEAREST_INTEGER_HPP

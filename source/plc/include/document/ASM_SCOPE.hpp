@@ -2,7 +2,13 @@
 
 #ifndef INCLUDED_ASM_SCOPE_HPP
 #define INCLUDED_ASM_SCOPE_HPP
+
+struct ASM_STATEMENT;
+struct IC;
+
 typedef std::vector<std::variant<
-	IC,
-	ASM_STATEMENT
->> ASM_SCOPE;#endif //INCLUDED_ASM_SCOPE_HPP
+	erased<IC>,
+	erased<ASM_STATEMENT>
+>> ASM_SCOPE;
+
+#endif //INCLUDED_ASM_SCOPE_HPP

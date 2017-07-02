@@ -2,16 +2,22 @@
 
 #ifndef INCLUDED_INHERITANCE_ITEM_PREFIX_HPP
 #define INCLUDED_INHERITANCE_ITEM_PREFIX_HPP
+
+struct ICR;
+struct VISIBILITY_MODIFIER;
+
 struct INHERITANCE_ITEM_PREFIX {
 	std::variant<
-		VISIBILITY_MODIFIER,
+		erased<VISIBILITY_MODIFIER>,
 		std::tuple<
-			VISIBILITY_MODIFIER,
-			ICR
+			erased<VISIBILITY_MODIFIER>,
+			erased<ICR>
 		>,
 		struct diamond {}
 	> field_1;
-	ICR field_2;
+	erased<ICR> field_2;
 };
+
+
 
 #endif //INCLUDED_INHERITANCE_ITEM_PREFIX_HPP

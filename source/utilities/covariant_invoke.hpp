@@ -47,6 +47,7 @@ void covariant_invoke(T const & value, V1 const & func1) {
 	auto const * asU1 = dynamic_cast<in_t const *>(&value);
 	if (asU1 != nullptr) {
 		func1(*asU1);
+		return;
 	}
 	throw std::runtime_error("no suitable dispatch function");
 }
@@ -58,6 +59,7 @@ void covariant_invoke(T const & value, V1 const & func1, V2 const & func2, Vs co
 	auto const * asU1 = dynamic_cast<in_t const *>(&value);
 	if (asU1 != nullptr) {
 		func1(*asU1);
+		return;
 	}
 	covariant_invoke<U>(value, func2, funcs...);
 }

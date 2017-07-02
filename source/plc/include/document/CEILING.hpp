@@ -2,15 +2,21 @@
 
 #ifndef INCLUDED_CEILING_HPP
 #define INCLUDED_CEILING_HPP
+
+struct EXPRESSION;
+struct IC;
+
 typedef std::variant<
 	std::tuple<
-		std::vector<IC>,
-		EXPRESSION,
-		std::vector<IC>
+		std::vector<erased<IC>>,
+		erased<EXPRESSION>,
+		std::vector<erased<IC>>
 	>,
 	std::tuple<
-		std::vector<IC>,
-		EXPRESSION,
-		std::vector<IC>
+		std::vector<erased<IC>>,
+		erased<EXPRESSION>,
+		std::vector<erased<IC>>
 	>
-> CEILING;#endif //INCLUDED_CEILING_HPP
+> CEILING;
+
+#endif //INCLUDED_CEILING_HPP

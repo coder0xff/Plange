@@ -2,20 +2,28 @@
 
 #ifndef INCLUDED_ASM_STATEMENT_HPP
 #define INCLUDED_ASM_STATEMENT_HPP
+
+struct ASM_EXPRESSION;
+struct ASM_OP;
+struct IC;
+struct ICR;
+
 struct ASM_STATEMENT {
-	ASM_OP field_1;
+	erased<ASM_OP> field_1;
 	std::optional<std::tuple<
-		ICR,
-		ASM_EXPRESSION,
+		erased<ICR>,
+		erased<ASM_EXPRESSION>,
 		std::vector<std::tuple<
-			std::vector<IC>,
+			std::vector<erased<IC>>,
 			std::optional<std::tuple<
-				std::vector<IC>,
-				ASM_EXPRESSION
+				std::vector<erased<IC>>,
+				erased<ASM_EXPRESSION>
 			>>
 		>>
 	>> field_2;
-	std::vector<IC> field_3;
+	std::vector<erased<IC>> field_3;
 };
+
+
 
 #endif //INCLUDED_ASM_STATEMENT_HPP

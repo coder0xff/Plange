@@ -2,9 +2,15 @@
 
 #ifndef INCLUDED_ARGUMENT_PACK_HPP
 #define INCLUDED_ARGUMENT_PACK_HPP
+
+struct EXPRESSION;
+struct IC;
+
 struct ARGUMENT_PACK {
-	EXPRESSION field_1;
-	std::vector<IC> field_2;
+	erased<EXPRESSION> field_1;
+	std::vector<erased<IC>> field_2;
 };
+
+
 
 #endif //INCLUDED_ARGUMENT_PACK_HPP

@@ -2,14 +2,20 @@
 
 #ifndef INCLUDED_CONDITIONAL_HPP
 #define INCLUDED_CONDITIONAL_HPP
+
+struct EXPRESSION;
+struct IC;
+
 struct CONDITIONAL {
-	EXPRESSION condition;
-	EXPRESSION false_case;
-	std::vector<IC> field_1;
-	std::vector<IC> field_2;
-	std::vector<IC> field_3;
-	std::vector<IC> field_4;
-	EXPRESSION true_case;
+	erased<EXPRESSION> condition;
+	erased<EXPRESSION> false_case;
+	std::vector<erased<IC>> field_1;
+	std::vector<erased<IC>> field_2;
+	std::vector<erased<IC>> field_3;
+	std::vector<erased<IC>> field_4;
+	erased<EXPRESSION> true_case;
 };
+
+
 
 #endif //INCLUDED_CONDITIONAL_HPP

@@ -228,4 +228,5 @@ public:
 	production const & XOR;
 };
 
+
 #endif //INCLUDED_PLANGE_GRAMMAR_HPP

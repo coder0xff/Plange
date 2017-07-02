@@ -2,26 +2,36 @@
 
 #ifndef INCLUDED_TYPE_SCOPE_ASSIGNMENT_CHAIN_HPP
 #define INCLUDED_TYPE_SCOPE_ASSIGNMENT_CHAIN_HPP
+
+struct ASSIGNMENT_CHAIN;
+struct EXPRESSION;
+struct IC;
+struct IDENTIFIER;
+struct MEMBER_OFFSET;
+struct XML_DOC_STRING;
+
 struct TYPE_SCOPE_ASSIGNMENT_CHAIN {
 	std::optional<std::tuple<
-		XML_DOC_STRING,
-		std::vector<IC>
+		erased<XML_DOC_STRING>,
+		std::vector<erased<IC>>
 	>> field_1;
-	IDENTIFIER field_2;
+	erased<IDENTIFIER> field_2;
 	std::optional<std::tuple<
-		std::vector<IC>,
-		MEMBER_OFFSET
+		std::vector<erased<IC>>,
+		erased<MEMBER_OFFSET>
 	>> field_3;
-	std::vector<IC> field_4;
+	std::vector<erased<IC>> field_4;
 	std::variant<
 		std::std::integral_constant<int, 0>,
 		std::std::integral_constant<int, 1>
 	> field_5;
-	std::vector<IC> field_6;
+	std::vector<erased<IC>> field_6;
 	std::variant<
-		EXPRESSION,
-		ASSIGNMENT_CHAIN
+		erased<EXPRESSION>,
+		erased<ASSIGNMENT_CHAIN>
 	> field_7;
 };
+
+
 
 #endif //INCLUDED_TYPE_SCOPE_ASSIGNMENT_CHAIN_HPP

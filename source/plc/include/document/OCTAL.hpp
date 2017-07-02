@@ -2,9 +2,11 @@
 
 #ifndef INCLUDED_OCTAL_HPP
 #define INCLUDED_OCTAL_HPP
+
 struct OCTAL {
-	octal_digit field_1;
-	std::vector<octal_digit> field_2;
+	int field_2;
 };
+
+
 
 #endif //INCLUDED_OCTAL_HPP

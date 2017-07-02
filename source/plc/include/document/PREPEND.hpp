@@ -2,11 +2,17 @@
 
 #ifndef INCLUDED_PREPEND_HPP
 #define INCLUDED_PREPEND_HPP
+
+struct EXPRESSION;
+struct IC;
+
 struct PREPEND {
-	EXPRESSION field_1;
-	std::vector<IC> field_2;
-	std::vector<IC> field_3;
-	EXPRESSION field_4;
+	erased<EXPRESSION> field_1;
+	std::vector<erased<IC>> field_2;
+	std::vector<erased<IC>> field_3;
+	erased<EXPRESSION> field_4;
 };
+
+
 
 #endif //INCLUDED_PREPEND_HPP

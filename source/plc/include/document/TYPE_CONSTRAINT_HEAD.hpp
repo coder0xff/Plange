@@ -2,31 +2,43 @@
 
 #ifndef INCLUDED_TYPE_CONSTRAINT_HEAD_HPP
 #define INCLUDED_TYPE_CONSTRAINT_HEAD_HPP
+
+struct ATTRIBUTE;
+struct IC;
+struct IMPLICIT_TYPE_DEREFERENCE;
+struct TYPE_DEREFERENCE;
+struct VISIBILITY_MODIFIER;
+struct VOLATILE_IMPLICIT_TYPE_DEREFERENCE;
+struct VOLATILE_TYPE_DEREFERENCE;
+struct XML_DOC_STRING;
+
 struct TYPE_CONSTRAINT_HEAD {
 	std::optional<std::tuple<
-		XML_DOC_STRING,
-		std::vector<IC>
+		erased<XML_DOC_STRING>,
+		std::vector<erased<IC>>
 	>> field_1;
 	std::vector<std::tuple<
-		ATTRIBUTE,
-		std::vector<IC>
+		erased<ATTRIBUTE>,
+		std::vector<erased<IC>>
 	>> field_2;
 	std::optional<std::tuple<
-		VISIBILITY_MODIFIER,
-		std::vector<IC>
+		erased<VISIBILITY_MODIFIER>,
+		std::vector<erased<IC>>
 	>> field_3;
 	std::optional<std::tuple<
-		std::vector<IC>
+		std::vector<erased<IC>>
 	>> field_4;
 	std::optional<std::tuple<
-		std::vector<IC>
+		std::vector<erased<IC>>
 	>> field_5;
 	std::variant<
-		TYPE_DEREFERENCE,
-		VOLATILE_TYPE_DEREFERENCE,
-		IMPLICIT_TYPE_DEREFERENCE,
-		VOLATILE_IMPLICIT_TYPE_DEREFERENCE
+		erased<TYPE_DEREFERENCE>,
+		erased<VOLATILE_TYPE_DEREFERENCE>,
+		erased<IMPLICIT_TYPE_DEREFERENCE>,
+		erased<VOLATILE_IMPLICIT_TYPE_DEREFERENCE>
 	> type_dereference;
 };
+
+
 
 #endif //INCLUDED_TYPE_CONSTRAINT_HEAD_HPP

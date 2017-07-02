@@ -2,7 +2,13 @@
 
 #ifndef INCLUDED_DATE_HPP
 #define INCLUDED_DATE_HPP
+
+struct DATE_YEAR_DAY;
+struct DATE_YEAR_MONTH_DAY;
+
 typedef std::variant<
-	DATE_YEAR_MONTH_DAY,
-	DATE_YEAR_DAY
-> DATE;#endif //INCLUDED_DATE_HPP
+	erased<DATE_YEAR_MONTH_DAY>,
+	erased<DATE_YEAR_DAY>
+> DATE;
+
+#endif //INCLUDED_DATE_HPP

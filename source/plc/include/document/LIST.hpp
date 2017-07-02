@@ -2,17 +2,23 @@
 
 #ifndef INCLUDED_LIST_HPP
 #define INCLUDED_LIST_HPP
+
+struct EXPRESSION;
+struct IC;
+
 struct LIST {
-	std::vector<IC> field_1;
+	std::vector<erased<IC>> field_1;
 	std::optional<std::tuple<
-		EXPRESSION,
+		erased<EXPRESSION>,
 		std::vector<std::tuple<
-			std::vector<IC>,
-			std::vector<IC>,
-			EXPRESSION
+			std::vector<erased<IC>>,
+			std::vector<erased<IC>>,
+			erased<EXPRESSION>
 		>>,
-		std::vector<IC>
+		std::vector<erased<IC>>
 	>> field_2;
 };
+
+
 
 #endif //INCLUDED_LIST_HPP

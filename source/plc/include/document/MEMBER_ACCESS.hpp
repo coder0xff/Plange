@@ -2,11 +2,18 @@
 
 #ifndef INCLUDED_MEMBER_ACCESS_HPP
 #define INCLUDED_MEMBER_ACCESS_HPP
+
+struct EXPRESSION;
+struct IC;
+struct IDENTIFIER;
+
 struct MEMBER_ACCESS {
-	EXPRESSION field_1;
-	std::vector<IC> field_2;
-	std::vector<IC> field_3;
-	IDENTIFIER field_4;
+	erased<EXPRESSION> field_1;
+	std::vector<erased<IC>> field_2;
+	std::vector<erased<IC>> field_3;
+	erased<IDENTIFIER> field_4;
 };
+
+
 
 #endif //INCLUDED_MEMBER_ACCESS_HPP

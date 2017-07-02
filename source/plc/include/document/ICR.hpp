@@ -2,9 +2,14 @@
 
 #ifndef INCLUDED_ICR_HPP
 #define INCLUDED_ICR_HPP
+
+struct IC;
+
 struct ICR {
-	IC field_1;
-	std::vector<IC> field_2;
+	erased<IC> field_1;
+	std::vector<erased<IC>> field_2;
 };
+
+
 
 #endif //INCLUDED_ICR_HPP

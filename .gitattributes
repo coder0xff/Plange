@@ -1,15 +1,18 @@
 *.cpp text eol=lf
+*.cpp.inc text eol=lf
 *.css text eol=lf
 *.h text eol=lf
 *.hpp text eol=lf
+*.hpp.inc test eol=lf
 *.pge text eol=lf
 *.php text eol=lf
+*.py text eol=lf
 *.sh text eol=lf
 *.txt text eol=lf
 *.wsn text eol=lf
-*.py text eol=lf
-aclocal.m4 text eol=lf
+
 README.md text eol=lf
+aclocal.m4 text eol=lf
 ar-lib text eol=lf
 compile text eol=lf
 configure text eol=lf
@@ -17,4 +20,3 @@ depcomp text eol=lf
 install-sh text eol=lf
 missing text eol=lf
 page_template text eol=lf
-

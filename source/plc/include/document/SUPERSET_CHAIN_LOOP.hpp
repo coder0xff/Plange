@@ -2,6 +2,11 @@
 
 #ifndef INCLUDED_SUPERSET_CHAIN_LOOP_HPP
 #define INCLUDED_SUPERSET_CHAIN_LOOP_HPP
+
+struct EXPRESSION;
+struct IC;
+struct SUPERSET_CHAIN_LOOP;
+
 struct SUPERSET_CHAIN_LOOP {
 	std::variant<
 		std::std::integral_constant<int, 0>,
@@ -10,12 +15,14 @@ struct SUPERSET_CHAIN_LOOP {
 		std::std::integral_constant<int, 3>,
 		std::std::integral_constant<int, 4>
 	> field_1;
-	std::vector<IC> field_2;
-	EXPRESSION field_3;
+	std::vector<erased<IC>> field_2;
+	erased<EXPRESSION> field_3;
 	std::optional<std::tuple<
-		std::vector<IC>,
-		SUPERSET_CHAIN_LOOP
+		std::vector<erased<IC>>,
+		erased<SUPERSET_CHAIN_LOOP>
 	>> field_4;
 };
+
+
 
 #endif //INCLUDED_SUPERSET_CHAIN_LOOP_HPP

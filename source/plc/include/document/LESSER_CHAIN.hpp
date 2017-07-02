@@ -2,10 +2,17 @@
 
 #ifndef INCLUDED_LESSER_CHAIN_HPP
 #define INCLUDED_LESSER_CHAIN_HPP
+
+struct EXPRESSION;
+struct IC;
+struct LESSER_CHAIN_LOOP;
+
 struct LESSER_CHAIN {
-	EXPRESSION field_1;
-	std::vector<IC> field_2;
-	LESSER_CHAIN_LOOP field_3;
+	erased<EXPRESSION> field_1;
+	std::vector<erased<IC>> field_2;
+	erased<LESSER_CHAIN_LOOP> field_3;
 };
+
+
 
 #endif //INCLUDED_LESSER_CHAIN_HPP

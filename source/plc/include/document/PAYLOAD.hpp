@@ -2,4 +2,7 @@
 
 #ifndef INCLUDED_PAYLOAD_HPP
 #define INCLUDED_PAYLOAD_HPP
-typedef all PAYLOAD;#endif //INCLUDED_PAYLOAD_HPP
+
+struct PAYLOAD {};
+
+#endif //INCLUDED_PAYLOAD_HPP

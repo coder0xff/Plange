@@ -14,14 +14,10 @@ struct unit : node {
 	node const & original_leaf;
 };
 
-struct type : node {
-	type(std::string const & name);
-	std::string name;
-};
-
 // a leaf node representing a data structure
 struct aggregate : node {
-	std::map<std::string /* data member name */, erased<node>> data_members;
+	std::vector<std::pair<std::string /* data member name */, erased<node>>> data_members;
+	void add_member(std::string const & name, erased<node> const & type);
 };
 
 erased<node> compute_document_representation(erased<node> const & root);

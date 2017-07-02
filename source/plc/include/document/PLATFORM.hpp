@@ -2,12 +2,17 @@
 
 #ifndef INCLUDED_PLATFORM_HPP
 #define INCLUDED_PLATFORM_HPP
+
+struct PLATFORM;
+
 struct PLATFORM {
 	std::vector<std::variant<
-		letter,
-		number,
-		PLATFORM
+		std::std::integral_constant<int, 0>,
+		std::std::integral_constant<int, 1>,
+		erased<PLATFORM>
 	>> field_1;
 };
+
+
 
 #endif //INCLUDED_PLATFORM_HPP

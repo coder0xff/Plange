@@ -2,8 +2,13 @@
 
 #ifndef INCLUDED_REGEX_HPP
 #define INCLUDED_REGEX_HPP
+
+struct STRING;
+
 struct REGEX {
-	STRING field_1;
+	erased<STRING> field_1;
 };
+
+
 
 #endif //INCLUDED_REGEX_HPP

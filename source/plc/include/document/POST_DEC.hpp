@@ -2,9 +2,15 @@
 
 #ifndef INCLUDED_POST_DEC_HPP
 #define INCLUDED_POST_DEC_HPP
+
+struct EXPRESSION;
+struct IC;
+
 struct POST_DEC {
-	EXPRESSION field_1;
-	std::vector<IC> field_2;
+	erased<EXPRESSION> field_1;
+	std::vector<erased<IC>> field_2;
 };
+
+
 
 #endif //INCLUDED_POST_DEC_HPP

@@ -26,11 +26,7 @@ static erased<node> copy_with_conversions(erased<node> const & n) {
 		[&](literal_t const & v) { 
 			return unit(v);
 		},
-		[&](reference_t const & v) {
-			type result(v.id);
-			result.tag = v.tag;
-			return result;
-		},
+		[&](reference_t const & v) { return v; },
 		DO_AS(choice_t),
 		DO_AS(optional_t),
 		DO_AS(repetition_t),
@@ -76,8 +72,7 @@ static erased<node> reduce(erased<node> const & n) {
 				for (auto const & child : children) {
 					erased<node> childCopy = child;
 					childCopy->tag = "";
-					auto didEmplace = result.data_members.emplace(std::piecewise_construct, forward_as_tuple(child->tag), std::forward_as_tuple(childCopy)).second;
-					throw_assert(didEmplace);
+					result.add_member(child->tag, childCopy);
 				}
 				return erased<node>(result);
 			}
@@ -88,14 +83,19 @@ static erased<node> reduce(erased<node> const & n) {
 	);
 }
 
+void aggregate::add_member(std::string const & name, erased<node> const & type) {
+	for (auto const & member : data_members) {
+		if (member.first == name) {
+			throw std::runtime_error("duplicate member name");
+		}
+	}
+	data_members.emplace_back(name, type);
+}
+
 erased<node> compute_document_representation(erased<node> const & root) {
 	return copy_with_conversions(root);
 }
 
-type::type(std::string const & name) : name(name)
-{
-
-}
 
 } // namespace details
 } // namespace parlex

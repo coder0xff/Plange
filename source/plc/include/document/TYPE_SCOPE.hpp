@@ -2,12 +2,18 @@
 
 #ifndef INCLUDED_TYPE_SCOPE_HPP
 #define INCLUDED_TYPE_SCOPE_HPP
+
+struct IC;
+struct TYPE_STATEMENT;
+
 struct TYPE_SCOPE {
-	std::vector<IC> field_1;
+	std::vector<erased<IC>> field_1;
 	std::vector<std::tuple<
-		TYPE_STATEMENT,
-		std::vector<IC>
+		erased<TYPE_STATEMENT>,
+		std::vector<erased<IC>>
 	>> field_2;
 };
+
+
 
 #endif //INCLUDED_TYPE_SCOPE_HPP

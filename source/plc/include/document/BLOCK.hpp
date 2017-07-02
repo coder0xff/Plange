@@ -2,8 +2,13 @@
 
 #ifndef INCLUDED_BLOCK_HPP
 #define INCLUDED_BLOCK_HPP
+
+struct STATEMENT_SCOPE;
+
 struct BLOCK {
-	STATEMENT_SCOPE field_1;
+	erased<STATEMENT_SCOPE> field_1;
 };
+
+
 
 #endif //INCLUDED_BLOCK_HPP

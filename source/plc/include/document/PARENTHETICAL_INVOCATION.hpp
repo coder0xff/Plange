@@ -2,27 +2,35 @@
 
 #ifndef INCLUDED_PARENTHETICAL_INVOCATION_HPP
 #define INCLUDED_PARENTHETICAL_INVOCATION_HPP
+
+struct ARGUMENT;
+struct ARGUMENT_PACK;
+struct EXPRESSION;
+struct IC;
+
 struct PARENTHETICAL_INVOCATION {
-	EXPRESSION field_1;
-	std::vector<IC> field_2;
+	erased<EXPRESSION> field_1;
+	std::vector<erased<IC>> field_2;
 	std::optional<std::tuple<
-		std::vector<IC>,
+		std::vector<erased<IC>>,
 		std::variant<
-			ARGUMENT,
-			ARGUMENT_PACK
+			erased<ARGUMENT>,
+			erased<ARGUMENT_PACK>
 		>
 	>> field_3;
 	std::vector<std::tuple<
-		std::vector<IC>,
+		std::vector<erased<IC>>,
 		std::optional<std::tuple<
-			std::vector<IC>,
+			std::vector<erased<IC>>,
 			std::variant<
-				ARGUMENT,
-				ARGUMENT_PACK
+				erased<ARGUMENT>,
+				erased<ARGUMENT_PACK>
 			>
 		>>
 	>> field_4;
-	std::vector<IC> field_5;
+	std::vector<erased<IC>> field_5;
 };
+
+
 
 #endif //INCLUDED_PARENTHETICAL_INVOCATION_HPP

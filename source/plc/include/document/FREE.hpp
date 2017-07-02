@@ -2,9 +2,15 @@
 
 #ifndef INCLUDED_FREE_HPP
 #define INCLUDED_FREE_HPP
+
+struct EXPRESSION;
+struct IC;
+
 struct FREE {
-	std::vector<IC> field_1;
-	EXPRESSION field_2;
+	std::vector<erased<IC>> field_1;
+	erased<EXPRESSION> field_2;
 };
+
+
 
 #endif //INCLUDED_FREE_HPP

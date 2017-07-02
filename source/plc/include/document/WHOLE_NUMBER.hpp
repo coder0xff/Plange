@@ -2,6 +2,7 @@
 
 #ifndef INCLUDED_WHOLE_NUMBER_HPP
 #define INCLUDED_WHOLE_NUMBER_HPP
+
 struct WHOLE_NUMBER {
 	std::variant<
 		std::std::integral_constant<int, 0>,
@@ -27,5 +28,7 @@ struct WHOLE_NUMBER {
 		std::std::integral_constant<int, 9>
 	>> field_2;
 };
+
+
 
 #endif //INCLUDED_WHOLE_NUMBER_HPP

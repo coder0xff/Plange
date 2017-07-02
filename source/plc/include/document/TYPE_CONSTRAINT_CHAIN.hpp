@@ -2,17 +2,26 @@
 
 #ifndef INCLUDED_TYPE_CONSTRAINT_CHAIN_HPP
 #define INCLUDED_TYPE_CONSTRAINT_CHAIN_HPP
+
+struct ASSIGNMENT_CHAIN;
+struct DECLARATION;
+struct DEFINITION;
+struct IC;
+struct TYPE_CONSTRAINT_CHAIN;
+
 struct TYPE_CONSTRAINT_CHAIN {
 	std::variant<
-		DECLARATION,
-		ASSIGNMENT_CHAIN,
-		DEFINITION
+		erased<DECLARATION>,
+		erased<ASSIGNMENT_CHAIN>,
+		erased<DEFINITION>
 	> field_1;
 	std::optional<std::tuple<
-		std::vector<IC>,
-		std::vector<IC>,
-		TYPE_CONSTRAINT_CHAIN
+		std::vector<erased<IC>>,
+		std::vector<erased<IC>>,
+		erased<TYPE_CONSTRAINT_CHAIN>
 	>> field_2;
 };
+
+
 
 #endif //INCLUDED_TYPE_CONSTRAINT_CHAIN_HPP

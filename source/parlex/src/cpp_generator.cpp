@@ -13,6 +13,11 @@
 
 namespace parlex {
 
+struct type : details::node {
+	type(std::string const & name) : name(name) {}
+	std::string name;
+};
+
 static std::string const generated_notice = "// This file was generated using Parlex's cpp_generator\n\n";
 
 static std::string include_guard_name(std::string const & name) {
@@ -31,7 +36,7 @@ static std::string include_guard_start(std::string const & name) {
 static std::string include_guard_end(std::string const & name) {
 	std::string guardName = include_guard_name(name);
 	std::stringstream result;
-	result << "\n";
+	result << "\n\n";
 	result << "#endif //" << guardName << "\n";
 	return result.str();
 
@@ -186,23 +191,23 @@ static std::string production_to_cpp(production const & p) {
 	return ss.str();
 }
 
-static erased<details::node> flatten_node(erased<details::node> const & n, std::vector<std::string> & subResults);
+static erased<details::node> flatten_node(erased<details::node> const & n, std::vector<std::string> & subResults, std::set<std::string> & forwardDeclarations);
 
-static details::node::children_t flatten_children(details::node::children_t const & children, std::vector<std::string> & subResults) {
+static details::node::children_t flatten_children(details::node::children_t const & children, std::vector<std::string> & subResults, std::set<std::string> & forwardDeclarations) {
 	details::node::children_t results;
 	for (auto const & child : children) {
-		auto temp = flatten_node(child, subResults);
+		auto temp = flatten_node(child, subResults, forwardDeclarations);
 		results.push_back(temp);
 	}
 	return results;
 }
 
 // return a type node and any sub results needed to define the referenced type
-static erased<details::node> flatten_aggregate(details::aggregate const & aggregate, std::vector<std::string> & subResults) {
+static erased<details::node> flatten_aggregate(details::aggregate const & aggregate, std::vector<std::string> & subResults, std::set<std::string> & forwardDeclarations) {
 	std::vector<std::string> internalSubResults;
 	std::map<std::string /* data member name */, erased<details::node>> flattenedDataMembers;
 	for (auto const & dataMember : aggregate.data_members) {
-		flattenedDataMembers.emplace(std::piecewise_construct, forward_as_tuple(dataMember.first), std::forward_as_tuple(flatten_node(dataMember.second, internalSubResults)));
+		flattenedDataMembers.emplace(std::piecewise_construct, forward_as_tuple(dataMember.first), std::forward_as_tuple(flatten_node(dataMember.second, internalSubResults, forwardDeclarations)));
 	}
 	
 	std::stringstream ss;
@@ -217,7 +222,7 @@ static erased<details::node> flatten_aggregate(details::aggregate const & aggreg
 	for (auto const & flattenedDataMember : flattenedDataMembers) {
 		ss << indent(covariant_invoke<std::string>(*flattenedDataMember.second,
 			[&](details::unit const &) { return ""; },
-			[&](details::type const & v) {
+			[&](type const & v) {
 				return v.name + " " + flattenedDataMember.first + ";\n";
 			}
 		));
@@ -227,12 +232,12 @@ static erased<details::node> flatten_aggregate(details::aggregate const & aggreg
 	if (!aggregate.tag.empty()) {
 		ss << ";";
 		subResults.push_back(ss.str());
-		return details::type(aggregate.tag);
+		return type(aggregate.tag);
 	}
-	return details::type(ss.str());
+	return type(ss.str());
 }
 
-static std::string flattened_choice_enum(details::choice_t const & choice, details::node::children_t const & children, std::vector<std::string> & subResults) {
+static std::string flattened_choice_enum(details::choice_t const & choice, details::node::children_t const & children, std::vector<std::string> & subResults, std::set<std::string> & forwardDeclarations) {
 	std::set<std::string> enumElements;
 	for (auto const & child : children) {
 		enumElements.insert(child->tag);
@@ -254,7 +259,7 @@ static std::string flattened_choice_variant(details::node::children_t & children
 			[&](details::unit const & v2) {
 				return stringize_unit(v2, i);
 			},
-			[&](details::type const & v) {
+			[&](type const & v) {
 				return v.name;
 			}
 		);
@@ -268,51 +273,51 @@ static std::string flattened_choice_variant(details::node::children_t & children
 	return ss.str();
 }
 
-static erased<details::node> flatten_choice(details::choice_t const & choice, std::vector<std::string> & subResults) {
-	auto children = flatten_children(choice.children, subResults);
+static erased<details::node> flatten_choice(details::choice_t const & choice, std::vector<std::string> & subResults, std::set<std::string> & forwardDeclarations) {
+	auto children = flatten_children(choice.children, subResults, forwardDeclarations);
 	bool allTaggedUnits = std::all_of(children.begin(), children.end(), [](erased<details::node> const & child) { return child->tag != "" && dynamic_cast<details::unit const *>(&*child) != nullptr; });
 	std::string result = allTaggedUnits ?
-		flattened_choice_enum(choice, children, subResults) :
+		flattened_choice_enum(choice, children, subResults, forwardDeclarations) :
 		flattened_choice_variant(children);
-	return details::type(result);
+	return type(result);
 }
 
-static erased<details::node> flatten_optional(details::optional_t const & optional, std::vector<std::string> & subResults) {
-	auto children = flatten_children(optional.children, subResults);
+static erased<details::node> flatten_optional(details::optional_t const & optional, std::vector<std::string> & subResults, std::set<std::string> & forwardDeclarations) {
+	auto children = flatten_children(optional.children, subResults, forwardDeclarations);
 	auto result = covariant_invoke<std::string>(*children[0],
 		[&](details::unit const & v) {
 			return "bool";
 		},
-		[&](details::type const & v)
+		[&](type const & v)
 		{
 			return "std::optional<" + v.name + ">";
 		}
 	);
-	return details::type(result);
+	return type(result);
 }
 
-static erased<details::node> flatten_repetition(details::repetition_t const & repetition, std::vector<std::string> & subResults) {
-	auto children = flatten_children(repetition.children, subResults);
+static erased<details::node> flatten_repetition(details::repetition_t const & repetition, std::vector<std::string> & subResults, std::set<std::string> & forwardDeclarations) {
+	auto children = flatten_children(repetition.children, subResults, forwardDeclarations);
 	auto result = covariant_invoke<std::string>(*children[0],
 		[&](details::unit const & v) {
 			return "int";
 		},
-		[&](details::type const & v)
+		[&](type const & v)
 		{
 			return "std::vector<" + v.name + ">";
 		}
 	);
-	return details::type(result);
+	return type(result);
 }
 
-static erased<details::node> flattened_sequence_tuple(details::sequence_t const & sequence, std::vector<std::string> & subResults) {
-	auto children = flatten_children(sequence.children, subResults);
+static erased<details::node> flattened_sequence_tuple(details::sequence_t const & sequence, std::vector<std::string> & subResults, std::set<std::string> & forwardDeclarations) {
+	auto children = flatten_children(sequence.children, subResults, forwardDeclarations);
 	std::stringstream ss;
 	ss << "std::tuple<\n";
 	int elementCount = 0;
 	for (auto const & child : children) {
 		std::string childName = covariant_invoke<std::string>(*child,
-			[&](details::type const & v) {
+			[&](type const & v) {
 				return v.name;
 			},
 			[&](details::unit const & v) {
@@ -331,10 +336,11 @@ static erased<details::node> flattened_sequence_tuple(details::sequence_t const 
 		return details::unit(sequence);
 	}
 	ss << "\n>";
-	return details::type(ss.str());
+	return type(ss.str());
 }
 
-static erased<details::node> flattened_sequence_forced_aggregate(details::sequence_t const & sequence, std::vector<std::string> & subResults) {
+static erased<details::node> flattened_sequence_forced_aggregate(details::sequence_t const & sequence, std::vector<std::string> & subResults, std::set<std::string> & forwardDeclarations) {
+	//exclude units from aggregates
 	details::node::children_t children;
 	for (auto const & child : sequence.children) {
 		if (dynamic_cast<details::unit const *>(&*child) == nullptr) {
@@ -361,33 +367,45 @@ static erased<details::node> flattened_sequence_forced_aggregate(details::sequen
 		} else {
 			fieldName = child->tag;
 		}
-		if (!forcedAggregate.data_members.emplace(std::piecewise_construct, forward_as_tuple(fieldName), std::forward_as_tuple(child)).second) {
-			throw std::runtime_error("duplicate field name");
-		}
+		forcedAggregate.add_member(fieldName, child);
 	}
-	return flatten_aggregate(forcedAggregate, subResults);
+	return flatten_aggregate(forcedAggregate, subResults, forwardDeclarations);
 }
 
-static erased<details::node> flatten_sequence(details::sequence_t const & sequence, std::vector<std::string> & subResults) {
+static erased<details::node> flatten_sequence(details::sequence_t const & sequence, std::vector<std::string> & subResults, std::set<std::string> & forwardDeclarations) {
 	if (sequence.tag == "") {
-		return flattened_sequence_tuple(sequence, subResults);
+		return flattened_sequence_tuple(sequence, subResults, forwardDeclarations);
 	}
 	//force creation of a new struct
-	return flattened_sequence_forced_aggregate(sequence, subResults);
+	return flattened_sequence_forced_aggregate(sequence, subResults, forwardDeclarations);
 }
 
-static erased<details::node> flatten_node(erased<details::node> const & n, std::vector<std::string> & subResults) {
+static erased<details::node> flatten_node(erased<details::node> const & n, std::vector<std::string> & subResults, std::set<std::string> & forwardDeclarations) {
 	erased<details::node> result = covariant_invoke<erased<details::node>>(*n,
 		[&](details::unit const & v) { return v; },
-		[&](details::type const & v) { return v; },
-		[&](details::aggregate const & v) { return flatten_aggregate(v, subResults); },
-		[&](details::choice_t const & v) { return flatten_choice(v, subResults); },
-		[&](details::optional_t const & v) { return flatten_optional(v, subResults); },
-		[&](details::repetition_t const & v) { return flatten_repetition(v, subResults); },
-		[&](details::sequence_t const & v) { return flatten_sequence(v, subResults); }
+		[&](details::reference_t const & v) {
+			details::recognizer const * rPtr;
+			if (details::builtins().resolve_builtin(v.id, rPtr)) {
+				if (dynamic_cast<details::terminal const *>(rPtr) != nullptr) {
+					return erased<details::node>(details::unit(v));
+				}
+				if (rPtr == &details::builtins().c_string) {
+					return erased<details::node>(type("std::string"));
+				}
+				return erased<details::node>(type("std::pair<int, int>"));
+			}
+			forwardDeclarations.insert(v.id);
+			return erased<details::node>(type("erased<" + v.id + ">"));
+		},
+		[&](type const & v) { return v; },
+		[&](details::aggregate const & v) { return flatten_aggregate(v, subResults, forwardDeclarations); },
+		[&](details::choice_t const & v) { return flatten_choice(v, subResults, forwardDeclarations); },
+		[&](details::optional_t const & v) { return flatten_optional(v, subResults, forwardDeclarations); },
+		[&](details::repetition_t const & v) { return flatten_repetition(v, subResults, forwardDeclarations); },
+		[&](details::sequence_t const & v) { return flatten_sequence(v, subResults, forwardDeclarations); }
 	);
 	auto const * asUnit = dynamic_cast<details::unit const *>(&*result);
-	auto const * asType = dynamic_cast<details::type const *>(&*result);
+	auto const * asType = dynamic_cast<type const *>(&*result);
 	if (asUnit == nullptr && asType == nullptr) {
 		throw std::logic_error("invalid flattened result");
 	}
@@ -475,24 +493,32 @@ static cpp_generator::output_files generate_production_struct(production const &
 
 	std::vector<std::string> subResults;
 	auto representation = compute_document_representation(p.behavior);
-	auto flattened = flatten_node(representation, subResults);
-	headers[p.id + ".hpp"] = covariant_invoke<std::string>(*flattened,
-		[&](details::type const & value) {
-			std::string includeGuardName = include_guard_name(p.id);
-			std::stringstream ss;
-			ss << generated_notice;
-			ss << "#ifndef " << includeGuardName << "\n";
-			ss << "#define " << includeGuardName << "\n";
+	std::set<std::string> forwardDeclarations;
+	auto flattened = flatten_node(representation, subResults, forwardDeclarations);
+	std::stringstream ss;
+	ss << generated_notice;
+	ss << include_guard_start(p.id);
+	covariant_invoke<void>(*flattened,
+		[&](type const & value) {
+			for (auto const & forwardDeclaration : forwardDeclarations) {
+				ss << "struct " << forwardDeclaration << ";\n";
+			}
+			if (!forwardDeclarations.empty()) {
+				ss << "\n";
+			}
 			for (auto const & subResult : subResults) {
 				ss << subResult << "\n\n";
 			}
 			if (subResults.size() == 0) {
 				ss << "typedef " << value.name << " " << p.id << ";";
 			}
-			ss << "#endif //" << includeGuardName;
-			return ss.str();
+		},
+		[&](details::unit const & value) {
+			ss << "struct " << p.id << " {};";
 		}
 	);
+	ss << include_guard_end(p.id);
+	headers[p.id + ".hpp"] = ss.str();
 
 	return results;
 }

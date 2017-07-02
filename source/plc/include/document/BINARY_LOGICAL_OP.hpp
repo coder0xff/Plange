@@ -2,13 +2,25 @@
 
 #ifndef INCLUDED_BINARY_LOGICAL_OP_HPP
 #define INCLUDED_BINARY_LOGICAL_OP_HPP
+
+struct AND;
+struct IFF;
+struct IMPLICATION;
+struct MAPS_TO;
+struct NAND;
+struct NOR;
+struct OR;
+struct XOR;
+
 typedef std::variant<
-	AND,
-	IFF,
-	IMPLICATION,
-	MAPS_TO,
-	NAND,
-	NOR,
-	OR,
-	XOR
-> BINARY_LOGICAL_OP;#endif //INCLUDED_BINARY_LOGICAL_OP_HPP
+	erased<AND>,
+	erased<IFF>,
+	erased<IMPLICATION>,
+	erased<MAPS_TO>,
+	erased<NAND>,
+	erased<NOR>,
+	erased<OR>,
+	erased<XOR>
+> BINARY_LOGICAL_OP;
+
+#endif //INCLUDED_BINARY_LOGICAL_OP_HPP

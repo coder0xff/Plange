@@ -2,6 +2,7 @@
 
 #ifndef INCLUDED_FUNCTION_MODIFIER_CALLING_CONVENTION_HPP
 #define INCLUDED_FUNCTION_MODIFIER_CALLING_CONVENTION_HPP
+
 typedef std::variant<
 	std::std::integral_constant<int, 0>,
 	std::std::integral_constant<int, 1>,
@@ -35,4 +36,6 @@ typedef std::variant<
 	std::std::integral_constant<int, 29>,
 	std::std::integral_constant<int, 30>,
 	std::std::integral_constant<int, 31>
-> FUNCTION_MODIFIER_CALLING_CONVENTION;#endif //INCLUDED_FUNCTION_MODIFIER_CALLING_CONVENTION_HPP
+> FUNCTION_MODIFIER_CALLING_CONVENTION;
+
+#endif //INCLUDED_FUNCTION_MODIFIER_CALLING_CONVENTION_HPP

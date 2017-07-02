@@ -2,10 +2,17 @@
 
 #ifndef INCLUDED_CAST_HPP
 #define INCLUDED_CAST_HPP
+
+struct EXPRESSION;
+struct IC;
+struct PARENTHETICAL;
+
 struct CAST {
-	PARENTHETICAL field_1;
-	std::vector<IC> field_2;
-	EXPRESSION field_3;
+	erased<PARENTHETICAL> field_1;
+	std::vector<erased<IC>> field_2;
+	erased<EXPRESSION> field_3;
 };
+
+
 
 #endif //INCLUDED_CAST_HPP

@@ -2,15 +2,22 @@
 
 #ifndef INCLUDED_INHERITANCE_LIST_HPP
 #define INCLUDED_INHERITANCE_LIST_HPP
+
+struct EXPRESSION;
+struct IC;
+struct INHERITANCE_ITEM_PREFIX;
+
 struct INHERITANCE_LIST {
-	EXPRESSION EXPRESSION;
-	std::optional<INHERITANCE_ITEM_PREFIX> field_1;
+	erased<EXPRESSION> EXPRESSION;
+	std::optional<erased<INHERITANCE_ITEM_PREFIX>> field_1;
 	std::vector<std::tuple<
-		std::vector<IC>,
-		std::vector<IC>,
-		std::optional<INHERITANCE_ITEM_PREFIX>,
-		EXPRESSION
+		std::vector<erased<IC>>,
+		std::vector<erased<IC>>,
+		std::optional<erased<INHERITANCE_ITEM_PREFIX>>,
+		erased<EXPRESSION>
 	>> field_2;
 };
+
+
 
 #endif //INCLUDED_INHERITANCE_LIST_HPP

@@ -2,15 +2,23 @@
 
 #ifndef INCLUDED_DEFINITION_HPP
 #define INCLUDED_DEFINITION_HPP
+
+struct EXPRESSION;
+struct IC;
+struct IDENTIFIER;
+struct XML_DOC_STRING;
+
 struct DEFINITION {
-	EXPRESSION EXPRESSION;
-	IDENTIFIER IDENTIFIER;
+	erased<EXPRESSION> EXPRESSION;
+	erased<IDENTIFIER> IDENTIFIER;
 	std::optional<std::tuple<
-		XML_DOC_STRING,
-		std::vector<IC>
+		erased<XML_DOC_STRING>,
+		std::vector<erased<IC>>
 	>> field_1;
-	std::vector<IC> field_2;
-	std::vector<IC> field_3;
+	std::vector<erased<IC>> field_2;
+	std::vector<erased<IC>> field_3;
 };
+
+
 
 #endif //INCLUDED_DEFINITION_HPP

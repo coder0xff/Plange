@@ -2,23 +2,30 @@
 
 #ifndef INCLUDED_IF_HPP
 #define INCLUDED_IF_HPP
+
+struct EXPRESSION;
+struct IC;
+struct PARENTHETICAL;
+
 struct IF {
-	PARENTHETICAL condition;
-	std::vector<IC> field_1;
-	std::vector<IC> field_2;
+	erased<PARENTHETICAL> condition;
+	std::vector<erased<IC>> field_1;
+	std::vector<erased<IC>> field_2;
 	std::vector<std::tuple<
-		std::vector<IC>,
-		std::vector<IC>,
-		PARENTHETICAL,
-		std::vector<IC>,
-		EXPRESSION
+		std::vector<erased<IC>>,
+		std::vector<erased<IC>>,
+		erased<PARENTHETICAL>,
+		std::vector<erased<IC>>,
+		erased<EXPRESSION>
 	>> field_3;
 	std::optional<std::tuple<
-		std::vector<IC>,
-		std::vector<IC>,
-		EXPRESSION
+		std::vector<erased<IC>>,
+		std::vector<erased<IC>>,
+		erased<EXPRESSION>
 	>> field_4;
-	EXPRESSION invoke;
+	erased<EXPRESSION> invoke;
 };
+
+
 
 #endif //INCLUDED_IF_HPP

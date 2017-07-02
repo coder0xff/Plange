@@ -2,9 +2,14 @@
 
 #ifndef INCLUDED_ASM_IDENTIFIER_HPP
 #define INCLUDED_ASM_IDENTIFIER_HPP
+
+struct IDENTIFIER;
+
 struct ASM_IDENTIFIER {
 	bool field_1;
-	IDENTIFIER field_2;
+	erased<IDENTIFIER> field_2;
 };
+
+
 
 #endif //INCLUDED_ASM_IDENTIFIER_HPP

@@ -2,4 +2,7 @@
 
 #ifndef INCLUDED_STRING_HPP
 #define INCLUDED_STRING_HPP
-typedef c_string STRING;#endif //INCLUDED_STRING_HPP
+
+typedef std::string STRING;
+
+#endif //INCLUDED_STRING_HPP

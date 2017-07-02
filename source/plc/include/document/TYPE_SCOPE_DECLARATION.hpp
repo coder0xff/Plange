@@ -2,16 +2,24 @@
 
 #ifndef INCLUDED_TYPE_SCOPE_DECLARATION_HPP
 #define INCLUDED_TYPE_SCOPE_DECLARATION_HPP
+
+struct IC;
+struct IDENTIFIER;
+struct MEMBER_OFFSET;
+struct XML_DOC_STRING;
+
 struct TYPE_SCOPE_DECLARATION {
 	std::optional<std::tuple<
-		XML_DOC_STRING,
-		std::vector<IC>
+		erased<XML_DOC_STRING>,
+		std::vector<erased<IC>>
 	>> field_1;
-	IDENTIFIER field_2;
+	erased<IDENTIFIER> field_2;
 	std::optional<std::tuple<
-		std::vector<IC>,
-		MEMBER_OFFSET
+		std::vector<erased<IC>>,
+		erased<MEMBER_OFFSET>
 	>> field_3;
 };
+
+
 
 #endif //INCLUDED_TYPE_SCOPE_DECLARATION_HPP

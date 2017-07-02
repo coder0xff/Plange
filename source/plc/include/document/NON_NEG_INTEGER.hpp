@@ -2,10 +2,15 @@
 
 #ifndef INCLUDED_NON_NEG_INTEGER_HPP
 #define INCLUDED_NON_NEG_INTEGER_HPP
+
+struct NON_ZERO_DECIMAL_DIGIT;
+
 typedef std::variant<
 	std::tuple<
-		NON_ZERO_DECIMAL_DIGIT,
-		std::vector<decimal_digit>
+		erased<NON_ZERO_DECIMAL_DIGIT>,
+		int
 	>,
 	std::std::integral_constant<int, 1>
-> NON_NEG_INTEGER;#endif //INCLUDED_NON_NEG_INTEGER_HPP
+> NON_NEG_INTEGER;
+
+#endif //INCLUDED_NON_NEG_INTEGER_HPP

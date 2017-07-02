@@ -2,11 +2,17 @@
 
 #ifndef INCLUDED_VOLATILE_TYPE_DEREFERENCE_HPP
 #define INCLUDED_VOLATILE_TYPE_DEREFERENCE_HPP
+
+struct EXPRESSION;
+struct IC;
+
 struct VOLATILE_TYPE_DEREFERENCE {
-	std::vector<IC> field_1;
-	std::vector<IC> field_2;
-	EXPRESSION field_3;
-	std::vector<IC> field_4;
+	std::vector<erased<IC>> field_1;
+	std::vector<erased<IC>> field_2;
+	erased<EXPRESSION> field_3;
+	std::vector<erased<IC>> field_4;
 };
+
+
 
 #endif //INCLUDED_VOLATILE_TYPE_DEREFERENCE_HPP

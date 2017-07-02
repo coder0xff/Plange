@@ -2,6 +2,11 @@
 
 #ifndef INCLUDED_ASM_PTR_ARITHMETIC_INTEL_HPP
 #define INCLUDED_ASM_PTR_ARITHMETIC_INTEL_HPP
+
+struct ASM_IDENTIFIER;
+struct NON_NEG_INTEGER;
+struct NON_NEG_NON_FRACTIONAL;
+
 struct ASM_PTR_ARITHMETIC_INTEL {
 	std::optional<std::tuple<
 		std::variant<
@@ -12,13 +17,13 @@ struct ASM_PTR_ARITHMETIC_INTEL {
 		>
 	>> field_1;
 	std::optional<std::tuple<
-		ASM_IDENTIFIER
+		erased<ASM_IDENTIFIER>
 	>> field_2;
-	ASM_IDENTIFIER field_3;
+	erased<ASM_IDENTIFIER> field_3;
 	std::optional<std::tuple<
-		ASM_IDENTIFIER,
+		erased<ASM_IDENTIFIER>,
 		std::optional<std::tuple<
-			NON_NEG_NON_FRACTIONAL
+			erased<NON_NEG_NON_FRACTIONAL>
 		>>
 	>> field_4;
 	std::optional<std::tuple<
@@ -26,8 +31,10 @@ struct ASM_PTR_ARITHMETIC_INTEL {
 			std::std::integral_constant<int, 0>,
 			std::std::integral_constant<int, 1>
 		>,
-		NON_NEG_INTEGER
+		erased<NON_NEG_INTEGER>
 	>> field_5;
 };
+
+
 
 #endif //INCLUDED_ASM_PTR_ARITHMETIC_INTEL_HPP

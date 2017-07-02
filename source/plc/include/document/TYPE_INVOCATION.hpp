@@ -2,28 +2,36 @@
 
 #ifndef INCLUDED_TYPE_INVOCATION_HPP
 #define INCLUDED_TYPE_INVOCATION_HPP
+
+struct ARGUMENT;
+struct ARGUMENT_PACK;
+struct EXPRESSION;
+struct IC;
+
 struct TYPE_INVOCATION {
-	EXPRESSION field_1;
+	erased<EXPRESSION> field_1;
 	std::tuple<
 		std::optional<std::tuple<
-			std::vector<IC>,
+			std::vector<erased<IC>>,
 			std::variant<
-				ARGUMENT,
-				ARGUMENT_PACK
+				erased<ARGUMENT>,
+				erased<ARGUMENT_PACK>
 			>
 		>>,
 		std::vector<std::tuple<
-			std::vector<IC>,
+			std::vector<erased<IC>>,
 			std::optional<std::tuple<
-				std::vector<IC>,
+				std::vector<erased<IC>>,
 				std::variant<
-					ARGUMENT,
-					ARGUMENT_PACK
+					erased<ARGUMENT>,
+					erased<ARGUMENT_PACK>
 				>
 			>>
 		>>,
-		std::vector<IC>
+		std::vector<erased<IC>>
 	> field_2;
 };
+
+
 
 #endif //INCLUDED_TYPE_INVOCATION_HPP
