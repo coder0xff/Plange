@@ -3,10 +3,10 @@ A project to create a revolutionary development environment
 
 For documentation, see the [plange.tech](http://plange.tech) website.
 
-The instructions below use `./` to donate the location in which the plange source code has been downloaded/cloned to.
+The instructions below use `SRC` to donate the location in which the plange source code has been downloaded/cloned to. `BUILD` is used to donate the build directory. `INSTALL` is used to donate the install directory.
 
 ## Building
-CMake is used to build Plange. C++17 support is required. Build has been tested on Visual Studio 2017, and gcc 7.
+CMake is used to build Plange. The C++ compiler must have (partial) C++17 support. Build has been tested on Visual Studio 2017, and gcc 7.
 
 #### Prerequisites
  * [CMake 3.9 or newer](https://cmake.org/download/)
