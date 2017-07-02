@@ -1,0 +1,9 @@
+// This file was generated using Parlex's cpp_generator
+
+#ifndef INCLUDED_INVOCATION_HPP
+#define INCLUDED_INVOCATION_HPP
+typedef std::variant<
+	PARENTHETICAL_INVOCATION,
+	ARRAY_INVOCATION,
+	TYPE_INVOCATION
+> INVOCATION;#endif //INCLUDED_INVOCATION_HPP

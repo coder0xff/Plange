@@ -1,0 +1,10 @@
+// This file was generated using Parlex's cpp_generator
+
+#ifndef INCLUDED_RELATIONAL_COLLECTION_OP_HPP
+#define INCLUDED_RELATIONAL_COLLECTION_OP_HPP
+typedef std::variant<
+	HAS,
+	IN,
+	NOT_HAS,
+	NOT_IN
+> RELATIONAL_COLLECTION_OP;#endif //INCLUDED_RELATIONAL_COLLECTION_OP_HPP

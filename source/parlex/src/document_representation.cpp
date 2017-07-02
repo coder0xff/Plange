@@ -76,7 +76,8 @@ static erased<node> reduce(erased<node> const & n) {
 				for (auto const & child : children) {
 					erased<node> childCopy = child;
 					childCopy->tag = "";
-					result.data_members.emplace(std::piecewise_construct, forward_as_tuple(child->tag), std::forward_as_tuple(childCopy));
+					auto didEmplace = result.data_members.emplace(std::piecewise_construct, forward_as_tuple(child->tag), std::forward_as_tuple(childCopy)).second;
+					throw_assert(didEmplace);
 				}
 				return erased<node>(result);
 			}

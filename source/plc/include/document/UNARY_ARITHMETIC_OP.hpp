@@ -1,0 +1,13 @@
+// This file was generated using Parlex's cpp_generator
+
+#ifndef INCLUDED_UNARY_ARITHMETIC_OP_HPP
+#define INCLUDED_UNARY_ARITHMETIC_OP_HPP
+typedef std::variant<
+	FACTORIAL,
+	NEGATION,
+	POST_DEC,
+	POST_INC,
+	PRE_DEC,
+	PRE_INC,
+	RADICAL
+> UNARY_ARITHMETIC_OP;#endif //INCLUDED_UNARY_ARITHMETIC_OP_HPP

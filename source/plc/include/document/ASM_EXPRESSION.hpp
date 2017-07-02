@@ -1,0 +1,10 @@
+// This file was generated using Parlex's cpp_generator
+
+#ifndef INCLUDED_ASM_EXPRESSION_HPP
+#define INCLUDED_ASM_EXPRESSION_HPP
+typedef std::variant<
+	ASM_IDENTIFIER,
+	ASM_PTR_ARITHMETIC_ATT,
+	ASM_PTR_ARITHMETIC_INTEL,
+	NON_FRACTIONAL
+> ASM_EXPRESSION;#endif //INCLUDED_ASM_EXPRESSION_HPP

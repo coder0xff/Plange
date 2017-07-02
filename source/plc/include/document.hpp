@@ -3,7 +3,12 @@
 
 #include "parlex/details/grammar.hpp"
 
-parlex::details::grammar & plange_grammar();
+namespace plc {
 
+#include "document/plange_grammar.hpp.inc"
+
+parlex::details::grammar const & grammar();
+
+}
 
 #endif //PLC_DOCUMENT_HPP

@@ -1,0 +1,8 @@
+// This file was generated using Parlex's cpp_generator
+
+#ifndef INCLUDED_FUNCTION_MODIFIER_1_HPP
+#define INCLUDED_FUNCTION_MODIFIER_1_HPP
+typedef std::variant<
+	FUNCTION_MODIFIER_THROWING,
+	FUNCTION_MODIFIER_2
+> FUNCTION_MODIFIER_1;#endif //INCLUDED_FUNCTION_MODIFIER_1_HPP

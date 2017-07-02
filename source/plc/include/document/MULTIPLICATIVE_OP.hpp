@@ -1,0 +1,9 @@
+// This file was generated using Parlex's cpp_generator
+
+#ifndef INCLUDED_MULTIPLICATIVE_OP_HPP
+#define INCLUDED_MULTIPLICATIVE_OP_HPP
+typedef std::variant<
+	CROSS_PRODUCT,
+	DOT_PRODUCT,
+	MULTIPLICATION
+> MULTIPLICATIVE_OP;#endif //INCLUDED_MULTIPLICATIVE_OP_HPP

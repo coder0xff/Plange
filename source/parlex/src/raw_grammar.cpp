@@ -161,8 +161,7 @@ void raw_grammar::generate_representation(std::ostream & cpp) {
 #endif
 
 void raw_grammar::generate_cplusplus_code(std::string grammarName, std::string nameOfMain, std::ostream & cpp, std::ostream & hpp, std::string namespace_, std::string headerPathPrefix) const {
-	std::string upperCaseGrammarName = grammarName;
-	transform(upperCaseGrammarName.begin(), upperCaseGrammarName.end(), upperCaseGrammarName.begin(), toupper);
+	std::string upperCaseGrammarName = toupper(grammarName);
 
 	generate_hpp(grammarName, hpp, namespace_, upperCaseGrammarName);
 

@@ -124,5 +124,10 @@ erased<behavior::node> grammar::get_behavior(node const & b) {
 #undef DO_AS
 }
 
+grammar::production const & grammar::get_production(std::string const & id) const {
+	auto i = productions.find(id);
+	return i->second;
+}
+
 } // namespace details
 } // namespace parlex

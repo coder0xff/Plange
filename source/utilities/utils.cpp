@@ -87,6 +87,18 @@ std::string realpath(std::string fileName) {
 	return buffer.get();
 }
 
+std::string toupper(std::string const & in) {
+	std::string result = in;
+	for (auto & c : result) c = toupper(c);
+	return result;
+}
+
+std::string tolower(std::string const & in) {
+	std::string result = in;
+	for (auto & c : result) c = tolower(c);
+	return result;
+}
+
 void debugger() {
 #ifdef _MSC_VER
 	__asm int 3
@@ -102,14 +114,14 @@ void debugger() {
 #define CMAKE_BUILD_TYPE "None"
 #endif
 
+#ifndef _MSC_VER
+
 // compares two strings in compile time constant fashion
 constexpr int c_strcmp(char const * lhs, char const * rhs) {
 	return '\0' == lhs[0] && '\0' == rhs[0] ? 0
 		       : lhs[0] != rhs[0] ? lhs[0] - rhs[0]
 		       : c_strcmp(lhs + 1, rhs + 1);
 }
-
-#ifndef _MSC_VER
 
 void throw_assert(bool pass) {
 	if constexpr (c_strcmp(CMAKE_BUILD_TYPE, "Debug") == 0) {
@@ -123,7 +135,7 @@ void throw_assert(bool pass) {
 
 void throw_assert(bool pass) {
 	if (!pass) {
-		if (c_strcmp(CMAKE_INTDIR, "Debug") == 0) {
+		if (strcmp(CMAKE_INTDIR, "Debug") == 0) {
 			throw std::runtime_error("failed assert");
 		}
 	}

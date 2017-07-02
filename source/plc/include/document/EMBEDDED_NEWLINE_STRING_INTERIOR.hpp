@@ -1,0 +1,12 @@
+// This file was generated using Parlex's cpp_generator
+
+#ifndef INCLUDED_EMBEDDED_NEWLINE_STRING_INTERIOR_HPP
+#define INCLUDED_EMBEDDED_NEWLINE_STRING_INTERIOR_HPP
+typedef std::variant<
+	std::tuple<
+		PAYLOAD
+	>,
+	std::tuple<
+		EMBEDDED_NEWLINE_STRING_INTERIOR
+	>
+> EMBEDDED_NEWLINE_STRING_INTERIOR;#endif //INCLUDED_EMBEDDED_NEWLINE_STRING_INTERIOR_HPP

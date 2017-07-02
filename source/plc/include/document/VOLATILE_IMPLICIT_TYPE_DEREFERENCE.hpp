@@ -1,0 +1,10 @@
+// This file was generated using Parlex's cpp_generator
+
+#ifndef INCLUDED_VOLATILE_IMPLICIT_TYPE_DEREFERENCE_HPP
+#define INCLUDED_VOLATILE_IMPLICIT_TYPE_DEREFERENCE_HPP
+struct VOLATILE_IMPLICIT_TYPE_DEREFERENCE {
+	std::vector<IC> field_1;
+	std::vector<IC> field_2;
+};
+
+#endif //INCLUDED_VOLATILE_IMPLICIT_TYPE_DEREFERENCE_HPP

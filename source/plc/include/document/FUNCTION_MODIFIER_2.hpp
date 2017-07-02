@@ -1,0 +1,8 @@
+// This file was generated using Parlex's cpp_generator
+
+#ifndef INCLUDED_FUNCTION_MODIFIER_2_HPP
+#define INCLUDED_FUNCTION_MODIFIER_2_HPP
+typedef std::variant<
+	FUNCTION_MODIFIER_ATOMIC,
+	FUNCTION_MODIFIER_3
+> FUNCTION_MODIFIER_2;#endif //INCLUDED_FUNCTION_MODIFIER_2_HPP

@@ -52,6 +52,8 @@ public:
 	string_terminal const& get_literal(std::string const & id) const override;
 	bool test_precedence(state_machine_base const & productionA, state_machine_base const & productionB) const override;
 	precedence_collection get_precedences() const override;
+protected:
+	production const & get_production(std::string const & id) const;
 private:
 	std::map<std::string, production> productions;
 	std::string const root_id;

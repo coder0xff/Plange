@@ -42,10 +42,16 @@ set(HEADERS
 	"include/symbol.hpp"
 	"include/warnings.hpp")
 
-add_executable(plc ${HEADERS} ${SOURCES})
+FILE(GLOB DOCUMENT_SOURCES "src/document/*.cpp")
+FILE(GLOB DOCUMENT_HEADERS "include/document/*.hpp")
+
+add_executable(plc ${HEADERS} ${SOURCES} ${DOCUMENT_HEADERS} ${DOCUMENT_SOURCES})
 source_group("src" FILES ${SOURCES})
 source_group("include" FILES ${HEADERS})
+source_group("src/document" FILES ${DOCUMENT_SOURCES})
+source_group("include/document" FILES ${DOCUMENT_HEADERS})
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include/document)
 set_property(TARGET plc PROPERTY CXX_STANDARD 17)
 set_property(TARGET plc PROPERTY CXX_STANDARD_REQUIRED ON)
 #add_precompiled_header(plc "include/stdafx.hpp" FORCEINCLUDE SOURCE_CXX "src/stdafx.cpp")

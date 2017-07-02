@@ -1,0 +1,19 @@
+// This file was generated using Parlex's cpp_generator
+
+#ifndef INCLUDED_ASM_PTR_ARITHMETIC_ATT_HPP
+#define INCLUDED_ASM_PTR_ARITHMETIC_ATT_HPP
+typedef std::variant<
+	std::tuple<
+		ASM_IDENTIFIER,
+		NON_FRACTIONAL
+	>,
+	std::tuple<
+		ASM_IDENTIFIER,
+		NON_FRACTIONAL,
+		ASM_PTR_ARITHMETIC_ATT_REG
+	>,
+	std::tuple<
+		NON_FRACTIONAL,
+		ASM_PTR_ARITHMETIC_ATT_REG
+	>
+> ASM_PTR_ARITHMETIC_ATT;#endif //INCLUDED_ASM_PTR_ARITHMETIC_ATT_HPP

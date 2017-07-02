@@ -1,0 +1,10 @@
+// This file was generated using Parlex's cpp_generator
+
+#ifndef INCLUDED_EMBEDDED_COMMENT_INTERIOR_HPP
+#define INCLUDED_EMBEDDED_COMMENT_INTERIOR_HPP
+typedef std::variant<
+	PAYLOAD,
+	std::tuple<
+		EMBEDDED_COMMENT_INTERIOR
+	>
+> EMBEDDED_COMMENT_INTERIOR;#endif //INCLUDED_EMBEDDED_COMMENT_INTERIOR_HPP

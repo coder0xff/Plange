@@ -1,0 +1,15 @@
+// This file was generated using Parlex's cpp_generator
+
+#ifndef INCLUDED_RELATIONAL_OP_HPP
+#define INCLUDED_RELATIONAL_OP_HPP
+typedef std::variant<
+	CASTS,
+	DOWNCASTS,
+	EXACTLY,
+	IMPLEMENTS,
+	INEQUALITY,
+	INHERITS,
+	IS,
+	RELATIONAL_COLLECTION_OP,
+	UPCASTS
+> RELATIONAL_OP;#endif //INCLUDED_RELATIONAL_OP_HPP

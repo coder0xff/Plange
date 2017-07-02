@@ -1,0 +1,12 @@
+// This file was generated using Parlex's cpp_generator
+
+#ifndef INCLUDED_BINARY_OP_HPP
+#define INCLUDED_BINARY_OP_HPP
+typedef std::variant<
+	BINARY_ARITHMETIC_OP,
+	BINARY_COLLECTION_OP,
+	BINARY_LOGICAL_OP,
+	BITWISE_OP,
+	CONSTRUCTIVE_OP,
+	RELATIONAL_OP
+> BINARY_OP;#endif //INCLUDED_BINARY_OP_HPP
