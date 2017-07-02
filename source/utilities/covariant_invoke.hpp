@@ -1,5 +1,5 @@
-#ifndef UTILITIES_DYNAMIC_DISPATCH_HPP
-#define UTILITIES_DYNAMIC_DISPATCH_HPP
+#ifndef UTILITIES_COVARIANT_INVOKE_HPP
+#define UTILITIES_COVARIANT_INVOKE_HPP
 
 namespace details {
 	template <typename T>
@@ -58,4 +58,4 @@ void covariant_invoke(T const & value, V1 const & func1, V2 const & func2, Vs co
 	covariant_invoke<U>(value, func2, funcs...);
 }
 
-#endif //UTILITIES_DYNAMIC_DISPATCH_HPP
+#endif //UTILITIES_COVARIANT_INVOKE_HPP
