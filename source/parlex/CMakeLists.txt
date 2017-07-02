@@ -11,7 +11,6 @@ set (SOURCES
 	"src/document_representation.cpp"
 	"src/fast_match.cpp"
 	"src/grammar.cpp"
-	"src/grammar_base.cpp"
 	"src/job.cpp"
 	"src/match.cpp"
 	"src/match_class.cpp"
