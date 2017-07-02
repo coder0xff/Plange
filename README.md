@@ -23,7 +23,7 @@ CMake is used to build Plange. The C++ compiler must have (partial) C++17 suppor
     cmake --build .
  ```
  * During the first build:
-   * If an installation of LLVM is not found it will be downloaded and built automatically.
+   * If an installation of LLVM is not found it will be downloaded and built automatically. It will take some time.
    * If an installation of yaml-cpp is not found it will downloaded and built automatically.
    * Google test will be downloaded and built.
  * In-source builds seem to work on linux, but building in source with VC++ has some issues.
