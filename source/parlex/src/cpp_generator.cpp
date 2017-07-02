@@ -9,7 +9,7 @@
 #include "parlex/details/behavior.hpp"
 #include "parlex/details/builtins.hpp"
 
-#include "dynamic_dispatch.hpp"
+#include "covariant_invoke.hpp"
 
 namespace parlex {
 
@@ -99,7 +99,7 @@ std::string node_to_cpp(details::node const & n) {
 
 #define DO_AS(name)	[&](details::name##_t const & v) { return "parlex::" #name "(" + add_tag() + "{\n" + add_children() + "})"; }
 
-	return dynamic_dispatch<std::string>(n,
+	return covariant_invoke<std::string>(n,
 	                                     [&](details::literal_t const & v) {
 	                                     return "parlex::literal(" + add_tag() + enquote(v.id) + ")";
                                      },
@@ -203,7 +203,7 @@ erased<details::node> flatten_aggregate(details::aggregate const & aggregate, st
 		ss << indent(internalSubResult) << "\n\n";
 	}
 	for (auto const & flattenedDataMember : flattenedDataMembers) {
-		ss << indent(dynamic_dispatch<std::string>(*flattenedDataMember.second,
+		ss << indent(covariant_invoke<std::string>(*flattenedDataMember.second,
 			[&](details::unit const &) { return ""; },
 			[&](details::type const & v) {
 				return v.name + " " + flattenedDataMember.first + ";\n";
@@ -238,7 +238,7 @@ std::string flattened_choice_variant(details::node::children_t & children) {
 	ss << "std::variant<\n";
 	for (size_t i = 0; i < children.size(); ++i) {
 		auto const & child = children[i];
-		auto typeName = dynamic_dispatch<std::string>(*child,
+		auto typeName = covariant_invoke<std::string>(*child,
 			[&](details::unit const & v2) {
 				return stringize_unit(v2, i);
 			},
@@ -267,7 +267,7 @@ erased<details::node> flatten_choice(details::choice_t const & choice, std::vect
 
 erased<details::node> flatten_optional(details::optional_t const & optional, std::vector<std::string> & subResults) {
 	auto children = flatten_children(optional.children, subResults);
-	auto result = dynamic_dispatch<std::string>(*children[0],
+	auto result = covariant_invoke<std::string>(*children[0],
 		[&](details::unit const & v) {
 			return "bool";
 		},
@@ -281,7 +281,7 @@ erased<details::node> flatten_optional(details::optional_t const & optional, std
 
 erased<details::node> flatten_repetition(details::repetition_t const & repetition, std::vector<std::string> & subResults) {
 	auto children = flatten_children(repetition.children, subResults);
-	auto result = dynamic_dispatch<std::string>(*children[0],
+	auto result = covariant_invoke<std::string>(*children[0],
 		[&](details::unit const & v) {
 			return "int";
 		},
@@ -299,7 +299,7 @@ erased<details::node> flattened_sequence_tuple(details::sequence_t const & seque
 	ss << "std::tuple<\n";
 	int elementCount = 0;
 	for (auto const & child : children) {
-		std::string childName = dynamic_dispatch<std::string>(*child,
+		std::string childName = covariant_invoke<std::string>(*child,
 			[&](details::type const & v) {
 				return v.name;
 			},
@@ -365,7 +365,7 @@ erased<details::node> flatten_sequence(details::sequence_t const & sequence, std
 }
 
 erased<details::node> flatten_node(erased<details::node> const & n, std::vector<std::string> & subResults) {
-	erased<details::node> result = dynamic_dispatch<erased<details::node>>(*n,
+	erased<details::node> result = covariant_invoke<erased<details::node>>(*n,
 		[&](details::unit const & v) { return v; },
 		[&](details::type const & v) { return v; },
 		[&](details::aggregate const & v) { return flatten_aggregate(v, subResults); },
@@ -390,7 +390,7 @@ cpp_generator::output_files generate_class(production const & p) {
 	std::vector<std::string> subResults;
 	auto representation = compute_document_representation(p.behavior);
 	auto flattened = flatten_node(representation, subResults);
-	headers[p.id + ".hpp.inc"] = dynamic_dispatch<std::string>(*flattened,
+	headers[p.id + ".hpp.inc"] = covariant_invoke<std::string>(*flattened,
 		[&](details::type const & value) {
 			std::stringstream ss;
 			ss << "// This file was generated using parlex's cpp_generator\n\n";

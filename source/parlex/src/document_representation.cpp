@@ -1,5 +1,5 @@
 #include "parlex/document_representation.hpp"
-#include "dynamic_dispatch.hpp"
+#include "covariant_invoke.hpp"
 #include <optional>
 
 namespace parlex {
@@ -22,7 +22,7 @@ static erased<node> copy_with_conversions(erased<node> const & n) {
 		return result; \
 	}
 
-	return dynamic_dispatch<erased<node>> (nPtr, 
+	return covariant_invoke<erased<node>> (nPtr, 
 		[&](literal_t const & v) { 
 			return unit(v);
 		},
@@ -51,7 +51,7 @@ static erased<node> reduce(erased<node> const & n) {
 		return newChildren;
 	};
 
-	return dynamic_dispatch<erased<node>>(*n,
+	return covariant_invoke<erased<node>>(*n,
 		[&](unit const & v) { return v; },
 		[&](aggregate const & v) { return v; },
 		[&](choice_t const & v) { return v; },

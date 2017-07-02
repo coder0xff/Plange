@@ -4,7 +4,7 @@
 #include "parlex/details/builtins.hpp"
 
 #include "utf.hpp"
-#include "dynamic_dispatch.hpp"
+#include "covariant_invoke.hpp"
 
 namespace parlex {
 namespace details {
@@ -106,7 +106,7 @@ erased<behavior::node> grammar::get_behavior(node const & b) {
 		}
 
 
-	return dynamic_dispatch<erased<behavior::node>>(b,
+	return covariant_invoke<erased<behavior::node>>(b,
 		[&](literal_t const & v) {
 			auto const & l = get_or_add_literal(v.content);
 			return behavior::leaf(l);

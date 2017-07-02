@@ -9,7 +9,7 @@ set (SOURCES
 	
 set (HEADERS
 	"auto_map_c.hpp"
-	"dynamic_dispatch.hpp"
+	"covariant_invoke.hpp"
 	"forward_list_c.hpp"
 	"graphviz_dot.hpp"
 	"logging.hpp"

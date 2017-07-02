@@ -5,7 +5,7 @@
 
 #include "graphviz_dot.hpp"
 #include "parlex/details/raw_state_machine.hpp"
-#include "dynamic_dispatch.hpp"
+#include "covariant_invoke.hpp"
 
 namespace parlex {
 namespace details {
@@ -34,7 +34,7 @@ static std::string node_to_name(node const * n) {
 	std::stringstream result;
 
 #define DO_AS(name) [](name const & v) { return #name + (v.tag != "" ? " " + v.tag : ""); }
-	result << dynamic_dispatch<std::string>(*n,
+	result << covariant_invoke<std::string>(*n,
 		[](leaf const & v) { return v.id; },
 		DO_AS(choice),
 		DO_AS(optional),
