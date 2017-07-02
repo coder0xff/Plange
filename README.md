@@ -10,9 +10,9 @@ CMake is used to build Plange. The C++ compiler must have (partial) C++17 suppor
 
 #### Prerequisites
  * [CMake 3.9 or newer](https://cmake.org/download/)
- * [Python 2.x](https://www.python.org/downloads/) insalled with Python directory added to your %PATH% environment variable
+ * [Python 2.x](https://www.python.org/downloads/) (On Windows, choose to update the %PATH% environment variable during installation.)
  * Either gcc 7, or Microsoft Visual C++ 2017
- * An internet connection (for automatic downloading of dependencies)
+ * An internet connection (for downloading external dependencies)
 
 #### Building
  * Clone the repository to a directory of your choice, SRC.
@@ -37,6 +37,7 @@ CMake is used to build Plange. The C++ compiler must have (partial) C++17 suppor
    * Plange source code resides in `SRC/source` directory as a separate CMake project.
    * Plange build files reside in `BUILD/prefix/src/plange-build` and may be built directly once the super build completes
  * Downloaded dependencies will be stored in `BUILD/Downloads` and may be deleted once building completes
+ * Built dependencies will be stored in `BUILD/Dependencies`
  * Python is only required if LLVM must be built, or to use miscellaneous python programs within the repository
  * The Ubuntu 16 LTS package `libyaml-cpp-dev` has an undeclared dependency on `libboost-all-dev` and may cause build to fail with fatal `error: boost/shared_ptr.hpp: No such file or directory`. You may:
    * Install boost `sudo apt install libboost-all-dev`, or
