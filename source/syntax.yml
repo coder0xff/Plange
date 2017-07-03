@@ -1179,7 +1179,7 @@ PAYLOAD:
 
 PLATFORM:
     syntax: >
-        "_" {letter | number | PLATFORM}
+        "_" (letter | number) {letter | number | "_"}
     filter: longest
     see:
         - FUNCTION

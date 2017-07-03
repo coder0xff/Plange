@@ -2303,11 +2303,15 @@ static parlex::builder const & builder() {
 		parlex::production("PLATFORM",
 		parlex::sequence("PLATFORM", {
 			parlex::literal("_"),
+			parlex::choice({
+				parlex::reference("letter"),
+				parlex::reference("number")
+			}),
 			parlex::repetition({
 				parlex::choice({
 					parlex::reference("letter"),
 					parlex::reference("number"),
-					parlex::reference("PLATFORM")
+					parlex::literal("_")
 				})
 			})
 		}),
