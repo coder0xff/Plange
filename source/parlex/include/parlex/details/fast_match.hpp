@@ -3,7 +3,7 @@
 
 #include "parlex/details/match_class.hpp"
 
-#include "forward_list_c.hpp"
+#include "concurrent_forward_list.hpp"
 
 namespace parlex {
 namespace details {
@@ -15,10 +15,10 @@ class leaf;
 
 // This is an intermediate value for creating matches which has O(1) lock-free insertion for behavior leafs.
 // `match` uses a std::set, which has O(log n) insert, and would also require additional synchronization.
-// By using forward_list_c, we avoid locks and slow insertions inside the parser.
+// By using concurrent_forward_list, we avoid locks and slow insertions inside the parser.
 struct fast_match : match_class {
 	int const consumed_character_count;
-	forward_list_c<behavior::leaf const *> leafs;
+	concurrent_forward_list<behavior::leaf const *> leafs;
 
 	fast_match(struct match_class const & matchClass, int consumedCharacterCount);
 	fast_match(fast_match const & other) = default;

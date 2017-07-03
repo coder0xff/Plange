@@ -28,7 +28,7 @@ bool match::operator<(match const & rhs) const {
 match::match(struct match_class const & matchClass, int consumedCharacterCount) : match_class(matchClass), consumed_character_count(consumedCharacterCount) { throw_assert(consumedCharacterCount >= 0); }
 
 match::match(fast_match const & fastMatch) : match_class(fastMatch), consumed_character_count(fastMatch.consumed_character_count) {
-	// range based std::set constructor doesn't seem to like the forward_list_c iterators and doesn't compile in VC++ 2017.
+	// range based std::set constructor doesn't seem to like the concurrent_forward_list iterators and doesn't compile in VC++ 2017.
 	for (auto const & leafPtr : fastMatch.leafs) {
 		leafs.insert(leafPtr);
 	}

@@ -7,6 +7,8 @@
 #include "parlex/details/context.hpp"
 #include "parlex/details/job.hpp"
 
+#include "utils.hpp"
+
 namespace parlex {
 namespace details {
 

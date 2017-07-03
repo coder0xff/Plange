@@ -19,7 +19,7 @@ class state_machine_base;
 class subjob : public producer {
 public:
 	state_machine_base const & machine;
-	forward_list_c<context> contexts;
+	concurrent_forward_list<context> contexts;
 	std::list<permutation> queuedPermutations;
 	std::mutex mutex;
 	std::atomic<int> lifetimeCounter;

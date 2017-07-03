@@ -3,7 +3,6 @@
 
 #include "parlex/details/match_class.hpp"
 
-#include "forward_list_c.hpp"
 #include <set>
 
 namespace parlex {

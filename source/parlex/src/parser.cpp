@@ -11,6 +11,8 @@
 #include "parlex/details/producer.hpp"
 #include "parlex/details/subjob.hpp"
 
+#include "utils.hpp"
+
 namespace parlex {
 namespace details {
 
