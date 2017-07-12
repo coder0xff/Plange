@@ -19,7 +19,7 @@ producer::producer(job & owner, recognizer const & r, size_t const documentPosit
 }
 
 
-void producer::add_subscription(context_ref const & c, size_t nextDfaState, behavior::leaf const * leaf) { {
+void producer::add_subscription(context* const & c, size_t nextDfaState, behavior::leaf const * leaf) { {
 		std::unique_lock<std::mutex> lock(mutex);
 		consumers.emplace_back(c, nextDfaState, leaf);
 	} //release the lock
@@ -30,14 +30,14 @@ void producer::do_events() {
 	auto & parser = owner.owner;
 	std::unique_lock<std::mutex> lock(mutex);
 	for (subscription & subscription : consumers) {
-		subjob & targetSubjob = subscription.c.owner();
+		subjob & targetSubjob = subscription.c->owner;
 		while (subscription.next_index < match_to_permutations.size()) {
 			auto & match = matches[subscription.next_index];
 			if (subscription.leaf != nullptr) {
 				match.leafs.push_front(subscription.leaf);
 			}
 			subscription.next_index++;
-			context_ref next = targetSubjob.construct_stepped_context(subscription.c, match);
+			context* next = targetSubjob.construct_stepped_context(subscription.c, match);
 			targetSubjob.increment_lifetime(); //reference code A - the target may not halt until this is handled
 			parser.schedule(next, subscription.next_dfa_state);
 		}
@@ -47,7 +47,7 @@ void producer::do_events() {
 		swap(temp, consumers);
 		lock.unlock();
 		for (subscription & subscription : temp) {
-			subjob & targetSubjob = subscription.c.owner();
+			subjob & targetSubjob = subscription.c->owner;
 			targetSubjob.decrement_lifetime(); //reference code C
 		}
 	}
@@ -76,7 +76,7 @@ void producer::terminate() {
 }
 
 
-producer::subscription::subscription(context_ref const & c, size_t const nextDfaState, behavior::leaf const * leaf) : next_index(0), c(c), next_dfa_state(nextDfaState), leaf(leaf) {
+producer::subscription::subscription(context* const & c, size_t const nextDfaState, behavior::leaf const * leaf) : next_index(0), c(c), next_dfa_state(nextDfaState), leaf(leaf) {
 
 }
 

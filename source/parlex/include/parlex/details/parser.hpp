@@ -15,7 +15,6 @@ namespace details {
 
 class grammar_base;
 typedef std::function<void(size_t /*done*/, size_t /*total*/)> progress_handler_t;
-class context_ref;
 class job;
 class producer;
 class subjob;
@@ -39,18 +38,18 @@ private:
 	bool terminating;
 
 	std::vector<std::thread> workers;
-	std::queue<std::tuple<erased<context_ref>, int>> work;
+	std::queue<std::tuple<erased<context*>, int>> work;
 	std::condition_variable work_cv;
 
 	void start_workers(int threadCount);
 	static abstract_syntax_graph construct_result(job const & j, fast_match const & m);
 	static abstract_syntax_graph construct_result_and_postprocess(recognizer const & overrideMain, std::vector<post_processor> posts, std::u32string const & document, job const & j);
 	static void complete_progress_handler(job & j);
-	static void update_progress(context_ref const & context);
-	std::tuple<erased<context_ref>, int> get_work_item();
+	static void update_progress(context* const & context);
+	std::tuple<erased<context*>, int> get_work_item();
 	abstract_syntax_graph single_thread_parse(grammar_base const & g, recognizer const & overrideMain, std::vector<post_processor> posts, std::u32string const & document, progress_handler_t progressHandler);
 	abstract_syntax_graph multi_thread_parse(grammar_base const & g, recognizer const & overrideMain, std::vector<post_processor> posts, std::u32string const & document, progress_handler_t progressHandler);
-	void schedule(context_ref const & c, int nextDfaState);
+	void schedule(context* const & c, int nextDfaState);
 
 	//returns true if the job is complete
 	//"Deadlock" has a negative connotation, which is not appropriate here.

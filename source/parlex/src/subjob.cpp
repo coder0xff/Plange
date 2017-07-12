@@ -30,39 +30,39 @@ subjob::~subjob() {
 
 void subjob::start() { {
 		std::unique_lock<std::mutex> lock(mutex);
-		contexts.emplace_front(*this, context_ref(), document_position, std::optional<fast_match>());
+		contexts.emplace_front(*this, nullptr, document_position, std::optional<fast_match>());
 	}
 	machine.start(*this, document_position);
 	end_dependency(); //reference code B
 }
 
-context_ref subjob::construct_start_state_context(int documentPosition) {
+context* subjob::construct_start_state_context(int documentPosition) {
 	std::unique_lock<std::mutex> lock(mutex);
-	auto i = contexts.emplace_front(*this, context_ref(), documentPosition, std::optional<fast_match>());
-	return i->get_ref();
+	auto i = contexts.emplace_front(*this, nullptr, documentPosition, std::optional<fast_match>());
+	return &(*i);
 }
 
-context_ref subjob::construct_stepped_context(context_ref const & prior, fast_match const & fromTransition) {
+context* subjob::construct_stepped_context(context* const & prior, fast_match const & fromTransition) {
 	std::unique_lock<std::mutex> lock(mutex);
-	auto i = contexts.emplace_front(*this, prior, prior.current_document_position() + fromTransition.consumed_character_count, std::optional<fast_match>(fromTransition));
-	return i->get_ref();
+	auto i = contexts.emplace_front(*this, prior, prior->current_document_position + fromTransition.consumed_character_count, std::optional<fast_match>(fromTransition));
+	return &(*i);
 }
 
-void subjob::on(context_ref const & c, recognizer const & r, int nextDfaState, behavior::leaf const * leaf) {
-	if (c.current_document_position() >= c.owner().owner.document.length()) {
+void subjob::on(context* const & c, recognizer const & r, int nextDfaState, behavior::leaf const * leaf) {
+	if (c->current_document_position >= (c->owner).owner.document.length()) {
 		return;
 	}
 	increment_lifetime(); //reference code C
-	owner.connect(match_class(r, c.current_document_position()), c, nextDfaState, leaf);
+	owner.connect(match_class(r, c->current_document_position), c, nextDfaState, leaf);
 }
 
-void subjob::accept(context_ref const & c) {
-	int len = c.current_document_position() - c.owner().document_position;
+void subjob::accept(context* const & c) {
+	int len = c->current_document_position - (c->owner).document_position;
 	if (len == 0) {
 		return;
 	}
-	throw_assert(&c.owner() == this);
-	permutation p = c.result();
+	throw_assert(&(c->owner) == this);
+	permutation p = c->result();
 	if (!machine.get_filter()) {
 		//DBG("Accepting r:", r.id, " p:", c.owner().document_position, " l:", c.current_document_position() - c.owner().document_position);
 		enque_permutation(len, p);

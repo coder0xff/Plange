@@ -27,10 +27,10 @@ public:
 
 	struct subscription {
 		size_t next_index;
-		context_ref const c;
+		context* const c;
 		size_t next_dfa_state;
 		behavior::leaf const * leaf;
-		subscription(context_ref const & c, size_t const nextDfaState, behavior::leaf const * leaf);
+		subscription(context* const & c, size_t const nextDfaState, behavior::leaf const * leaf);
 	};
 
 	void do_events();
@@ -45,7 +45,7 @@ public:
 	std::mutex mutex;
 
 	producer(job & owner, recognizer const & r, size_t const documentPosition);
-	void add_subscription(context_ref const & c, size_t const nextDfaState, behavior::leaf const * leaf);
+	void add_subscription(context* const & c, size_t const nextDfaState, behavior::leaf const * leaf);
 	void enque_permutation(size_t consumedCharacterCount, permutation const & p);
 	void terminate();
 };

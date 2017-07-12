@@ -21,7 +21,6 @@ using nfa2 = nfa<leaf const *, size_t>;
 } // namespace behavior
 
 
-class context_ref;
 class parser;
 class subjob;
 
@@ -48,7 +47,7 @@ private:
 
 	states_t states;
 
-	void process(context_ref const & c, size_t dfaState) const override;
+	void process(context* const & c, size_t dfaState) const override;
 	static behavior::nfa2 reorder(behavior::nfa2 dfa);
 
 public:
