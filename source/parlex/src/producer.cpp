@@ -37,9 +37,9 @@ void producer::do_events() {
 				match.leafs.push_front(subscription.leaf);
 			}
 			subscription.next_index++;
-			context* next = targetSubjob.construct_stepped_context(subscription.c, match);
+			context& next = targetSubjob.construct_stepped_context(subscription.c, match);
 			targetSubjob.increment_lifetime(); //reference code A - the target may not halt until this is handled
-			parser.schedule(next, subscription.next_dfa_state);
+			parser.schedule(&next, subscription.next_dfa_state);
 		}
 	}
 	if (completed) {

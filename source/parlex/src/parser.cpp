@@ -27,12 +27,12 @@ void parser::start_workers(int threadCount) {
 					//DBG("THREAD ", threadCount, " POPPING ITEM");
 					auto item = get_work_item();
 					lock.unlock();
-					context const & context = *std::get<0>(item);
+					context* const & cont = std::get<0>(item);
 					int const nextDfaState = std::get<1>(item);
-					update_progress(context);
+					update_progress(cont);
 					//INF("thread ", threadCount, " executing DFA state");
-					context.owner().machine.process(context, nextDfaState);
-					context.owner().end_dependency(); //reference code A
+					(cont->owner).machine.process(cont, nextDfaState);
+					(cont->owner).end_dependency(); //reference code A
 					if (--activeCount == 0) {
 						halt_cv.notify_one();
 					}
@@ -79,11 +79,11 @@ void parser::complete_progress_handler(job & j) {
 }
 
 void parser::update_progress(context* const & context) {
-	(context->owner).owner.update_progress(context->current_document_position);
+	(context->owner).owner.update_progress(context->currentDocumentPosition);
 }
 
-std::tuple<erased<context*>, int> parser::get_work_item() {
-	std::tuple<erased<context*>, int> item = work.front();
+std::tuple<context*, int> parser::get_work_item() {
+	std::tuple<context*, int> item = work.front();
 	work.pop();
 	return item;
 }
@@ -95,12 +95,12 @@ abstract_syntax_graph parser::single_thread_parse(grammar_base const & g, recogn
 	while (true) {
 		while (work.size() > 0) {
 			auto item = get_work_item();
-			auto const & context = *std::get<0>(item);
-			auto const nextDfaState = std::get<1>(item);
-			update_progress(context);
+			context* const & cont = std::get<0>(item);
+			int const nextDfaState = std::get<1>(item);
+			update_progress(cont);
 			//INF("thread ", threadCount, " executing DFA state");
-			context.owner().machine.process(context, nextDfaState);
-			context.owner().end_dependency(); //reference code A
+			(cont->owner).machine.process(cont, nextDfaState);
+			(cont->owner).end_dependency(); //reference code A
 			--activeCount;
 		}
 		throw_assert(activeCount == 0);
@@ -150,7 +150,7 @@ abstract_syntax_graph parser::parse(grammar_base const & g, std::u32string const
 	return parse(g, g.get_main_state_machine(), document, progressHandler);
 }
 
-void parser::schedule(context const & c, int nextDfaState) {
+void parser::schedule(context* const & c, int nextDfaState) {
 	//DBG("scheduling m: ", c.owner().machine.id, " b:", c.owner().documentPosition, " s:", nextDfaState, " p:", c.current_document_position());
 	++activeCount;
 	std::unique_lock<std::mutex> lock(mutex);
