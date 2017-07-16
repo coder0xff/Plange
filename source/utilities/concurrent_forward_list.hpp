@@ -11,65 +11,62 @@ namespace details {
 namespace concurrent_forward_list_details {
 
 // provides a globally unique pointer used for the terminal node
-constexpr struct {
-} terminal_v;
-constexpr void * terminal = (void*)&terminal_v;
+inline void* terminal() {
+	static struct {} v {};
+	return &v;
+}
 
 // provides a globally unique pointer for the lock node
-constexpr struct {
-} spin_v;
-constexpr void * spin = (void*)&spin_v;
+inline void* spin() {
+	static struct {} v {};
+	return &v;
+}
 
 }
 }
 
-// similar to std::forward_list, but thread safe and partiallt lock free
+// similar to std::forward_list, but thread safe and partially lock free
 template <class T>
 class concurrent_forward_list {
 
 	class node;
 
 public:
-	template <class U>
 	// construction is lock free (though begin() is not)
 	// incrementing is NOT lock free
-	class ForwardIterator {
+	template <class U>
+	class iterator_template {
 		friend class concurrent_forward_list;
 		node * current;
 		typedef std::forward_iterator_tag iterator_category;
 		typedef U value_type;
 		typedef U & reference;
 		typedef U * pointer;
+		
+		template<typename V>
+		friend class iterator_template;
 
 	public:
-		ForwardIterator() : current(terminal()) {
+		iterator_template() : current(terminal()) {
 		}
 
-		ForwardIterator(node * n) : current(n != terminal() ? increment_reference_count(n) : terminal()) {
+		iterator_template(node * n) : current(n != terminal() ? increment_reference_count(n) : terminal()) {
 		}
 
-		ForwardIterator(ForwardIterator const & other) : current(other.current != terminal() ? increment_reference_count(other.current) : terminal()) {
+		iterator_template(iterator_template const & other) : current(other.current != terminal() ? increment_reference_count(other.current) : terminal()) {
 		}
 
-		ForwardIterator(ForwardIterator && other) noexcept : current(terminal()) { std::swap(current, other.current); }
+		iterator_template(iterator_template && other) noexcept : current(terminal()) { std::swap(current, other.current); }
 
-		~ForwardIterator() {
+		~iterator_template() {
 			if (current == terminal()) {
 				return;
 			}
 			decrement_reference_count(current);
 		}
 
-		ForwardIterator& operator=(ForwardIterator const & other) {
-			if (current != terminal()) {
-				decrement_reference_count(current);
-			}
-			current = other.current != terminal() ? increment_reference_count(other.current) : terminal();
-			return *this;
-		}
-
 		template<typename V>
-		ForwardIterator& operator=(V const & other) {
+		iterator_template& operator=(iterator_template<V> const & other) {
 			if (current != terminal()) {
 				decrement_reference_count(current);
 			}
@@ -91,7 +88,7 @@ public:
 			return &current->value;
 		}
 
-		ForwardIterator& operator++() {
+		iterator_template& operator++() {
 			assert(current != terminal()); // this is the end()
 			node * temp = new_ownership(current->next);
 			std::swap(current, temp);
@@ -101,30 +98,30 @@ public:
 			return *this;
 		}
 
-		ForwardIterator operator++(int) {
+		iterator_template operator++(int) {
 			assert(current != terminal()); // this is the end()
-			ForwardIterator temp = *this;
+			iterator_template temp = *this;
 			++*this;
 			return temp;
 		}
 
-		friend void swap(ForwardIterator & a, ForwardIterator & b) noexcept {
-			using std::swap; // bring in swap for built-in types
-			swap(a.current, b.current);
-		}
-
-		operator ForwardIterator<const T>() const {
-			return ForwardIterator<const T>(current);
+		operator iterator_template<const T>() const {
+			return iterator_template<const T>(current);
 		}
 
 		template<typename V>
-		bool operator==(V const & rhs) {
+		bool operator==(iterator_template<V> const & rhs) {
 			return current == rhs.current;
 		}
 
 		template<typename V>
-		bool operator!=(V const & rhs) {
+		bool operator!=(iterator_template<V> const & rhs) {
 			return !(*this == rhs);
+		}
+
+		friend void swap(iterator_template & a, iterator_template & b) noexcept {
+			using std::swap; // bring in swap for built-in types
+			swap(a.current, b.current);
 		}
 	};
 
@@ -133,8 +130,8 @@ public:
 	typedef const value_type & const_reference;
 	typedef value_type * pointer;
 	typedef value_type const * const_pointer;
-	typedef ForwardIterator<T> iterator;
-	typedef ForwardIterator<const T> const_iterator;
+	typedef iterator_template<T> iterator;
+	typedef iterator_template<const T> const_iterator;
 
 	concurrent_forward_list() : first(terminal()) {
 	}
@@ -153,7 +150,7 @@ public:
 	}
 
 	concurrent_forward_list(concurrent_forward_list&& move) noexcept : first(terminal()) {
-		exchange(move.first, first);
+		full_exchange(move.first, first);
 	}
 
 	~concurrent_forward_list() {
@@ -172,7 +169,7 @@ public:
 	int clear() {
 		node * current = terminal();
 		// detach the elements first so that blocking is minimal
-		exchange(first, current);
+		half_exchange(first, current);
 		if (current == terminal()) {
 			return 0;
 		}
@@ -184,7 +181,7 @@ public:
 			nodes.push_back(current);
 			node * temp = terminal();
 			// take ownership of the next node
-			exchange(current->next, temp);
+			half_exchange(current->next, temp);
 			current = temp;
 		}
 		for (auto i = nodes.rbegin(); i != nodes.rend(); ++i) {
@@ -200,11 +197,11 @@ public:
 		std::list<node*> nodes;
 		{
 			node * i = terminal();
-			exchange(first, i);
+			half_exchange(first, i);
 			while (i) {
 				nodes.push_back(i);
 				node * temp = spin();
-				exchange(i->next, temp); // lock all the nodes
+				half_exchange(i->next, temp); // lock all the nodes
 				i = temp;
 			}
 		}
@@ -309,14 +306,11 @@ public:
 	// lock free
 	template <class InputIt>
 	iterator insert_after(const_iterator pos, InputIt first, InputIt last) {
-		if (first == last) return iterator();
-		iterator result = pos = insert_after(pos, *first);
-		++first;
 		while (first != last) {
-			pos = insert_after(pos, first);
+			pos = insert_after(pos, *first);
 			++first;
 		}
-		return result;
+		return pos;
 	}
 
 	// lock free
@@ -333,8 +327,8 @@ public:
 	// lock free
 	// all the elements after position are moved to a new concurrent_forward_list
 	// IMPORTANT: existing iterators will still traverse the separated portion if already within the separated portion
-	bool separate_after(const_iterator position, concurrent_forward_list<T> *& result) {
-		node * n = seperate(position.current->next);
+	bool split(const_iterator position, concurrent_forward_list<T> *& result) {
+		node * n = split(position.current->next);
 		if (!n) return false;
 		result = new concurrent_forward_list<T>();
 		result->first = n;
@@ -348,7 +342,7 @@ public:
 
 	// NOT lock free on a, lock free on b
 	friend void swap(concurrent_forward_list & a, concurrent_forward_list & b) noexcept {
-		exchange(a.first, b.first);
+		full_exchange(a.first, b.first);
 	}
 
 private:
@@ -358,14 +352,14 @@ private:
 	static iterator insert_node(std::atomic<node*> & atomic_ptr, node * n) {
 		iterator result(n); // it's possible that the node is removed before we return, so do this early
 		n->next.store(n);
-		exchange(n->next, atomic_ptr);
+		full_exchange(n->next, atomic_ptr);
 		return result;
 	}
 
 	// lock free, removes all the nodes from *atomic_ptr forward, and returns that node with links still intact
-	static node* seperate(std::atomic<node*> & atomic_ptr) {
+	static node* split(std::atomic<node*> & atomic_ptr) {
 		node * oldNext = terminal();
-		exchange(atomic_ptr, oldNext);
+		half_exchange(atomic_ptr, oldNext);
 		return oldNext;
 	}
 
@@ -386,12 +380,12 @@ private:
 		return true;
 	}
 
-	static node * terminal() { return (node*)::details::concurrent_forward_list_details::terminal; }
-	static node * spin() { return (node*)::details::concurrent_forward_list_details::spin; }
+	static node * terminal() { return (node*)::details::concurrent_forward_list_details::terminal(); }
+	static node * spin() { return (node*)::details::concurrent_forward_list_details::spin(); }
 
 	class node {
 	public:
-		friend class ForwardIterator<T>;
+		friend class iterator_template<T>;
 		T value;
 		std::atomic<node*> next;
 		std::atomic<int> referenceCount; // for keeping a node referenced by an iterator alive
@@ -415,7 +409,7 @@ private:
 		}
 	};
 
-	// lock free, increment node::referenceCount, used for iterator and for prior-node's link
+	// lock free, decrement node::referenceCount which is used for iterator and for prior-node's link
 	static void decrement_reference_count(node *& n) {
 		assert(n != nullptr);
 		if (n == terminal()) {
@@ -423,40 +417,46 @@ private:
 		}
 		assert(n != terminal()); // not a valid node
 		assert(n != spin()); // not a valid node
-		if (n->referenceCount.fetch_sub(1) == 1) {
+		if (--(n->referenceCount) == 0) {
 			delete n;
 		}
 		n = nullptr;
 	}
 
-	// lock free, used for iterators and for for prior-node's link
+	// lock free, increment node::referenceCount which is used for iterator and for prior-node's link
 	// return a new "ownership"
 	static node* increment_reference_count(node * n) {
 		assert(n != nullptr); //must be a valid node because ownership is a precondition
 		assert(n != terminal());
 		assert(n != spin());
-		n->referenceCount.fetch_add(1);
+		++(n->referenceCount);
 		return n;
 	}
 
+	// Wait for left to be unlocked, put right in left, returning the original value of left
+	static node * wait_and_exchange(std::atomic<node *> & left, node * const right) {
+		node * result = left.load();
+		do {
+			while (result == spin()) {
+				result = left.load(std::memory_order_relaxed); // relaxed because visibility of unlocked state may be at systems leisure
+			}
+		} while (!left.compare_exchange_weak(result, right));
+		return result;
+	}
+
 	// lock free, swap the node *s in left and right, 
-	static void exchange(std::atomic<node*> & left, node * & right) {
+	static void half_exchange(std::atomic<node*> & left, node * & right) {
 		assert(right != nullptr);
 		assert(right != spin()); // invalid node
-		node * n = left.load();
-		do {
-			while (n == spin()) {
-				n = left.load(std::memory_order_relaxed); // relaxed because visibility of unlocked state may be at systems leisure
-			}
-		} while (!left.compare_exchange_weak(n, right));
+		node * n = wait_and_exchange(left, right);
 		assert(n != nullptr);
 		right = n;
 	}
 
 	// NOT lock free on left, lock free on right
-	static void exchange(std::atomic<node*> & left, std::atomic<node*> & right) {
+	static void full_exchange(std::atomic<node*> & left, std::atomic<node*> & right) {
 		node * temp = owner_lock(left);
-		exchange(right, temp);
+		half_exchange(right, temp);
 		if (temp != terminal()) {
 			owner_unlock(left, temp);
 		}
@@ -468,13 +468,7 @@ private:
 	// NOT lock free, set atomic_ptr to spin and return the node * leaving the node locked, unless atomic_ptr is already terminal then return terminal
 	// "ownership" is transferred from atomic_ptr to the return value
 	static node* owner_lock(std::atomic<node*> & atomic_ptr) {
-		node * n = atomic_ptr.load();
-		do {
-			while (n == spin()) { // wait for owner_unlock
-				n = atomic_ptr.load(std::memory_order_relaxed); // relaxed because visibility of unlocked state may be at systems leisure
-			}
-		} while (!atomic_ptr.compare_exchange_weak(n, spin()));
-
+		node * n = wait_and_exchange(atomic_ptr, spin());
 		if (n == terminal()) { // the node has been deleted already
 							   // put terminal back in to owner_unlock
 			atomic_ptr.store(terminal(), std::memory_order_relaxed); // relaxed because observers will see spin
