@@ -1,12 +1,11 @@
 #ifndef CONTEXT_HPP
 #define CONTEXT_HPP
 
-#include <memory>
+#include <optional>
 #include <vector>
 
 #include "parlex/details/fast_match.hpp"
 #include "parlex/details/permutation.hpp"
-#include <optional>
 
 namespace parlex {
 namespace details {

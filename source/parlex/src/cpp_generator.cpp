@@ -20,6 +20,8 @@ struct type : details::node {
 
 static std::string const generated_notice = "// This file was generated using Parlex's cpp_generator\n\n";
 
+#pragma region Utility Functions
+
 static std::string include_guard_name(std::string const & name) {
 	return "INCLUDED_" + toupper(name) + "_HPP";
 }
@@ -94,19 +96,74 @@ static std::string indent(std::string const & s, int count = 1) {
 	return result.str();
 }
 
+#pragma endregion
+
+#pragma region String Generation
+
 // generate an inline type for the given unit node
 static std::string stringize_unit(details::unit const & u, size_t index = std::numeric_limits<size_t>::max()) {
 	if (u.tag.empty()) {
 		if (index != std::numeric_limits<size_t>::max()) {
-			return "std::std::integral_constant<int, " + std::to_string(index) + ">";
+			return "std::integral_constant<int, " + std::to_string(index) + ">";
 		}
 		return "struct {}";
 	}
 	return "struct " + u.tag + " {}";
 }
 
-// generate a builder expression portion of the cpp.inc that constructs the parlex grammar
-static std::string node_to_cpp(details::node const & n) {
+static std::string generate_struct_members(std::vector<std::pair<std::string, erased<details::node>>> const & flattenedDataMembers) {
+	std::stringstream ss;
+	for (auto const & flattenedDataMember : flattenedDataMembers) {
+		covariant_invoke<void>(*flattenedDataMember.second,
+			[&](details::unit const &) { },
+			[&](type const & v) {
+				ss << v.name + " " + flattenedDataMember.first + ";\n";
+			}
+		);
+	}
+	return ss.str();
+}
+
+static std::string generate_struct_constructor_parameters(std::vector<std::pair<std::string, erased<details::node>>> const & flattenedDataMembers) {
+	std::stringstream ss;
+	for (auto const & flattenedDataMember : flattenedDataMembers) {
+		covariant_invoke<void>(*flattenedDataMember.second,
+			[&](details::unit const &) { },
+			[&](type const & v) {
+				ss << v.name << " const & " << flattenedDataMember.first;
+				if (&flattenedDataMember != &*flattenedDataMembers.rbegin()) {
+					ss << ",";
+				}
+				ss << "\n";
+			}
+		);
+	}
+	return ss.str();
+}
+
+static std::string generate_struct_constructor_initializers(std::vector<std::pair<std::string, erased<details::node>>> const & flattenedDataMembers) {
+	std::stringstream ss;
+	for (auto const & flattenedDataMember : flattenedDataMembers) {
+		covariant_invoke<void>(*flattenedDataMember.second,
+			[&](details::unit const &) {},
+			[&](type const & v) {
+			ss << flattenedDataMember.first << "(" << flattenedDataMember.first << ")";
+			if (&flattenedDataMember != &*flattenedDataMembers.rbegin()) {
+				ss << ", ";
+			}
+		}
+		);
+	}
+	return ss.str();
+}
+
+// generate the build(std::vector<parlex::match>::iterator & i, parlex::details::node const & behavior) function {
+static std::string generate_struct_builder(details::node const & n) {
+
+}
+
+// generate the builder expression portion of the cpp.inc that constructs the parlex grammar
+static std::string generate_grammar_builder_initializer(details::node const & n) {
 	auto add_tag = [&]() {
 		if (n.tag != "") {
 			return enquote(n.tag) + ", ";
@@ -117,7 +174,7 @@ static std::string node_to_cpp(details::node const & n) {
 	auto add_children = [&]() {
 		std::stringstream ss;
 		for (auto const & child : n.children) {
-			ss << indent(node_to_cpp(*child));
+			ss << indent(generate_grammar_builder_initializer(*child));
 			if (&*child != &**n.children.rbegin()) {
 				ss << ",";
 			}
@@ -146,10 +203,10 @@ static std::string node_to_cpp(details::node const & n) {
 }
 
 // generate a portion of the cpp.inc that construct the parlex grammar
-static std::string production_to_cpp(production const & p) {
+static std::string generate_production_builder_initializer(production const & p) {
 	std::stringstream ss;
 	ss << "parlex::production(" << enquote(p.id) << ",\n";
-	ss << indent(node_to_cpp(*p.behavior), 2);
+	ss << indent(generate_grammar_builder_initializer(*p.behavior), 2);
 	bool needsPrecendences = p.precedences.size() > 0;
 	bool needsFilter = p.filter != filter_function() || needsPrecendences;
 	bool needsAssociativity = p.assoc != associativity::none || needsFilter;
@@ -191,6 +248,49 @@ static std::string production_to_cpp(production const & p) {
 	return ss.str();
 }
 
+// generate a function that returns the grammar_builder
+static std::string generate_grammar_builder(builder const & b) {
+	std::stringstream source;
+	source << "static parlex::builder const & builder() {\n";
+	source << "\tstatic parlex::builder const result(" << enquote(b.root_id) << ", {\n";
+	for (auto const & p : b.productions) {
+		source << "\t\t" << generate_production_builder_initializer(p);
+		source << ",\n";
+	}
+	source << "\t});\n";
+	source << "\treturn result;\n";
+	source << "}\n";
+	return source.str();
+}
+
+// return a string containing data-member declarations for each production
+static std::string generate_grammar_members(builder const & b) {
+	std::stringstream ss;
+	for (auto const & p : b.productions) {
+		ss << "\t" << "production const & " << p.id << ";\n";
+	}
+	return ss.str();
+}
+
+// return a string containing constructor initializers for each production
+static std::string generate_grammar_initializer(builder const & b) {
+	std::stringstream ss;
+	bool isFirst = true;
+	for (auto const & p : b.productions) {
+		if (isFirst) {
+			isFirst = false;
+		} else {
+			ss << ",\n";
+		}
+		ss << "\t\t\t" << p.id << "(this->get_production(" + enquote(p.id) + "))";
+	}
+	return ss.str();
+}
+
+#pragma endregion
+
+#pragma region Node Transformations
+
 static erased<details::node> flatten_node(erased<details::node> const & n, std::vector<std::string> & subResults, std::set<std::string> & forwardDeclarations);
 
 static details::node::children_t flatten_children(details::node::children_t const & children, std::vector<std::string> & subResults, std::set<std::string> & forwardDeclarations) {
@@ -205,11 +305,12 @@ static details::node::children_t flatten_children(details::node::children_t cons
 // return a type node and any sub results needed to define the referenced type
 static erased<details::node> flatten_aggregate(details::aggregate const & aggregate, std::vector<std::string> & subResults, std::set<std::string> & forwardDeclarations) {
 	std::vector<std::string> internalSubResults;
-	std::map<std::string /* data member name */, erased<details::node>> flattenedDataMembers;
+	details::aggregate flattenedAggregate;
 	for (auto const & dataMember : aggregate.data_members) {
-		flattenedDataMembers.emplace(std::piecewise_construct, forward_as_tuple(dataMember.first), std::forward_as_tuple(flatten_node(dataMember.second, internalSubResults, forwardDeclarations)));
+		flattenedAggregate.add_member(dataMember.first, flatten_node(dataMember.second, internalSubResults, forwardDeclarations));
 	}
-	
+	auto & flattenedDataMembers = flattenedAggregate.data_members;
+
 	std::stringstream ss;
 	ss << "struct";
 	if (!aggregate.tag.empty()) {
@@ -219,13 +320,14 @@ static erased<details::node> flatten_aggregate(details::aggregate const & aggreg
 	for (auto const & internalSubResult : internalSubResults) {
 		ss << indent(internalSubResult) << "\n\n";
 	}
-	for (auto const & flattenedDataMember : flattenedDataMembers) {
-		ss << indent(covariant_invoke<std::string>(*flattenedDataMember.second,
-			[&](details::unit const &) { return ""; },
-			[&](type const & v) {
-				return v.name + " " + flattenedDataMember.first + ";\n";
-			}
-		));
+	ss << indent(generate_struct_members(flattenedDataMembers));
+	ss << "\n";
+	if (!aggregate.tag.empty()) {
+		ss << "\t" << aggregate.tag << "(\n";
+		ss << indent(generate_struct_constructor_parameters(flattenedDataMembers), 2);
+		ss << "\t) : ";
+		ss << generate_struct_constructor_initializers(flattenedDataMembers);
+		ss << " {}\n";
 	}
 	ss << "}";
 
@@ -237,7 +339,7 @@ static erased<details::node> flatten_aggregate(details::aggregate const & aggreg
 	return type(ss.str());
 }
 
-static std::string flattened_choice_enum(details::choice_t const & choice, details::node::children_t const & children, std::vector<std::string> & subResults, std::set<std::string> & forwardDeclarations) {
+static erased<details::node> flatten_choice_as_enum(details::choice_t const & choice, details::node::children_t const & children, std::vector<std::string> & subResults, std::set<std::string> & forwardDeclarations) {
 	std::set<std::string> enumElements;
 	for (auto const & child : children) {
 		enumElements.insert(child->tag);
@@ -245,12 +347,12 @@ static std::string flattened_choice_enum(details::choice_t const & choice, detai
 	auto enumDef = generate_enumeration(choice.tag, enumElements);
 	if (choice.tag != "") {
 		subResults.push_back(enumDef);
-		return choice.tag;
+		return type(choice.tag);
 	}
-	return enumDef;
+	return type(enumDef);
 }
 
-static std::string flattened_choice_variant(details::node::children_t & children) {
+static erased<details::node> flatten_choice_as_variant(details::node::children_t & children) {
 	std::stringstream ss;
 	ss << "std::variant<\n";
 	for (size_t i = 0; i < children.size(); ++i) {
@@ -270,16 +372,15 @@ static std::string flattened_choice_variant(details::node::children_t & children
 		ss << "\n";
 	}
 	ss << ">";
-	return ss.str();
+	return type(ss.str());
 }
 
 static erased<details::node> flatten_choice(details::choice_t const & choice, std::vector<std::string> & subResults, std::set<std::string> & forwardDeclarations) {
 	auto children = flatten_children(choice.children, subResults, forwardDeclarations);
 	bool allTaggedUnits = std::all_of(children.begin(), children.end(), [](erased<details::node> const & child) { return child->tag != "" && dynamic_cast<details::unit const *>(&*child) != nullptr; });
-	std::string result = allTaggedUnits ?
-		flattened_choice_enum(choice, children, subResults, forwardDeclarations) :
-		flattened_choice_variant(children);
-	return type(result);
+	return allTaggedUnits ?
+		flatten_choice_as_enum(choice, children, subResults, forwardDeclarations) :
+		flatten_choice_as_variant(children);
 }
 
 static erased<details::node> flatten_optional(details::optional_t const & optional, std::vector<std::string> & subResults, std::set<std::string> & forwardDeclarations) {
@@ -310,7 +411,7 @@ static erased<details::node> flatten_repetition(details::repetition_t const & re
 	return type(result);
 }
 
-static erased<details::node> flattened_sequence_tuple(details::sequence_t const & sequence, std::vector<std::string> & subResults, std::set<std::string> & forwardDeclarations) {
+static erased<details::node> flatten_sequence_as_tuple(details::sequence_t const & sequence, std::vector<std::string> & subResults, std::set<std::string> & forwardDeclarations) {
 	auto children = flatten_children(sequence.children, subResults, forwardDeclarations);
 	std::stringstream ss;
 	ss << "std::tuple<\n";
@@ -339,7 +440,7 @@ static erased<details::node> flattened_sequence_tuple(details::sequence_t const 
 	return type(ss.str());
 }
 
-static erased<details::node> flattened_sequence_forced_aggregate(details::sequence_t const & sequence, std::vector<std::string> & subResults, std::set<std::string> & forwardDeclarations) {
+static erased<details::node> flatten_sequence_as_forced_aggregate(details::sequence_t const & sequence, std::vector<std::string> & subResults, std::set<std::string> & forwardDeclarations) {
 	//exclude units from aggregates
 	details::node::children_t children;
 	for (auto const & child : sequence.children) {
@@ -374,10 +475,10 @@ static erased<details::node> flattened_sequence_forced_aggregate(details::sequen
 
 static erased<details::node> flatten_sequence(details::sequence_t const & sequence, std::vector<std::string> & subResults, std::set<std::string> & forwardDeclarations) {
 	if (sequence.tag == "") {
-		return flattened_sequence_tuple(sequence, subResults, forwardDeclarations);
+		return flatten_sequence_as_tuple(sequence, subResults, forwardDeclarations);
 	}
 	//force creation of a new struct
-	return flattened_sequence_forced_aggregate(sequence, subResults, forwardDeclarations);
+	return flatten_sequence_as_forced_aggregate(sequence, subResults, forwardDeclarations);
 }
 
 static erased<details::node> flatten_node(erased<details::node> const & n, std::vector<std::string> & subResults, std::set<std::string> & forwardDeclarations) {
@@ -412,46 +513,51 @@ static erased<details::node> flatten_node(erased<details::node> const & n, std::
 	return result;
 }
 
-// generate a function that returns the grammar_builder
-static std::string generate_grammar_builder(builder const & b) {
-	std::stringstream source;
-	source << "static parlex::builder const & builder() {\n";
-	source << "\tstatic parlex::builder const result(" << enquote(b.root_id) << ", {\n";
-	for (auto const & p : b.productions) {
-		source << "\t\t" << production_to_cpp(p);
-		source << ",\n";
-	}
-	source << "\t});\n";
-	source << "\treturn result;\n";
-	source << "}\n";
-	return source.str();
-}
+#pragma endregion
 
-// return a string containing data-member declarations for each production
-static std::string generate_grammar_members(builder const & b) {
-	std::stringstream ss;
-	for (auto const & p : b.productions) {
-		ss << "\t" << "production const & " << p.id << ";\n";
-	}
-	return ss.str();
-}
+// generate PRODUCTION_ID.hpp
+static cpp_generator::output_files generate_production_struct(production const & p) {
+	cpp_generator::output_files results;
+	auto & headers = results.headers;
+	auto & sources = results.sources;
 
-// return a string containing constructor initializers for each production
-static std::string generate_grammar_initializer(builder const & b) {
+	std::vector<std::string> subResults;
+	auto representation = compute_document_representation(p.behavior);
+	std::set<std::string> forwardDeclarations;
+	auto flattened = flatten_node(representation, subResults, forwardDeclarations);
 	std::stringstream ss;
-	bool isFirst = true;
-	for (auto const & p : b.productions) {
-		if (isFirst) {
-			isFirst = false;
-		} else {
-			ss << ",\n";
+	ss << generated_notice;
+	ss << include_guard_start(p.id);
+	ss << "#include <optional>\n";
+	ss << "#include <variant>\n";
+	ss << "#include <vector>\n\n";
+	ss << "#include \"erased.hpp\"\n\n";
+	covariant_invoke<void>(*flattened,
+		[&](type const & value) {
+			for (auto const & forwardDeclaration : forwardDeclarations) {
+				ss << "struct " << forwardDeclaration << ";\n";
+			}
+			if (!forwardDeclarations.empty()) {
+				ss << "\n";
+			}
+			for (auto const & subResult : subResults) {
+				ss << subResult << "\n\n";
+			}
+			if (subResults.size() == 0) {
+				ss << "typedef " << value.name << " " << p.id << ";";
+			}
+		},
+		[&](details::unit const & value) {
+			ss << "struct " << p.id << " {};";
 		}
-		ss << "\t\t\t" << p.id << "(this->get_production(" + enquote(p.id) + "))";
-	}
-	return ss.str();
+	);
+	ss << include_guard_end(p.id);
+	headers[p.id + ".hpp"] = ss.str();
+
+	return results;
 }
 
-// generate the 
+// generate NAME_grammar.hpp.inc and NAME_grammar.cpp.inc
 cpp_generator::output_files generate_grammar(std::string const & name, builder const & b) {
 	std::string fullName = name + "_grammar";
 	std::string hppName = fullName + ".hpp.inc";
@@ -482,43 +588,6 @@ cpp_generator::output_files generate_grammar(std::string const & name, builder c
 	source << generate_grammar_initializer(b);
 	source << "\n{}";
 	sources[cppName] = source.str();
-
-	return results;
-}
-
-static cpp_generator::output_files generate_production_struct(production const & p) {
-	cpp_generator::output_files results;
-	auto & headers = results.headers;
-	auto & sources = results.sources;
-
-	std::vector<std::string> subResults;
-	auto representation = compute_document_representation(p.behavior);
-	std::set<std::string> forwardDeclarations;
-	auto flattened = flatten_node(representation, subResults, forwardDeclarations);
-	std::stringstream ss;
-	ss << generated_notice;
-	ss << include_guard_start(p.id);
-	covariant_invoke<void>(*flattened,
-		[&](type const & value) {
-			for (auto const & forwardDeclaration : forwardDeclarations) {
-				ss << "struct " << forwardDeclaration << ";\n";
-			}
-			if (!forwardDeclarations.empty()) {
-				ss << "\n";
-			}
-			for (auto const & subResult : subResults) {
-				ss << subResult << "\n\n";
-			}
-			if (subResults.size() == 0) {
-				ss << "typedef " << value.name << " " << p.id << ";";
-			}
-		},
-		[&](details::unit const & value) {
-			ss << "struct " << p.id << " {};";
-		}
-	);
-	ss << include_guard_end(p.id);
-	headers[p.id + ".hpp"] = ss.str();
 
 	return results;
 }
