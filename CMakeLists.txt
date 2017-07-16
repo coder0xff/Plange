@@ -45,16 +45,25 @@ endif()
 # don't bother with find_package, because it does not include the libraries https://askubuntu.com/questions/145887/why-no-library-files-installed-for-google-test
 ExternalProject_Add(googletest
 	PREFIX "${CMAKE_BINARY_DIR}/Downloads/googletest"
-	GIT_REPOSITORY "https://github.com/google/googletest.git"
-	GIT_TAG 48ee8e98abc950abd8541e15550b18f8f6cfb3a9
+	#TODO: Point back to googletest once https://github.com/google/googletest/pull/811 is landed
+	#https://github.com/google/googletest/issues/1138
+	GIT_REPOSITORY https://github.com/KindDragon/googletest.git
+	GIT_TAG vs-build-fix
+	#GIT_REPOSITORY "https://github.com/google/googletest.git"
+	#GIT_TAG 48ee8e98abc950abd8541e15550b18f8f6cfb3a9
 	BINARY_DIR "${CMAKE_BINARY_DIR}/Downloads/googletest/${CMAKE_CFG_INTDIR}/build"
-	CMAKE_ARGS "-DCMAKE_INSTALL_PREFIX=${CMAKE_BINARY_DIR}/Dependencies/googletest" "-Dgtest_force_shared_crt=ON"
+	CMAKE_ARGS
+		"-DCMAKE_INSTALL_PREFIX=${CMAKE_BINARY_DIR}/Dependencies/googletest"
+		"-Dgtest_force_shared_crt=ON"
 )
 
 ExternalProject_Add(plange
 	DEPENDS ${YAML-CPP_INSTALL_TARGET} ${LLVM_INSTALL_TARGET} googletest
 	PREFIX "${CMAKE_BINARY_DIR}/prefix"
 	SOURCE_DIR "${PROJECT_SOURCE_DIR}/source"
-	CMAKE_ARGS "-DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}" "-DCMAKE_INSTALL_PREFIX=${CMAKE_BINARY_DIR}" "-DCMAKE_CXX_COMPILER=${CMAKE_CXX_COMPILER}"
+	CMAKE_ARGS
+		"-DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}"
+		"-DCMAKE_INSTALL_PREFIX=${CMAKE_BINARY_DIR}"
+		"-DCMAKE_CXX_COMPILER=${CMAKE_CXX_COMPILER}"
 	INSTALL_COMMAND ""
 )
