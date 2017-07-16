@@ -6,7 +6,7 @@
 #include <string>
 #include <vector>
 
-#if _MSC_VER == 1900 || _MSC_VER == 1910
+#ifdef _MSC_VER
 
 std::string to_utf8(const std::u16string &s)
 {
