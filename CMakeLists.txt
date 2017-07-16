@@ -16,16 +16,30 @@ if (NOT YAML-CPP_FOUND)
 	)
 endif()
 
-find_package(LLVM 3.9.1 QUIET)
+# Enable when llvm-mirror once https://github.com/llvm-mirror/llvm/pull/50 is landed
+#find_package(LLVM 5.0 QUIET)
 if (NOT LLVM_FOUND)
 	set(LLVM_INSTALL_TARGET "llvm")
 	ExternalProject_Add(llvm
 		PREFIX "${CMAKE_BINARY_DIR}/Downloads/llvm"
-		GIT_REPOSITORY "https://github.com/llvm-mirror/llvm.git"
-		GIT_TAG "release_39"
+		#TODO: Point back to llvm-mirror once https://github.com/llvm-mirror/llvm/pull/50 is landed
+		GIT_REPOSITORY "https://github.com/coder0xff/llvm.git"
+		GIT_TAG "vs_2017_fix"
+		#GIT_REPOSITORY "https://github.com/llvm-mirror/llvm.git"
+		#GIT_TAG "release_50"
 		BINARY_DIR "${CMAKE_BINARY_DIR}/Downloads/llvm/${CMAKE_CFG_INTDIR}/build"
-		CMAKE_ARGS "-DCMAKE_INSTALL_PREFIX=${CMAKE_BINARY_DIR}/Dependencies/llvm" "-DLLVM_TARGETS_TO_BUILD=X86" "-DLLVM_ENABLE_RTTI=ON"
+		CMAKE_ARGS
+			"-DCMAKE_INSTALL_PREFIX=${CMAKE_BINARY_DIR}/Dependencies/llvm"
+			"-DLLVM_TARGETS_TO_BUILD=X86"
+			"-DLLVM_ENABLE_RTTI=ON"
 	)
+else()
+	if(NOT MSVC)
+		# LLVM-3.9-dev package doesn't reference zlib1g-dev package
+		# plc won't link without it
+		# TODO: Maybe this wont be needed in 5.0 release
+		find_package(ZLIB 1 REQUIRED)
+	endif()
 endif()
 
 # don't bother with find_package, because it does not include the libraries https://askubuntu.com/questions/145887/why-no-library-files-installed-for-google-test
