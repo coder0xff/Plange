@@ -5,8 +5,8 @@ find_package(LLVM 5.0 REQUIRED HINTS "${DEP_DIR}/llvm/lib/cmake/llvm")
 include_directories("${LLVM_INCLUDE_DIRS}")
 
 include_directories("${CMAKE_CURRENT_SOURCE_DIR}") #for tclap
-
 include_directories("${CMAKE_CURRENT_SOURCE_DIR}/../parlex/include")
+include_directories("${CMAKE_CURRENT_SOURCE_DIR}/../mpl")
 include_directories("${CMAKE_CURRENT_SOURCE_DIR}/../utilities")
 
 set(SOURCES
