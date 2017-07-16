@@ -3,6 +3,12 @@
 #ifndef INCLUDED_BITWISE_OP_HPP
 #define INCLUDED_BITWISE_OP_HPP
 
+#include <optional>
+#include <variant>
+#include <vector>
+
+#include "erased.hpp"
+
 struct BIT_AND;
 struct BIT_OR;
 struct BIT_XOR;

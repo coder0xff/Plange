@@ -3,6 +3,12 @@
 #ifndef INCLUDED_EXPRESSION_HPP
 #define INCLUDED_EXPRESSION_HPP
 
+#include <optional>
+#include <variant>
+#include <vector>
+
+#include "erased.hpp"
+
 struct ARRAY;
 struct ASM_FUNCTION;
 struct BINARY_OP;
@@ -97,8 +103,8 @@ typedef std::variant<
 	erased<TYPE>,
 	erased<UNARY_OP>,
 	erased<VECTOR_NORM>,
-	std::std::integral_constant<int, 46>,
-	std::std::integral_constant<int, 47>
+	std::integral_constant<int, 46>,
+	std::integral_constant<int, 47>
 > EXPRESSION;
 
 #endif //INCLUDED_EXPRESSION_HPP

@@ -3,6 +3,12 @@
 #ifndef INCLUDED_FLOOR_HPP
 #define INCLUDED_FLOOR_HPP
 
+#include <optional>
+#include <variant>
+#include <vector>
+
+#include "erased.hpp"
+
 struct EXPRESSION;
 struct IC;
 

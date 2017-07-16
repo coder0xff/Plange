@@ -3,6 +3,12 @@
 #ifndef INCLUDED_XML_DOC_STRING_INTERIOR_HPP
 #define INCLUDED_XML_DOC_STRING_INTERIOR_HPP
 
+#include <optional>
+#include <variant>
+#include <vector>
+
+#include "erased.hpp"
+
 struct PAYLOAD;
 struct XML_DOC_STRING_INTERIOR;
 

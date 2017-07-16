@@ -3,6 +3,12 @@
 #ifndef INCLUDED_TYPE_STATEMENT_HPP
 #define INCLUDED_TYPE_STATEMENT_HPP
 
+#include <optional>
+#include <variant>
+#include <vector>
+
+#include "erased.hpp"
+
 struct IC;
 struct STATEMENT;
 struct TYPE_SCOPE_TYPE_CONSTRAINT;

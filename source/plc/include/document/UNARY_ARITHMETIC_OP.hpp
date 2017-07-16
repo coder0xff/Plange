@@ -3,6 +3,12 @@
 #ifndef INCLUDED_UNARY_ARITHMETIC_OP_HPP
 #define INCLUDED_UNARY_ARITHMETIC_OP_HPP
 
+#include <optional>
+#include <variant>
+#include <vector>
+
+#include "erased.hpp"
+
 struct FACTORIAL;
 struct NEGATION;
 struct POST_DEC;

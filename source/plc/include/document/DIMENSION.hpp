@@ -3,6 +3,12 @@
 #ifndef INCLUDED_DIMENSION_HPP
 #define INCLUDED_DIMENSION_HPP
 
+#include <optional>
+#include <variant>
+#include <vector>
+
+#include "erased.hpp"
+
 struct DIMENSIONAL_ANALYSIS_OP;
 struct IDENTIFIER;
 

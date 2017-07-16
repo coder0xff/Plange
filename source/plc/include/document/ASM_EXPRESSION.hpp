@@ -3,6 +3,12 @@
 #ifndef INCLUDED_ASM_EXPRESSION_HPP
 #define INCLUDED_ASM_EXPRESSION_HPP
 
+#include <optional>
+#include <variant>
+#include <vector>
+
+#include "erased.hpp"
+
 struct ASM_IDENTIFIER;
 struct ASM_PTR_ARITHMETIC_ATT;
 struct ASM_PTR_ARITHMETIC_INTEL;

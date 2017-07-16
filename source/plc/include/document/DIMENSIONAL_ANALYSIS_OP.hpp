@@ -3,6 +3,12 @@
 #ifndef INCLUDED_DIMENSIONAL_ANALYSIS_OP_HPP
 #define INCLUDED_DIMENSIONAL_ANALYSIS_OP_HPP
 
+#include <optional>
+#include <variant>
+#include <vector>
+
+#include "erased.hpp"
+
 struct UNIT_DIVISION;
 struct UNIT_EXPONENTIATION;
 struct UNIT_MULTIPLICATION;

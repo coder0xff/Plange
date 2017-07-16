@@ -3,6 +3,12 @@
 #ifndef INCLUDED_EMBEDDED_STRING_INTERIOR_HPP
 #define INCLUDED_EMBEDDED_STRING_INTERIOR_HPP
 
+#include <optional>
+#include <variant>
+#include <vector>
+
+#include "erased.hpp"
+
 struct EMBEDDED_STRING_INTERIOR;
 struct PAYLOAD;
 

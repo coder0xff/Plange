@@ -3,6 +3,12 @@
 #ifndef INCLUDED_UNARY_LOGICAL_OP_HPP
 #define INCLUDED_UNARY_LOGICAL_OP_HPP
 
+#include <optional>
+#include <variant>
+#include <vector>
+
+#include "erased.hpp"
+
 struct ALL;
 struct EXISTS;
 struct EXISTS_ONE;

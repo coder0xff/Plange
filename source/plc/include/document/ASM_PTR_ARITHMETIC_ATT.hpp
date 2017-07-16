@@ -3,6 +3,12 @@
 #ifndef INCLUDED_ASM_PTR_ARITHMETIC_ATT_HPP
 #define INCLUDED_ASM_PTR_ARITHMETIC_ATT_HPP
 
+#include <optional>
+#include <variant>
+#include <vector>
+
+#include "erased.hpp"
+
 struct ASM_IDENTIFIER;
 struct ASM_PTR_ARITHMETIC_ATT_REG;
 struct NON_FRACTIONAL;

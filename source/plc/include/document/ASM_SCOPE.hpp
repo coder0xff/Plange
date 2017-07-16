@@ -3,6 +3,12 @@
 #ifndef INCLUDED_ASM_SCOPE_HPP
 #define INCLUDED_ASM_SCOPE_HPP
 
+#include <optional>
+#include <variant>
+#include <vector>
+
+#include "erased.hpp"
+
 struct ASM_STATEMENT;
 struct IC;
 

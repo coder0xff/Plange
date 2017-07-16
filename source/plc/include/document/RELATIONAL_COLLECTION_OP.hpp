@@ -3,6 +3,12 @@
 #ifndef INCLUDED_RELATIONAL_COLLECTION_OP_HPP
 #define INCLUDED_RELATIONAL_COLLECTION_OP_HPP
 
+#include <optional>
+#include <variant>
+#include <vector>
+
+#include "erased.hpp"
+
 struct HAS;
 struct IN;
 struct NOT_HAS;

@@ -3,6 +3,12 @@
 #ifndef INCLUDED_CONSTRUCTIVE_OP_HPP
 #define INCLUDED_CONSTRUCTIVE_OP_HPP
 
+#include <optional>
+#include <variant>
+#include <vector>
+
+#include "erased.hpp"
+
 struct COMPOSITION;
 struct COMPOUND;
 struct NULL_COALESCE;

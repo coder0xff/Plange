@@ -3,6 +3,12 @@
 #ifndef INCLUDED_BINARY_ARITHMETIC_OP_HPP
 #define INCLUDED_BINARY_ARITHMETIC_OP_HPP
 
+#include <optional>
+#include <variant>
+#include <vector>
+
+#include "erased.hpp"
+
 struct ADDITION;
 struct ADD_SUB;
 struct DIVISION;

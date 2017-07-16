@@ -3,6 +3,12 @@
 #ifndef INCLUDED_RANGE_HPP
 #define INCLUDED_RANGE_HPP
 
+#include <optional>
+#include <variant>
+#include <vector>
+
+#include "erased.hpp"
+
 struct EXPRESSION;
 struct IC;
 
@@ -13,14 +19,14 @@ typedef std::variant<
 		erased<EXPRESSION>,
 		std::vector<erased<IC>>,
 		std::variant<
-			std::std::integral_constant<int, 0>,
-			std::std::integral_constant<int, 1>
+			std::integral_constant<int, 0>,
+			std::integral_constant<int, 1>
 		>
 	>,
 	std::tuple<
 		std::variant<
-			std::std::integral_constant<int, 0>,
-			std::std::integral_constant<int, 1>
+			std::integral_constant<int, 0>,
+			std::integral_constant<int, 1>
 		>,
 		std::vector<erased<IC>>,
 		erased<EXPRESSION>,
@@ -29,8 +35,8 @@ typedef std::variant<
 	>,
 	std::tuple<
 		std::variant<
-			std::std::integral_constant<int, 0>,
-			std::std::integral_constant<int, 1>
+			std::integral_constant<int, 0>,
+			std::integral_constant<int, 1>
 		>,
 		std::vector<erased<IC>>,
 		erased<EXPRESSION>,
@@ -39,8 +45,8 @@ typedef std::variant<
 		erased<EXPRESSION>,
 		std::vector<erased<IC>>,
 		std::variant<
-			std::std::integral_constant<int, 0>,
-			std::std::integral_constant<int, 1>
+			std::integral_constant<int, 0>,
+			std::integral_constant<int, 1>
 		>
 	>
 > RANGE;

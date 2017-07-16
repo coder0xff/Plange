@@ -3,6 +3,12 @@
 #ifndef INCLUDED_NEAREST_INTEGER_HPP
 #define INCLUDED_NEAREST_INTEGER_HPP
 
+#include <optional>
+#include <variant>
+#include <vector>
+
+#include "erased.hpp"
+
 struct EXPRESSION;
 struct IC;
 

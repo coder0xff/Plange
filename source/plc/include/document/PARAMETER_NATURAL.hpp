@@ -3,6 +3,12 @@
 #ifndef INCLUDED_PARAMETER_NATURAL_HPP
 #define INCLUDED_PARAMETER_NATURAL_HPP
 
+#include <optional>
+#include <variant>
+#include <vector>
+
+#include "erased.hpp"
+
 struct EXPRESSION;
 struct IC;
 struct IDENTIFIER;
