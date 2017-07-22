@@ -56,7 +56,7 @@ getRandomNumber := { return 4; <span style="color: red">/*choosen by fair dice r
 		
 		
 		<h2>Special Characters</h2>
-		<p>Several Unicode characters are included for completeness, but cannot be typed using a keyboard. These characters have typable equivalents for convenience. For example <code>⇒</code> may be typed <code>=></code>. Unicode characters will be used in documentation.</p>
+		<p>Several Unicode characters are included for completeness, but cannot be typed using a keyboard. These characters have typable equivalents for convenience. For example <code>⇒</code> may be typed <code>=></code>. Unicode characters will be used in documentation. A partial list can be find on the <a href="/documentation/operators.php">Operators</a> page.</p>
 		
 		
 		<h2>Variables</h2>
