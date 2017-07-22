@@ -28,10 +28,10 @@
             ini_set('display_startup_errors', 1);
             error_reporting(E_ALL);
             
-            require_once "../Spyc.php";
+            $syntax_spec = yaml_parse_file('../source/syntax.yml');
 
-            $syntax_spec = spyc_load_file('../source/syntax.yml');
-
+            // Operator groups end with the '_OP'.
+            // Return true if the given name is an operator group
             function isOP($name) {
                 $haystack = $name;
                 $needle = "_OP";
@@ -40,9 +40,31 @@
                     return true;
                 }
             
-                return (substr($haystack, -$length) === $needle) && $name !== "ASM_OP";
+                 return (substr($haystack, -$length) === $needle) && $name !== "ASM_OP";
             }
             
+            // Given an extended Wirth syntax string, return referenced entries.
+            function extract_children($syntax) {
+                $result = [];
+                $tokens = explode(" ", $syntax);
+                foreach ($tokens as $token) {
+                    if (strlen($token) > 0) {
+                        $isChild = true;
+                        foreach (str_split($token) as $c) {
+                            if (!ctype_alpha($c) && $c != "_") {
+                                $isChild = false;
+                                break;
+                            }
+                        }
+                        if ($isChild) {
+                            $result[] = $token;
+                        }
+                    }
+                }
+                return $result;
+            }
+            
+            // Given an extended Wirth syntax string, return the string literals.
             function extract_string_literals($syntax) {
                 $result = [];
                 $pos = strpos($syntax, '"');
@@ -58,60 +80,31 @@
                 return $result;
             }
         
-            function build_tree($name) {
+            function process($indent, $name) {
+                echo $indent . "<li>";
+                echo $indent . $name . "\n";
                 global $syntax_spec;
+                $syntax = trim($syntax_spec[$name]['syntax']);
+                foreach (extract_string_literals($syntax) as $literal) {
+                    echo "  " . $indent . "<code>";
+                    echo $literal;
+                    echo "</code> ";
+                }
                 if (isOP($name)) {
-                    $production = str_replace(" ", "", $syntax_spec[$name]["syntax"]);
-                    $children = explode("|", $production);
-                    $result = [];
+                    echo $indent . "<ul>\n";
+                    $children = extract_children($syntax);
                     foreach ($children as $child) {
-                        $result[$child] = build_tree($child);
+                        process("    " . $indent, $child);
                     }
-                    return $result;
-                } else {
-                    return extract_string_literals($syntax_spec[$name]["syntax"]);
+                    echo $indent . "</ul>\n";
                 }
-            }
-
-            $tree = [
-                "DEFINITION" => [":="],
-                "ASSIGNMENT_CHAIN" => ["<-", "←"],
-                "EQUALITY_CHAIN" => ["="],
-                "GREATER_CHAIN" => [">", ">=", "="],
-                "LESSER_CHAIN" => ["<", "<=", "="],
-                "SUPERSET_CHAIN" => ["=", "⊇", "sups", "⊃", "psups"],
-                "SUBSET_CHAIN" => ["=", "⊆", "subs", "⊂", "psubs"],
-                "CONDITIONAL" => ["? :"],
-                "DIMENSIONAL_ANALYSIS_OP" => build_tree("DIMENSIONAL_ANALYSIS_OP"),
-                "BINARY_OP" => build_tree("BINARY_OP"),
-                "UNARY_OP" => build_tree("UNARY_OP")
-            ];
-
-            //echo "<pre>";
-            //print_r($tree);
-            //echo "</pre>";
-            
-            function codify($text) { return "<code>" . $text . "</code>"; }
-
-            function build_html($subtree, $indent) {
-                foreach ($subtree as $name => $def) {
-                    echo "<tr><td>";
-                    echo str_repeat("&nbsp;", $indent * 8);
-                    echo "<a href='/documentation/syntax/" . $name . ".php'>" . strtolower($name) . "</a>";
-                    if (isOP($name)) {
-                        echo "</td></tr>";
-                        build_html($def, $indent + 1);
-                    } else {
-                        echo "</td><td>";
-                        echo implode("&nbsp;,&nbsp;", array_map('codify', $def));
-                        echo "</td></tr>";
-                    }
-                }
+                echo $indent . "</li>\n";
             }
             
-            echo "<table>";
-            build_html($tree, 0);
-            echo "</table>";
+            echo "<ul>\n";
+            process("  ", "BINARY_OP");
+            process("  ", "UNARY_OP");
+            echo "</ul>\n";
         ?>
 
 		<?
