@@ -1,44 +1,40 @@
 #include "parlex/details/c_string.hpp"
 
-#include "parlex/abstract_syntax_graph.hpp"
-#include "parlex/builtins.hpp"
-#include "parlex/terminal.hpp"
+#include "parlex/details/abstract_syntax_graph.hpp"
+#include "parlex/details/builtins.hpp"
+
+#include "parlex/details/terminal.hpp"
 
 #include "utils.hpp"
+#include "utf.hpp"
 
 namespace parlex {
 namespace details {
 
-c_string_t::c_string_t(filter_function const & longest, terminal const & octal_digit, terminal const & hexadecimal_digit) :
-	state_machine("c_string", longest, associativity::none),
+c_string_t::c_string_t(builtins_t const & builtins) :
+	raw_state_machine("c_string", 0, 1, builtins.longest, associativity::none),
 	backslash(to_utf32("\\")),
 	double_quote(to_utf32("\"")),
 	x(to_utf32("x")),
-	octal_escape_sequence("octal_escape_sequence", longest),
-	hex_escape_sequence("hex_escape_sequence", longest) {
+	octal_escape_sequence("octal_escape_sequence", 0, 3, builtins.longest),
+	hex_escape_sequence("hex_escape_sequence", 0, 1, builtins.longest) {
 
-	octal_escape_sequence.states[0][&backslash] = 1;
-	octal_escape_sequence.states[1][&octal_digit] = 2;
-	octal_escape_sequence.states[2][&octal_digit] = 3;
-	octal_escape_sequence.states[3][&octal_digit] = 4;
-	octal_escape_sequence.start_state = 0;
-	octal_escape_sequence.accept_state_count = 3;
+	octal_escape_sequence.add_transition(0, &backslash, 1);
+	octal_escape_sequence.add_transition(1, &builtins.octal_digit, 2);
+	octal_escape_sequence.add_transition(2, &builtins.octal_digit, 3);
+	octal_escape_sequence.add_transition(3, &builtins.octal_digit, 4);
 
-	hex_escape_sequence.states[0][&backslash] = 1;
-	hex_escape_sequence.states[1][&x] = 2;
-	hex_escape_sequence.states[2][&hexadecimal_digit] = 3;
-	hex_escape_sequence.states[3][&hexadecimal_digit] = 3;
-	hex_escape_sequence.start_state = 0;
-	hex_escape_sequence.accept_state_count = 1;
+	hex_escape_sequence.add_transition(0, &backslash, 1);
+	hex_escape_sequence.add_transition(1, &x, 2);
+	hex_escape_sequence.add_transition(2, &builtins.hexadecimal_digit, 3);
+	hex_escape_sequence.add_transition(3, &builtins.hexadecimal_digit, 3);
 
-	start_state = 0;
-	accept_state_count = 1;
-	states[0][&double_quote] = 1;
-	states[1][&content] = 1;
-	states[1][&basic_escape_sequence] = 1;
-	states[1][&octal_escape_sequence] = 1;
-	states[1][&hex_escape_sequence] = 1;
-	states[1][&double_quote] = 2;
+	add_transition(0, &double_quote, 1);
+	add_transition(1, &content, 1);
+	add_transition(1, &basic_escape_sequence, 1);
+	add_transition(1, &octal_escape_sequence, 1);
+	add_transition(1, &hex_escape_sequence, 1);
+	add_transition(1, &double_quote, 2);
 }
 
 

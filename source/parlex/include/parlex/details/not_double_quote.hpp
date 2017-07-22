@@ -1,7 +1,7 @@
 #ifndef NOT_DOUBLE_QUOTE_HPP
 #define NOT_DOUBLE_QUOTE_HPP
 
-#include "parlex/terminal.hpp"
+#include "parlex/details/terminal.hpp"
 
 namespace parlex {
 namespace details {
@@ -9,7 +9,7 @@ namespace details {
 class not_double_quote_t : public terminal {
 public:
 	not_double_quote_t();
-	virtual ~not_double_quote_t() = default;
+	~not_double_quote_t() override = default;
 	bool test(std::u32string const & document, size_t documentPosition) const override final;
 };
 

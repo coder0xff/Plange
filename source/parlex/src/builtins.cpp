@@ -1,7 +1,9 @@
 #include <iostream>
 #include <mutex>
 
-#include "parlex/builtins.hpp"
+#include "parlex/details/builtins.hpp"
+
+#include "utf.hpp"
 
 namespace parlex {
 namespace details {
@@ -27,8 +29,6 @@ bool not_newline_t::test(std::u32string const & document, size_t documentPositio
 	return document[documentPosition] != U'\n';
 }
 
-} //namespace details
-
 std::set<int> builtins_t::longest_f(std::u32string document, std::list<permutation> const & permutations) {
 	int selectedSize = 0;
 	for (permutation const & p : permutations) {
@@ -47,6 +47,11 @@ std::set<int> builtins_t::longest_f(std::u32string document, std::list<permutati
 		counter++;
 	}
 	return result;
+}
+
+builtins_t const& builtins() {
+	static builtins_t value;
+	return value;
 }
 
 bool builtins_t::resolve_builtin(std::string const & name, recognizer const *& ptr) const {
@@ -106,7 +111,7 @@ std::map<std::string, recognizer const *> builtins_t::generate_lookup_table() co
 		&white_space_control
 	};
 
-	unsigned int count = sizeof(table_initializer) / sizeof(*table_initializer);
+	unsigned int count = sizeof table_initializer / sizeof *table_initializer;
 	for (unsigned int i = 0; i < count; ++i) {
 		recognizer const * item = table_initializer[i];
 		std::string const name = item->id;
@@ -117,7 +122,7 @@ std::map<std::string, recognizer const *> builtins_t::generate_lookup_table() co
 }
 
 
-builtins_t::builtins_t(parser & p) : longest(new std::function<std::set<int>(std::u32string const & /*document*/, std::list<permutation> const &)>(longest_f)), c_string(longest, octal_digit, hexadecimal_digit), recognizer_table(generate_lookup_table()), wirth(p) {
+builtins_t::builtins_t() : longest(new std::function<std::set<int>(std::u32string const & /*document*/, std::list<permutation> const &)>(longest_f)), c_string(*this), recognizer_table(generate_lookup_table()) {
 
 }
 
@@ -128,15 +133,17 @@ void builtins_t::progress_bar(int done, int outOf) {
 	std::cout << "\r[" << std::string(ticks, '*') << std::string(25 - ticks, ' ') << "]";
 }
 
-details::string_terminal::string_terminal(std::u32string const & s) : terminal(to_utf8(s), s.length()), s(s) {
+string_terminal::string_terminal(std::u32string const & s) : terminal(to_utf8(s), s.length()), s(s) {
 }
 
-bool details::string_terminal::test(std::u32string const & document, size_t documentPosition) const {
+bool string_terminal::test(std::u32string const & document, size_t documentPosition) const {
 	return document.compare(documentPosition, length, s) == 0;
 }
 
-std::u32string details::string_terminal::get_content() const {
+std::u32string string_terminal::get_content() const {
 	return s;
 }
 
+
+} //namespace details
 } // namespace parlex

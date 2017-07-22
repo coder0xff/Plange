@@ -1,11 +1,13 @@
-#include "parlex/abstract_syntax_graph.hpp"
+#include "parlex/details/abstract_syntax_graph.hpp"
 
 #include <queue>
 
-#include "parlex/recognizer.hpp"
+#include "parlex/details/recognizer.hpp"
 #include "utils.hpp"
+#include "utf.hpp"
 
 namespace parlex {
+namespace details {
 
 abstract_syntax_graph::abstract_syntax_graph(match root) : root(root) {
 }
@@ -50,7 +52,8 @@ void abstract_syntax_graph::cut(std::set<match> const & matches) {
 				}
 				if (newPermutations.empty()) {
 					pending.push(n);
-				} else {
+				}
+				else {
 					permutations[n].swap(newPermutations);
 				}
 			}
@@ -121,5 +124,34 @@ std::string abstract_syntax_graph::to_concrete_dot(std::u32string const & docume
 	return result;
 }
 
-
+uint64_t abstract_syntax_graph::variation_count() const {
+	uint64_t result = 1;
+	for (auto const & permutation : permutations) {
+		result *= permutation.second.size();
+	}
+	return result;
 }
+
+
+std::set<permutation> const & abstract_syntax_graph::find_all(match const & m) const
+{
+	auto i = permutations.find(m);
+	if (i == permutations.end()) {
+		throw std::runtime_error("permutations not found");
+	}
+	return i->second;
+}
+
+
+permutation const & abstract_syntax_graph::find(match const & m) const
+{
+	auto const & all = find_all(m);
+	auto i = all.begin();
+	if (i == all.end()) {
+		throw std::runtime_error("permutations not found");
+	}
+	return *i;
+}
+
+} // namespace details
+} // namespace parlex

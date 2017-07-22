@@ -1,8 +1,9 @@
 #include "parlex/details/job.hpp"
 
-#include "parlex/parser.hpp"
-#include "parlex/terminal.hpp"
-#include "parlex/token.hpp"
+#include "parlex/details/parser.hpp"
+#include "parlex/details/state_machine_base.hpp"
+#include "parlex/details/terminal.hpp"
+#include "parlex/details/token.hpp"
 
 #include "parlex/details/context.hpp"
 #include "parlex/details/subjob.hpp"
@@ -12,12 +13,14 @@
 namespace parlex {
 namespace details {
 
-job::job(parser & owner, std::u32string const & document, grammar_base const & g, recognizer const & main) :
+job::job(parser & owner, std::u32string const & document, grammar_base const & g, recognizer const & main, progress_handler_t progressHandler) :
 	document(document),
 	g(g),
 	main(main),
 	progress(0),
-	owner(owner) {
+	owner(owner),
+	progress_handler(progressHandler),
+	progress_counter(0) {
 	//DBG("starting job using recognizer '", main, "'");
 
 	//similar to get_product, but different for constructor
@@ -56,36 +59,45 @@ producer& job::get_producer(match_class const & matchClass) {
 	std::unique_lock<std::mutex> lock(producers_mutex);
 	if (producers.count(matchClass)) {
 		return *producers[matchClass];
-	} else {
-		lock.unlock();
-		if (matchClass.r.is_terminal()) {
-			terminal const * t = static_cast<terminal const *>(&matchClass.r);
-			token * result = new token(*this, *t, matchClass.document_position);
-			lock.lock();
-			return *producers.emplace(
-				std::piecewise_construct,
-				std::forward_as_tuple(matchClass),
-				std::forward_as_tuple(result)
-			).first->second.get();
-		} else {
-			state_machine_base const * machine = static_cast<state_machine_base const *>(&matchClass.r);
-			subjob * sj = new subjob(*this, *machine, matchClass.document_position);
-			lock.lock();
-			auto temp = producers.emplace(
-				std::piecewise_construct,
-				std::forward_as_tuple(matchClass),
-				std::forward_as_tuple(sj)
-			);
-			subjob * result = static_cast<subjob*>(temp.first->second.get());
-			lock.unlock();
-			if (temp.second) {
-				result->start();
-			}
-			return *result;
+	}
+	lock.unlock();
+	if (matchClass.r.is_terminal()) {
+		terminal const * t = static_cast<terminal const *>(&matchClass.r);
+		token * result = new token(*this, *t, matchClass.document_position);
+		lock.lock();
+		return *producers.emplace(
+			std::piecewise_construct,
+			std::forward_as_tuple(matchClass),
+			std::forward_as_tuple(result)
+		).first->second.get();
+	}
+	state_machine_base const * machine = static_cast<state_machine_base const *>(&matchClass.r);
+	subjob * sj = new subjob(*this, *machine, matchClass.document_position);
+	lock.lock();
+	auto temp = producers.emplace(
+		std::piecewise_construct,
+		std::forward_as_tuple(matchClass),
+		std::forward_as_tuple(sj)
+	);
+	subjob * result = static_cast<subjob*>(temp.first->second.get());
+	lock.unlock();
+	if (temp.second) {
+		result->start();
+	}
+	return *result;
+}
+
+
+void job::update_progress(size_t completed)
+{
+	if (progress_handler) {
+		size_t old_progress = progress.load();
+		while (!progress_counter.compare_exchange_weak(old_progress, completed) && old_progress < completed);
+		if (old_progress < completed) {
+			progress_handler(completed, document.length());
 		}
 	}
 }
-
 
 }
 }

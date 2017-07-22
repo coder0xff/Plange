@@ -32,12 +32,12 @@ struct context_ref_counter {
 	}
 };
 
-context::context(subjob & owner, context_ref const & prior, int documentPosition, match const * fromTransition) :
+context::context(subjob & owner, context_ref const & prior, int documentPosition, std::optional<fast_match> const & fromTransition) :
 	id(++contextIDCounter), owner(owner), prior(prior),
 	currentDocumentPosition(documentPosition),
-	fromTransition(fromTransition != nullptr ? new match(*fromTransition) : nullptr),
+	fromTransition(fromTransition),
 	rc(*new context_ref_counter(this)) {
-	throw_assert(!prior.is_null() == (fromTransition != nullptr));
+	throw_assert(!prior.is_null() == fromTransition.has_value());
 	//DBG("constructed context ", id);
 }
 
@@ -45,7 +45,7 @@ context::~context() {
 	context * self = rc.c.exchange(nullptr);
 	throw_assert(self);
 	rc.dec();
-	//DBG("descructed context ", id);
+	//DBG("destructed context ", id);
 }
 
 context_ref context::get_ref() const {
@@ -57,9 +57,10 @@ std::vector<match> context::result() const {
 	context_ref start = get_ref();
 	context_ref const * current = &start;
 	while (!current->prior().is_null()) {
-		result.push_back(*current->from_transition());
+		result.push_back(match(*current->from_transition()));
 		current = &current->prior();
 	}
+	// std::reverse would require a swap function to be defined for match
 	return std::vector<match>(result.rbegin(), result.rend());
 }
 
@@ -95,13 +96,12 @@ context_ref::~context_ref() {
 bool context_ref::is_null() const {
 	if (!rc) {
 		return true;
-	} else {
-		if (!static_cast<context *>(rc->c)) {
-			std::cerr << "ERROR: dangling ref id: " << id << ", context id: " << rc->id;
-			raise(SIGABRT);
-		}
-		return false;
 	}
+	if (!static_cast<context *>(rc->c)) {
+		std::cerr << "ERROR: dangling ref id: " << id << ", context id: " << rc->id;
+		raise(SIGABRT);
+	}
+	return false;
 }
 
 subjob& context_ref::owner() const {
@@ -128,15 +128,12 @@ size_t context_ref::current_document_position() const {
 	return temp->currentDocumentPosition;
 }
 
-std::unique_ptr<match> context_ref::from_transition() const {
+std::optional<fast_match> context_ref::from_transition() const {
 	throw_assert(rc);
 	//DBG("Dereferencing ref:", id, " to c:",rc->id);
 	context * temp = rc->c;
 	throw_assert(temp);
-	if (temp->fromTransition) {
-		return std::unique_ptr<match>(new match(*temp->fromTransition));
-	}
-	return std::unique_ptr<match>();
+	return temp->fromTransition;
 }
 
 std::vector<match> context_ref::result() const {

@@ -1,23 +1,27 @@
 #include "parlex/details/wirth.hpp"
 
-#include "parlex/builtins.hpp"
-#include "parlex/parser.hpp"
+#include "parlex/details/builtins.hpp"
+
+#include "parlex/details/parser.hpp"
 
 #include "utils.hpp"
+#include "parlex/builder.hpp"
+#include "utf.hpp"
+#include <iostream>
 
 namespace parlex {
 namespace details {
 
-erased<grammar_definition::node> wirth_t::process_factor2(std::u32string const & document, match const & factor, abstract_syntax_graph const & asg) {
-	permutation const & p = *asg.permutations.find(factor)->second.begin();
+erased<node> wirth_t::process_factor(std::u32string const & document, match const & factor, abstract_syntax_graph const & asg) const {
+	permutation const & p = asg.find(factor);
 	auto i = p.begin();
 	std::string tag;
 	if (&i->r == &dollarSign) {
 		++i;
 		if (&i->r == &identifierDfa) {
 			tag = to_utf8(document.substr(i->document_position, i->consumed_character_count));
-		} else if (&i->r == &builtins.c_string) {
-			tag = to_utf8(builtins.c_string.extract(document, *i, asg));
+		} else if (&i->r == &builtins().c_string) {
+			tag = to_utf8(builtins().c_string.extract(document, *i, asg));
 		} else {
 			throw;
 		}
@@ -31,14 +35,14 @@ erased<grammar_definition::node> wirth_t::process_factor2(std::u32string const &
 		tag = to_utf8(document.substr(j.document_position, j.consumed_character_count));
 	}
 
-	std::unique_ptr<erased<grammar_definition::node>> result;
-	auto set = [&result](erased<grammar_definition::node> const & node) { result.reset(new erased<grammar_definition::node>(node)); };
+	std::unique_ptr<erased<node>> result;
+	auto set = [&result](erased<node> const & node) { result.reset(new erased<details::node>(node)); };
 	if (&i->r == &identifierDfa) {
 		std::string name = to_utf8(document.substr(i->document_position, i->consumed_character_count));
-		set(grammar_definition::production(name));
-	} else if (&i->r == &builtins.c_string) {
-		std::u32string text = builtins.c_string.extract(document, *i, asg);
-		set(grammar_definition::literal(text));
+		set(reference(name));
+	} else if (&i->r == &builtins().c_string) {
+		std::u32string text = builtins().c_string.extract(document, *i, asg);
+		set(literal(text));
 	} else if (&i->r == &parentheticalDfa) {
 		permutation const & q = *asg.permutations.find(*i)->second.begin();
 		auto j = q.begin();
@@ -47,11 +51,11 @@ erased<grammar_definition::node> wirth_t::process_factor2(std::u32string const &
 			++j;
 		}
 		if (parenthetical_type == &openSquare) {
-			set(process_expression2(document, *j, asg));
+			set(optional_t(process_expression(document, *j, asg)));
 		} else if (parenthetical_type == &openCurly) {
-			set(process_expression2(document, *j, asg));
+			set(repetition_t(process_expression(document, *j, asg)));
 		} else if (parenthetical_type == &openParen) {
-			set(process_expression2(document, *j, asg));
+			set(process_expression(document, *j, asg));
 		} else {
 			throw;
 		}
@@ -65,7 +69,7 @@ erased<grammar_definition::node> wirth_t::process_factor2(std::u32string const &
 	return *result;
 }
 
-erased<grammar_definition::node> wirth_t::process_term2(std::u32string const & document, match const & term, abstract_syntax_graph const & asg) {
+erased<node> wirth_t::process_term(std::u32string const & document, match const & term, abstract_syntax_graph const & asg) const {
 	std::vector<match> factors;
 
 	permutation const & p = *(*asg.permutations.find(term)).second.begin();
@@ -75,16 +79,16 @@ erased<grammar_definition::node> wirth_t::process_term2(std::u32string const & d
 		}
 	}
 	if (factors.size() == 1) {
-		return process_factor2(document, factors[0], asg);
+		return process_factor(document, factors[0], asg);
 	}
-	grammar_definition::sequence result;
+	sequence_t result;
 	for (match const & factor : factors) {
-		result.children.push_back(process_factor2(document, factor, asg));
+		result.children.push_back(process_factor(document, factor, asg));
 	}
 	return result;
 }
 
-erased<grammar_definition::node> wirth_t::process_expression2(std::u32string const & document, match const & expression, abstract_syntax_graph const & asg) {
+erased<node> wirth_t::process_expression(std::u32string const & document, match const & expression, abstract_syntax_graph const & asg) const {
 	std::vector<match> terms;
 
 	permutation const & p = *(*asg.permutations.find(expression)).second.begin();
@@ -94,71 +98,52 @@ erased<grammar_definition::node> wirth_t::process_expression2(std::u32string con
 		}
 	}
 	if (terms.size() == 1) {
-		return process_term2(document, terms[0], asg);
+		return process_term(document, terms[0], asg);
 	}
-	grammar_definition::choice result;
+	choice_t result;
 	for (match const & term : terms) {
-		result.children.push_back(process_term2(document, term, asg));
+		result.children.push_back(process_term(document, term, asg));
 	}
 	return result;
 }
 
-erased<grammar_definition::node> wirth_t::compile_source(std::u32string const & source) {
-	auto asg = p.parse(*this, expressionDfa, source);
+erased<node> wirth_t::compile_expression(std::u32string const & source) const {
+	parser p;
+	auto asg = p.parse(*this, expressionDfa, source, builtins().progress_bar);
 	if (!asg.is_rooted()) {
-		throw std::exception("could not parse expression");
+		throw std::runtime_error("could not parse expression");
+	}
+	if (asg.variation_count() > 1) {
+		throw std::runtime_error("more than one interpretation of the source");
 	}
 	//auto test = asg.to_dot(); //TODO: Make sure this is commented out
-	return process_expression2(source, asg.root, asg);
+	return process_expression(source, asg.root, asg);
 }
 
-#if 0 //to move
-grammar_definition wirth_t::load_grammar(std::string const & rootId, std::map<std::string, definition> const & definitions) {
-
+builder wirth_t::load_grammar(std::string const & rootId, std::map<std::string, production> const & definitions) const {
 	std::set<std::string> names;
-	std::vector<correlated_state_machine_info> infos;
-	for (auto const & definitionEntry : definitions) {
-		std::string const & name = definitionEntry.first;
-		definition const & def = definitionEntry.second;
-		auto res = names.insert(name);
-		if (!res.second) {
-			throw std::exception(("duplicate production ID " + name).c_str());
-		}
-		infos.emplace_back(name, def.filter, def.assoc);
-	}
-	std::unique_ptr<correlated_grammar> result(new correlated_grammar(p.builtins, rootId, infos, [this, &definitions](std::string const & id, correlated_grammar & g) {
-	                                              return compile_source(definitions.find(id)->second.source, g);
-                                              }));
-	return result;
-}
-#endif
-
-grammar_definition wirth_t::load_grammar(std::string const & rootId, std::map<std::string, definition> const & definitions) {
-	std::set<std::string> names;
-	grammar_definition result;
+	builder result;
 	result.root_id = rootId;
 	for (auto const & entry : definitions) {
 		auto const & id = entry.first;
 		auto const & definition = entry.second;
 		auto res = names.insert(entry.first);
 		if (!res.second) {
-			throw std::exception(("duplicate production ID " + id).c_str());
+			throw std::runtime_error(("duplicate reference ID " + id).c_str());
 		}
-		grammar_definition::definition resultDefinition;
-		resultDefinition.id = id;
-		resultDefinition.behavior = compile_source(definition.source);
-		resultDefinition.assoc = definition.assoc;
-		resultDefinition.filter = definition.filter;
-		result.productions.push_back(resultDefinition);
+		std::cout << "\n" << id << "\n";
+		result.productions.emplace_back(id, compile_expression(definition.source), definition.assoc, definition.filter, definition.precedences);
 	}
 	return result;
 }
 
 
-grammar_definition wirth_t::load_grammar(std::string const & rootId, std::u32string const & document, std::map<std::string, associativity> const & associativities, std::set<std::string> const & longestNames) {
-	std::set<std::u32string> names;
+builder wirth_t::load_grammar(std::string const & rootId, std::u32string const & document, std::map<std::string, associativity> const & associativities, std::set<std::string> const & longestNames) const {
+	parser p;
 	abstract_syntax_graph asg = p.parse(*this, document);
-	std::map<std::string, definition> definitions;
+	std::set<std::u32string> names;
+	throw_assert(asg.is_rooted());
+	std::map<std::string, production> definitions;
 	//std::string check = asg.to_dot();
 	permutation const & top = *asg.permutations[asg.root].begin();
 	for (match const & entry : top) {
@@ -168,134 +153,128 @@ grammar_definition wirth_t::load_grammar(std::string const & rootId, std::u32str
 			std::string const name = to_utf8(u32Name);
 			auto res = names.insert(u32Name);
 			if (!res.second) {
-				throw std::exception(("duplicate production ID " + name).c_str());
+				throw std::runtime_error(("duplicate reference ID " + name).c_str());
 			}
 			std::u32string source;
 			for (match const & entry2 : *(*asg.permutations.find(entry)).second.begin()) {
 				if (&entry2.r == &expressionDfa) {
 					source = document.substr(entry2.document_position, entry2.consumed_character_count);
+					break;
 				}
 			}
 			auto assoc = associativities.count(name) > 0 ? associativities.find(name)->second : associativity::none;
-			auto filter = longestNames.count(name) > 0 ? builtins.longest : filter_function();
+			auto filter = longestNames.count(name) > 0 ? builtins().longest : filter_function();
 			definitions.emplace(std::piecewise_construct, forward_as_tuple(name), forward_as_tuple(source, assoc, filter, std::set<std::string>()));
 		}
 	}
 	return load_grammar(rootId, definitions);
 }
 
-wirth_t::wirth_t(parser & p) : grammar(p.builtins, "root"), p(p),
-                               newline(get_or_add_literal(U"\n")),
-                               hash(get_or_add_literal(U"#")),
-                               period(get_or_add_literal(U".")),
-                               equals(get_or_add_literal(U"=")),
-                               quote(get_or_add_literal(U"\"")),
-                               pipe(get_or_add_literal(U"|")),
-                               openSquare(get_or_add_literal(U"[")),
-                               closeSquare(get_or_add_literal(U"]")),
-                               openParen(get_or_add_literal(U"(")),
-                               closeParen(get_or_add_literal(U")")),
-                               openCurly(get_or_add_literal(U"{")),
-                               closeCurly(get_or_add_literal(U"}")),
-                               underscore(get_or_add_literal(U"_")),
-                               dollarSign(get_or_add_literal(U"$")),
-                               percentageSign(get_or_add_literal(U"%")),
-
-                               whiteSpaceDfa(add_production("whiteSpace", 0, 1, p.builtins.longest)),
-                               commentDfa(add_production("comment", 0, 1)),
-                               productionDfa(add_production("production", 0, 1)),
-                               expressionDfa(add_production("expression", 0, 1)),
-                               termDfa(add_production("term", 0, 1)),
-                               parentheticalDfa(add_production("parenthetical", 0, 1)),
-                               tagDfa(add_production("tag", 0, 1)),
-                               factorDfa(add_production("factor", 0, 1)),
-                               identifierDfa(add_production("identifier", 0, 1, p.builtins.longest)),
-                               rootDfa(add_production("root", 0, 1)) {
-	rootDfa.states[0][&productionDfa] = 0;
-	rootDfa.states[0][&whiteSpaceDfa] = 0;
-	rootDfa.states[0][&commentDfa] = 0;
-
-	whiteSpaceDfa.states[0][&p.builtins.white_space] = 1;
-	whiteSpaceDfa.states[1][&p.builtins.white_space] = 1;
-
-	commentDfa.states[0][&hash] = 1;
-	commentDfa.states[1][&p.builtins.not_newline] = 1;
-	commentDfa.states[1][&newline] = 2;
-
-	productionDfa.states[0][&identifierDfa] = 1;
-
-	productionDfa.states[1][&whiteSpaceDfa] = 2;
-	productionDfa.states[2][&equals] = 3;
-	productionDfa.states[1][&equals] = 3;
-
-	productionDfa.states[3][&whiteSpaceDfa] = 4;
-	productionDfa.states[4][&expressionDfa] = 5;
-	productionDfa.states[3][&expressionDfa] = 5;
-
-	productionDfa.states[5][&whiteSpaceDfa] = 6;
-	productionDfa.states[6][&period] = 7;
-	productionDfa.states[5][&period] = 7;
-
-	expressionDfa.states[0][&termDfa] = 3;
-	expressionDfa.states[1][&termDfa] = 3;
-	expressionDfa.states[1][&whiteSpaceDfa] = 0;
-	expressionDfa.states[2][&pipe] = 1;
-	expressionDfa.states[3][&pipe] = 1;
-	expressionDfa.states[3][&whiteSpaceDfa] = 2;
-
-	termDfa.states[0][&factorDfa] = 1;
-	termDfa.states[1][&whiteSpaceDfa] = 0;
-	termDfa.states[1][&factorDfa] = 1;
-
-	parentheticalDfa.states[0][&openSquare] = 1;
-	parentheticalDfa.states[1][&whiteSpaceDfa] = 2;
-	parentheticalDfa.states[1][&expressionDfa] = 3;
-	parentheticalDfa.states[2][&expressionDfa] = 3;
-	parentheticalDfa.states[3][&whiteSpaceDfa] = 4;
-	parentheticalDfa.states[3][&closeSquare] = 13;
-	parentheticalDfa.states[4][&closeSquare] = 13;
-
-	parentheticalDfa.states[0][&openParen] = 5;
-	parentheticalDfa.states[5][&whiteSpaceDfa] = 6;
-	parentheticalDfa.states[5][&expressionDfa] = 7;
-	parentheticalDfa.states[6][&expressionDfa] = 7;
-	parentheticalDfa.states[7][&whiteSpaceDfa] = 8;
-	parentheticalDfa.states[7][&closeParen] = 13;
-	parentheticalDfa.states[8][&closeParen] = 13;
-
-	parentheticalDfa.states[0][&openCurly] = 9;
-	parentheticalDfa.states[9][&whiteSpaceDfa] = 10;
-	parentheticalDfa.states[9][&expressionDfa] = 11;
-	parentheticalDfa.states[10][&expressionDfa] = 11;
-	parentheticalDfa.states[11][&whiteSpaceDfa] = 12;
-	parentheticalDfa.states[11][&closeCurly] = 13;
-	parentheticalDfa.states[12][&closeCurly] = 13;
-
-	tagDfa.states[0][&percentageSign] = 1;
-	tagDfa.states[1][&identifierDfa] = 2;
-
-	factorDfa.states[0][&identifierDfa] = 3;
-	factorDfa.states[0][&p.builtins.c_string] = 3;
-	factorDfa.states[0][&dollarSign] = 1;
-	factorDfa.states[1][&identifierDfa] = 3;
-	factorDfa.states[1][&p.builtins.c_string] = 3;
-	factorDfa.states[0][&parentheticalDfa] = 3;
-	factorDfa.states[0][&tagDfa] = 2;
-	factorDfa.states[2][&parentheticalDfa] = 3;
-
-	identifierDfa.states[0][&p.builtins.letter] = 1;
-	identifierDfa.states[0][&underscore] = 1;
-	identifierDfa.states[1][&p.builtins.letter] = 1;
-	identifierDfa.states[1][&underscore] = 1;
-	identifierDfa.states[1][&p.builtins.decimal_digit] = 1;
-
-	precedences[&factorDfa].insert(&factorDfa);
+wirth_t::production::production(std::u32string const & source, associativity assoc, filter_function filter, std::set<std::string> const & precedences) : source(source), assoc(assoc), filter(filter), precedences(precedences) {
 }
 
-erased<grammar_definition::node> wirth_t::process_production2(std::u32string const & document, match const & production, abstract_syntax_graph const & asg) {
+builder generate_wirth() {
+	return builder("root", {
+		               production("whiteSpace", sequence({
+			                          reference("white_space"),
+			                          repetition(reference("white_space"))}),
+		                          associativity::none, builtins().longest
+		               ),
+
+		               production("comment", sequence({
+			                          literal("#"),
+			                          repetition(reference("not_newline")),
+			                          literal("\n")
+		                          })),
+
+		               production("identifier", sequence({
+			                          choice({reference("letter"), literal("_")}),
+			                          repetition(choice({reference("letter"), literal("_"), reference("decimal_digit")}))
+		                          }),
+		                          associativity::none, builtins().longest),
+
+		               production("production", sequence({
+			                          reference("identifier"),
+			                          optional(reference("whiteSpace")),
+			                          literal(U"="),
+			                          optional(reference("whiteSpace")),
+			                          reference("expression"),
+			                          optional(reference("whiteSpace")),
+			                          literal(U".")
+		                          })),
+
+		               production("expression", sequence({
+			                          reference("term"),
+			                          repetition(sequence({
+				                          optional(reference("whiteSpace")),
+				                          literal("|"),
+				                          optional(reference("whiteSpace")),
+				                          reference("term")
+			                          }))
+		                          })),
+
+		               production("term", sequence({
+			                          reference("factor"),
+			                          repetition(sequence({
+				                          optional(reference("whiteSpace")),
+				                          reference("factor")
+			                          }))
+		                          })),
+
+		               production("parenthetical", choice({
+			                          sequence({
+				                          literal("["), optional(reference("whiteSpace")), reference("expression"), optional(reference("whiteSpace")), literal("]")
+			                          }),
+			                          sequence({
+				                          literal("("), optional(reference("whiteSpace")), reference("expression"), optional(reference("whiteSpace")), literal(")")
+			                          }),
+			                          sequence({
+				                          literal("{"), optional(reference("whiteSpace")), reference("expression"), optional(reference("whiteSpace")), literal("}")
+			                          })
+		                          })),
+
+		               production("tag", sequence({literal("%"), reference("identifier")})),
+
+		               production("factor", choice({
+			                          sequence({optional(literal("$")), reference("identifier")}),
+			                          sequence({optional(literal("$")), reference("c_string")}),
+			                          sequence({optional(reference("tag")), reference("parenthetical")})
+		                          }), associativity::none, filter_function(), {"factor"}),
+
+		               production("root", repetition(choice({
+			                          reference("production"),
+			                          reference("comment"),
+			                          reference("whiteSpace")
+		                          })))
+	               });
+
+}
+
+static state_machine const & convert(state_machine_base const & s) {
+	return *static_cast<state_machine const *>(&s);
+}
+
+wirth_t::wirth_t() : grammar(generate_wirth()),
+                               openSquare(get_literal("[")),
+                               openParen(get_literal("(")),
+                               openCurly(get_literal("{")),
+                               dollarSign(get_literal("$")),
+
+                               productionDfa(convert(get_state_machine("production"))),
+                               expressionDfa(convert(get_state_machine("expression"))),
+                               termDfa(convert(get_state_machine("term"))),
+                               parentheticalDfa(convert(get_state_machine("parenthetical"))),
+                               tagDfa(convert(get_state_machine("tag"))),
+                               factorDfa(convert(get_state_machine("factor"))),
+                               identifierDfa(convert(get_state_machine("identifier"))) {
+	std::string check = termDfa.to_dot();
+
+}
+
+erased<node> wirth_t::process_production(std::u32string const & document, match const & production, abstract_syntax_graph const & asg) const {
 	for (match const & entry : *(*asg.permutations.find(production)).second.begin()) {
 		if (&entry.r == &expressionDfa) {
-			return process_expression2(document, entry, asg);
+			return process_expression(document, entry, asg);
 		}
 	}
 	throw;
@@ -303,4 +282,8 @@ erased<grammar_definition::node> wirth_t::process_production2(std::u32string con
 
 
 } //namespace details
+details::wirth_t const& wirth() {
+	static details::wirth_t value;
+	return value;
+}
 } //namespace parlex

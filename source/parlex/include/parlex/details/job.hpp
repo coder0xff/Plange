@@ -1,18 +1,20 @@
 #ifndef JOB_HPP
 #define JOB_HPP
 
-#include "parlex/match_class.hpp"
+#include <functional>
+
+#include "parlex/details/match_class.hpp"
 #include "parlex/details/subjob.hpp"
-#include "parlex/abstract_syntax_graph.hpp"
+#include "parlex/details/abstract_syntax_graph.hpp"
 
 namespace parlex {
+namespace details {
 
 class correlated_grammar;
 class parser;
-class state_machine;
+class raw_state_machine;
 class grammar_base;
-
-namespace details {
+typedef std::function<void(size_t /*done*/, size_t /*total*/)> progress_handler_t;
 
 //holds the state of the parser during a parse
 //making it a type makes it easy for the parser to reset its state
@@ -25,11 +27,17 @@ public:
 	mutable std::mutex producers_mutex;
 	std::atomic<int> progress;
 
-	job(parser & owner, std::u32string const & document, grammar_base const & g, recognizer const & main);
+	job(parser & owner, std::u32string const & document, grammar_base const & g, recognizer const & main, progress_handler_t progressHandler);
 	void connect(match_class const & matchClass, context_ref const & c, int nextState, behavior::leaf const * leaf);
 private:
-	producer& get_producer(match_class const & matchClass);
 	parser & owner;
+	progress_handler_t progress_handler;
+	std::atomic<size_t> progress_counter;
+
+	producer& get_producer(match_class const & matchClass);
+	void update_progress(size_t completed);
+
+	friend class parser;
 	friend class producer;
 };
 

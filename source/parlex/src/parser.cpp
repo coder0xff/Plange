@@ -1,45 +1,36 @@
-#include "parlex/parser.hpp"
+#include "parlex/details/parser.hpp"
 
 #include <stack>
 
-#include "parlex/grammar_base.hpp"
-#include "parlex/permutation.hpp"
 #include "parlex/post_processor.hpp"
 
 #include "parlex/details/context.hpp"
+#include "parlex/details/grammar_base.hpp"
 #include "parlex/details/job.hpp"
+#include "parlex/details/permutation.hpp"
 #include "parlex/details/producer.hpp"
 #include "parlex/details/subjob.hpp"
 
-namespace parlex {
+#include "utils.hpp"
 
-parser::parser(int threadCount) : builtins(*this), activeCount(0), terminating(false) {
+namespace parlex {
+namespace details {
+
+void parser::start_workers(int threadCount) {
 	for (; threadCount > 0; --threadCount) {
 		workers.emplace_back([=]() {
 			//DBG("thread ", threadCount, " started");
 			std::unique_lock<std::mutex> lock(mutex);
 			goto wait;
-			while (!terminating) { {
+			while (!terminating) {
+				{
 					//DBG("THREAD ", threadCount, " POPPING ITEM");
-					std::tuple<details::context_ref, int> item = work.front();
-					work.pop();
+					auto item = get_work_item();
 					lock.unlock();
-					auto const & context = std::get<0>(item);
-					auto const nextDfaState = std::get<1>(item);
-					if (update_progress_handler) {
-						std::atomic<int> & progress = context.owner().owner.progress;
-						int oldProgress;
-						bool didSet = false;
-						int const docPos = context.current_document_position();
-						while (docPos > (oldProgress = progress)) {
-							didSet = progress.compare_exchange_weak(oldProgress, docPos);
-						}
-						if (didSet) {
-							int const docLen = context.owner().owner.document.length();
-							update_progress_handler(docPos, docLen + 1);
-						}
-					}
-					//INF("thread ", threadCount, " executing dfa state");
+					context_ref const & context = *std::get<0>(item);
+					int const nextDfaState = std::get<1>(item);
+					update_progress(context);
+					//INF("thread ", threadCount, " executing DFA state");
 					context.owner().machine.process(context, nextDfaState);
 					context.owner().end_dependency(); //reference code A
 					if (--activeCount == 0) {
@@ -54,6 +45,12 @@ parser::parser(int threadCount) : builtins(*this), activeCount(0), terminating(f
 	}
 }
 
+parser::parser(unsigned threadCount) : single_thread_mode(threadCount == 1), activeCount(0), terminating(false) {
+	if (!single_thread_mode) {
+		start_workers(threadCount);
+	}
+}
+
 parser::~parser() {
 	terminating = true;
 	work_cv.notify_all();
@@ -62,27 +59,8 @@ parser::~parser() {
 	}
 }
 
-abstract_syntax_graph construct_result(details::job const & j, match const & m);
-
-abstract_syntax_graph parser::parse(grammar_base const & g, recognizer const & overrideMain, std::vector<post_processor> posts, std::u32string const & document) {
-	//perf_timer timer("parse");
-	std::unique_lock<std::mutex> lock(mutex); //use the lock to make sure we see activeCount != 0
-	details::job j(*this, document, g, overrideMain);
-#ifndef FORCE_RECURSION
-	throw_assert(activeCount > 0);
-#endif
-	while (true) {
-		halt_cv.wait(lock, [this]() { return activeCount == 0; });
-		//DBG("parser is idle; checking for deadlocks");
-		if (handle_deadlocks(j)) {
-			break;
-		}
-	};
-	throw_assert(activeCount == 0);
-	if (update_progress_handler) {
-		update_progress_handler(document.length() + 1, document.length() + 1);
-	}
-	abstract_syntax_graph result = construct_result(j, match(match_class(overrideMain, 0), document.size()));
+abstract_syntax_graph parser::construct_result_and_postprocess(recognizer const & overrideMain, std::vector<post_processor> posts, std::u32string const & document, job const & j) {
+	abstract_syntax_graph result = construct_result(j, fast_match(match_class(overrideMain, 0), document.size()));
 	if (!posts.empty()) {
 		//std::string preDot = result.to_dot();
 		for (auto const & post : posts) {
@@ -96,35 +74,91 @@ abstract_syntax_graph parser::parse(grammar_base const & g, recognizer const & o
 	return result;
 }
 
-abstract_syntax_graph parser::parse(grammar_base const & g, recognizer const & overrideMain, std::u32string const & document) {
-	return parse(g, overrideMain, std::vector<post_processor>(), document);
+void parser::complete_progress_handler(job & j) {
+	j.update_progress(j.document.length());
 }
 
-abstract_syntax_graph parser::parse(grammar_base const & g, std::vector<post_processor> posts, std::u32string const & document) {
-	return parse(g, g.get_main_production(), posts, document);
+void parser::update_progress(context_ref const & context) {
+	context.owner().owner.update_progress(context.current_document_position());
 }
 
-abstract_syntax_graph parser::parse(grammar_base const & g, std::u32string const & document) {
-	return parse(g, g.get_main_production(), document);
+std::tuple<erased<context_ref>, int> parser::get_work_item() {
+	std::tuple<erased<context_ref>, int> item = work.front();
+	work.pop();
+	return item;
 }
 
-void parser::schedule(details::context_ref const & c, int nextDfaState) {
+abstract_syntax_graph parser::single_thread_parse(grammar_base const & g, recognizer const & overrideMain, std::vector<post_processor> posts, std::u32string const & document, progress_handler_t progressHandler) {
+	//perf_timer timer("parse");
+	job j(*this, document, g, overrideMain, progressHandler);
+	throw_assert(activeCount > 0);
+	while (true) {
+		while (work.size() > 0) {
+			auto item = get_work_item();
+			auto const & context = *std::get<0>(item);
+			auto const nextDfaState = std::get<1>(item);
+			update_progress(context);
+			//INF("thread ", threadCount, " executing DFA state");
+			context.owner().machine.process(context, nextDfaState);
+			context.owner().end_dependency(); //reference code A
+			--activeCount;
+		}
+		throw_assert(activeCount == 0);
+		//DBG("parser is idle; checking for deadlocks");
+		if (handle_deadlocks(j)) {
+			break;
+		}
+	}
+	throw_assert(activeCount == 0);
+	complete_progress_handler(j);
+	return construct_result_and_postprocess(overrideMain, posts, document, j);
+}
+
+abstract_syntax_graph parser::multi_thread_parse(grammar_base const & g, recognizer const & overrideMain, std::vector<post_processor> posts, std::u32string const & document, progress_handler_t progressHandler) {
+	//perf_timer timer("parse");
+	std::unique_lock<std::mutex> lock(mutex); //use the lock to make sure we see activeCount != 0
+	job j(*this, document, g, overrideMain, progressHandler);
+	throw_assert(activeCount > 0);
+	while (true) {
+		halt_cv.wait(lock, [this]() { return activeCount == 0; });
+		//DBG("parser is idle; checking for deadlocks");
+		if (handle_deadlocks(j)) {
+			break;
+		}
+	}
+	throw_assert(activeCount == 0);
+	complete_progress_handler(j);
+	return construct_result_and_postprocess(overrideMain, posts, document, j);
+}
+
+abstract_syntax_graph parser::parse(grammar_base const & g, recognizer const & overrideMain, std::vector<post_processor> posts, std::u32string const & document, progress_handler_t progressHandler) {
+	if (single_thread_mode) {
+		return single_thread_parse(g, overrideMain, posts, document, progressHandler);
+	}
+	return multi_thread_parse(g, overrideMain, posts, document, progressHandler);
+}
+
+abstract_syntax_graph parser::parse(grammar_base const & g, recognizer const & overrideMain, std::u32string const & document, progress_handler_t progressHandler) {
+	return parse(g, overrideMain, std::vector<post_processor>(), document, progressHandler);
+}
+
+abstract_syntax_graph parser::parse(grammar_base const & g, std::vector<post_processor> posts, std::u32string const & document, progress_handler_t progressHandler) {
+	return parse(g, g.get_main_state_machine(), posts, document, progressHandler);
+}
+
+abstract_syntax_graph parser::parse(grammar_base const & g, std::u32string const & document, progress_handler_t progressHandler) {
+	return parse(g, g.get_main_state_machine(), document, progressHandler);
+}
+
+void parser::schedule(context_ref const & c, int nextDfaState) {
 	//DBG("scheduling m: ", c.owner().machine.id, " b:", c.owner().documentPosition, " s:", nextDfaState, " p:", c.current_document_position());
-#ifndef FORCE_RECURSION
 	++activeCount;
 	std::unique_lock<std::mutex> lock(mutex);
 	work.emplace(std::make_tuple(c, nextDfaState));
 	work_cv.notify_one();
-#else
-	c.owner().machine.process(c, nextDfaState);
-#endif
 }
 
-void parser::set_update_progress_handler(std::function<void(int /*done*/, int /*total*/)> func) {
-	update_progress_handler = func;
-}
-
-bool parser::handle_deadlocks(details::job const & j) const {
+bool parser::handle_deadlocks(job const & j) const {
 	throw_assert(activeCount == 0);
 	//perf_timer timer("handle_deadlocks");
 
@@ -139,12 +173,12 @@ bool parser::handle_deadlocks(details::job const & j) const {
 	std::map<match_class, std::set<match_class>> all_subscriptions;
 	for (auto const & i : j.producers) {
 		match_class const & matchClass = i.first;
-		details::producer const & p = *i.second;
+		producer const & p = *i.second;
 		if (p.r.is_terminal() || p.completed) {
 			continue;
 		}
 		for (auto const & subscription : p.consumers) {
-			details::context_ref const & c = subscription.c;
+			context_ref const & c = subscription.c;
 			match_class temp(c.owner().machine, c.owner().document_position);
 			all_subscriptions[matchClass].insert(temp);
 			direct_subscriptions[matchClass].insert(temp);
@@ -159,7 +193,7 @@ bool parser::handle_deadlocks(details::job const & j) const {
 		for (auto const & next : direct_subscriptions[entry.first]) {
 			if (all_subscriptions[entry.first].insert(next).second) {
 				s.push(std::pair<match_class, match_class>(entry.first, next));
-			};
+			}
 		}
 	}
 
@@ -167,7 +201,7 @@ bool parser::handle_deadlocks(details::job const & j) const {
 	//halt subjobs that are subscribed to themselves (in)directly
 	for (auto const & i : all_subscriptions) {
 		match_class const & matchClass = i.first;
-		details::producer & p = *j.producers.find(matchClass)->second;
+		producer & p = *j.producers.find(matchClass)->second;
 		if (i.second.count(matchClass) > 0) {
 			p.terminate();
 			anyHalted = true;
@@ -176,7 +210,7 @@ bool parser::handle_deadlocks(details::job const & j) const {
 	return !anyHalted;
 }
 
-bool matches_intersect(match const & left, match const & right) {
+bool matches_intersect(fast_match const & left, fast_match const & right) {
 	return
 		left.document_position < (right.document_position + right.consumed_character_count) &&
 		(left.document_position + left.consumed_character_count) > right.document_position;
@@ -210,7 +244,7 @@ struct node_props_t {
 	bool selected;
 
 
-	inline node_props_t(abstract_syntax_graph & asg, match const & m) : m(m), r(m.r), permutations(asg.permutations[m]), children(getChildren(asg, m)), height(0), selected(false) {
+	node_props_t(abstract_syntax_graph & asg, match const & m) : m(m), r(m.r), permutations(asg.permutations[m]), children(getChildren(asg, m)), height(0), selected(false) {
 	}
 };
 
@@ -236,7 +270,7 @@ bool can_prune(abstract_syntax_graph & asg, std::map<match, node_props_t> const 
 void prune(abstract_syntax_graph & asg, std::map<match, node_props_t> & nodes, node_props_t & props) {
 	std::queue<match> toPrune;
 	std::set<match> completed;
-	std::function<void(match const &)> add = [&] (match const & m) {
+	std::function<void(match const &)> add = [&](match const & m) {
 		if (completed.insert(m).second) {
 			toPrune.push(m);
 		}
@@ -319,12 +353,12 @@ void resolve_nodes(std::map<match, node_props_t> & nodes) {
 
 	for (auto & entry : nodes) {
 		node_props_t & props = entry.second;
-		//seed algorithm with "match A has all of match A's permutation's matches as descendants"
+		//seed algorithm with "fast_match A has all of fast_match A's permutation's matches as descendants"
 		propertyResolveQueue.push(std::make_tuple(&props, &props, 0));
 	}
 
 	//containment algorithm
-	//match A contains all of match B's permutation's matches
+	//fast_match A contains all of fast_match B's permutation's matches
 	while (!propertyResolveQueue.empty()) {
 		std::tuple<node_props_t *, node_props_t *, int> entry = propertyResolveQueue.front();
 		propertyResolveQueue.pop();
@@ -391,13 +425,13 @@ bool associativity_test(node_props_t & a, node_props_t & b) {
 	}
 	associativity const assoc = dynamic_cast<state_machine_base const *>(&a.m.r)->get_assoc();
 	switch (assoc) {
-		case associativity::left:
-		case associativity::any:
-			return a.m.document_position < b.m.document_position;
-		case associativity::right:
-			return a.m.document_position > b.m.document_position;
-		case associativity::none:
-			return false;
+	case associativity::left:
+	case associativity::any:
+		return a.m.document_position < b.m.document_position;
+	case associativity::right:
+		return a.m.document_position > b.m.document_position;
+	case associativity::none:
+		return false;
 	}
 	throw std::domain_error("Invalid associativity value");
 }
@@ -410,6 +444,7 @@ void select_trees(abstract_syntax_graph & asg, grammar_base const & g, std::map<
 	}
 	for (size_t height = 1; height < orderedMatchesByHeight.size(); ++height) {
 		std::set<match> const & matches = orderedMatchesByHeight[height];
+		std::set<match> preservedIntersections; //needs to be define well before use due to gotos skipping initializtion
 		for (match const & m : matches) {
 			bool anyPermutationSelected = false;
 			node_props_t * a;
@@ -433,10 +468,12 @@ void select_trees(abstract_syntax_graph & asg, grammar_base const & g, std::map<
 					break;
 				}
 			}
+
 			if (!anyPermutationSelected) {
 				goto matchLoop; //continue
 			}
-			//is it possibly preempted by another match that it intersects with?
+
+			//is it possibly preempted by another fast_match that it intersects with?
 			for (match const & intersected : a->allIntersections) {
 				auto pair = nodes.find(intersected);
 				throw_assert(pair != nodes.end());
@@ -448,7 +485,7 @@ void select_trees(abstract_syntax_graph & asg, grammar_base const & g, std::map<
 			}
 
 			a->selected = true;
-			std::set<match> const & preservedIntersections = a->allIntersections;
+			preservedIntersections = a->allIntersections; //needs to be defined well before use, because of gotos skipping initialization otherwise
 			for (match const & intersected : preservedIntersections) {
 				auto const & pair = nodes.find(intersected);
 				if (pair == nodes.end()) {
@@ -459,13 +496,15 @@ void select_trees(abstract_syntax_graph & asg, grammar_base const & g, std::map<
 					//if it must be selected, then precedence and associativity must remove preempted intersections
 					if (can_prune(asg, nodes, b)) {
 						prune(asg, nodes, b);
-					} else {
+					}
+					else {
 						if (precedence_test(g, *a, b)) {
 							static auto stringify = [](node_props_t & np) {
 								return np.r.id + " from " + std::to_string(np.m.document_position) + " for " + std::to_string(np.m.consumed_character_count) + " characters at height " + std::to_string(np.height);
 							};
 							asg.warnings.push_back(stringify(*a) + " preempted " + stringify(b) + " by precedence, but was not applied because it would cause a degenerate parse tree.");
-						} else {
+						}
+						else {
 							throw std::exception(); //degenerate parse caused by associativity?
 						}
 
@@ -481,7 +520,7 @@ void select_trees(abstract_syntax_graph & asg, grammar_base const & g, std::map<
 abstract_syntax_graph& apply_precedence_and_associativity(grammar_base const & g, abstract_syntax_graph & asg) {
 	throw_assert(asg.is_rooted());
 	bool anyAssociativities = false;
-	for (auto const & entry : g.get_productions()) {
+	for (auto const & entry : g.get_state_machines()) {
 		anyAssociativities = entry.second->get_assoc() != associativity::none;
 	}
 
@@ -504,13 +543,13 @@ abstract_syntax_graph& apply_precedence_and_associativity(grammar_base const & g
 }
 
 //Construct an ASG, and if a solution was found, prunes unreachable nodes
-abstract_syntax_graph construct_result(details::job const & j, match const & m) {
+abstract_syntax_graph parser::construct_result(job const & j, fast_match const & m) {
 	//perf_timer timer("construct_result");
-	abstract_syntax_graph result(m);
+	abstract_syntax_graph result = abstract_syntax_graph(match(m));
 	for (auto const & pair : j.producers) {
-		details::producer const & producer = *pair.second;
+		producer const & producer = *pair.second;
 		for (auto const & pair2 : producer.match_to_permutations) {
-			struct match const & n = pair2.first;
+			struct match const & n = match(pair2.first);
 			std::set<permutation> const & permutations = pair2.second;
 			result.permutations[n] = permutations;
 		}
@@ -522,4 +561,5 @@ abstract_syntax_graph construct_result(details::job const & j, match const & m) 
 	return result;
 }
 
+} // namespace details
 } // namespace parlex

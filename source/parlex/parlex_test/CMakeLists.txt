@@ -1,9 +1,10 @@
 include_directories("${PROJECT_SOURCE_DIR}/parlex/include")
 include_directories("${PROJECT_SOURCE_DIR}/utilities")
+include_directories("${PROJECT_SOURCE_DIR}/mpl")
 include_directories("${DEP_DIR}/googletest/include")
 link_directories("${DEP_DIR}/googletest/lib")
 
 add_executable(parlex_test "test.cpp")
 target_link_libraries(parlex_test gtest gtest_main parlex utilities)
-set_property(TARGET parlex_test PROPERTY CXX_STANDARD 11)
+set_property(TARGET parlex_test PROPERTY CXX_STANDARD 17)
 set_property(TARGET parlex_test PROPERTY CXX_STANDARD_REQUIRED ON)

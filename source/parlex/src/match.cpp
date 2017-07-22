@@ -1,18 +1,22 @@
-#include "parlex/match.hpp"
+#include "parlex/details/match.hpp"
 
-#include "parlex/recognizer.hpp"
+#include "parlex/details/fast_match.hpp"
+#include "parlex/details/recognizer.hpp"
 
 #include "utils.hpp"
 
 namespace parlex {
+namespace details {
 
 bool match::operator<(match const & rhs) const {
 	if (document_position < rhs.document_position) {
 		return true;
-	} else if (document_position == rhs.document_position) {
+	}
+	if (document_position == rhs.document_position) {
 		if (consumed_character_count < rhs.consumed_character_count) {
 			return true;
-		} else if (consumed_character_count == rhs.consumed_character_count) {
+		}
+		if (consumed_character_count == rhs.consumed_character_count) {
 			return r.id < rhs.r.id;
 		}
 	}
@@ -23,4 +27,12 @@ bool match::operator<(match const & rhs) const {
 
 match::match(struct match_class const & matchClass, int consumedCharacterCount) : match_class(matchClass), consumed_character_count(consumedCharacterCount) { throw_assert(consumedCharacterCount >= 0); }
 
+match::match(fast_match const & fastMatch) : match_class(fastMatch), consumed_character_count(fastMatch.consumed_character_count) {
+	// range based std::set constructor doesn't seem to like the concurrent_forward_list iterators and doesn't compile in VC++ 2017.
+	for (auto const & leafPtr : fastMatch.leafs) {
+		leafs.insert(leafPtr);
+	}
 }
+
+} // namespace details
+} // namespace parlex

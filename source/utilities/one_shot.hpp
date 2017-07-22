@@ -1,3 +1,6 @@
+#ifndef ONE_SHOT_HPP
+#define ONE_SHOT_HPP
+
 #include <functional>
 #include <mutex>
 
@@ -9,3 +12,5 @@ private:
 	bool state;
 	std::mutex m;
 };
+
+#endif

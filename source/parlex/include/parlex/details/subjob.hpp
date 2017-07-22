@@ -5,23 +5,21 @@
 #include <mutex>
 #include <atomic>
 
-#include "parlex/match.hpp"
-#include "parlex/permutation.hpp"
+#include "parlex/details/fast_match.hpp"
+#include "parlex/details/permutation.hpp"
 #include "parlex/details/context.hpp"
 #include "parlex/details/producer.hpp"
 
 namespace parlex {
-
-class state_machine_base;
-
 namespace details {
 
 class job;
+class state_machine_base;
 
 class subjob : public producer {
 public:
 	state_machine_base const & machine;
-	std::list<context> contexts;
+	concurrent_forward_list<context> contexts;
 	std::list<permutation> queuedPermutations;
 	std::mutex mutex;
 	std::atomic<int> lifetimeCounter;
@@ -31,7 +29,7 @@ public:
 	virtual ~subjob();
 
 	void start();
-	context_ref construct_stepped_context(context_ref const & prior, match const & fromTransition);
+	context_ref construct_stepped_context(context_ref const & prior, fast_match const & fromTransition);
 	void on(context_ref const & c, recognizer const & r, int nextDfaState, behavior::leaf const * leaf);
 	void accept(context_ref const & c);
 	// for special use by the parser to seed the queue

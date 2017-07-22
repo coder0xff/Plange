@@ -2,11 +2,11 @@
 
 #include <mutex>
 
-#include "parlex/behavior.hpp"
-#include "parlex/parser.hpp"
-
+#include "parlex/details/behavior.hpp"
 #include "parlex/details/job.hpp"
+#include "parlex/details/parser.hpp"
 #include "parlex/details/subjob.hpp"
+
 
 namespace parlex {
 namespace details {
@@ -33,12 +33,14 @@ void producer::do_events() {
 		subjob & targetSubjob = subscription.c.owner();
 		while (subscription.next_index < match_to_permutations.size()) {
 			auto & match = matches[subscription.next_index];
-			match.leafs.push_front(subscription.leaf);
+			if (subscription.leaf != nullptr) {
+				match.leafs.push_front(subscription.leaf);
+			}
 			subscription.next_index++;
 			context_ref next = targetSubjob.construct_stepped_context(subscription.c, match);
 			targetSubjob.increment_lifetime(); //reference code A - the target may not halt until this is handled
 			parser.schedule(next, subscription.next_dfa_state);
-		};
+		}
 	}
 	if (completed) {
 		std::list<subscription> temp;
@@ -55,7 +57,7 @@ void producer::enque_permutation(size_t consumedCharacterCount, permutation cons
 	bool newMatch = false; {
 		std::unique_lock<std::mutex> lock(mutex);
 		throw_assert(!completed);
-		match m(match_class(r, document_position), consumedCharacterCount);
+		fast_match m(match_class(r, document_position), consumedCharacterCount);
 		if (!match_to_permutations.count(m)) {
 			match_to_permutations[m] = std::set<permutation>();
 			matches.push_back(m);

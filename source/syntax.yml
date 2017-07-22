@@ -622,7 +622,7 @@ FLOOR:
 
 FOR:
     syntax: >
-        "for" {IC} "(" {IC} [ %initializer(STATEMENT_SCOPE) {IC} ] %condition(EXPRESSION) {IC} ";" {IC} %step[ ASSIGNMENT_CHAIN {{IC} "," {IC} ASSIGNMENT_CHAIN} {IC} ] ")" {IC} EXPRESSION
+        "for" {IC} "(" {IC} %initializer[ (STATEMENT_SCOPE) {IC} ] %condition(EXPRESSION) {IC} ";" {IC} %step[ ASSIGNMENT_CHAIN {{IC} "," {IC} ASSIGNMENT_CHAIN} {IC} ] ")" {IC} EXPRESSION
     doc: >
         evaluate the last expression repeatedly while the second expression is true, all after evaluating the optional STATEMENT_SCOPE
     examples:
@@ -863,6 +863,8 @@ IMPLEMENTS:
 IMPORT:
     syntax: >
         "import" {IC} EXPRESSION
+    doc: >
+        bring the specified 
 
 IN:
     syntax: >
@@ -1177,7 +1179,7 @@ PAYLOAD:
 
 PLATFORM:
     syntax: >
-        "_" {letter | number | PLATFORM}
+        "_" (letter | number) {letter | number | "_"}
     filter: longest
     see:
         - FUNCTION

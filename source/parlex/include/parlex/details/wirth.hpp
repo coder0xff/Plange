@@ -1,19 +1,21 @@
 #ifndef WIRTH_HPP
 #define WIRTH_HPP
 
+#include "parlex/associativity.hpp"
+#include "parlex/builder.hpp"
 #include "parlex/filter_function.hpp"
-#include "parlex/grammar.hpp"
+
+#include "parlex/details/grammar.hpp"
 
 #include "erased.hpp"
-#include "parlex/grammar_definition.hpp"
 
 namespace parlex {
-struct abstract_syntax_graph;
-class builtins_t;
-
 namespace details {
 
-/* similar to https://en.wikipedia.org/wiki/Wirth_syntax_notation but with tagging (TWSN)
+struct abstract_syntax_graph;
+struct node;
+
+/* similar to https://en.wikipedia.org/wiki/Wirth_syntax_notation but with tagging
 
 SYNTAX        = { PRODUCTION } .
 
@@ -37,58 +39,46 @@ FACTOR        = ["$"] IDENTIFIER
 
 class wirth_t final : public grammar {
 public:
-	struct definition {
-		definition(std::u32string const & source, associativity assoc, filter_function filter, std::set<std::string> const & precedences);
+	struct production {
+		production(std::u32string const & source, associativity assoc, filter_function filter, std::set<std::string> const & precedences);
 		std::u32string const source;
 		associativity const assoc;
 		filter_function const filter;
 		std::set<std::string> const precedences;
 	};
 
-	wirth_t(parser & p);
+	explicit wirth_t();
 
-	grammar_definition load_grammar(std::string const & rootId, std::map<std::string, definition> const & definitions);
-	grammar_definition load_grammar(std::string const & rootId, std::u32string const & document, std::map<std::string, associativity> const & associativities, std::set<std::string> const & longestNames);
+	builder load_grammar(std::string const & rootId, std::map<std::string, production> const & definitions) const;
+	builder load_grammar(std::string const & rootId, std::u32string const & document, std::map<std::string, associativity> const & associativities, std::set<std::string> const & longestNames) const;
+
+	erased<node> compile_expression(std::u32string const & source) const;
 
 private:
-	parser & p;
+	string_terminal const & openSquare;
+	string_terminal const & openParen;
+	string_terminal const & openCurly;
+	string_terminal const & dollarSign;
 
-	string_terminal & newline;
-	string_terminal & hash;
-	string_terminal & period;
-	string_terminal & equals;
-	string_terminal & quote;
-	string_terminal & pipe;
-	string_terminal & openSquare;
-	string_terminal & closeSquare;
-	string_terminal & openParen;
-	string_terminal & closeParen;
-	string_terminal & openCurly;
-	string_terminal & closeCurly;
-	string_terminal & underscore;
-	string_terminal & dollarSign;
-	string_terminal & percentageSign;
+	state_machine const & productionDfa;
+	state_machine const & expressionDfa;
+	state_machine const & termDfa;
+	state_machine const & parentheticalDfa;
+	state_machine const & tagDfa;
+	state_machine const & factorDfa;
+	state_machine const & identifierDfa;
 
-	state_machine & whiteSpaceDfa;
-	state_machine & commentDfa;
-	state_machine & productionDfa;
-	state_machine & expressionDfa;
-	state_machine & termDfa;
-	state_machine & parentheticalDfa;
-	state_machine & tagDfa;
-	state_machine & factorDfa;
-	state_machine & identifierDfa;
-	state_machine & rootDfa;
-
-	erased<grammar_definition::node> process_factor2(std::u32string const & document, match const & factor, abstract_syntax_graph const & asg);
-	erased<grammar_definition::node> process_term2(std::u32string const & document, match const & term, abstract_syntax_graph const & asg);
-	erased<grammar_definition::node> process_expression2(std::u32string const & document, match const & expression, abstract_syntax_graph const & asg);
-	erased<grammar_definition::node> process_production2(std::u32string const & document, match const & expression, abstract_syntax_graph const & asg);
-	erased<grammar_definition::node> compile_source(std::u32string const & source);
+	erased<node> process_factor(std::u32string const & document, match const & factor, abstract_syntax_graph const & asg) const;
+	erased<node> process_term(std::u32string const & document, match const & term, abstract_syntax_graph const & asg) const;
+	erased<node> process_expression(std::u32string const & document, match const & expression, abstract_syntax_graph const & asg) const;
+	erased<node> process_production(std::u32string const & document, match const & expression, abstract_syntax_graph const & asg) const;
 
 };
 
 } //namespace details
+
+details::wirth_t const& wirth();
+
 } //namespace parlex
 
 #endif //WIRTH_HPP

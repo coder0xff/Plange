@@ -1,10 +1,19 @@
 #include <algorithm>
 #include <iterator>
 
-#include "parlex/behavior.hpp"
+#include "parlex/details/behavior.hpp"
+
+#include "graphviz_dot.hpp"
+#include "parlex/details/raw_state_machine.hpp"
+#include "covariant_invoke.hpp"
 
 namespace parlex {
+namespace details {
 namespace behavior {
+
+std::string nfa2_to_dot(nfa2 const & nfa) {
+	return nfa.to_dot([](int x) { return std::to_string(x); }, [](leaf const * x) { return x->id; });
+}
 
 void node::add_child(erased<node> child) {
 	children.push_back(child);
@@ -21,8 +30,45 @@ node::node(node const & other) : tag(other.tag), children(other.children) {
 	}
 }
 
+static std::string node_to_name(node const * n) {
+	std::stringstream result;
+
+#define DO_AS(name) [](name const & v) { return #name + (v.tag != "" ? " " + v.tag : ""); }
+	result << covariant_invoke<std::string>(*n,
+		[](leaf const & v) { return v.id; },
+		DO_AS(choice),
+		DO_AS(optional),
+		DO_AS(repetition),
+		DO_AS(sequence)
+	);
+#undef DO_AS
+
+	result << " " << n;
+	return result.str();
+}
+
+
+std::string node::to_dot() const {
+	return directed_graph<node const *>(
+		this, node_to_name,
+		[&](node const * n)
+	{
+		sequence const * as_sequence = dynamic_cast<sequence const *>(n);
+		std::vector<std::pair<std::string, node const *>> edges;
+		for (size_t childIndex = 0; childIndex < n->children.size(); ++childIndex) {
+			auto const & erasedChild = n->children[childIndex];
+			std::string edgeName = as_sequence != nullptr ? "label=" + std::to_string(childIndex) : "";
+			edges.push_back(make_pair(edgeName, &*erasedChild));
+		}
+		return edges;
+	}
+	);
+}
+
 nfa2 node::compile() const {
-	return to_nfa().minimal_dfa().relabel();
+	auto temp = to_nfa();
+	std::string check = nfa2_to_dot(temp); //todo: disable debug code
+	return temp.minimal_dfa().map_to_uints();
 }
 
 leaf::leaf(recognizer const & r) : r(r), id(r.id) {
@@ -80,50 +126,45 @@ nfa2 sequence::to_nfa() const {
 	result.startStates.insert(0);
 	result.acceptStates.insert(0);
 	for (erased<node> const & child : children) {
-		bool anyOriginalStartIsAccept; {
-			std::set<int> intersection;
-			set_intersection(result.startStates.begin(), result.startStates.end(),
-			                 result.acceptStates.begin(), result.acceptStates.end(), inserter(intersection, intersection.begin()));
-			anyOriginalStartIsAccept = !intersection.empty();
+		auto part = child->to_nfa();
+		size_t newStateIndexOffset = result.states.size();
+
+		//true if any part's start state is also an accept state
+		bool partAcceptsStart; {
+			std::set<size_t> intersection;
+			set_intersection(part.startStates.begin(), part.startStates.end(),
+				part.acceptStates.begin(), part.acceptStates.end(), inserter(intersection, intersection.begin()));
+			partAcceptsStart = !intersection.empty();
 		}
 
-		int newStateIndexOffset = result.states.size();
-
-		auto part = child->to_nfa();
+		std::set<size_t> originalAcceptStatesOfResult = result.acceptStates;
+		if (!partAcceptsStart) {
+			result.acceptStates.clear();
+		}
 
 		//add the part's states
-		for (nfa2::state const & partFromState : part.states) {
-			result.states.emplace_back(partFromState.label);
+		for (nfa2::state const & fromStateOfPart : part.states) {
+			result.states.emplace_back(fromStateOfPart.label + newStateIndexOffset);
 			nfa2::state & newState = result.states.back();
-			for (auto & symbolAndToStateIndices : partFromState.out_transitions) {
-				for (int toStateIndex : symbolAndToStateIndices.second) {
-					newState.out_transitions[symbolAndToStateIndices.first].insert(toStateIndex + newStateIndexOffset);
+			for (auto & symbolAndToStateIndicesOfPart : fromStateOfPart.out_transitions) {
+				for (int toStateOfPart : symbolAndToStateIndicesOfPart.second) {
+					newState.out_transitions[symbolAndToStateIndicesOfPart.first].insert(toStateOfPart + newStateIndexOffset);
 				}
 			}
 		}
+		std::string check = nfa2_to_dot(result); //todo: disable debug code
 
-		std::set<int> originalAcceptStateIndices;
-		swap(originalAcceptStateIndices, result.acceptStates);
-		//for each (originalFromState, symbol, originalAcceptState) create for each partStartState (originalFromState, symbol, partStartState)
-		for (int originalStateIndex = 0; originalStateIndex < newStateIndexOffset; ++originalStateIndex) {
-			nfa2::state & fromState = result.states[originalStateIndex];
-			for (auto & symbolAndToStateIndices : fromState.out_transitions) {
-				std::set<int> toStatesIntersectionOriginalAcceptStates;
-				set_intersection(
-					symbolAndToStateIndices.second.begin(), symbolAndToStateIndices.second.end(),
-					originalAcceptStateIndices.begin(), originalAcceptStateIndices.end(),
-					inserter(toStatesIntersectionOriginalAcceptStates, toStatesIntersectionOriginalAcceptStates.begin()));
-				if (!toStatesIntersectionOriginalAcceptStates.empty()) {
-					for (int partStartIndex : part.startStates) {
-						fromState.out_transitions[symbolAndToStateIndices.first].insert(partStartIndex + newStateIndexOffset);
+		//for each transition (startStateOfPart, symbol, stateOfPart) create for each originalAcceptStatesOfResult (originalAcceptStateOfResult, symbol, stateOfPart + newStateIndexOffset) transition
+		for (size_t startStateOfPart : part.startStates) {
+			for (auto const & transition : part.states[startStateOfPart].out_transitions) {
+				auto const & symbol = transition.first;
+				auto const & toStatesOfPart = transition.second;
+				for (size_t toStateOfPart : toStatesOfPart) {
+					for (size_t originalAcceptStateOfResult : originalAcceptStatesOfResult) {
+						std::set<size_t> & toStatesOfOriginalAcceptStateOfResult = result.states[originalAcceptStateOfResult].out_transitions[symbol];
+						toStatesOfOriginalAcceptStateOfResult.insert(toStateOfPart + newStateIndexOffset);
 					}
 				}
-			}
-		}
-
-		if (anyOriginalStartIsAccept) {
-			for (int partStartStateIndex : part.startStates) {
-				result.startStates.insert(partStartStateIndex + newStateIndexOffset);
 			}
 		}
 
@@ -135,5 +176,6 @@ nfa2 sequence::to_nfa() const {
 	return result;
 }
 
-} //namespace behavior
-} //namespace parlex
+} // namespace behavior
+} // namespace details
+} // namespace parlex

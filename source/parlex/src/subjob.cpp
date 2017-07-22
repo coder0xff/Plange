@@ -1,10 +1,13 @@
 #include "parlex/details/subjob.hpp"
 
-#include "parlex/parser.hpp"
-#include "parlex/recognizer.hpp"
+#include "parlex/details/parser.hpp"
+#include "parlex/details/recognizer.hpp"
+#include "parlex/details/state_machine_base.hpp"
 
 #include "parlex/details/context.hpp"
 #include "parlex/details/job.hpp"
+
+#include "utils.hpp"
 
 namespace parlex {
 namespace details {
@@ -25,10 +28,9 @@ subjob::~subjob() {
 	//DBG("destructing subjob b:", documentPosition, " m:", machine);
 }
 
-void subjob::start() {
-	{
+void subjob::start() { {
 		std::unique_lock<std::mutex> lock(mutex);
-		contexts.emplace_back(*this, context_ref(), document_position, nullptr);
+		contexts.emplace_front(*this, context_ref(), document_position, std::optional<fast_match>());
 	}
 	machine.start(*this, document_position);
 	end_dependency(); //reference code B
@@ -36,14 +38,14 @@ void subjob::start() {
 
 context_ref subjob::construct_start_state_context(int documentPosition) {
 	std::unique_lock<std::mutex> lock(mutex);
-	contexts.emplace_back(*this, context_ref(), documentPosition, nullptr);
-	return contexts.back().get_ref();
+	auto i = contexts.emplace_front(*this, context_ref(), documentPosition, std::optional<fast_match>());
+	return i->get_ref();
 }
 
-context_ref subjob::construct_stepped_context(context_ref const & prior, match const & fromTransition) {
+context_ref subjob::construct_stepped_context(context_ref const & prior, fast_match const & fromTransition) {
 	std::unique_lock<std::mutex> lock(mutex);
-	contexts.emplace_back(*this, prior, prior.current_document_position() + fromTransition.consumed_character_count, &fromTransition);
-	return contexts.back().get_ref();
+	auto i = contexts.emplace_front(*this, prior, prior.current_document_position() + fromTransition.consumed_character_count, std::optional<fast_match>(fromTransition));
+	return i->get_ref();
 }
 
 void subjob::on(context_ref const & c, recognizer const & r, int nextDfaState, behavior::leaf const * leaf) {
@@ -56,15 +58,16 @@ void subjob::on(context_ref const & c, recognizer const & r, int nextDfaState, b
 
 void subjob::accept(context_ref const & c) {
 	int len = c.current_document_position() - c.owner().document_position;
-	if (!len) {
+	if (len == 0) {
 		return;
 	}
 	throw_assert(&c.owner() == this);
 	permutation p = c.result();
-	//DBG("Accepting r:", r.id, " p:", documentPosition, " l:", c.current_document_position() - documentPosition);
 	if (!machine.get_filter()) {
+		//DBG("Accepting r:", r.id, " p:", c.owner().document_position, " l:", c.current_document_position() - c.owner().document_position);
 		enque_permutation(len, p);
 	} else {
+		//DBG("Candidate r:", r.id, " p:", c.owner().document_position, " l:", c.current_document_position() - c.owner().document_position);
 		std::unique_lock<std::mutex> lock(mutex);
 		queuedPermutations.push_back(p);
 	}
@@ -80,8 +83,7 @@ void subjob::decrement_lifetime() {
 	terminate();
 }
 
-void subjob::end_dependency()
-{
+void subjob::end_dependency() {
 	//DBG("end_dependency m:", machine, " b:", documentPosition);
 	decrement_lifetime();
 }

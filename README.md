@@ -3,42 +3,56 @@ A project to create a revolutionary development environment
 
 For documentation, see the [plange.tech](http://plange.tech) website.
 
-The instructions below use `./` to donate the location in which the plange source code has been downloaded/cloned to.
-
-## Cloning
-Make sure to clone the `./source/plc/symengine` submodule as well. ([instructions](http://stackoverflow.com/a/4438292/395029)).
+The instructions below use `SRC` to donate the location in which the plange source code has been downloaded/cloned to. `BUILD` is used to donate the build directory. `INSTALL` is used to donate the install directory.
 
 ## Building
-CMake is used to build Plange. 
-
-### Building with Visual C++
-Support for building in MSVC++ is very hacky, but worked when last tested with Visual Studio 2015 (2016-08-14)
+CMake is used to build Plange. The C++ compiler must have (partial) C++17 support. Build has been tested on Visual Studio 2017, and gcc 7. This superbuild will download googletest, and will also download LLVM and yaml-cpp if installations are not found.
 
 #### Prerequisites
- * [CMake](https://cmake.org/download/)
- * [Python](https://www.python.org/downloads/) 2.x (with install directory added to your %PATH% environment variable)
- * Microsoft Visual C++ 2010 or newer, or [Visual C++ 2015 Express](https://www.visualstudio.com/products/visual-studio-express-vs)
- * An internet connection (for automatic downloading of [LLVM](http://llvm.org/releases/download.html) and [MPIR](mpir.org) sources)
+ * [CMake 3.9 or newer](https://cmake.org/download/)
+ * [Python 2.x](https://www.python.org/downloads/) (On Windows, choose to update the %PATH% environment variable during installation.)
+ * Either gcc 7, or Microsoft Visual C++ 2017
+ * An internet connection (for downloading external dependencies)
+ * Optional: LLVM 3.9
+   * If installed, zlib v1 must also be installed
+ * Optional: yaml-cpp
 
 #### Building
- * Run cmake (or cmake-gui) with the source path set to the `./source` directory.
- * This process downloads and builds third-party sources, which causes the first run to take some time
- * Open the newly created "plange.sln" in Visual Studio, and build/run as usual
+ * Clone the repository to a directory of your choice, SRC.
+ * Create a directory for build files, BUILD
+ ```
+    cd BUILD
+    cmake SRC
+    cmake --build .
+ ```
+ * During the first build:
+   * If an installation of LLVM is not found it will be downloaded and built automatically. It will take some time.
+   * If an installation of yaml-cpp is not found it will downloaded and built automatically.
+   * Google test will be downloaded and built.
+ * In-source builds seem to work on linux, but building in source with VC++ has some issues.
+ * Run either clean.sh or clean.bat to delete in-source build artifacts
  
-#### Caveats
- * compiling the MPIR library requires the assembler vsyasm.exe to be installed in your MSVC++ bin directory. `./source/cmake/Modules/vsyasm_install.cmake` will download and install vsyasm if you run CMake with administrative privileges. Otherwise you must [install it yourself](http://yasm.tortall.net/Download.html).
- * There is an assortment of other hacks intended to make this process easier, but which may fail or may not be appropriate for your setup. Check the `./source/cmake/Modules` directory to see what is being attempted.
- * Downloaded files will be stored in `(BUILD_DIRECTORY)/Downloads` and may be deleted once the corresponding binaries have been built.
+ #### Visual Studio .sln files
+ * CMake 3.9.0-rc5 does not set the language standard to C++17 in the generated project files. For the time being, it is necessary to set this in the project properties of parlex and build in Visual Studio. In the parlex project properties, set Configuration Properties > C/C++ > Language > C++ Language Standard to `/std::c++lastest`.See the [bug report](https://gitlab.kitware.com/cmake/cmake/issues/17028).
+ * On Windows, building will generate `BUILD/project.sln`, and `BUILD/prefix/src/plange-build/plange.sln`. They may be opened in Visual Studio 2017 or later. These solutions correspond to the super build, which need be built only once. Afterwords, the Plange solution can be used for working with the source code.
 
-### Building on Unix like systems
-
-#### Prerequisites
-These prerequisites should be available in your *nix distributions package manager
-
- * CMake
- * Python 2.x
- * gmp ([GNU multi-precision library](https://gmplib.org/))
- * llvm-3.8-dev
-
-#### Caveats
- * There is an issue in Ubuntu 16.04 TLS causing the LLVM dev package to be installed incorrectly. You may need to build and install LLVM yourself, and then set LLVM_DIR (in CMake) to `(LLVM_INSTALL_DIR)/share/llvm/cmake`
+#### Notes
+ * The top level CMakeLists.txt is a super build for preparing dependencies.
+   * Plange source code resides in `SRC/source` directory as a separate CMake project.
+   * Plange build files reside in `BUILD/prefix/src/plange-build` and may be built directly once the super build completes
+ * Downloaded dependencies will be stored in `BUILD/Downloads` and may be deleted once building completes
+ * Built dependencies will be stored in `BUILD/Dependencies`
+ * Python is only required if LLVM must be built, or to use miscellaneous python programs within the repository
+ * The Ubuntu 16 LTS package `libyaml-cpp-dev` has an undeclared dependency on `libboost-all-dev` and may cause build to fail with fatal `error: boost/shared_ptr.hpp: No such file or directory`. You may:
+   * Install boost `sudo apt install libboost-all-dev`, or
+   * Uninstall the faulty yaml-cpp package `sudo apt remove libyaml-cpp-dev`, or
+   * Modify the CMakeLists.txt files to force an external project in the super build
+     * ./CMakeLists.txt
+     * ./source/grammar_gen/CMakeLists.txt
+ * The Ubuntu 16 LTS package `llvm-3.9-dev` has an undeclared dependency on `zlib1g-dev` and may cause build to fail with `cannot find -lz`. You may:
+   * Install zlib `sudo apt install zlib1g-dev`, or
+   * Uninstall the faulty LLVM package `sudo apt remove llvm-3.9-dev`, or
+   * Modify the CMakeLists.txt files to force an external project in the super build
+     * ./CMakeLists.txt
+     * ./source/plc/CMakeLists.txt
+ 

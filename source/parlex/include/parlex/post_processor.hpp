@@ -4,9 +4,13 @@
 #include <functional>
 
 namespace parlex {
+namespace details {
 
 struct abstract_syntax_graph;
-typedef std::function<void(abstract_syntax_graph &)> post_processor;
+
+} // namespace details
+
+typedef std::function<void(details::abstract_syntax_graph &)> post_processor;
 
 } // namespace parlex
 

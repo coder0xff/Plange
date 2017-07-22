@@ -9,8 +9,8 @@ template<typename T>
 class erased final {
 public:
 	// alias for unique_ptr with a deleter function
-	template<typename T>
-	using ptr = std::unique_ptr<T, std::function<void (T*)>>;
+	template<typename U>
+	using ptr = std::unique_ptr<U, std::function<void (U*)>>;
 
 	// construct with perfect forwarding to T
 	template<typename... Args>
@@ -47,7 +47,7 @@ public:
 		static_throw_assert(std::is_base_of<T, U>::value, "the given value does not inherit the erasure type");
 		cloner = create_cloner<U>(other.cloner);
 		deleter = create_deleter<U>(other.deleter);
-		ptr<T> newu_p(other.cloner(&*other.value), deleter)
+		ptr<T> newu_p(other.cloner(&*other.value), deleter);
 		value.swap(std::move(newu_p));
 		return *this;
 	}
