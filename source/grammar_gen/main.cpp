@@ -7,15 +7,18 @@
  * 
  ****************************************************/
 
-#include <yaml-cpp/yaml.h>
-#include "utils.hpp"
 #include <fstream>
 #include <iostream>
+
+#include <yaml-cpp/yaml.h>
+
+#include "utf.hpp"
+#include "utils.hpp"
+
 #include "parlex/details/parser.hpp"
 #include "parlex/details/grammar.hpp"
 #include "parlex/details/builtins.hpp"
 #include "parlex/builder.hpp"
-#include "utf.hpp"
 #include "parlex/cpp_generator.hpp"
 #include "parlex/details/wirth.hpp"
 
@@ -76,8 +79,6 @@ int main(int argc, const char* argv[]) {
 		defs.emplace(std::piecewise_construct, forward_as_tuple(name), forward_as_tuple(source, assoc, filter, precedences));
 	}
 	parlex::builder g = parlex::wirth().load_grammar("STATEMENT_SCOPE", defs);
-	std::ofstream cppStream(workingDir + "/plc/src/plange_grammar.cpp.inc");
-	std::ofstream hppStream(workingDir + "/plc/include/plange_grammar.hpp.inc");
 	auto files = parlex::cpp_generator::generate("plange", g);
 	auto write_files = [&](std::string const & plcDir, parlex::cpp_generator::file_dictionary const & filesToWrite)
 	{

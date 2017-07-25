@@ -1,5 +1,6 @@
 include_directories("${PROJECT_SOURCE_DIR}/parlex/include")
 include_directories("${PROJECT_SOURCE_DIR}/utilities")
+include_directories("${PROJECT_SOURCE_DIR}/mpl")
 include_directories("${DEP_DIR}/googletest/include")
 link_directories("${DEP_DIR}/googletest/lib")
 

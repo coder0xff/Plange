@@ -75,7 +75,7 @@ source_group("include" FILES ${HEADERS})
 source_group("include\\builtins" FILES ${BUILTINS_HEADERS})
 source_group("include\\details" FILES ${DETAILS_HEADERS})
 
-include_directories("include" "${PROJECT_SOURCE_DIR}/utilities")
+include_directories("include" "${PROJECT_SOURCE_DIR}/utilities" "${PROJECT_SOURCE_DIR}/mpl")
 add_library(parlex ${SOURCES} ${HEADERS} ${BUILTINS_HEADERS} ${DETAILS_HEADERS})
 set_property(TARGET parlex PROPERTY CXX_STANDARD 17)
 set_property(TARGET parlex PROPERTY CXX_STANDARD_REQUIRED ON)

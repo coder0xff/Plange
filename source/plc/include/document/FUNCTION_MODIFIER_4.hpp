@@ -3,6 +3,12 @@
 #ifndef INCLUDED_FUNCTION_MODIFIER_4_HPP
 #define INCLUDED_FUNCTION_MODIFIER_4_HPP
 
+#include <optional>
+#include <variant>
+#include <vector>
+
+#include "erased.hpp"
+
 struct FUNCTION_MODIFIER_CALLING_CONVENTION;
 struct FUNCTION_MODIFIER_MODEL;
 

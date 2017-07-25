@@ -6,13 +6,16 @@ For documentation, see the [plange.tech](http://plange.tech) website.
 The instructions below use `SRC` to donate the location in which the plange source code has been downloaded/cloned to. `BUILD` is used to donate the build directory. `INSTALL` is used to donate the install directory.
 
 ## Building
-CMake is used to build Plange. The C++ compiler must have (partial) C++17 support. Build has been tested on Visual Studio 2017, and gcc 7.
+CMake is used to build Plange. The C++ compiler must have (partial) C++17 support. Build has been tested on Visual Studio 2017, and gcc 7. This superbuild will download googletest, and will also download LLVM and yaml-cpp if installations are not found.
 
 #### Prerequisites
  * [CMake 3.9 or newer](https://cmake.org/download/)
  * [Python 2.x](https://www.python.org/downloads/) (On Windows, choose to update the %PATH% environment variable during installation.)
  * Either gcc 7, or Microsoft Visual C++ 2017
  * An internet connection (for downloading external dependencies)
+ * Optional: LLVM 3.9
+   * If installed, zlib v1 must also be installed
+ * Optional: yaml-cpp
 
 #### Building
  * Clone the repository to a directory of your choice, SRC.

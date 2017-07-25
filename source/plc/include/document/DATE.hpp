@@ -3,6 +3,12 @@
 #ifndef INCLUDED_DATE_HPP
 #define INCLUDED_DATE_HPP
 
+#include <optional>
+#include <variant>
+#include <vector>
+
+#include "erased.hpp"
+
 struct DATE_YEAR_DAY;
 struct DATE_YEAR_MONTH_DAY;
 

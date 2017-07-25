@@ -3,6 +3,12 @@
 #ifndef INCLUDED_NON_NEG_INTEGER_HPP
 #define INCLUDED_NON_NEG_INTEGER_HPP
 
+#include <optional>
+#include <variant>
+#include <vector>
+
+#include "erased.hpp"
+
 struct NON_ZERO_DECIMAL_DIGIT;
 
 typedef std::variant<
@@ -10,7 +16,7 @@ typedef std::variant<
 		erased<NON_ZERO_DECIMAL_DIGIT>,
 		int
 	>,
-	std::std::integral_constant<int, 1>
+	std::integral_constant<int, 1>
 > NON_NEG_INTEGER;
 
 #endif //INCLUDED_NON_NEG_INTEGER_HPP

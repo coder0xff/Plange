@@ -16,5 +16,10 @@ std::shared_ptr<concrete_value> concrete_value::try_concretion()
 	return std::dynamic_pointer_cast<concrete_value>(shared_from_this());
 }
 
-concrete_value::concrete_value(llvm::Value* llvm_value) : llvm_value(llvm_value) {}
+	void concrete_value::value_deleter::operator()(llvm::Value* ptr) const
+	{
+		ptr->deleteValue();
+	}
+
+concrete_value::concrete_value(llvm::Value* llvm_value) : llvm_value(llvm_value, value_deleter()) {}
 }

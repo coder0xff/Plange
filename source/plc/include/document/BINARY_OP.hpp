@@ -3,6 +3,12 @@
 #ifndef INCLUDED_BINARY_OP_HPP
 #define INCLUDED_BINARY_OP_HPP
 
+#include <optional>
+#include <variant>
+#include <vector>
+
+#include "erased.hpp"
+
 struct BINARY_ARITHMETIC_OP;
 struct BINARY_COLLECTION_OP;
 struct BINARY_LOGICAL_OP;

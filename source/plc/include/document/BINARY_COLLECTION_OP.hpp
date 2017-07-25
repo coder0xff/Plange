@@ -3,6 +3,12 @@
 #ifndef INCLUDED_BINARY_COLLECTION_OP_HPP
 #define INCLUDED_BINARY_COLLECTION_OP_HPP
 
+#include <optional>
+#include <variant>
+#include <vector>
+
+#include "erased.hpp"
+
 struct BIJECTION;
 struct INTERSECTION;
 struct SYMMETRIC_DIFFERENCE;

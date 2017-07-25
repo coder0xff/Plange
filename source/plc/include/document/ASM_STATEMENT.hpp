@@ -3,6 +3,12 @@
 #ifndef INCLUDED_ASM_STATEMENT_HPP
 #define INCLUDED_ASM_STATEMENT_HPP
 
+#include <optional>
+#include <variant>
+#include <vector>
+
+#include "erased.hpp"
+
 struct ASM_EXPRESSION;
 struct ASM_OP;
 struct IC;
@@ -22,6 +28,22 @@ struct ASM_STATEMENT {
 		>>
 	>> field_2;
 	std::vector<erased<IC>> field_3;
+
+	ASM_STATEMENT(
+		erased<ASM_OP> const & field_1,
+		std::optional<std::tuple<
+			erased<ICR>,
+			erased<ASM_EXPRESSION>,
+			std::vector<std::tuple<
+				std::vector<erased<IC>>,
+				std::optional<std::tuple<
+					std::vector<erased<IC>>,
+					erased<ASM_EXPRESSION>
+				>>
+			>>
+		>> const & field_2,
+		std::vector<erased<IC>> const & field_3
+	) : field_1(field_1), field_2(field_2), field_3(field_3) {}
 };
 
 

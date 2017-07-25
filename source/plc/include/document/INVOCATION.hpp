@@ -3,6 +3,12 @@
 #ifndef INCLUDED_INVOCATION_HPP
 #define INCLUDED_INVOCATION_HPP
 
+#include <optional>
+#include <variant>
+#include <vector>
+
+#include "erased.hpp"
+
 struct ARRAY_INVOCATION;
 struct PARENTHETICAL_INVOCATION;
 struct TYPE_INVOCATION;

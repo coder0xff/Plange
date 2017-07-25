@@ -3,6 +3,12 @@
 #ifndef INCLUDED_UNARY_OP_HPP
 #define INCLUDED_UNARY_OP_HPP
 
+#include <optional>
+#include <variant>
+#include <vector>
+
+#include "erased.hpp"
+
 struct ALLOCATION;
 struct CARDINALITY;
 struct KLEENE_STAR;

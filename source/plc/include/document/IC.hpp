@@ -3,6 +3,12 @@
 #ifndef INCLUDED_IC_HPP
 #define INCLUDED_IC_HPP
 
+#include <optional>
+#include <variant>
+#include <vector>
+
+#include "erased.hpp"
+
 struct COMMENT;
 struct EMBEDDED_COMMENT;
 struct END_OF_LINE_COMMENT;

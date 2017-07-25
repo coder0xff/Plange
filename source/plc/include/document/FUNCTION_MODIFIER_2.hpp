@@ -3,6 +3,12 @@
 #ifndef INCLUDED_FUNCTION_MODIFIER_2_HPP
 #define INCLUDED_FUNCTION_MODIFIER_2_HPP
 
+#include <optional>
+#include <variant>
+#include <vector>
+
+#include "erased.hpp"
+
 struct FUNCTION_MODIFIER_3;
 struct FUNCTION_MODIFIER_ATOMIC;
 

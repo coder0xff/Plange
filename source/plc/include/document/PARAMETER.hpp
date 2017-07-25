@@ -3,6 +3,12 @@
 #ifndef INCLUDED_PARAMETER_HPP
 #define INCLUDED_PARAMETER_HPP
 
+#include <optional>
+#include <variant>
+#include <vector>
+
+#include "erased.hpp"
+
 struct PARAMETER_ANALYTIC;
 struct PARAMETER_NATURAL;
 
