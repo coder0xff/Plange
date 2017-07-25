@@ -23,12 +23,12 @@ class context {
 public:
 	int const id;
 	subjob & owner;
-	context* const prior;
+	context const* const prior;
 	int const currentDocumentPosition;
 	std::optional<fast_match> const fromTransition; // optional
 
 public:
-	context(subjob & owner, context* const & prior, int documentPosition, std::optional<fast_match> const & from_transition);
+	context(subjob & owner, context const* prior, int documentPosition, std::optional<fast_match> const & from_transition);
 	context(context const & other) = delete;
 	context(context && move) = delete;
 	~context();

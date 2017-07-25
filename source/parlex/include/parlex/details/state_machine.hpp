@@ -47,7 +47,7 @@ private:
 
 	states_t states;
 
-	void process(context* const & c, size_t dfaState) const override;
+	void process(context const & c, size_t dfaState) const override;
 	static behavior::nfa2 reorder(behavior::nfa2 dfa);
 
 public:

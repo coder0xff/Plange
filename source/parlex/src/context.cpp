@@ -14,7 +14,7 @@ std::atomic<int> contextIDCounter(0);
 namespace parlex {
 namespace details {
 
-context::context(subjob & owner, context* const & prior, int documentPosition, std::optional<fast_match> const & fromTransition) :
+context::context(subjob & owner, context const* prior, int documentPosition, std::optional<fast_match> const & fromTransition) :
 	id(++contextIDCounter), owner(owner), prior(prior),
 	currentDocumentPosition(documentPosition),
 	fromTransition(fromTransition) {
@@ -29,7 +29,7 @@ context::~context() {
 std::vector<match> context::result() const {
 	std::vector<match> result;
 	context const* current = this;
-	while (!current->prior) {
+	while (current->prior) {
 		result.push_back(match(*current->fromTransition));
 		current = current->prior;
 	}

@@ -27,12 +27,12 @@ void parser::start_workers(int threadCount) {
 					//DBG("THREAD ", threadCount, " POPPING ITEM");
 					auto item = get_work_item();
 					lock.unlock();
-					context* const & cont = std::get<0>(item);
+					context const & c = *std::get<0>(item);
 					int const nextDfaState = std::get<1>(item);
-					update_progress(cont);
-					//INF("thread ", threadCount, " executing DFA state");
-					(cont->owner).machine.process(cont, nextDfaState);
-					(cont->owner).end_dependency(); //reference code A
+					update_progress(c);
+					//INF("thread ", threadCount, " executing DFA state");	
+					c.owner.machine.process(c, nextDfaState);
+					c.owner.end_dependency(); //reference code A
 					if (--activeCount == 0) {
 						halt_cv.notify_one();
 					}
@@ -78,12 +78,12 @@ void parser::complete_progress_handler(job & j) {
 	j.update_progress(j.document.length());
 }
 
-void parser::update_progress(context* const & context) {
-	(context->owner).owner.update_progress(context->currentDocumentPosition);
+void parser::update_progress(context const & context) {
+	context.owner.owner.update_progress(context.currentDocumentPosition);
 }
 
-std::tuple<context*, int> parser::get_work_item() {
-	std::tuple<context*, int> item = work.front();
+std::tuple<context const*, int> parser::get_work_item() {
+	std::tuple<context const*, int> item = work.front();
 	work.pop();
 	return item;
 }
@@ -95,12 +95,12 @@ abstract_syntax_graph parser::single_thread_parse(grammar_base const & g, recogn
 	while (true) {
 		while (work.size() > 0) {
 			auto item = get_work_item();
-			context* const & cont = std::get<0>(item);
+			auto const & c = *std::get<0>(item);
 			int const nextDfaState = std::get<1>(item);
-			update_progress(cont);
+			update_progress(c);	
 			//INF("thread ", threadCount, " executing DFA state");
-			(cont->owner).machine.process(cont, nextDfaState);
-			(cont->owner).end_dependency(); //reference code A
+			c.owner.machine.process(c, nextDfaState);
+			c.owner.end_dependency(); //reference code A
 			--activeCount;
 		}
 		throw_assert(activeCount == 0);
@@ -150,11 +150,11 @@ abstract_syntax_graph parser::parse(grammar_base const & g, std::u32string const
 	return parse(g, g.get_main_state_machine(), document, progressHandler);
 }
 
-void parser::schedule(context* const & c, int nextDfaState) {
+void parser::schedule(context const & c, int nextDfaState) {
 	//DBG("scheduling m: ", c.owner().machine.id, " b:", c.owner().documentPosition, " s:", nextDfaState, " p:", c.current_document_position());
 	++activeCount;
 	std::unique_lock<std::mutex> lock(mutex);
-	work.emplace(std::make_tuple(c, nextDfaState));
+	work.emplace(std::make_tuple(&c, nextDfaState));
 	work_cv.notify_one();
 }
 
@@ -178,8 +178,8 @@ bool parser::handle_deadlocks(job const & j) const {
 			continue;
 		}
 		for (auto const & subscription : p.consumers) {
-			context* const & c = subscription.c;
-			match_class temp((c->owner).machine, (c->owner).document_position);
+			context const & c = subscription.c;
+			match_class temp(c.owner.machine, c.owner.document_position);
 			all_subscriptions[matchClass].insert(temp);
 			direct_subscriptions[matchClass].insert(temp);
 			s.push(std::pair<match_class, match_class>(matchClass, temp));

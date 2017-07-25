@@ -142,7 +142,7 @@ struct builder {
 	class name##_t : public parlex::state_machine_base {                                              \
 	public:                                                                                            \
 		name##_t();                                                                                     \
-		void process(parlex::details::context* const & c, size_t dfaState) const override;            \
+		void process(parlex::details::context const & c, size_t dfaState) const override;            \
 		int get_start_state() const final;                                                                \
 		parlex::filter_function get_filter() const final;                                                  \
 		parlex::associativity get_assoc() const final;                                                      \
@@ -154,7 +154,7 @@ struct builder {
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #define DEFINE_DFA(name, cases, startStates)                                                                          \
 	name##_t::name##_t() : state_machine_base(#name) {}                                                                \
-	void name##_t::process(parlex::details::context* const & c, size_t dfaState) const {                             \
+	void name##_t::process(parlex::details::context const & c, size_t dfaState) const {                             \
 		switch (dfaState) {                                                                                              \
 		cases                                                                                                             \
 		default:                                                                                                           \

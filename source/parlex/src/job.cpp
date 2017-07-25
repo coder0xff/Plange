@@ -51,7 +51,7 @@ job::job(parser & owner, std::u32string const & document, grammar_base const & g
 	}
 }
 
-void job::connect(match_class const & matchClass, context* const & c, int nextDfaState, behavior::leaf const * leaf) {
+void job::connect(match_class const & matchClass, context const & c, int nextDfaState, behavior::leaf const * leaf) {
 	get_producer(matchClass).add_subscription(c, nextDfaState, leaf);
 }
 

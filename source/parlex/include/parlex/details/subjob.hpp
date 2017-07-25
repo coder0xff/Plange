@@ -29,11 +29,11 @@ public:
 	virtual ~subjob();
 
 	void start();
-	context& construct_stepped_context(context* const & prior, fast_match const & fromTransition);
-	void on(context* const & c, recognizer const & r, int nextDfaState, behavior::leaf const * leaf);
-	void accept(context* const & c);
+	context const & construct_stepped_context(context const* const prior, fast_match const & fromTransition);
+	void on(context const & c, recognizer const & r, int nextDfaState, behavior::leaf const * leaf);
+	void accept(context const & c);
 	// for special use by the parser to seed the queue
-	context& construct_start_state_context(int documentPosition);
+	context const & construct_start_state_context(int documentPosition);
 	void end_dependency();
 	void finish_creation();
 	void decrement_lifetime();
