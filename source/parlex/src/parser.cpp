@@ -154,7 +154,7 @@ void parser::schedule(context const & c, int nextDfaState) {
 	//DBG("scheduling m: ", c.owner().machine.id, " b:", c.owner().documentPosition, " s:", nextDfaState, " p:", c.current_document_position());
 	++activeCount;
 	std::unique_lock<std::mutex> lock(mutex);
-	work.emplace(std::make_tuple(&c, nextDfaState));
+	work.emplace(&c, nextDfaState);
 	work_cv.notify_one();
 }
 
