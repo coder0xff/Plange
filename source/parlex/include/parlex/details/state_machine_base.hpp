@@ -15,8 +15,8 @@ class node;
 
 namespace details {
 
+class context;
 class parser;
-class context_ref;
 class subjob;
 
 //simulates a dfa
@@ -34,9 +34,9 @@ protected:
 
 	state_machine_base(std::string const & id);
 	void start(subjob & sj, size_t documentPosition) const;
-	virtual void process(context_ref const & c, size_t dfaState) const = 0;
-	static void on(context_ref const & c, recognizer const & r, int nextDfaState, behavior::leaf const * leaf);
-	static void accept(context_ref const & c);
+	virtual void process(context const & c, size_t dfaState) const = 0;
+	static void on(context const & c, recognizer const & r, int nextDfaState, behavior::leaf const * leaf);
+	static void accept(context const & c);
 };
 
 } // namespace details
