@@ -5,71 +5,86 @@
 #include <memory>
 
 // value semantic type erasure via base types
-template<typename T>
-class erased final {
-public:
-	// alias for unique_ptr with a deleter function
+template <typename T>
+class erased {
+	template<typename... Us>
+	struct subclass_argument {
+		static constexpr bool value = false;
+	};
+
 	template<typename U>
-	using ptr = std::unique_ptr<U, std::function<void (U*)>>;
+	struct subclass_argument<U> {
+		static constexpr bool value = std::is_base_of<T, U>::value;
+	};
+public:
+	typedef T type;
 
 	// construct with perfect forwarding to T
-	template<typename... Args>
-	erased(Args... args) : cloner(create_cloner<T>()), deleter(create_deleter<T>()), value(new T(std::forward<Args>(args)...), deleter) {}
+	template <typename... Args, typename std::enable_if<std::is_constructible<T, Args...>::value && !subclass_argument<Args...>::value, int>::type = 0>
+	erased(Args&&... args) : op_ptr(&op<T>), downcast_offset(0), value(new T(std::forward<Args>(args)...)) {}
 
 	// construct from type that inherits T
-	template<typename U>
-	erased(U const & value) : cloner(create_cloner<U>()), deleter(create_deleter<U>()), value(new U(value), deleter) {
+	template <typename U>
+	// ReSharper disable once CppNonExplicitConvertingConstructor
+	erased(U const & value) : op_ptr(&op<U>), downcast_offset(compute_downcast_offset<U>()), value(new U(value)) {
 		static_assert(std::is_base_of<T, U>::value, "the given value does not inherit the erasure type");
 		static_assert(std::is_copy_constructible<U>::value, "the given value is not copy constructible");
 	}
 
 	// copy constructor
-	erased(erased const & other) : cloner(other.cloner), deleter(other.deleter), value(cloner(&*other.value), deleter) {}
+	erased(erased const & other) : op_ptr(other.op_ptr), downcast_offset(other.downcast_offset), value(other.do_clone()) {}
 
 	// construct from erased<U> where U inherits T
-	template<typename U>
-	erased(erased<U> const & other) : cloner(create_cloner<U>(other.cloner)), deleter(create_deleter<U>(other.deleter)), value(other.cloner(&*other.value), deleter)  {
-		static_throw_assert(std::is_base_of<T, U>::value, "the given value does not inherit the erasure type");
+	template <typename U>
+	erased(erased<U> const & other) : op_ptr(other.op_ptr), downcast_offset(other.downcast_offset + compute_downcast_offset<U>()), value(other.do_clone()) {
+		static_assert(std::is_base_of<T, U>::value, "the given value does not inherit the erasure type");
+	}
+
+	~erased() {
+		do_delete();
 	}
 
 	// assignment operator
 	erased & operator =(erased const & other) {
-		cloner = other.cloner;
-		deleter = other.deleter;
-		ptr<T> newPtr(cloner(&*other.value), deleter);
-		value.swap(newPtr);
+		do_delete();
+		op_ptr = other.op_ptr;
+		downcast_offset = other.downcast_offset;
+		value = other.do_clone();
 		return *this;
 	}
 
 	// assignment operator from erased<U> where U inherits T
-	template<typename U>
+	template <typename U>
 	erased & operator =(erased<U> const & other) {
-		static_throw_assert(std::is_base_of<T, U>::value, "the given value does not inherit the erasure type");
-		cloner = create_cloner<U>(other.cloner);
-		deleter = create_deleter<U>(other.deleter);
-		ptr<T> newu_p(other.cloner(&*other.value), deleter);
-		value.swap(std::move(newu_p));
+		static_assert(std::is_base_of<T, U>::value, "the given value does not inherit the erasure type");
+		do_delete();
+		op_ptr = other.op_ptr;
+		downcast_offset = other.downcast_offset + compute_downcast_offset<U>();
+		value = other.clone();
 		return *this;
 	}
 
-	// assignment from U where U inherits T, and U is not erased<U>
-	template<typename U, typename std::enable_if_t<std::is_base_of_v<T, U>, int> = 0>
+	// assignment from U where U inherits T
+	template <typename U, typename std::enable_if<std::is_base_of<T, U>::value, int>::type = 0>
 	erased & operator =(U const & newValue) {
-		cloner = create_cloner<U>();
-		deleter = create_deleter<U>();
-		ptr<T> newu_p(new U(newValue), deleter);
-		value.swap(std::move(newu_p));
+		do_delete();
+		op_ptr = &op<U>;
+		downcast_offset = compute_downcast_offset<U>();
+		value = new U(newValue);
 		return *this;
 	}
 
 	// assignment from U where T can be assigned by U, and U is not an inheritor of T
-	template<typename U, typename std::enable_if_t<!std::is_base_of_v<T, U> && !std::is_same_v<U, erased>, int> = 0>
+	template <typename U, typename std::enable_if<!std::is_base_of<T, U>::value && !std::is_same<U, erased>::value, int>::type = 0>
 	erased & operator =(U const & newValue) {
 		*value = newValue;
 		return *this;
 	}
 
-	std::unique_ptr<T> clone() const { return std::unique_ptr<T>(cloner(value.get())); }
+	std::unique_ptr<T> clone() const {
+		T * temp = do_clone();
+		return std::unique_ptr<T>(temp);
+	}
 
 	T & operator *() { return *value; }
 	T * operator ->() { return &*value; }
@@ -77,42 +92,43 @@ public:
 	T const * operator ->() const { return &*value; }
 
 private:
-	template<typename U>
-	std::function<T* (T*)> create_cloner() {
-		return [](T * original) {
-			return (T*)new U(*static_cast<U*>(original));
-		};
+	template <typename U>
+	static constexpr intptr_t compute_downcast_offset() {
+		return reinterpret_cast<intptr_t>(static_cast<U*>(reinterpret_cast<T*>(static_cast<void*>(nullptr))));
 	}
 
-	// create a cloner function of a multiply-erased value by wrapping the cloner of the source erased<U>
-	template<typename U>
-	std::function<T* (T*)> create_cloner(std::function<U* (U*)> underlying) {
-		return [underlying](T * original) {
-			return (T*)underlying(static_cast<U*>(original));
-		};
+	template <typename U>
+	static void * op(void const * value, bool doDelete) {
+		if (doDelete) {
+			delete reinterpret_cast<U*>(const_cast<void *>(value));
+			return nullptr;
+		} else {
+			return reinterpret_cast<void *>(new U(*reinterpret_cast<U const *>(value)));
+		}
 	}
 
-	template<typename U>
-	std::function<void (T*)> create_deleter() {
-		return [](T * p) {
-			delete (U*)p;
-		};
+	void * downcast(void * p) const {
+		return reinterpret_cast<int8_t *>(p) + downcast_offset;
 	}
 
-	// create a deleter function of a multiply-erased value by wrapping the cloner of the source erased<U>
-	template<typename U>
-	std::function<void (T*)> create_deleter(std::function<void (U*)> underlying) {
-		return [underlying](T * p) {
-			underlying(static_cast<U*>(p));
-		};
+	void * upcast(void * p) const {
+		return reinterpret_cast<int8_t *>(p) - downcast_offset;
 	}
 
-	template<typename U>
+	T * do_clone() const {
+		return reinterpret_cast<T*>(upcast(op_ptr(downcast(value), false)));
+	}
+
+	void do_delete() {
+		op_ptr(downcast(value), true);
+	}
+
+	template <typename U>
 	friend class erased;
 
-	std::function<T* (T*)> cloner;
-	std::function<void(T*)> deleter;
-	ptr<T> value;
+	void * (*op_ptr)(void const *, bool);
+	size_t downcast_offset;
+	T * value;
 };
 
 #endif //ERASED_HPP
