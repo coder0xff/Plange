@@ -29,6 +29,46 @@ inline std::string trim(std::string str)
 	return str;
 }
 
+std::optional<std::string> read_file(std::string const & pathname)
+{
+	std::ifstream file(pathname);
+	if (file) {
+		std::string str;
+		std::string file_contents;
+		while (std::getline(file, str))
+		{
+			file_contents += str;
+			file_contents.push_back('\n');
+		}
+		return file_contents;
+	}
+	return std::optional<std::string>();
+}
+
+void write_file(std::string const & pathname, std::string const & text)
+{
+	auto currentText = read_file(pathname);
+	if (currentText.has_value() && currentText.value() == text)
+	{
+		return;
+	}
+	std::ofstream file(pathname, std::ios::binary);
+	if (!file) {
+		throw std::runtime_error("couldn't open file for writing");
+	}
+	std::cout << "Writing " << pathname << '\n';
+	file << text;
+}
+
+void write_files(std::string const & plcDir, parlex::cpp_generator::file_dictionary const & filesToWrite)
+{
+	for (auto const & file : filesToWrite) {
+		std::string pathname = plcDir + "/" + file.first;
+		std::string const & text = file.second;
+		write_file(pathname, text);
+	}
+}
+
 // takes one argument pointing to the directory containing syntax.yml
 int main(int argc, const char* argv[]) {
 	throw_assert(argc == 2);
@@ -79,19 +119,9 @@ int main(int argc, const char* argv[]) {
 		defs.emplace(std::piecewise_construct, forward_as_tuple(name), forward_as_tuple(source, assoc, filter, precedences));
 	}
 	parlex::builder g = parlex::wirth().load_grammar("STATEMENT_SCOPE", defs);
-	auto files = parlex::cpp_generator::generate("plange", g);
-	auto write_files = [&](std::string const & plcDir, parlex::cpp_generator::file_dictionary const & filesToWrite)
-	{
-		for (auto const & file : filesToWrite) {
-			std::string filePathname = workingDir + "/" + plcDir + "/" + file.first;
-			std::ofstream s(filePathname);
-			if (!s) {
-				throw std::runtime_error("couldn't open file for writing");
-			}
-			s << file.second;
-		}
-	};
-	write_files("plc/include/document", files.headers);
-	write_files("plc/src/document", files.sources);
+	auto files = parlex::cpp_generator::generate("plange", "plc", g);
+
+	write_files(workingDir + "/plc/include/document", files.headers);
+	write_files(workingDir + "/plc/src/document", files.sources);
 
 }
