@@ -1,4 +1,3 @@
-return
 	(argsT...) {
 		return type inheriting Array<argsT...>, TsArray, diamond Array {
 		private:
