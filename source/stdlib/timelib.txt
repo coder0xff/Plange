@@ -1,0 +1,38 @@
+extern <Void -> Int64> clock;
+extern <Pointer<Int64> -> Int64> time;
+extern <Int64 * Int64 -> Float64> difftime;
+tmPointer := type_abstraction(Pointer<Void>)
+extern <tmPointer -> Int64> mktime;
+ConsttmPointer := type_abstraction(Pointer<Const<Void>>)
+extern <Pointer<Char> * Int32 * Pointer<Const<Char>> * ConsttmPointer -> Int32> strftime;
+extern <Pointer<Char> * Int32 * Pointer<Const<Char>> * ConsttmPointer * Pointer<Void> -> Int32> strftime_l;
+extern <Pointer<Const<Int64>> -> tmPointer> gmtime;
+extern <Pointer<Const<Int64>> -> tmPointer> localtime;
+extern <Pointer<Const<Int64>> * tmPointer -> tmPointer> gmtime_r;
+extern <Pointer<Const<Int64>> * tmPointer -> tmPointer> localtime_r;
+extern <ConsttmPointer -> Pointer<Char>> asctime;
+extern <Pointer<Const<Int64>> -> Pointer<Char>> ctime;
+extern <ConsttmPointer * Pointer<Char> -> Pointer<Char>> asctime_r;
+extern <Pointer<Const<Int64>> * Pointer<Char> -> Pointer<Char>> ctime_r;
+extern <Void -> Void> tzset;
+extern <Pointer<Const<Int64>> -> Int32> stime;
+extern <tmPointer -> Int64> timegm;
+extern <tmPointer -> Int64> timelocal;
+extern <Int32 -> Int32> dysize;
+ConsttimespecPointer := type_abstraction(Pointer<Const<Void>>)
+timespecPointer := type_abstraction(Pointer<Void>)
+extern <ConsttimespecPointer * timespecPointer -> Int32> nanosleep;
+extern <Int * timespecPointer -> Int32> clock_getres;
+extern <Int * timespecPointer -> Int32> clock_gettime;
+extern <Int * ConsttimespecPointer -> Int32> clock_settime;
+extern <Int * Int32 * ConsttimespecPointer * timespecPointer -> Int32> clock_nanosleep;
+extern <Int * Pointer<Int> -> Int32> clock_getcpuclockid;
+sigeventPointer := type_abstraction(Pointer<Void>)
+extern <Int * sigeventPointer * Pointer<Int> -> Int32> timer_create;
+extern <Int -> Int32> timer_delete;
+ConstitimerspecPointer := type_abstraction(Pointer<Const<Void>>)
+itimerspecPointer := type_abstraction(Pointer<Void>)
+extern <Int * Int32 * ConstitimerspecPointer * itimerspecPointer -> Int32> timer_settime;
+extern <Int * itimerspecPointer -> Int32> timer_gettime;
+extern <Int -> Int32> timer_getoverrun;
+extern <timespecPointer * Int32 -> Int32> timespec_get;

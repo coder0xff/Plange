@@ -1,0 +1,2 @@
+exceptionPointer := type_abstraction(Pointer<Void>)
+extern <exceptionPointer -> Int32> matherr;
