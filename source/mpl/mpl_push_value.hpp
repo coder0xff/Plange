@@ -26,6 +26,7 @@ namespace mpl {
 	}
 
 }
+
 #define INCLUDED_MPL_PUSH_VALUE_HPP
 #elif !defined(INCLUDED_MPL_PUSH_VALUE_HPP)
 #	error circular inclusion

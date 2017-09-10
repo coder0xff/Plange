@@ -7,7 +7,7 @@
 
 namespace mpl {
 
-	namespace details_apply_values {
+	namespace details::apply_values {
 
 		template <typename TFunctor, typename TTuple, size_t... Indices>
 		constexpr auto impl(TFunctor const & functor, TTuple && t, std::index_sequence<Indices...>)
@@ -34,7 +34,7 @@ namespace mpl {
 
 }
 
-#define INCLUDED_MPL_APPLY_VALUE_HPP
-#elif !defined(INCLUDED_MPL_APPLY_VALUE_HPP)
+#define INCLUDED_MPL_APPLY_VALUES_HPP
+#elif !defined(INCLUDED_MPL_APPLY_VALUES_HPP)
 #	error circular inclusion
 #endif

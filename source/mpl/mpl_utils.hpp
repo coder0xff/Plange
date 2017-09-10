@@ -14,6 +14,7 @@ namespace mpl {
 		constexpr int variadic_size() {
 			return std::tuple_size<std::tuple<Ts...>>::value;
 		}
+
 	}
 
 }

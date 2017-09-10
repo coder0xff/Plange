@@ -1,14 +1,14 @@
-#ifndef INCLUDING_MPL_MAP_VALUE_HPP
-#define INCLUDING_MPL_MAP_VALUE_HPP
+#ifndef INCLUDING_MPL_MAP_VV_HPP
+#define INCLUDING_MPL_MAP_VV_HPP
 
 #include <tuple>
+#include <vector>
 
 #include "mpl_utils.hpp"
-#include <vector>
 
 namespace mpl {
 
-	namespace details_map_values {
+	namespace details_map_vv {
 
 		template <typename TFunctor, typename TTuple, size_t... Indices>
 		constexpr auto impl1(TFunctor & functor, TTuple && t, std::index_sequence<Indices...>)
@@ -38,7 +38,7 @@ namespace mpl {
 
 	template<typename TFunctor, typename TTuple>
 	constexpr auto map_values(TFunctor && functor, TTuple && elements) {
-		return details_map_values::impl1(
+		return details_map_vv::impl1(
 			std::forward<TFunctor>(functor),
 			std::forward<TTuple>(elements),
 			details::sequence<TTuple>()
@@ -55,7 +55,7 @@ namespace mpl {
 		static constexpr auto map(TFunctor && functor, std::array<TElement, size> && elements) {
 			static_assert(details::variadic_size<Ts...>() == size);
 			typedef std::tuple<Ts...> TTuple;
-			return details_map_values::impl2<TTuple>(
+			return details_map_vv::impl2<TTuple>(
 				std::forward<TFunctor>(functor),
 				std::forward<std::array<TElement, size>>(elements),
 				details::sequence<TTuple>()
@@ -72,7 +72,7 @@ namespace mpl {
 				throw std::runtime_error("mismatch in element count");
 			}
 			typedef std::tuple<Ts...> TTuple;
-			return details_map_values::impl2<TTuple>(
+			return details_map_vv::impl2<TTuple>(
 				std::forward<TFunctor>(functor),
 				std::forward<std::vector<TElement>>(elements),
 				details::sequence<TTuple>()
@@ -81,7 +81,7 @@ namespace mpl {
 	};
 }
 
-#define INCLUDED_MPL_MAP_I_VALUE_HPP
-#elif !defined(INCLUDED_MPL_MAP_I_VALUE_HPP)
+#define INCLUDED_MPL_MAP_VV_HPP
+#elif !defined(INCLUDED_MPL_MAP_VV_HPP)
 #	error circular inclusion
 #endif
