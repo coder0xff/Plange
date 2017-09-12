@@ -11,20 +11,46 @@ std::unordered_map<std::string, std::string> cToPlange;
 
 void initMap() {
 	cToPlange["void"] = "Void";
-	cToPlange["int"] = "Int32";
-	cToPlange["long"] = "Int32";
+	cToPlange["short"] = "CShort";
+	cToPlange["int"] = "CInt";
+	cToPlange["long"] = "CLong";
+	cToPlange["long long"] = "CLongLong";
+	cToPlange["unsigned short"] = "CUnsignedShort";
+	cToPlange["unsigned int"] = "CUnsignedInt";
+	cToPlange["unsigned long"] = "CUnsignedLong";
+	cToPlange["unsigned long long"] = "CUnsignedLongLong";
 	cToPlange["char"] = "Char";
-	cToPlange["__ssize_t"] = "Int";
-	cToPlange["__off_t"] = "Int";
+	cToPlange["__ssize_t"] = "CInt";
+	cToPlange["__off_t"] = "CInt";
 	cToPlange["float"] = "Float32";
 	cToPlange["double"] = "Float64";
-	cToPlange["long double"] = "Float128";
+	cToPlange["long double"] = "CLongDouble";
 	cToPlange["clock_t"] = "Int64";
 	cToPlange["time_t"] = "Int64";
-	cToPlange["clockid_t"] = "Int";
-	cToPlange["timer_t"] = "Int";
-	cToPlange["pid_t"] = "Int";
+	cToPlange["clockid_t"] = "CInt";
+	cToPlange["timer_t"] = "CInt";
+	cToPlange["pid_t"] = "CInt";
+	cToPlange["__pid_t"] = "CInt";
 	cToPlange["__locale_t"] = "Pointer<Void>";
+	cToPlange["size_t"] = "UInt64";
+	cToPlange["short int"] = "CShort";
+	cToPlange["long int"] = "CLong";
+	cToPlange["long long int"] = "CLongLong";
+	cToPlange["unsigned short int"] = "CUnsignedShort";
+	cToPlange["unsigned long int"] = "CUnsignedLong";
+	cToPlange["unsigned long long int"] = "CUnsignedLongLong";
+	cToPlange["int32_t"] = "Int32";
+	cToPlange["__compar_fn_t"] = "<Pointer<Const<Void>> * ";
+	cToPlange["__compar_fn_t"] += "Pointer<Const<Void>> -> Int32>";
+	cToPlange["div_t"] = "Div_t";
+	cToPlange["ldiv_t"] = "LDiv_t";
+	cToPlange["lldiv_t"] = "LLDiv_t";
+	cToPlange["void (*)(void)"] = "<Void -> Void>";
+	cToPlange["void (*)(int, void *)"] = "<Int32 * Pointer<Void> -> Void>";
+	cToPlange["__sighandler_t"] = "<Int32 -> Void>";
+	cToPlange["union sigval"] = "CSigval";
+	cToPlange["random_data"] = "RandomData";
+	cToPlange["drand48_data"] = "Drand48Data";
 }
 
 bool startsWith(std::string const& input, std::string const& match) {
@@ -40,7 +66,7 @@ bool endsWith(std::string const& input, std::string const& match) {
 void addOpaquePointer(std::string const& s) {
 	int typeStartChar = 0;
 	size_t starPos = s.find('*');
-	if (starPos == std::string::npos) {
+	if (starPos == std::string::npos || (starPos > 0 && s[starPos - 1] == '(')) {
 		return;
 	}
 	bool constPointer = false;
@@ -99,7 +125,7 @@ void addOpaquePointer(std::string const& s) {
 void toCStdlib(std::string const& s) {
 	int typeStartChar = 0;
 	size_t starPos = s.find('*');
-	if (starPos == std::string::npos) {
+	if (starPos == std::string::npos || (starPos > 0 && s[starPos - 1] == '(')) {
 		bool isConst = false;
 		if (startsWith(s, "const struct ")) {
 			cStdlib << "Const<";
@@ -115,12 +141,24 @@ void toCStdlib(std::string const& s) {
 			typeStartChar = 7;
 		}
     std::string sp = s.substr(typeStartChar);
+		bool isArray = false;
+		if (sp.size() >= 3 && sp[sp.size() - 1] == ']') {
+			if (!(sp[sp.size() - 2] == '1' && sp[sp.size() - 3] == '[')) {
+				cStdlib << "Array<";
+				isArray = true;
+			}
+			size_t bracketPos = sp.find('[');
+			sp = sp.substr(0, bracketPos - 1);
+		}
 		if (cToPlange.find(sp) != 
 				cToPlange.end()) {
 			cStdlib << cToPlange[sp];
 		}
 		else {
 			cStdlib << "TBD";
+		}
+		if (isArray) {
+			cStdlib << ">";
 		}
 		if (isConst) {
 			cStdlib << ">";
@@ -143,14 +181,40 @@ void toCStdlib(std::string const& s) {
 		if (endsWith(s, "const")) {
 			pointerConst = true;
 		}
+		bool secondLevel = false;
+		bool secondPointerConst = false;
+		if (starPos < s.size()) {
+			std::string sAfterStarPos = s.substr(starPos + 1);
+			if (sAfterStarPos.find('*') != std::string::npos) {
+				secondLevel = true;
+			}
+			if (sAfterStarPos.find("const") != std::string::npos) {
+				secondPointerConst = true;
+			}
+		}
 		std::string snp = s.substr(typeStartChar,
 															 starPos - typeStartChar - 1);
-		if (cToPlange.find(snp) != 
+		bool isArray = false;
+		if (snp.size() >= 3 && snp[snp.size() - 1] == ']') {
+			if (!(snp[snp.size() - 2] == '1' && snp[snp.size() - 3] == '[')) {
+				cStdlib << "Array<";
+				isArray = true;
+			}
+			size_t bracketPos = snp.find('[');
+			snp = snp.substr(0, bracketPos - 1);
+		}
+    if (cToPlange.find(snp) != 
 				cToPlange.end()) {
 			if (pointerConst) {
 				cStdlib << "Const<";
 			}
 			cStdlib << "Pointer<";
+			if (secondPointerConst) {
+				cStdlib << "Const<";
+			}
+			if (secondLevel) {
+				cStdlib << "Pointer<";
+			}
 			if (constPointer) {
 				cStdlib << "Const<";
 			}
@@ -158,7 +222,16 @@ void toCStdlib(std::string const& s) {
 			if (constPointer) {
 				cStdlib << ">";
 			}
+			if (secondLevel) {
+				cStdlib << ">";
+			}
+			if (secondPointerConst) {
+				cStdlib << ">";
+			}
 			if (pointerConst) {
+				cStdlib << ">";
+			}
+			if (isArray) {
 				cStdlib << ">";
 			}
 			cStdlib << ">";

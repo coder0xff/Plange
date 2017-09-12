@@ -4,8 +4,8 @@ extern <Int64 * Int64 -> Float64> difftime;
 tmPointer := type_abstraction(Pointer<Void>)
 extern <tmPointer -> Int64> mktime;
 ConsttmPointer := type_abstraction(Pointer<Const<Void>>)
-extern <Pointer<Char> * Int32 * Pointer<Const<Char>> * ConsttmPointer -> Int32> strftime;
-extern <Pointer<Char> * Int32 * Pointer<Const<Char>> * ConsttmPointer * Pointer<Void> -> Int32> strftime_l;
+extern <Pointer<Char> * CInt * Pointer<Const<Char>> * ConsttmPointer -> CInt> strftime;
+extern <Pointer<Char> * CInt * Pointer<Const<Char>> * ConsttmPointer * Pointer<Void> -> CInt> strftime_l;
 extern <Pointer<Const<Int64>> -> tmPointer> gmtime;
 extern <Pointer<Const<Int64>> -> tmPointer> localtime;
 extern <Pointer<Const<Int64>> * tmPointer -> tmPointer> gmtime_r;
@@ -15,24 +15,24 @@ extern <Pointer<Const<Int64>> -> Pointer<Char>> ctime;
 extern <ConsttmPointer * Pointer<Char> -> Pointer<Char>> asctime_r;
 extern <Pointer<Const<Int64>> * Pointer<Char> -> Pointer<Char>> ctime_r;
 extern <Void -> Void> tzset;
-extern <Pointer<Const<Int64>> -> Int32> stime;
+extern <Pointer<Const<Int64>> -> CInt> stime;
 extern <tmPointer -> Int64> timegm;
 extern <tmPointer -> Int64> timelocal;
-extern <Int32 -> Int32> dysize;
+extern <CInt -> CInt> dysize;
 ConsttimespecPointer := type_abstraction(Pointer<Const<Void>>)
 timespecPointer := type_abstraction(Pointer<Void>)
-extern <ConsttimespecPointer * timespecPointer -> Int32> nanosleep;
-extern <Int * timespecPointer -> Int32> clock_getres;
-extern <Int * timespecPointer -> Int32> clock_gettime;
-extern <Int * ConsttimespecPointer -> Int32> clock_settime;
-extern <Int * Int32 * ConsttimespecPointer * timespecPointer -> Int32> clock_nanosleep;
-extern <Int * Pointer<Int> -> Int32> clock_getcpuclockid;
+extern <ConsttimespecPointer * timespecPointer -> CInt> nanosleep;
+extern <CInt * timespecPointer -> CInt> clock_getres;
+extern <CInt * timespecPointer -> CInt> clock_gettime;
+extern <CInt * ConsttimespecPointer -> CInt> clock_settime;
+extern <CInt * CInt * ConsttimespecPointer * timespecPointer -> CInt> clock_nanosleep;
+extern <CInt * Pointer<CInt> -> CInt> clock_getcpuclockid;
 sigeventPointer := type_abstraction(Pointer<Void>)
-extern <Int * sigeventPointer * Pointer<Int> -> Int32> timer_create;
-extern <Int -> Int32> timer_delete;
+extern <CInt * sigeventPointer * Pointer<CInt> -> CInt> timer_create;
+extern <CInt -> CInt> timer_delete;
 ConstitimerspecPointer := type_abstraction(Pointer<Const<Void>>)
 itimerspecPointer := type_abstraction(Pointer<Void>)
-extern <Int * Int32 * ConstitimerspecPointer * itimerspecPointer -> Int32> timer_settime;
-extern <Int * itimerspecPointer -> Int32> timer_gettime;
-extern <Int -> Int32> timer_getoverrun;
-extern <timespecPointer * Int32 -> Int32> timespec_get;
+extern <CInt * CInt * ConstitimerspecPointer * itimerspecPointer -> CInt> timer_settime;
+extern <CInt * itimerspecPointer -> CInt> timer_gettime;
+extern <CInt -> CInt> timer_getoverrun;
+extern <timespecPointer * CInt -> CInt> timespec_get;

@@ -1,2 +1,24 @@
-exceptionPointer := type_abstraction(Pointer<Void>)
-extern <exceptionPointer -> Int32> matherr;
+<Number -> Number> abs;
+<Number -> Int> ceil;
+<Number -> Number> factorial;
+<Number -> Int> floor;
+<Number -> Number> fmod;
+<Number -> Number> cos;
+<Number -> Number> sin;
+<Number -> Number> tan;
+<Number -> Number> acos;
+<Number -> Number> asin;
+<Number -> Number> atan;
+<Number -> Number> cosh;
+<Number -> Number> sinh;
+<Number -> Number> tanh;
+<Number -> Number> acosh;
+<Number -> Number> asinh;
+<Number -> Number> atanh;
+<Number -> Number> exp;
+<Number -> Number> log;
+<Number -> Number> log10;
+<Number -> Number> log1p;
+<Number -> Number> log2;
+<Number -> Number> pow;
+<Number -> Number> sqrt;
