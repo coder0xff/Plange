@@ -20,7 +20,7 @@ void initMap() {
 	cToPlange["unsigned long"] = "CUnsignedLong";
 	cToPlange["unsigned long long"] = "CUnsignedLongLong";
 	cToPlange["char"] = "Char";
-	cToPlange["__ssize_t"] = "CInt";
+	cToPlange["__ssize_t"] = "CUnsignedInt";
 	cToPlange["__off_t"] = "CInt";
 	cToPlange["float"] = "Float32";
 	cToPlange["double"] = "Float64";
@@ -32,7 +32,7 @@ void initMap() {
 	cToPlange["pid_t"] = "CInt";
 	cToPlange["__pid_t"] = "CInt";
 	cToPlange["__locale_t"] = "Pointer<Void>";
-	cToPlange["size_t"] = "UInt64";
+	cToPlange["size_t"] = "CUnsignedInt";
 	cToPlange["short int"] = "CShort";
 	cToPlange["long int"] = "CLong";
 	cToPlange["long long int"] = "CLongLong";
@@ -321,34 +321,24 @@ int main(int argc, char* argv[]) {
 	if (argc < 2) {
 		return 1;
 	}
-	initMap();
-	CXIndex index = clang_createIndex(0, 0);
-	CXTranslationUnit unit = clang_parseTranslationUnit(index,
-	                                                    argv[1],
-																											nullptr,
-																											0,
-																											nullptr,
-																											0,
-																											CXTranslationUnit_None);
-	if (unit != nullptr) {
-	  CXCursor rootCursor = clang_getTranslationUnitCursor(unit);
-		std::string outFileName = argv[1];
-		size_t start = outFileName.find_last_of('/');
-		if (start == std::string::npos) {
-			start = -1;
+  cStdlib.open("Plange.CStdLib.Generated._pg", std::fstream::out);
+	for (int i = 1; i < argc; ++i) {
+		initMap();
+	  CXIndex index = clang_createIndex(0, 0);
+	  CXTranslationUnit unit = clang_parseTranslationUnit(index,
+	                                                      argv[i],
+																											  nullptr,
+																											  0,
+																											  nullptr,
+																											  0,
+																											  CXTranslationUnit_None);
+	  if (unit != nullptr) {
+			CXCursor rootCursor = clang_getTranslationUnitCursor(unit);
+      clang_visitChildren(rootCursor, printVisitor, NULL);
 		}
-		size_t pos = outFileName.find('.');
-		if (pos != std::string::npos) {
-			outFileName = outFileName.substr(start + 1, pos - start - 1) + "lib.txt";
-		}
-		else {
-			outFileName += "lib.txt";
-		}
-    cStdlib.open(outFileName.c_str(), std::fstream::out);	
-		clang_visitChildren(rootCursor, printVisitor, NULL);
-		cStdlib.close();
+	  clang_disposeTranslationUnit(unit);
+	  clang_disposeIndex(index);
 	}
-	clang_disposeTranslationUnit(unit);
-	clang_disposeIndex(index);
+	cStdlib.close();
 	return 0;
 }
