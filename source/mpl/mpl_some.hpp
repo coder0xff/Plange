@@ -11,7 +11,7 @@ namespace mpl {
 	template<typename T>
 	struct some {
 		using type = T;
-	}
+	};
 
 }
 

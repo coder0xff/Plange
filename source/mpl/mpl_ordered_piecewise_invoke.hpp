@@ -4,12 +4,13 @@
 
 #ifndef INCLUDING_MPL_ORDERED_PIECEWISE_INVOKE_HPP
 #define INCLUDING_MPL_ORDERED_PIECEWISE_INVOKE_HPP
+#include <tuple>
 
 namespace mpl {
 
-	template<typename... TSignatures, typename... TArgs>
-	auto ordered_piecewise_invoke(TSignatures... const & functions, std::tuple<TArgs...> && args) {
-		
+	template<typename... TArgs, typename... TSignatures>
+	auto ordered_piecewise_invoke(std::tuple<TArgs...> const & args, TSignatures const & functions...) {
+		first<bind<is_invokable, std::list<
 	}
 }
 

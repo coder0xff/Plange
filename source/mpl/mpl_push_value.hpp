@@ -22,7 +22,6 @@ namespace mpl {
 			std::forward<std::tuple<TTailElements...>>(list),
 			details::sequence(std::forward<std::tuple<TTailElements...>>(list))
 		);
-
 	}
 
 }
