@@ -6,8 +6,12 @@
 #include <optional>
 #include <variant>
 #include <vector>
-
 #include "erased.hpp"
+#include "parlex/details/match.hpp"
+
+#include "_plange_literals.hpp"
+
+namespace plc {
 
 struct EXPRESSION;
 struct IC;
@@ -18,13 +22,20 @@ struct VOLATILE_TYPE_DEREFERENCE {
 	erased<EXPRESSION> field_3;
 	std::vector<erased<IC>> field_4;
 
+
 	VOLATILE_TYPE_DEREFERENCE(
 		std::vector<erased<IC>> const & field_1,
 		std::vector<erased<IC>> const & field_2,
 		erased<EXPRESSION> const & field_3,
 		std::vector<erased<IC>> const & field_4
 	) : field_1(field_1), field_2(field_2), field_3(field_3), field_4(field_4) {}
+
+	static std::optional<VOLATILE_TYPE_DEREFERENCE> build(std::vector<parlex::details::match>::iterator & i);
+
 };
+
+
+} // namespace plc
 
 
 

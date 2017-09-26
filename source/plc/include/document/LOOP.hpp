@@ -6,8 +6,12 @@
 #include <optional>
 #include <variant>
 #include <vector>
-
 #include "erased.hpp"
+#include "parlex/details/match.hpp"
+
+#include "_plange_literals.hpp"
+
+namespace plc {
 
 struct EXPRESSION;
 struct IC;
@@ -15,25 +19,32 @@ struct PARENTHETICAL;
 
 struct LOOP {
 	std::variant<
-		std::integral_constant<int, 0>,
-		std::integral_constant<int, 1>
+		literal_while_t,
+		literal_until_t
 	> field_1;
 	std::vector<erased<IC>> field_2;
 	erased<PARENTHETICAL> field_3;
 	std::vector<erased<IC>> field_4;
 	erased<EXPRESSION> field_5;
 
+
 	LOOP(
 		std::variant<
-			std::integral_constant<int, 0>,
-			std::integral_constant<int, 1>
+			literal_while_t,
+			literal_until_t
 		> const & field_1,
 		std::vector<erased<IC>> const & field_2,
 		erased<PARENTHETICAL> const & field_3,
 		std::vector<erased<IC>> const & field_4,
 		erased<EXPRESSION> const & field_5
 	) : field_1(field_1), field_2(field_2), field_3(field_3), field_4(field_4), field_5(field_5) {}
+
+	static std::optional<LOOP> build(std::vector<parlex::details::match>::iterator & i);
+
 };
+
+
+} // namespace plc
 
 
 

@@ -6,8 +6,12 @@
 #include <optional>
 #include <variant>
 #include <vector>
-
 #include "erased.hpp"
+#include "parlex/details/match.hpp"
+
+#include "_plange_literals.hpp"
+
+namespace plc {
 
 struct EMBEDDED_NEWLINE_STRING_INTERIOR;
 struct PAYLOAD;
@@ -19,6 +23,14 @@ typedef std::variant<
 	std::tuple<
 		erased<EMBEDDED_NEWLINE_STRING_INTERIOR>
 	>
-> EMBEDDED_NEWLINE_STRING_INTERIOR;
+> EMBEDDED_NEWLINE_STRING_INTERIOR_base;
+
+struct EMBEDDED_NEWLINE_STRING_INTERIOR: EMBEDDED_NEWLINE_STRING_INTERIOR_base {
+	static std::optional<EMBEDDED_NEWLINE_STRING_INTERIOR> build(std::vector<parlex::details::match>::iterator & i);
+	explicit EMBEDDED_NEWLINE_STRING_INTERIOR(EMBEDDED_NEWLINE_STRING_INTERIOR_base const & value) : EMBEDDED_NEWLINE_STRING_INTERIOR_base(value) {}
+};
+} // namespace plc
+
+
 
 #endif //INCLUDED_EMBEDDED_NEWLINE_STRING_INTERIOR_HPP

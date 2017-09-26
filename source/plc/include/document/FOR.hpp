@@ -6,8 +6,12 @@
 #include <optional>
 #include <variant>
 #include <vector>
-
 #include "erased.hpp"
+#include "parlex/details/match.hpp"
+
+#include "_plange_literals.hpp"
+
+namespace plc {
 
 struct ASSIGNMENT_CHAIN;
 struct EXPRESSION;
@@ -36,6 +40,7 @@ struct FOR {
 	std::vector<erased<IC>> field_5;
 	erased<EXPRESSION> field_6;
 
+
 	FOR(
 		std::vector<erased<IC>> const & field_1,
 		std::vector<erased<IC>> const & field_2,
@@ -58,7 +63,13 @@ struct FOR {
 		std::vector<erased<IC>> const & field_5,
 		erased<EXPRESSION> const & field_6
 	) : field_1(field_1), field_2(field_2), initializer(initializer), condition(condition), field_3(field_3), field_4(field_4), step(step), field_5(field_5), field_6(field_6) {}
+
+	static std::optional<FOR> build(std::vector<parlex::details::match>::iterator & i);
+
 };
+
+
+} // namespace plc
 
 
 

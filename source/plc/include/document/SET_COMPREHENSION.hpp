@@ -6,8 +6,12 @@
 #include <optional>
 #include <variant>
 #include <vector>
-
 #include "erased.hpp"
+#include "parlex/details/match.hpp"
+
+#include "_plange_literals.hpp"
+
+namespace plc {
 
 struct EXPRESSION;
 struct IC;
@@ -20,6 +24,7 @@ struct SET_COMPREHENSION {
 	erased<EXPRESSION> field_5;
 	std::vector<erased<IC>> field_6;
 
+
 	SET_COMPREHENSION(
 		std::vector<erased<IC>> const & field_1,
 		erased<EXPRESSION> const & field_2,
@@ -28,7 +33,13 @@ struct SET_COMPREHENSION {
 		erased<EXPRESSION> const & field_5,
 		std::vector<erased<IC>> const & field_6
 	) : field_1(field_1), field_2(field_2), field_3(field_3), field_4(field_4), field_5(field_5), field_6(field_6) {}
+
+	static std::optional<SET_COMPREHENSION> build(std::vector<parlex::details::match>::iterator & i);
+
 };
+
+
+} // namespace plc
 
 
 

@@ -1,5 +1,8 @@
-	(argsT...) {
-		return type inheriting Array<argsT...>, TsArray, diamond Array {
+	TsArray<Any>
+|
+	(<Type> elementType, <Int> dimensions...) {
+		return type inheriting TsArray, diamond Array {
+
 		private:
 			U := Array<argsT...>;
 
@@ -53,7 +56,5 @@
 				return with_lock( ((U)this).append, args... );
 			}
 		}
-	}
-|
-	TsArray<Any>
+	}	
 ;

@@ -1,27 +1,37 @@
-return {
-	IndexableCollectionIterator <- 
-		type inheriting Iterator {
+ForwardIterator <-
+	type {
+		<Property> value <- abstract;
+		<Void -> Void> next <- abstract;
+	}
+|
+	(<Type> T) {
+		return type implementing ForwardIterator {
+			<Property<T>> value <- abstract;
+			<Void -> Void> next <- abstract;			
 		}
-	;
+	}
+;
 
-	Iterator <-
-		(<Type> T) {
-			return type inheriting Iterator {
-			public:
-				Inheritor inherits this_type;
-				<Inheritor -> T> dereference <- abstract;
-			}
-		}
-	|
-		type {
-		public:
-			Inheritor inherits this_type;
-			<Inheritor -> Iterator> construct <- abstract;
-			<Inheritor -> Inheritor> assign <- abstract;
-			<Inheritor -> Bool> equality <- abstract;
-			<Inheritor -> Bool> inequality <- abstract;
-			<Inheritor -> Any> dereference <- abstract;
-		}
-	;
+```Create an iterator for any implementor of IndexableCollection```
+IndexableCollectionIterator <-
+	type inheriting Iterator {
+		throw NotImplementedException();
+	}
+;
 
-};
+Iterator <-
+	type implementing ForwardIterator {
+		<Property> value <- abstract;
+		<Void -> Void> next <- abstract;
+		<Void -> Void> previous <- abstract;
+	}
+|
+	(<Type> T) {
+		return type implementing Iterator, implementing ForwardIterator<T> {
+			<Property<T>> value <- abstract;
+			<Void -> Void> next <- abstract;
+			<Void -> Void> previous <- abstract;
+		}
+	}
+;
+

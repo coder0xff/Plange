@@ -6,8 +6,12 @@
 #include <optional>
 #include <variant>
 #include <vector>
-
 #include "erased.hpp"
+#include "parlex/details/match.hpp"
+
+#include "_plange_literals.hpp"
+
+namespace plc {
 
 struct ASM_IDENTIFIER;
 struct NON_NEG_INTEGER;
@@ -16,10 +20,10 @@ struct NON_NEG_NON_FRACTIONAL;
 struct ASM_PTR_ARITHMETIC_INTEL {
 	std::optional<std::tuple<
 		std::variant<
-			std::integral_constant<int, 0>,
-			std::integral_constant<int, 1>,
-			std::integral_constant<int, 2>,
-			std::integral_constant<int, 3>
+			literal_BYTE_t,
+			literal_WORD_t,
+			literal_DWORD_t,
+			literal_QWORD_t
 		>
 	>> field_1;
 	std::optional<std::tuple<
@@ -34,19 +38,20 @@ struct ASM_PTR_ARITHMETIC_INTEL {
 	>> field_4;
 	std::optional<std::tuple<
 		std::variant<
-			std::integral_constant<int, 0>,
-			std::integral_constant<int, 1>
+			literal_0x2B_t,
+			literal_0x2D_t
 		>,
 		erased<NON_NEG_INTEGER>
 	>> field_5;
 
+
 	ASM_PTR_ARITHMETIC_INTEL(
 		std::optional<std::tuple<
 			std::variant<
-				std::integral_constant<int, 0>,
-				std::integral_constant<int, 1>,
-				std::integral_constant<int, 2>,
-				std::integral_constant<int, 3>
+				literal_BYTE_t,
+				literal_WORD_t,
+				literal_DWORD_t,
+				literal_QWORD_t
 			>
 		>> const & field_1,
 		std::optional<std::tuple<
@@ -61,13 +66,19 @@ struct ASM_PTR_ARITHMETIC_INTEL {
 		>> const & field_4,
 		std::optional<std::tuple<
 			std::variant<
-				std::integral_constant<int, 0>,
-				std::integral_constant<int, 1>
+				literal_0x2B_t,
+				literal_0x2D_t
 			>,
 			erased<NON_NEG_INTEGER>
 		>> const & field_5
 	) : field_1(field_1), field_2(field_2), field_3(field_3), field_4(field_4), field_5(field_5) {}
+
+	static std::optional<ASM_PTR_ARITHMETIC_INTEL> build(std::vector<parlex::details::match>::iterator & i);
+
 };
+
+
+} // namespace plc
 
 
 

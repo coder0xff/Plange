@@ -6,8 +6,12 @@
 #include <optional>
 #include <variant>
 #include <vector>
-
 #include "erased.hpp"
+#include "parlex/details/match.hpp"
+
+#include "_plange_literals.hpp"
+
+namespace plc {
 
 struct ARRAY_INDEXER;
 struct EXPRESSION;
@@ -22,6 +26,7 @@ struct ARRAY_INVOCATION {
 	>> field_3;
 	std::vector<erased<IC>> field_4;
 
+
 	ARRAY_INVOCATION(
 		erased<EXPRESSION> const & field_1,
 		std::optional<erased<ARRAY_INDEXER>> const & field_2,
@@ -31,7 +36,13 @@ struct ARRAY_INVOCATION {
 		>> const & field_3,
 		std::vector<erased<IC>> const & field_4
 	) : field_1(field_1), field_2(field_2), field_3(field_3), field_4(field_4) {}
+
+	static std::optional<ARRAY_INVOCATION> build(std::vector<parlex::details::match>::iterator & i);
+
 };
+
+
+} // namespace plc
 
 
 

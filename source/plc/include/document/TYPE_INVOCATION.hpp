@@ -6,8 +6,12 @@
 #include <optional>
 #include <variant>
 #include <vector>
-
 #include "erased.hpp"
+#include "parlex/details/match.hpp"
+
+#include "_plange_literals.hpp"
+
+namespace plc {
 
 struct ARGUMENT;
 struct ARGUMENT_PACK;
@@ -37,6 +41,7 @@ struct TYPE_INVOCATION {
 		std::vector<erased<IC>>
 	> field_2;
 
+
 	TYPE_INVOCATION(
 		erased<EXPRESSION> const & field_1,
 		std::tuple<
@@ -60,7 +65,13 @@ struct TYPE_INVOCATION {
 			std::vector<erased<IC>>
 		> const & field_2
 	) : field_1(field_1), field_2(field_2) {}
+
+	static std::optional<TYPE_INVOCATION> build(std::vector<parlex::details::match>::iterator & i);
+
 };
+
+
+} // namespace plc
 
 
 

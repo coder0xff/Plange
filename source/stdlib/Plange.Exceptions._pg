@@ -1,5 +1,4 @@
-return {
-	NotImplementedException <- type inheriting Exception {
+NotImplementedException <- type inheriting Exception {
 	public:
 		<String> additionalInformation;
 		construct <- (<String> additionalInformation) {
@@ -8,5 +7,4 @@ return {
 	};
 
 	PureVirtualException <- type inheriting Exception {}
-
 };

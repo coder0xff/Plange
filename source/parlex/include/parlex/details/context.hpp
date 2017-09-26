@@ -4,7 +4,6 @@
 #include <optional>
 #include <vector>
 
-#include "parlex/details/fast_match.hpp"
 #include "parlex/details/permutation.hpp"
 
 namespace parlex {
@@ -23,16 +22,16 @@ public:
 	int const id;
 	subjob & owner;
 	context const* const prior;
-	int const currentDocumentPosition;
-	std::optional<fast_match> const fromTransition; // optional
+	size_t const currentDocumentPosition;
+	std::optional<match> const fromTransition;
+	behavior::leaf const * const leaf;
 
-public:
-	context(subjob & owner, context const* const prior, int documentPosition, std::optional<fast_match> const & from_transition);
+	context(subjob & owner, context const* const prior, int documentPosition, std::optional<match> const & from_transition, behavior::leaf const * leaf);
 	context(context const & other) = delete;
 	context(context && move) = delete;
 	~context();
 
-	std::vector<match> result() const;
+	permutation result() const;
 };
 
 }

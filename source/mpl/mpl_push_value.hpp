@@ -22,10 +22,10 @@ namespace mpl {
 			std::forward<std::tuple<TTailElements...>>(list),
 			details::sequence(std::forward<std::tuple<TTailElements...>>(list))
 		);
-
 	}
 
 }
+
 #define INCLUDED_MPL_PUSH_VALUE_HPP
 #elif !defined(INCLUDED_MPL_PUSH_VALUE_HPP)
 #	error circular inclusion

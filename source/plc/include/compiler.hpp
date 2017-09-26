@@ -1,7 +1,7 @@
 #ifndef PLC_COMPILER_HPP
 #define PLC_COMPILER_HPP
 
-#include "parlex/details/abstract_syntax_graph.hpp"
+#include "parlex/details/abstract_syntax_semilattice.hpp"
 #include "source_code.hpp"
 
 namespace plc {

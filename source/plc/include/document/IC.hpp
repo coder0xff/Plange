@@ -6,8 +6,12 @@
 #include <optional>
 #include <variant>
 #include <vector>
-
 #include "erased.hpp"
+#include "parlex/details/match.hpp"
+
+#include "_plange_literals.hpp"
+
+namespace plc {
 
 struct COMMENT;
 struct EMBEDDED_COMMENT;
@@ -19,6 +23,14 @@ typedef std::variant<
 	erased<EMBEDDED_COMMENT>,
 	erased<END_OF_LINE_COMMENT>,
 	erased<WS>
-> IC;
+> IC_base;
+
+struct IC: IC_base {
+	static std::optional<IC> build(std::vector<parlex::details::match>::iterator & i);
+	explicit IC(IC_base const & value) : IC_base(value) {}
+};
+} // namespace plc
+
+
 
 #endif //INCLUDED_IC_HPP

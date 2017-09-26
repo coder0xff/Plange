@@ -6,35 +6,46 @@
 #include <optional>
 #include <variant>
 #include <vector>
-
 #include "erased.hpp"
+#include "parlex/details/match.hpp"
+
+#include "_plange_literals.hpp"
+
+namespace plc {
 
 struct FUNCTION_MODIFIER_CALLING_CONVENTION;
 struct ICR;
 
 struct FUNCTION_MODIFIER_MODEL {
 	std::variant<
-		std::integral_constant<int, 0>,
-		std::integral_constant<int, 1>,
-		std::integral_constant<int, 2>
+		literal_pure_t,
+		literal_imperative_t,
+		literal_opaque_t
 	> model;
 	std::optional<std::tuple<
 		erased<ICR>,
 		erased<FUNCTION_MODIFIER_CALLING_CONVENTION>
 	>> field_1;
 
+
 	FUNCTION_MODIFIER_MODEL(
 		std::variant<
-			std::integral_constant<int, 0>,
-			std::integral_constant<int, 1>,
-			std::integral_constant<int, 2>
+			literal_pure_t,
+			literal_imperative_t,
+			literal_opaque_t
 		> const & model,
 		std::optional<std::tuple<
 			erased<ICR>,
 			erased<FUNCTION_MODIFIER_CALLING_CONVENTION>
 		>> const & field_1
 	) : model(model), field_1(field_1) {}
+
+	static std::optional<FUNCTION_MODIFIER_MODEL> build(std::vector<parlex::details::match>::iterator & i);
+
 };
+
+
+} // namespace plc
 
 
 

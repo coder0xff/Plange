@@ -6,11 +6,11 @@
 namespace parlex {
 namespace details {
 
-struct abstract_syntax_graph;
+struct abstract_syntax_semilattice;
 
 } // namespace details
 
-typedef std::function<void(details::abstract_syntax_graph &)> post_processor;
+typedef std::function<void(details::abstract_syntax_semilattice &)> post_processor;
 
 } // namespace parlex
 

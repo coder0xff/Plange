@@ -32,11 +32,8 @@ void producer::do_events() {
 		subjob & targetSubjob = subscription.c.owner;
 		while (subscription.next_index < match_to_permutations.size()) {
 			auto & match = matches[subscription.next_index];
-			if (subscription.leaf != nullptr) {
-				match.leafs.push_front(subscription.leaf);
-			}
 			subscription.next_index++;
-			context const & next = targetSubjob.construct_stepped_context(&subscription.c, match);
+			context const & next = targetSubjob.construct_stepped_context(&subscription.c, match, subscription.l);
 			targetSubjob.increment_lifetime(); //reference code A - the target may not halt until this is handled
 			parser.schedule(next, subscription.next_dfa_state);
 		}
@@ -56,7 +53,7 @@ void producer::enque_permutation(size_t consumedCharacterCount, permutation cons
 	bool newMatch = false; {
 		std::unique_lock<std::mutex> lock(mutex);
 		throw_assert(!completed);
-		fast_match m(match_class(r, document_position), consumedCharacterCount);
+		match m(match_class(r, document_position), consumedCharacterCount);
 		if (!match_to_permutations.count(m)) {
 			match_to_permutations[m] = std::set<permutation>();
 			matches.push_back(m);
@@ -75,9 +72,12 @@ void producer::terminate() {
 }
 
 
-producer::subscription::subscription(context const & c, size_t const nextDfaState, behavior::leaf const * leaf) : next_index(0), c(c), next_dfa_state(nextDfaState), leaf(leaf) {
-
-}
+producer::subscription::subscription(context const & c, size_t const nextDfaState, behavior::leaf const * l) :
+	next_index(0), 
+	c(c), 
+	next_dfa_state(nextDfaState), 
+	l(l)
+{}
 
 } // namespace details
 } // namespace parlex

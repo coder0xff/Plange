@@ -6,8 +6,12 @@
 #include <optional>
 #include <variant>
 #include <vector>
-
 #include "erased.hpp"
+#include "parlex/details/match.hpp"
+
+#include "_plange_literals.hpp"
+
+namespace plc {
 
 struct ARRAY;
 struct ASM_FUNCTION;
@@ -103,8 +107,16 @@ typedef std::variant<
 	erased<TYPE>,
 	erased<UNARY_OP>,
 	erased<VECTOR_NORM>,
-	std::integral_constant<int, 46>,
-	std::integral_constant<int, 47>
-> EXPRESSION;
+	literal_context_t,
+	literal_null_t
+> EXPRESSION_base;
+
+struct EXPRESSION: EXPRESSION_base {
+	static std::optional<EXPRESSION> build(std::vector<parlex::details::match>::iterator & i);
+	explicit EXPRESSION(EXPRESSION_base const & value) : EXPRESSION_base(value) {}
+};
+} // namespace plc
+
+
 
 #endif //INCLUDED_EXPRESSION_HPP

@@ -6,8 +6,12 @@
 #include <optional>
 #include <variant>
 #include <vector>
-
 #include "erased.hpp"
+#include "parlex/details/match.hpp"
+
+#include "_plange_literals.hpp"
+
+namespace plc {
 
 struct CASTS;
 struct DOWNCASTS;
@@ -29,6 +33,14 @@ typedef std::variant<
 	erased<IS>,
 	erased<RELATIONAL_COLLECTION_OP>,
 	erased<UPCASTS>
-> RELATIONAL_OP;
+> RELATIONAL_OP_base;
+
+struct RELATIONAL_OP: RELATIONAL_OP_base {
+	static std::optional<RELATIONAL_OP> build(std::vector<parlex::details::match>::iterator & i);
+	explicit RELATIONAL_OP(RELATIONAL_OP_base const & value) : RELATIONAL_OP_base(value) {}
+};
+} // namespace plc
+
+
 
 #endif //INCLUDED_RELATIONAL_OP_HPP

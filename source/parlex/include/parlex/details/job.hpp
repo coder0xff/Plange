@@ -5,7 +5,7 @@
 
 #include "parlex/details/match_class.hpp"
 #include "parlex/details/subjob.hpp"
-#include "parlex/details/abstract_syntax_graph.hpp"
+#include "parlex/details/abstract_syntax_semilattice.hpp"
 
 namespace parlex {
 namespace details {
