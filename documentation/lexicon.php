@@ -64,7 +64,7 @@
 		<h4>type function</h4>
 		<div>a <b>function</b> that <b>returns</b> a <b>type</b> (not to be confused with function type)</div>
 		<h4>value</h4>
-		<div>formally, any entity such that equality between two such entities is well defined; informally, a thing that is unlike all other things, and only like itself<br>
+		<div>a unique element of the universal set<br>
 		</div>
 
 

@@ -18,7 +18,7 @@
 			<li>license: <a href="https://tldrlegal.com/license/bsd-3-clause-license-(revised)#fulltext">New BSD</a></li>
 			<li>source code: <a href="https://github.com/coder0xff/Plange">git repository</a></li>
 			<li>status: pre-alpha</li>
-			<li>monetization: cloud services</li>
+			<li>monetization: compute resources and pro support</li>
 			<li>pronunciation:
 				plænd͡ʒ
 				[<a href="http://www.internationalphoneticalphabet.org/ipa-sounds/ipa-chart-with-sounds/">ipa</a>]
