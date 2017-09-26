@@ -10,7 +10,12 @@
 #include "utils.hpp"
 
 template<typename VertexT>
-std::string directed_graph(std::vector<VertexT> const & vertices, std::function<std::string(VertexT const &)> get_name, std::function<std::vector<std::pair<std::string /*edge properties*/, VertexT>>(VertexT const &)> get_edges, std::function<std::string(VertexT const &)> get_properties = std::function<std::string(VertexT const &)>()) {
+std::string directed_graph(
+	std::vector<VertexT> const & vertices,
+	std::function<std::string(VertexT const &)> get_name,
+	std::function<std::vector<std::pair<std::string /*edge properties*/, VertexT>>(VertexT const &)> get_edges,
+	std::function<std::string(VertexT const &)> get_properties = std::function<std::string(VertexT const &)>()
+) {
 	std::stringstream result;
 	result << "digraph nfa {\n";
 	result << "\trankdir=LR;\n";
@@ -43,7 +48,12 @@ std::string directed_graph(std::vector<VertexT> const & vertices, std::function<
 }
 
 template<typename VertexT>
-std::string directed_graph(VertexT const & root, std::function<std::string(VertexT const &)> get_name, std::function<std::vector<std::pair<std::string /*edge properties*/, VertexT>>(VertexT const &)> get_edges, std::function<std::string(VertexT const &)> get_properties = std::function<std::string(VertexT const &)>()) {
+std::string directed_graph(
+	VertexT const & root,
+	std::function<std::string(VertexT const &)> get_name,
+	std::function<std::vector<std::pair<std::string /*edge properties*/, VertexT>>(VertexT const &)> get_edges,
+	std::function<std::string(VertexT const &)> get_properties = std::function<std::string(VertexT const &)>()
+) {
 	std::vector<VertexT> vertices;
 	std::queue<VertexT> q;
 	q.push(root);

@@ -7,23 +7,11 @@
 // value semantic type erasure via base types
 template <typename T>
 class erased {
-	template<typename... Us>
-	struct subclass_argument {
-		static constexpr bool value = false;
-	};
 
-	template<typename U>
-	struct subclass_argument<U> {
-		static constexpr bool value = std::is_base_of<T, U>::value;
-	};
 public:
 	typedef T type;
 
-	// construct with perfect forwarding to T
-	template <typename... Args, typename std::enable_if<std::is_constructible<T, Args...>::value && !subclass_argument<Args...>::value, int>::type = 0>
-	erased(Args&&... args) : op_ptr(&op<T>), downcast_offset(0), value(new T(std::forward<Args>(args)...)) {}
-
-	// construct from type that inherits T
+	// construct from type U that inherits T
 	template <typename U>
 	// ReSharper disable once CppNonExplicitConvertingConstructor
 	erased(U const & value) : op_ptr(&op<U>), downcast_offset(compute_downcast_offset<U>()), value(new U(value)) {
@@ -60,7 +48,7 @@ public:
 		do_delete();
 		op_ptr = other.op_ptr;
 		downcast_offset = other.downcast_offset + compute_downcast_offset<U>();
-		value = other.clone();
+		value = other.do_clone();
 		return *this;
 	}
 
@@ -94,7 +82,7 @@ public:
 private:
 	template <typename U>
 	static constexpr intptr_t compute_downcast_offset() {
-		return reinterpret_cast<intptr_t>(static_cast<U*>(reinterpret_cast<T*>(static_cast<void*>(nullptr))));
+		return reinterpret_cast<intptr_t>(static_cast<U*>(reinterpret_cast<T*>(1))) - 1; // strange behavior with nullptr, perhaps undefined behavior?
 	}
 
 	template <typename U>
@@ -102,9 +90,8 @@ private:
 		if (doDelete) {
 			delete reinterpret_cast<U*>(const_cast<void *>(value));
 			return nullptr;
-		} else {
-			return reinterpret_cast<void *>(new U(*reinterpret_cast<U const *>(value)));
 		}
+		return reinterpret_cast<void *>(new U(*reinterpret_cast<U const *>(value)));
 	}
 
 	void * downcast(void * p) const {
@@ -127,8 +114,13 @@ private:
 	friend class erased;
 
 	void * (*op_ptr)(void const *, bool);
-	size_t downcast_offset;
+	intptr_t downcast_offset;
 	T * value;
 };
+
+template<typename T, typename... ArgTs>
+erased<T> make_erased(ArgTs&&... args) {
+	return erased<T>(T(std::forward<ArgTs>(args)...));
+}
 
 #endif //ERASED_HPP
