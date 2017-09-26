@@ -5,7 +5,7 @@
 
 #include "parlex/details/match_class.hpp"
 #include "parlex/details/subjob.hpp"
-#include "parlex/details/abstract_syntax_graph.hpp"
+#include "parlex/details/abstract_syntax_semilattice.hpp"
 
 namespace parlex {
 namespace details {
@@ -28,7 +28,7 @@ public:
 	std::atomic<int> progress;
 
 	job(parser & owner, std::u32string const & document, grammar_base const & g, recognizer const & main, progress_handler_t progressHandler);
-	void connect(match_class const & matchClass, context_ref const & c, int nextState, behavior::leaf const * leaf);
+	void connect(match_class const & matchClass, context const & c, int nextState, behavior::leaf const * leaf);
 private:
 	parser & owner;
 	progress_handler_t progress_handler;

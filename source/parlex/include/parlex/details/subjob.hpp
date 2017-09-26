@@ -5,10 +5,10 @@
 #include <mutex>
 #include <atomic>
 
-#include "parlex/details/fast_match.hpp"
 #include "parlex/details/permutation.hpp"
 #include "parlex/details/context.hpp"
 #include "parlex/details/producer.hpp"
+#include "concurrent_forward_list.hpp"
 
 namespace parlex {
 namespace details {
@@ -29,11 +29,11 @@ public:
 	virtual ~subjob();
 
 	void start();
-	context_ref construct_stepped_context(context_ref const & prior, fast_match const & fromTransition);
-	void on(context_ref const & c, recognizer const & r, int nextDfaState, behavior::leaf const * leaf);
-	void accept(context_ref const & c);
+	context const & construct_stepped_context(context const* const prior, match const & fromTransition, behavior::leaf const * leaf);
+	void on(context const & c, recognizer const & r, int nextDfaState, behavior::leaf const * leaf);
+	void accept(context const & c);
 	// for special use by the parser to seed the queue
-	context_ref construct_start_state_context(int documentPosition);
+	context const & construct_start_state_context(int documentPosition);
 	void end_dependency();
 	void finish_creation();
 	void decrement_lifetime();

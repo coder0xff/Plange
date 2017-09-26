@@ -1,3 +1,5 @@
+add_subdirectory(utilities_test)
+
 #collect source files
 set (SOURCES
 	"graphviz_dot.cpp"

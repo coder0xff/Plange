@@ -1,6 +1,6 @@
 #include "parlex/details/c_string.hpp"
 
-#include "parlex/details/abstract_syntax_graph.hpp"
+#include "parlex/details/abstract_syntax_semilattice.hpp"
 #include "parlex/details/builtins.hpp"
 
 #include "parlex/details/terminal.hpp"
@@ -38,7 +38,7 @@ c_string_t::c_string_t(builtins_t const & builtins) :
 }
 
 
-std::u32string c_string_t::extract(std::u32string document, match const & m, abstract_syntax_graph const & asg) const {
+std::u32string c_string_t::extract(std::u32string document, match const & m, abstract_syntax_semilattice const & asg) const {
 	auto const & asgTableIterator = asg.permutations.find(m);
 	throw_assert(asgTableIterator != asg.permutations.end());
 	std::set<permutation> const & permutations = asgTableIterator->second;

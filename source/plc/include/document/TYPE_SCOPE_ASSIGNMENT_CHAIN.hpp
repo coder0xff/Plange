@@ -6,8 +6,12 @@
 #include <optional>
 #include <variant>
 #include <vector>
-
 #include "erased.hpp"
+#include "parlex/details/match.hpp"
+
+#include "_plange_literals.hpp"
+
+namespace plc {
 
 struct ASSIGNMENT_CHAIN;
 struct EXPRESSION;
@@ -28,14 +32,15 @@ struct TYPE_SCOPE_ASSIGNMENT_CHAIN {
 	>> field_3;
 	std::vector<erased<IC>> field_4;
 	std::variant<
-		std::integral_constant<int, 0>,
-		std::integral_constant<int, 1>
+		literal_0xE20x860x90_t,
+		literal_0x3C0x2D_t
 	> field_5;
 	std::vector<erased<IC>> field_6;
 	std::variant<
 		erased<EXPRESSION>,
 		erased<ASSIGNMENT_CHAIN>
 	> field_7;
+
 
 	TYPE_SCOPE_ASSIGNMENT_CHAIN(
 		std::optional<std::tuple<
@@ -49,8 +54,8 @@ struct TYPE_SCOPE_ASSIGNMENT_CHAIN {
 		>> const & field_3,
 		std::vector<erased<IC>> const & field_4,
 		std::variant<
-			std::integral_constant<int, 0>,
-			std::integral_constant<int, 1>
+			literal_0xE20x860x90_t,
+			literal_0x3C0x2D_t
 		> const & field_5,
 		std::vector<erased<IC>> const & field_6,
 		std::variant<
@@ -58,7 +63,13 @@ struct TYPE_SCOPE_ASSIGNMENT_CHAIN {
 			erased<ASSIGNMENT_CHAIN>
 		> const & field_7
 	) : field_1(field_1), field_2(field_2), field_3(field_3), field_4(field_4), field_5(field_5), field_6(field_6), field_7(field_7) {}
+
+	static std::optional<TYPE_SCOPE_ASSIGNMENT_CHAIN> build(std::vector<parlex::details::match>::iterator & i);
+
 };
+
+
+} // namespace plc
 
 
 

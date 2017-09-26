@@ -6,8 +6,12 @@
 #include <optional>
 #include <variant>
 #include <vector>
-
 #include "erased.hpp"
+#include "parlex/details/match.hpp"
+
+#include "_plange_literals.hpp"
+
+namespace plc {
 
 struct ATTRIBUTE;
 struct IC;
@@ -44,6 +48,7 @@ struct TYPE_CONSTRAINT_HEAD {
 		erased<VOLATILE_IMPLICIT_TYPE_DEREFERENCE>
 	> type_dereference;
 
+
 	TYPE_CONSTRAINT_HEAD(
 		std::optional<std::tuple<
 			erased<XML_DOC_STRING>,
@@ -70,7 +75,13 @@ struct TYPE_CONSTRAINT_HEAD {
 			erased<VOLATILE_IMPLICIT_TYPE_DEREFERENCE>
 		> const & type_dereference
 	) : field_1(field_1), field_2(field_2), field_3(field_3), field_4(field_4), field_5(field_5), type_dereference(type_dereference) {}
+
+	static std::optional<TYPE_CONSTRAINT_HEAD> build(std::vector<parlex::details::match>::iterator & i);
+
 };
+
+
+} // namespace plc
 
 
 

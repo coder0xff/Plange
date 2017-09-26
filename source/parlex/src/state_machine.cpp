@@ -26,7 +26,7 @@ void state_machine::set_behavior(behavior::node const & behavior) {
 	accept_state_count = dfa.acceptStates.size();
 }
 
-void state_machine::process(details::context_ref const & c, size_t const s) const {
+void state_machine::process(context const & c, size_t const s) const {
 	//DBG("processing '", get_id(), "' s:", s, " p:", c.current_document_position());
 	if (s >= states.size() - accept_state_count) {
 		accept(c);

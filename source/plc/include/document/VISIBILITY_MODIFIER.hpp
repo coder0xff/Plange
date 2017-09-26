@@ -6,15 +6,27 @@
 #include <optional>
 #include <variant>
 #include <vector>
-
 #include "erased.hpp"
+#include "parlex/details/match.hpp"
+
+#include "_plange_literals.hpp"
+
+namespace plc {
 
 typedef std::variant<
-	std::integral_constant<int, 0>,
-	std::integral_constant<int, 1>,
-	std::integral_constant<int, 2>,
-	std::integral_constant<int, 3>,
-	std::integral_constant<int, 4>
-> VISIBILITY_MODIFIER;
+	literal_public_t,
+	literal_protected_t,
+	literal_protected0x20internal_t,
+	literal_internal_t,
+	literal_private_t
+> VISIBILITY_MODIFIER_base;
+
+struct VISIBILITY_MODIFIER: VISIBILITY_MODIFIER_base {
+	static std::optional<VISIBILITY_MODIFIER> build(std::vector<parlex::details::match>::iterator & i);
+	explicit VISIBILITY_MODIFIER(VISIBILITY_MODIFIER_base const & value) : VISIBILITY_MODIFIER_base(value) {}
+};
+} // namespace plc
+
+
 
 #endif //INCLUDED_VISIBILITY_MODIFIER_HPP

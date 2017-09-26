@@ -1,99 +1,103 @@
-return {
-	AbelianGroup <-
-		(<Type> T) {
-			return type inheriting Group<T>, AbelianGroup, diamond Group {};
-		}
-	|
-		type inheriting Group {
-			commute <- (left ◯ right) {
-				return right ◯ left;
-			};		
-		}
-	;
+AbelianGroup <-
+	(<Type> T) {
+		return type inheriting Group<T>, AbelianGroup, diamond Group {};
+	}
+|
+	type inheriting Group {
+		commute <- (left ◯ right) {
+			return right ◯ left;
+		};		
+	}
+;
 
-	CommutativeRing <-
-		(<Type> T) {
-			return type inheriting Ring<T>, CommutativeRing, diamond Ring { };
-		}
-	|
-		type inheriting Ring { };
-	;
+CommutativeRing <-
+	(<Type> T) {
+		return type inheriting Ring<T>, CommutativeRing, diamond Ring { };
+	}
+|
+	type inheriting Ring { };
+;
 
-	Field <-
-		(<Type> T) {
-			return type inheriting IntegralDomain<T>, Field, diamond IntegralDomain {
-				TLessZero = T \ additive_identity; // set difference
-				<TLessZero -> TLessZero> multiplicative_inverse <- abstract;
-				<T * TLessZero -> TLessZero> division <- (left, right) { return multiplication(left, multiplicative_inverse(right)); }
-			}
+Field <-
+	(<Type> T) {
+		return type inheriting IntegralDomain<T>, Field, diamond IntegralDomain {
+			TLessZero = T \ additive_identity; // set difference
+			<TLessZero -> TLessZero> multiplicative_inverse <- abstract;
+			<T * TLessZero -> TLessZero> division <- (left, right) { return multiplication(left, multiplicative_inverse(right)); }
 		}
-	|
-		type inheriting IntegralDomain { }
-	;
+	}
+|
+	type inheriting IntegralDomain { }
+;
 
-	Group <-
-		(<Type> T) {
-			return type inheriting Group {
-				<Type> T := T;
-				<T * T -> T> ◯ <- abstract; //operator
-				<T> identity <- abstract;
-				<T -> T> ⁻¹ <- abstract; //inverse
-				<T * T -> T> ◯⁻¹ <- (left, right) { return addition(left, inverse(right)); }; //operator inverse
-			}
+Group <-
+	(<Type> T) {
+		return type inheriting Group {
+			<Type> T := T;
+			<T * T -> T> ◯ <- abstract; //operator
+			<T> identity <- abstract;
+			<T -> T> ⁻¹ <- abstract; //inverse
+			<T * T -> T> ◯⁻¹ <- (left, right) { return addition(left, inverse(right)); }; //operator inverse
 		}
-	|
-	 	type {
-		public:
-			T is Type; //unbound variable
-			<T * T -> T> addition <- abstract;
-			<T> additive_identity <- abstract;
-			<T -> T> additive_inverse <- abstract;
-			<T * T -> T> subtraction <- (left, right) { return addition(left, inverse(right)); };
-		}
-	;
+	}
+|
+ 	type {
+	public:
+		T is Type; //unbound variable
+		<T * T -> T> addition <- abstract;
+		<T> additive_identity <- abstract;
+		<T -> T> additive_inverse <- abstract;
+		<T * T -> T> subtraction <- (left, right) { return addition(left, inverse(right)); };
+	}
+;
 
-	InfiniteField <-
-		(<Type> T) {
-			return type inheriting Field<T>, InfiniteField, diamond Field {
-				<T -> T> multiplicative_inverse <- abstract;
-				<T> infinity <- abstract;
-			};
-		}
-	|
-		return type inheriting Field {
-			T is Type; //unbound variable
-			<T * T -> T> addition <- abstract;
-			<T> additive_identity <- abstract;
-			<T -> T> additive_inverse <- abstract;
-			<T * T -> T> subtraction <- (left, right) { return addition(left, inverse(right)); };
-			<T> multiplicative_identity <- abstract;
+InfiniteField <-
+	(<Type> T) {
+		return type inheriting Field<T>, InfiniteField, diamond Field {
 			<T -> T> multiplicative_inverse <- abstract;
 			<T> infinity <- abstract;
-		}
+		};
+	}
+|
+	return type inheriting Field {
+		T is Type; //unbound variable
+		<T * T -> T> addition <- abstract;
+		<T> additive_identity <- abstract;
+		<T -> T> additive_inverse <- abstract;
+		<T * T -> T> subtraction <- (left, right) { return addition(left, inverse(right)); };
+		<T> multiplicative_identity <- abstract;
+		<T -> T> multiplicative_inverse <- abstract;
+		<T> infinity <- abstract;
+	}
 
-	IntegralDomain <-
-		(<Type> T) {
-			return type inheriting CommutativeRing<T>, IntegralDomain, diamond CommutativeRing { };
-		}
-	|
-		type inheriting CommutativeRing { }
-	;
+IntegralDomain <-
+	(<Type> T) {
+		return type inheriting CommutativeRing<T>, IntegralDomain, diamond CommutativeRing { };
+	}
+|
+	type inheriting CommutativeRing { }
+;
 
-	Ring <-
-		(<Type> T) {
-			return type inheriting AbelianGroup<T>, Ring, diamond AbelianGroup {
-				<T * T -> T> multiplication <- abstract;
-			};
-		}
-	|
-		type inheriting AbelianGroup {
-			T is Type; //unbound variable
-			<T * T -> T> addition <- abstract;
-			<T> additive_identity <- abstract;
-			<T -> T> additive_inverse <- abstract;
-			<T * T -> T> subtraction <- (left, right) { return addition(left, inverse(right)); };
-			<T> multiplicative_identity <- abstract;
-		}
-	;
+inverse_function(Function<T, U> f) {
+	return (<T> y) {
+		x = f(y);
+		return x;
+	}
+}
 
-};
+Ring <-
+	(<Type> T) {
+		return type inheriting AbelianGroup<T>, Ring, diamond AbelianGroup {
+			<T * T -> T> multiplication <- abstract;
+		};
+	}
+|
+	type inheriting AbelianGroup {
+		T is Type; //unbound variable
+		<T * T -> T> addition <- abstract;
+		<T> additive_identity <- abstract;
+		<T -> T> additive_inverse <- abstract;
+		<T * T -> T> subtraction <- (left, right) { return addition(left, inverse(right)); };
+		<T> multiplicative_identity <- abstract;
+	}
+;

@@ -14,133 +14,28 @@ std::atomic<int> contextIDCounter(0);
 namespace parlex {
 namespace details {
 
-struct context_ref_counter {
-	std::atomic<context *> c;
-	std::atomic<int> counter;
-	int const id;
-
-	context_ref_counter(context * c) : c(c), counter(1), id(c->id) {
-		//DBG("Constructed rc:", id);
-	}
-
-	void inc() { ++counter; }
-
-	void dec() {
-		if (--counter == 0) {
-			delete this;
-		}
-	}
-};
-
-context::context(subjob & owner, context_ref const & prior, int documentPosition, std::optional<fast_match> const & fromTransition) :
+context::context(subjob & owner, context const* const prior, int documentPosition, std::optional<match> const & fromTransition, behavior::leaf const * leaf) :
 	id(++contextIDCounter), owner(owner), prior(prior),
 	currentDocumentPosition(documentPosition),
 	fromTransition(fromTransition),
-	rc(*new context_ref_counter(this)) {
-	throw_assert(!prior.is_null() == fromTransition.has_value());
+	leaf(leaf) {
+	throw_assert((prior != nullptr) == fromTransition.has_value());
 	//DBG("constructed context ", id);
 }
 
 context::~context() {
-	context * self = rc.c.exchange(nullptr);
-	throw_assert(self);
-	rc.dec();
 	//DBG("destructed context ", id);
 }
 
-context_ref context::get_ref() const {
-	return context_ref(rc);
-}
-
-std::vector<match> context::result() const {
-	std::vector<match> result;
-	context_ref start = get_ref();
-	context_ref const * current = &start;
-	while (!current->prior().is_null()) {
-		result.push_back(match(*current->from_transition()));
-		current = &current->prior();
+permutation context::result() const {
+	permutation result;
+	context const* current = this;
+	while (current->prior) {
+		result.emplace_back(match(*current->fromTransition), current->leaf);
+		current = current->prior;
 	}
 	// std::reverse would require a swap function to be defined for match
-	return std::vector<match>(result.rbegin(), result.rend());
-}
-
-context_ref::context_ref() : rc(nullptr), id(++refIDCounter) {
-}
-
-context_ref::context_ref(context_ref_counter & rc_) : rc(&rc_), id(++refIDCounter) {
-	rc_.inc();
-	//DBG("Constructed ref:", id, " to c:", rc_.id);
-}
-
-context_ref::context_ref(context_ref const & other) : rc(other.rc), id(++refIDCounter) {
-	if (rc) {
-		rc->inc();
-		//DBG("Constructed ref:", id, " to c:", rc->id);
-	}
-}
-
-context_ref::context_ref(context_ref && other) noexcept : rc(other.rc), id(++refIDCounter) {
-	if (rc) {
-		rc->inc();
-		//DBG("Constructed ref:", id, " to c:", rc->id);
-	}
-}
-
-context_ref::~context_ref() {
-	if (rc) {
-		//DBG("Destructing ref:", id, " to c:", rc->id);
-		rc->dec();
-	}
-}
-
-bool context_ref::is_null() const {
-	if (!rc) {
-		return true;
-	}
-	if (!static_cast<context *>(rc->c)) {
-		std::cerr << "ERROR: dangling ref id: " << id << ", context id: " << rc->id;
-		raise(SIGABRT);
-	}
-	return false;
-}
-
-subjob& context_ref::owner() const {
-	throw_assert(rc);
-	//DBG("Dereferencing ref:", id, " to c:",rc->id);
-	context * temp = rc->c;
-	throw_assert(temp);
-	return temp->owner;
-}
-
-context_ref const& context_ref::prior() const {
-	throw_assert(rc);
-	//DBG("Dereferencing ref:", id, " to c:",rc->id);
-	context * temp = rc->c;
-	throw_assert(temp);
-	return temp->prior;
-}
-
-size_t context_ref::current_document_position() const {
-	throw_assert(rc);
-	//DBG("Dereferencing ref:", id, " to c:",rc->id);
-	context * temp = rc->c;
-	throw_assert(temp);
-	return temp->currentDocumentPosition;
-}
-
-std::optional<fast_match> context_ref::from_transition() const {
-	throw_assert(rc);
-	//DBG("Dereferencing ref:", id, " to c:",rc->id);
-	context * temp = rc->c;
-	throw_assert(temp);
-	return temp->fromTransition;
-}
-
-std::vector<match> context_ref::result() const {
-	throw_assert(rc);
-	context * temp = rc->c;
-	throw_assert(temp);
-	return temp->result();
+	return permutation(result.rbegin(), result.rend());
 }
 
 }

@@ -1,0 +1,60 @@
+	TsArray<Any>
+|
+	(<Type> elementType, <Int> dimensions...) {
+		return type inheriting TsArray, diamond Array {
+
+		private:
+			U := Array<argsT...>;
+
+			<S13n.Mutex> sync;
+
+			with_lock := (func, args...) {
+				lock := sync.lock();
+				return func(args...);
+			}
+
+			with_dual_lock := (other, func, args...) {
+				lock := other.sync.lock();
+				with_lock(func, args...);
+			}
+
+		public:
+
+			move <- (other) {
+				with_dual_lock(other, ((U)this).move, other);
+			};
+
+			assign <- (other) {
+				with_dual_lock(other, ((U)this).assign, other);
+			};
+
+			move_assign <- (other) {
+				with_dual_lock(other, ((U)this).move_assign, other)
+			}
+
+			swap <- (other) {
+				with_dual_lock(other, ((U)this).move_assign, other)
+			}
+
+			resize <- (args...) {
+				return with_lock( ((U)this).resize, args... );
+			};
+
+			reserve <- (args...) {
+				return with_lock( ((U)this).reserve, args... );
+			};
+
+			get <- (args...) {
+				return with_lock( ((U)this).get, args... );
+			};
+
+			set <- (args...) {
+				return with_lock( ((U)this).set, args... );
+			};
+
+			append <- (args...) {
+				return with_lock( ((U)this).append, args... );
+			}
+		}
+	}	
+;

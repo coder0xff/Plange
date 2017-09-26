@@ -1,7 +1,7 @@
 #ifndef C_STRING_HPP
 #define C_STRING_HPP
 
-#include "parlex/details/abstract_syntax_graph.hpp"
+#include "parlex/details/abstract_syntax_semilattice.hpp"
 #include "parlex/details/string_terminal.hpp"
 #include "parlex/details/raw_state_machine.hpp"
 #include "parlex/details/terminal.hpp"
@@ -13,7 +13,7 @@ class builtins_t;
 
 class c_string_t : public raw_state_machine {
 public:
-	std::u32string extract(std::u32string document, match const & m, abstract_syntax_graph const & asg) const;
+	std::u32string extract(std::u32string document, match const & m, abstract_syntax_semilattice const & asg) const;
 
 private:
 	friend class builtins_t;

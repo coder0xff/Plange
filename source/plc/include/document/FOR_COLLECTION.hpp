@@ -6,8 +6,12 @@
 #include <optional>
 #include <variant>
 #include <vector>
-
 #include "erased.hpp"
+#include "parlex/details/match.hpp"
+
+#include "_plange_literals.hpp"
+
+namespace plc {
 
 struct EXPRESSION;
 struct IC;
@@ -26,6 +30,7 @@ struct FOR_COLLECTION {
 		>> field_1;
 		erased<IDENTIFIER> field_2;
 	
+	
 		declaration(
 			std::optional<std::tuple<
 				std::variant<
@@ -36,6 +41,9 @@ struct FOR_COLLECTION {
 			>> const & field_1,
 			erased<IDENTIFIER> const & field_2
 		) : field_1(field_1), field_2(field_2) {}
+	
+		static std::optional<declaration> build(std::vector<parlex::details::match>::iterator & i);
+	
 	};
 
 	std::vector<erased<IC>> field_1;
@@ -46,14 +54,15 @@ struct FOR_COLLECTION {
 	> field_3;
 	std::vector<erased<IC>> field_4;
 	std::variant<
-		std::integral_constant<int, 0>,
-		std::integral_constant<int, 1>
+		literal_in_t,
+		literal_0xE20x880x88_t
 	> field_5;
 	std::vector<erased<IC>> field_6;
 	erased<EXPRESSION> collection;
 	std::vector<erased<IC>> field_7;
 	std::vector<erased<IC>> field_8;
 	erased<EXPRESSION> invoke;
+
 
 	FOR_COLLECTION(
 		std::vector<erased<IC>> const & field_1,
@@ -64,8 +73,8 @@ struct FOR_COLLECTION {
 		> const & field_3,
 		std::vector<erased<IC>> const & field_4,
 		std::variant<
-			std::integral_constant<int, 0>,
-			std::integral_constant<int, 1>
+			literal_in_t,
+			literal_0xE20x880x88_t
 		> const & field_5,
 		std::vector<erased<IC>> const & field_6,
 		erased<EXPRESSION> const & collection,
@@ -73,7 +82,13 @@ struct FOR_COLLECTION {
 		std::vector<erased<IC>> const & field_8,
 		erased<EXPRESSION> const & invoke
 	) : field_1(field_1), field_2(field_2), field_3(field_3), field_4(field_4), field_5(field_5), field_6(field_6), collection(collection), field_7(field_7), field_8(field_8), invoke(invoke) {}
+
+	static std::optional<FOR_COLLECTION> build(std::vector<parlex::details::match>::iterator & i);
+
 };
+
+
+} // namespace plc
 
 
 

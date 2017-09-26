@@ -6,8 +6,12 @@
 #include <optional>
 #include <variant>
 #include <vector>
-
 #include "erased.hpp"
+#include "parlex/details/match.hpp"
+
+#include "_plange_literals.hpp"
+
+namespace plc {
 
 struct EXPRESSION;
 struct IC;
@@ -19,22 +23,29 @@ struct DEFINITION {
 		erased<XML_DOC_STRING>,
 		std::vector<erased<IC>>
 	>> field_1;
-	erased<IDENTIFIER> IDENTIFIER;
+	erased<IDENTIFIER> identifier;
 	std::vector<erased<IC>> field_2;
 	std::vector<erased<IC>> field_3;
-	erased<EXPRESSION> EXPRESSION;
+	erased<EXPRESSION> expression;
+
 
 	DEFINITION(
 		std::optional<std::tuple<
 			erased<XML_DOC_STRING>,
 			std::vector<erased<IC>>
 		>> const & field_1,
-		erased<IDENTIFIER> const & IDENTIFIER,
+		erased<IDENTIFIER> const & identifier,
 		std::vector<erased<IC>> const & field_2,
 		std::vector<erased<IC>> const & field_3,
-		erased<EXPRESSION> const & EXPRESSION
-	) : field_1(field_1), IDENTIFIER(IDENTIFIER), field_2(field_2), field_3(field_3), EXPRESSION(EXPRESSION) {}
+		erased<EXPRESSION> const & expression
+	) : field_1(field_1), identifier(identifier), field_2(field_2), field_3(field_3), expression(expression) {}
+
+	static std::optional<DEFINITION> build(std::vector<parlex::details::match>::iterator & i);
+
 };
+
+
+} // namespace plc
 
 
 

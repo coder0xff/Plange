@@ -1,0 +1,9 @@
+(<Type> T) {
+	return type inheriting Expression {
+		extern <Void -> Maybe<T>> naturalize;
+	}
+};
+
+type {
+	<Void -> Maybe<Any>> naturalize <- abstract;
+};

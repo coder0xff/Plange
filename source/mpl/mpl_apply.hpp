@@ -3,7 +3,7 @@
 
 namespace mpl {
 
-	namespace details_apply {
+	namespace details::apply {
 
 		template<template<typename...> typename TTarget, typename TList>
 		struct impl {};
@@ -16,11 +16,11 @@ namespace mpl {
 	}
 
 	template<template<typename...> typename TTarget, typename TList>
-	using apply = typename details_apply::impl<TTarget, TList>::result;
+	using apply = typename details::apply::impl<TTarget, TList>::result;
 
 }
 
 #define INCLUDED_MPL_APPLY_HPP
-#elif !define(INCLUDED_MPL_APPLY_HPP)
+#elif !defined(INCLUDED_MPL_APPLY_HPP)
 #	error circular inclusion
 #endif

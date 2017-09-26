@@ -6,8 +6,12 @@
 #include <optional>
 #include <variant>
 #include <vector>
-
 #include "erased.hpp"
+#include "parlex/details/match.hpp"
+
+#include "_plange_literals.hpp"
+
+namespace plc {
 
 struct ASM_IDENTIFIER;
 struct NON_NEG_NON_FRACTIONAL;
@@ -21,6 +25,7 @@ struct ASM_PTR_ARITHMETIC_ATT_REG {
 		>>
 	>> field_2;
 
+
 	ASM_PTR_ARITHMETIC_ATT_REG(
 		std::optional<erased<ASM_IDENTIFIER>> const & field_1,
 		std::optional<std::tuple<
@@ -30,7 +35,13 @@ struct ASM_PTR_ARITHMETIC_ATT_REG {
 			>>
 		>> const & field_2
 	) : field_1(field_1), field_2(field_2) {}
+
+	static std::optional<ASM_PTR_ARITHMETIC_ATT_REG> build(std::vector<parlex::details::match>::iterator & i);
+
 };
+
+
+} // namespace plc
 
 
 

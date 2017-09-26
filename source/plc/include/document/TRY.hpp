@@ -6,8 +6,12 @@
 #include <optional>
 #include <variant>
 #include <vector>
-
 #include "erased.hpp"
+#include "parlex/details/match.hpp"
+
+#include "_plange_literals.hpp"
+
+namespace plc {
 
 struct EXPRESSION;
 struct IC;
@@ -28,6 +32,7 @@ struct TRY {
 		erased<EXPRESSION>
 	>> field_7;
 
+
 	TRY(
 		std::vector<erased<IC>> const & field_1,
 		erased<EXPRESSION> const & field_2,
@@ -44,7 +49,13 @@ struct TRY {
 			erased<EXPRESSION>
 		>> const & field_7
 	) : field_1(field_1), field_2(field_2), field_3(field_3), field_4(field_4), field_5(field_5), field_6(field_6), field_7(field_7) {}
+
+	static std::optional<TRY> build(std::vector<parlex::details::match>::iterator & i);
+
 };
+
+
+} // namespace plc
 
 
 

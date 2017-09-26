@@ -12,14 +12,14 @@
 namespace parlex {
 namespace details {
 
-erased<node> wirth_t::process_factor(std::u32string const & document, match const & factor, abstract_syntax_graph const & asg) const {
+erased<node> wirth_t::process_factor(std::u32string const & document, match const & factor, abstract_syntax_semilattice const & asg) const {
 	permutation const & p = asg.find(factor);
 	auto i = p.begin();
 	std::string tag;
 	if (&i->r == &dollarSign) {
 		++i;
 		if (&i->r == &identifierDfa) {
-			tag = to_utf8(document.substr(i->document_position, i->consumed_character_count));
+			tag = tolower(to_utf8(document.substr(i->document_position, i->consumed_character_count)));
 		} else if (&i->r == &builtins().c_string) {
 			tag = to_utf8(builtins().c_string.extract(document, *i, asg));
 		} else {
@@ -69,7 +69,7 @@ erased<node> wirth_t::process_factor(std::u32string const & document, match cons
 	return *result;
 }
 
-erased<node> wirth_t::process_term(std::u32string const & document, match const & term, abstract_syntax_graph const & asg) const {
+erased<node> wirth_t::process_term(std::u32string const & document, match const & term, abstract_syntax_semilattice const & asg) const {
 	std::vector<match> factors;
 
 	permutation const & p = *(*asg.permutations.find(term)).second.begin();
@@ -88,7 +88,7 @@ erased<node> wirth_t::process_term(std::u32string const & document, match const 
 	return result;
 }
 
-erased<node> wirth_t::process_expression(std::u32string const & document, match const & expression, abstract_syntax_graph const & asg) const {
+erased<node> wirth_t::process_expression(std::u32string const & document, match const & expression, abstract_syntax_semilattice const & asg) const {
 	std::vector<match> terms;
 
 	permutation const & p = *(*asg.permutations.find(expression)).second.begin();
@@ -140,7 +140,7 @@ builder wirth_t::load_grammar(std::string const & rootId, std::map<std::string, 
 
 builder wirth_t::load_grammar(std::string const & rootId, std::u32string const & document, std::map<std::string, associativity> const & associativities, std::set<std::string> const & longestNames) const {
 	parser p;
-	abstract_syntax_graph asg = p.parse(*this, document);
+	abstract_syntax_semilattice asg = p.parse(*this, document);
 	std::set<std::u32string> names;
 	throw_assert(asg.is_rooted());
 	std::map<std::string, production> definitions;
@@ -271,7 +271,7 @@ wirth_t::wirth_t() : grammar(generate_wirth()),
 
 }
 
-erased<node> wirth_t::process_production(std::u32string const & document, match const & production, abstract_syntax_graph const & asg) const {
+erased<node> wirth_t::process_production(std::u32string const & document, match const & production, abstract_syntax_semilattice const & asg) const {
 	for (match const & entry : *(*asg.permutations.find(production)).second.begin()) {
 		if (&entry.r == &expressionDfa) {
 			return process_expression(document, entry, asg);

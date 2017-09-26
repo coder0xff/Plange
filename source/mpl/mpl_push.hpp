@@ -1,6 +1,8 @@
 #ifndef INCLUDING_MPL_PUSH_HPP
 #define INCLUDING_MPL_PUSH_HPP
 
+#include "mpl_list.hpp"
+
 namespace mpl {
 	namespace details_push {
 
@@ -9,7 +11,7 @@ namespace mpl {
 
 		template<typename TElement, template <typename...> typename TList, typename... TListElements>
 		struct impl<TElement, TList<TListElements...>> {
-			using result = TList<TElement, TListElements...>;
+			using result = list<TElement, TListElements...>;
 		};
 
 	}

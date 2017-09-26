@@ -1,25 +1,41 @@
 abs <- CStdlib.abs | CStdlib.fabs;
 
 abstract <- {
-	get := { throw[1] PureVirtualException(); };
-} 
+	get[2] := {
+		throw[1] PureVirtualException();
+	};
+};
+
+```Create a compound value consisting of the specified values```
+combine <- (<Denumerable> container) {
+	result & tail <- container;
+	for (element in tail) {
+		result <- result | element;
+	}
+	return result;
+};
 
 copy_construct <- (<T> value1, <T> value2) {
-	value.constructor(value2);
-	(dereference((Pointer<T>)address)).construct(value);
-}
+	value1.constructor(value2);
+};
 
-curry <- (<Function<T, U, ArgTypes...>> func, <U> val) {
+curry <- (<Function<T, GivenArgTypes ..., UnboundArgTypes ...>> func, <GivenArgTypes> givenArgs ...) {
+
 	return ArgTypes.size = 0 ?
 		func(val) :
-		(Function<T, ArgTypes...>) (args...) { return func(val, args...); }
+		 (<UnboundArgTypes> args ...) { return func(val, givenArgs ..., args ...); }
 	;
-}
+};
+
+Denumerable <-
+	type {
+		<Void -> Iterator> begin();
+	}
 
 err_print <- (info) {
 	<String> s := coerce(info);
 	write(standard_error, s.get_bytes(Encoding.ascii))
-}
+};
 
 fold <- (<A * B -> B> f, <Collection<A>> collection, <B> accumulator) {
 	if (collection.size = 0)
@@ -28,27 +44,6 @@ fold <- (<A * B -> B> f, <Collection<A>> collection, <B> accumulator) {
 		fold (f, collection.tail, f(collection.head, accumulator))
 	;
 };
-
-ForwardIterator <-
-	(<Type> T) {
-		return type inheriting ForwardIterator, Iterator<T> {
-		public:
-
-			Inheritor inherits this_type;
-			<Void -> this_type> pre_increment <- abstract;
-			<Void -> this_type> post_increment <- {
-				return ++this_type(this);
-			};
-		}
-	}
-|
-	type inheriting Iterator {
-		<Void -> this_type> pre_increment <- abstract;
-		<Void -> this_type> post_increment <- {
-			return ++this_type(this);
-		};
-	}
-;
 
 Function <-
 	(<Type> retT, <FiniteDenumerableCollection<Type>> argTypes...) {
@@ -112,7 +107,7 @@ IndexableCollection <-
 ;
 
 ℤ <- type inheriting IntegralDomain<ℤ> {
-	todo();
+	throw NotImplementedException();
 };
 Int = ℤ;
 
@@ -162,12 +157,58 @@ Offset <- type_abstraction(UInt);
 <ℝ> π <- (4*Math.arctan(1/5)-Math.arctan(1/239))/4; //Machin series https://en.wikipedia.org/wiki/Machin-like_formula
 pi = π;
 
-print <-
-	(value) {
-		<String> s := coerce(value);
-		buffer = s.get_bytes(Encoding.ascii);
-		CStdLib.puts address_of(buffer[0]);
-		print(s);
+```
+A reference counted pointer for deterministic destruction.
+<see>Plange.RawPointer</see>
+<see>Plange.Ref</see>
+```
+Pointer <-
+	(<Type> T) {
+		return type inheriting Pointer {
+			<RawPointer<Atomic<CInt>> counter;
+			<RawPointer<T>> value_ptr;
+
+			constructor <-
+				(RawPointer<U> valuePtr) {
+					T casts U;
+					this.value_ptr = valuePtr;
+				}
+			|
+				(Pointer<U> other) {
+					T casts U;
+					counter <- other.counter;
+					counter.increment();
+				};
+
+			destructor <- () {
+				counter.decrement();
+			}
+
+			get <- () {
+				return context.dereference(valuePtr);
+			}
+		};
+	}
+|
+	Offset;
+
+print <- (value) {
+	<String> s := coerce(value);
+	buffer = s.get_bytes(Encoding.ascii);
+	CStdLib.puts address_of(buffer[0]);
+};
+
+Property <-
+	type {
+		<Void -> Any> get;
+		<Any -> Any> set;
+	}
+|
+	(<Type> T) {
+		return type inheriting Property {
+			<Void -> T> get;
+			<T -> T> set;
+		}
 	}
 ;
 
@@ -179,8 +220,7 @@ print <-
 Rationals = ℚ;
 
 ℝ <- 
-	type inheriting Math.Algebra.InfiniteField<ℝ> {
-	public:
+	type implementing Math.Algebra.InfiniteField<ℝ>, Nondenumerable<ℝ> {
 		<Bool> negative;
 		<UInt> magnitude <- abstract; // Math.floor(Math.log(|value|, 10))
 		<UInt -> UInt> get_digit <- abstract;
@@ -205,6 +245,23 @@ Rationals = ℚ;
 		<UInt -> Array<ℝ>> sample <- (count) { return coerce([0...count)); }
 	};
 Real = ℝ;
+
+RawPointer <- (<Type> T) {
+	return type inheriting private Offset;
+}
+
+Ref <- (<Type> T) {
+	return type {
+		<RawPointer<Meta.CollectorNode>> collector_node;
+		<RawPointer<T>> value;
+		get <- () {
+			return context.dereference(value);
+		}
+	}
+}
+
+```Break a compound value into its constituent values.```
+separate <- Math.Algebra.inverse_function(combine);
 
 Some <-
 	(<Type> t) {
