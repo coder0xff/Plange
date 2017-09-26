@@ -6,7 +6,7 @@
 #include <atomic>
 #include <queue>
 
-#include "parlex/details/abstract_syntax_graph.hpp"
+#include "parlex/details/abstract_syntax_semilattice.hpp"
 #include "parlex/post_processor.hpp"
 #include "erased.hpp"
 
@@ -24,10 +24,10 @@ class parser {
 public:
 	parser(unsigned threadCount = std::thread::hardware_concurrency());
 	~parser();
-	abstract_syntax_graph parse(grammar_base const & g, recognizer const & overrideMain, std::vector<post_processor> posts, std::u32string const & document, progress_handler_t progressHandler = progress_handler_t());
-	abstract_syntax_graph parse(grammar_base const & g, recognizer const & overrideMain, std::u32string const & document, progress_handler_t progressHandler = progress_handler_t());
-	abstract_syntax_graph parse(grammar_base const & g, std::vector<post_processor> posts, std::u32string const & document, progress_handler_t progressHandler = progress_handler_t());
-	abstract_syntax_graph parse(grammar_base const & g, std::u32string const & document, progress_handler_t progressHandler = progress_handler_t());
+	abstract_syntax_semilattice parse(grammar_base const & g, recognizer const & overrideMain, std::vector<post_processor> posts, std::u32string const & document, progress_handler_t progressHandler = progress_handler_t());
+	abstract_syntax_semilattice parse(grammar_base const & g, recognizer const & overrideMain, std::u32string const & document, progress_handler_t progressHandler = progress_handler_t());
+	abstract_syntax_semilattice parse(grammar_base const & g, std::vector<post_processor> posts, std::u32string const & document, progress_handler_t progressHandler = progress_handler_t());
+	abstract_syntax_semilattice parse(grammar_base const & g, std::u32string const & document, progress_handler_t progressHandler = progress_handler_t());
 private:
 	friend class job;
 	friend class subjob;
@@ -43,13 +43,13 @@ private:
 	std::condition_variable work_cv;
 
 	void start_workers(int threadCount);
-	static abstract_syntax_graph construct_result(job const & j, fast_match const & m);
-	static abstract_syntax_graph construct_result_and_postprocess(recognizer const & overrideMain, std::vector<post_processor> posts, std::u32string const & document, job const & j);
+	static abstract_syntax_semilattice construct_result(job const & j, match const & m);
+	static abstract_syntax_semilattice construct_result_and_postprocess(recognizer const & overrideMain, std::vector<post_processor> posts, std::u32string const & document, job const & j);
 	static void complete_progress_handler(job & j);
 	static void update_progress(context const & context);
 	std::tuple<context const*, int> get_work_item();
-	abstract_syntax_graph single_thread_parse(grammar_base const & g, recognizer const & overrideMain, std::vector<post_processor> posts, std::u32string const & document, progress_handler_t progressHandler);
-	abstract_syntax_graph multi_thread_parse(grammar_base const & g, recognizer const & overrideMain, std::vector<post_processor> posts, std::u32string const & document, progress_handler_t progressHandler);
+	abstract_syntax_semilattice single_thread_parse(grammar_base const & g, recognizer const & overrideMain, std::vector<post_processor> posts, std::u32string const & document, progress_handler_t progressHandler);
+	abstract_syntax_semilattice multi_thread_parse(grammar_base const & g, recognizer const & overrideMain, std::vector<post_processor> posts, std::u32string const & document, progress_handler_t progressHandler);
 	void schedule(context const & c, int nextDfaState);
 
 	//returns true if the job is complete

@@ -1,5 +1,5 @@
-#ifndef ABSTRACT_SYNTAX_GRAPH_HPP
-#define ABSTRACT_SYNTAX_GRAPH_HPP
+#ifndef ABSTRACT_SYNTAX_SEMILATTICE_HPP
+#define ABSTRACT_SYNTAX_SEMILATTICE_HPP
 
 #include <map>
 #include <set>
@@ -11,8 +11,8 @@
 namespace parlex {
 namespace details {
 
-struct abstract_syntax_graph {
-	explicit abstract_syntax_graph(match root);
+struct abstract_syntax_semilattice {
+	explicit abstract_syntax_semilattice(match root);
 	std::map<match, std::set<permutation>> permutations;
 	match root;
 	bool is_rooted() const;
@@ -29,4 +29,4 @@ struct abstract_syntax_graph {
 } // namespace details
 } // namespace parlex
 
-#endif //ABSTRACT_SYNTAX_GRAPH_HPP
+#endif //ABSTRACT_SYNTAX_SEMILATTICE_HPP

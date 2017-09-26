@@ -3,6 +3,7 @@
 #include "parlex/builder.hpp"
 #include "parlex/details/builtins.hpp"
 
+#include "graphviz_dot.hpp"
 #include "utf.hpp"
 #include "covariant_invoke.hpp"
 
@@ -10,6 +11,11 @@ namespace parlex {
 namespace details {
 
 grammar::production::production(std::string const & id, filter_function const & filter, associativity assoc) : machine(id, filter, assoc) {
+}
+
+behavior::node const& grammar::production::get_behavior() const
+{
+	return *behavior;
 }
 
 

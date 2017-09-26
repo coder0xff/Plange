@@ -1,4 +1,4 @@
-#include "parlex/details/abstract_syntax_graph.hpp"
+#include "parlex/details/abstract_syntax_semilattice.hpp"
 
 #include <queue>
 
@@ -9,15 +9,15 @@
 namespace parlex {
 namespace details {
 
-abstract_syntax_graph::abstract_syntax_graph(match root) : root(root) {
+abstract_syntax_semilattice::abstract_syntax_semilattice(match root) : root(root) {
 }
 
-bool abstract_syntax_graph::is_rooted() const {
+bool abstract_syntax_semilattice::is_rooted() const {
 	auto i = permutations.find(root);
 	return i != permutations.end() && i->second.size() > 0;
 }
 
-void abstract_syntax_graph::cut(std::set<match> const & matches) {
+void abstract_syntax_semilattice::cut(std::set<match> const & matches) {
 	std::map<match, std::set<match>> reversedDependencies;
 	for (auto const & entry : permutations) {
 		for (auto const & p : entry.second) {
@@ -64,7 +64,7 @@ void abstract_syntax_graph::cut(std::set<match> const & matches) {
 	}
 }
 
-void abstract_syntax_graph::prune_detached() {
+void abstract_syntax_semilattice::prune_detached() {
 	std::set<match> unconnecteds;
 	for (auto const & entry : permutations) {
 		unconnecteds.insert(entry.first);
@@ -88,7 +88,7 @@ void abstract_syntax_graph::prune_detached() {
 	}
 }
 
-std::string abstract_syntax_graph::to_dot() const {
+std::string abstract_syntax_semilattice::to_dot() const {
 	std::string result = "digraph {\n";
 	std::set<match> completed;
 	for (auto const & entry : permutations) {
@@ -106,7 +106,7 @@ std::string abstract_syntax_graph::to_dot() const {
 	return result;
 }
 
-std::string abstract_syntax_graph::to_concrete_dot(std::u32string const & document) {
+std::string abstract_syntax_semilattice::to_concrete_dot(std::u32string const & document) {
 	std::string result = "digraph {\n";
 	std::set<match> completed;
 	for (auto const & entry : permutations) {
@@ -124,7 +124,7 @@ std::string abstract_syntax_graph::to_concrete_dot(std::u32string const & docume
 	return result;
 }
 
-uint64_t abstract_syntax_graph::variation_count() const {
+uint64_t abstract_syntax_semilattice::variation_count() const {
 	uint64_t result = 1;
 	for (auto const & permutation : permutations) {
 		result *= permutation.second.size();
@@ -133,7 +133,7 @@ uint64_t abstract_syntax_graph::variation_count() const {
 }
 
 
-std::set<permutation> const & abstract_syntax_graph::find_all(match const & m) const
+std::set<permutation> const & abstract_syntax_semilattice::find_all(match const & m) const
 {
 	auto i = permutations.find(m);
 	if (i == permutations.end()) {
@@ -143,7 +143,7 @@ std::set<permutation> const & abstract_syntax_graph::find_all(match const & m) c
 }
 
 
-permutation const & abstract_syntax_graph::find(match const & m) const
+permutation const & abstract_syntax_semilattice::find(match const & m) const
 {
 	auto const & all = find_all(m);
 	auto i = all.begin();

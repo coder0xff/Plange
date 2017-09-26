@@ -3,6 +3,7 @@
 
 #include <map>
 #include <vector>
+#include <list>
 
 namespace parlex {
 
@@ -15,9 +16,10 @@ public:
 	struct output_files {
 		file_dictionary headers;
 		file_dictionary sources;
+		void add(output_files const & files);
 	};
 
-	static output_files generate(std::string const & name, builder const & g);
+	static output_files generate(std::string const & name, std::list<std::string> const & namespaces, builder const & g);
 };
 
 } // namespace parlex

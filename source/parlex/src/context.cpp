@@ -14,10 +14,11 @@ std::atomic<int> contextIDCounter(0);
 namespace parlex {
 namespace details {
 
-context::context(subjob & owner, context const* const prior, int documentPosition, std::optional<fast_match> const & fromTransition) :
+context::context(subjob & owner, context const* const prior, int documentPosition, std::optional<match> const & fromTransition, behavior::leaf const * leaf) :
 	id(++contextIDCounter), owner(owner), prior(prior),
 	currentDocumentPosition(documentPosition),
-	fromTransition(fromTransition) {
+	fromTransition(fromTransition),
+	leaf(leaf) {
 	throw_assert((prior != nullptr) == fromTransition.has_value());
 	//DBG("constructed context ", id);
 }
@@ -26,15 +27,15 @@ context::~context() {
 	//DBG("destructed context ", id);
 }
 
-std::vector<match> context::result() const {
-	std::vector<match> result;
+permutation context::result() const {
+	permutation result;
 	context const* current = this;
 	while (current->prior) {
-		result.push_back(match(*current->fromTransition));
+		result.emplace_back(match(*current->fromTransition), current->leaf);
 		current = current->prior;
 	}
 	// std::reverse would require a swap function to be defined for match
-	return std::vector<match>(result.rbegin(), result.rend());
+	return permutation(result.rbegin(), result.rend());
 }
 
 }
