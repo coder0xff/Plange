@@ -1,0 +1,15 @@
+	type inheriting public diamond Denumerable;
+|
+	(<Type> T) {
+		return type inheriting public Denumerable<T> {
+			static <> Node <- type {
+				<T> value;
+				<RawPointer<Node>> next;
+				<RawPointer<Node>> previous;
+			}
+
+			static <> Iterator <- type inheriting Plange.Iterator<T> {
+				//todo
+			}
+		}
+	}

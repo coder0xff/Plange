@@ -1,13 +1,12 @@
-return
 	(<Type> T) { //dynamic array of Ts
 		Function<_, ctorArgTypes...> _ = typeof(T.construct); //get analytic value for ctorArgTypes
 		return type implementing DenumerableCollection<T>, IndexableCollection<T, 1> {
 		private:
-			<Pointer<T>> storage;
+			<RawPointer<T>> storage;
 			<UInt> sizeVar;
 			<UInt> capacity;
 		public:
-			T <- T;
+			this_type.members["T"] = T;
 
 			construct <-
 				{
@@ -15,7 +14,8 @@ return
 					capacity <- sizeVar <- 0;
 				}
 			|
-				(<Const<Array<T>>> other) {
+				(<Const<Array<U>>> other) {
+					
 					construct();
 					if (other.sizeVar > 0) {
 						storage <- coerce(CStdLib.malloc(T, sizeof(T) * other.sizeVar));
@@ -36,11 +36,11 @@ return
 				}
 			;
 
-			move <- default_mover(T, this);
+			move <- default_mover(T);
 
-			assign <- default_assigner(T, this);
+			assign <- default_assigner(T);
 
-			move_assign <- default_move_assigner(T, this);
+			move_assign <- default_move_assigner(T);
 
 			destruct <- {
 				resize(0)
