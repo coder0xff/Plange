@@ -119,7 +119,7 @@ int main(int argc, const char* argv[]) {
 		defs.emplace(std::piecewise_construct, forward_as_tuple(name), forward_as_tuple(source, assoc, filter, precedences));
 	}
 	parlex::builder g = parlex::wirth().load_grammar("STATEMENT_SCOPE", defs);
-	auto files = parlex::cpp_generator::generate("plange", "plc", g);
+	auto files = parlex::cpp_generator::generate("plange", { "plc" }, g);
 
 	write_files(workingDir + "/plc/include/document", files.headers);
 	write_files(workingDir + "/plc/src/document", files.sources);
