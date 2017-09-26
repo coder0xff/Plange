@@ -6,8 +6,12 @@
 #include <optional>
 #include <variant>
 #include <vector>
-
 #include "erased.hpp"
+#include "parlex/details/match.hpp"
+
+#include "_plange_literals.hpp"
+
+namespace plc {
 
 struct ASM_SCOPE;
 struct FUNCTION_MODIFIER_0;
@@ -32,6 +36,7 @@ struct ASM_FUNCTION {
 	std::vector<erased<IC>> field_3;
 	erased<ASM_SCOPE> field_4;
 
+
 	ASM_FUNCTION(
 		std::optional<std::tuple<
 			std::vector<erased<IC>>,
@@ -50,7 +55,13 @@ struct ASM_FUNCTION {
 		std::vector<erased<IC>> const & field_3,
 		erased<ASM_SCOPE> const & field_4
 	) : field_1(field_1), field_2(field_2), field_3(field_3), field_4(field_4) {}
+
+	static std::optional<ASM_FUNCTION> build(std::vector<parlex::details::match>::iterator & i);
+
 };
+
+
+} // namespace plc
 
 
 

@@ -6,8 +6,12 @@
 #include <optional>
 #include <variant>
 #include <vector>
-
 #include "erased.hpp"
+#include "parlex/details/match.hpp"
+
+#include "_plange_literals.hpp"
+
+namespace plc {
 
 struct ASSIGNMENT_CHAIN;
 struct EXPRESSION;
@@ -20,11 +24,11 @@ struct ASSIGNMENT_CHAIN {
 		erased<XML_DOC_STRING>,
 		std::vector<erased<IC>>
 	>> field_1;
-	erased<IDENTIFIER> IDENTIFIER;
+	erased<IDENTIFIER> identifier;
 	std::vector<erased<IC>> field_2;
 	std::variant<
-		std::integral_constant<int, 0>,
-		std::integral_constant<int, 1>
+		literal_0xE20x860x90_t,
+		literal_0x3C0x2D_t
 	> field_3;
 	std::vector<erased<IC>> field_4;
 	std::variant<
@@ -32,24 +36,31 @@ struct ASSIGNMENT_CHAIN {
 		erased<ASSIGNMENT_CHAIN>
 	> field_5;
 
+
 	ASSIGNMENT_CHAIN(
 		std::optional<std::tuple<
 			erased<XML_DOC_STRING>,
 			std::vector<erased<IC>>
 		>> const & field_1,
-		erased<IDENTIFIER> const & IDENTIFIER,
+		erased<IDENTIFIER> const & identifier,
 		std::vector<erased<IC>> const & field_2,
 		std::variant<
-			std::integral_constant<int, 0>,
-			std::integral_constant<int, 1>
+			literal_0xE20x860x90_t,
+			literal_0x3C0x2D_t
 		> const & field_3,
 		std::vector<erased<IC>> const & field_4,
 		std::variant<
 			erased<EXPRESSION>,
 			erased<ASSIGNMENT_CHAIN>
 		> const & field_5
-	) : field_1(field_1), IDENTIFIER(IDENTIFIER), field_2(field_2), field_3(field_3), field_4(field_4), field_5(field_5) {}
+	) : field_1(field_1), identifier(identifier), field_2(field_2), field_3(field_3), field_4(field_4), field_5(field_5) {}
+
+	static std::optional<ASSIGNMENT_CHAIN> build(std::vector<parlex::details::match>::iterator & i);
+
 };
+
+
+} // namespace plc
 
 
 

@@ -6,8 +6,12 @@
 #include <optional>
 #include <variant>
 #include <vector>
-
 #include "erased.hpp"
+#include "parlex/details/match.hpp"
+
+#include "_plange_literals.hpp"
+
+namespace plc {
 
 struct EXPRESSION;
 struct IC;
@@ -39,6 +43,14 @@ typedef std::variant<
 		erased<EXPRESSION>,
 		bool
 	>
-> PARAMETER_NATURAL;
+> PARAMETER_NATURAL_base;
+
+struct PARAMETER_NATURAL: PARAMETER_NATURAL_base {
+	static std::optional<PARAMETER_NATURAL> build(std::vector<parlex::details::match>::iterator & i);
+	explicit PARAMETER_NATURAL(PARAMETER_NATURAL_base const & value) : PARAMETER_NATURAL_base(value) {}
+};
+} // namespace plc
+
+
 
 #endif //INCLUDED_PARAMETER_NATURAL_HPP

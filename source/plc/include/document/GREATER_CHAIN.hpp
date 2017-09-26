@@ -6,24 +6,35 @@
 #include <optional>
 #include <variant>
 #include <vector>
-
 #include "erased.hpp"
+#include "parlex/details/match.hpp"
+
+#include "_plange_literals.hpp"
+
+namespace plc {
 
 struct EXPRESSION;
 struct GREATER_CHAIN_LOOP;
 struct IC;
 
 struct GREATER_CHAIN {
-	erased<EXPRESSION> EXPRESSION;
+	erased<EXPRESSION> expression;
 	std::vector<erased<IC>> field_1;
-	erased<GREATER_CHAIN_LOOP> GREATER_CHAIN_LOOP;
+	erased<GREATER_CHAIN_LOOP> greater_chain_loop;
+
 
 	GREATER_CHAIN(
-		erased<EXPRESSION> const & EXPRESSION,
+		erased<EXPRESSION> const & expression,
 		std::vector<erased<IC>> const & field_1,
-		erased<GREATER_CHAIN_LOOP> const & GREATER_CHAIN_LOOP
-	) : EXPRESSION(EXPRESSION), field_1(field_1), GREATER_CHAIN_LOOP(GREATER_CHAIN_LOOP) {}
+		erased<GREATER_CHAIN_LOOP> const & greater_chain_loop
+	) : expression(expression), field_1(field_1), greater_chain_loop(greater_chain_loop) {}
+
+	static std::optional<GREATER_CHAIN> build(std::vector<parlex::details::match>::iterator & i);
+
 };
+
+
+} // namespace plc
 
 
 

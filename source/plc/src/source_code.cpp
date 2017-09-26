@@ -3,23 +3,23 @@
 
 #include <fstream>
 
-#include "parlex/details/abstract_syntax_graph.hpp"
-#include "parlex/details/recognizer.hpp"
+#pragma warning(push, 0)
+#include <llvm/IR/Constants.h>
+#pragma warning(pop)
 
 #include "utf.hpp"
 #include "utils.hpp"
 
-#include "scope.hpp"
-
-#pragma warning(push, 0)
-#include <llvm/IR/Constants.h>
+#include "parlex/details/abstract_syntax_semilattice.hpp"
 #include "parlex/details/parser.hpp"
+#include "parlex/details/recognizer.hpp"
+
 #include "compiler.hpp"
-#pragma warning(pop)
+#include "scope.hpp"
 
 //filter super delimiters
 //Any PAYLOAD that fully contains another PAYLOAD is not a PAYLOAD
-static void payload_postprocess(parlex::details::abstract_syntax_graph & asg) {
+static void payload_postprocess(parlex::details::abstract_syntax_semilattice & asg) {
 	std::set<parlex::details::match> payloadMatches;
 	for (auto const & entry : asg.permutations) {
 		if (entry.first.r.id == "PAYLOAD") {
@@ -45,7 +45,7 @@ static void payload_postprocess(parlex::details::abstract_syntax_graph & asg) {
 	asg.cut(payloadsToCut);
 }
 
-static std::vector<std::set<parlex::details::match>> matches_by_height(parlex::details::abstract_syntax_graph const & asg) {
+static std::vector<std::set<parlex::details::match>> matches_by_height(parlex::details::abstract_syntax_semilattice const & asg) {
 	std::map<parlex::details::match, std::set<parlex::details::match>> reversedDependencies;
 	std::set<parlex::details::match> pending;
 	std::map<parlex::details::match, size_t> reversedResults;
@@ -94,7 +94,7 @@ plc::source_code::source_code(std::string const & pathname, std::u32string const
 		pos = document.find(U'\n', pos);
 	}
 
-	parlex::details::abstract_syntax_graph asg = compiler::parse(document);
+	parlex::details::abstract_syntax_semilattice asg = compiler::parse(document);
 // 	//std::string test = graph.to_cst_dot(document); //todo: make sure this is commented out
 	if (!asg.is_rooted()) {
 		ERROR(CouldNotParse, pathname + " syntax tree: " + asg.to_dot());

@@ -6,8 +6,12 @@
 #include <optional>
 #include <variant>
 #include <vector>
-
 #include "erased.hpp"
+#include "parlex/details/match.hpp"
+
+#include "_plange_literals.hpp"
+
+namespace plc {
 
 struct ASM_IDENTIFIER;
 struct ASM_PTR_ARITHMETIC_ATT_REG;
@@ -27,6 +31,14 @@ typedef std::variant<
 		erased<NON_FRACTIONAL>,
 		erased<ASM_PTR_ARITHMETIC_ATT_REG>
 	>
-> ASM_PTR_ARITHMETIC_ATT;
+> ASM_PTR_ARITHMETIC_ATT_base;
+
+struct ASM_PTR_ARITHMETIC_ATT: ASM_PTR_ARITHMETIC_ATT_base {
+	static std::optional<ASM_PTR_ARITHMETIC_ATT> build(std::vector<parlex::details::match>::iterator & i);
+	explicit ASM_PTR_ARITHMETIC_ATT(ASM_PTR_ARITHMETIC_ATT_base const & value) : ASM_PTR_ARITHMETIC_ATT_base(value) {}
+};
+} // namespace plc
+
+
 
 #endif //INCLUDED_ASM_PTR_ARITHMETIC_ATT_HPP

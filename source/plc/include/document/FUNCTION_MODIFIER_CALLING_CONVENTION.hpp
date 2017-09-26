@@ -6,42 +6,54 @@
 #include <optional>
 #include <variant>
 #include <vector>
-
 #include "erased.hpp"
+#include "parlex/details/match.hpp"
+
+#include "_plange_literals.hpp"
+
+namespace plc {
 
 typedef std::variant<
-	std::integral_constant<int, 0>,
-	std::integral_constant<int, 1>,
-	std::integral_constant<int, 2>,
-	std::integral_constant<int, 3>,
-	std::integral_constant<int, 4>,
-	std::integral_constant<int, 5>,
-	std::integral_constant<int, 6>,
-	std::integral_constant<int, 7>,
-	std::integral_constant<int, 8>,
-	std::integral_constant<int, 9>,
-	std::integral_constant<int, 10>,
-	std::integral_constant<int, 11>,
-	std::integral_constant<int, 12>,
-	std::integral_constant<int, 13>,
-	std::integral_constant<int, 14>,
-	std::integral_constant<int, 15>,
-	std::integral_constant<int, 16>,
-	std::integral_constant<int, 17>,
-	std::integral_constant<int, 18>,
-	std::integral_constant<int, 19>,
-	std::integral_constant<int, 20>,
-	std::integral_constant<int, 21>,
-	std::integral_constant<int, 22>,
-	std::integral_constant<int, 23>,
-	std::integral_constant<int, 24>,
-	std::integral_constant<int, 25>,
-	std::integral_constant<int, 26>,
-	std::integral_constant<int, 27>,
-	std::integral_constant<int, 28>,
-	std::integral_constant<int, 29>,
-	std::integral_constant<int, 30>,
-	std::integral_constant<int, 31>
-> FUNCTION_MODIFIER_CALLING_CONVENTION;
+	literal_c_call_t,
+	literal_fast_call_t,
+	literal_cold_call_t,
+	literal_ghc_call_t,
+	literal_hipe_call_t,
+	literal_webkit_js_call_t,
+	literal_any_reg_call_t,
+	literal_preserve_most_call_t,
+	literal_preserve_all_call_t,
+	literal_swift_call_t,
+	literal_cxx_fast_tls_call_t,
+	literal_first_target_call_t,
+	literal_x86_std_call_t,
+	literal_X86_fast_call_t,
+	literal_arm_apcs_call_t,
+	literal_arm_aapcs_call_t,
+	literal_arm_aapcs_vfp_call_t,
+	literal_msp430_intr_call_t,
+	literal_x86_this_call_t,
+	literal_ptx_kernel_call_t,
+	literal_ptx_device_call_t,
+	literal_spir_func_call_t,
+	literal_spir_kernel_call_t,
+	literal_intel_ocl_bi_call_t,
+	literal_x86_64_sysv_call_t,
+	literal_x86_64_win64_call_t,
+	literal_x86_vector_call_t,
+	literal_hhvm_call_t,
+	literal_x86_intr_call_t,
+	literal_avr_intr_call_t,
+	literal_avr_signal_call_t,
+	literal_avr_builtin_call_t
+> FUNCTION_MODIFIER_CALLING_CONVENTION_base;
+
+struct FUNCTION_MODIFIER_CALLING_CONVENTION: FUNCTION_MODIFIER_CALLING_CONVENTION_base {
+	static std::optional<FUNCTION_MODIFIER_CALLING_CONVENTION> build(std::vector<parlex::details::match>::iterator & i);
+	explicit FUNCTION_MODIFIER_CALLING_CONVENTION(FUNCTION_MODIFIER_CALLING_CONVENTION_base const & value) : FUNCTION_MODIFIER_CALLING_CONVENTION_base(value) {}
+};
+} // namespace plc
+
+
 
 #endif //INCLUDED_FUNCTION_MODIFIER_CALLING_CONVENTION_HPP

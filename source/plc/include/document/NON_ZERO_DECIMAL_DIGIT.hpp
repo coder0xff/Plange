@@ -6,19 +6,31 @@
 #include <optional>
 #include <variant>
 #include <vector>
-
 #include "erased.hpp"
+#include "parlex/details/match.hpp"
+
+#include "_plange_literals.hpp"
+
+namespace plc {
 
 typedef std::variant<
-	std::integral_constant<int, 0>,
-	std::integral_constant<int, 1>,
-	std::integral_constant<int, 2>,
-	std::integral_constant<int, 3>,
-	std::integral_constant<int, 4>,
-	std::integral_constant<int, 5>,
-	std::integral_constant<int, 6>,
-	std::integral_constant<int, 7>,
-	std::integral_constant<int, 8>
-> NON_ZERO_DECIMAL_DIGIT;
+	literal_1_t,
+	literal_2_t,
+	literal_3_t,
+	literal_4_t,
+	literal_5_t,
+	literal_6_t,
+	literal_7_t,
+	literal_8_t,
+	literal_9_t
+> NON_ZERO_DECIMAL_DIGIT_base;
+
+struct NON_ZERO_DECIMAL_DIGIT: NON_ZERO_DECIMAL_DIGIT_base {
+	static std::optional<NON_ZERO_DECIMAL_DIGIT> build(std::vector<parlex::details::match>::iterator & i);
+	explicit NON_ZERO_DECIMAL_DIGIT(NON_ZERO_DECIMAL_DIGIT_base const & value) : NON_ZERO_DECIMAL_DIGIT_base(value) {}
+};
+} // namespace plc
+
+
 
 #endif //INCLUDED_NON_ZERO_DECIMAL_DIGIT_HPP

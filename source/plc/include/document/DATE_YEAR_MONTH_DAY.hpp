@@ -6,14 +6,25 @@
 #include <optional>
 #include <variant>
 #include <vector>
-
 #include "erased.hpp"
+#include "parlex/details/match.hpp"
+
+#include "_plange_literals.hpp"
+
+namespace plc {
 
 struct DATE_YEAR_MONTH_DAY {
 
+
 	DATE_YEAR_MONTH_DAY(
 	) :  {}
+
+	static std::optional<DATE_YEAR_MONTH_DAY> build(std::vector<parlex::details::match>::iterator & i);
+
 };
+
+
+} // namespace plc
 
 
 

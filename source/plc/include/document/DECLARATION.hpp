@@ -6,8 +6,12 @@
 #include <optional>
 #include <variant>
 #include <vector>
-
 #include "erased.hpp"
+#include "parlex/details/match.hpp"
+
+#include "_plange_literals.hpp"
+
+namespace plc {
 
 struct IC;
 struct IDENTIFIER;
@@ -18,16 +22,23 @@ struct DECLARATION {
 		erased<XML_DOC_STRING>,
 		std::vector<erased<IC>>
 	>> field_1;
-	erased<IDENTIFIER> IDENTIFIER;
+	erased<IDENTIFIER> identifier;
+
 
 	DECLARATION(
 		std::optional<std::tuple<
 			erased<XML_DOC_STRING>,
 			std::vector<erased<IC>>
 		>> const & field_1,
-		erased<IDENTIFIER> const & IDENTIFIER
-	) : field_1(field_1), IDENTIFIER(IDENTIFIER) {}
+		erased<IDENTIFIER> const & identifier
+	) : field_1(field_1), identifier(identifier) {}
+
+	static std::optional<DECLARATION> build(std::vector<parlex::details::match>::iterator & i);
+
 };
+
+
+} // namespace plc
 
 
 

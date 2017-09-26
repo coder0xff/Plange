@@ -6,8 +6,12 @@
 #include <optional>
 #include <variant>
 #include <vector>
-
 #include "erased.hpp"
+#include "parlex/details/match.hpp"
+
+#include "_plange_literals.hpp"
+
+namespace plc {
 
 struct ASSIGNMENT_CHAIN;
 struct BREAK;
@@ -54,6 +58,7 @@ struct STATEMENT {
 	> field_1;
 	std::vector<erased<IC>> field_2;
 
+
 	STATEMENT(
 		std::variant<
 			erased<ASSIGNMENT_CHAIN>,
@@ -78,7 +83,13 @@ struct STATEMENT {
 		> const & field_1,
 		std::vector<erased<IC>> const & field_2
 	) : field_1(field_1), field_2(field_2) {}
+
+	static std::optional<STATEMENT> build(std::vector<parlex::details::match>::iterator & i);
+
 };
+
+
+} // namespace plc
 
 
 
