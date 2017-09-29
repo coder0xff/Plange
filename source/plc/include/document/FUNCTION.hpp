@@ -6,8 +6,12 @@
 #include <optional>
 #include <variant>
 #include <vector>
-
 #include "erased.hpp"
+#include "parlex/details/match.hpp"
+
+#include "_plange_literals.hpp"
+
+namespace plc {
 
 struct BLOCK;
 struct FUNCTION_MODIFIER_0;
@@ -32,7 +36,8 @@ struct FUNCTION {
 		erased<FUNCTION_MODIFIER_0>,
 		std::vector<erased<IC>>
 	>> field_2;
-	erased<BLOCK> BLOCK;
+	erased<BLOCK> block;
+
 
 	FUNCTION(
 		std::optional<std::tuple<
@@ -52,9 +57,15 @@ struct FUNCTION {
 			erased<FUNCTION_MODIFIER_0>,
 			std::vector<erased<IC>>
 		>> const & field_2,
-		erased<BLOCK> const & BLOCK
-	) : field_1(field_1), field_2(field_2), BLOCK(BLOCK) {}
+		erased<BLOCK> const & block
+	) : field_1(field_1), field_2(field_2), block(block) {}
+
+	static std::optional<FUNCTION> build(std::vector<parlex::details::match>::iterator & i);
+
 };
+
+
+} // namespace plc
 
 
 

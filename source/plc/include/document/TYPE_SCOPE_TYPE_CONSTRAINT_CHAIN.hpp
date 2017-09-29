@@ -6,8 +6,12 @@
 #include <optional>
 #include <variant>
 #include <vector>
-
 #include "erased.hpp"
+#include "parlex/details/match.hpp"
+
+#include "_plange_literals.hpp"
+
+namespace plc {
 
 struct DEFINITION;
 struct IC;
@@ -32,6 +36,7 @@ struct TYPE_SCOPE_TYPE_CONSTRAINT_CHAIN {
 		erased<TYPE_SCOPE_TYPE_CONSTRAINT_CHAIN>
 	>> field_3;
 
+
 	TYPE_SCOPE_TYPE_CONSTRAINT_CHAIN(
 		std::optional<std::tuple<
 			erased<XML_DOC_STRING>,
@@ -48,7 +53,13 @@ struct TYPE_SCOPE_TYPE_CONSTRAINT_CHAIN {
 			erased<TYPE_SCOPE_TYPE_CONSTRAINT_CHAIN>
 		>> const & field_3
 	) : field_1(field_1), field_2(field_2), field_3(field_3) {}
+
+	static std::optional<TYPE_SCOPE_TYPE_CONSTRAINT_CHAIN> build(std::vector<parlex::details::match>::iterator & i);
+
 };
+
+
+} // namespace plc
 
 
 

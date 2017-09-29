@@ -45,12 +45,8 @@ endif()
 # don't bother with find_package, because it does not include the libraries https://askubuntu.com/questions/145887/why-no-library-files-installed-for-google-test
 ExternalProject_Add(googletest
 	PREFIX "${CMAKE_BINARY_DIR}/Downloads/googletest"
-	#TODO: Point back to googletest once https://github.com/google/googletest/pull/811 is landed
-	#https://github.com/google/googletest/issues/1138
-	GIT_REPOSITORY https://github.com/KindDragon/googletest.git
-	GIT_TAG vs-build-fix
-	#GIT_REPOSITORY "https://github.com/google/googletest.git"
-	#GIT_TAG 48ee8e98abc950abd8541e15550b18f8f6cfb3a9
+	GIT_REPOSITORY "https://github.com/google/googletest.git"
+	GIT_TAG deace2546ef4ff8f3e6349ec4f26d414753818c3
 	BINARY_DIR "${CMAKE_BINARY_DIR}/Downloads/googletest/${CMAKE_CFG_INTDIR}/build"
 	CMAKE_ARGS
 		"-DCMAKE_INSTALL_PREFIX=${CMAKE_BINARY_DIR}/Dependencies/googletest"

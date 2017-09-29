@@ -1,17 +1,13 @@
-return {
-	mean <- (<FiniteDenumerable<T>> values) {
-		l := values.size;
-		
+mean <- (<FiniteDenumerable<T>> values) {
+	throw NotImplementedException();
+}
+
+<Real -> Real> arctan <-
+	(<Float32> v) {
+		return CStdLib.atanf(v);
 	}
-
-	<Real -> Real> arctan <-
-		(<Float32> v) {
-			return CStdLib.atanf(v);
-		}
-	|
-		(<Float64> v) {
-			return CStdLib.atan(v);
-		}
-	;
-
-};
+|
+	(<Float64> v) {
+		return CStdLib.atan(v);
+	}
+;

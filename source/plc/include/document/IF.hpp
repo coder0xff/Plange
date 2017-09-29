@@ -6,8 +6,12 @@
 #include <optional>
 #include <variant>
 #include <vector>
-
 #include "erased.hpp"
+#include "parlex/details/match.hpp"
+
+#include "_plange_literals.hpp"
+
+namespace plc {
 
 struct EXPRESSION;
 struct IC;
@@ -31,6 +35,7 @@ struct IF {
 		erased<EXPRESSION>
 	>> field_4;
 
+
 	IF(
 		std::vector<erased<IC>> const & field_1,
 		erased<PARENTHETICAL> const & condition,
@@ -49,7 +54,13 @@ struct IF {
 			erased<EXPRESSION>
 		>> const & field_4
 	) : field_1(field_1), condition(condition), field_2(field_2), invoke(invoke), field_3(field_3), field_4(field_4) {}
+
+	static std::optional<IF> build(std::vector<parlex::details::match>::iterator & i);
+
 };
+
+
+} // namespace plc
 
 
 

@@ -35,6 +35,7 @@ class grammar : public grammar_base {
 public:
 	struct production {
 		production(std::string const & id, filter_function const & filter, associativity assoc);
+		behavior::node const & get_behavior() const;
 	private:
 		friend class grammar;
 		state_machine machine;

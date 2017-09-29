@@ -1,8 +1,6 @@
 #include "stdafx.hpp"
 #include "compiler.hpp"
 
-#include "document.hpp"
-#include "errors.hpp"
 #include "natural_value.hpp"
 #include "symbol.hpp"
 #include "scope.hpp"
@@ -13,6 +11,7 @@
 #pragma warning(push, 0)
 #include <llvm/IR/IRBuilder.h>
 #include "parlex/details/parser.hpp"
+#include <plange_grammar.hpp>
 #pragma warning(pop)
 
 
@@ -389,9 +388,9 @@ compiler::compiler() : c_std_lib_source(__FILE__ "../../stdlib/Plange.CStdLib._p
 
 }
 
-parlex::details::abstract_syntax_graph compiler::parse(std::u32string const & source) {
+parlex::details::abstract_syntax_semilattice compiler::parse(std::u32string const & source) {
 	static parlex::details::parser p;
-	return p.parse(grammar(), source);
+	return p.parse(plange_grammar::get(), source);
 }
 
 

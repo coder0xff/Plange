@@ -6,8 +6,12 @@
 #include <optional>
 #include <variant>
 #include <vector>
-
 #include "erased.hpp"
+#include "parlex/details/match.hpp"
+
+#include "_plange_literals.hpp"
+
+namespace plc {
 
 struct EXPRESSION;
 struct IC;
@@ -28,6 +32,7 @@ struct CONTINUE {
 		>
 	>> field_1;
 
+
 	CONTINUE(
 		std::optional<std::variant<
 			std::tuple<
@@ -42,7 +47,13 @@ struct CONTINUE {
 			>
 		>> const & field_1
 	) : field_1(field_1) {}
+
+	static std::optional<CONTINUE> build(std::vector<parlex::details::match>::iterator & i);
+
 };
+
+
+} // namespace plc
 
 
 

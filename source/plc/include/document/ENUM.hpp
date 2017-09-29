@@ -6,8 +6,12 @@
 #include <optional>
 #include <variant>
 #include <vector>
-
 #include "erased.hpp"
+#include "parlex/details/match.hpp"
+
+#include "_plange_literals.hpp"
+
+namespace plc {
 
 struct ENUM_ELEMENT;
 struct IC;
@@ -34,6 +38,7 @@ struct ENUM {
 		>>
 	>> field_4;
 
+
 	ENUM(
 		std::vector<erased<IC>> const & field_1,
 		std::optional<std::tuple<
@@ -55,7 +60,13 @@ struct ENUM {
 			>>
 		>> const & field_4
 	) : field_1(field_1), field_2(field_2), field_3(field_3), field_4(field_4) {}
+
+	static std::optional<ENUM> build(std::vector<parlex::details::match>::iterator & i);
+
 };
+
+
+} // namespace plc
 
 
 

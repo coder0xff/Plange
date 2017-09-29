@@ -1,1 +1,1 @@
-CStdLib.puts "Hello, world!";
+CStdLib.puts("Hello, world!");

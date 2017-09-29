@@ -4,11 +4,12 @@
 #include <vector>
 
 #include "parlex/details/match.hpp"
+#include "transition.hpp"
 
 namespace parlex {
 namespace details {
 
-typedef std::vector<match> permutation;
+typedef std::vector<transition> permutation;
 
 }
 } // namespace parlex

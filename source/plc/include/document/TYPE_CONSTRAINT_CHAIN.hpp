@@ -6,8 +6,12 @@
 #include <optional>
 #include <variant>
 #include <vector>
-
 #include "erased.hpp"
+#include "parlex/details/match.hpp"
+
+#include "_plange_literals.hpp"
+
+namespace plc {
 
 struct ASSIGNMENT_CHAIN;
 struct DECLARATION;
@@ -27,6 +31,7 @@ struct TYPE_CONSTRAINT_CHAIN {
 		erased<TYPE_CONSTRAINT_CHAIN>
 	>> field_2;
 
+
 	TYPE_CONSTRAINT_CHAIN(
 		std::variant<
 			erased<DECLARATION>,
@@ -39,7 +44,13 @@ struct TYPE_CONSTRAINT_CHAIN {
 			erased<TYPE_CONSTRAINT_CHAIN>
 		>> const & field_2
 	) : field_1(field_1), field_2(field_2) {}
+
+	static std::optional<TYPE_CONSTRAINT_CHAIN> build(std::vector<parlex::details::match>::iterator & i);
+
 };
+
+
+} // namespace plc
 
 
 

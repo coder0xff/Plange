@@ -1,7 +1,7 @@
 add_subdirectory(parlex_test)
 
 set (SOURCES
-	"src/abstract_syntax_graph.cpp"
+	"src/abstract_syntax_semilattice.cpp"
 	"src/behavior.cpp"
 	"src/builder.cpp"
 	"src/builtins.cpp"
@@ -9,14 +9,12 @@ set (SOURCES
 	"src/context.cpp"
 	"src/cpp_generator.cpp"
 	"src/document_representation.cpp"
-	"src/fast_match.cpp"
 	"src/grammar.cpp"
 	"src/job.cpp"
 	"src/match.cpp"
 	"src/match_class.cpp"
 	"src/parser.cpp"
 	"src/producer.cpp"
-	"src/raw_grammar.cpp"
 	"src/raw_state_machine.cpp"
 	"src/recognizer.cpp"
 	"src/state_machine.cpp"
@@ -39,13 +37,13 @@ set (HEADERS
 )
 
 set (DETAILS_HEADERS
-	"include/parlex/details/abstract_syntax_graph.hpp"
+	"include/parlex/details/abstract_syntax_semilattice.hpp"
 	"include/parlex/details/any_character.hpp"
 	"include/parlex/details/behavior.hpp"
 	"include/parlex/details/builtins.hpp"
 	"include/parlex/details/c_string.hpp"
+	"include/parlex/details/concrete_syntax_tree.hpp"
 	"include/parlex/details/context.hpp"
-	"include/parlex/details/fast_match.hpp"
 	"include/parlex/details/grammar.hpp"
 	"include/parlex/details/grammar_base.hpp"
 	"include/parlex/details/job.hpp"
@@ -57,15 +55,15 @@ set (DETAILS_HEADERS
 	"include/parlex/details/permutation.hpp"
 	"include/parlex/details/parser.hpp"
 	"include/parlex/details/producer.hpp"
-	"include/parlex/details/raw_grammar.hpp"
 	"include/parlex/details/raw_state_machine.hpp"
 	"include/parlex/details/recognizer.hpp"
 	"include/parlex/details/state_machine.hpp"
 	"include/parlex/details/state_machine_base.hpp"
 	"include/parlex/details/string_terminal.hpp"
 	"include/parlex/details/subjob.hpp"
-	"include/parlex/details/terminal.hpp"
+	"include/parlex/details/terminal.hpp"	
 	"include/parlex/details/token.hpp"
+	"include/parlex/details/transition.hpp"
 	"include/parlex/details/unicode.hpp"
 	"include/parlex/details/wirth.hpp"
 )

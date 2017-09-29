@@ -1,0 +1,205 @@
+	(<Type> T) { //dynamic array of Ts
+		Function<_, ctorArgTypes...> _ = typeof(T.construct); //get analytic value for ctorArgTypes
+		return type implementing DenumerableCollection<T>, IndexableCollection<T, 1> {
+		private:
+			<RawPointer<T>> storage;
+			<UInt> sizeVar;
+			<UInt> capacity;
+		public:
+			this_type.members["T"] = T;
+
+			construct <-
+				{
+					storage <- null;
+					capacity <- sizeVar <- 0;
+				}
+			|
+				(<Const<Array<U>>> other) {
+					
+					construct();
+					if (other.sizeVar > 0) {
+						storage <- coerce(CStdLib.malloc(T, sizeof(T) * other.sizeVar));
+						for (int i = 0; i < other.sizeVar; ++i) {
+							copy_construct(T, storage + i, dereference(other.storage + i));
+						}
+						capacity <- sizeVar <- other.sizeVar;
+					}
+				}
+			|
+				(<UInt> initialSize, <Function<ctorArgTypes, UInt>> ctorArgsFunc) {
+					construct();
+					resize(initialSize, ctorArgsFunc);
+				}
+			|
+				(<UInt> initialSize, ctorArgTypes args...) {
+					construct(initialSize, { return args; });
+				}
+			;
+
+			move <- default_mover(T);
+
+			assign <- default_assigner(T);
+
+			move_assign <- default_move_assigner(T);
+
+			destruct <- {
+				resize(0)
+				if (storage /= null) {
+					CStdLib.free(coerce(storage));
+				}
+				storage <- null;
+				capacity <- sizeVar <- 0;
+			};
+
+			size <- {
+				get := { return sizeVar; };
+				set := 
+					(<UInt> newSize) {
+						if (newSize < sizeVar) {
+							for (int i = newSize; i < sizeVar; ++i) {
+								destruct(T, storage + i);
+							}
+							sizeVar = newSize;
+						} elif (newSize = sizeVar) {
+						} elif (Meta.has_nullary_construct(T)) {
+							reserve(newSize);
+							for (int i = sizeVar; i < newSize; ++i) {
+								construct(T, storage + i);
+							}
+						} else {
+							throw Exception(T.name + " has no nullary constructor.");
+						}
+					}
+				;
+			};
+
+			swap <- default_swapper(T, this);
+
+			resize <-
+				(<UInt> newSize, <Function<ctorArgTypes, UInt>> ctorArgsFunc) {
+					if (newSize >= sizeVar) {
+						reserve(newSize);
+						for (int i = sizeVar; i < newSize; ++i) {
+							construct(T, storage + i, ctorArgsFunc(i)...);
+						}						
+					} elif (newSize < sizeVar) {
+						if (newSize = 0) {
+							destructor();
+						} else {
+							for (int i = newSize; i < sizeVar; ++i) {
+								destruct(T, storage + i);
+							}
+						}
+					}
+				}
+			|
+				(<UInt> newSize, ctorArgTypes args...) {
+					resize({ return args; });
+				}
+			;
+
+			reserve <- (<UInt> requestedCapacity) {
+				if (requestedCapacity > capacity) {
+					newCapacity := requestedCapacity * 2;
+					<Pointer<T>> newStorage := coerce(CStdLib.malloc(sizeof(T) * newCapacity));
+					for (int i = 0; i < sizeVar; ++i) {
+						move_construct(T, newStorage + i, dereference(storage + i));
+					}
+					storage <- newStorage;
+					capacity <- newCapacity;
+				}
+			};
+
+			get <- (<UInt> index) {
+				if (index > sizeVar) {
+					throw OutOfBoundsException("index");
+				}
+				return dereference(storage + index);
+			};
+
+			set <- (<UInt>^n indices, <T> value) {
+				if (index > sizeVar) {
+					throw OutOfBoundsException("index");
+				}										
+				this[^indices] <- value;
+			};
+
+			append <- 
+				(<T> value) {
+					reserve(sizeVar + 1);
+					copy_construct(T, storage + sizeVar, value);
+					sizeVar++;
+				}
+			|
+				(<Function<cartesian<ctorArgTypes>, UInt>> ctorArgsFunc) {
+					reserve(sizeVar + 1);
+					construct(T, storage + sizeVar, ctorArgsFunc(i)...);
+				}
+			|
+				(ctorArgTypes args...) {
+					append({ return args; });
+				}
+			;
+		}
+	}
+|
+	(<Type> T, <UInt^n> bounds...) { //fixed size array of Ts
+		Function<_, ctorArgTypes...> _ = typeof(T.construct); //ctorArgTypes is constrained to constructor arguments
+
+		private:
+			<Pointer<T>> storage;
+		return type implementing Denumerable<T>, Indexable<T, n> {
+
+		public:
+			T := T;
+			bounds := bounds;
+			size := fold((dim, acc) { return dim * acc; }, bounds, 1);
+
+			construct :=
+				(Function<cartesian<ctorArgTypes>, (UInt^n)...> ctorArgsFunc) {
+					storage <- coerce(CStdLib.malloc(sizeof(T) * size));
+					impl :=
+						(<Array<UInt, n>> fixedIndices, <Array<UInt, 0>> indexBounds) {
+							construct(T, storage + indexer(fixedIndices...), ctorArgsFunc(fixedIndices...)...);
+						}
+					|
+						(<Array<UInt, o>> fixedIndices, <Array<UInt, p>> indexBounds) {
+							for (int i = 0; i < indexBounds.head; ++i) {
+								impl(fixedIndices & i, indexBounds.tail);
+							}
+						}
+					;
+
+					impl([], bounds);
+				}
+			|
+				(<ctorArgTypes> ctorArgs...) {
+					construct({ return ctorArgs; });
+				}
+			;
+
+			get := (<UInt^n> indices...) { return dereference(storage + indexer(indices)); };
+
+			set := (<UInt^n> indices..., <T> value) { this[indices...] <- value; };
+
+		private:
+			indexer := (<UInt^n> indices...) {
+				assert(all { indices[i] < bounds[i] | i in [0...n) }, "array index out of bounds"); //pre condition
+				result <- indices[0];
+				for (<UInt> i = 1; i < n; ++i) {
+					result <- result * bounds[i - 1] + indices[i];
+				}
+				size > result >= 0; //post condition
+				return result;
+			};
+
+		};
+	}
+|
+	(<UInt> size) { //fixed size array of any objects
+		return Array<Any, size>;
+	}
+|
+	Array<Any> //Array may be used directly as the type of a dynamic array of any objects
+;
+

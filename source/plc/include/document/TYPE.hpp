@@ -6,8 +6,12 @@
 #include <optional>
 #include <variant>
 #include <vector>
-
 #include "erased.hpp"
+#include "parlex/details/match.hpp"
+
+#include "_plange_literals.hpp"
+
+namespace plc {
 
 struct IC;
 struct INHERITANCE_LIST;
@@ -27,6 +31,7 @@ struct TYPE {
 	>> field_3;
 	erased<TYPE_SCOPE> field_4;
 
+
 	TYPE(
 		std::vector<erased<IC>> const & field_1,
 		std::optional<std::tuple<
@@ -41,7 +46,13 @@ struct TYPE {
 		>> const & field_3,
 		erased<TYPE_SCOPE> const & field_4
 	) : field_1(field_1), field_2(field_2), field_3(field_3), field_4(field_4) {}
+
+	static std::optional<TYPE> build(std::vector<parlex::details::match>::iterator & i);
+
 };
+
+
+} // namespace plc
 
 
 
