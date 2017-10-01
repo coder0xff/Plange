@@ -7,7 +7,7 @@
 #include <variant>
 #include <vector>
 #include "erased.hpp"
-#include "parlex/details/match.hpp"
+#include "parlex/details/abstract_syntax_tree.hpp"
 
 #include "_plange_literals.hpp"
 
@@ -26,7 +26,7 @@ typedef std::variant<
 > CONSTRUCTIVE_OP_base;
 
 struct CONSTRUCTIVE_OP: CONSTRUCTIVE_OP_base {
-	static std::optional<CONSTRUCTIVE_OP> build(std::vector<parlex::details::match>::iterator & i);
+	static CONSTRUCTIVE_OP build(parlex::details::ast_node const & n);
 	explicit CONSTRUCTIVE_OP(CONSTRUCTIVE_OP_base const & value) : CONSTRUCTIVE_OP_base(value) {}
 };
 } // namespace plc

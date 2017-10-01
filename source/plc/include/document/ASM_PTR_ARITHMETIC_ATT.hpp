@@ -7,7 +7,7 @@
 #include <variant>
 #include <vector>
 #include "erased.hpp"
-#include "parlex/details/match.hpp"
+#include "parlex/details/abstract_syntax_tree.hpp"
 
 #include "_plange_literals.hpp"
 
@@ -34,7 +34,7 @@ typedef std::variant<
 > ASM_PTR_ARITHMETIC_ATT_base;
 
 struct ASM_PTR_ARITHMETIC_ATT: ASM_PTR_ARITHMETIC_ATT_base {
-	static std::optional<ASM_PTR_ARITHMETIC_ATT> build(std::vector<parlex::details::match>::iterator & i);
+	static ASM_PTR_ARITHMETIC_ATT build(parlex::details::ast_node const & n);
 	explicit ASM_PTR_ARITHMETIC_ATT(ASM_PTR_ARITHMETIC_ATT_base const & value) : ASM_PTR_ARITHMETIC_ATT_base(value) {}
 };
 } // namespace plc

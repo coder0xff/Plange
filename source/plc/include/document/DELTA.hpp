@@ -7,7 +7,7 @@
 #include <variant>
 #include <vector>
 #include "erased.hpp"
-#include "parlex/details/match.hpp"
+#include "parlex/details/abstract_syntax_tree.hpp"
 
 #include "_plange_literals.hpp"
 
@@ -38,7 +38,7 @@ struct DELTA {
 		erased<EXPRESSION> const & expression
 	) : field_1(field_1), field_2(field_2), expression(expression) {}
 
-	static std::optional<DELTA> build(std::vector<parlex::details::match>::iterator & i);
+	static DELTA build(parlex::details::ast_node const & n);
 
 };
 

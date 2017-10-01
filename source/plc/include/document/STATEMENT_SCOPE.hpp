@@ -7,7 +7,7 @@
 #include <variant>
 #include <vector>
 #include "erased.hpp"
-#include "parlex/details/match.hpp"
+#include "parlex/details/abstract_syntax_tree.hpp"
 
 #include "_plange_literals.hpp"
 
@@ -22,7 +22,7 @@ typedef std::vector<std::variant<
 >> STATEMENT_SCOPE_base;
 
 struct STATEMENT_SCOPE: STATEMENT_SCOPE_base {
-	static std::optional<STATEMENT_SCOPE> build(std::vector<parlex::details::match>::iterator & i);
+	static STATEMENT_SCOPE build(parlex::details::ast_node const & n);
 	explicit STATEMENT_SCOPE(STATEMENT_SCOPE_base const & value) : STATEMENT_SCOPE_base(value) {}
 };
 } // namespace plc

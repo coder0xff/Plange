@@ -7,7 +7,7 @@
 #include <variant>
 #include <vector>
 #include "erased.hpp"
-#include "parlex/details/match.hpp"
+#include "parlex/details/abstract_syntax_tree.hpp"
 
 #include "_plange_literals.hpp"
 
@@ -35,7 +35,7 @@ struct EQUALITY_CHAIN_LOOP {
 		>> const & field_2
 	) : field_1(field_1), expression(expression), field_2(field_2) {}
 
-	static std::optional<EQUALITY_CHAIN_LOOP> build(std::vector<parlex::details::match>::iterator & i);
+	static EQUALITY_CHAIN_LOOP build(parlex::details::ast_node const & n);
 
 };
 

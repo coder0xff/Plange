@@ -7,7 +7,7 @@
 #include <variant>
 #include <vector>
 #include "erased.hpp"
-#include "parlex/details/match.hpp"
+#include "parlex/details/abstract_syntax_tree.hpp"
 
 #include "_plange_literals.hpp"
 
@@ -30,7 +30,7 @@ typedef std::variant<
 > FLOOR_base;
 
 struct FLOOR: FLOOR_base {
-	static std::optional<FLOOR> build(std::vector<parlex::details::match>::iterator & i);
+	static FLOOR build(parlex::details::ast_node const & n);
 	explicit FLOOR(FLOOR_base const & value) : FLOOR_base(value) {}
 };
 } // namespace plc

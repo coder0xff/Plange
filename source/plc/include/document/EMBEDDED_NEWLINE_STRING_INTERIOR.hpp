@@ -7,7 +7,7 @@
 #include <variant>
 #include <vector>
 #include "erased.hpp"
-#include "parlex/details/match.hpp"
+#include "parlex/details/abstract_syntax_tree.hpp"
 
 #include "_plange_literals.hpp"
 
@@ -26,7 +26,7 @@ typedef std::variant<
 > EMBEDDED_NEWLINE_STRING_INTERIOR_base;
 
 struct EMBEDDED_NEWLINE_STRING_INTERIOR: EMBEDDED_NEWLINE_STRING_INTERIOR_base {
-	static std::optional<EMBEDDED_NEWLINE_STRING_INTERIOR> build(std::vector<parlex::details::match>::iterator & i);
+	static EMBEDDED_NEWLINE_STRING_INTERIOR build(parlex::details::ast_node const & n);
 	explicit EMBEDDED_NEWLINE_STRING_INTERIOR(EMBEDDED_NEWLINE_STRING_INTERIOR_base const & value) : EMBEDDED_NEWLINE_STRING_INTERIOR_base(value) {}
 };
 } // namespace plc

@@ -7,7 +7,7 @@
 #include <variant>
 #include <vector>
 #include "erased.hpp"
-#include "parlex/details/match.hpp"
+#include "parlex/details/abstract_syntax_tree.hpp"
 
 #include "_plange_literals.hpp"
 
@@ -26,7 +26,7 @@ typedef std::variant<
 > UNARY_LOGICAL_OP_base;
 
 struct UNARY_LOGICAL_OP: UNARY_LOGICAL_OP_base {
-	static std::optional<UNARY_LOGICAL_OP> build(std::vector<parlex::details::match>::iterator & i);
+	static UNARY_LOGICAL_OP build(parlex::details::ast_node const & n);
 	explicit UNARY_LOGICAL_OP(UNARY_LOGICAL_OP_base const & value) : UNARY_LOGICAL_OP_base(value) {}
 };
 } // namespace plc

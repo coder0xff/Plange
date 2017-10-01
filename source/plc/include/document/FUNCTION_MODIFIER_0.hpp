@@ -7,7 +7,7 @@
 #include <variant>
 #include <vector>
 #include "erased.hpp"
-#include "parlex/details/match.hpp"
+#include "parlex/details/abstract_syntax_tree.hpp"
 
 #include "_plange_literals.hpp"
 
@@ -22,7 +22,7 @@ typedef std::variant<
 > FUNCTION_MODIFIER_0_base;
 
 struct FUNCTION_MODIFIER_0: FUNCTION_MODIFIER_0_base {
-	static std::optional<FUNCTION_MODIFIER_0> build(std::vector<parlex::details::match>::iterator & i);
+	static FUNCTION_MODIFIER_0 build(parlex::details::ast_node const & n);
 	explicit FUNCTION_MODIFIER_0(FUNCTION_MODIFIER_0_base const & value) : FUNCTION_MODIFIER_0_base(value) {}
 };
 } // namespace plc

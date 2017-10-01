@@ -7,7 +7,7 @@
 #include <variant>
 #include <vector>
 #include "erased.hpp"
-#include "parlex/details/match.hpp"
+#include "parlex/details/abstract_syntax_tree.hpp"
 
 #include "_plange_literals.hpp"
 
@@ -21,7 +21,7 @@ struct ASM_OP {
 		int const & field_2
 	) : field_2(field_2) {}
 
-	static std::optional<ASM_OP> build(std::vector<parlex::details::match>::iterator & i);
+	static ASM_OP build(parlex::details::ast_node const & n);
 
 };
 

@@ -7,7 +7,7 @@
 #include <variant>
 #include <vector>
 #include "erased.hpp"
-#include "parlex/details/match.hpp"
+#include "parlex/details/abstract_syntax_tree.hpp"
 
 #include "_plange_literals.hpp"
 
@@ -21,7 +21,7 @@ struct COMMENT {
 		int const & field_1
 	) : field_1(field_1) {}
 
-	static std::optional<COMMENT> build(std::vector<parlex::details::match>::iterator & i);
+	static COMMENT build(parlex::details::ast_node const & n);
 
 };
 

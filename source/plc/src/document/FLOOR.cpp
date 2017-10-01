@@ -1,5 +1,6 @@
 // This file was generated using Parlex's cpp_generator
 
+#include "FLOOR.hpp"
 #include "EXPRESSION.hpp"
 #include "IC.hpp"
 #include "FLOOR.hpp"
@@ -7,13 +8,7 @@
 
 namespace plc {
 
-std::optional<FLOOR> FLOOR::build(std::vector<parlex::details::match>::iterator & i) {
-	std::optional<FLOOR_base> value;
-	parlex::details::behavior::build(value, i);
-	if (value.has_value()) {
-		return std::make_optional<FLOOR>(value.value());
-	}
-	return std::optional<FLOOR>();
+FLOOR FLOOR::build(parlex::details::ast_node const & n) {
 }
 
 } // namespace plc

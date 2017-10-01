@@ -7,7 +7,7 @@
 #include <variant>
 #include <vector>
 #include "erased.hpp"
-#include "parlex/details/match.hpp"
+#include "parlex/details/abstract_syntax_tree.hpp"
 
 #include "_plange_literals.hpp"
 
@@ -56,7 +56,7 @@ typedef std::variant<
 > RANGE_base;
 
 struct RANGE: RANGE_base {
-	static std::optional<RANGE> build(std::vector<parlex::details::match>::iterator & i);
+	static RANGE build(parlex::details::ast_node const & n);
 	explicit RANGE(RANGE_base const & value) : RANGE_base(value) {}
 };
 } // namespace plc

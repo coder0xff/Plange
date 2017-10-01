@@ -1,5 +1,6 @@
 // This file was generated using Parlex's cpp_generator
 
+#include "RANGE.hpp"
 #include "EXPRESSION.hpp"
 #include "IC.hpp"
 #include "RANGE.hpp"
@@ -7,13 +8,7 @@
 
 namespace plc {
 
-std::optional<RANGE> RANGE::build(std::vector<parlex::details::match>::iterator & i) {
-	std::optional<RANGE_base> value;
-	parlex::details::behavior::build(value, i);
-	if (value.has_value()) {
-		return std::make_optional<RANGE>(value.value());
-	}
-	return std::optional<RANGE>();
+RANGE RANGE::build(parlex::details::ast_node const & n) {
 }
 
 } // namespace plc

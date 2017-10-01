@@ -7,7 +7,7 @@
 #include <variant>
 #include <vector>
 #include "erased.hpp"
-#include "parlex/details/match.hpp"
+#include "parlex/details/abstract_syntax_tree.hpp"
 
 #include "_plange_literals.hpp"
 
@@ -19,7 +19,7 @@ typedef std::variant<
 > BOOL_base;
 
 struct BOOL: BOOL_base {
-	static std::optional<BOOL> build(std::vector<parlex::details::match>::iterator & i);
+	static BOOL build(parlex::details::ast_node const & n);
 	explicit BOOL(BOOL_base const & value) : BOOL_base(value) {}
 };
 } // namespace plc

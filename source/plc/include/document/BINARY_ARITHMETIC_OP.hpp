@@ -7,7 +7,7 @@
 #include <variant>
 #include <vector>
 #include "erased.hpp"
-#include "parlex/details/match.hpp"
+#include "parlex/details/abstract_syntax_tree.hpp"
 
 #include "_plange_literals.hpp"
 
@@ -38,7 +38,7 @@ typedef std::variant<
 > BINARY_ARITHMETIC_OP_base;
 
 struct BINARY_ARITHMETIC_OP: BINARY_ARITHMETIC_OP_base {
-	static std::optional<BINARY_ARITHMETIC_OP> build(std::vector<parlex::details::match>::iterator & i);
+	static BINARY_ARITHMETIC_OP build(parlex::details::ast_node const & n);
 	explicit BINARY_ARITHMETIC_OP(BINARY_ARITHMETIC_OP_base const & value) : BINARY_ARITHMETIC_OP_base(value) {}
 };
 } // namespace plc

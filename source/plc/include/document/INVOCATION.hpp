@@ -7,7 +7,7 @@
 #include <variant>
 #include <vector>
 #include "erased.hpp"
-#include "parlex/details/match.hpp"
+#include "parlex/details/abstract_syntax_tree.hpp"
 
 #include "_plange_literals.hpp"
 
@@ -24,7 +24,7 @@ typedef std::variant<
 > INVOCATION_base;
 
 struct INVOCATION: INVOCATION_base {
-	static std::optional<INVOCATION> build(std::vector<parlex::details::match>::iterator & i);
+	static INVOCATION build(parlex::details::ast_node const & n);
 	explicit INVOCATION(INVOCATION_base const & value) : INVOCATION_base(value) {}
 };
 } // namespace plc

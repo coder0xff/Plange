@@ -7,7 +7,7 @@
 #include <variant>
 #include <vector>
 #include "erased.hpp"
-#include "parlex/details/match.hpp"
+#include "parlex/details/abstract_syntax_tree.hpp"
 
 #include "_plange_literals.hpp"
 
@@ -22,7 +22,7 @@ typedef std::variant<
 > DIMENSION_base;
 
 struct DIMENSION: DIMENSION_base {
-	static std::optional<DIMENSION> build(std::vector<parlex::details::match>::iterator & i);
+	static DIMENSION build(parlex::details::ast_node const & n);
 	explicit DIMENSION(DIMENSION_base const & value) : DIMENSION_base(value) {}
 };
 } // namespace plc

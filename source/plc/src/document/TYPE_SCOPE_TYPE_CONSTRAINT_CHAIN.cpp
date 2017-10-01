@@ -1,5 +1,6 @@
 // This file was generated using Parlex's cpp_generator
 
+#include "TYPE_SCOPE_TYPE_CONSTRAINT_CHAIN.hpp"
 #include "DEFINITION.hpp"
 #include "IC.hpp"
 #include "TYPE_SCOPE_ASSIGNMENT_CHAIN.hpp"

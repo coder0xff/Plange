@@ -7,7 +7,7 @@
 #include <variant>
 #include <vector>
 #include "erased.hpp"
-#include "parlex/details/match.hpp"
+#include "parlex/details/abstract_syntax_tree.hpp"
 
 #include "_plange_literals.hpp"
 
@@ -56,7 +56,7 @@ struct ASM_FUNCTION {
 		erased<ASM_SCOPE> const & field_4
 	) : field_1(field_1), field_2(field_2), field_3(field_3), field_4(field_4) {}
 
-	static std::optional<ASM_FUNCTION> build(std::vector<parlex::details::match>::iterator & i);
+	static ASM_FUNCTION build(parlex::details::ast_node const & n);
 
 };
 

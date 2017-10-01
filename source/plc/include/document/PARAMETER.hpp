@@ -7,7 +7,7 @@
 #include <variant>
 #include <vector>
 #include "erased.hpp"
-#include "parlex/details/match.hpp"
+#include "parlex/details/abstract_syntax_tree.hpp"
 
 #include "_plange_literals.hpp"
 
@@ -22,7 +22,7 @@ typedef std::variant<
 > PARAMETER_base;
 
 struct PARAMETER: PARAMETER_base {
-	static std::optional<PARAMETER> build(std::vector<parlex::details::match>::iterator & i);
+	static PARAMETER build(parlex::details::ast_node const & n);
 	explicit PARAMETER(PARAMETER_base const & value) : PARAMETER_base(value) {}
 };
 } // namespace plc

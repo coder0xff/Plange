@@ -7,7 +7,7 @@
 #include <variant>
 #include <vector>
 #include "erased.hpp"
-#include "parlex/details/match.hpp"
+#include "parlex/details/abstract_syntax_tree.hpp"
 
 #include "_plange_literals.hpp"
 
@@ -29,7 +29,7 @@ struct CAST {
 		erased<EXPRESSION> const & field_3
 	) : field_1(field_1), field_2(field_2), field_3(field_3) {}
 
-	static std::optional<CAST> build(std::vector<parlex::details::match>::iterator & i);
+	static CAST build(parlex::details::ast_node const & n);
 
 };
 

@@ -7,7 +7,7 @@
 #include <variant>
 #include <vector>
 #include "erased.hpp"
-#include "parlex/details/match.hpp"
+#include "parlex/details/abstract_syntax_tree.hpp"
 
 #include "_plange_literals.hpp"
 
@@ -25,7 +25,7 @@ struct NON_FRACTIONAL {
 		erased<NON_NEG_NON_FRACTIONAL> const & field_2
 	) : field_1(field_1), field_2(field_2) {}
 
-	static std::optional<NON_FRACTIONAL> build(std::vector<parlex::details::match>::iterator & i);
+	static NON_FRACTIONAL build(parlex::details::ast_node const & n);
 
 };
 

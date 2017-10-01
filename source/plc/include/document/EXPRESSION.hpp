@@ -7,7 +7,7 @@
 #include <variant>
 #include <vector>
 #include "erased.hpp"
-#include "parlex/details/match.hpp"
+#include "parlex/details/abstract_syntax_tree.hpp"
 
 #include "_plange_literals.hpp"
 
@@ -112,7 +112,7 @@ typedef std::variant<
 > EXPRESSION_base;
 
 struct EXPRESSION: EXPRESSION_base {
-	static std::optional<EXPRESSION> build(std::vector<parlex::details::match>::iterator & i);
+	static EXPRESSION build(parlex::details::ast_node const & n);
 	explicit EXPRESSION(EXPRESSION_base const & value) : EXPRESSION_base(value) {}
 };
 } // namespace plc

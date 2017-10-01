@@ -7,7 +7,7 @@
 #include <variant>
 #include <vector>
 #include "erased.hpp"
-#include "parlex/details/match.hpp"
+#include "parlex/details/abstract_syntax_tree.hpp"
 
 #include "_plange_literals.hpp"
 
@@ -64,7 +64,7 @@ struct TYPE_SCOPE_ASSIGNMENT_CHAIN {
 		> const & field_7
 	) : field_1(field_1), field_2(field_2), field_3(field_3), field_4(field_4), field_5(field_5), field_6(field_6), field_7(field_7) {}
 
-	static std::optional<TYPE_SCOPE_ASSIGNMENT_CHAIN> build(std::vector<parlex::details::match>::iterator & i);
+	static TYPE_SCOPE_ASSIGNMENT_CHAIN build(parlex::details::ast_node const & n);
 
 };
 

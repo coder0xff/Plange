@@ -1,5 +1,6 @@
 // This file was generated using Parlex's cpp_generator
 
+#include "PARAMETER.hpp"
 #include "PARAMETER_ANALYTIC.hpp"
 #include "PARAMETER_NATURAL.hpp"
 #include "PARAMETER.hpp"
@@ -7,13 +8,7 @@
 
 namespace plc {
 
-std::optional<PARAMETER> PARAMETER::build(std::vector<parlex::details::match>::iterator & i) {
-	std::optional<PARAMETER_base> value;
-	parlex::details::behavior::build(value, i);
-	if (value.has_value()) {
-		return std::make_optional<PARAMETER>(value.value());
-	}
-	return std::optional<PARAMETER>();
+PARAMETER PARAMETER::build(parlex::details::ast_node const & n) {
 }
 
 } // namespace plc

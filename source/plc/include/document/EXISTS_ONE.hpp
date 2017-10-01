@@ -7,7 +7,7 @@
 #include <variant>
 #include <vector>
 #include "erased.hpp"
-#include "parlex/details/match.hpp"
+#include "parlex/details/abstract_syntax_tree.hpp"
 
 #include "_plange_literals.hpp"
 
@@ -34,7 +34,7 @@ struct EXISTS_ONE {
 		erased<EXPRESSION> const & field_3
 	) : field_1(field_1), field_2(field_2), field_3(field_3) {}
 
-	static std::optional<EXISTS_ONE> build(std::vector<parlex::details::match>::iterator & i);
+	static EXISTS_ONE build(parlex::details::ast_node const & n);
 
 };
 

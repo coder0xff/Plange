@@ -7,7 +7,7 @@
 #include <variant>
 #include <vector>
 #include "erased.hpp"
-#include "parlex/details/match.hpp"
+#include "parlex/details/abstract_syntax_tree.hpp"
 
 #include "_plange_literals.hpp"
 
@@ -55,7 +55,7 @@ struct IF {
 		>> const & field_4
 	) : field_1(field_1), condition(condition), field_2(field_2), invoke(invoke), field_3(field_3), field_4(field_4) {}
 
-	static std::optional<IF> build(std::vector<parlex::details::match>::iterator & i);
+	static IF build(parlex::details::ast_node const & n);
 
 };
 

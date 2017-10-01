@@ -1,5 +1,6 @@
 // This file was generated using Parlex's cpp_generator
 
+#include "RELATIONAL_OP.hpp"
 #include "CASTS.hpp"
 #include "DOWNCASTS.hpp"
 #include "EXACTLY.hpp"
@@ -14,13 +15,7 @@
 
 namespace plc {
 
-std::optional<RELATIONAL_OP> RELATIONAL_OP::build(std::vector<parlex::details::match>::iterator & i) {
-	std::optional<RELATIONAL_OP_base> value;
-	parlex::details::behavior::build(value, i);
-	if (value.has_value()) {
-		return std::make_optional<RELATIONAL_OP>(value.value());
-	}
-	return std::optional<RELATIONAL_OP>();
+RELATIONAL_OP RELATIONAL_OP::build(parlex::details::ast_node const & n) {
 }
 
 } // namespace plc

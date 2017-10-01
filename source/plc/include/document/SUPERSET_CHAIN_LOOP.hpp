@@ -7,7 +7,7 @@
 #include <variant>
 #include <vector>
 #include "erased.hpp"
-#include "parlex/details/match.hpp"
+#include "parlex/details/abstract_syntax_tree.hpp"
 
 #include "_plange_literals.hpp"
 
@@ -49,7 +49,7 @@ struct SUPERSET_CHAIN_LOOP {
 		>> const & field_4
 	) : field_1(field_1), field_2(field_2), field_3(field_3), field_4(field_4) {}
 
-	static std::optional<SUPERSET_CHAIN_LOOP> build(std::vector<parlex::details::match>::iterator & i);
+	static SUPERSET_CHAIN_LOOP build(parlex::details::ast_node const & n);
 
 };
 

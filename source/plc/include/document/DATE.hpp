@@ -7,7 +7,7 @@
 #include <variant>
 #include <vector>
 #include "erased.hpp"
-#include "parlex/details/match.hpp"
+#include "parlex/details/abstract_syntax_tree.hpp"
 
 #include "_plange_literals.hpp"
 
@@ -22,7 +22,7 @@ typedef std::variant<
 > DATE_base;
 
 struct DATE: DATE_base {
-	static std::optional<DATE> build(std::vector<parlex::details::match>::iterator & i);
+	static DATE build(parlex::details::ast_node const & n);
 	explicit DATE(DATE_base const & value) : DATE_base(value) {}
 };
 } // namespace plc

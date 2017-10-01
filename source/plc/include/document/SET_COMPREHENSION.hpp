@@ -7,7 +7,7 @@
 #include <variant>
 #include <vector>
 #include "erased.hpp"
-#include "parlex/details/match.hpp"
+#include "parlex/details/abstract_syntax_tree.hpp"
 
 #include "_plange_literals.hpp"
 
@@ -34,7 +34,7 @@ struct SET_COMPREHENSION {
 		std::vector<erased<IC>> const & field_6
 	) : field_1(field_1), field_2(field_2), field_3(field_3), field_4(field_4), field_5(field_5), field_6(field_6) {}
 
-	static std::optional<SET_COMPREHENSION> build(std::vector<parlex::details::match>::iterator & i);
+	static SET_COMPREHENSION build(parlex::details::ast_node const & n);
 
 };
 

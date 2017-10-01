@@ -7,7 +7,7 @@
 #include <variant>
 #include <vector>
 #include "erased.hpp"
-#include "parlex/details/match.hpp"
+#include "parlex/details/abstract_syntax_tree.hpp"
 
 #include "_plange_literals.hpp"
 
@@ -37,7 +37,7 @@ struct PLATFORM {
 		>> const & field_2
 	) : field_1(field_1), field_2(field_2) {}
 
-	static std::optional<PLATFORM> build(std::vector<parlex::details::match>::iterator & i);
+	static PLATFORM build(parlex::details::ast_node const & n);
 
 };
 

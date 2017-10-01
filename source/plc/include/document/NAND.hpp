@@ -7,7 +7,7 @@
 #include <variant>
 #include <vector>
 #include "erased.hpp"
-#include "parlex/details/match.hpp"
+#include "parlex/details/abstract_syntax_tree.hpp"
 
 #include "_plange_literals.hpp"
 
@@ -30,7 +30,7 @@ struct NAND {
 		erased<EXPRESSION> const & field_4
 	) : field_1(field_1), field_2(field_2), field_3(field_3), field_4(field_4) {}
 
-	static std::optional<NAND> build(std::vector<parlex::details::match>::iterator & i);
+	static NAND build(parlex::details::ast_node const & n);
 
 };
 

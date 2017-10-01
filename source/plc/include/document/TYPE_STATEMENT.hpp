@@ -7,7 +7,7 @@
 #include <variant>
 #include <vector>
 #include "erased.hpp"
-#include "parlex/details/match.hpp"
+#include "parlex/details/abstract_syntax_tree.hpp"
 
 #include "_plange_literals.hpp"
 
@@ -28,7 +28,7 @@ typedef std::variant<
 > TYPE_STATEMENT_base;
 
 struct TYPE_STATEMENT: TYPE_STATEMENT_base {
-	static std::optional<TYPE_STATEMENT> build(std::vector<parlex::details::match>::iterator & i);
+	static TYPE_STATEMENT build(parlex::details::ast_node const & n);
 	explicit TYPE_STATEMENT(TYPE_STATEMENT_base const & value) : TYPE_STATEMENT_base(value) {}
 };
 } // namespace plc

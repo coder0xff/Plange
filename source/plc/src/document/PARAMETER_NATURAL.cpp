@@ -1,5 +1,6 @@
 // This file was generated using Parlex's cpp_generator
 
+#include "PARAMETER_NATURAL.hpp"
 #include "EXPRESSION.hpp"
 #include "IC.hpp"
 #include "IDENTIFIER.hpp"
@@ -10,13 +11,7 @@
 
 namespace plc {
 
-std::optional<PARAMETER_NATURAL> PARAMETER_NATURAL::build(std::vector<parlex::details::match>::iterator & i) {
-	std::optional<PARAMETER_NATURAL_base> value;
-	parlex::details::behavior::build(value, i);
-	if (value.has_value()) {
-		return std::make_optional<PARAMETER_NATURAL>(value.value());
-	}
-	return std::optional<PARAMETER_NATURAL>();
+PARAMETER_NATURAL PARAMETER_NATURAL::build(parlex::details::ast_node const & n) {
 }
 
 } // namespace plc

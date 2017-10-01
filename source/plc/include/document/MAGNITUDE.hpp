@@ -7,7 +7,7 @@
 #include <variant>
 #include <vector>
 #include "erased.hpp"
-#include "parlex/details/match.hpp"
+#include "parlex/details/abstract_syntax_tree.hpp"
 
 #include "_plange_literals.hpp"
 
@@ -28,7 +28,7 @@ struct MAGNITUDE {
 		std::vector<erased<IC>> const & field_3
 	) : field_1(field_1), field_2(field_2), field_3(field_3) {}
 
-	static std::optional<MAGNITUDE> build(std::vector<parlex::details::match>::iterator & i);
+	static MAGNITUDE build(parlex::details::ast_node const & n);
 
 };
 

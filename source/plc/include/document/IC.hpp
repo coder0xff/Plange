@@ -7,7 +7,7 @@
 #include <variant>
 #include <vector>
 #include "erased.hpp"
-#include "parlex/details/match.hpp"
+#include "parlex/details/abstract_syntax_tree.hpp"
 
 #include "_plange_literals.hpp"
 
@@ -26,7 +26,7 @@ typedef std::variant<
 > IC_base;
 
 struct IC: IC_base {
-	static std::optional<IC> build(std::vector<parlex::details::match>::iterator & i);
+	static IC build(parlex::details::ast_node const & n);
 	explicit IC(IC_base const & value) : IC_base(value) {}
 };
 } // namespace plc

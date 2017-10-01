@@ -7,7 +7,7 @@
 #include <variant>
 #include <vector>
 #include "erased.hpp"
-#include "parlex/details/match.hpp"
+#include "parlex/details/abstract_syntax_tree.hpp"
 
 #include "_plange_literals.hpp"
 
@@ -24,7 +24,7 @@ typedef std::variant<
 > XML_DOC_STRING_INTERIOR_base;
 
 struct XML_DOC_STRING_INTERIOR: XML_DOC_STRING_INTERIOR_base {
-	static std::optional<XML_DOC_STRING_INTERIOR> build(std::vector<parlex::details::match>::iterator & i);
+	static XML_DOC_STRING_INTERIOR build(parlex::details::ast_node const & n);
 	explicit XML_DOC_STRING_INTERIOR(XML_DOC_STRING_INTERIOR_base const & value) : XML_DOC_STRING_INTERIOR_base(value) {}
 };
 } // namespace plc

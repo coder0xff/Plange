@@ -7,7 +7,7 @@
 #include <variant>
 #include <vector>
 #include "erased.hpp"
-#include "parlex/details/match.hpp"
+#include "parlex/details/abstract_syntax_tree.hpp"
 
 #include "_plange_literals.hpp"
 
@@ -26,7 +26,7 @@ struct MEMBER_OFFSET {
 		erased<WHOLE_NUMBER> const & field_2
 	) : field_1(field_1), field_2(field_2) {}
 
-	static std::optional<MEMBER_OFFSET> build(std::vector<parlex::details::match>::iterator & i);
+	static MEMBER_OFFSET build(parlex::details::ast_node const & n);
 
 };
 

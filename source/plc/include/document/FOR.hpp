@@ -7,7 +7,7 @@
 #include <variant>
 #include <vector>
 #include "erased.hpp"
-#include "parlex/details/match.hpp"
+#include "parlex/details/abstract_syntax_tree.hpp"
 
 #include "_plange_literals.hpp"
 
@@ -64,7 +64,7 @@ struct FOR {
 		erased<EXPRESSION> const & field_6
 	) : field_1(field_1), field_2(field_2), initializer(initializer), condition(condition), field_3(field_3), field_4(field_4), step(step), field_5(field_5), field_6(field_6) {}
 
-	static std::optional<FOR> build(std::vector<parlex::details::match>::iterator & i);
+	static FOR build(parlex::details::ast_node const & n);
 
 };
 

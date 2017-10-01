@@ -7,7 +7,7 @@
 #include <variant>
 #include <vector>
 #include "erased.hpp"
-#include "parlex/details/match.hpp"
+#include "parlex/details/abstract_syntax_tree.hpp"
 
 #include "_plange_literals.hpp"
 
@@ -30,7 +30,7 @@ typedef std::variant<
 > CEILING_base;
 
 struct CEILING: CEILING_base {
-	static std::optional<CEILING> build(std::vector<parlex::details::match>::iterator & i);
+	static CEILING build(parlex::details::ast_node const & n);
 	explicit CEILING(CEILING_base const & value) : CEILING_base(value) {}
 };
 } // namespace plc

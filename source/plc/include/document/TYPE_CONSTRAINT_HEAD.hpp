@@ -7,7 +7,7 @@
 #include <variant>
 #include <vector>
 #include "erased.hpp"
-#include "parlex/details/match.hpp"
+#include "parlex/details/abstract_syntax_tree.hpp"
 
 #include "_plange_literals.hpp"
 
@@ -76,7 +76,7 @@ struct TYPE_CONSTRAINT_HEAD {
 		> const & type_dereference
 	) : field_1(field_1), field_2(field_2), field_3(field_3), field_4(field_4), field_5(field_5), type_dereference(type_dereference) {}
 
-	static std::optional<TYPE_CONSTRAINT_HEAD> build(std::vector<parlex::details::match>::iterator & i);
+	static TYPE_CONSTRAINT_HEAD build(parlex::details::ast_node const & n);
 
 };
 

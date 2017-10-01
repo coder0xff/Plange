@@ -7,7 +7,7 @@
 #include <variant>
 #include <vector>
 #include "erased.hpp"
-#include "parlex/details/match.hpp"
+#include "parlex/details/abstract_syntax_tree.hpp"
 
 #include "_plange_literals.hpp"
 
@@ -19,7 +19,7 @@ struct DATE_YEAR_MONTH_DAY {
 	DATE_YEAR_MONTH_DAY(
 	) :  {}
 
-	static std::optional<DATE_YEAR_MONTH_DAY> build(std::vector<parlex::details::match>::iterator & i);
+	static DATE_YEAR_MONTH_DAY build(parlex::details::ast_node const & n);
 
 };
 

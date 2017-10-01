@@ -7,7 +7,7 @@
 #include <variant>
 #include <vector>
 #include "erased.hpp"
-#include "parlex/details/match.hpp"
+#include "parlex/details/abstract_syntax_tree.hpp"
 
 #include "_plange_literals.hpp"
 
@@ -30,7 +30,7 @@ typedef std::variant<
 > NEAREST_INTEGER_base;
 
 struct NEAREST_INTEGER: NEAREST_INTEGER_base {
-	static std::optional<NEAREST_INTEGER> build(std::vector<parlex::details::match>::iterator & i);
+	static NEAREST_INTEGER build(parlex::details::ast_node const & n);
 	explicit NEAREST_INTEGER(NEAREST_INTEGER_base const & value) : NEAREST_INTEGER_base(value) {}
 };
 } // namespace plc

@@ -7,7 +7,7 @@
 #include <variant>
 #include <vector>
 #include "erased.hpp"
-#include "parlex/details/match.hpp"
+#include "parlex/details/abstract_syntax_tree.hpp"
 
 #include "_plange_literals.hpp"
 
@@ -45,7 +45,7 @@ struct TYPE_CONSTRAINT_CHAIN {
 		>> const & field_2
 	) : field_1(field_1), field_2(field_2) {}
 
-	static std::optional<TYPE_CONSTRAINT_CHAIN> build(std::vector<parlex::details::match>::iterator & i);
+	static TYPE_CONSTRAINT_CHAIN build(parlex::details::ast_node const & n);
 
 };
 

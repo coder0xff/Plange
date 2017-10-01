@@ -7,7 +7,7 @@
 #include <variant>
 #include <vector>
 #include "erased.hpp"
-#include "parlex/details/match.hpp"
+#include "parlex/details/abstract_syntax_tree.hpp"
 
 #include "_plange_literals.hpp"
 
@@ -36,7 +36,7 @@ typedef std::variant<
 > RELATIONAL_OP_base;
 
 struct RELATIONAL_OP: RELATIONAL_OP_base {
-	static std::optional<RELATIONAL_OP> build(std::vector<parlex::details::match>::iterator & i);
+	static RELATIONAL_OP build(parlex::details::ast_node const & n);
 	explicit RELATIONAL_OP(RELATIONAL_OP_base const & value) : RELATIONAL_OP_base(value) {}
 };
 } // namespace plc

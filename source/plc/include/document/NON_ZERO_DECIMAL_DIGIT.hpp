@@ -7,7 +7,7 @@
 #include <variant>
 #include <vector>
 #include "erased.hpp"
-#include "parlex/details/match.hpp"
+#include "parlex/details/abstract_syntax_tree.hpp"
 
 #include "_plange_literals.hpp"
 
@@ -26,7 +26,7 @@ typedef std::variant<
 > NON_ZERO_DECIMAL_DIGIT_base;
 
 struct NON_ZERO_DECIMAL_DIGIT: NON_ZERO_DECIMAL_DIGIT_base {
-	static std::optional<NON_ZERO_DECIMAL_DIGIT> build(std::vector<parlex::details::match>::iterator & i);
+	static NON_ZERO_DECIMAL_DIGIT build(parlex::details::ast_node const & n);
 	explicit NON_ZERO_DECIMAL_DIGIT(NON_ZERO_DECIMAL_DIGIT_base const & value) : NON_ZERO_DECIMAL_DIGIT_base(value) {}
 };
 } // namespace plc

@@ -7,7 +7,7 @@
 #include <variant>
 #include <vector>
 #include "erased.hpp"
-#include "parlex/details/match.hpp"
+#include "parlex/details/abstract_syntax_tree.hpp"
 
 #include "_plange_literals.hpp"
 
@@ -24,7 +24,7 @@ typedef std::variant<
 > EMBEDDED_COMMENT_INTERIOR_base;
 
 struct EMBEDDED_COMMENT_INTERIOR: EMBEDDED_COMMENT_INTERIOR_base {
-	static std::optional<EMBEDDED_COMMENT_INTERIOR> build(std::vector<parlex::details::match>::iterator & i);
+	static EMBEDDED_COMMENT_INTERIOR build(parlex::details::ast_node const & n);
 	explicit EMBEDDED_COMMENT_INTERIOR(EMBEDDED_COMMENT_INTERIOR_base const & value) : EMBEDDED_COMMENT_INTERIOR_base(value) {}
 };
 } // namespace plc

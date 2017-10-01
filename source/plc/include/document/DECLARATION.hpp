@@ -7,7 +7,7 @@
 #include <variant>
 #include <vector>
 #include "erased.hpp"
-#include "parlex/details/match.hpp"
+#include "parlex/details/abstract_syntax_tree.hpp"
 
 #include "_plange_literals.hpp"
 
@@ -33,7 +33,7 @@ struct DECLARATION {
 		erased<IDENTIFIER> const & identifier
 	) : field_1(field_1), identifier(identifier) {}
 
-	static std::optional<DECLARATION> build(std::vector<parlex::details::match>::iterator & i);
+	static DECLARATION build(parlex::details::ast_node const & n);
 
 };
 

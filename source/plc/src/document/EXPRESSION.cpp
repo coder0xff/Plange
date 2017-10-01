@@ -1,5 +1,6 @@
 // This file was generated using Parlex's cpp_generator
 
+#include "EXPRESSION.hpp"
 #include "ARRAY.hpp"
 #include "ASM_FUNCTION.hpp"
 #include "BINARY_OP.hpp"
@@ -51,13 +52,7 @@
 
 namespace plc {
 
-std::optional<EXPRESSION> EXPRESSION::build(std::vector<parlex::details::match>::iterator & i) {
-	std::optional<EXPRESSION_base> value;
-	parlex::details::behavior::build(value, i);
-	if (value.has_value()) {
-		return std::make_optional<EXPRESSION>(value.value());
-	}
-	return std::optional<EXPRESSION>();
+EXPRESSION EXPRESSION::build(parlex::details::ast_node const & n) {
 }
 
 } // namespace plc

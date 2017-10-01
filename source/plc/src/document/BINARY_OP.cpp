@@ -1,5 +1,6 @@
 // This file was generated using Parlex's cpp_generator
 
+#include "BINARY_OP.hpp"
 #include "BINARY_ARITHMETIC_OP.hpp"
 #include "BINARY_COLLECTION_OP.hpp"
 #include "BINARY_LOGICAL_OP.hpp"
@@ -11,13 +12,7 @@
 
 namespace plc {
 
-std::optional<BINARY_OP> BINARY_OP::build(std::vector<parlex::details::match>::iterator & i) {
-	std::optional<BINARY_OP_base> value;
-	parlex::details::behavior::build(value, i);
-	if (value.has_value()) {
-		return std::make_optional<BINARY_OP>(value.value());
-	}
-	return std::optional<BINARY_OP>();
+BINARY_OP BINARY_OP::build(parlex::details::ast_node const & n) {
 }
 
 } // namespace plc

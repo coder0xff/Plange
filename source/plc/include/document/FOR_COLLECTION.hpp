@@ -7,7 +7,7 @@
 #include <variant>
 #include <vector>
 #include "erased.hpp"
-#include "parlex/details/match.hpp"
+#include "parlex/details/abstract_syntax_tree.hpp"
 
 #include "_plange_literals.hpp"
 
@@ -42,7 +42,7 @@ struct FOR_COLLECTION {
 			erased<IDENTIFIER> const & field_2
 		) : field_1(field_1), field_2(field_2) {}
 	
-		static std::optional<declaration> build(std::vector<parlex::details::match>::iterator & i);
+		static declaration build(parlex::details::ast_node const & n);
 	
 	};
 
@@ -83,7 +83,7 @@ struct FOR_COLLECTION {
 		erased<EXPRESSION> const & invoke
 	) : field_1(field_1), field_2(field_2), field_3(field_3), field_4(field_4), field_5(field_5), field_6(field_6), collection(collection), field_7(field_7), field_8(field_8), invoke(invoke) {}
 
-	static std::optional<FOR_COLLECTION> build(std::vector<parlex::details::match>::iterator & i);
+	static FOR_COLLECTION build(parlex::details::ast_node const & n);
 
 };
 

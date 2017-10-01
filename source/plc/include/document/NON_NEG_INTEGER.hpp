@@ -7,7 +7,7 @@
 #include <variant>
 #include <vector>
 #include "erased.hpp"
-#include "parlex/details/match.hpp"
+#include "parlex/details/abstract_syntax_tree.hpp"
 
 #include "_plange_literals.hpp"
 
@@ -24,7 +24,7 @@ typedef std::variant<
 > NON_NEG_INTEGER_base;
 
 struct NON_NEG_INTEGER: NON_NEG_INTEGER_base {
-	static std::optional<NON_NEG_INTEGER> build(std::vector<parlex::details::match>::iterator & i);
+	static NON_NEG_INTEGER build(parlex::details::ast_node const & n);
 	explicit NON_NEG_INTEGER(NON_NEG_INTEGER_base const & value) : NON_NEG_INTEGER_base(value) {}
 };
 } // namespace plc

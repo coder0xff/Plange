@@ -7,7 +7,7 @@
 #include <variant>
 #include <vector>
 #include "erased.hpp"
-#include "parlex/details/match.hpp"
+#include "parlex/details/abstract_syntax_tree.hpp"
 
 #include "_plange_literals.hpp"
 
@@ -36,7 +36,7 @@ struct ARRAY_INDEXER {
 		> const & field_2
 	) : field_1(field_1), field_2(field_2) {}
 
-	static std::optional<ARRAY_INDEXER> build(std::vector<parlex::details::match>::iterator & i);
+	static ARRAY_INDEXER build(parlex::details::ast_node const & n);
 
 };
 

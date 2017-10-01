@@ -7,7 +7,7 @@
 #include <variant>
 #include <vector>
 #include "erased.hpp"
-#include "parlex/details/match.hpp"
+#include "parlex/details/abstract_syntax_tree.hpp"
 
 #include "_plange_literals.hpp"
 
@@ -47,7 +47,7 @@ struct TIME {
 		>> const & field_9
 	) : field_1(field_1), field_8(field_8), field_9(field_9) {}
 
-	static std::optional<TIME> build(std::vector<parlex::details::match>::iterator & i);
+	static TIME build(parlex::details::ast_node const & n);
 
 };
 

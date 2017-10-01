@@ -22,22 +22,23 @@ namespace parlex::details::document {
 
 	template<typename T>
 	struct element {
-		static T build(recognizer const & r, ast_node const & n) {
-			
-		}
 
+	};
+
+	//literals only have one instance, so we work in pointers to that instance
+	template<typename T>
+	struct element<T const *> {
+		static T const * build(behavior::node const & b, ast_node const & n) {
+			return T::get();
+		}
+	};
+
+	template<typename T>
+	struct element<erased<T>> {
 		static T build(behavior::node const & b, ast_node const & n) {
 			auto asLeafPtr = dynamic_cast<behavior::leaf const *>(&b);
-			if (asLeafPtr) { //dereference and build from the referenced recognizer
-				for (ast_node const & child : n) {
-					if (child.leaf == asLeafPtr) {
-						return build(asLeafPtr->r, child);
-					}
-				}
-				throw std::logic_error("no node matched the leaf");
-			} else {
-				return T::build(n);
-			}
+			assert(asLeafPtr != nullptr);
+			return T::build(n);
 		}
 	};
 
@@ -47,7 +48,7 @@ namespace parlex::details::document {
 			assert(dynamic_cast<behavior::repetition const *>(&b) != nullptr);
 			behavior::node const & bChild = *b.get_children()[0];
 			std::vector<T> result;
-			for (ast_node const & child : n) {
+			for (ast_node const & child : n.children) {
 				assert(b.can_follow(child.leaf));
 				result.push_back(element<T>::build(bChild, child));
 			}
@@ -77,17 +78,12 @@ namespace parlex::details::document {
 		variant_builder(ast_node const * n) : n(n) {}
 
 		template<typename THead>
-		std::optional<TVariant> operator()(std::optional<TVariant> const & accumulator, behavior::node const * b) {
+		std::optional<TVariant> operator()(std::optional<TVariant> const & accumulator, erased<behavior::node> const & b) {
 			if (accumulator.has_value()) {
 				return accumulator;
 			}
 			if (b->can_follow(n->leaf)) {
-				return std::optional<TVariant>(TVariant(element<THead>::build(b, n)));
-			}
-			std::optional<THead> temp;
-			build(temp, i);
-			if (temp.has_value()) {
-				return std::optional<TVariant>(TVariant(temp.value()));
+				return std::optional<TVariant>(TVariant(element<THead>::build(*b, *n)));
 			}
 			return accumulator;
 		}
@@ -100,7 +96,7 @@ namespace parlex::details::document {
 			assert(dynamic_cast<behavior::choice const *>(&b) != nullptr);
 			using TVariant = std::variant<Ts...>;
 			auto const & childBehaviors = b.get_children();
-			auto functor = variant_builder<Ts...>(n);
+			variant_builder<Ts...> functor = variant_builder<Ts...>(&n);
 			return mpl::fold_vx<mpl::list<Ts...>>(functor, std::optional<TVariant>(), childBehaviors).value();
 		}
 	};

@@ -17,7 +17,7 @@ public:
 	auto_map_c() : value_factory([](TKey) { return TValue(); }) {
 	}
 
-	TValue & operator()(TKey key) {
+	TValue const & operator()(TKey key) {
 		std::unique_lock<std::mutex> lock(mutex);
 		// only run value_factory if not found, i.e. no emplace_back
 		auto i = storage.find(key);

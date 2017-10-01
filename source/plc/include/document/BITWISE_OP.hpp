@@ -7,7 +7,7 @@
 #include <variant>
 #include <vector>
 #include "erased.hpp"
-#include "parlex/details/match.hpp"
+#include "parlex/details/abstract_syntax_tree.hpp"
 
 #include "_plange_literals.hpp"
 
@@ -24,7 +24,7 @@ typedef std::variant<
 > BITWISE_OP_base;
 
 struct BITWISE_OP: BITWISE_OP_base {
-	static std::optional<BITWISE_OP> build(std::vector<parlex::details::match>::iterator & i);
+	static BITWISE_OP build(parlex::details::ast_node const & n);
 	explicit BITWISE_OP(BITWISE_OP_base const & value) : BITWISE_OP_base(value) {}
 };
 } // namespace plc

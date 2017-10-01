@@ -7,7 +7,7 @@
 #include <variant>
 #include <vector>
 #include "erased.hpp"
-#include "parlex/details/match.hpp"
+#include "parlex/details/abstract_syntax_tree.hpp"
 
 #include "_plange_literals.hpp"
 
@@ -22,7 +22,7 @@ typedef std::variant<
 > VISIBILITY_MODIFIER_base;
 
 struct VISIBILITY_MODIFIER: VISIBILITY_MODIFIER_base {
-	static std::optional<VISIBILITY_MODIFIER> build(std::vector<parlex::details::match>::iterator & i);
+	static VISIBILITY_MODIFIER build(parlex::details::ast_node const & n);
 	explicit VISIBILITY_MODIFIER(VISIBILITY_MODIFIER_base const & value) : VISIBILITY_MODIFIER_base(value) {}
 };
 } // namespace plc

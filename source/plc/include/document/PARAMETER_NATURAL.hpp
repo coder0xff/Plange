@@ -7,7 +7,7 @@
 #include <variant>
 #include <vector>
 #include "erased.hpp"
-#include "parlex/details/match.hpp"
+#include "parlex/details/abstract_syntax_tree.hpp"
 
 #include "_plange_literals.hpp"
 
@@ -46,7 +46,7 @@ typedef std::variant<
 > PARAMETER_NATURAL_base;
 
 struct PARAMETER_NATURAL: PARAMETER_NATURAL_base {
-	static std::optional<PARAMETER_NATURAL> build(std::vector<parlex::details::match>::iterator & i);
+	static PARAMETER_NATURAL build(parlex::details::ast_node const & n);
 	explicit PARAMETER_NATURAL(PARAMETER_NATURAL_base const & value) : PARAMETER_NATURAL_base(value) {}
 };
 } // namespace plc

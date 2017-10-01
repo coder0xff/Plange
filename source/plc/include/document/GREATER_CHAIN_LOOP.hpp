@@ -7,7 +7,7 @@
 #include <variant>
 #include <vector>
 #include "erased.hpp"
-#include "parlex/details/match.hpp"
+#include "parlex/details/abstract_syntax_tree.hpp"
 
 #include "_plange_literals.hpp"
 
@@ -47,7 +47,7 @@ struct GREATER_CHAIN_LOOP {
 		>> const & field_3
 	) : field_1(field_1), field_2(field_2), expression(expression), field_3(field_3) {}
 
-	static std::optional<GREATER_CHAIN_LOOP> build(std::vector<parlex::details::match>::iterator & i);
+	static GREATER_CHAIN_LOOP build(parlex::details::ast_node const & n);
 
 };
 

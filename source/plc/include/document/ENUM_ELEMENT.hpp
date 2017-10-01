@@ -7,7 +7,7 @@
 #include <variant>
 #include <vector>
 #include "erased.hpp"
-#include "parlex/details/match.hpp"
+#include "parlex/details/abstract_syntax_tree.hpp"
 
 #include "_plange_literals.hpp"
 
@@ -35,7 +35,7 @@ struct ENUM_ELEMENT {
 		>> const & field_1
 	) : identifier(identifier), field_1(field_1) {}
 
-	static std::optional<ENUM_ELEMENT> build(std::vector<parlex::details::match>::iterator & i);
+	static ENUM_ELEMENT build(parlex::details::ast_node const & n);
 
 };
 

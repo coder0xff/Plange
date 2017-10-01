@@ -7,7 +7,7 @@
 #include <variant>
 #include <vector>
 #include "erased.hpp"
-#include "parlex/details/match.hpp"
+#include "parlex/details/abstract_syntax_tree.hpp"
 
 #include "_plange_literals.hpp"
 
@@ -38,7 +38,7 @@ struct FUNCTION_MODIFIER_STABILITY {
 		>> const & field_1
 	) : stability(stability), field_1(field_1) {}
 
-	static std::optional<FUNCTION_MODIFIER_STABILITY> build(std::vector<parlex::details::match>::iterator & i);
+	static FUNCTION_MODIFIER_STABILITY build(parlex::details::ast_node const & n);
 
 };
 
