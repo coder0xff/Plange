@@ -68,10 +68,10 @@ private:
 	state_machine const & factorDfa;
 	state_machine const & identifierDfa;
 
-	erased<node> process_factor(std::u32string const & document, match const & factor, abstract_syntax_semilattice const & asg) const;
-	erased<node> process_term(std::u32string const & document, match const & term, abstract_syntax_semilattice const & asg) const;
-	erased<node> process_expression(std::u32string const & document, match const & expression, abstract_syntax_semilattice const & asg) const;
-	erased<node> process_production(std::u32string const & document, match const & expression, abstract_syntax_semilattice const & asg) const;
+	erased<node> process_factor(std::u32string const & document, ast_node const & factor) const;
+	erased<node> process_term(std::u32string const & document, ast_node const & term) const;
+	erased<node> process_expression(std::u32string const & document, ast_node const & expression) const;
+	erased<node> process_production(std::u32string const & document, ast_node const & production) const;
 
 };
 

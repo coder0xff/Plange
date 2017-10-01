@@ -143,6 +143,9 @@ std::set<permutation> const & abstract_syntax_semilattice::lookup(match const & 
 }
 
 abstract_syntax_tree abstract_syntax_semilattice::tree() const {
+	if (!is_rooted()) {
+		throw std::runtime_error("The document could not be parsed.");
+	}
 	if (variation_count() > 1) {
 		throw std::runtime_error("The document is ambiguous.");
 	}
@@ -155,11 +158,11 @@ abstract_syntax_tree abstract_syntax_semilattice::tree() const {
 		ast_node & nodeRef = *pair.first;
 		transition const & transRef = *pair.second;
 		nodeRef.document_position = transRef.document_position;
-		nodeRef.consumer_character_count = transRef.consumed_character_count;
+		nodeRef.consumed_character_count = transRef.consumed_character_count;
 		nodeRef.leaf = transRef.l;
 		permutation const & p = *lookup(transRef).begin();
 		nodeRef.children.resize(p.size());
-		for (int i = 0; i < p.size(); ++i) {
+		for (size_t i = 0; i < p.size(); ++i) {
 			q.emplace(&nodeRef.children[i], &p[i]);
 		}
 	}

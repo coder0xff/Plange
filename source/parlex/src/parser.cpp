@@ -547,7 +547,7 @@ abstract_syntax_semilattice& apply_precedence_and_associativity(grammar_base con
 //Construct an ASS, and if a solution was found, prunes unreachable nodes
 abstract_syntax_semilattice parser::construct_result(job const & j, match const & m) {
 	//perf_timer timer("construct_result");
-	abstract_syntax_semilattice result = abstract_syntax_semilattice(match(m));
+	abstract_syntax_semilattice result = abstract_syntax_semilattice(transition(match(m), nullptr));
 	for (auto const & pair : j.producers) {
 		producer const & producer = *pair.second;
 		for (auto const & pair2 : producer.match_to_permutations) {

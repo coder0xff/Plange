@@ -34,8 +34,8 @@ public:
 	children_t const& get_children() const;
 	virtual nfa2 to_nfa() const = 0;
 	std::string to_dot() const;
-	nfa2 compile();
-	void compute_leaf_paths();
+	nfa2 compile() const;
+	void compute_leaf_paths() const;
 	node const & operator()(int index) const;
 	virtual bool is_leaf() const;
 	bool can_follow(leaf const * l) const;
@@ -49,7 +49,7 @@ protected:
 	children_t children;
 	node * parent;
 	// a table from all descendant leafs, to the child leaf containing it
-	std::unordered_map<leaf const *, node const *> leaf_paths;
+	mutable std::unordered_map<leaf const *, node const *> leaf_paths;
 };
 
 class leaf final : public node {

@@ -13,7 +13,9 @@ class builtins_t;
 
 class c_string_t : public raw_state_machine {
 public:
-	std::u32string extract(std::u32string document, match const & m, abstract_syntax_semilattice const & asg) const;
+	void extract_step(std::u32string const & document, std::u32string * result, recognizer const * r, size_t document_position, size_t consumed_character_count) const;
+	std::u32string extract(std::u32string const & document, ast_node const & n) const;
+	std::u32string extract(std::u32string const & document, match const & m, abstract_syntax_semilattice const & asg) const;
 
 private:
 	friend class builtins_t;

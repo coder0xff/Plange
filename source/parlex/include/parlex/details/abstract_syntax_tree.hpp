@@ -10,7 +10,9 @@ namespace parlex::details {
 		std::vector<ast_node> children;
 		behavior::leaf const * leaf;
 		size_t document_position;
-		size_t consumer_character_count;
+		size_t consumed_character_count;
+
+		std::string to_dot() const;
 	};
 
 	typedef ast_node abstract_syntax_tree;

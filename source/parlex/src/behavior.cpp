@@ -64,7 +64,7 @@ namespace parlex {
 				);
 			}
 
-			void node::compute_leaf_paths() {
+			void node::compute_leaf_paths() const {
 				for (auto & child : children) {
 					node const * childPtr = &*child;
 					child->compute_leaf_paths();
@@ -77,7 +77,7 @@ namespace parlex {
 				}
 			}
 
-			nfa2 node::compile() {
+			nfa2 node::compile() const {
 				compute_leaf_paths();
 				auto temp = to_nfa();
 				//std::string check = nfa2_to_dot(temp); //todo: disable debug code

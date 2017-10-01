@@ -7,6 +7,7 @@
 
 #include "utils.hpp"
 #include "utf.hpp"
+#include "parlex/details/behavior.hpp"
 
 namespace parlex {
 namespace details {
@@ -37,8 +38,76 @@ c_string_t::c_string_t(builtins_t const & builtins) :
 	add_transition(1, &double_quote, 2);
 }
 
+void c_string_t::extract_step(std::u32string const & document, std::u32string * result, recognizer const * r, size_t document_position, size_t consumed_character_count) const {
+	if (r == &content) {
+		result->append(1, document[document_position]);
+	} else if (r == &basic_escape_sequence) {
+		char32_t const c = document[document_position + 1];
+		switch (c) {
+		case '"':
+		case '\'':
+		case '?':
+		case '\\':
+			result->append(1, c);
+			break;
+		case 'a':
+			result->append(1, static_cast<char32_t>(7));
+			break;
+		case 'b':
+			result->append(1, static_cast<char32_t>(8));
+			break;
+		case 'f':
+			result->append(1, static_cast<char32_t>(12));
+			break;
+		case 'n':
+			result->append(1, static_cast<char32_t>(10));
+			break;
+		case 'r':
+			result->append(1, static_cast<char32_t>(13));
+			break;
+		case 't':
+			result->append(1, static_cast<char32_t>(9));
+			break;
+		case 'v':
+			result->append(1, static_cast<char32_t>(11));
+			break;
+		default: 
+			throw;
+		}
+	} else if (r == &octal_escape_sequence) {
+		char32_t c = 0;
+		for (size_t j = 1; j < consumed_character_count; ++j) {
+			c = c << 3;
+			c += document[document_position + j] - '0';
+		}
+		result->append(1, c);
+	} else if (r == &hex_escape_sequence) {
+		char32_t c = 0;
+		for (size_t j = 1; j < consumed_character_count; ++j) {
+			c = c << 4;
+			char32_t const d = document[document_position + j];
+			c += d < 'A' ? d - '0' : (d < 'a' ? d - 'A' : d - 'a'); //48 = '0'
+		}
+		result->append(1, c);
+	}
+}
 
-std::u32string c_string_t::extract(std::u32string document, match const & m, abstract_syntax_semilattice const & asg) const {
+std::u32string c_string_t::extract(std::u32string const & document, ast_node const & n) const {
+	throw_assert(&n.leaf->r == this);
+	std::u32string result;
+	result.reserve(n.children.size());
+	auto i = n.children.begin();
+	++i; //advance past opening double quote
+	auto end = n.children.end();
+	--end; //most to closing double quote
+	for (; i != end; ++i) {
+		extract_step(document, &result, &i->leaf->r, i->document_position, i->consumed_character_count);
+	}
+	return result;
+}
+
+std::u32string c_string_t::extract(std::u32string const & document, match const & m, abstract_syntax_semilattice const & asg) const {
+	throw_assert(&m.r == this);
 	auto const & asgTableIterator = asg.permutations.find(m);
 	throw_assert(asgTableIterator != asg.permutations.end());
 	std::set<permutation> const & permutations = asgTableIterator->second;
@@ -51,55 +120,7 @@ std::u32string c_string_t::extract(std::u32string document, match const & m, abs
 	auto end = p.end();
 	--end;
 	for (; i != end; ++i) {
-		if (&i->r == &content) {
-			result.append(1, document[i->document_position]);
-		} else if (&i->r == &basic_escape_sequence) {
-			char32_t const c = document[i->document_position + 1];
-			switch (c) {
-				case '"':
-				case '\'':
-				case '?':
-				case '\\':
-					result.append(1, c);
-					break;
-				case 'a':
-					result.append(1, static_cast<char32_t>(7));
-					break;
-				case 'b':
-					result.append(1, static_cast<char32_t>(8));
-					break;
-				case 'f':
-					result.append(1, static_cast<char32_t>(12));
-					break;
-				case 'n':
-					result.append(1, static_cast<char32_t>(10));
-					break;
-				case 'r':
-					result.append(1, static_cast<char32_t>(13));
-					break;
-				case 't':
-					result.append(1, static_cast<char32_t>(9));
-					break;
-				case 'v':
-					result.append(1, static_cast<char32_t>(11));
-					break;
-			}
-		} else if (&i->r == &octal_escape_sequence) {
-			char32_t c = 0;
-			for (int j = 1; j < i->consumed_character_count; ++j) {
-				c = c << 3;
-				c += document[i->document_position + j] - '0';
-			}
-			result.append(1, c);
-		} else if (&i->r == &hex_escape_sequence) {
-			char32_t c = 0;
-			for (int j = 1; j < i->consumed_character_count; ++j) {
-				c = c << 4;
-				char32_t const d = document[i->document_position + j];
-				c += d < 'A' ? d - '0' : (d < 'a' ? d - 'A' : d - 'a'); //48 = '0'
-			}
-			result.append(1, c);
-		}
+		extract_step(document, &result, &i->r, i->document_position, i->consumed_character_count);
 	}
 	return result;
 }

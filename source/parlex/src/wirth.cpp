@@ -12,50 +12,48 @@
 namespace parlex {
 namespace details {
 
-erased<node> wirth_t::process_factor(std::u32string const & document, match const & factor, abstract_syntax_semilattice const & asg) const {
-	permutation const & p = asg.find(factor);
-	auto i = p.begin();
+erased<node> wirth_t::process_factor(std::u32string const & document, ast_node const & factor) const {
+	auto i = factor.children.begin();
 	std::string tag;
-	if (&i->r == &dollarSign) {
+	if (&i->leaf->r == &dollarSign) {
 		++i;
-		if (&i->r == &identifierDfa) {
+		if (&i->leaf->r == &identifierDfa) {
 			tag = tolower(to_utf8(document.substr(i->document_position, i->consumed_character_count)));
-		} else if (&i->r == &builtins().c_string) {
-			tag = to_utf8(builtins().c_string.extract(document, *i, asg));
+		} else if (&i->leaf->r == &builtins().c_string) {
+			tag = to_utf8(builtins().c_string.extract(document, *i));
 		} else {
 			throw;
 		}
 	}
-
-	if (&i->r == &tagDfa) {
-		permutation const & q = *asg.permutations.find(*i)->second.begin();
-		match const & j = q[1];
+	
+	if (&i->leaf->r == &tagDfa) {
+		ast_node const & j = i->children[1];
 		++i;
-		throw_assert(&j.r == &identifierDfa);
+		throw_assert(&j.leaf->r == &identifierDfa);
 		tag = to_utf8(document.substr(j.document_position, j.consumed_character_count));
 	}
 
 	std::unique_ptr<erased<node>> result;
 	auto set = [&result](erased<node> const & node) { result.reset(new erased<details::node>(node)); };
-	if (&i->r == &identifierDfa) {
+	if (&i->leaf->r == &identifierDfa) {
 		std::string name = to_utf8(document.substr(i->document_position, i->consumed_character_count));
 		set(reference(name));
-	} else if (&i->r == &builtins().c_string) {
-		std::u32string text = builtins().c_string.extract(document, *i, asg);
+	} else if (&i->leaf->r == &builtins().c_string) {
+		std::u32string text = builtins().c_string.extract(document, *i);
 		set(literal(text));
-	} else if (&i->r == &parentheticalDfa) {
-		permutation const & q = *asg.permutations.find(*i)->second.begin();
+	} else if (&i->leaf->r == &parentheticalDfa) {
+		std::vector<ast_node> const & q = i->children;
 		auto j = q.begin();
-		auto parenthetical_type = &j->r;
-		while (&j->r != &expressionDfa) {
+		auto parenthetical_type = &j->leaf->r;
+		while (&j->leaf->r != &expressionDfa) {
 			++j;
 		}
 		if (parenthetical_type == &openSquare) {
-			set(optional_t(process_expression(document, *j, asg)));
+			set(optional_t(process_expression(document, *j)));
 		} else if (parenthetical_type == &openCurly) {
-			set(repetition_t(process_expression(document, *j, asg)));
+			set(repetition_t(process_expression(document, *j)));
 		} else if (parenthetical_type == &openParen) {
-			set(process_expression(document, *j, asg));
+			set(process_expression(document, *j));
 		} else {
 			throw;
 		}
@@ -69,55 +67,52 @@ erased<node> wirth_t::process_factor(std::u32string const & document, match cons
 	return *result;
 }
 
-erased<node> wirth_t::process_term(std::u32string const & document, match const & term, abstract_syntax_semilattice const & asg) const {
-	std::vector<match> factors;
+erased<node> wirth_t::process_term(std::u32string const & document, ast_node const & term) const {
+	std::vector<ast_node const *> factors;
 
-	permutation const & p = *(*asg.permutations.find(term)).second.begin();
-	for (match const & entry : p) {
-		if (&entry.r == &factorDfa) {
-			factors.push_back(entry);
+	for (ast_node const & entry : term.children) {
+		if (&entry.leaf->r == &factorDfa) {
+			factors.push_back(&entry);
 		}
 	}
 	if (factors.size() == 1) {
-		return process_factor(document, factors[0], asg);
+		return process_factor(document, *factors[0]);
 	}
 	sequence_t result;
-	for (match const & factor : factors) {
-		result.children.push_back(process_factor(document, factor, asg));
+	for (ast_node const * factor : factors) {
+		result.children.push_back(process_factor(document, *factor));
 	}
 	return result;
 }
 
-erased<node> wirth_t::process_expression(std::u32string const & document, match const & expression, abstract_syntax_semilattice const & asg) const {
-	std::vector<match> terms;
+erased<node> wirth_t::process_expression(std::u32string const & document, ast_node const & expression) const {
+	std::vector<ast_node const *> terms;
 
-	permutation const & p = *(*asg.permutations.find(expression)).second.begin();
-	for (match const & entry : p) {
-		if (&entry.r == &termDfa) {
-			terms.push_back(entry);
+	std::vector<ast_node> const & p = expression.children;
+	for (ast_node const & entry : p) {
+		if (&entry.leaf->r == &termDfa) {
+			terms.push_back(&entry);
 		}
 	}
 	if (terms.size() == 1) {
-		return process_term(document, terms[0], asg);
+		return process_term(document, *terms[0]);
 	}
 	choice_t result;
-	for (match const & term : terms) {
-		result.children.push_back(process_term(document, term, asg));
+	for (ast_node const * term : terms) {
+		result.children.push_back(process_term(document, *term));
 	}
 	return result;
 }
 
 erased<node> wirth_t::compile_expression(std::u32string const & source) const {
 	parser p;
-	auto asg = p.parse(*this, expressionDfa, source, builtins().progress_bar);
-	if (!asg.is_rooted()) {
+	auto assl = p.parse(*this, expressionDfa, source, builtins().progress_bar);
+	if (!assl.is_rooted()) {
 		throw std::runtime_error("could not parse expression");
 	}
-	if (asg.variation_count() > 1) {
-		throw std::runtime_error("more than one interpretation of the source");
-	}
-	//auto test = asg.to_dot(); //TODO: Make sure this is commented out
-	return process_expression(source, asg.root, asg);
+	abstract_syntax_tree ast = assl.tree();
+	//auto test = ast.to_dot(); //TODO: Make sure this is commented out
+	return process_expression(source, ast);
 }
 
 builder wirth_t::load_grammar(std::string const & rootId, std::map<std::string, production> const & definitions) const {
@@ -140,15 +135,15 @@ builder wirth_t::load_grammar(std::string const & rootId, std::map<std::string, 
 
 builder wirth_t::load_grammar(std::string const & rootId, std::u32string const & document, std::map<std::string, associativity> const & associativities, std::set<std::string> const & longestNames) const {
 	parser p;
-	abstract_syntax_semilattice asg = p.parse(*this, document);
+	abstract_syntax_semilattice assl = p.parse(*this, document);
+	abstract_syntax_tree ast = assl.tree();
 	std::set<std::u32string> names;
-	throw_assert(asg.is_rooted());
 	std::map<std::string, production> definitions;
-	//std::string check = asg.to_dot();
-	permutation const & top = *asg.permutations[asg.root].begin();
-	for (match const & entry : top) {
-		if (&entry.r == &productionDfa) {
-			match const & namePart = (*asg.permutations[entry].begin())[0];
+	//std::string check = ast.to_dot();
+	std::vector<ast_node> const & top = ast.children;
+	for (ast_node const & entry : top) {
+		if (&entry.leaf->r == &productionDfa) {
+			ast_node const & namePart = entry.children[0];
 			std::u32string const u32Name = document.substr(namePart.document_position, namePart.consumed_character_count);
 			std::string const name = to_utf8(u32Name);
 			auto res = names.insert(u32Name);
@@ -156,8 +151,8 @@ builder wirth_t::load_grammar(std::string const & rootId, std::u32string const &
 				throw std::runtime_error(("duplicate reference ID " + name).c_str());
 			}
 			std::u32string source;
-			for (match const & entry2 : *(*asg.permutations.find(entry)).second.begin()) {
-				if (&entry2.r == &expressionDfa) {
+			for (ast_node const & entry2 : entry.children) {
+				if (&entry2.leaf->r == &expressionDfa) {
 					source = document.substr(entry2.document_position, entry2.consumed_character_count);
 					break;
 				}
@@ -255,26 +250,26 @@ static state_machine const & convert(state_machine_base const & s) {
 }
 
 wirth_t::wirth_t() : grammar(generate_wirth()),
-                               openSquare(get_literal("[")),
-                               openParen(get_literal("(")),
-                               openCurly(get_literal("{")),
-                               dollarSign(get_literal("$")),
+                               openSquare(grammar::get_literal("[")),
+                               openParen(grammar::get_literal("(")),
+                               openCurly(grammar::get_literal("{")),
+                               dollarSign(grammar::get_literal("$")),
 
-                               productionDfa(convert(get_state_machine("production"))),
-                               expressionDfa(convert(get_state_machine("expression"))),
-                               termDfa(convert(get_state_machine("term"))),
-                               parentheticalDfa(convert(get_state_machine("parenthetical"))),
-                               tagDfa(convert(get_state_machine("tag"))),
-                               factorDfa(convert(get_state_machine("factor"))),
-                               identifierDfa(convert(get_state_machine("identifier"))) {
+                               productionDfa(convert(grammar::get_state_machine("production"))),
+                               expressionDfa(convert(grammar::get_state_machine("expression"))),
+                               termDfa(convert(grammar::get_state_machine("term"))),
+                               parentheticalDfa(convert(grammar::get_state_machine("parenthetical"))),
+                               tagDfa(convert(grammar::get_state_machine("tag"))),
+                               factorDfa(convert(grammar::get_state_machine("factor"))),
+                               identifierDfa(convert(grammar::get_state_machine("identifier"))) {
 	std::string check = termDfa.to_dot();
 
 }
 
-erased<node> wirth_t::process_production(std::u32string const & document, match const & production, abstract_syntax_semilattice const & asg) const {
-	for (match const & entry : *(*asg.permutations.find(production)).second.begin()) {
-		if (&entry.r == &expressionDfa) {
-			return process_expression(document, entry, asg);
+erased<node> wirth_t::process_production(std::u32string const & document, ast_node const & production) const {
+	for (ast_node const & entry : production.children) {
+		if (&entry.leaf->r == &expressionDfa) {
+			return process_expression(document, entry);
 		}
 	}
 	throw;

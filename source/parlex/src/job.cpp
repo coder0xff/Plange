@@ -43,7 +43,7 @@ job::job(parser & owner, std::u32string const & document, grammar_base const & g
 		);
 		//seed the parser with the root state
 		result->increment_lifetime(); //reference code A
-		owner.work.emplace(&result->construct_start_state_context(0), 0);
+		owner.work.emplace(&result->construct_initial_context(0), 0);
 		++owner.activeCount;
 		//give it a tickle!
 		owner.work_cv.notify_one(); //parser::parse has mutex locked

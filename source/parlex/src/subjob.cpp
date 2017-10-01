@@ -36,11 +36,6 @@ void subjob::start() { {
 	end_dependency(); //reference code B
 }
 
-// context const & subjob::construct_start_state_context(int documentPosition) {
-// 	std::unique_lock<std::mutex> lock(mutex);
-// 	auto i = contexts.emplace_front(*this, nullptr, documentPosition, std::optional<match>());
-// 	return *i;
-// }
 
 context const & subjob::construct_stepped_context(context const* const prior, match const & fromTransition, behavior::leaf const * leaf) {
 	std::unique_lock<std::mutex> lock(mutex);
