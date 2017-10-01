@@ -24,6 +24,7 @@ job::job(parser & owner, std::u32string const & document, grammar_base const & g
 	//DBG("starting job using recognizer '", main, "'");
 
 	//similar to get_product, but different for constructor
+	//because parser::mutex is already locked
 	match_class matchClass(main, 0);
 	if (main.is_terminal()) {
 		terminal const * const t = static_cast<terminal const *>(&main);
@@ -42,7 +43,7 @@ job::job(parser & owner, std::u32string const & document, grammar_base const & g
 			std::forward_as_tuple(result)
 		);
 		//seed the parser with the root state
-		result->increment_lifetime(); //reference code A
+		result->begin_work_queue_reference(); //reference code A
 		owner.work.emplace(&result->construct_initial_context(0), 0);
 		++owner.activeCount;
 		//give it a tickle!

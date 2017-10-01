@@ -24,6 +24,7 @@ struct abstract_syntax_semilattice {
 	std::list<std::string> warnings;
 	uint64_t variation_count() const;
 	std::set<permutation> const & lookup(match const & m) const;
+	std::vector<ast_node> build_tree(match const & m) const;
 	abstract_syntax_tree tree() const; // throws if variation_count() > 1
 };
 

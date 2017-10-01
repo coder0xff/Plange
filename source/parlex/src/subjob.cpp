@@ -28,14 +28,16 @@ subjob::~subjob() {
 	//DBG("destructing subjob b:", documentPosition, " m:", machine);
 }
 
-void subjob::start() { {
-		std::unique_lock<std::mutex> lock(mutex);
-		contexts.emplace_front(*this, nullptr, document_position, std::optional<match>(), nullptr);
-	}
+void subjob::start() {
 	machine.start(*this, document_position);
-	end_dependency(); //reference code B
+	finish_creation();
 }
 
+context const & subjob::construct_initial_context(int documentPosition) {
+	std::unique_lock<std::mutex> lock(mutex);
+	auto i = contexts.emplace_front(*this, nullptr, documentPosition, std::optional<match>(), nullptr);
+	return *i;
+}
 
 context const & subjob::construct_stepped_context(context const* const prior, match const & fromTransition, behavior::leaf const * leaf) {
 	std::unique_lock<std::mutex> lock(mutex);
@@ -47,7 +49,7 @@ void subjob::on(context const & c, recognizer const & r, int nextDfaState, behav
 	if (c.currentDocumentPosition >= c.owner.owner.document.length()) {
 		return;
 	}
-	increment_lifetime(); //reference code C
+	begin_subscription_reference();
 	owner.connect(match_class(r, c.currentDocumentPosition), c, nextDfaState, leaf);
 }
 
@@ -68,6 +70,12 @@ void subjob::accept(context const & c) {
 	}
 }
 
+void subjob::increment_lifetime() {
+	int temp = ++lifetimeCounter;
+	throw_assert(temp > 1);
+	//DBG("increment_lifetime m:", machine, " b:", documentPosition, " r:", temp);
+}
+
 void subjob::decrement_lifetime() {
 	int temp = --lifetimeCounter;
 	//DBG("decrement_lifetime m:", machine, " b:", documentPosition, " r:", temp);
@@ -78,20 +86,26 @@ void subjob::decrement_lifetime() {
 	terminate();
 }
 
-void subjob::end_dependency() {
-	//DBG("end_dependency m:", machine, " b:", documentPosition);
-	decrement_lifetime();
-}
-
 void subjob::finish_creation() {
+	//corresponds with the constructor's setting of lifetimeCounter to 1
 	//DBG("finish_creation m:", machine, " b:", documentPosition);
 	decrement_lifetime();
 }
 
-void subjob::increment_lifetime() {
-	int temp = ++lifetimeCounter;
-	throw_assert(temp > 1);
-	//DBG("increment_lifetime m:", machine, " b:", documentPosition, " r:", temp);
+void subjob::begin_work_queue_reference() {
+	increment_lifetime();
+}
+
+void subjob::end_work_queue_reference() {
+	decrement_lifetime();
+}
+
+void subjob::begin_subscription_reference() {
+	increment_lifetime();
+}
+
+void subjob::end_subscription_reference() {
+	decrement_lifetime();
 }
 
 void subjob::flush() {

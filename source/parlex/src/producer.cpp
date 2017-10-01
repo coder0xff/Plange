@@ -34,7 +34,6 @@ void producer::do_events() {
 			auto & match = matches[subscription.next_index];
 			subscription.next_index++;
 			context const & next = targetSubjob.construct_stepped_context(&subscription.c, match, subscription.l);
-			targetSubjob.increment_lifetime(); //reference code A - the target may not halt until this is handled
 			parser.schedule(next, subscription.next_dfa_state);
 		}
 	}
@@ -44,7 +43,7 @@ void producer::do_events() {
 		lock.unlock();
 		for (subscription & subscription : temp) {
 			subjob & targetSubjob = subscription.c.owner;
-			targetSubjob.decrement_lifetime(); //reference code C
+			targetSubjob.end_subscription_reference();
 		}
 	}
 }

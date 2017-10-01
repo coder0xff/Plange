@@ -142,6 +142,18 @@ std::set<permutation> const & abstract_syntax_semilattice::lookup(match const & 
 	return i->second;
 }
 
+std::vector<ast_node> abstract_syntax_semilattice::build_tree(match const & m) const {
+	std::vector<ast_node> results;
+	std::set<permutation> const & ps = permutations.find(m)->second;
+	if (!ps.empty()) {
+		permutation const & p = *ps.begin();
+		for (transition const & t : p) {
+			results.emplace_back(t, build_tree(t), t.l);
+		}
+	}
+	return results;
+}
+
 abstract_syntax_tree abstract_syntax_semilattice::tree() const {
 	if (!is_rooted()) {
 		throw std::runtime_error("The document could not be parsed.");
@@ -149,24 +161,7 @@ abstract_syntax_tree abstract_syntax_semilattice::tree() const {
 	if (variation_count() > 1) {
 		throw std::runtime_error("The document is ambiguous.");
 	}
-	abstract_syntax_tree result;
-	std::queue<std::pair<ast_node *, transition const *>> q;
-	q.emplace(&result, &root);
-	while (q.size() > 0) {
-		auto pair = q.front();
-		q.pop();
-		ast_node & nodeRef = *pair.first;
-		transition const & transRef = *pair.second;
-		nodeRef.document_position = transRef.document_position;
-		nodeRef.consumed_character_count = transRef.consumed_character_count;
-		nodeRef.leaf = transRef.l;
-		permutation const & p = *lookup(transRef).begin();
-		nodeRef.children.resize(p.size());
-		for (size_t i = 0; i < p.size(); ++i) {
-			q.emplace(&nodeRef.children[i], &p[i]);
-		}
-	}
-	return result;
+	return ast_node(root, build_tree(root), nullptr);
 }
 
 } // namespace details

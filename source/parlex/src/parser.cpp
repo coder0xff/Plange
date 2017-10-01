@@ -33,7 +33,7 @@ void parser::start_workers(int threadCount) {
 					update_progress(c);
 					//INF("thread ", threadCount, " executing DFA state");	
 					c.owner.machine.process(c, nextDfaState);
-					c.owner.end_dependency(); //reference code A
+					c.owner.end_work_queue_reference();
 					if (--activeCount == 0) {
 						halt_cv.notify_one();
 					}
@@ -101,7 +101,7 @@ abstract_syntax_semilattice parser::single_thread_parse(grammar_base const & g, 
 			update_progress(c);	
 			//INF("thread ", threadCount, " executing DFA state");
 			c.owner.machine.process(c, nextDfaState);
-			c.owner.end_dependency(); //reference code A
+			c.owner.end_work_queue_reference();
 			--activeCount;
 		}
 		throw_assert(activeCount == 0);
@@ -153,6 +153,7 @@ abstract_syntax_semilattice parser::parse(grammar_base const & g, std::u32string
 
 void parser::schedule(context const & c, int nextDfaState) {
 	//DBG("scheduling m: ", c.owner().machine.id, " b:", c.owner().documentPosition, " s:", nextDfaState, " p:", c.current_document_position());
+	c.owner.begin_work_queue_reference();
 	++activeCount;
 	std::unique_lock<std::mutex> lock(mutex);
 	work.emplace(&c, nextDfaState);

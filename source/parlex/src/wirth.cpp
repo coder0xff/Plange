@@ -15,37 +15,37 @@ namespace details {
 erased<node> wirth_t::process_factor(std::u32string const & document, ast_node const & factor) const {
 	auto i = factor.children.begin();
 	std::string tag;
-	if (&i->leaf->r == &dollarSign) {
+	if (&i->r == &dollarSign) {
 		++i;
-		if (&i->leaf->r == &identifierDfa) {
+		if (&i->r == &identifierDfa) {
 			tag = tolower(to_utf8(document.substr(i->document_position, i->consumed_character_count)));
-		} else if (&i->leaf->r == &builtins().c_string) {
+		} else if (&i->r == &builtins().c_string) {
 			tag = to_utf8(builtins().c_string.extract(document, *i));
 		} else {
 			throw;
 		}
 	}
 	
-	if (&i->leaf->r == &tagDfa) {
+	if (&i->r == &tagDfa) {
 		ast_node const & j = i->children[1];
 		++i;
-		throw_assert(&j.leaf->r == &identifierDfa);
+		throw_assert(&j.r == &identifierDfa);
 		tag = to_utf8(document.substr(j.document_position, j.consumed_character_count));
 	}
 
 	std::unique_ptr<erased<node>> result;
 	auto set = [&result](erased<node> const & node) { result.reset(new erased<details::node>(node)); };
-	if (&i->leaf->r == &identifierDfa) {
+	if (&i->r == &identifierDfa) {
 		std::string name = to_utf8(document.substr(i->document_position, i->consumed_character_count));
 		set(reference(name));
-	} else if (&i->leaf->r == &builtins().c_string) {
+	} else if (&i->r == &builtins().c_string) {
 		std::u32string text = builtins().c_string.extract(document, *i);
 		set(literal(text));
-	} else if (&i->leaf->r == &parentheticalDfa) {
+	} else if (&i->r == &parentheticalDfa) {
 		std::vector<ast_node> const & q = i->children;
 		auto j = q.begin();
-		auto parenthetical_type = &j->leaf->r;
-		while (&j->leaf->r != &expressionDfa) {
+		auto parenthetical_type = &j->r;
+		while (&j->r != &expressionDfa) {
 			++j;
 		}
 		if (parenthetical_type == &openSquare) {
@@ -71,7 +71,7 @@ erased<node> wirth_t::process_term(std::u32string const & document, ast_node con
 	std::vector<ast_node const *> factors;
 
 	for (ast_node const & entry : term.children) {
-		if (&entry.leaf->r == &factorDfa) {
+		if (&entry.r == &factorDfa) {
 			factors.push_back(&entry);
 		}
 	}
@@ -90,7 +90,7 @@ erased<node> wirth_t::process_expression(std::u32string const & document, ast_no
 
 	std::vector<ast_node> const & p = expression.children;
 	for (ast_node const & entry : p) {
-		if (&entry.leaf->r == &termDfa) {
+		if (&entry.r == &termDfa) {
 			terms.push_back(&entry);
 		}
 	}
@@ -126,7 +126,7 @@ builder wirth_t::load_grammar(std::string const & rootId, std::map<std::string, 
 		if (!res.second) {
 			throw std::runtime_error(("duplicate reference ID " + id).c_str());
 		}
-		std::cout << "\n" << id << "\n";
+		//std::cout << "\n" << id << "\n"; //todo: ensure debug code is commented out
 		result.productions.emplace_back(id, compile_expression(definition.source), definition.assoc, definition.filter, definition.precedences);
 	}
 	return result;
@@ -139,10 +139,10 @@ builder wirth_t::load_grammar(std::string const & rootId, std::u32string const &
 	abstract_syntax_tree ast = assl.tree();
 	std::set<std::u32string> names;
 	std::map<std::string, production> definitions;
-	//std::string check = ast.to_dot();
+	//std::string check = ast.to_dot(); //todo: make sure debug code is commented out
 	std::vector<ast_node> const & top = ast.children;
 	for (ast_node const & entry : top) {
-		if (&entry.leaf->r == &productionDfa) {
+		if (&entry.r == &productionDfa) {
 			ast_node const & namePart = entry.children[0];
 			std::u32string const u32Name = document.substr(namePart.document_position, namePart.consumed_character_count);
 			std::string const name = to_utf8(u32Name);
@@ -152,7 +152,7 @@ builder wirth_t::load_grammar(std::string const & rootId, std::u32string const &
 			}
 			std::u32string source;
 			for (ast_node const & entry2 : entry.children) {
-				if (&entry2.leaf->r == &expressionDfa) {
+				if (&entry2.r == &expressionDfa) {
 					source = document.substr(entry2.document_position, entry2.consumed_character_count);
 					break;
 				}
@@ -268,7 +268,7 @@ wirth_t::wirth_t() : grammar(generate_wirth()),
 
 erased<node> wirth_t::process_production(std::u32string const & document, ast_node const & production) const {
 	for (ast_node const & entry : production.children) {
-		if (&entry.leaf->r == &expressionDfa) {
+		if (&entry.r == &expressionDfa) {
 			return process_expression(document, entry);
 		}
 	}

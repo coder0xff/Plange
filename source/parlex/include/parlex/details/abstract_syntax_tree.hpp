@@ -6,12 +6,11 @@
 
 namespace parlex::details {
 	
-	struct ast_node {
-		std::vector<ast_node> children;
+	struct ast_node : match {
+		std::vector<ast_node> const children;
 		behavior::leaf const * leaf;
-		size_t document_position;
-		size_t consumed_character_count;
 
+		ast_node(match const &, std::vector<ast_node> const & children, behavior::leaf const * leaf);
 		std::string to_dot() const;
 	};
 

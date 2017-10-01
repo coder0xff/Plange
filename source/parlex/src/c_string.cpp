@@ -93,7 +93,7 @@ void c_string_t::extract_step(std::u32string const & document, std::u32string * 
 }
 
 std::u32string c_string_t::extract(std::u32string const & document, ast_node const & n) const {
-	throw_assert(&n.leaf->r == this);
+	throw_assert(&n.r == this);
 	std::u32string result;
 	result.reserve(n.children.size());
 	auto i = n.children.begin();
@@ -101,7 +101,7 @@ std::u32string c_string_t::extract(std::u32string const & document, ast_node con
 	auto end = n.children.end();
 	--end; //most to closing double quote
 	for (; i != end; ++i) {
-		extract_step(document, &result, &i->leaf->r, i->document_position, i->consumed_character_count);
+		extract_step(document, &result, &i->r, i->document_position, i->consumed_character_count);
 	}
 	return result;
 }
