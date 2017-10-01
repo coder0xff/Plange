@@ -29,11 +29,11 @@ subjob::~subjob() {
 }
 
 void subjob::start() {
-	machine.start(*this, document_position);
+	machine.start(construct_start_state_context(document_position));
 	finish_creation();
 }
 
-context const & subjob::construct_initial_context(int documentPosition) {
+context const & subjob::construct_start_state_context(int documentPosition) {
 	std::unique_lock<std::mutex> lock(mutex);
 	auto i = contexts.emplace_front(*this, nullptr, documentPosition, std::optional<match>(), nullptr);
 	return *i;

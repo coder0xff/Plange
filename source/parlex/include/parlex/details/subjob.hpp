@@ -33,7 +33,7 @@ public:
 	void on(context const & c, recognizer const & r, int nextDfaState, behavior::leaf const * leaf);
 	void accept(context const & c);
 	// for special use by the parser to seed the queue
-	context const & construct_initial_context(int documentPosition);
+	context const & construct_start_state_context(int documentPosition);
 	void finish_creation();
 	void begin_work_queue_reference();
 	void end_work_queue_reference();

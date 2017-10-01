@@ -33,7 +33,7 @@ protected:
 	friend class subjob;
 
 	state_machine_base(std::string const & id);
-	void start(subjob & sj, size_t documentPosition) const;
+	void start(context const & c) const;
 	virtual void process(context const & c, size_t dfaState) const = 0;
 	static void on(context const & c, recognizer const & r, int nextDfaState, behavior::leaf const * leaf);
 	static void accept(context const & c);
