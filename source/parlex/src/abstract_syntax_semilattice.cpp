@@ -9,7 +9,7 @@
 namespace parlex {
 namespace details {
 
-abstract_syntax_semilattice::abstract_syntax_semilattice(match root) : root(root) {
+abstract_syntax_semilattice::abstract_syntax_semilattice(transition root) : root(root) {
 }
 
 bool abstract_syntax_semilattice::is_rooted() const {
@@ -133,7 +133,7 @@ uint64_t abstract_syntax_semilattice::variation_count() const {
 }
 
 
-std::set<permutation> const & abstract_syntax_semilattice::find_all(match const & m) const
+std::set<permutation> const & abstract_syntax_semilattice::lookup(match const & m) const
 {
 	auto i = permutations.find(m);
 	if (i == permutations.end()) {
@@ -142,15 +142,28 @@ std::set<permutation> const & abstract_syntax_semilattice::find_all(match const 
 	return i->second;
 }
 
-
-permutation const & abstract_syntax_semilattice::find(match const & m) const
-{
-	auto const & all = find_all(m);
-	auto i = all.begin();
-	if (i == all.end()) {
-		throw std::runtime_error("permutations not found");
+abstract_syntax_tree abstract_syntax_semilattice::tree() const {
+	if (variation_count() > 1) {
+		throw std::runtime_error("The document is ambiguous.");
 	}
-	return *i;
+	abstract_syntax_tree result;
+	std::queue<std::pair<ast_node *, transition const *>> q;
+	q.emplace(&result, &root);
+	while (q.size() > 0) {
+		auto pair = q.front();
+		q.pop();
+		ast_node & nodeRef = *pair.first;
+		transition const & transRef = *pair.second;
+		nodeRef.document_position = transRef.document_position;
+		nodeRef.consumer_character_count = transRef.consumed_character_count;
+		nodeRef.leaf = transRef.l;
+		permutation const & p = *lookup(transRef).begin();
+		nodeRef.children.resize(p.size());
+		for (int i = 0; i < p.size(); ++i) {
+			q.emplace(&nodeRef.children[i], &p[i]);
+		}
+	}
+	return result;
 }
 
 } // namespace details

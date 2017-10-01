@@ -14,6 +14,7 @@
 #include "parlex/details/recognizer.hpp"
 #include <variant>
 #include "permutation.hpp"
+#include <unordered_map>
 
 namespace parlex {
 namespace details {
@@ -33,7 +34,12 @@ public:
 	children_t const& get_children() const;
 	virtual nfa2 to_nfa() const = 0;
 	std::string to_dot() const;
-	nfa2 compile() const;
+	nfa2 compile();
+	void compute_leaf_paths();
+	node const & operator()(int index) const;
+	virtual bool is_leaf() const;
+	bool can_follow(leaf const * l) const;
+	node const * follow(leaf const * l) const;
 protected:
 	node() = default;
 
@@ -42,6 +48,8 @@ protected:
 
 	children_t children;
 	node * parent;
+	// a table from all descendant leafs, to the child leaf containing it
+	std::unordered_map<leaf const *, node const *> leaf_paths;
 };
 
 class leaf final : public node {
@@ -49,6 +57,7 @@ public:
 	explicit leaf(recognizer const & r);
 	recognizer const & r;
 	std::string const & id;
+	bool is_leaf() const override;
 private:
 	nfa2 to_nfa() const override;
 };

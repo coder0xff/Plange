@@ -7,14 +7,15 @@
 
 #include "parlex/details/match.hpp"
 #include "parlex/details/permutation.hpp"
+#include "abstract_syntax_tree.hpp"
 
 namespace parlex {
 namespace details {
 
 struct abstract_syntax_semilattice {
-	explicit abstract_syntax_semilattice(match root);
+	explicit abstract_syntax_semilattice(transition root);
 	std::map<match, std::set<permutation>> permutations;
-	match root;
+	transition root;
 	bool is_rooted() const;
 	void cut(std::set<match> const & matches);
 	void prune_detached();
@@ -22,8 +23,8 @@ struct abstract_syntax_semilattice {
 	std::string to_concrete_dot(std::u32string const & document);
 	std::list<std::string> warnings;
 	uint64_t variation_count() const;
-	std::set<permutation> const & find_all(match const & m) const;
-	permutation const & find(match const & m) const;
+	std::set<permutation> const & lookup(match const & m) const;
+	abstract_syntax_tree tree() const; // throws if variation_count() > 1
 };
 
 } // namespace details

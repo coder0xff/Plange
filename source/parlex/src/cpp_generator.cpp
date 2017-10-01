@@ -398,7 +398,7 @@ static erased<details::node> flatten_aggregate(details::aggregate const & aggreg
 		ss << "\t) : ";
 		ss << generate_struct_constructor_initializers(flattenedDataMembers);
 		ss << " {}\n\n";
-		ss << "\tstatic std::optional<" << aggregate.tag << "> build(std::vector<parlex::details::match>::iterator & i);\n\n";
+		ss << "\tstatic std::optional<" << aggregate.tag << "> build(ast_node const & n);\n\n";
 	}
 	ss << "}";
 

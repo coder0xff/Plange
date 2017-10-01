@@ -2,6 +2,7 @@ add_subdirectory(parlex_test)
 
 set (SOURCES
 	"src/abstract_syntax_semilattice.cpp"
+	"src/abstract_syntax_tree.cpp"
 	"src/behavior.cpp"
 	"src/builder.cpp"
 	"src/builtins.cpp"
@@ -38,12 +39,13 @@ set (HEADERS
 
 set (DETAILS_HEADERS
 	"include/parlex/details/abstract_syntax_semilattice.hpp"
+	"include/parlex/details/abstract_syntax_tree.hpp"
 	"include/parlex/details/any_character.hpp"
 	"include/parlex/details/behavior.hpp"
 	"include/parlex/details/builtins.hpp"
 	"include/parlex/details/c_string.hpp"
-	"include/parlex/details/concrete_syntax_tree.hpp"
 	"include/parlex/details/context.hpp"
+	"include/parlex/details/document.hpp"
 	"include/parlex/details/grammar.hpp"
 	"include/parlex/details/grammar_base.hpp"
 	"include/parlex/details/job.hpp"
