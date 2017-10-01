@@ -27,6 +27,7 @@ namespace mpl {
 
 	template<typename TList>
 	struct fold_v {
+		//TFunctor::operator() : (TAccumulator accumulator) * TElement -> (TAccumulator newAccumulator)
 		template<typename TFunctor, typename TInitial>
 		static auto invoke(TFunctor && functor, TInitial const & initial) {
 			return details::fold_v::impl<TFunctor, TInitial, TList>::impl_f(std::forward<TFunctor>(functor), initial);

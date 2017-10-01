@@ -1,12 +1,12 @@
-#ifndef INCLUDING_MPL_PUSH_VALUE_HPP
-#define INCLUDING_MPL_PUSH_VALUE_HPP
+#ifndef INCLUDING_MPL_PUSH_V_HPP
+#define INCLUDING_MPL_PUSH_V_HPP
 
 #include <tuple>
 
 #include "mpl_utils.hpp"
 
 namespace mpl {
-	namespace details_push_value {
+	namespace details::push_v {
 
 		template<typename TListHead, typename TListTail, size_t... Indices>
 		auto impl(TListHead && element, TListTail list, std::index_sequence<Indices...>) {
@@ -16,7 +16,7 @@ namespace mpl {
 	}
 
 	template<typename THead, typename... TTailElements>
-	std::tuple<THead, TTailElements...> impl(THead && element, std::tuple<TTailElements...> list) {
+	constexpr std::tuple<THead, TTailElements...> push_v(THead && element, std::tuple<TTailElements...> list) {
 		return impl(
 			std::forward<THead>(element),
 			std::forward<std::tuple<TTailElements...>>(list),
@@ -26,7 +26,7 @@ namespace mpl {
 
 }
 
-#define INCLUDED_MPL_PUSH_VALUE_HPP
+#define INCLUDED_MPL_PUSH_V_HPP
 #elif !defined(INCLUDED_MPL_PUSH_VALUE_HPP)
 #	error circular inclusion
 #endif

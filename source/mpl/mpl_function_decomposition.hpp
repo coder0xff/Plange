@@ -1,32 +1,39 @@
 #ifndef INCLUDING_MPL_FUNCTION_DECOMPOSITION_HPP
 #define INCLUDING_MPL_FUNCTION_DECOMPOSITION_HPP
 
+#include <tuple>
+
 namespace mpl {
 
-	namespace details_function_decomposition {
+	namespace details::function_decomposition {
 
-		template<typename TClass, typename TFunc>
+		template<typename TFunc>
 		struct impl {};
 
-		template<typename TClass, typename TReturn, typename TArgs...>
+		template<typename TClass, typename TReturn, typename... TArgs>
 		struct impl<TReturn (TClass::*)(TArgs...)> {
 			using return_type = TReturn;
 			using argument_types = std::tuple<TArgs...>;
-		}
+		};
 
-		template<typename TReturn, typename TArgs...>
+		template<typename TReturn, typename... TArgs>
 		struct impl<TReturn (*)(TArgs...)> {
 			using return_type = TReturn;
-			using argument_types = std::tuple<Targs...>;
-		}
+			using argument_types = std::tuple<TArgs...>;
+		};
 		
+		template<typename TReturn, typename... TArgs>
+		struct impl<TReturn (TArgs...)> {
+			using return_type = TReturn;
+			using argument_types = std::tuple<TArgs...>;
+		};
 	}
 
 	template<typename T>
-	using function_return = impl<T>::return_type;
+	using function_return = typename details::function_decomposition::impl<T>::return_type;
 
 	template<typename T>
-	using function_arguments = impl<T>::argument_types;
+	using function_arguments = typename details::function_decomposition::impl<T>::argument_types;
 }
 
 #define INCLUDED_MPL_FUNCTION_DECOMPOSITION_HPP
