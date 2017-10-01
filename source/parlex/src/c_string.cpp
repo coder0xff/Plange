@@ -62,25 +62,25 @@ std::u32string c_string_t::extract(std::u32string document, match const & m, abs
 				case '\\':
 					result.append(1, c);
 					break;
-				case 97:
+				case 'a':
 					result.append(1, static_cast<char32_t>(7));
 					break;
-				case 98:
+				case 'b':
 					result.append(1, static_cast<char32_t>(8));
 					break;
-				case 102:
+				case 'f':
 					result.append(1, static_cast<char32_t>(12));
 					break;
-				case 110:
+				case 'n':
 					result.append(1, static_cast<char32_t>(10));
 					break;
-				case 114:
+				case 'r':
 					result.append(1, static_cast<char32_t>(13));
 					break;
-				case 116:
+				case 't':
 					result.append(1, static_cast<char32_t>(9));
 					break;
-				case 118:
+				case 'v':
 					result.append(1, static_cast<char32_t>(11));
 					break;
 			}
@@ -109,7 +109,7 @@ c_string_t::content_t::content_t() : terminal("content", 1) {
 }
 
 bool c_string_t::content_t::test(std::u32string const & document, size_t documentPosition) const {
-	return document[documentPosition] != 34 && document[documentPosition] != 92;
+	return document[documentPosition] != '\"' && document[documentPosition] != '\\';
 }
 
 c_string_t::basic_escape_sequence_t::basic_escape_sequence_t() : terminal("basic_escape_sequence", 2) {
@@ -119,7 +119,7 @@ c_string_t::basic_escape_sequence_t::basic_escape_sequence_t() : terminal("basic
 bool c_string_t::basic_escape_sequence_t::test(std::u32string const & document, size_t documentPosition) const {
 	if (documentPosition + 1 >= document.length()) return false;
 	auto const c = document[documentPosition + 1];
-	return document[documentPosition] == 92 && (c == 34 || c == 39 || c == 63 || c == 92 || c == 97 || c == 98 || c == 102 || c == 110 || c == 114 || c == 116 || c == 118);
+	return document[documentPosition] == '\\' && (c == '\"' || c == '\'' || c == '?' || c == '\\' || c == 'a' || c == 'b' || c == 'f' || c == 'n' || c == 'r' || c == 't' || c == 'v');
 }
 
 } //namespace details
