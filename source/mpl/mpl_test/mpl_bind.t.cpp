@@ -4,6 +4,18 @@
 
 #include "../mpl_equals.hpp"
 
+namespace bind_details_test5 {
+	using data = mpl::bind_point<5>;
+	using expected = std::integral_constant<size_t, 6>;
+	using actual = mpl::details::bind::binding_count_folder_impl<std::integral_constant<size_t, 1>, data>::result;
+	static_assert(mpl::equals<actual, expected>, "");
+}
+
+namespace bind_details_test10 {
+	using data = mpl::list<int, mpl::bind_point<0>>;
+	static_assert(mpl::details::bind::binding_count<data> == 1, "");
+}
+
 namespace bind1 {
 	using expected = std::map<int, float>;
 	using binding = mpl::bind<std::map, mpl::list<int, float>>;

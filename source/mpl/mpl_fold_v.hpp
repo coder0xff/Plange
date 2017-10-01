@@ -1,6 +1,8 @@
 #ifndef INCLUDING_MPL_FOLD_V_HPP
 #define INCLUDING_MPL_FOLD_V_HPP
 
+#include <tuple>
+
 namespace mpl {
 
 	namespace details::fold_v {
@@ -27,7 +29,8 @@ namespace mpl {
 
 	template<typename TList>
 	struct fold_v {
-		//TFunctor::operator() : (TAccumulator accumulator) * TElement -> (TAccumulator newAccumulator)
+		//TFunctor::operator() : (TInitial initial) * TElement -> (TResult result)
+		//Note that TResult may not be the same as TInitial, because we are also folding over types.
 		template<typename TFunctor, typename TInitial>
 		static auto invoke(TFunctor && functor, TInitial const & initial) {
 			return details::fold_v::impl<TFunctor, TInitial, TList>::impl_f(std::forward<TFunctor>(functor), initial);

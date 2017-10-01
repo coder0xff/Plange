@@ -43,6 +43,7 @@ set (SOURCES
 )
 
 add_executable(mpl_test ${SOURCES})
-target_link_libraries(mpl_test gtest gtest_main)
+find_package (Threads)
+target_link_libraries(mpl_test gtest gtest_main ${CMAKE_THREAD_LIBS_INIT})
 set_property(TARGET mpl_test PROPERTY CXX_STANDARD 17)
 set_property(TARGET mpl_test PROPERTY CXX_STANDARD_REQUIRED ON)

@@ -1,6 +1,8 @@
 #ifndef INCLUDING_MPL_ANY_HPP
 #define INCLUDING_MPL_ANY_HPP
 
+#include "mpl_list.hpp"
+
 namespace mpl {
 
 	namespace details::any {

@@ -2,20 +2,21 @@
 #define INCLUDING_MPL_BIND_HPP
 #include <tuple>
 
-#include "mpl_map.hpp"
+#include "mpl_any.hpp"
 #include "mpl_apply.hpp"
 #include "mpl_bool.hpp"
 #include "mpl_drop.hpp"
 #include "mpl_flatten.hpp"
 #include "mpl_fold.hpp"
 #include "mpl_list.hpp"
-#include "mpl_any.hpp"
+#include "mpl_map.hpp"
+#include "mpl_utils.hpp"
 
 namespace mpl {
 
-	template<int ArgIndex>
+	template<size_t ArgIndex>
 	struct bind_point {
-		static constexpr int arg_index = ArgIndex;
+		static constexpr size_t arg_index = ArgIndex;
 	};
 
 	struct variadic_bind_point {}; //todo: get variadic bind working
@@ -76,7 +77,9 @@ namespace mpl {
 		struct invoke_impl<TMetaFunction, list<TBindings...>, list<TArgs...>> {
 			using TBindingsList = list<TBindings...>;
 			using TArgsList = list<TArgs...>;
+			//STATIC_PRINT_TYPE(TBindingsList);
 			static constexpr size_t required_argument_count = binding_count<TBindingsList>;
+			//STATIC_PRINT_SIZE_T(required_argument_count);
 			static constexpr size_t argument_count = TArgsList::size;
 			static constexpr size_t variadic_argument_count = argument_count - required_argument_count;
 			static constexpr bool has_variadic_bind_point = mpl::any<is_variadic_bind_point, TBindingsList>;

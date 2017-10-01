@@ -38,7 +38,9 @@ namespace mpl {
 		template<size_t... Offsets>
 		struct apply_impl<std::index_sequence<Offsets...>> {
 			template<typename TFunctor>
-			constexpr auto invoke(TFunctor && functor) { return functor(Offsets); }
+			static constexpr auto invoke(TFunctor && functor) {
+				return functor(Offsets...);
+			}
 		};
 	}
 
@@ -48,6 +50,10 @@ namespace mpl {
 	template<size_t Count, typename TIndices>
 	using drop_indices = decltype(details::indices::drop_indices_impl(std::integral_constant<size_t, Count>(), TIndices()));
 
+	template<typename TIndices, typename TFunctor>
+	constexpr auto apply_indices(TFunctor && functor) {
+		return details::indices::apply_impl<TIndices>::invoke(functor);
+	}
 }
 
 #define INCLUDED_MPL_INDICES_HPP

@@ -5,11 +5,12 @@
 
 #include "../mpl_equals.hpp"
 #include "../mpl_list.hpp"
+#include "../mpl_utils.hpp"
 
 namespace test1 {
 	struct functor {
 		template <typename TAccumulator, typename THead>
-		auto operator()(TAccumulator const & accumulator) {
+		int operator()(TAccumulator const & accumulator) {
 			return accumulator * multiplier + sizeof(THead);
 		}
 
@@ -20,7 +21,7 @@ namespace test1 {
 		functor f;
 		f.multiplier = 2;
 		auto result = mpl::fold_v<mpl::list<int, char>>::invoke(f, 100);
-		static_assert(mpl::equals<decltype(result), unsigned int>, "");
+		static_assert(mpl::equals<decltype(result), int>, "");
 		assert(result == 409); // (100 * 2 + sizeof(int)) * 2 + sizeof(char) == 409
 	}
 }
