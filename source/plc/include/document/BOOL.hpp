@@ -9,19 +9,27 @@
 #include "erased.hpp"
 #include "parlex/details/abstract_syntax_tree.hpp"
 
-#include "_plange_literals.hpp"
+#include "plange_grammar.hpp"
 
 namespace plc {
 
-typedef std::variant<
-	literal_true_t,
-	literal_false_t
-> BOOL_base;
+struct BOOL {
+	enum type {
+		literal_false,
+		literal_true
+	} value;
 
-struct BOOL: BOOL_base {
-	static BOOL build(parlex::details::ast_node const & n);
-	explicit BOOL(BOOL_base const & value) : BOOL_base(value) {}
+	static BOOL build(parlex::details::behavior::node const & b, parlex::details::ast_node const & n) {
+		static ::std::unordered_map<parlex::details::recognizer const *, type> const table {
+			{ &plange_grammar().get_literal("literal_false"), literal_false },
+			{ &plange_grammar().get_literal("literal_true"), literal_true },
+		};
+		return BOOL{ table.find(&n.r)->second };
+	}
 };
+
+
+
 } // namespace plc
 
 

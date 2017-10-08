@@ -9,7 +9,7 @@
 #include "erased.hpp"
 #include "parlex/details/abstract_syntax_tree.hpp"
 
-#include "_plange_literals.hpp"
+#include "plange_grammar.hpp"
 
 namespace plc {
 
@@ -19,11 +19,14 @@ struct EMBEDDED_COMMENT {
 	erased<EMBEDDED_COMMENT_INTERIOR> field_1;
 
 
-	EMBEDDED_COMMENT(
-		erased<EMBEDDED_COMMENT_INTERIOR> const & field_1
-	) : field_1(field_1) {}
+	explicit EMBEDDED_COMMENT(
+		erased<EMBEDDED_COMMENT_INTERIOR> && field_1
+	) : field_1(std::move(field_1)) {}
 
-	static EMBEDDED_COMMENT build(parlex::details::ast_node const & n);
+	EMBEDDED_COMMENT(EMBEDDED_COMMENT const & other) = default;
+	EMBEDDED_COMMENT(EMBEDDED_COMMENT && move) = default;
+
+	static EMBEDDED_COMMENT build(parlex::details::behavior::node const & b, parlex::details::ast_node const & n);
 
 };
 

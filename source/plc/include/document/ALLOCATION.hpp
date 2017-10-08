@@ -9,7 +9,7 @@
 #include "erased.hpp"
 #include "parlex/details/abstract_syntax_tree.hpp"
 
-#include "_plange_literals.hpp"
+#include "plange_grammar.hpp"
 
 namespace plc {
 
@@ -21,12 +21,15 @@ struct ALLOCATION {
 	erased<PARENTHETICAL_INVOCATION> field_2;
 
 
-	ALLOCATION(
-		std::vector<erased<IC>> const & field_1,
-		erased<PARENTHETICAL_INVOCATION> const & field_2
-	) : field_1(field_1), field_2(field_2) {}
+	explicit ALLOCATION(
+		std::vector<erased<IC>> && field_1,
+		erased<PARENTHETICAL_INVOCATION> && field_2
+	) : field_1(std::move(field_1)), field_2(std::move(field_2)) {}
 
-	static ALLOCATION build(parlex::details::ast_node const & n);
+	ALLOCATION(ALLOCATION const & other) = default;
+	ALLOCATION(ALLOCATION && move) = default;
+
+	static ALLOCATION build(parlex::details::behavior::node const & b, parlex::details::ast_node const & n);
 
 };
 

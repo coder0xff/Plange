@@ -9,7 +9,7 @@
 #include "erased.hpp"
 #include "parlex/details/abstract_syntax_tree.hpp"
 
-#include "_plange_literals.hpp"
+#include "plange_grammar.hpp"
 
 namespace plc {
 
@@ -21,12 +21,15 @@ struct POST_DEC {
 	std::vector<erased<IC>> field_2;
 
 
-	POST_DEC(
-		erased<EXPRESSION> const & field_1,
-		std::vector<erased<IC>> const & field_2
-	) : field_1(field_1), field_2(field_2) {}
+	explicit POST_DEC(
+		erased<EXPRESSION> && field_1,
+		std::vector<erased<IC>> && field_2
+	) : field_1(std::move(field_1)), field_2(std::move(field_2)) {}
 
-	static POST_DEC build(parlex::details::ast_node const & n);
+	POST_DEC(POST_DEC const & other) = default;
+	POST_DEC(POST_DEC && move) = default;
+
+	static POST_DEC build(parlex::details::behavior::node const & b, parlex::details::ast_node const & n);
 
 };
 

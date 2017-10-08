@@ -9,7 +9,7 @@
 #include "erased.hpp"
 #include "parlex/details/abstract_syntax_tree.hpp"
 
-#include "_plange_literals.hpp"
+#include "plange_grammar.hpp"
 
 namespace plc {
 
@@ -18,36 +18,60 @@ struct GREATER_CHAIN_LOOP;
 struct IC;
 
 struct GREATER_CHAIN_LOOP {
-	std::variant<
-		literal_0x3D_t,
-		literal_0x3E_t,
-		literal_0x3D0x3E_t,
-		literal_0xE20x890xA5_t
-	> field_1;
+	struct field_1_t {
+		enum type {
+			literal_0x3D,
+			literal_0x3D0x3E,
+			literal_0x3E,
+			literal_0xE20x890xA5
+		} value;
+	
+		static field_1_t build(parlex::details::behavior::node const & b, parlex::details::ast_node const & n) {
+			static ::std::unordered_map<parlex::details::recognizer const *, type> const table {
+				{ &plange_grammar().get_literal("literal_0x3D"), literal_0x3D },
+				{ &plange_grammar().get_literal("literal_0x3D0x3E"), literal_0x3D0x3E },
+				{ &plange_grammar().get_literal("literal_0x3E"), literal_0x3E },
+				{ &plange_grammar().get_literal("literal_0xE20x890xA5"), literal_0xE20x890xA5 },
+			};
+			return field_1_t{ table.find(&n.r)->second };
+		}
+	};
+
+
+	struct field_3_t_1_t {
+		std::vector<erased<IC>> field_1;
+		erased<GREATER_CHAIN_LOOP> greater_chain_loop;
+	
+	
+		explicit field_3_t_1_t(
+			std::vector<erased<IC>> && field_1,
+			erased<GREATER_CHAIN_LOOP> && greater_chain_loop
+		) : field_1(std::move(field_1)), greater_chain_loop(std::move(greater_chain_loop)) {}
+	
+		field_3_t_1_t(field_3_t_1_t const & other) = default;
+		field_3_t_1_t(field_3_t_1_t && move) = default;
+	
+		static field_3_t_1_t build(parlex::details::behavior::node const & b, parlex::details::ast_node const & n);
+	
+	};
+
+	field_1_t field_1;
 	std::vector<erased<IC>> field_2;
 	erased<EXPRESSION> expression;
-	std::optional<std::tuple<
-		std::vector<erased<IC>>,
-		erased<GREATER_CHAIN_LOOP>
-	>> field_3;
+	std::optional<field_3_t_1_t> field_3;
 
 
-	GREATER_CHAIN_LOOP(
-		std::variant<
-			literal_0x3D_t,
-			literal_0x3E_t,
-			literal_0x3D0x3E_t,
-			literal_0xE20x890xA5_t
-		> const & field_1,
-		std::vector<erased<IC>> const & field_2,
-		erased<EXPRESSION> const & expression,
-		std::optional<std::tuple<
-			std::vector<erased<IC>>,
-			erased<GREATER_CHAIN_LOOP>
-		>> const & field_3
-	) : field_1(field_1), field_2(field_2), expression(expression), field_3(field_3) {}
+	explicit GREATER_CHAIN_LOOP(
+		field_1_t && field_1,
+		std::vector<erased<IC>> && field_2,
+		erased<EXPRESSION> && expression,
+		std::optional<field_3_t_1_t> && field_3
+	) : field_1(std::move(field_1)), field_2(std::move(field_2)), expression(std::move(expression)), field_3(std::move(field_3)) {}
 
-	static GREATER_CHAIN_LOOP build(parlex::details::ast_node const & n);
+	GREATER_CHAIN_LOOP(GREATER_CHAIN_LOOP const & other) = default;
+	GREATER_CHAIN_LOOP(GREATER_CHAIN_LOOP && move) = default;
+
+	static GREATER_CHAIN_LOOP build(parlex::details::behavior::node const & b, parlex::details::ast_node const & n);
 
 };
 

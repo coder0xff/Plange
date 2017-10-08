@@ -9,7 +9,7 @@
 #include "erased.hpp"
 #include "parlex/details/abstract_syntax_tree.hpp"
 
-#include "_plange_literals.hpp"
+#include "plange_grammar.hpp"
 
 namespace plc {
 
@@ -21,12 +21,15 @@ struct BIT_NOT {
 	erased<EXPRESSION> field_2;
 
 
-	BIT_NOT(
-		std::vector<erased<IC>> const & field_1,
-		erased<EXPRESSION> const & field_2
-	) : field_1(field_1), field_2(field_2) {}
+	explicit BIT_NOT(
+		std::vector<erased<IC>> && field_1,
+		erased<EXPRESSION> && field_2
+	) : field_1(std::move(field_1)), field_2(std::move(field_2)) {}
 
-	static BIT_NOT build(parlex::details::ast_node const & n);
+	BIT_NOT(BIT_NOT const & other) = default;
+	BIT_NOT(BIT_NOT && move) = default;
+
+	static BIT_NOT build(parlex::details::behavior::node const & b, parlex::details::ast_node const & n);
 
 };
 

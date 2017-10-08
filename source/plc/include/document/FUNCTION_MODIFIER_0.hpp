@@ -9,7 +9,7 @@
 #include "erased.hpp"
 #include "parlex/details/abstract_syntax_tree.hpp"
 
-#include "_plange_literals.hpp"
+#include "plange_grammar.hpp"
 
 namespace plc {
 
@@ -22,7 +22,7 @@ typedef std::variant<
 > FUNCTION_MODIFIER_0_base;
 
 struct FUNCTION_MODIFIER_0: FUNCTION_MODIFIER_0_base {
-	static FUNCTION_MODIFIER_0 build(parlex::details::ast_node const & n);
+	static FUNCTION_MODIFIER_0 build(parlex::details::behavior::node const & b, parlex::details::ast_node const & n);
 	explicit FUNCTION_MODIFIER_0(FUNCTION_MODIFIER_0_base const & value) : FUNCTION_MODIFIER_0_base(value) {}
 };
 } // namespace plc

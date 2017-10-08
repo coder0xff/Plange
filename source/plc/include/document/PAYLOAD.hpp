@@ -9,11 +9,13 @@
 #include "erased.hpp"
 #include "parlex/details/abstract_syntax_tree.hpp"
 
-#include "_plange_literals.hpp"
+#include "plange_grammar.hpp"
 
 namespace plc {
 
-struct PAYLOAD {};
+struct PAYLOAD {
+	static PAYLOAD build(parlex::details::behavior::node const & b, parlex::details::ast_node const & n) { return PAYLOAD(); }
+};
 } // namespace plc
 
 

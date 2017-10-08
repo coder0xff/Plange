@@ -12,7 +12,7 @@ class compiler
 	public:
 		compiler();
 		void inject_c_std_lib(module & m);
-		static parlex::details::abstract_syntax_graph parse(std::u32string const & source);
+		static parlex::details::abstract_syntax_semilattice parse(std::u32string const & source);
 	private:
 		source_code c_std_lib_source;
 	};

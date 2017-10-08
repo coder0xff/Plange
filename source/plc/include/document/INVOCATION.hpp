@@ -9,7 +9,7 @@
 #include "erased.hpp"
 #include "parlex/details/abstract_syntax_tree.hpp"
 
-#include "_plange_literals.hpp"
+#include "plange_grammar.hpp"
 
 namespace plc {
 
@@ -24,7 +24,7 @@ typedef std::variant<
 > INVOCATION_base;
 
 struct INVOCATION: INVOCATION_base {
-	static INVOCATION build(parlex::details::ast_node const & n);
+	static INVOCATION build(parlex::details::behavior::node const & b, parlex::details::ast_node const & n);
 	explicit INVOCATION(INVOCATION_base const & value) : INVOCATION_base(value) {}
 };
 } // namespace plc

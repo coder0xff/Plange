@@ -9,26 +9,41 @@
 #include "erased.hpp"
 #include "parlex/details/abstract_syntax_tree.hpp"
 
-#include "_plange_literals.hpp"
+#include "plange_grammar.hpp"
 
 namespace plc {
 
-typedef std::variant<
-	literal_1_t,
-	literal_2_t,
-	literal_3_t,
-	literal_4_t,
-	literal_5_t,
-	literal_6_t,
-	literal_7_t,
-	literal_8_t,
-	literal_9_t
-> NON_ZERO_DECIMAL_DIGIT_base;
+struct NON_ZERO_DECIMAL_DIGIT {
+	enum type {
+		literal_1,
+		literal_2,
+		literal_3,
+		literal_4,
+		literal_5,
+		literal_6,
+		literal_7,
+		literal_8,
+		literal_9
+	} value;
 
-struct NON_ZERO_DECIMAL_DIGIT: NON_ZERO_DECIMAL_DIGIT_base {
-	static NON_ZERO_DECIMAL_DIGIT build(parlex::details::ast_node const & n);
-	explicit NON_ZERO_DECIMAL_DIGIT(NON_ZERO_DECIMAL_DIGIT_base const & value) : NON_ZERO_DECIMAL_DIGIT_base(value) {}
+	static NON_ZERO_DECIMAL_DIGIT build(parlex::details::behavior::node const & b, parlex::details::ast_node const & n) {
+		static ::std::unordered_map<parlex::details::recognizer const *, type> const table {
+			{ &plange_grammar().get_literal("literal_1"), literal_1 },
+			{ &plange_grammar().get_literal("literal_2"), literal_2 },
+			{ &plange_grammar().get_literal("literal_3"), literal_3 },
+			{ &plange_grammar().get_literal("literal_4"), literal_4 },
+			{ &plange_grammar().get_literal("literal_5"), literal_5 },
+			{ &plange_grammar().get_literal("literal_6"), literal_6 },
+			{ &plange_grammar().get_literal("literal_7"), literal_7 },
+			{ &plange_grammar().get_literal("literal_8"), literal_8 },
+			{ &plange_grammar().get_literal("literal_9"), literal_9 },
+		};
+		return NON_ZERO_DECIMAL_DIGIT{ table.find(&n.r)->second };
+	}
 };
+
+
+
 } // namespace plc
 
 

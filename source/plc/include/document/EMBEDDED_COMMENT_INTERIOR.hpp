@@ -9,22 +9,35 @@
 #include "erased.hpp"
 #include "parlex/details/abstract_syntax_tree.hpp"
 
-#include "_plange_literals.hpp"
+#include "plange_grammar.hpp"
 
 namespace plc {
 
 struct EMBEDDED_COMMENT_INTERIOR;
 struct PAYLOAD;
 
+struct EMBEDDED_COMMENT_INTERIOR_2_t {
+	erased<EMBEDDED_COMMENT_INTERIOR> field_1;
+
+
+	explicit EMBEDDED_COMMENT_INTERIOR_2_t(
+		erased<EMBEDDED_COMMENT_INTERIOR> && field_1
+	) : field_1(std::move(field_1)) {}
+
+	EMBEDDED_COMMENT_INTERIOR_2_t(EMBEDDED_COMMENT_INTERIOR_2_t const & other) = default;
+	EMBEDDED_COMMENT_INTERIOR_2_t(EMBEDDED_COMMENT_INTERIOR_2_t && move) = default;
+
+	static EMBEDDED_COMMENT_INTERIOR_2_t build(parlex::details::behavior::node const & b, parlex::details::ast_node const & n);
+
+};
+
 typedef std::variant<
 	erased<PAYLOAD>,
-	std::tuple<
-		erased<EMBEDDED_COMMENT_INTERIOR>
-	>
+	EMBEDDED_COMMENT_INTERIOR_2_t
 > EMBEDDED_COMMENT_INTERIOR_base;
 
 struct EMBEDDED_COMMENT_INTERIOR: EMBEDDED_COMMENT_INTERIOR_base {
-	static EMBEDDED_COMMENT_INTERIOR build(parlex::details::ast_node const & n);
+	static EMBEDDED_COMMENT_INTERIOR build(parlex::details::behavior::node const & b, parlex::details::ast_node const & n);
 	explicit EMBEDDED_COMMENT_INTERIOR(EMBEDDED_COMMENT_INTERIOR_base const & value) : EMBEDDED_COMMENT_INTERIOR_base(value) {}
 };
 } // namespace plc

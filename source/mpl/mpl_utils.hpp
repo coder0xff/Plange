@@ -23,6 +23,9 @@ namespace mpl {
 	template<typename T>
 	struct print_as_error {
 	};
+
+	template<typename T>
+	using decay = typename std::decay<T>::type;
 }
 
 namespace std {

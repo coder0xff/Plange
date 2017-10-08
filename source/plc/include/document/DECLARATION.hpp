@@ -9,7 +9,7 @@
 #include "erased.hpp"
 #include "parlex/details/abstract_syntax_tree.hpp"
 
-#include "_plange_literals.hpp"
+#include "plange_grammar.hpp"
 
 namespace plc {
 
@@ -18,22 +18,36 @@ struct IDENTIFIER;
 struct XML_DOC_STRING;
 
 struct DECLARATION {
-	std::optional<std::tuple<
-		erased<XML_DOC_STRING>,
-		std::vector<erased<IC>>
-	>> field_1;
+	struct field_1_t_1_t {
+		erased<XML_DOC_STRING> xml_doc_string;
+		std::vector<erased<IC>> field_1;
+	
+	
+		explicit field_1_t_1_t(
+			erased<XML_DOC_STRING> && xml_doc_string,
+			std::vector<erased<IC>> && field_1
+		) : xml_doc_string(std::move(xml_doc_string)), field_1(std::move(field_1)) {}
+	
+		field_1_t_1_t(field_1_t_1_t const & other) = default;
+		field_1_t_1_t(field_1_t_1_t && move) = default;
+	
+		static field_1_t_1_t build(parlex::details::behavior::node const & b, parlex::details::ast_node const & n);
+	
+	};
+
+	std::optional<field_1_t_1_t> field_1;
 	erased<IDENTIFIER> identifier;
 
 
-	DECLARATION(
-		std::optional<std::tuple<
-			erased<XML_DOC_STRING>,
-			std::vector<erased<IC>>
-		>> const & field_1,
-		erased<IDENTIFIER> const & identifier
-	) : field_1(field_1), identifier(identifier) {}
+	explicit DECLARATION(
+		std::optional<field_1_t_1_t> && field_1,
+		erased<IDENTIFIER> && identifier
+	) : field_1(std::move(field_1)), identifier(std::move(identifier)) {}
 
-	static DECLARATION build(parlex::details::ast_node const & n);
+	DECLARATION(DECLARATION const & other) = default;
+	DECLARATION(DECLARATION && move) = default;
+
+	static DECLARATION build(parlex::details::behavior::node const & b, parlex::details::ast_node const & n);
 
 };
 

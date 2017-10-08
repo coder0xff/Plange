@@ -9,7 +9,7 @@
 #include "erased.hpp"
 #include "parlex/details/abstract_syntax_tree.hpp"
 
-#include "_plange_literals.hpp"
+#include "plange_grammar.hpp"
 
 namespace plc {
 
@@ -21,12 +21,15 @@ struct RECORD {
 	erased<TYPE> field_2;
 
 
-	RECORD(
-		std::vector<erased<ICR>> const & field_1,
-		erased<TYPE> const & field_2
-	) : field_1(field_1), field_2(field_2) {}
+	explicit RECORD(
+		std::vector<erased<ICR>> && field_1,
+		erased<TYPE> && field_2
+	) : field_1(std::move(field_1)), field_2(std::move(field_2)) {}
 
-	static RECORD build(parlex::details::ast_node const & n);
+	RECORD(RECORD const & other) = default;
+	RECORD(RECORD && move) = default;
+
+	static RECORD build(parlex::details::behavior::node const & b, parlex::details::ast_node const & n);
 
 };
 

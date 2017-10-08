@@ -9,7 +9,7 @@
 #include "erased.hpp"
 #include "parlex/details/abstract_syntax_tree.hpp"
 
-#include "_plange_literals.hpp"
+#include "plange_grammar.hpp"
 
 namespace plc {
 
@@ -21,12 +21,15 @@ struct DATE_TIME {
 	erased<TIME> field_2;
 
 
-	DATE_TIME(
-		erased<DATE> const & field_1,
-		erased<TIME> const & field_2
-	) : field_1(field_1), field_2(field_2) {}
+	explicit DATE_TIME(
+		erased<DATE> && field_1,
+		erased<TIME> && field_2
+	) : field_1(std::move(field_1)), field_2(std::move(field_2)) {}
 
-	static DATE_TIME build(parlex::details::ast_node const & n);
+	DATE_TIME(DATE_TIME const & other) = default;
+	DATE_TIME(DATE_TIME && move) = default;
+
+	static DATE_TIME build(parlex::details::behavior::node const & b, parlex::details::ast_node const & n);
 
 };
 

@@ -9,7 +9,7 @@
 #include "erased.hpp"
 #include "parlex/details/abstract_syntax_tree.hpp"
 
-#include "_plange_literals.hpp"
+#include "plange_grammar.hpp"
 
 namespace plc {
 
@@ -21,12 +21,15 @@ struct DIMENSIONAL_NUMBER {
 	erased<DIMENSION> field_2;
 
 
-	DIMENSIONAL_NUMBER(
-		erased<NON_NEG_NUMBER> const & field_1,
-		erased<DIMENSION> const & field_2
-	) : field_1(field_1), field_2(field_2) {}
+	explicit DIMENSIONAL_NUMBER(
+		erased<NON_NEG_NUMBER> && field_1,
+		erased<DIMENSION> && field_2
+	) : field_1(std::move(field_1)), field_2(std::move(field_2)) {}
 
-	static DIMENSIONAL_NUMBER build(parlex::details::ast_node const & n);
+	DIMENSIONAL_NUMBER(DIMENSIONAL_NUMBER const & other) = default;
+	DIMENSIONAL_NUMBER(DIMENSIONAL_NUMBER && move) = default;
+
+	static DIMENSIONAL_NUMBER build(parlex::details::behavior::node const & b, parlex::details::ast_node const & n);
 
 };
 

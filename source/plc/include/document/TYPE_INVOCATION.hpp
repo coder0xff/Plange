@@ -9,7 +9,7 @@
 #include "erased.hpp"
 #include "parlex/details/abstract_syntax_tree.hpp"
 
-#include "_plange_literals.hpp"
+#include "plange_grammar.hpp"
 
 namespace plc {
 
@@ -19,54 +19,101 @@ struct EXPRESSION;
 struct IC;
 
 struct TYPE_INVOCATION {
-	erased<EXPRESSION> field_1;
-	std::tuple<
-		std::optional<std::tuple<
-			std::vector<erased<IC>>,
+	struct field_2_t {
+		struct head_t_1_t {
+			std::vector<erased<IC>> field_1;
 			std::variant<
 				erased<ARGUMENT>,
 				erased<ARGUMENT_PACK>
-			>
-		>>,
-		std::vector<std::tuple<
-			std::vector<erased<IC>>,
-			std::optional<std::tuple<
-				std::vector<erased<IC>>,
+			> field_2;
+		
+		
+			explicit head_t_1_t(
+				std::vector<erased<IC>> && field_1,
 				std::variant<
 					erased<ARGUMENT>,
 					erased<ARGUMENT_PACK>
-				>
-			>>
-		>>,
-		std::vector<erased<IC>>
-	> field_2;
-
-
-	TYPE_INVOCATION(
-		erased<EXPRESSION> const & field_1,
-		std::tuple<
-			std::optional<std::tuple<
-				std::vector<erased<IC>>,
+				> && field_2
+			) : field_1(std::move(field_1)), field_2(std::move(field_2)) {}
+		
+			head_t_1_t(head_t_1_t const & other) = default;
+			head_t_1_t(head_t_1_t && move) = default;
+		
+			static head_t_1_t build(parlex::details::behavior::node const & b, parlex::details::ast_node const & n);
+		
+		};
+	
+		struct field_1_t_1_t {
+			struct field_2_t_1_t {
+				std::vector<erased<IC>> field_1;
 				std::variant<
 					erased<ARGUMENT>,
 					erased<ARGUMENT_PACK>
-				>
-			>>,
-			std::vector<std::tuple<
-				std::vector<erased<IC>>,
-				std::optional<std::tuple<
-					std::vector<erased<IC>>,
+				> field_2;
+			
+			
+				explicit field_2_t_1_t(
+					std::vector<erased<IC>> && field_1,
 					std::variant<
 						erased<ARGUMENT>,
 						erased<ARGUMENT_PACK>
-					>
-				>>
-			>>,
-			std::vector<erased<IC>>
-		> const & field_2
-	) : field_1(field_1), field_2(field_2) {}
+					> && field_2
+				) : field_1(std::move(field_1)), field_2(std::move(field_2)) {}
+			
+				field_2_t_1_t(field_2_t_1_t const & other) = default;
+				field_2_t_1_t(field_2_t_1_t && move) = default;
+			
+				static field_2_t_1_t build(parlex::details::behavior::node const & b, parlex::details::ast_node const & n);
+			
+			};
+		
+			std::vector<erased<IC>> field_1;
+			std::optional<field_2_t_1_t> field_2;
+		
+		
+			explicit field_1_t_1_t(
+				std::vector<erased<IC>> && field_1,
+				std::optional<field_2_t_1_t> && field_2
+			) : field_1(std::move(field_1)), field_2(std::move(field_2)) {}
+		
+			field_1_t_1_t(field_1_t_1_t const & other) = default;
+			field_1_t_1_t(field_1_t_1_t && move) = default;
+		
+			static field_1_t_1_t build(parlex::details::behavior::node const & b, parlex::details::ast_node const & n);
+		
+		};
+	
+		std::optional<head_t_1_t> head;
+		std::vector<field_1_t_1_t> field_1;
+		std::vector<erased<IC>> field_2;
+	
+	
+		explicit field_2_t(
+			std::optional<head_t_1_t> && head,
+			std::vector<field_1_t_1_t> && field_1,
+			std::vector<erased<IC>> && field_2
+		) : head(std::move(head)), field_1(std::move(field_1)), field_2(std::move(field_2)) {}
+	
+		field_2_t(field_2_t const & other) = default;
+		field_2_t(field_2_t && move) = default;
+	
+		static field_2_t build(parlex::details::behavior::node const & b, parlex::details::ast_node const & n);
+	
+	};
 
-	static TYPE_INVOCATION build(parlex::details::ast_node const & n);
+	erased<EXPRESSION> field_1;
+	field_2_t field_2;
+
+
+	explicit TYPE_INVOCATION(
+		erased<EXPRESSION> && field_1,
+		field_2_t && field_2
+	) : field_1(std::move(field_1)), field_2(std::move(field_2)) {}
+
+	TYPE_INVOCATION(TYPE_INVOCATION const & other) = default;
+	TYPE_INVOCATION(TYPE_INVOCATION && move) = default;
+
+	static TYPE_INVOCATION build(parlex::details::behavior::node const & b, parlex::details::ast_node const & n);
 
 };
 

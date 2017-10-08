@@ -153,7 +153,7 @@ static parlex::builder const & builder() {
 					}),
 					parlex::optional({
 						parlex::sequence({
-							parlex::reference("PARAMETER"),
+							parlex::reference("parameter", "PARAMETER"),
 							parlex::repetition({
 								parlex::sequence({
 									parlex::repetition({
@@ -163,7 +163,7 @@ static parlex::builder const & builder() {
 									parlex::repetition({
 										parlex::reference("IC")
 									}),
-									parlex::reference("PARAMETER")
+									parlex::reference("parameter", "PARAMETER")
 								})
 							}),
 							parlex::repetition({
@@ -224,12 +224,12 @@ static parlex::builder const & builder() {
 		parlex::sequence("ASM_PTR_ARITHMETIC_ATT_REG", {
 			parlex::literal("("),
 			parlex::optional({
-				parlex::reference("ASM_IDENTIFIER")
+				parlex::reference("asm_identifier", "ASM_IDENTIFIER")
 			}),
 			parlex::optional({
 				parlex::sequence({
 					parlex::literal(","),
-					parlex::reference("ASM_IDENTIFIER"),
+					parlex::reference("asm_identifier", "ASM_IDENTIFIER"),
 					parlex::optional({
 						parlex::sequence({
 							parlex::literal(","),
@@ -702,7 +702,8 @@ static parlex::builder const & builder() {
 			parlex::reference("decimal_digit"),
 			parlex::reference("decimal_digit"),
 			parlex::reference("decimal_digit")
-		})),
+		}),
+		parlex::associativity::none, parlex::filter_function(), {"SUBTRACTION", }),
 		parlex::production("DATE_YEAR_MONTH_DAY",
 		parlex::sequence("DATE_YEAR_MONTH_DAY", {
 			parlex::reference("decimal_digit"),
@@ -1766,7 +1767,7 @@ static parlex::builder const & builder() {
 			parlex::repetition({
 				parlex::reference("IC")
 			}),
-			parlex::optional({
+			parlex::optional("elements", {
 				parlex::sequence({
 					parlex::reference("EXPRESSION"),
 					parlex::repetition({
@@ -2517,7 +2518,7 @@ static parlex::builder const & builder() {
 			parlex::repetition({
 				parlex::reference("IC")
 			}),
-			parlex::optional({
+			parlex::optional("elements", {
 				parlex::sequence({
 					parlex::reference("EXPRESSION"),
 					parlex::repetition({
@@ -3059,7 +3060,7 @@ static parlex::builder const & builder() {
 			parlex::reference("EXPRESSION"),
 			parlex::sequence({
 				parlex::literal("<"),
-				parlex::optional({
+				parlex::optional("head", {
 					parlex::sequence({
 						parlex::repetition({
 							parlex::reference("IC")

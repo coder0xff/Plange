@@ -9,7 +9,7 @@
 #include "erased.hpp"
 #include "parlex/details/abstract_syntax_tree.hpp"
 
-#include "_plange_literals.hpp"
+#include "plange_grammar.hpp"
 
 namespace plc {
 
@@ -22,7 +22,7 @@ typedef std::variant<
 > DIMENSION_base;
 
 struct DIMENSION: DIMENSION_base {
-	static DIMENSION build(parlex::details::ast_node const & n);
+	static DIMENSION build(parlex::details::behavior::node const & b, parlex::details::ast_node const & n);
 	explicit DIMENSION(DIMENSION_base const & value) : DIMENSION_base(value) {}
 };
 } // namespace plc

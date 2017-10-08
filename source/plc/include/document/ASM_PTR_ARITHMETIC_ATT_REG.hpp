@@ -9,7 +9,7 @@
 #include "erased.hpp"
 #include "parlex/details/abstract_syntax_tree.hpp"
 
-#include "_plange_literals.hpp"
+#include "plange_grammar.hpp"
 
 namespace plc {
 
@@ -17,26 +17,51 @@ struct ASM_IDENTIFIER;
 struct NON_NEG_NON_FRACTIONAL;
 
 struct ASM_PTR_ARITHMETIC_ATT_REG {
+	struct field_2_t_1_t {
+		struct field_1_t_1_t {
+			erased<NON_NEG_NON_FRACTIONAL> field_1;
+		
+		
+			explicit field_1_t_1_t(
+				erased<NON_NEG_NON_FRACTIONAL> && field_1
+			) : field_1(std::move(field_1)) {}
+		
+			field_1_t_1_t(field_1_t_1_t const & other) = default;
+			field_1_t_1_t(field_1_t_1_t && move) = default;
+		
+			static field_1_t_1_t build(parlex::details::behavior::node const & b, parlex::details::ast_node const & n);
+		
+		};
+	
+		erased<ASM_IDENTIFIER> asm_identifier;
+		std::optional<field_1_t_1_t> field_1;
+	
+	
+		explicit field_2_t_1_t(
+			erased<ASM_IDENTIFIER> && asm_identifier,
+			std::optional<field_1_t_1_t> && field_1
+		) : asm_identifier(std::move(asm_identifier)), field_1(std::move(field_1)) {}
+	
+		field_2_t_1_t(field_2_t_1_t const & other) = default;
+		field_2_t_1_t(field_2_t_1_t && move) = default;
+	
+		static field_2_t_1_t build(parlex::details::behavior::node const & b, parlex::details::ast_node const & n);
+	
+	};
+
 	std::optional<erased<ASM_IDENTIFIER>> field_1;
-	std::optional<std::tuple<
-		erased<ASM_IDENTIFIER>,
-		std::optional<std::tuple<
-			erased<NON_NEG_NON_FRACTIONAL>
-		>>
-	>> field_2;
+	std::optional<field_2_t_1_t> field_2;
 
 
-	ASM_PTR_ARITHMETIC_ATT_REG(
-		std::optional<erased<ASM_IDENTIFIER>> const & field_1,
-		std::optional<std::tuple<
-			erased<ASM_IDENTIFIER>,
-			std::optional<std::tuple<
-				erased<NON_NEG_NON_FRACTIONAL>
-			>>
-		>> const & field_2
-	) : field_1(field_1), field_2(field_2) {}
+	explicit ASM_PTR_ARITHMETIC_ATT_REG(
+		std::optional<erased<ASM_IDENTIFIER>> && field_1,
+		std::optional<field_2_t_1_t> && field_2
+	) : field_1(std::move(field_1)), field_2(std::move(field_2)) {}
 
-	static ASM_PTR_ARITHMETIC_ATT_REG build(parlex::details::ast_node const & n);
+	ASM_PTR_ARITHMETIC_ATT_REG(ASM_PTR_ARITHMETIC_ATT_REG const & other) = default;
+	ASM_PTR_ARITHMETIC_ATT_REG(ASM_PTR_ARITHMETIC_ATT_REG && move) = default;
+
+	static ASM_PTR_ARITHMETIC_ATT_REG build(parlex::details::behavior::node const & b, parlex::details::ast_node const & n);
 
 };
 

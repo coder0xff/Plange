@@ -9,7 +9,7 @@
 #include "erased.hpp"
 #include "parlex/details/abstract_syntax_tree.hpp"
 
-#include "_plange_literals.hpp"
+#include "plange_grammar.hpp"
 
 namespace plc {
 
@@ -23,13 +23,16 @@ struct GREATER_CHAIN {
 	erased<GREATER_CHAIN_LOOP> greater_chain_loop;
 
 
-	GREATER_CHAIN(
-		erased<EXPRESSION> const & expression,
-		std::vector<erased<IC>> const & field_1,
-		erased<GREATER_CHAIN_LOOP> const & greater_chain_loop
-	) : expression(expression), field_1(field_1), greater_chain_loop(greater_chain_loop) {}
+	explicit GREATER_CHAIN(
+		erased<EXPRESSION> && expression,
+		std::vector<erased<IC>> && field_1,
+		erased<GREATER_CHAIN_LOOP> && greater_chain_loop
+	) : expression(std::move(expression)), field_1(std::move(field_1)), greater_chain_loop(std::move(greater_chain_loop)) {}
 
-	static GREATER_CHAIN build(parlex::details::ast_node const & n);
+	GREATER_CHAIN(GREATER_CHAIN const & other) = default;
+	GREATER_CHAIN(GREATER_CHAIN && move) = default;
+
+	static GREATER_CHAIN build(parlex::details::behavior::node const & b, parlex::details::ast_node const & n);
 
 };
 

@@ -9,7 +9,7 @@
 #include "erased.hpp"
 #include "parlex/details/abstract_syntax_tree.hpp"
 
-#include "_plange_literals.hpp"
+#include "plange_grammar.hpp"
 
 namespace plc {
 
@@ -20,12 +20,15 @@ struct ASM_IDENTIFIER {
 	erased<IDENTIFIER> field_2;
 
 
-	ASM_IDENTIFIER(
-		bool const & field_1,
-		erased<IDENTIFIER> const & field_2
-	) : field_1(field_1), field_2(field_2) {}
+	explicit ASM_IDENTIFIER(
+		bool && field_1,
+		erased<IDENTIFIER> && field_2
+	) : field_1(std::move(field_1)), field_2(std::move(field_2)) {}
 
-	static ASM_IDENTIFIER build(parlex::details::ast_node const & n);
+	ASM_IDENTIFIER(ASM_IDENTIFIER const & other) = default;
+	ASM_IDENTIFIER(ASM_IDENTIFIER && move) = default;
+
+	static ASM_IDENTIFIER build(parlex::details::behavior::node const & b, parlex::details::ast_node const & n);
 
 };
 

@@ -9,7 +9,7 @@
 #include "erased.hpp"
 #include "parlex/details/abstract_syntax_tree.hpp"
 
-#include "_plange_literals.hpp"
+#include "plange_grammar.hpp"
 
 namespace plc {
 
@@ -26,7 +26,7 @@ typedef std::variant<
 > CONSTRUCTIVE_OP_base;
 
 struct CONSTRUCTIVE_OP: CONSTRUCTIVE_OP_base {
-	static CONSTRUCTIVE_OP build(parlex::details::ast_node const & n);
+	static CONSTRUCTIVE_OP build(parlex::details::behavior::node const & b, parlex::details::ast_node const & n);
 	explicit CONSTRUCTIVE_OP(CONSTRUCTIVE_OP_base const & value) : CONSTRUCTIVE_OP_base(value) {}
 };
 } // namespace plc

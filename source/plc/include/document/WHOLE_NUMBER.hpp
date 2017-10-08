@@ -9,63 +9,86 @@
 #include "erased.hpp"
 #include "parlex/details/abstract_syntax_tree.hpp"
 
-#include "_plange_literals.hpp"
+#include "plange_grammar.hpp"
 
 namespace plc {
 
 struct WHOLE_NUMBER {
-	std::variant<
-		literal_1_t,
-		literal_2_t,
-		literal_3_t,
-		literal_4_t,
-		literal_5_t,
-		literal_6_t,
-		literal_7_t,
-		literal_8_t,
-		literal_9_t
-	> field_1;
-	std::vector<std::variant<
-		literal_0_t,
-		literal_1_t,
-		literal_2_t,
-		literal_3_t,
-		literal_4_t,
-		literal_5_t,
-		literal_6_t,
-		literal_7_t,
-		literal_8_t,
-		literal_9_t
-	>> field_2;
+	struct field_1_t {
+		enum type {
+			literal_1,
+			literal_2,
+			literal_3,
+			literal_4,
+			literal_5,
+			literal_6,
+			literal_7,
+			literal_8,
+			literal_9
+		} value;
+	
+		static field_1_t build(parlex::details::behavior::node const & b, parlex::details::ast_node const & n) {
+			static ::std::unordered_map<parlex::details::recognizer const *, type> const table {
+				{ &plange_grammar().get_literal("literal_1"), literal_1 },
+				{ &plange_grammar().get_literal("literal_2"), literal_2 },
+				{ &plange_grammar().get_literal("literal_3"), literal_3 },
+				{ &plange_grammar().get_literal("literal_4"), literal_4 },
+				{ &plange_grammar().get_literal("literal_5"), literal_5 },
+				{ &plange_grammar().get_literal("literal_6"), literal_6 },
+				{ &plange_grammar().get_literal("literal_7"), literal_7 },
+				{ &plange_grammar().get_literal("literal_8"), literal_8 },
+				{ &plange_grammar().get_literal("literal_9"), literal_9 },
+			};
+			return field_1_t{ table.find(&n.r)->second };
+		}
+	};
 
 
-	WHOLE_NUMBER(
-		std::variant<
-			literal_1_t,
-			literal_2_t,
-			literal_3_t,
-			literal_4_t,
-			literal_5_t,
-			literal_6_t,
-			literal_7_t,
-			literal_8_t,
-			literal_9_t
-		> const & field_1,
-		std::vector<std::variant<
-			literal_0_t,
-			literal_1_t,
-			literal_2_t,
-			literal_3_t,
-			literal_4_t,
-			literal_5_t,
-			literal_6_t,
-			literal_7_t,
-			literal_8_t,
-			literal_9_t
-		>> const & field_2
-	) : field_1(field_1), field_2(field_2) {}
+	struct field_2_t_1_t {
+		enum type {
+			literal_0,
+			literal_1,
+			literal_2,
+			literal_3,
+			literal_4,
+			literal_5,
+			literal_6,
+			literal_7,
+			literal_8,
+			literal_9
+		} value;
+	
+		static field_2_t_1_t build(parlex::details::behavior::node const & b, parlex::details::ast_node const & n) {
+			static ::std::unordered_map<parlex::details::recognizer const *, type> const table {
+				{ &plange_grammar().get_literal("literal_0"), literal_0 },
+				{ &plange_grammar().get_literal("literal_1"), literal_1 },
+				{ &plange_grammar().get_literal("literal_2"), literal_2 },
+				{ &plange_grammar().get_literal("literal_3"), literal_3 },
+				{ &plange_grammar().get_literal("literal_4"), literal_4 },
+				{ &plange_grammar().get_literal("literal_5"), literal_5 },
+				{ &plange_grammar().get_literal("literal_6"), literal_6 },
+				{ &plange_grammar().get_literal("literal_7"), literal_7 },
+				{ &plange_grammar().get_literal("literal_8"), literal_8 },
+				{ &plange_grammar().get_literal("literal_9"), literal_9 },
+			};
+			return field_2_t_1_t{ table.find(&n.r)->second };
+		}
+	};
 
-	static WHOLE_NUMBER build(parlex::details::ast_node const & n);
+
+	field_1_t field_1;
+	std::vector<field_2_t_1_t> field_2;
+
+
+	explicit WHOLE_NUMBER(
+		field_1_t && field_1,
+		std::vector<field_2_t_1_t> && field_2
+	) : field_1(std::move(field_1)), field_2(std::move(field_2)) {}
+
+	WHOLE_NUMBER(WHOLE_NUMBER const & other) = default;
+	WHOLE_NUMBER(WHOLE_NUMBER && move) = default;
+
+	static WHOLE_NUMBER build(parlex::details::behavior::node const & b, parlex::details::ast_node const & n);
 
 };
 

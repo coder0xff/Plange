@@ -9,7 +9,7 @@
 #include "erased.hpp"
 #include "parlex/details/abstract_syntax_tree.hpp"
 
-#include "_plange_literals.hpp"
+#include "plange_grammar.hpp"
 
 namespace plc {
 
@@ -19,36 +19,61 @@ struct ICR;
 struct IDENTIFIER;
 
 struct BREAK {
+	struct field_1_t_1_t_1_t {
+		std::vector<erased<IC>> field_1;
+		std::vector<erased<IC>> field_2;
+		erased<EXPRESSION> expression;
+		std::vector<erased<IC>> field_3;
+	
+	
+		explicit field_1_t_1_t_1_t(
+			std::vector<erased<IC>> && field_1,
+			std::vector<erased<IC>> && field_2,
+			erased<EXPRESSION> && expression,
+			std::vector<erased<IC>> && field_3
+		) : field_1(std::move(field_1)), field_2(std::move(field_2)), expression(std::move(expression)), field_3(std::move(field_3)) {}
+	
+		field_1_t_1_t_1_t(field_1_t_1_t_1_t const & other) = default;
+		field_1_t_1_t_1_t(field_1_t_1_t_1_t && move) = default;
+	
+		static field_1_t_1_t_1_t build(parlex::details::behavior::node const & b, parlex::details::ast_node const & n);
+	
+	};
+
+	struct field_1_t_1_t_2_t {
+		std::vector<erased<ICR>> field_1;
+		erased<IDENTIFIER> identifier;
+	
+	
+		explicit field_1_t_1_t_2_t(
+			std::vector<erased<ICR>> && field_1,
+			erased<IDENTIFIER> && identifier
+		) : field_1(std::move(field_1)), identifier(std::move(identifier)) {}
+	
+		field_1_t_1_t_2_t(field_1_t_1_t_2_t const & other) = default;
+		field_1_t_1_t_2_t(field_1_t_1_t_2_t && move) = default;
+	
+		static field_1_t_1_t_2_t build(parlex::details::behavior::node const & b, parlex::details::ast_node const & n);
+	
+	};
+
 	std::optional<std::variant<
-		std::tuple<
-			std::vector<erased<IC>>,
-			std::vector<erased<IC>>,
-			erased<EXPRESSION>,
-			std::vector<erased<IC>>
-		>,
-		std::tuple<
-			std::vector<erased<ICR>>,
-			erased<IDENTIFIER>
-		>
+		field_1_t_1_t_1_t,
+		field_1_t_1_t_2_t
 	>> field_1;
 
 
-	BREAK(
+	explicit BREAK(
 		std::optional<std::variant<
-			std::tuple<
-				std::vector<erased<IC>>,
-				std::vector<erased<IC>>,
-				erased<EXPRESSION>,
-				std::vector<erased<IC>>
-			>,
-			std::tuple<
-				std::vector<erased<ICR>>,
-				erased<IDENTIFIER>
-			>
-		>> const & field_1
-	) : field_1(field_1) {}
+			field_1_t_1_t_1_t,
+			field_1_t_1_t_2_t
+		>> && field_1
+	) : field_1(std::move(field_1)) {}
 
-	static BREAK build(parlex::details::ast_node const & n);
+	BREAK(BREAK const & other) = default;
+	BREAK(BREAK && move) = default;
+
+	static BREAK build(parlex::details::behavior::node const & b, parlex::details::ast_node const & n);
 
 };
 

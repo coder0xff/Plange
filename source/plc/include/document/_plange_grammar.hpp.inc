@@ -4,9 +4,9 @@
 #define INCLUDED_PLANGE_GRAMMAR_HPP
 
 #include "parlex/builder.hpp"
-
 #include "parlex/details/grammar.hpp"
 
+#include "_plange_literals.hpp"
 namespace plc {
 
 class plange_grammar : public parlex::details::grammar {

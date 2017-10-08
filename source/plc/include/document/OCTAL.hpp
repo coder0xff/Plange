@@ -9,7 +9,7 @@
 #include "erased.hpp"
 #include "parlex/details/abstract_syntax_tree.hpp"
 
-#include "_plange_literals.hpp"
+#include "plange_grammar.hpp"
 
 namespace plc {
 
@@ -17,11 +17,14 @@ struct OCTAL {
 	int field_2;
 
 
-	OCTAL(
-		int const & field_2
-	) : field_2(field_2) {}
+	explicit OCTAL(
+		int && field_2
+	) : field_2(std::move(field_2)) {}
 
-	static OCTAL build(parlex::details::ast_node const & n);
+	OCTAL(OCTAL const & other) = default;
+	OCTAL(OCTAL && move) = default;
+
+	static OCTAL build(parlex::details::behavior::node const & b, parlex::details::ast_node const & n);
 
 };
 

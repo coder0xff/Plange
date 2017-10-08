@@ -9,7 +9,7 @@
 #include "erased.hpp"
 #include "parlex/details/abstract_syntax_tree.hpp"
 
-#include "_plange_literals.hpp"
+#include "plange_grammar.hpp"
 
 namespace plc {
 
@@ -17,11 +17,14 @@ struct END_OF_LINE_COMMENT {
 	int field_1;
 
 
-	END_OF_LINE_COMMENT(
-		int const & field_1
-	) : field_1(field_1) {}
+	explicit END_OF_LINE_COMMENT(
+		int && field_1
+	) : field_1(std::move(field_1)) {}
 
-	static END_OF_LINE_COMMENT build(parlex::details::ast_node const & n);
+	END_OF_LINE_COMMENT(END_OF_LINE_COMMENT const & other) = default;
+	END_OF_LINE_COMMENT(END_OF_LINE_COMMENT && move) = default;
+
+	static END_OF_LINE_COMMENT build(parlex::details::behavior::node const & b, parlex::details::ast_node const & n);
 
 };
 

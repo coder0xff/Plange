@@ -9,7 +9,7 @@
 #include "erased.hpp"
 #include "parlex/details/abstract_syntax_tree.hpp"
 
-#include "_plange_literals.hpp"
+#include "plange_grammar.hpp"
 
 namespace plc {
 
@@ -23,14 +23,17 @@ struct VOLATILE_TYPE_DEREFERENCE {
 	std::vector<erased<IC>> field_4;
 
 
-	VOLATILE_TYPE_DEREFERENCE(
-		std::vector<erased<IC>> const & field_1,
-		std::vector<erased<IC>> const & field_2,
-		erased<EXPRESSION> const & field_3,
-		std::vector<erased<IC>> const & field_4
-	) : field_1(field_1), field_2(field_2), field_3(field_3), field_4(field_4) {}
+	explicit VOLATILE_TYPE_DEREFERENCE(
+		std::vector<erased<IC>> && field_1,
+		std::vector<erased<IC>> && field_2,
+		erased<EXPRESSION> && field_3,
+		std::vector<erased<IC>> && field_4
+	) : field_1(std::move(field_1)), field_2(std::move(field_2)), field_3(std::move(field_3)), field_4(std::move(field_4)) {}
 
-	static VOLATILE_TYPE_DEREFERENCE build(parlex::details::ast_node const & n);
+	VOLATILE_TYPE_DEREFERENCE(VOLATILE_TYPE_DEREFERENCE const & other) = default;
+	VOLATILE_TYPE_DEREFERENCE(VOLATILE_TYPE_DEREFERENCE && move) = default;
+
+	static VOLATILE_TYPE_DEREFERENCE build(parlex::details::behavior::node const & b, parlex::details::ast_node const & n);
 
 };
 

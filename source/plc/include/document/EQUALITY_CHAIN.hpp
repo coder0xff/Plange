@@ -9,7 +9,7 @@
 #include "erased.hpp"
 #include "parlex/details/abstract_syntax_tree.hpp"
 
-#include "_plange_literals.hpp"
+#include "plange_grammar.hpp"
 
 namespace plc {
 
@@ -23,13 +23,16 @@ struct EQUALITY_CHAIN {
 	erased<EQUALITY_CHAIN_LOOP> equality_chain_loop;
 
 
-	EQUALITY_CHAIN(
-		erased<EXPRESSION> const & expression,
-		std::vector<erased<IC>> const & field_1,
-		erased<EQUALITY_CHAIN_LOOP> const & equality_chain_loop
-	) : expression(expression), field_1(field_1), equality_chain_loop(equality_chain_loop) {}
+	explicit EQUALITY_CHAIN(
+		erased<EXPRESSION> && expression,
+		std::vector<erased<IC>> && field_1,
+		erased<EQUALITY_CHAIN_LOOP> && equality_chain_loop
+	) : expression(std::move(expression)), field_1(std::move(field_1)), equality_chain_loop(std::move(equality_chain_loop)) {}
 
-	static EQUALITY_CHAIN build(parlex::details::ast_node const & n);
+	EQUALITY_CHAIN(EQUALITY_CHAIN const & other) = default;
+	EQUALITY_CHAIN(EQUALITY_CHAIN && move) = default;
+
+	static EQUALITY_CHAIN build(parlex::details::behavior::node const & b, parlex::details::ast_node const & n);
 
 };
 

@@ -9,7 +9,7 @@
 #include "erased.hpp"
 #include "parlex/details/abstract_syntax_tree.hpp"
 
-#include "_plange_literals.hpp"
+#include "plange_grammar.hpp"
 
 namespace plc {
 
@@ -18,7 +18,7 @@ struct EXPRESSION;
 typedef erased<EXPRESSION> ARGUMENT_base;
 
 struct ARGUMENT: ARGUMENT_base {
-	static ARGUMENT build(parlex::details::ast_node const & n);
+	static ARGUMENT build(parlex::details::behavior::node const & b, parlex::details::ast_node const & n);
 	explicit ARGUMENT(ARGUMENT_base const & value) : ARGUMENT_base(value) {}
 };
 } // namespace plc

@@ -9,7 +9,7 @@
 #include "erased.hpp"
 #include "parlex/details/abstract_syntax_tree.hpp"
 
-#include "_plange_literals.hpp"
+#include "plange_grammar.hpp"
 
 namespace plc {
 
@@ -23,13 +23,16 @@ struct SUPERSET_CHAIN {
 	erased<SUPERSET_CHAIN_LOOP> field_3;
 
 
-	SUPERSET_CHAIN(
-		erased<EXPRESSION> const & field_1,
-		std::vector<erased<IC>> const & field_2,
-		erased<SUPERSET_CHAIN_LOOP> const & field_3
-	) : field_1(field_1), field_2(field_2), field_3(field_3) {}
+	explicit SUPERSET_CHAIN(
+		erased<EXPRESSION> && field_1,
+		std::vector<erased<IC>> && field_2,
+		erased<SUPERSET_CHAIN_LOOP> && field_3
+	) : field_1(std::move(field_1)), field_2(std::move(field_2)), field_3(std::move(field_3)) {}
 
-	static SUPERSET_CHAIN build(parlex::details::ast_node const & n);
+	SUPERSET_CHAIN(SUPERSET_CHAIN const & other) = default;
+	SUPERSET_CHAIN(SUPERSET_CHAIN && move) = default;
+
+	static SUPERSET_CHAIN build(parlex::details::behavior::node const & b, parlex::details::ast_node const & n);
 
 };
 

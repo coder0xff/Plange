@@ -9,17 +9,20 @@
 #include "erased.hpp"
 #include "parlex/details/abstract_syntax_tree.hpp"
 
-#include "_plange_literals.hpp"
+#include "plange_grammar.hpp"
 
 namespace plc {
 
 struct DATE_YEAR_MONTH_DAY {
 
 
-	DATE_YEAR_MONTH_DAY(
-	) :  {}
+	explicit DATE_YEAR_MONTH_DAY(
+	) {}
 
-	static DATE_YEAR_MONTH_DAY build(parlex::details::ast_node const & n);
+	DATE_YEAR_MONTH_DAY(DATE_YEAR_MONTH_DAY const & other) = default;
+	DATE_YEAR_MONTH_DAY(DATE_YEAR_MONTH_DAY && move) = default;
+
+	static DATE_YEAR_MONTH_DAY build(parlex::details::behavior::node const & b, parlex::details::ast_node const & n);
 
 };
 

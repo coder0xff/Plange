@@ -9,7 +9,7 @@
 #include "erased.hpp"
 #include "parlex/details/abstract_syntax_tree.hpp"
 
-#include "_plange_literals.hpp"
+#include "plange_grammar.hpp"
 
 namespace plc {
 
@@ -17,28 +17,52 @@ struct FUNCTION_MODIFIER_1;
 struct ICR;
 
 struct FUNCTION_MODIFIER_STABILITY {
-	std::variant<
-		literal_stable_t,
-		literal_unstable_t
-	> stability;
-	std::optional<std::tuple<
-		erased<ICR>,
-		erased<FUNCTION_MODIFIER_1>
-	>> field_1;
+	struct stability_t {
+		enum type {
+			literal_stable,
+			literal_unstable
+		} value;
+	
+		static stability_t build(parlex::details::behavior::node const & b, parlex::details::ast_node const & n) {
+			static ::std::unordered_map<parlex::details::recognizer const *, type> const table {
+				{ &plange_grammar().get_literal("literal_stable"), literal_stable },
+				{ &plange_grammar().get_literal("literal_unstable"), literal_unstable },
+			};
+			return stability_t{ table.find(&n.r)->second };
+		}
+	};
 
 
-	FUNCTION_MODIFIER_STABILITY(
-		std::variant<
-			literal_stable_t,
-			literal_unstable_t
-		> const & stability,
-		std::optional<std::tuple<
-			erased<ICR>,
-			erased<FUNCTION_MODIFIER_1>
-		>> const & field_1
-	) : stability(stability), field_1(field_1) {}
+	struct field_1_t_1_t {
+		erased<ICR> field_1;
+		erased<FUNCTION_MODIFIER_1> field_2;
+	
+	
+		explicit field_1_t_1_t(
+			erased<ICR> && field_1,
+			erased<FUNCTION_MODIFIER_1> && field_2
+		) : field_1(std::move(field_1)), field_2(std::move(field_2)) {}
+	
+		field_1_t_1_t(field_1_t_1_t const & other) = default;
+		field_1_t_1_t(field_1_t_1_t && move) = default;
+	
+		static field_1_t_1_t build(parlex::details::behavior::node const & b, parlex::details::ast_node const & n);
+	
+	};
 
-	static FUNCTION_MODIFIER_STABILITY build(parlex::details::ast_node const & n);
+	stability_t stability;
+	std::optional<field_1_t_1_t> field_1;
+
+
+	explicit FUNCTION_MODIFIER_STABILITY(
+		stability_t && stability,
+		std::optional<field_1_t_1_t> && field_1
+	) : stability(std::move(stability)), field_1(std::move(field_1)) {}
+
+	FUNCTION_MODIFIER_STABILITY(FUNCTION_MODIFIER_STABILITY const & other) = default;
+	FUNCTION_MODIFIER_STABILITY(FUNCTION_MODIFIER_STABILITY && move) = default;
+
+	static FUNCTION_MODIFIER_STABILITY build(parlex::details::behavior::node const & b, parlex::details::ast_node const & n);
 
 };
 

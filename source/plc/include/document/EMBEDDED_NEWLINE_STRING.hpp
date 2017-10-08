@@ -9,7 +9,7 @@
 #include "erased.hpp"
 #include "parlex/details/abstract_syntax_tree.hpp"
 
-#include "_plange_literals.hpp"
+#include "plange_grammar.hpp"
 
 namespace plc {
 
@@ -19,11 +19,14 @@ struct EMBEDDED_NEWLINE_STRING {
 	erased<EMBEDDED_NEWLINE_STRING_INTERIOR> field_1;
 
 
-	EMBEDDED_NEWLINE_STRING(
-		erased<EMBEDDED_NEWLINE_STRING_INTERIOR> const & field_1
-	) : field_1(field_1) {}
+	explicit EMBEDDED_NEWLINE_STRING(
+		erased<EMBEDDED_NEWLINE_STRING_INTERIOR> && field_1
+	) : field_1(std::move(field_1)) {}
 
-	static EMBEDDED_NEWLINE_STRING build(parlex::details::ast_node const & n);
+	EMBEDDED_NEWLINE_STRING(EMBEDDED_NEWLINE_STRING const & other) = default;
+	EMBEDDED_NEWLINE_STRING(EMBEDDED_NEWLINE_STRING && move) = default;
+
+	static EMBEDDED_NEWLINE_STRING build(parlex::details::behavior::node const & b, parlex::details::ast_node const & n);
 
 };
 

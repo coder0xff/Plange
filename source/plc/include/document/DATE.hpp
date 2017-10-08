@@ -9,7 +9,7 @@
 #include "erased.hpp"
 #include "parlex/details/abstract_syntax_tree.hpp"
 
-#include "_plange_literals.hpp"
+#include "plange_grammar.hpp"
 
 namespace plc {
 
@@ -22,7 +22,7 @@ typedef std::variant<
 > DATE_base;
 
 struct DATE: DATE_base {
-	static DATE build(parlex::details::ast_node const & n);
+	static DATE build(parlex::details::behavior::node const & b, parlex::details::ast_node const & n);
 	explicit DATE(DATE_base const & value) : DATE_base(value) {}
 };
 } // namespace plc

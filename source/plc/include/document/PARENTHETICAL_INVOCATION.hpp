@@ -9,7 +9,7 @@
 #include "erased.hpp"
 #include "parlex/details/abstract_syntax_tree.hpp"
 
-#include "_plange_literals.hpp"
+#include "plange_grammar.hpp"
 
 namespace plc {
 
@@ -19,52 +19,88 @@ struct EXPRESSION;
 struct IC;
 
 struct PARENTHETICAL_INVOCATION {
-	erased<EXPRESSION> field_1;
-	std::vector<erased<IC>> field_2;
-	std::optional<std::tuple<
-		std::vector<erased<IC>>,
+	struct field_3_t_1_t {
+		std::vector<erased<IC>> field_1;
 		std::variant<
 			erased<ARGUMENT>,
 			erased<ARGUMENT_PACK>
-		>
-	>> field_3;
-	std::vector<std::tuple<
-		std::vector<erased<IC>>,
-		std::optional<std::tuple<
-			std::vector<erased<IC>>,
+		> field_2;
+	
+	
+		explicit field_3_t_1_t(
+			std::vector<erased<IC>> && field_1,
 			std::variant<
 				erased<ARGUMENT>,
 				erased<ARGUMENT_PACK>
-			>
-		>>
-	>> field_4;
-	std::vector<erased<IC>> field_5;
+			> && field_2
+		) : field_1(std::move(field_1)), field_2(std::move(field_2)) {}
+	
+		field_3_t_1_t(field_3_t_1_t const & other) = default;
+		field_3_t_1_t(field_3_t_1_t && move) = default;
+	
+		static field_3_t_1_t build(parlex::details::behavior::node const & b, parlex::details::ast_node const & n);
+	
+	};
 
-
-	PARENTHETICAL_INVOCATION(
-		erased<EXPRESSION> const & field_1,
-		std::vector<erased<IC>> const & field_2,
-		std::optional<std::tuple<
-			std::vector<erased<IC>>,
+	struct field_4_t_1_t {
+		struct field_2_t_1_t {
+			std::vector<erased<IC>> field_1;
 			std::variant<
 				erased<ARGUMENT>,
 				erased<ARGUMENT_PACK>
-			>
-		>> const & field_3,
-		std::vector<std::tuple<
-			std::vector<erased<IC>>,
-			std::optional<std::tuple<
-				std::vector<erased<IC>>,
+			> field_2;
+		
+		
+			explicit field_2_t_1_t(
+				std::vector<erased<IC>> && field_1,
 				std::variant<
 					erased<ARGUMENT>,
 					erased<ARGUMENT_PACK>
-				>
-			>>
-		>> const & field_4,
-		std::vector<erased<IC>> const & field_5
-	) : field_1(field_1), field_2(field_2), field_3(field_3), field_4(field_4), field_5(field_5) {}
+				> && field_2
+			) : field_1(std::move(field_1)), field_2(std::move(field_2)) {}
+		
+			field_2_t_1_t(field_2_t_1_t const & other) = default;
+			field_2_t_1_t(field_2_t_1_t && move) = default;
+		
+			static field_2_t_1_t build(parlex::details::behavior::node const & b, parlex::details::ast_node const & n);
+		
+		};
+	
+		std::vector<erased<IC>> field_1;
+		std::optional<field_2_t_1_t> field_2;
+	
+	
+		explicit field_4_t_1_t(
+			std::vector<erased<IC>> && field_1,
+			std::optional<field_2_t_1_t> && field_2
+		) : field_1(std::move(field_1)), field_2(std::move(field_2)) {}
+	
+		field_4_t_1_t(field_4_t_1_t const & other) = default;
+		field_4_t_1_t(field_4_t_1_t && move) = default;
+	
+		static field_4_t_1_t build(parlex::details::behavior::node const & b, parlex::details::ast_node const & n);
+	
+	};
 
-	static PARENTHETICAL_INVOCATION build(parlex::details::ast_node const & n);
+	erased<EXPRESSION> field_1;
+	std::vector<erased<IC>> field_2;
+	std::optional<field_3_t_1_t> field_3;
+	std::vector<field_4_t_1_t> field_4;
+	std::vector<erased<IC>> field_5;
+
+
+	explicit PARENTHETICAL_INVOCATION(
+		erased<EXPRESSION> && field_1,
+		std::vector<erased<IC>> && field_2,
+		std::optional<field_3_t_1_t> && field_3,
+		std::vector<field_4_t_1_t> && field_4,
+		std::vector<erased<IC>> && field_5
+	) : field_1(std::move(field_1)), field_2(std::move(field_2)), field_3(std::move(field_3)), field_4(std::move(field_4)), field_5(std::move(field_5)) {}
+
+	PARENTHETICAL_INVOCATION(PARENTHETICAL_INVOCATION const & other) = default;
+	PARENTHETICAL_INVOCATION(PARENTHETICAL_INVOCATION && move) = default;
+
+	static PARENTHETICAL_INVOCATION build(parlex::details::behavior::node const & b, parlex::details::ast_node const & n);
 
 };
 

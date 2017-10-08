@@ -9,7 +9,7 @@
 #include "erased.hpp"
 #include "parlex/details/abstract_syntax_tree.hpp"
 
-#include "_plange_literals.hpp"
+#include "plange_grammar.hpp"
 
 namespace plc {
 
@@ -24,14 +24,17 @@ struct LOCK {
 	erased<BLOCK> field_4;
 
 
-	LOCK(
-		std::vector<erased<IC>> const & field_1,
-		erased<PARENTHETICAL> const & field_2,
-		std::vector<erased<IC>> const & field_3,
-		erased<BLOCK> const & field_4
-	) : field_1(field_1), field_2(field_2), field_3(field_3), field_4(field_4) {}
+	explicit LOCK(
+		std::vector<erased<IC>> && field_1,
+		erased<PARENTHETICAL> && field_2,
+		std::vector<erased<IC>> && field_3,
+		erased<BLOCK> && field_4
+	) : field_1(std::move(field_1)), field_2(std::move(field_2)), field_3(std::move(field_3)), field_4(std::move(field_4)) {}
 
-	static LOCK build(parlex::details::ast_node const & n);
+	LOCK(LOCK const & other) = default;
+	LOCK(LOCK && move) = default;
+
+	static LOCK build(parlex::details::behavior::node const & b, parlex::details::ast_node const & n);
 
 };
 

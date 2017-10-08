@@ -9,7 +9,7 @@
 #include "erased.hpp"
 #include "parlex/details/abstract_syntax_tree.hpp"
 
-#include "_plange_literals.hpp"
+#include "plange_grammar.hpp"
 
 namespace plc {
 
@@ -27,16 +27,19 @@ struct ARRAY_INDEXER {
 	> field_2;
 
 
-	ARRAY_INDEXER(
-		std::vector<erased<IC>> const & field_1,
+	explicit ARRAY_INDEXER(
+		std::vector<erased<IC>> && field_1,
 		std::variant<
 			erased<ARGUMENT>,
 			erased<ARGUMENT_PACK>,
 			erased<SLICE>
-		> const & field_2
-	) : field_1(field_1), field_2(field_2) {}
+		> && field_2
+	) : field_1(std::move(field_1)), field_2(std::move(field_2)) {}
 
-	static ARRAY_INDEXER build(parlex::details::ast_node const & n);
+	ARRAY_INDEXER(ARRAY_INDEXER const & other) = default;
+	ARRAY_INDEXER(ARRAY_INDEXER && move) = default;
+
+	static ARRAY_INDEXER build(parlex::details::behavior::node const & b, parlex::details::ast_node const & n);
 
 };
 

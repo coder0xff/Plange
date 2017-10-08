@@ -9,7 +9,7 @@
 #include "erased.hpp"
 #include "parlex/details/abstract_syntax_tree.hpp"
 
-#include "_plange_literals.hpp"
+#include "plange_grammar.hpp"
 
 namespace plc {
 
@@ -26,7 +26,7 @@ typedef std::variant<
 > BINARY_COLLECTION_OP_base;
 
 struct BINARY_COLLECTION_OP: BINARY_COLLECTION_OP_base {
-	static BINARY_COLLECTION_OP build(parlex::details::ast_node const & n);
+	static BINARY_COLLECTION_OP build(parlex::details::behavior::node const & b, parlex::details::ast_node const & n);
 	explicit BINARY_COLLECTION_OP(BINARY_COLLECTION_OP_base const & value) : BINARY_COLLECTION_OP_base(value) {}
 };
 } // namespace plc

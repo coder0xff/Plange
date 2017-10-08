@@ -9,7 +9,7 @@
 #include "erased.hpp"
 #include "parlex/details/abstract_syntax_tree.hpp"
 
-#include "_plange_literals.hpp"
+#include "plange_grammar.hpp"
 
 namespace plc {
 
@@ -21,12 +21,15 @@ struct MEMBER_OFFSET {
 	erased<WHOLE_NUMBER> field_2;
 
 
-	MEMBER_OFFSET(
-		std::vector<erased<IC>> const & field_1,
-		erased<WHOLE_NUMBER> const & field_2
-	) : field_1(field_1), field_2(field_2) {}
+	explicit MEMBER_OFFSET(
+		std::vector<erased<IC>> && field_1,
+		erased<WHOLE_NUMBER> && field_2
+	) : field_1(std::move(field_1)), field_2(std::move(field_2)) {}
 
-	static MEMBER_OFFSET build(parlex::details::ast_node const & n);
+	MEMBER_OFFSET(MEMBER_OFFSET const & other) = default;
+	MEMBER_OFFSET(MEMBER_OFFSET && move) = default;
+
+	static MEMBER_OFFSET build(parlex::details::behavior::node const & b, parlex::details::ast_node const & n);
 
 };
 

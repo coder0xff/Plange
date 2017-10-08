@@ -9,7 +9,7 @@
 #include "erased.hpp"
 #include "parlex/details/abstract_syntax_tree.hpp"
 
-#include "_plange_literals.hpp"
+#include "plange_grammar.hpp"
 
 namespace plc {
 
@@ -20,12 +20,15 @@ struct UNIT_MULTIPLICATION {
 	erased<DIMENSION> field_2;
 
 
-	UNIT_MULTIPLICATION(
-		erased<DIMENSION> const & field_1,
-		erased<DIMENSION> const & field_2
-	) : field_1(field_1), field_2(field_2) {}
+	explicit UNIT_MULTIPLICATION(
+		erased<DIMENSION> && field_1,
+		erased<DIMENSION> && field_2
+	) : field_1(std::move(field_1)), field_2(std::move(field_2)) {}
 
-	static UNIT_MULTIPLICATION build(parlex::details::ast_node const & n);
+	UNIT_MULTIPLICATION(UNIT_MULTIPLICATION const & other) = default;
+	UNIT_MULTIPLICATION(UNIT_MULTIPLICATION && move) = default;
+
+	static UNIT_MULTIPLICATION build(parlex::details::behavior::node const & b, parlex::details::ast_node const & n);
 
 };
 

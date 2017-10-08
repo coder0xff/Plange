@@ -9,7 +9,7 @@
 #include "erased.hpp"
 #include "parlex/details/abstract_syntax_tree.hpp"
 
-#include "_plange_literals.hpp"
+#include "plange_grammar.hpp"
 
 namespace plc {
 
@@ -19,48 +19,95 @@ struct IC;
 struct PARAMETER;
 
 struct FUNCTION {
-	std::optional<std::tuple<
-		std::vector<erased<IC>>,
-		std::optional<std::tuple<
-			erased<PARAMETER>,
-			std::vector<std::tuple<
-				std::vector<erased<IC>>,
-				std::vector<erased<IC>>,
-				erased<PARAMETER>
-			>>,
-			std::vector<erased<IC>>
-		>>,
-		std::vector<erased<IC>>
-	>> field_1;
-	std::optional<std::tuple<
-		erased<FUNCTION_MODIFIER_0>,
-		std::vector<erased<IC>>
-	>> field_2;
+	struct field_1_t_1_t {
+		struct field_2_t_1_t {
+			struct field_1_t_1_t {
+				std::vector<erased<IC>> field_1;
+				std::vector<erased<IC>> field_2;
+				erased<PARAMETER> parameter;
+			
+			
+				explicit field_1_t_1_t(
+					std::vector<erased<IC>> && field_1,
+					std::vector<erased<IC>> && field_2,
+					erased<PARAMETER> && parameter
+				) : field_1(std::move(field_1)), field_2(std::move(field_2)), parameter(std::move(parameter)) {}
+			
+				field_1_t_1_t(field_1_t_1_t const & other) = default;
+				field_1_t_1_t(field_1_t_1_t && move) = default;
+			
+				static field_1_t_1_t build(parlex::details::behavior::node const & b, parlex::details::ast_node const & n);
+			
+			};
+		
+			erased<PARAMETER> parameter;
+			std::vector<field_1_t_1_t> field_1;
+			std::vector<erased<IC>> field_2;
+		
+		
+			explicit field_2_t_1_t(
+				erased<PARAMETER> && parameter,
+				std::vector<field_1_t_1_t> && field_1,
+				std::vector<erased<IC>> && field_2
+			) : parameter(std::move(parameter)), field_1(std::move(field_1)), field_2(std::move(field_2)) {}
+		
+			field_2_t_1_t(field_2_t_1_t const & other) = default;
+			field_2_t_1_t(field_2_t_1_t && move) = default;
+		
+			static field_2_t_1_t build(parlex::details::behavior::node const & b, parlex::details::ast_node const & n);
+		
+		};
+	
+		std::vector<erased<IC>> field_1;
+		std::optional<field_2_t_1_t> field_2;
+		std::vector<erased<IC>> field_3;
+	
+	
+		explicit field_1_t_1_t(
+			std::vector<erased<IC>> && field_1,
+			std::optional<field_2_t_1_t> && field_2,
+			std::vector<erased<IC>> && field_3
+		) : field_1(std::move(field_1)), field_2(std::move(field_2)), field_3(std::move(field_3)) {}
+	
+		field_1_t_1_t(field_1_t_1_t const & other) = default;
+		field_1_t_1_t(field_1_t_1_t && move) = default;
+	
+		static field_1_t_1_t build(parlex::details::behavior::node const & b, parlex::details::ast_node const & n);
+	
+	};
+
+	struct field_2_t_1_t {
+		erased<FUNCTION_MODIFIER_0> field_1;
+		std::vector<erased<IC>> field_2;
+	
+	
+		explicit field_2_t_1_t(
+			erased<FUNCTION_MODIFIER_0> && field_1,
+			std::vector<erased<IC>> && field_2
+		) : field_1(std::move(field_1)), field_2(std::move(field_2)) {}
+	
+		field_2_t_1_t(field_2_t_1_t const & other) = default;
+		field_2_t_1_t(field_2_t_1_t && move) = default;
+	
+		static field_2_t_1_t build(parlex::details::behavior::node const & b, parlex::details::ast_node const & n);
+	
+	};
+
+	std::optional<field_1_t_1_t> field_1;
+	std::optional<field_2_t_1_t> field_2;
 	erased<BLOCK> block;
 
 
-	FUNCTION(
-		std::optional<std::tuple<
-			std::vector<erased<IC>>,
-			std::optional<std::tuple<
-				erased<PARAMETER>,
-				std::vector<std::tuple<
-					std::vector<erased<IC>>,
-					std::vector<erased<IC>>,
-					erased<PARAMETER>
-				>>,
-				std::vector<erased<IC>>
-			>>,
-			std::vector<erased<IC>>
-		>> const & field_1,
-		std::optional<std::tuple<
-			erased<FUNCTION_MODIFIER_0>,
-			std::vector<erased<IC>>
-		>> const & field_2,
-		erased<BLOCK> const & block
-	) : field_1(field_1), field_2(field_2), block(block) {}
+	explicit FUNCTION(
+		std::optional<field_1_t_1_t> && field_1,
+		std::optional<field_2_t_1_t> && field_2,
+		erased<BLOCK> && block
+	) : field_1(std::move(field_1)), field_2(std::move(field_2)), block(std::move(block)) {}
 
-	static FUNCTION build(parlex::details::ast_node const & n);
+	FUNCTION(FUNCTION const & other) = default;
+	FUNCTION(FUNCTION && move) = default;
+
+	static FUNCTION build(parlex::details::behavior::node const & b, parlex::details::ast_node const & n);
 
 };
 

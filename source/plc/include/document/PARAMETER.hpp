@@ -9,7 +9,7 @@
 #include "erased.hpp"
 #include "parlex/details/abstract_syntax_tree.hpp"
 
-#include "_plange_literals.hpp"
+#include "plange_grammar.hpp"
 
 namespace plc {
 
@@ -22,7 +22,7 @@ typedef std::variant<
 > PARAMETER_base;
 
 struct PARAMETER: PARAMETER_base {
-	static PARAMETER build(parlex::details::ast_node const & n);
+	static PARAMETER build(parlex::details::behavior::node const & b, parlex::details::ast_node const & n);
 	explicit PARAMETER(PARAMETER_base const & value) : PARAMETER_base(value) {}
 };
 } // namespace plc

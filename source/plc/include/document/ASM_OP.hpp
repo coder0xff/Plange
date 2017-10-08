@@ -9,7 +9,7 @@
 #include "erased.hpp"
 #include "parlex/details/abstract_syntax_tree.hpp"
 
-#include "_plange_literals.hpp"
+#include "plange_grammar.hpp"
 
 namespace plc {
 
@@ -17,11 +17,14 @@ struct ASM_OP {
 	int field_2;
 
 
-	ASM_OP(
-		int const & field_2
-	) : field_2(field_2) {}
+	explicit ASM_OP(
+		int && field_2
+	) : field_2(std::move(field_2)) {}
 
-	static ASM_OP build(parlex::details::ast_node const & n);
+	ASM_OP(ASM_OP const & other) = default;
+	ASM_OP(ASM_OP && move) = default;
+
+	static ASM_OP build(parlex::details::behavior::node const & b, parlex::details::ast_node const & n);
 
 };
 

@@ -9,7 +9,7 @@
 #include "erased.hpp"
 #include "parlex/details/abstract_syntax_tree.hpp"
 
-#include "_plange_literals.hpp"
+#include "plange_grammar.hpp"
 
 namespace plc {
 
@@ -22,7 +22,7 @@ typedef std::variant<
 > NON_NEG_NUMBER_base;
 
 struct NON_NEG_NUMBER: NON_NEG_NUMBER_base {
-	static NON_NEG_NUMBER build(parlex::details::ast_node const & n);
+	static NON_NEG_NUMBER build(parlex::details::behavior::node const & b, parlex::details::ast_node const & n);
 	explicit NON_NEG_NUMBER(NON_NEG_NUMBER_base const & value) : NON_NEG_NUMBER_base(value) {}
 };
 } // namespace plc

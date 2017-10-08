@@ -9,7 +9,7 @@
 #include "erased.hpp"
 #include "parlex/details/abstract_syntax_tree.hpp"
 
-#include "_plange_literals.hpp"
+#include "plange_grammar.hpp"
 
 namespace plc {
 
@@ -19,11 +19,14 @@ struct BLOCK {
 	erased<STATEMENT_SCOPE> field_1;
 
 
-	BLOCK(
-		erased<STATEMENT_SCOPE> const & field_1
-	) : field_1(field_1) {}
+	explicit BLOCK(
+		erased<STATEMENT_SCOPE> && field_1
+	) : field_1(std::move(field_1)) {}
 
-	static BLOCK build(parlex::details::ast_node const & n);
+	BLOCK(BLOCK const & other) = default;
+	BLOCK(BLOCK && move) = default;
+
+	static BLOCK build(parlex::details::behavior::node const & b, parlex::details::ast_node const & n);
 
 };
 

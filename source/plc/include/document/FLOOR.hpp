@@ -9,28 +9,58 @@
 #include "erased.hpp"
 #include "parlex/details/abstract_syntax_tree.hpp"
 
-#include "_plange_literals.hpp"
+#include "plange_grammar.hpp"
 
 namespace plc {
 
 struct EXPRESSION;
 struct IC;
 
+struct FLOOR_1_t {
+	std::vector<erased<IC>> field_1;
+	erased<EXPRESSION> expression;
+	std::vector<erased<IC>> field_2;
+
+
+	explicit FLOOR_1_t(
+		std::vector<erased<IC>> && field_1,
+		erased<EXPRESSION> && expression,
+		std::vector<erased<IC>> && field_2
+	) : field_1(std::move(field_1)), expression(std::move(expression)), field_2(std::move(field_2)) {}
+
+	FLOOR_1_t(FLOOR_1_t const & other) = default;
+	FLOOR_1_t(FLOOR_1_t && move) = default;
+
+	static FLOOR_1_t build(parlex::details::behavior::node const & b, parlex::details::ast_node const & n);
+
+};
+
+struct FLOOR_2_t {
+	std::vector<erased<IC>> field_1;
+	erased<EXPRESSION> expression;
+	std::vector<erased<IC>> field_2;
+
+
+	explicit FLOOR_2_t(
+		std::vector<erased<IC>> && field_1,
+		erased<EXPRESSION> && expression,
+		std::vector<erased<IC>> && field_2
+	) : field_1(std::move(field_1)), expression(std::move(expression)), field_2(std::move(field_2)) {}
+
+	FLOOR_2_t(FLOOR_2_t const & other) = default;
+	FLOOR_2_t(FLOOR_2_t && move) = default;
+
+	static FLOOR_2_t build(parlex::details::behavior::node const & b, parlex::details::ast_node const & n);
+
+};
+
 typedef std::variant<
-	std::tuple<
-		std::vector<erased<IC>>,
-		erased<EXPRESSION>,
-		std::vector<erased<IC>>
-	>,
-	std::tuple<
-		std::vector<erased<IC>>,
-		erased<EXPRESSION>,
-		std::vector<erased<IC>>
-	>
+	FLOOR_1_t,
+	FLOOR_2_t
 > FLOOR_base;
 
 struct FLOOR: FLOOR_base {
-	static FLOOR build(parlex::details::ast_node const & n);
+	static FLOOR build(parlex::details::behavior::node const & b, parlex::details::ast_node const & n);
 	explicit FLOOR(FLOOR_base const & value) : FLOOR_base(value) {}
 };
 } // namespace plc

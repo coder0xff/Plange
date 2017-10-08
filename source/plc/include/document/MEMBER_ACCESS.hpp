@@ -9,7 +9,7 @@
 #include "erased.hpp"
 #include "parlex/details/abstract_syntax_tree.hpp"
 
-#include "_plange_literals.hpp"
+#include "plange_grammar.hpp"
 
 namespace plc {
 
@@ -24,14 +24,17 @@ struct MEMBER_ACCESS {
 	erased<IDENTIFIER> field_4;
 
 
-	MEMBER_ACCESS(
-		erased<EXPRESSION> const & field_1,
-		std::vector<erased<IC>> const & field_2,
-		std::vector<erased<IC>> const & field_3,
-		erased<IDENTIFIER> const & field_4
-	) : field_1(field_1), field_2(field_2), field_3(field_3), field_4(field_4) {}
+	explicit MEMBER_ACCESS(
+		erased<EXPRESSION> && field_1,
+		std::vector<erased<IC>> && field_2,
+		std::vector<erased<IC>> && field_3,
+		erased<IDENTIFIER> && field_4
+	) : field_1(std::move(field_1)), field_2(std::move(field_2)), field_3(std::move(field_3)), field_4(std::move(field_4)) {}
 
-	static MEMBER_ACCESS build(parlex::details::ast_node const & n);
+	MEMBER_ACCESS(MEMBER_ACCESS const & other) = default;
+	MEMBER_ACCESS(MEMBER_ACCESS && move) = default;
+
+	static MEMBER_ACCESS build(parlex::details::behavior::node const & b, parlex::details::ast_node const & n);
 
 };
 

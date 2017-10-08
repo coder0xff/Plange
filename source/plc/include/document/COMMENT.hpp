@@ -9,7 +9,7 @@
 #include "erased.hpp"
 #include "parlex/details/abstract_syntax_tree.hpp"
 
-#include "_plange_literals.hpp"
+#include "plange_grammar.hpp"
 
 namespace plc {
 
@@ -17,11 +17,14 @@ struct COMMENT {
 	int field_1;
 
 
-	COMMENT(
-		int const & field_1
-	) : field_1(field_1) {}
+	explicit COMMENT(
+		int && field_1
+	) : field_1(std::move(field_1)) {}
 
-	static COMMENT build(parlex::details::ast_node const & n);
+	COMMENT(COMMENT const & other) = default;
+	COMMENT(COMMENT && move) = default;
+
+	static COMMENT build(parlex::details::behavior::node const & b, parlex::details::ast_node const & n);
 
 };
 

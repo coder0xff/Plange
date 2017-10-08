@@ -9,7 +9,7 @@
 #include "erased.hpp"
 #include "parlex/details/abstract_syntax_tree.hpp"
 
-#include "_plange_literals.hpp"
+#include "plange_grammar.hpp"
 
 namespace plc {
 
@@ -20,12 +20,15 @@ struct ICR {
 	std::vector<erased<IC>> field_2;
 
 
-	ICR(
-		erased<IC> const & field_1,
-		std::vector<erased<IC>> const & field_2
-	) : field_1(field_1), field_2(field_2) {}
+	explicit ICR(
+		erased<IC> && field_1,
+		std::vector<erased<IC>> && field_2
+	) : field_1(std::move(field_1)), field_2(std::move(field_2)) {}
 
-	static ICR build(parlex::details::ast_node const & n);
+	ICR(ICR const & other) = default;
+	ICR(ICR && move) = default;
+
+	static ICR build(parlex::details::behavior::node const & b, parlex::details::ast_node const & n);
 
 };
 

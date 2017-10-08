@@ -9,35 +9,58 @@
 #include "erased.hpp"
 #include "parlex/details/abstract_syntax_tree.hpp"
 
-#include "_plange_literals.hpp"
+#include "plange_grammar.hpp"
 
 namespace plc {
 
 struct IDENTIFIER {
-	std::variant<
-		std::integral_constant<int, 0>,
-		literal___t
-	> field_1;
-	std::vector<std::variant<
-		std::integral_constant<int, 0>,
-		std::integral_constant<int, 1>,
-		literal___t
-	>> field_2;
+	struct field_1_t {
+		enum type {
+			field_1_t_1_t,
+			literal__
+		} value;
+	
+		static field_1_t build(parlex::details::behavior::node const & b, parlex::details::ast_node const & n) {
+			static ::std::unordered_map<parlex::details::recognizer const *, type> const table {
+				{ &plange_grammar().get_literal("field_1_t_1_t"), field_1_t_1_t },
+				{ &plange_grammar().get_literal("literal__"), literal__ },
+			};
+			return field_1_t{ table.find(&n.r)->second };
+		}
+	};
 
 
-	IDENTIFIER(
-		std::variant<
-			std::integral_constant<int, 0>,
-			literal___t
-		> const & field_1,
-		std::vector<std::variant<
-			std::integral_constant<int, 0>,
-			std::integral_constant<int, 1>,
-			literal___t
-		>> const & field_2
-	) : field_1(field_1), field_2(field_2) {}
+	struct field_2_t_1_t {
+		enum type {
+			field_2_t_1_t_1_t,
+			field_2_t_1_t_2_t,
+			literal__
+		} value;
+	
+		static field_2_t_1_t build(parlex::details::behavior::node const & b, parlex::details::ast_node const & n) {
+			static ::std::unordered_map<parlex::details::recognizer const *, type> const table {
+				{ &plange_grammar().get_literal("field_2_t_1_t_1_t"), field_2_t_1_t_1_t },
+				{ &plange_grammar().get_literal("field_2_t_1_t_2_t"), field_2_t_1_t_2_t },
+				{ &plange_grammar().get_literal("literal__"), literal__ },
+			};
+			return field_2_t_1_t{ table.find(&n.r)->second };
+		}
+	};
 
-	static IDENTIFIER build(parlex::details::ast_node const & n);
+
+	field_1_t field_1;
+	std::vector<field_2_t_1_t> field_2;
+
+
+	explicit IDENTIFIER(
+		field_1_t && field_1,
+		std::vector<field_2_t_1_t> && field_2
+	) : field_1(std::move(field_1)), field_2(std::move(field_2)) {}
+
+	IDENTIFIER(IDENTIFIER const & other) = default;
+	IDENTIFIER(IDENTIFIER && move) = default;
+
+	static IDENTIFIER build(parlex::details::behavior::node const & b, parlex::details::ast_node const & n);
 
 };
 

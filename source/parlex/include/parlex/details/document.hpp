@@ -16,29 +16,53 @@
 
 namespace parlex::details::document {
 
-	behavior::node const & follow(behavior::node const & a, behavior::leaf const & b) {
+	inline behavior::node const & follow(behavior::node const & a, behavior::leaf const & b) {
 		return *a.follow(&b);
 	}
 
+
 	template<typename T>
 	struct element {
-
-	};
-
-	//literals only have one instance, so we work in pointers to that instance
-	template<typename T>
-	struct element<T const *> {
-		static T const * build(behavior::node const & b, ast_node const & n) {
-			return T::get();
+		static T build(behavior::node const & b, ast_node const & n) {
+			return T::build(b, n);
 		}
 	};
 
+	template<>
+	struct element<bool> {
+		static bool build(behavior::node const & b, ast_node const & n) {
+			return b.can_follow(n.leaf);
+		}
+	};
+
+	template<>
+	struct element<int> {
+		static int build(behavior::node const & b, ast_node const & n) {
+			return n.children.size();
+		}
+	};
+
+	template<>
+	struct element<std::string> {
+		static std::string build(behavior::node const & b, ast_node const & n) {
+			return ""; //TODO: extract text from the document
+		}
+	};
+
+// 	//literals only have one instance, so we work in pointers to that instance
+// 	template<typename T>
+// 	struct element<T const *> {
+// 		static T const * build(behavior::node const & b, ast_node const & n) {
+// 			return T::get();
+// 		}
+// 	};
+
 	template<typename T>
 	struct element<erased<T>> {
-		static T build(behavior::node const & b, ast_node const & n) {
+		static erased<T> build(behavior::node const & b, ast_node const & n) {
 			auto asLeafPtr = dynamic_cast<behavior::leaf const *>(&b);
 			assert(asLeafPtr != nullptr);
-			return T::build(n);
+			return make_erased<T>(element<T>::build(b, n));
 		}
 	};
 
@@ -61,7 +85,7 @@ namespace parlex::details::document {
 		static std::optional<T> build(behavior::node const & b, ast_node const & n) {
 			assert(dynamic_cast<behavior::optional const *>(&b) != nullptr);
 			behavior::node const & bChild = *b.get_children()[0];
-			for (ast_node const & child : n) {
+			for (ast_node const & child : n.children) {
 				if (b.can_follow(child.leaf)) {
 					return std::optional<T>(element<T>::build(bChild, child));
 				}

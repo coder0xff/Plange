@@ -9,7 +9,7 @@
 #include "erased.hpp"
 #include "parlex/details/abstract_syntax_tree.hpp"
 
-#include "_plange_literals.hpp"
+#include "plange_grammar.hpp"
 
 namespace plc {
 
@@ -20,12 +20,15 @@ struct UNIT_DIVISION {
 	erased<DIMENSION> field_2;
 
 
-	UNIT_DIVISION(
-		erased<DIMENSION> const & field_1,
-		erased<DIMENSION> const & field_2
-	) : field_1(field_1), field_2(field_2) {}
+	explicit UNIT_DIVISION(
+		erased<DIMENSION> && field_1,
+		erased<DIMENSION> && field_2
+	) : field_1(std::move(field_1)), field_2(std::move(field_2)) {}
 
-	static UNIT_DIVISION build(parlex::details::ast_node const & n);
+	UNIT_DIVISION(UNIT_DIVISION const & other) = default;
+	UNIT_DIVISION(UNIT_DIVISION && move) = default;
+
+	static UNIT_DIVISION build(parlex::details::behavior::node const & b, parlex::details::ast_node const & n);
 
 };
 

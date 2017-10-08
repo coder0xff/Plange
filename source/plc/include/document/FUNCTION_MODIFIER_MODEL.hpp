@@ -9,7 +9,7 @@
 #include "erased.hpp"
 #include "parlex/details/abstract_syntax_tree.hpp"
 
-#include "_plange_literals.hpp"
+#include "plange_grammar.hpp"
 
 namespace plc {
 
@@ -17,30 +17,54 @@ struct FUNCTION_MODIFIER_CALLING_CONVENTION;
 struct ICR;
 
 struct FUNCTION_MODIFIER_MODEL {
-	std::variant<
-		literal_pure_t,
-		literal_imperative_t,
-		literal_opaque_t
-	> model;
-	std::optional<std::tuple<
-		erased<ICR>,
-		erased<FUNCTION_MODIFIER_CALLING_CONVENTION>
-	>> field_1;
+	struct model_t {
+		enum type {
+			literal_imperative,
+			literal_opaque,
+			literal_pure
+		} value;
+	
+		static model_t build(parlex::details::behavior::node const & b, parlex::details::ast_node const & n) {
+			static ::std::unordered_map<parlex::details::recognizer const *, type> const table {
+				{ &plange_grammar().get_literal("literal_imperative"), literal_imperative },
+				{ &plange_grammar().get_literal("literal_opaque"), literal_opaque },
+				{ &plange_grammar().get_literal("literal_pure"), literal_pure },
+			};
+			return model_t{ table.find(&n.r)->second };
+		}
+	};
 
 
-	FUNCTION_MODIFIER_MODEL(
-		std::variant<
-			literal_pure_t,
-			literal_imperative_t,
-			literal_opaque_t
-		> const & model,
-		std::optional<std::tuple<
-			erased<ICR>,
-			erased<FUNCTION_MODIFIER_CALLING_CONVENTION>
-		>> const & field_1
-	) : model(model), field_1(field_1) {}
+	struct field_1_t_1_t {
+		erased<ICR> field_1;
+		erased<FUNCTION_MODIFIER_CALLING_CONVENTION> field_2;
+	
+	
+		explicit field_1_t_1_t(
+			erased<ICR> && field_1,
+			erased<FUNCTION_MODIFIER_CALLING_CONVENTION> && field_2
+		) : field_1(std::move(field_1)), field_2(std::move(field_2)) {}
+	
+		field_1_t_1_t(field_1_t_1_t const & other) = default;
+		field_1_t_1_t(field_1_t_1_t && move) = default;
+	
+		static field_1_t_1_t build(parlex::details::behavior::node const & b, parlex::details::ast_node const & n);
+	
+	};
 
-	static FUNCTION_MODIFIER_MODEL build(parlex::details::ast_node const & n);
+	model_t model;
+	std::optional<field_1_t_1_t> field_1;
+
+
+	explicit FUNCTION_MODIFIER_MODEL(
+		model_t && model,
+		std::optional<field_1_t_1_t> && field_1
+	) : model(std::move(model)), field_1(std::move(field_1)) {}
+
+	FUNCTION_MODIFIER_MODEL(FUNCTION_MODIFIER_MODEL const & other) = default;
+	FUNCTION_MODIFIER_MODEL(FUNCTION_MODIFIER_MODEL && move) = default;
+
+	static FUNCTION_MODIFIER_MODEL build(parlex::details::behavior::node const & b, parlex::details::ast_node const & n);
 
 };
 

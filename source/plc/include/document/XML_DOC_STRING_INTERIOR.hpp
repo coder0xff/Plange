@@ -9,22 +9,35 @@
 #include "erased.hpp"
 #include "parlex/details/abstract_syntax_tree.hpp"
 
-#include "_plange_literals.hpp"
+#include "plange_grammar.hpp"
 
 namespace plc {
 
 struct PAYLOAD;
 struct XML_DOC_STRING_INTERIOR;
 
+struct XML_DOC_STRING_INTERIOR_2_t {
+	erased<XML_DOC_STRING_INTERIOR> field_1;
+
+
+	explicit XML_DOC_STRING_INTERIOR_2_t(
+		erased<XML_DOC_STRING_INTERIOR> && field_1
+	) : field_1(std::move(field_1)) {}
+
+	XML_DOC_STRING_INTERIOR_2_t(XML_DOC_STRING_INTERIOR_2_t const & other) = default;
+	XML_DOC_STRING_INTERIOR_2_t(XML_DOC_STRING_INTERIOR_2_t && move) = default;
+
+	static XML_DOC_STRING_INTERIOR_2_t build(parlex::details::behavior::node const & b, parlex::details::ast_node const & n);
+
+};
+
 typedef std::variant<
 	erased<PAYLOAD>,
-	std::tuple<
-		erased<XML_DOC_STRING_INTERIOR>
-	>
+	XML_DOC_STRING_INTERIOR_2_t
 > XML_DOC_STRING_INTERIOR_base;
 
 struct XML_DOC_STRING_INTERIOR: XML_DOC_STRING_INTERIOR_base {
-	static XML_DOC_STRING_INTERIOR build(parlex::details::ast_node const & n);
+	static XML_DOC_STRING_INTERIOR build(parlex::details::behavior::node const & b, parlex::details::ast_node const & n);
 	explicit XML_DOC_STRING_INTERIOR(XML_DOC_STRING_INTERIOR_base const & value) : XML_DOC_STRING_INTERIOR_base(value) {}
 };
 } // namespace plc

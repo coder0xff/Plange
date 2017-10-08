@@ -9,7 +9,7 @@
 #include "erased.hpp"
 #include "parlex/details/abstract_syntax_tree.hpp"
 
-#include "_plange_literals.hpp"
+#include "plange_grammar.hpp"
 
 namespace plc {
 
@@ -18,38 +18,62 @@ struct IC;
 struct SUBSET_CHAIN_LOOP;
 
 struct SUBSET_CHAIN_LOOP {
-	std::variant<
-		literal_0x3D_t,
-		literal_0xE20x8A0x86_t,
-		literal_subs_t,
-		literal_0xE20x8A0x82_t,
-		literal_psubs_t
-	> field_1;
+	struct field_1_t {
+		enum type {
+			literal_0x3D,
+			literal_0xE20x8A0x82,
+			literal_0xE20x8A0x86,
+			literal_psubs,
+			literal_subs
+		} value;
+	
+		static field_1_t build(parlex::details::behavior::node const & b, parlex::details::ast_node const & n) {
+			static ::std::unordered_map<parlex::details::recognizer const *, type> const table {
+				{ &plange_grammar().get_literal("literal_0x3D"), literal_0x3D },
+				{ &plange_grammar().get_literal("literal_0xE20x8A0x82"), literal_0xE20x8A0x82 },
+				{ &plange_grammar().get_literal("literal_0xE20x8A0x86"), literal_0xE20x8A0x86 },
+				{ &plange_grammar().get_literal("literal_psubs"), literal_psubs },
+				{ &plange_grammar().get_literal("literal_subs"), literal_subs },
+			};
+			return field_1_t{ table.find(&n.r)->second };
+		}
+	};
+
+
+	struct field_4_t_1_t {
+		std::vector<erased<IC>> field_1;
+		erased<SUBSET_CHAIN_LOOP> field_2;
+	
+	
+		explicit field_4_t_1_t(
+			std::vector<erased<IC>> && field_1,
+			erased<SUBSET_CHAIN_LOOP> && field_2
+		) : field_1(std::move(field_1)), field_2(std::move(field_2)) {}
+	
+		field_4_t_1_t(field_4_t_1_t const & other) = default;
+		field_4_t_1_t(field_4_t_1_t && move) = default;
+	
+		static field_4_t_1_t build(parlex::details::behavior::node const & b, parlex::details::ast_node const & n);
+	
+	};
+
+	field_1_t field_1;
 	std::vector<erased<IC>> field_2;
 	erased<EXPRESSION> field_3;
-	std::optional<std::tuple<
-		std::vector<erased<IC>>,
-		erased<SUBSET_CHAIN_LOOP>
-	>> field_4;
+	std::optional<field_4_t_1_t> field_4;
 
 
-	SUBSET_CHAIN_LOOP(
-		std::variant<
-			literal_0x3D_t,
-			literal_0xE20x8A0x86_t,
-			literal_subs_t,
-			literal_0xE20x8A0x82_t,
-			literal_psubs_t
-		> const & field_1,
-		std::vector<erased<IC>> const & field_2,
-		erased<EXPRESSION> const & field_3,
-		std::optional<std::tuple<
-			std::vector<erased<IC>>,
-			erased<SUBSET_CHAIN_LOOP>
-		>> const & field_4
-	) : field_1(field_1), field_2(field_2), field_3(field_3), field_4(field_4) {}
+	explicit SUBSET_CHAIN_LOOP(
+		field_1_t && field_1,
+		std::vector<erased<IC>> && field_2,
+		erased<EXPRESSION> && field_3,
+		std::optional<field_4_t_1_t> && field_4
+	) : field_1(std::move(field_1)), field_2(std::move(field_2)), field_3(std::move(field_3)), field_4(std::move(field_4)) {}
 
-	static SUBSET_CHAIN_LOOP build(parlex::details::ast_node const & n);
+	SUBSET_CHAIN_LOOP(SUBSET_CHAIN_LOOP const & other) = default;
+	SUBSET_CHAIN_LOOP(SUBSET_CHAIN_LOOP && move) = default;
+
+	static SUBSET_CHAIN_LOOP build(parlex::details::behavior::node const & b, parlex::details::ast_node const & n);
 
 };
 

@@ -9,22 +9,33 @@
 #include "erased.hpp"
 #include "parlex/details/abstract_syntax_tree.hpp"
 
-#include "_plange_literals.hpp"
+#include "plange_grammar.hpp"
 
 namespace plc {
 
-typedef std::variant<
-	literal_public_t,
-	literal_protected_t,
-	literal_protected0x20internal_t,
-	literal_internal_t,
-	literal_private_t
-> VISIBILITY_MODIFIER_base;
+struct VISIBILITY_MODIFIER {
+	enum type {
+		literal_internal,
+		literal_private,
+		literal_protected,
+		literal_protected0x20internal,
+		literal_public
+	} value;
 
-struct VISIBILITY_MODIFIER: VISIBILITY_MODIFIER_base {
-	static VISIBILITY_MODIFIER build(parlex::details::ast_node const & n);
-	explicit VISIBILITY_MODIFIER(VISIBILITY_MODIFIER_base const & value) : VISIBILITY_MODIFIER_base(value) {}
+	static VISIBILITY_MODIFIER build(parlex::details::behavior::node const & b, parlex::details::ast_node const & n) {
+		static ::std::unordered_map<parlex::details::recognizer const *, type> const table {
+			{ &plange_grammar().get_literal("literal_internal"), literal_internal },
+			{ &plange_grammar().get_literal("literal_private"), literal_private },
+			{ &plange_grammar().get_literal("literal_protected"), literal_protected },
+			{ &plange_grammar().get_literal("literal_protected0x20internal"), literal_protected0x20internal },
+			{ &plange_grammar().get_literal("literal_public"), literal_public },
+		};
+		return VISIBILITY_MODIFIER{ table.find(&n.r)->second };
+	}
 };
+
+
+
 } // namespace plc
 
 

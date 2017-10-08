@@ -9,7 +9,7 @@
 #include "erased.hpp"
 #include "parlex/details/abstract_syntax_tree.hpp"
 
-#include "_plange_literals.hpp"
+#include "plange_grammar.hpp"
 
 namespace plc {
 
@@ -21,12 +21,15 @@ struct UNIT_EXPONENTIATION {
 	erased<NON_FRACTIONAL> field_2;
 
 
-	UNIT_EXPONENTIATION(
-		erased<DIMENSION> const & field_1,
-		erased<NON_FRACTIONAL> const & field_2
-	) : field_1(field_1), field_2(field_2) {}
+	explicit UNIT_EXPONENTIATION(
+		erased<DIMENSION> && field_1,
+		erased<NON_FRACTIONAL> && field_2
+	) : field_1(std::move(field_1)), field_2(std::move(field_2)) {}
 
-	static UNIT_EXPONENTIATION build(parlex::details::ast_node const & n);
+	UNIT_EXPONENTIATION(UNIT_EXPONENTIATION const & other) = default;
+	UNIT_EXPONENTIATION(UNIT_EXPONENTIATION && move) = default;
+
+	static UNIT_EXPONENTIATION build(parlex::details::behavior::node const & b, parlex::details::ast_node const & n);
 
 };
 

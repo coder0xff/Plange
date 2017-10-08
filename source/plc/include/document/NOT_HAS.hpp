@@ -9,7 +9,7 @@
 #include "erased.hpp"
 #include "parlex/details/abstract_syntax_tree.hpp"
 
-#include "_plange_literals.hpp"
+#include "plange_grammar.hpp"
 
 namespace plc {
 
@@ -17,28 +17,41 @@ struct EXPRESSION;
 struct IC;
 
 struct NOT_HAS {
+	struct field_3_t {
+		enum type {
+			literal_0x2Fhas,
+			literal_0xE20x880x8C
+		} value;
+	
+		static field_3_t build(parlex::details::behavior::node const & b, parlex::details::ast_node const & n) {
+			static ::std::unordered_map<parlex::details::recognizer const *, type> const table {
+				{ &plange_grammar().get_literal("literal_0x2Fhas"), literal_0x2Fhas },
+				{ &plange_grammar().get_literal("literal_0xE20x880x8C"), literal_0xE20x880x8C },
+			};
+			return field_3_t{ table.find(&n.r)->second };
+		}
+	};
+
+
 	erased<EXPRESSION> field_1;
 	std::vector<erased<IC>> field_2;
-	std::variant<
-		literal_0xE20x880x8C_t,
-		literal_0x2Fhas_t
-	> field_3;
+	field_3_t field_3;
 	std::vector<erased<IC>> field_4;
 	erased<EXPRESSION> field_5;
 
 
-	NOT_HAS(
-		erased<EXPRESSION> const & field_1,
-		std::vector<erased<IC>> const & field_2,
-		std::variant<
-			literal_0xE20x880x8C_t,
-			literal_0x2Fhas_t
-		> const & field_3,
-		std::vector<erased<IC>> const & field_4,
-		erased<EXPRESSION> const & field_5
-	) : field_1(field_1), field_2(field_2), field_3(field_3), field_4(field_4), field_5(field_5) {}
+	explicit NOT_HAS(
+		erased<EXPRESSION> && field_1,
+		std::vector<erased<IC>> && field_2,
+		field_3_t && field_3,
+		std::vector<erased<IC>> && field_4,
+		erased<EXPRESSION> && field_5
+	) : field_1(std::move(field_1)), field_2(std::move(field_2)), field_3(std::move(field_3)), field_4(std::move(field_4)), field_5(std::move(field_5)) {}
 
-	static NOT_HAS build(parlex::details::ast_node const & n);
+	NOT_HAS(NOT_HAS const & other) = default;
+	NOT_HAS(NOT_HAS && move) = default;
+
+	static NOT_HAS build(parlex::details::behavior::node const & b, parlex::details::ast_node const & n);
 
 };
 

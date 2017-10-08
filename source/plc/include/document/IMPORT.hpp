@@ -9,7 +9,7 @@
 #include "erased.hpp"
 #include "parlex/details/abstract_syntax_tree.hpp"
 
-#include "_plange_literals.hpp"
+#include "plange_grammar.hpp"
 
 namespace plc {
 
@@ -21,12 +21,15 @@ struct IMPORT {
 	erased<EXPRESSION> field_2;
 
 
-	IMPORT(
-		std::vector<erased<IC>> const & field_1,
-		erased<EXPRESSION> const & field_2
-	) : field_1(field_1), field_2(field_2) {}
+	explicit IMPORT(
+		std::vector<erased<IC>> && field_1,
+		erased<EXPRESSION> && field_2
+	) : field_1(std::move(field_1)), field_2(std::move(field_2)) {}
 
-	static IMPORT build(parlex::details::ast_node const & n);
+	IMPORT(IMPORT const & other) = default;
+	IMPORT(IMPORT && move) = default;
+
+	static IMPORT build(parlex::details::behavior::node const & b, parlex::details::ast_node const & n);
 
 };
 

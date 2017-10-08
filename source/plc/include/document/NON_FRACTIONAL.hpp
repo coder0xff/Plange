@@ -9,7 +9,7 @@
 #include "erased.hpp"
 #include "parlex/details/abstract_syntax_tree.hpp"
 
-#include "_plange_literals.hpp"
+#include "plange_grammar.hpp"
 
 namespace plc {
 
@@ -20,12 +20,15 @@ struct NON_FRACTIONAL {
 	erased<NON_NEG_NON_FRACTIONAL> field_2;
 
 
-	NON_FRACTIONAL(
-		bool const & field_1,
-		erased<NON_NEG_NON_FRACTIONAL> const & field_2
-	) : field_1(field_1), field_2(field_2) {}
+	explicit NON_FRACTIONAL(
+		bool && field_1,
+		erased<NON_NEG_NON_FRACTIONAL> && field_2
+	) : field_1(std::move(field_1)), field_2(std::move(field_2)) {}
 
-	static NON_FRACTIONAL build(parlex::details::ast_node const & n);
+	NON_FRACTIONAL(NON_FRACTIONAL const & other) = default;
+	NON_FRACTIONAL(NON_FRACTIONAL && move) = default;
+
+	static NON_FRACTIONAL build(parlex::details::behavior::node const & b, parlex::details::ast_node const & n);
 
 };
 

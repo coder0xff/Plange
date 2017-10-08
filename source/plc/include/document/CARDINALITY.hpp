@@ -9,7 +9,7 @@
 #include "erased.hpp"
 #include "parlex/details/abstract_syntax_tree.hpp"
 
-#include "_plange_literals.hpp"
+#include "plange_grammar.hpp"
 
 namespace plc {
 
@@ -21,12 +21,15 @@ struct CARDINALITY {
 	erased<EXPRESSION> field_2;
 
 
-	CARDINALITY(
-		std::vector<erased<IC>> const & field_1,
-		erased<EXPRESSION> const & field_2
-	) : field_1(field_1), field_2(field_2) {}
+	explicit CARDINALITY(
+		std::vector<erased<IC>> && field_1,
+		erased<EXPRESSION> && field_2
+	) : field_1(std::move(field_1)), field_2(std::move(field_2)) {}
 
-	static CARDINALITY build(parlex::details::ast_node const & n);
+	CARDINALITY(CARDINALITY const & other) = default;
+	CARDINALITY(CARDINALITY && move) = default;
+
+	static CARDINALITY build(parlex::details::behavior::node const & b, parlex::details::ast_node const & n);
 
 };
 

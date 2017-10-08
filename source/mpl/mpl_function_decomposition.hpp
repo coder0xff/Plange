@@ -16,6 +16,12 @@ namespace mpl {
 			using argument_types = std::tuple<TArgs...>;
 		};
 
+		template<typename TClass, typename TReturn, typename... TArgs>
+		struct impl<TReturn(TClass::*)(TArgs...) const> {
+			using return_type = TReturn;
+			using argument_types = std::tuple<TArgs...>;
+		};
+
 		template<typename TReturn, typename... TArgs>
 		struct impl<TReturn (*)(TArgs...)> {
 			using return_type = TReturn;

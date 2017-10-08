@@ -9,7 +9,7 @@
 #include "erased.hpp"
 #include "parlex/details/abstract_syntax_tree.hpp"
 
-#include "_plange_literals.hpp"
+#include "plange_grammar.hpp"
 
 namespace plc {
 
@@ -17,11 +17,14 @@ struct HEX {
 	int field_2;
 
 
-	HEX(
-		int const & field_2
-	) : field_2(field_2) {}
+	explicit HEX(
+		int && field_2
+	) : field_2(std::move(field_2)) {}
 
-	static HEX build(parlex::details::ast_node const & n);
+	HEX(HEX const & other) = default;
+	HEX(HEX && move) = default;
+
+	static HEX build(parlex::details::behavior::node const & b, parlex::details::ast_node const & n);
 
 };
 

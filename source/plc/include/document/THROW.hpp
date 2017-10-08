@@ -9,7 +9,7 @@
 #include "erased.hpp"
 #include "parlex/details/abstract_syntax_tree.hpp"
 
-#include "_plange_literals.hpp"
+#include "plange_grammar.hpp"
 
 namespace plc {
 
@@ -17,32 +17,57 @@ struct EXPRESSION;
 struct IC;
 
 struct THROW {
-	std::optional<std::tuple<
-		std::vector<erased<IC>>,
-		std::vector<erased<IC>>,
-		erased<EXPRESSION>,
-		std::vector<erased<IC>>
-	>> field_1;
-	std::optional<std::tuple<
-		std::vector<erased<IC>>,
-		erased<EXPRESSION>
-	>> field_2;
+	struct field_1_t_1_t {
+		std::vector<erased<IC>> field_1;
+		std::vector<erased<IC>> field_2;
+		erased<EXPRESSION> field_3;
+		std::vector<erased<IC>> field_4;
+	
+	
+		explicit field_1_t_1_t(
+			std::vector<erased<IC>> && field_1,
+			std::vector<erased<IC>> && field_2,
+			erased<EXPRESSION> && field_3,
+			std::vector<erased<IC>> && field_4
+		) : field_1(std::move(field_1)), field_2(std::move(field_2)), field_3(std::move(field_3)), field_4(std::move(field_4)) {}
+	
+		field_1_t_1_t(field_1_t_1_t const & other) = default;
+		field_1_t_1_t(field_1_t_1_t && move) = default;
+	
+		static field_1_t_1_t build(parlex::details::behavior::node const & b, parlex::details::ast_node const & n);
+	
+	};
+
+	struct field_2_t_1_t {
+		std::vector<erased<IC>> field_1;
+		erased<EXPRESSION> field_2;
+	
+	
+		explicit field_2_t_1_t(
+			std::vector<erased<IC>> && field_1,
+			erased<EXPRESSION> && field_2
+		) : field_1(std::move(field_1)), field_2(std::move(field_2)) {}
+	
+		field_2_t_1_t(field_2_t_1_t const & other) = default;
+		field_2_t_1_t(field_2_t_1_t && move) = default;
+	
+		static field_2_t_1_t build(parlex::details::behavior::node const & b, parlex::details::ast_node const & n);
+	
+	};
+
+	std::optional<field_1_t_1_t> field_1;
+	std::optional<field_2_t_1_t> field_2;
 
 
-	THROW(
-		std::optional<std::tuple<
-			std::vector<erased<IC>>,
-			std::vector<erased<IC>>,
-			erased<EXPRESSION>,
-			std::vector<erased<IC>>
-		>> const & field_1,
-		std::optional<std::tuple<
-			std::vector<erased<IC>>,
-			erased<EXPRESSION>
-		>> const & field_2
-	) : field_1(field_1), field_2(field_2) {}
+	explicit THROW(
+		std::optional<field_1_t_1_t> && field_1,
+		std::optional<field_2_t_1_t> && field_2
+	) : field_1(std::move(field_1)), field_2(std::move(field_2)) {}
 
-	static THROW build(parlex::details::ast_node const & n);
+	THROW(THROW const & other) = default;
+	THROW(THROW && move) = default;
+
+	static THROW build(parlex::details::behavior::node const & b, parlex::details::ast_node const & n);
 
 };
 

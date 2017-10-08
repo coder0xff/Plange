@@ -9,7 +9,7 @@
 #include "erased.hpp"
 #include "parlex/details/abstract_syntax_tree.hpp"
 
-#include "_plange_literals.hpp"
+#include "plange_grammar.hpp"
 
 namespace plc {
 
@@ -24,7 +24,7 @@ typedef std::variant<
 > NON_NEG_NON_FRACTIONAL_base;
 
 struct NON_NEG_NON_FRACTIONAL: NON_NEG_NON_FRACTIONAL_base {
-	static NON_NEG_NON_FRACTIONAL build(parlex::details::ast_node const & n);
+	static NON_NEG_NON_FRACTIONAL build(parlex::details::behavior::node const & b, parlex::details::ast_node const & n);
 	explicit NON_NEG_NON_FRACTIONAL(NON_NEG_NON_FRACTIONAL_base const & value) : NON_NEG_NON_FRACTIONAL_base(value) {}
 };
 } // namespace plc

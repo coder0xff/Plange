@@ -9,7 +9,7 @@
 #include "erased.hpp"
 #include "parlex/details/abstract_syntax_tree.hpp"
 
-#include "_plange_literals.hpp"
+#include "plange_grammar.hpp"
 
 namespace plc {
 
@@ -23,14 +23,17 @@ struct BIT_XOR {
 	erased<EXPRESSION> field_4;
 
 
-	BIT_XOR(
-		erased<EXPRESSION> const & field_1,
-		std::vector<erased<IC>> const & field_2,
-		std::vector<erased<IC>> const & field_3,
-		erased<EXPRESSION> const & field_4
-	) : field_1(field_1), field_2(field_2), field_3(field_3), field_4(field_4) {}
+	explicit BIT_XOR(
+		erased<EXPRESSION> && field_1,
+		std::vector<erased<IC>> && field_2,
+		std::vector<erased<IC>> && field_3,
+		erased<EXPRESSION> && field_4
+	) : field_1(std::move(field_1)), field_2(std::move(field_2)), field_3(std::move(field_3)), field_4(std::move(field_4)) {}
 
-	static BIT_XOR build(parlex::details::ast_node const & n);
+	BIT_XOR(BIT_XOR const & other) = default;
+	BIT_XOR(BIT_XOR && move) = default;
+
+	static BIT_XOR build(parlex::details::behavior::node const & b, parlex::details::ast_node const & n);
 
 };
 

@@ -9,7 +9,7 @@
 #include "erased.hpp"
 #include "parlex/details/abstract_syntax_tree.hpp"
 
-#include "_plange_literals.hpp"
+#include "plange_grammar.hpp"
 
 namespace plc {
 
@@ -21,12 +21,15 @@ struct FACTORIAL {
 	std::vector<erased<IC>> field_2;
 
 
-	FACTORIAL(
-		erased<EXPRESSION> const & field_1,
-		std::vector<erased<IC>> const & field_2
-	) : field_1(field_1), field_2(field_2) {}
+	explicit FACTORIAL(
+		erased<EXPRESSION> && field_1,
+		std::vector<erased<IC>> && field_2
+	) : field_1(std::move(field_1)), field_2(std::move(field_2)) {}
 
-	static FACTORIAL build(parlex::details::ast_node const & n);
+	FACTORIAL(FACTORIAL const & other) = default;
+	FACTORIAL(FACTORIAL && move) = default;
+
+	static FACTORIAL build(parlex::details::behavior::node const & b, parlex::details::ast_node const & n);
 
 };
 

@@ -9,7 +9,7 @@
 #include "erased.hpp"
 #include "parlex/details/abstract_syntax_tree.hpp"
 
-#include "_plange_literals.hpp"
+#include "plange_grammar.hpp"
 
 namespace plc {
 
@@ -18,44 +18,69 @@ struct IC;
 struct PARENTHETICAL;
 
 struct IF {
+	struct field_3_t_1_t {
+		std::vector<erased<IC>> field_1;
+		std::vector<erased<IC>> field_2;
+		erased<PARENTHETICAL> condition;
+		std::vector<erased<IC>> field_3;
+		erased<EXPRESSION> invoke;
+	
+	
+		explicit field_3_t_1_t(
+			std::vector<erased<IC>> && field_1,
+			std::vector<erased<IC>> && field_2,
+			erased<PARENTHETICAL> && condition,
+			std::vector<erased<IC>> && field_3,
+			erased<EXPRESSION> && invoke
+		) : field_1(std::move(field_1)), field_2(std::move(field_2)), condition(std::move(condition)), field_3(std::move(field_3)), invoke(std::move(invoke)) {}
+	
+		field_3_t_1_t(field_3_t_1_t const & other) = default;
+		field_3_t_1_t(field_3_t_1_t && move) = default;
+	
+		static field_3_t_1_t build(parlex::details::behavior::node const & b, parlex::details::ast_node const & n);
+	
+	};
+
+	struct field_4_t_1_t {
+		std::vector<erased<IC>> field_1;
+		std::vector<erased<IC>> field_2;
+		erased<EXPRESSION> else_invoke;
+	
+	
+		explicit field_4_t_1_t(
+			std::vector<erased<IC>> && field_1,
+			std::vector<erased<IC>> && field_2,
+			erased<EXPRESSION> && else_invoke
+		) : field_1(std::move(field_1)), field_2(std::move(field_2)), else_invoke(std::move(else_invoke)) {}
+	
+		field_4_t_1_t(field_4_t_1_t const & other) = default;
+		field_4_t_1_t(field_4_t_1_t && move) = default;
+	
+		static field_4_t_1_t build(parlex::details::behavior::node const & b, parlex::details::ast_node const & n);
+	
+	};
+
 	std::vector<erased<IC>> field_1;
 	erased<PARENTHETICAL> condition;
 	std::vector<erased<IC>> field_2;
 	erased<EXPRESSION> invoke;
-	std::vector<std::tuple<
-		std::vector<erased<IC>>,
-		std::vector<erased<IC>>,
-		erased<PARENTHETICAL>,
-		std::vector<erased<IC>>,
-		erased<EXPRESSION>
-	>> field_3;
-	std::optional<std::tuple<
-		std::vector<erased<IC>>,
-		std::vector<erased<IC>>,
-		erased<EXPRESSION>
-	>> field_4;
+	std::vector<field_3_t_1_t> field_3;
+	std::optional<field_4_t_1_t> field_4;
 
 
-	IF(
-		std::vector<erased<IC>> const & field_1,
-		erased<PARENTHETICAL> const & condition,
-		std::vector<erased<IC>> const & field_2,
-		erased<EXPRESSION> const & invoke,
-		std::vector<std::tuple<
-			std::vector<erased<IC>>,
-			std::vector<erased<IC>>,
-			erased<PARENTHETICAL>,
-			std::vector<erased<IC>>,
-			erased<EXPRESSION>
-		>> const & field_3,
-		std::optional<std::tuple<
-			std::vector<erased<IC>>,
-			std::vector<erased<IC>>,
-			erased<EXPRESSION>
-		>> const & field_4
-	) : field_1(field_1), condition(condition), field_2(field_2), invoke(invoke), field_3(field_3), field_4(field_4) {}
+	explicit IF(
+		std::vector<erased<IC>> && field_1,
+		erased<PARENTHETICAL> && condition,
+		std::vector<erased<IC>> && field_2,
+		erased<EXPRESSION> && invoke,
+		std::vector<field_3_t_1_t> && field_3,
+		std::optional<field_4_t_1_t> && field_4
+	) : field_1(std::move(field_1)), condition(std::move(condition)), field_2(std::move(field_2)), invoke(std::move(invoke)), field_3(std::move(field_3)), field_4(std::move(field_4)) {}
 
-	static IF build(parlex::details::ast_node const & n);
+	IF(IF const & other) = default;
+	IF(IF && move) = default;
+
+	static IF build(parlex::details::behavior::node const & b, parlex::details::ast_node const & n);
 
 };
 

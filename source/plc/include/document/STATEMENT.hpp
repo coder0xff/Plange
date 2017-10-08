@@ -9,7 +9,7 @@
 #include "erased.hpp"
 #include "parlex/details/abstract_syntax_tree.hpp"
 
-#include "_plange_literals.hpp"
+#include "plange_grammar.hpp"
 
 namespace plc {
 
@@ -59,7 +59,7 @@ struct STATEMENT {
 	std::vector<erased<IC>> field_2;
 
 
-	STATEMENT(
+	explicit STATEMENT(
 		std::variant<
 			erased<ASSIGNMENT_CHAIN>,
 			erased<BREAK>,
@@ -80,11 +80,14 @@ struct STATEMENT {
 			erased<TYPE_CONSTRAINT>,
 			erased<WRITE_LOCK>,
 			erased<USING>
-		> const & field_1,
-		std::vector<erased<IC>> const & field_2
-	) : field_1(field_1), field_2(field_2) {}
+		> && field_1,
+		std::vector<erased<IC>> && field_2
+	) : field_1(std::move(field_1)), field_2(std::move(field_2)) {}
 
-	static STATEMENT build(parlex::details::ast_node const & n);
+	STATEMENT(STATEMENT const & other) = default;
+	STATEMENT(STATEMENT && move) = default;
+
+	static STATEMENT build(parlex::details::behavior::node const & b, parlex::details::ast_node const & n);
 
 };
 
