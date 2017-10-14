@@ -12,7 +12,9 @@ if (NOT YAML-CPP_FOUND)
 		GIT_REPOSITORY "https://github.com/jbeder/yaml-cpp.git"
 		GIT_TAG 519d33fea3fbcbe7e1f89f97ee0fa539cec33eb7
 		BINARY_DIR "${CMAKE_BINARY_DIR}/Downloads/yaml-cpp/build"
-		CMAKE_ARGS "-DCMAKE_INSTALL_PREFIX=${CMAKE_BINARY_DIR}/Dependencies/yaml-cpp"
+		CMAKE_ARGS
+			"-DCMAKE_CXX_COMPILER=${CMAKE_CXX_COMPILER}"
+			"-DCMAKE_INSTALL_PREFIX=${CMAKE_BINARY_DIR}/Dependencies/yaml-cpp"
 	)
 endif()
 
@@ -30,6 +32,7 @@ if (NOT LLVM_FOUND)
 		BINARY_DIR "${CMAKE_BINARY_DIR}/Downloads/llvm/${CMAKE_CFG_INTDIR}/build"
 		CMAKE_ARGS
 			"-DCMAKE_INSTALL_PREFIX=${CMAKE_BINARY_DIR}/Dependencies/llvm"
+			"-DCMAKE_CXX_COMPILER=${CMAKE_CXX_COMPILER}"
 			"-DLLVM_TARGETS_TO_BUILD=X86"
 			"-DLLVM_ENABLE_RTTI=ON"
 	)
@@ -50,6 +53,7 @@ ExternalProject_Add(googletest
 	BINARY_DIR "${CMAKE_BINARY_DIR}/Downloads/googletest/${CMAKE_CFG_INTDIR}/build"
 	CMAKE_ARGS
 		"-DCMAKE_INSTALL_PREFIX=${CMAKE_BINARY_DIR}/Dependencies/googletest"
+		"-DCMAKE_CXX_COMPILER=${CMAKE_CXX_COMPILER}"
 		"-Dgtest_force_shared_crt=ON"
 )
 

@@ -3,9 +3,10 @@
 
 #include <type_traits>
 
-#define SFINAE(x) sfinae<x>
-#define SFINAE_PARAM(x) SFINAE(x) = sfinae_t()
-#define SFINAE_TYPE_PARAM typename TSfinae = sfinae_t
+#define SFINAE(...) ::mpl::sfinae<__VA_ARGS__>
+#define SFINAE_PARAM(...) SFINAE(__VA_ARGS__) = ::mpl::sfinae_t()
+#define SFINAE_TYPE_PARAM typename TSfinae = ::mpl::sfinae_t
+#define SFINAE_OVERLOAD(...) typename = SFINAE(__VA_ARGS__) 
 
 namespace mpl {
 

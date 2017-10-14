@@ -35,6 +35,7 @@ set (HEADERS
 	"mpl_has_type_member.hpp"
 	"mpl_head.hpp"
 	"mpl_indices.hpp" # operations on template<size_t...> lists
+	"mpl_is_const.hpp"
 	"mpl_is_invocable.hpp"
 	"mpl_list.hpp"
 

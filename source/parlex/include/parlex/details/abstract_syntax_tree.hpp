@@ -18,4 +18,4 @@ namespace parlex::details {
 }
 
 
-#endif INCLUDED_PARLEX_ABSTRACT_SYNTAX_TREE_HPP
+#endif //INCLUDED_PARLEX_ABSTRACT_SYNTAX_TREE_HPP
