@@ -26,9 +26,9 @@ struct FUNCTION_MODIFIER_MODEL {
 	
 		static model_t build(parlex::details::behavior::node const & b, parlex::details::ast_node const & n) {
 			static ::std::unordered_map<parlex::details::recognizer const *, type> const table {
-				{ &plange_grammar().get_literal("literal_imperative"), literal_imperative },
-				{ &plange_grammar().get_literal("literal_opaque"), literal_opaque },
-				{ &plange_grammar().get_literal("literal_pure"), literal_pure },
+				{ &plange_grammar::get().get_literal("literal_imperative"), literal_imperative },
+				{ &plange_grammar::get().get_literal("literal_opaque"), literal_opaque },
+				{ &plange_grammar::get().get_literal("literal_pure"), literal_pure },
 			};
 			return model_t{ table.find(&n.r)->second };
 		}

@@ -21,8 +21,8 @@ struct BOOL {
 
 	static BOOL build(parlex::details::behavior::node const & b, parlex::details::ast_node const & n) {
 		static ::std::unordered_map<parlex::details::recognizer const *, type> const table {
-			{ &plange_grammar().get_literal("literal_false"), literal_false },
-			{ &plange_grammar().get_literal("literal_true"), literal_true },
+			{ &plange_grammar::get().get_literal("literal_false"), literal_false },
+			{ &plange_grammar::get().get_literal("literal_true"), literal_true },
 		};
 		return BOOL{ table.find(&n.r)->second };
 	}

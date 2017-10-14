@@ -29,15 +29,15 @@ struct WHOLE_NUMBER {
 	
 		static field_1_t build(parlex::details::behavior::node const & b, parlex::details::ast_node const & n) {
 			static ::std::unordered_map<parlex::details::recognizer const *, type> const table {
-				{ &plange_grammar().get_literal("literal_1"), literal_1 },
-				{ &plange_grammar().get_literal("literal_2"), literal_2 },
-				{ &plange_grammar().get_literal("literal_3"), literal_3 },
-				{ &plange_grammar().get_literal("literal_4"), literal_4 },
-				{ &plange_grammar().get_literal("literal_5"), literal_5 },
-				{ &plange_grammar().get_literal("literal_6"), literal_6 },
-				{ &plange_grammar().get_literal("literal_7"), literal_7 },
-				{ &plange_grammar().get_literal("literal_8"), literal_8 },
-				{ &plange_grammar().get_literal("literal_9"), literal_9 },
+				{ &plange_grammar::get().get_literal("literal_1"), literal_1 },
+				{ &plange_grammar::get().get_literal("literal_2"), literal_2 },
+				{ &plange_grammar::get().get_literal("literal_3"), literal_3 },
+				{ &plange_grammar::get().get_literal("literal_4"), literal_4 },
+				{ &plange_grammar::get().get_literal("literal_5"), literal_5 },
+				{ &plange_grammar::get().get_literal("literal_6"), literal_6 },
+				{ &plange_grammar::get().get_literal("literal_7"), literal_7 },
+				{ &plange_grammar::get().get_literal("literal_8"), literal_8 },
+				{ &plange_grammar::get().get_literal("literal_9"), literal_9 },
 			};
 			return field_1_t{ table.find(&n.r)->second };
 		}
@@ -60,16 +60,16 @@ struct WHOLE_NUMBER {
 	
 		static field_2_t_1_t build(parlex::details::behavior::node const & b, parlex::details::ast_node const & n) {
 			static ::std::unordered_map<parlex::details::recognizer const *, type> const table {
-				{ &plange_grammar().get_literal("literal_0"), literal_0 },
-				{ &plange_grammar().get_literal("literal_1"), literal_1 },
-				{ &plange_grammar().get_literal("literal_2"), literal_2 },
-				{ &plange_grammar().get_literal("literal_3"), literal_3 },
-				{ &plange_grammar().get_literal("literal_4"), literal_4 },
-				{ &plange_grammar().get_literal("literal_5"), literal_5 },
-				{ &plange_grammar().get_literal("literal_6"), literal_6 },
-				{ &plange_grammar().get_literal("literal_7"), literal_7 },
-				{ &plange_grammar().get_literal("literal_8"), literal_8 },
-				{ &plange_grammar().get_literal("literal_9"), literal_9 },
+				{ &plange_grammar::get().get_literal("literal_0"), literal_0 },
+				{ &plange_grammar::get().get_literal("literal_1"), literal_1 },
+				{ &plange_grammar::get().get_literal("literal_2"), literal_2 },
+				{ &plange_grammar::get().get_literal("literal_3"), literal_3 },
+				{ &plange_grammar::get().get_literal("literal_4"), literal_4 },
+				{ &plange_grammar::get().get_literal("literal_5"), literal_5 },
+				{ &plange_grammar::get().get_literal("literal_6"), literal_6 },
+				{ &plange_grammar::get().get_literal("literal_7"), literal_7 },
+				{ &plange_grammar::get().get_literal("literal_8"), literal_8 },
+				{ &plange_grammar::get().get_literal("literal_9"), literal_9 },
 			};
 			return field_2_t_1_t{ table.find(&n.r)->second };
 		}

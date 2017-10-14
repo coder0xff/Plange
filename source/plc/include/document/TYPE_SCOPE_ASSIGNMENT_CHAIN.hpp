@@ -63,8 +63,8 @@ struct TYPE_SCOPE_ASSIGNMENT_CHAIN {
 	
 		static field_5_t build(parlex::details::behavior::node const & b, parlex::details::ast_node const & n) {
 			static ::std::unordered_map<parlex::details::recognizer const *, type> const table {
-				{ &plange_grammar().get_literal("literal_0x3C0x2D"), literal_0x3C0x2D },
-				{ &plange_grammar().get_literal("literal_0xE20x860x90"), literal_0xE20x860x90 },
+				{ &plange_grammar::get().get_literal("literal_0x3C0x2D"), literal_0x3C0x2D },
+				{ &plange_grammar::get().get_literal("literal_0xE20x860x90"), literal_0xE20x860x90 },
 			};
 			return field_5_t{ table.find(&n.r)->second };
 		}

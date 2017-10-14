@@ -25,8 +25,8 @@ struct CROSS_PRODUCT {
 	
 		static field_3_t build(parlex::details::behavior::node const & b, parlex::details::ast_node const & n) {
 			static ::std::unordered_map<parlex::details::recognizer const *, type> const table {
-				{ &plange_grammar().get_literal("literal_0xC30x97"), literal_0xC30x97 },
-				{ &plange_grammar().get_literal("literal__x_"), literal__x_ },
+				{ &plange_grammar::get().get_literal("literal_0xC30x97"), literal_0xC30x97 },
+				{ &plange_grammar::get().get_literal("literal__x_"), literal__x_ },
 			};
 			return field_3_t{ table.find(&n.r)->second };
 		}

@@ -25,8 +25,8 @@ struct DELTA {
 	
 		static field_1_t build(parlex::details::behavior::node const & b, parlex::details::ast_node const & n) {
 			static ::std::unordered_map<parlex::details::recognizer const *, type> const table {
-				{ &plange_grammar().get_literal("literal_0xCE0x94"), literal_0xCE0x94 },
-				{ &plange_grammar().get_literal("literal__delta_"), literal__delta_ },
+				{ &plange_grammar::get().get_literal("literal_0xCE0x94"), literal_0xCE0x94 },
+				{ &plange_grammar::get().get_literal("literal__delta_"), literal__delta_ },
 			};
 			return field_1_t{ table.find(&n.r)->second };
 		}

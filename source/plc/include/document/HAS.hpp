@@ -25,8 +25,8 @@ struct HAS {
 	
 		static field_3_t build(parlex::details::behavior::node const & b, parlex::details::ast_node const & n) {
 			static ::std::unordered_map<parlex::details::recognizer const *, type> const table {
-				{ &plange_grammar().get_literal("literal_0xE20x880x8B"), literal_0xE20x880x8B },
-				{ &plange_grammar().get_literal("literal_has"), literal_has },
+				{ &plange_grammar::get().get_literal("literal_0xE20x880x8B"), literal_0xE20x880x8B },
+				{ &plange_grammar::get().get_literal("literal_has"), literal_has },
 			};
 			return field_3_t{ table.find(&n.r)->second };
 		}

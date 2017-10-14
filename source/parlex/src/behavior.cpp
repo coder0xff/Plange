@@ -25,6 +25,9 @@ namespace parlex {
 			}
 
 			node::node(node const & other) : tag(other.tag), children(other.children) {
+				if (other.leaf_paths.size() > 0) {
+					debugger();
+				}
 				for (auto & child : children) {
 					child->parent = this;
 				}
@@ -99,7 +102,7 @@ namespace parlex {
 				return i->second;
 			}
 
-			leaf::leaf(recognizer const & r) : r(r), id(r.id) {}
+			leaf::leaf(recognizer const & r) : r(r), id(r.id) { }
 
 			bool leaf::is_leaf() const { return true; }
 

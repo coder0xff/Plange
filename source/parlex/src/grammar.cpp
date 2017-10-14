@@ -18,6 +18,10 @@ behavior::node const& grammar::production::get_behavior() const
 	return *behavior;
 }
 
+recognizer const & grammar::production::get_recognizer() const {
+	return machine;
+}
+
 
 void grammar::production::set_behavior(erased<behavior::node> const & behavior) {
 	this->behavior = behavior.clone();

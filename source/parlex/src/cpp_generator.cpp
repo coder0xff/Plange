@@ -138,7 +138,7 @@ static std::string generate_enumeration(std::string const & grammarName, std::st
 	ss << "\tstatic " << name << " build(parlex::details::behavior::node const & b, parlex::details::ast_node const & n) {\n";
 	ss << "\t\tstatic ::std::unordered_map<parlex::details::recognizer const *, type> const table {\n";
 	for (auto const & element : elements) {
-		ss << "\t\t\t{ &" << grammarName << "_grammar().get_literal(\"" << element << "\"), " << element << " },\n";
+		ss << "\t\t\t{ &" << grammarName << "_grammar::get().get_literal(\"" << element << "\"), " << element << " },\n";
 	}
 	ss << "\t\t};\n";
 	ss << "\t\treturn " << name << "{ table.find(&n.r)->second };\n";
@@ -833,12 +833,13 @@ std::string generate_grammar_hpp_inc(std::string const & name, std::list<std::st
 	header << namespaces_start(namespaces) << "\n";
 	header << "class " << fullName << " : public parlex::details::grammar {\n";
 	header << "public:\n";
-	header << "static " << fullName << " const & get() {\n";
-	header << "\tstatic " << fullName << " value;\n";
-	header << "\treturn value;\n";
-	header << "}\n\n";
-	header << "\t" << fullName << "();\n\n";
+	header << "\tstatic " << fullName << " const & get() {\n";
+	header << "\t\tstatic " << fullName << " value;\n";
+	header << "\t\treturn value;\n";
+	header << "\t}\n\n";
 	header << generate_production_member_declarations(b);
+	header << "private:\n";
+	header << "\t" << fullName << "();\n\n";
 	header << "};\n\n";
 	header << namespaces_end(namespaces) << "\n";
 	header << include_guard_end(fullName);

@@ -36,6 +36,7 @@ public:
 	struct production {
 		production(std::string const & id, filter_function const & filter, associativity assoc);
 		behavior::node const & get_behavior() const;
+		recognizer const & get_recognizer() const;
 	private:
 		friend class grammar;
 		state_machine machine;

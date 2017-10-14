@@ -25,8 +25,8 @@ struct OR {
 	
 		static field_3_t build(parlex::details::behavior::node const & b, parlex::details::ast_node const & n) {
 			static ::std::unordered_map<parlex::details::recognizer const *, type> const table {
-				{ &plange_grammar().get_literal("literal_0xE20x880xA8"), literal_0xE20x880xA8 },
-				{ &plange_grammar().get_literal("literal_or"), literal_or },
+				{ &plange_grammar::get().get_literal("literal_0xE20x880xA8"), literal_0xE20x880xA8 },
+				{ &plange_grammar::get().get_literal("literal_or"), literal_or },
 			};
 			return field_3_t{ table.find(&n.r)->second };
 		}

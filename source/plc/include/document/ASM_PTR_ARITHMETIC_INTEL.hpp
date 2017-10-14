@@ -29,10 +29,10 @@ struct ASM_PTR_ARITHMETIC_INTEL {
 		
 			static field_1_t build(parlex::details::behavior::node const & b, parlex::details::ast_node const & n) {
 				static ::std::unordered_map<parlex::details::recognizer const *, type> const table {
-					{ &plange_grammar().get_literal("literal_BYTE"), literal_BYTE },
-					{ &plange_grammar().get_literal("literal_DWORD"), literal_DWORD },
-					{ &plange_grammar().get_literal("literal_QWORD"), literal_QWORD },
-					{ &plange_grammar().get_literal("literal_WORD"), literal_WORD },
+					{ &plange_grammar::get().get_literal("literal_BYTE"), literal_BYTE },
+					{ &plange_grammar::get().get_literal("literal_DWORD"), literal_DWORD },
+					{ &plange_grammar::get().get_literal("literal_QWORD"), literal_QWORD },
+					{ &plange_grammar::get().get_literal("literal_WORD"), literal_WORD },
 				};
 				return field_1_t{ table.find(&n.r)->second };
 			}
@@ -109,8 +109,8 @@ struct ASM_PTR_ARITHMETIC_INTEL {
 		
 			static field_1_t build(parlex::details::behavior::node const & b, parlex::details::ast_node const & n) {
 				static ::std::unordered_map<parlex::details::recognizer const *, type> const table {
-					{ &plange_grammar().get_literal("literal_0x2B"), literal_0x2B },
-					{ &plange_grammar().get_literal("literal_0x2D"), literal_0x2D },
+					{ &plange_grammar::get().get_literal("literal_0x2B"), literal_0x2B },
+					{ &plange_grammar::get().get_literal("literal_0x2D"), literal_0x2D },
 				};
 				return field_1_t{ table.find(&n.r)->second };
 			}

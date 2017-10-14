@@ -28,10 +28,10 @@ struct GREATER_CHAIN_LOOP {
 	
 		static field_1_t build(parlex::details::behavior::node const & b, parlex::details::ast_node const & n) {
 			static ::std::unordered_map<parlex::details::recognizer const *, type> const table {
-				{ &plange_grammar().get_literal("literal_0x3D"), literal_0x3D },
-				{ &plange_grammar().get_literal("literal_0x3D0x3E"), literal_0x3D0x3E },
-				{ &plange_grammar().get_literal("literal_0x3E"), literal_0x3E },
-				{ &plange_grammar().get_literal("literal_0xE20x890xA5"), literal_0xE20x890xA5 },
+				{ &plange_grammar::get().get_literal("literal_0x3D"), literal_0x3D },
+				{ &plange_grammar::get().get_literal("literal_0x3D0x3E"), literal_0x3D0x3E },
+				{ &plange_grammar::get().get_literal("literal_0x3E"), literal_0x3E },
+				{ &plange_grammar::get().get_literal("literal_0xE20x890xA5"), literal_0xE20x890xA5 },
 			};
 			return field_1_t{ table.find(&n.r)->second };
 		}

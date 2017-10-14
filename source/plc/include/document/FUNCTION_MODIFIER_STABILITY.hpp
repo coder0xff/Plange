@@ -25,8 +25,8 @@ struct FUNCTION_MODIFIER_STABILITY {
 	
 		static stability_t build(parlex::details::behavior::node const & b, parlex::details::ast_node const & n) {
 			static ::std::unordered_map<parlex::details::recognizer const *, type> const table {
-				{ &plange_grammar().get_literal("literal_stable"), literal_stable },
-				{ &plange_grammar().get_literal("literal_unstable"), literal_unstable },
+				{ &plange_grammar::get().get_literal("literal_stable"), literal_stable },
+				{ &plange_grammar::get().get_literal("literal_unstable"), literal_unstable },
 			};
 			return stability_t{ table.find(&n.r)->second };
 		}

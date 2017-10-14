@@ -16,6 +16,7 @@
 
 #include "compiler.hpp"
 #include "scope.hpp"
+#include "parlex/details/document.hpp"
 
 //filter super delimiters
 //Any PAYLOAD that fully contains another PAYLOAD is not a PAYLOAD
@@ -83,49 +84,10 @@ static std::vector<std::set<parlex::details::match>> matches_by_height(parlex::d
 
 plc::source_code::source_code(std::string const & pathname, std::u32string const & document) :
 	pathname(pathname),
-	document(document) {
-	static parlex::details::parser p;
-
-	//compute line number lookup table
-	size_t pos = 0;
-	int line = 0;
-	while (pos != std::u32string::npos) {
-		line_number_by_first_character[pos++] = line++;
-		pos = document.find(U'\n', pos);
-	}
-
-	parlex::details::abstract_syntax_semilattice asg = compiler::parse(document);
-// 	//std::string test = graph.to_cst_dot(document); //todo: make sure this is commented out
-	if (!asg.is_rooted()) {
-		ERROR(CouldNotParse, pathname + " syntax tree: " + asg.to_dot());
-	}
-
-	std::vector<std::set<parlex::details::match>> matchesByHeight;
-
-	for (auto const & matches : matches_by_height(asg)) {
-		for (auto const & m : matches) {
-			auto const & permutations = asg.permutations.find(m)->second;
-			if (permutations.size() > 1) {
-				auto posStart = get_line_number_and_column(m.document_position);
-				auto posEnd = get_line_number_and_column(m.document_position + m.consumed_character_count - 1);
-				std::string message;
-				if (posStart.first == posEnd.first) {
-					message = pathname + ":" + m.r.id + " at " + std::to_string(posStart.first + 1) + ":" + std::to_string(posStart.second + 1) + "-" + std::to_string(posEnd.second + 1);
-				} else {
-					message = pathname + ":" + m.r.id + " at " + std::to_string(posStart.first + 1) + ":" + std::to_string(posStart.second + 1) + "-" + std::to_string(posEnd.first + 1) + ":" + std::to_string(posEnd.second + 1);
-				}
-				for (auto const & p : permutations) {
-					message += "\n";
-					for (auto const & childMatch : p) {
-						message += childMatch.r.id + " ";
-					}
-					message = message.substr(0, message.length() - 1);
-				}
-				ERROR(AmbiguousParse, message);
-			}
-		}
-	}
-	//std::string dot = asg.to_dot(); //TODO: make sure this is commented out
+	document(document),
+	line_number_by_first_character(construct_line_number_by_first_character(document)),
+    ast(construct_ast(pathname, document, line_number_by_first_character)),
+	representation(construct_representation(ast)) {
 }
 
 plc::source_code::source_code(std::string const & pathname) : source_code(pathname, read_with_bom(std::ifstream(pathname))) {
@@ -135,12 +97,75 @@ plc::source_code::~source_code() {
 }
 
 std::pair<int, int> plc::source_code::get_line_number_and_column(int charIndex) const {
-	std::map<int, int>::const_iterator i = line_number_by_first_character.lower_bound(charIndex);
-	if (i != line_number_by_first_character.end() && i->first == charIndex) {
+	return get_line_number_and_column_impl(line_number_by_first_character, charIndex);
+}
+
+std::pair<int, int> plc::source_code::get_line_number_and_column_impl(std::map<int, int> const lineNumberByFirstCharacter, int charIndex) {
+	std::map<int, int>::const_iterator i = lineNumberByFirstCharacter.lower_bound(charIndex);
+	if (i != lineNumberByFirstCharacter.cend() && i->first == charIndex) {
 		return std::make_pair(i->second, 0);
 	}
-	throw_assert(i != line_number_by_first_character.begin());
+	throw_assert(i != lineNumberByFirstCharacter.cbegin());
 	--i;
 	return std::make_pair(i->second, charIndex - i->first);
 }
 
+std::map<int, int> plc::source_code::construct_line_number_by_first_character(std::u32string const & document) {
+	//compute line number lookup table
+	std::map<int, int> result;
+	size_t pos = 0;
+	int line = 0;
+	while (pos != std::u32string::npos) {
+		result[pos++] = line++;
+		pos = document.find(U'\n', pos);
+	}
+	return result;
+}
+
+parlex::details::abstract_syntax_tree plc::source_code::construct_ast(std::string const & pathname, std::u32string const & document, std::map<int, int> const lineNumberByFirstCharacter) {
+	parlex::details::abstract_syntax_semilattice assl = compiler::parse(document);
+
+	// Was parsing successful?
+	if (!assl.is_rooted()) {
+		ERROR(CouldNotParse, pathname + " syntax tree: " + assl.to_dot());
+	}
+	std::vector<std::set<parlex::details::match>> matchesByHeight;
+
+	// Was parsing unambiguous?
+	if (assl.variation_count() > 1) {
+		for (auto const & matches : matches_by_height(assl)) {
+			for (auto const & m : matches) {
+				auto const & permutations = assl.permutations.find(m)->second;
+				if (permutations.size() > 1) {
+					auto posStart = get_line_number_and_column_impl(lineNumberByFirstCharacter, m.document_position);
+					auto posEnd = get_line_number_and_column_impl(lineNumberByFirstCharacter, m.document_position + m.consumed_character_count - 1);
+					std::string message;
+					if (posStart.first == posEnd.first) {
+						message = pathname + ":" + m.r.id + " at " + std::to_string(posStart.first + 1) + ":" + std::to_string(posStart.second + 1) + "-" + std::to_string(posEnd.second + 1);
+					}
+					else {
+						message = pathname + ":" + m.r.id + " at " + std::to_string(posStart.first + 1) + ":" + std::to_string(posStart.second + 1) + "-" + std::to_string(posEnd.first + 1) + ":" + std::to_string(posEnd.second + 1);
+					}
+					for (auto const & p : permutations) {
+						message += "\n";
+						for (auto const & childMatch : p) {
+							message += childMatch.r.id + " ";
+						}
+						message = message.substr(0, message.length() - 1);
+					}
+					ERROR(AmbiguousParse, message);
+				}
+			}
+		}
+	}
+
+	// Convert assl to ast
+	return assl.tree();
+}
+
+plc::STATEMENT_SCOPE plc::source_code::construct_representation(parlex::details::abstract_syntax_tree const & ast) {
+	parlex::details::recognizer const * expectedRecognizer = &plange_grammar::get().STATEMENT_SCOPE.get_recognizer();
+	assert(&ast.r == expectedRecognizer);
+	std::string chech = ast.to_dot();
+	return parlex::details::document::element<STATEMENT_SCOPE>::build(plange_grammar::get().STATEMENT_SCOPE.get_behavior(), ast);
+}

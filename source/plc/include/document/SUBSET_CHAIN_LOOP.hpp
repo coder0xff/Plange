@@ -29,11 +29,11 @@ struct SUBSET_CHAIN_LOOP {
 	
 		static field_1_t build(parlex::details::behavior::node const & b, parlex::details::ast_node const & n) {
 			static ::std::unordered_map<parlex::details::recognizer const *, type> const table {
-				{ &plange_grammar().get_literal("literal_0x3D"), literal_0x3D },
-				{ &plange_grammar().get_literal("literal_0xE20x8A0x82"), literal_0xE20x8A0x82 },
-				{ &plange_grammar().get_literal("literal_0xE20x8A0x86"), literal_0xE20x8A0x86 },
-				{ &plange_grammar().get_literal("literal_psubs"), literal_psubs },
-				{ &plange_grammar().get_literal("literal_subs"), literal_subs },
+				{ &plange_grammar::get().get_literal("literal_0x3D"), literal_0x3D },
+				{ &plange_grammar::get().get_literal("literal_0xE20x8A0x82"), literal_0xE20x8A0x82 },
+				{ &plange_grammar::get().get_literal("literal_0xE20x8A0x86"), literal_0xE20x8A0x86 },
+				{ &plange_grammar::get().get_literal("literal_psubs"), literal_psubs },
+				{ &plange_grammar::get().get_literal("literal_subs"), literal_subs },
 			};
 			return field_1_t{ table.find(&n.r)->second };
 		}

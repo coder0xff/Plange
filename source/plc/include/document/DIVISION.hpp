@@ -25,8 +25,8 @@ struct DIVISION {
 	
 		static field_3_t build(parlex::details::behavior::node const & b, parlex::details::ast_node const & n) {
 			static ::std::unordered_map<parlex::details::recognizer const *, type> const table {
-				{ &plange_grammar().get_literal("literal_0x2F"), literal_0x2F },
-				{ &plange_grammar().get_literal("literal_0xC30xB7"), literal_0xC30xB7 },
+				{ &plange_grammar::get().get_literal("literal_0x2F"), literal_0x2F },
+				{ &plange_grammar::get().get_literal("literal_0xC30xB7"), literal_0xC30xB7 },
 			};
 			return field_3_t{ table.find(&n.r)->second };
 		}

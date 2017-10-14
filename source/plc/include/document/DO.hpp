@@ -27,8 +27,8 @@ struct DO {
 		
 			static field_2_t build(parlex::details::behavior::node const & b, parlex::details::ast_node const & n) {
 				static ::std::unordered_map<parlex::details::recognizer const *, type> const table {
-					{ &plange_grammar().get_literal("literal_until"), literal_until },
-					{ &plange_grammar().get_literal("literal_while"), literal_while },
+					{ &plange_grammar::get().get_literal("literal_until"), literal_until },
+					{ &plange_grammar::get().get_literal("literal_while"), literal_while },
 				};
 				return field_2_t{ table.find(&n.r)->second };
 			}

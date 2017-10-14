@@ -25,8 +25,8 @@ struct RANGE_1_t {
 	
 		static field_5_t build(parlex::details::behavior::node const & b, parlex::details::ast_node const & n) {
 			static ::std::unordered_map<parlex::details::recognizer const *, type> const table {
-				{ &plange_grammar().get_literal("literal_0x29"), literal_0x29 },
-				{ &plange_grammar().get_literal("literal_0x5D"), literal_0x5D },
+				{ &plange_grammar::get().get_literal("literal_0x29"), literal_0x29 },
+				{ &plange_grammar::get().get_literal("literal_0x5D"), literal_0x5D },
 			};
 			return field_5_t{ table.find(&n.r)->second };
 		}
@@ -64,8 +64,8 @@ struct RANGE_2_t {
 	
 		static field_1_t build(parlex::details::behavior::node const & b, parlex::details::ast_node const & n) {
 			static ::std::unordered_map<parlex::details::recognizer const *, type> const table {
-				{ &plange_grammar().get_literal("literal_0x28"), literal_0x28 },
-				{ &plange_grammar().get_literal("literal_0x5B"), literal_0x5B },
+				{ &plange_grammar::get().get_literal("literal_0x28"), literal_0x28 },
+				{ &plange_grammar::get().get_literal("literal_0x5B"), literal_0x5B },
 			};
 			return field_1_t{ table.find(&n.r)->second };
 		}
@@ -103,8 +103,8 @@ struct RANGE_3_t {
 	
 		static field_1_t build(parlex::details::behavior::node const & b, parlex::details::ast_node const & n) {
 			static ::std::unordered_map<parlex::details::recognizer const *, type> const table {
-				{ &plange_grammar().get_literal("literal_0x28"), literal_0x28 },
-				{ &plange_grammar().get_literal("literal_0x5B"), literal_0x5B },
+				{ &plange_grammar::get().get_literal("literal_0x28"), literal_0x28 },
+				{ &plange_grammar::get().get_literal("literal_0x5B"), literal_0x5B },
 			};
 			return field_1_t{ table.find(&n.r)->second };
 		}
@@ -119,8 +119,8 @@ struct RANGE_3_t {
 	
 		static field_8_t build(parlex::details::behavior::node const & b, parlex::details::ast_node const & n) {
 			static ::std::unordered_map<parlex::details::recognizer const *, type> const table {
-				{ &plange_grammar().get_literal("literal_0x29"), literal_0x29 },
-				{ &plange_grammar().get_literal("literal_0x5D"), literal_0x5D },
+				{ &plange_grammar::get().get_literal("literal_0x29"), literal_0x29 },
+				{ &plange_grammar::get().get_literal("literal_0x5D"), literal_0x5D },
 			};
 			return field_8_t{ table.find(&n.r)->second };
 		}

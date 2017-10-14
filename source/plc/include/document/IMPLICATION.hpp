@@ -25,8 +25,8 @@ struct IMPLICATION {
 	
 		static field_3_t build(parlex::details::behavior::node const & b, parlex::details::ast_node const & n) {
 			static ::std::unordered_map<parlex::details::recognizer const *, type> const table {
-				{ &plange_grammar().get_literal("literal_0x3D0x3E"), literal_0x3D0x3E },
-				{ &plange_grammar().get_literal("literal_0xE20x870x92"), literal_0xE20x870x92 },
+				{ &plange_grammar::get().get_literal("literal_0x3D0x3E"), literal_0x3D0x3E },
+				{ &plange_grammar::get().get_literal("literal_0xE20x870x92"), literal_0xE20x870x92 },
 			};
 			return field_3_t{ table.find(&n.r)->second };
 		}

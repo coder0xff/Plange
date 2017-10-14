@@ -11,12 +11,10 @@ namespace plc {
 
 class plange_grammar : public parlex::details::grammar {
 public:
-static plange_grammar const & get() {
-	static plange_grammar value;
-	return value;
-}
-
-	plange_grammar();
+	static plange_grammar const & get() {
+		static plange_grammar value;
+		return value;
+	}
 
 	production const & ADDITION;
 	production const & ADD_SUB;
@@ -237,6 +235,9 @@ static plange_grammar const & get() {
 	production const & XML_DOC_STRING;
 	production const & XML_DOC_STRING_INTERIOR;
 	production const & XOR;
+private:
+	plange_grammar();
+
 };
 
 } // namespace plc

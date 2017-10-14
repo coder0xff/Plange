@@ -22,8 +22,8 @@ struct IDENTIFIER {
 	
 		static field_1_t build(parlex::details::behavior::node const & b, parlex::details::ast_node const & n) {
 			static ::std::unordered_map<parlex::details::recognizer const *, type> const table {
-				{ &plange_grammar().get_literal("field_1_t_1_t"), field_1_t_1_t },
-				{ &plange_grammar().get_literal("literal__"), literal__ },
+				{ &plange_grammar::get().get_literal("field_1_t_1_t"), field_1_t_1_t },
+				{ &plange_grammar::get().get_literal("literal__"), literal__ },
 			};
 			return field_1_t{ table.find(&n.r)->second };
 		}
@@ -39,9 +39,9 @@ struct IDENTIFIER {
 	
 		static field_2_t_1_t build(parlex::details::behavior::node const & b, parlex::details::ast_node const & n) {
 			static ::std::unordered_map<parlex::details::recognizer const *, type> const table {
-				{ &plange_grammar().get_literal("field_2_t_1_t_1_t"), field_2_t_1_t_1_t },
-				{ &plange_grammar().get_literal("field_2_t_1_t_2_t"), field_2_t_1_t_2_t },
-				{ &plange_grammar().get_literal("literal__"), literal__ },
+				{ &plange_grammar::get().get_literal("field_2_t_1_t_1_t"), field_2_t_1_t_1_t },
+				{ &plange_grammar::get().get_literal("field_2_t_1_t_2_t"), field_2_t_1_t_2_t },
+				{ &plange_grammar::get().get_literal("literal__"), literal__ },
 			};
 			return field_2_t_1_t{ table.find(&n.r)->second };
 		}
