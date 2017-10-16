@@ -1486,11 +1486,11 @@ static parlex::builder const & builder() {
 		})),
 		parlex::production("IDENTIFIER",
 		parlex::sequence("IDENTIFIER", {
-			parlex::choice({
+			parlex::choice("head", {
 				parlex::reference("letter"),
 				parlex::literal("_")
 			}),
-			parlex::repetition({
+			parlex::repetition("tail", {
 				parlex::choice({
 					parlex::reference("letter"),
 					parlex::reference("number"),

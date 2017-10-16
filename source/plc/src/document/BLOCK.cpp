@@ -8,10 +8,14 @@
 #include "parlex/details/behavior.hpp"
 
 #include "STATEMENT_SCOPE.hpp"
-plc::BLOCK plc::BLOCK::build(parlex::details::behavior::node const & b, parlex::details::ast_node const & n) {
+
+plc::BLOCK plc::BLOCK::build(std::u32string const & document, parlex::details::ast_node const & n) {
+	static auto const & b = plange_grammar::get().BLOCK.get_behavior();
+	parlex::details::document::walk w{ n.children.cbegin(), n.children.cend() };
 	auto const & children = b.get_children();
-	return BLOCK(
-		parlex::details::document::element<decltype(field_1)>::build(*children[0], n.children[0])
-);
+	assert(w.pos != w.end); ++w.pos; //{ 
+	auto v_0 = parlex::details::document::element<erased<STATEMENT_SCOPE>>::build(document, *children[1], w);
+	assert(w.pos != w.end); ++w.pos; //} 
+	return BLOCK(std::move(v_0));
 }
 

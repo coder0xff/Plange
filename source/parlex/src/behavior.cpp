@@ -90,14 +90,10 @@ namespace parlex {
 			node const & node::operator()(int index) const { return *children[index]; }
 			bool node::is_leaf() const { return false; }
 
-			bool node::can_follow(leaf const * l) const {
-				return leaf_paths.count(l) > 0;
-			}
-
 			node const * node::follow(leaf const * l) const {
 				auto i = leaf_paths.find(l);
 				if (i == leaf_paths.end()) {
-					throw std::logic_error("leaf is not a descendant");
+					return nullptr;
 				}
 				return i->second;
 			}

@@ -9,12 +9,15 @@
 
 #include "ASM_STATEMENT.hpp"
 #include "IC.hpp"
+
 #include "ASM_SCOPE.hpp"
 
 namespace plc {
 
-ASM_SCOPE ASM_SCOPE::build(parlex::details::behavior::node const & b, parlex::details::ast_node const & n) {
-	return ASM_SCOPE(parlex::details::document::element<ASM_SCOPE_base>::build(b, n));
+ASM_SCOPE ASM_SCOPE::build(std::u32string const & document, parlex::details::ast_node const & n) {
+	static auto const & b = plange_grammar::get().ASM_SCOPE.get_behavior();
+	parlex::details::document::walk w{ n.children.cbegin(), n.children.cend() };
+	return ASM_SCOPE(parlex::details::document::element<ASM_SCOPE_base>::build(document, b, w));
 }
 
 } // namespace plc

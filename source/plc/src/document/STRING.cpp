@@ -11,8 +11,10 @@
 
 namespace plc {
 
-STRING STRING::build(parlex::details::behavior::node const & b, parlex::details::ast_node const & n) {
-	return STRING(parlex::details::document::element<STRING_base>::build(b, n));
+STRING STRING::build(std::u32string const & document, parlex::details::ast_node const & n) {
+	static auto const & b = plange_grammar::get().STRING.get_behavior();
+	parlex::details::document::walk w{ n.children.cbegin(), n.children.cend() };
+	return STRING(parlex::details::document::element<STRING_base>::build(document, b, w));
 }
 
 } // namespace plc

@@ -10,19 +10,20 @@
 #include "IC.hpp"
 #include "IDENTIFIER.hpp"
 #include "XML_DOC_STRING.hpp"
-plc::DECLARATION::field_1_t_1_t plc::DECLARATION::field_1_t_1_t::build(parlex::details::behavior::node const & b, parlex::details::ast_node const & n) {
+
+plc::DECLARATION::field_1_t_1_t plc::DECLARATION::field_1_t_1_t::build(std::u32string const & document, parlex::details::behavior::node const & b, parlex::details::document::walk & w) {
 	auto const & children = b.get_children();
-	return field_1_t_1_t(
-		parlex::details::document::element<decltype(xml_doc_string)>::build(*children[0], n.children[0]),
-		parlex::details::document::element<decltype(field_1)>::build(*children[0], n.children[0])
-);
+	auto v_0 = parlex::details::document::element<erased<XML_DOC_STRING>>::build(document, *children[0], w);
+	auto v_1 = parlex::details::document::element<std::vector<erased<IC>>>::build(document, *children[1], w);
+	return field_1_t_1_t(std::move(v_0), std::move(v_1));
 }
 
-plc::DECLARATION plc::DECLARATION::build(parlex::details::behavior::node const & b, parlex::details::ast_node const & n) {
+plc::DECLARATION plc::DECLARATION::build(std::u32string const & document, parlex::details::ast_node const & n) {
+	static auto const & b = plange_grammar::get().DECLARATION.get_behavior();
+	parlex::details::document::walk w{ n.children.cbegin(), n.children.cend() };
 	auto const & children = b.get_children();
-	return DECLARATION(
-		parlex::details::document::element<decltype(field_1)>::build(*children[0], n.children[0]),
-		parlex::details::document::element<decltype(identifier)>::build(*children[0], n.children[0])
-);
+	auto v_0 = parlex::details::document::element<std::optional<field_1_t_1_t>>::build(document, *children[0], w);
+	auto v_1 = parlex::details::document::element<erased<IDENTIFIER>>::build(document, *children[1], w);
+	return DECLARATION(std::move(v_0), std::move(v_1));
 }
 

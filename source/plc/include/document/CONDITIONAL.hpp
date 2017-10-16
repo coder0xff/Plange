@@ -8,6 +8,7 @@
 #include <vector>
 #include "erased.hpp"
 #include "parlex/details/abstract_syntax_tree.hpp"
+#include "parlex/details/document.hpp"
 
 #include "plange_grammar.hpp"
 
@@ -18,28 +19,28 @@ struct IC;
 
 struct CONDITIONAL {
 	erased<EXPRESSION> condition;
+	
 	std::vector<erased<IC>> field_1;
+	
 	std::vector<erased<IC>> field_2;
+	
 	erased<EXPRESSION> true_case;
+	
 	std::vector<erased<IC>> field_3;
+	
 	std::vector<erased<IC>> field_4;
+	
 	erased<EXPRESSION> false_case;
+	
 
 
 	explicit CONDITIONAL(
-		erased<EXPRESSION> && condition,
-		std::vector<erased<IC>> && field_1,
-		std::vector<erased<IC>> && field_2,
-		erased<EXPRESSION> && true_case,
-		std::vector<erased<IC>> && field_3,
-		std::vector<erased<IC>> && field_4,
-		erased<EXPRESSION> && false_case
-	) : condition(std::move(condition)), field_1(std::move(field_1)), field_2(std::move(field_2)), true_case(std::move(true_case)), field_3(std::move(field_3)), field_4(std::move(field_4)), false_case(std::move(false_case)) {}
+		erased<EXPRESSION> && condition, std::vector<erased<IC>> && field_1, std::vector<erased<IC>> && field_2, erased<EXPRESSION> && true_case, std::vector<erased<IC>> && field_3, std::vector<erased<IC>> && field_4, erased<EXPRESSION> && false_case) : condition(std::move(condition)), field_1(std::move(field_1)), field_2(std::move(field_2)), true_case(std::move(true_case)), field_3(std::move(field_3)), field_4(std::move(field_4)), false_case(std::move(false_case)) {}
 
 	CONDITIONAL(CONDITIONAL const & other) = default;
 	CONDITIONAL(CONDITIONAL && move) = default;
 
-	static CONDITIONAL build(parlex::details::behavior::node const & b, parlex::details::ast_node const & n);
+	static CONDITIONAL build(std::u32string const & document, parlex::details::ast_node const & n);
 
 };
 

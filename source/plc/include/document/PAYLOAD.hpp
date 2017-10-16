@@ -8,13 +8,17 @@
 #include <vector>
 #include "erased.hpp"
 #include "parlex/details/abstract_syntax_tree.hpp"
+#include "parlex/details/document.hpp"
 
 #include "plange_grammar.hpp"
 
 namespace plc {
 
-struct PAYLOAD {
-	static PAYLOAD build(parlex::details::behavior::node const & b, parlex::details::ast_node const & n) { return PAYLOAD(); }
+typedef parlex::details::document::built_in_terminal<parlex::details::all_t> PAYLOAD_base;
+
+struct PAYLOAD: PAYLOAD_base {
+	static PAYLOAD build(std::u32string const & document, parlex::details::ast_node const & n);
+	explicit PAYLOAD(PAYLOAD_base const & value) : PAYLOAD_base(value) {}
 };
 } // namespace plc
 

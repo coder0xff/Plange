@@ -11,12 +11,15 @@
 #include "COMPOUND.hpp"
 #include "NULL_COALESCE.hpp"
 #include "PREPEND.hpp"
+
 #include "CONSTRUCTIVE_OP.hpp"
 
 namespace plc {
 
-CONSTRUCTIVE_OP CONSTRUCTIVE_OP::build(parlex::details::behavior::node const & b, parlex::details::ast_node const & n) {
-	return CONSTRUCTIVE_OP(parlex::details::document::element<CONSTRUCTIVE_OP_base>::build(b, n));
+CONSTRUCTIVE_OP CONSTRUCTIVE_OP::build(std::u32string const & document, parlex::details::ast_node const & n) {
+	static auto const & b = plange_grammar::get().CONSTRUCTIVE_OP.get_behavior();
+	parlex::details::document::walk w{ n.children.cbegin(), n.children.cend() };
+	return CONSTRUCTIVE_OP(parlex::details::document::element<CONSTRUCTIVE_OP_base>::build(document, b, w));
 }
 
 } // namespace plc

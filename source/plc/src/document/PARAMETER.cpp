@@ -9,12 +9,15 @@
 
 #include "PARAMETER_ANALYTIC.hpp"
 #include "PARAMETER_NATURAL.hpp"
+
 #include "PARAMETER.hpp"
 
 namespace plc {
 
-PARAMETER PARAMETER::build(parlex::details::behavior::node const & b, parlex::details::ast_node const & n) {
-	return PARAMETER(parlex::details::document::element<PARAMETER_base>::build(b, n));
+PARAMETER PARAMETER::build(std::u32string const & document, parlex::details::ast_node const & n) {
+	static auto const & b = plange_grammar::get().PARAMETER.get_behavior();
+	parlex::details::document::walk w{ n.children.cbegin(), n.children.cend() };
+	return PARAMETER(parlex::details::document::element<PARAMETER_base>::build(document, b, w));
 }
 
 } // namespace plc

@@ -9,12 +9,15 @@
 
 #include "FUNCTION_MODIFIER_CALLING_CONVENTION.hpp"
 #include "FUNCTION_MODIFIER_MODEL.hpp"
+
 #include "FUNCTION_MODIFIER_4.hpp"
 
 namespace plc {
 
-FUNCTION_MODIFIER_4 FUNCTION_MODIFIER_4::build(parlex::details::behavior::node const & b, parlex::details::ast_node const & n) {
-	return FUNCTION_MODIFIER_4(parlex::details::document::element<FUNCTION_MODIFIER_4_base>::build(b, n));
+FUNCTION_MODIFIER_4 FUNCTION_MODIFIER_4::build(std::u32string const & document, parlex::details::ast_node const & n) {
+	static auto const & b = plange_grammar::get().FUNCTION_MODIFIER_4.get_behavior();
+	parlex::details::document::walk w{ n.children.cbegin(), n.children.cend() };
+	return FUNCTION_MODIFIER_4(parlex::details::document::element<FUNCTION_MODIFIER_4_base>::build(document, b, w));
 }
 
 } // namespace plc

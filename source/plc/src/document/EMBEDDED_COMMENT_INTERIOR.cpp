@@ -9,19 +9,23 @@
 
 #include "EMBEDDED_COMMENT_INTERIOR.hpp"
 #include "PAYLOAD.hpp"
+
 #include "EMBEDDED_COMMENT_INTERIOR.hpp"
 
 namespace plc {
 
-EMBEDDED_COMMENT_INTERIOR EMBEDDED_COMMENT_INTERIOR::build(parlex::details::behavior::node const & b, parlex::details::ast_node const & n) {
-	return EMBEDDED_COMMENT_INTERIOR(parlex::details::document::element<EMBEDDED_COMMENT_INTERIOR_base>::build(b, n));
+EMBEDDED_COMMENT_INTERIOR EMBEDDED_COMMENT_INTERIOR::build(std::u32string const & document, parlex::details::ast_node const & n) {
+	static auto const & b = plange_grammar::get().EMBEDDED_COMMENT_INTERIOR.get_behavior();
+	parlex::details::document::walk w{ n.children.cbegin(), n.children.cend() };
+	return EMBEDDED_COMMENT_INTERIOR(parlex::details::document::element<EMBEDDED_COMMENT_INTERIOR_base>::build(document, b, w));
 }
 
 } // namespace plc
-plc::EMBEDDED_COMMENT_INTERIOR_2_t plc::EMBEDDED_COMMENT_INTERIOR_2_t::build(parlex::details::behavior::node const & b, parlex::details::ast_node const & n) {
+plc::EMBEDDED_COMMENT_INTERIOR_2_t plc::EMBEDDED_COMMENT_INTERIOR_2_t::build(std::u32string const & document, parlex::details::behavior::node const & b, parlex::details::document::walk & w) {
 	auto const & children = b.get_children();
-	return EMBEDDED_COMMENT_INTERIOR_2_t(
-		parlex::details::document::element<decltype(field_1)>::build(*children[0], n.children[0])
-);
+	assert(w.pos != w.end); ++w.pos; //* 
+	auto v_0 = parlex::details::document::element<erased<EMBEDDED_COMMENT_INTERIOR>>::build(document, *children[1], w);
+	assert(w.pos != w.end); ++w.pos; //* 
+	return EMBEDDED_COMMENT_INTERIOR_2_t(std::move(v_0));
 }
 

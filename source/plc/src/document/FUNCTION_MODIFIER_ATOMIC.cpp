@@ -9,18 +9,20 @@
 
 #include "FUNCTION_MODIFIER_3.hpp"
 #include "ICR.hpp"
-plc::FUNCTION_MODIFIER_ATOMIC::field_1_t_1_t plc::FUNCTION_MODIFIER_ATOMIC::field_1_t_1_t::build(parlex::details::behavior::node const & b, parlex::details::ast_node const & n) {
+
+plc::FUNCTION_MODIFIER_ATOMIC::field_1_t_1_t plc::FUNCTION_MODIFIER_ATOMIC::field_1_t_1_t::build(std::u32string const & document, parlex::details::behavior::node const & b, parlex::details::document::walk & w) {
 	auto const & children = b.get_children();
-	return field_1_t_1_t(
-		parlex::details::document::element<decltype(field_1)>::build(*children[0], n.children[0]),
-		parlex::details::document::element<decltype(field_2)>::build(*children[0], n.children[0])
-);
+	auto v_0 = parlex::details::document::element<erased<ICR>>::build(document, *children[0], w);
+	auto v_1 = parlex::details::document::element<erased<FUNCTION_MODIFIER_3>>::build(document, *children[1], w);
+	return field_1_t_1_t(std::move(v_0), std::move(v_1));
 }
 
-plc::FUNCTION_MODIFIER_ATOMIC plc::FUNCTION_MODIFIER_ATOMIC::build(parlex::details::behavior::node const & b, parlex::details::ast_node const & n) {
+plc::FUNCTION_MODIFIER_ATOMIC plc::FUNCTION_MODIFIER_ATOMIC::build(std::u32string const & document, parlex::details::ast_node const & n) {
+	static auto const & b = plange_grammar::get().FUNCTION_MODIFIER_ATOMIC.get_behavior();
+	parlex::details::document::walk w{ n.children.cbegin(), n.children.cend() };
 	auto const & children = b.get_children();
-	return FUNCTION_MODIFIER_ATOMIC(
-		parlex::details::document::element<decltype(field_1)>::build(*children[0], n.children[0])
-);
+	assert(w.pos != w.end); ++w.pos; //atomic 
+	auto v_0 = parlex::details::document::element<std::optional<field_1_t_1_t>>::build(document, *children[1], w);
+	return FUNCTION_MODIFIER_ATOMIC(std::move(v_0));
 }
 

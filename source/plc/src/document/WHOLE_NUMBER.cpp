@@ -7,11 +7,33 @@
 #include "parlex/details/document.hpp"
 #include "parlex/details/behavior.hpp"
 
-plc::WHOLE_NUMBER plc::WHOLE_NUMBER::build(parlex::details::behavior::node const & b, parlex::details::ast_node const & n) {
+plc::WHOLE_NUMBER plc::WHOLE_NUMBER::build(std::u32string const & document, parlex::details::ast_node const & n) {
+	static auto const & b = plange_grammar::get().WHOLE_NUMBER.get_behavior();
+	parlex::details::document::walk w{ n.children.cbegin(), n.children.cend() };
 	auto const & children = b.get_children();
-	return WHOLE_NUMBER(
-		parlex::details::document::element<decltype(field_1)>::build(*children[0], n.children[0]),
-		parlex::details::document::element<decltype(field_2)>::build(*children[0], n.children[0])
-);
+	auto v_0 = parlex::details::document::element<std::variant<
+		literal_1_t,
+		literal_2_t,
+		literal_3_t,
+		literal_4_t,
+		literal_5_t,
+		literal_6_t,
+		literal_7_t,
+		literal_8_t,
+		literal_9_t
+	>>::build(document, *children[0], w);
+	auto v_1 = parlex::details::document::element<std::vector<std::variant<
+		literal_0_t,
+		literal_1_t,
+		literal_2_t,
+		literal_3_t,
+		literal_4_t,
+		literal_5_t,
+		literal_6_t,
+		literal_7_t,
+		literal_8_t,
+		literal_9_t
+	>>>::build(document, *children[1], w);
+	return WHOLE_NUMBER(std::move(v_0), std::move(v_1));
 }
 

@@ -17,12 +17,15 @@
 #include "SHIFTL.hpp"
 #include "SHIFTR.hpp"
 #include "SUBTRACTION.hpp"
+
 #include "BINARY_ARITHMETIC_OP.hpp"
 
 namespace plc {
 
-BINARY_ARITHMETIC_OP BINARY_ARITHMETIC_OP::build(parlex::details::behavior::node const & b, parlex::details::ast_node const & n) {
-	return BINARY_ARITHMETIC_OP(parlex::details::document::element<BINARY_ARITHMETIC_OP_base>::build(b, n));
+BINARY_ARITHMETIC_OP BINARY_ARITHMETIC_OP::build(std::u32string const & document, parlex::details::ast_node const & n) {
+	static auto const & b = plange_grammar::get().BINARY_ARITHMETIC_OP.get_behavior();
+	parlex::details::document::walk w{ n.children.cbegin(), n.children.cend() };
+	return BINARY_ARITHMETIC_OP(parlex::details::document::element<BINARY_ARITHMETIC_OP_base>::build(document, b, w));
 }
 
 } // namespace plc

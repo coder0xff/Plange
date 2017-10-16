@@ -8,6 +8,7 @@
 #include <vector>
 #include "erased.hpp"
 #include "parlex/details/abstract_syntax_tree.hpp"
+#include "parlex/details/document.hpp"
 
 #include "plange_grammar.hpp"
 
@@ -20,40 +21,40 @@ struct INHERITANCE_ITEM_PREFIX;
 struct INHERITANCE_LIST {
 	struct field_2_t_1_t {
 		std::vector<erased<IC>> field_1;
+		
 		std::vector<erased<IC>> field_2;
+		
 		std::optional<erased<INHERITANCE_ITEM_PREFIX>> field_3;
+		
 		erased<EXPRESSION> expression;
+		
 	
 	
 		explicit field_2_t_1_t(
-			std::vector<erased<IC>> && field_1,
-			std::vector<erased<IC>> && field_2,
-			std::optional<erased<INHERITANCE_ITEM_PREFIX>> && field_3,
-			erased<EXPRESSION> && expression
-		) : field_1(std::move(field_1)), field_2(std::move(field_2)), field_3(std::move(field_3)), expression(std::move(expression)) {}
+			std::vector<erased<IC>> && field_1, std::vector<erased<IC>> && field_2, std::optional<erased<INHERITANCE_ITEM_PREFIX>> && field_3, erased<EXPRESSION> && expression) : field_1(std::move(field_1)), field_2(std::move(field_2)), field_3(std::move(field_3)), expression(std::move(expression)) {}
 	
 		field_2_t_1_t(field_2_t_1_t const & other) = default;
 		field_2_t_1_t(field_2_t_1_t && move) = default;
 	
-		static field_2_t_1_t build(parlex::details::behavior::node const & b, parlex::details::ast_node const & n);
+		static field_2_t_1_t build(std::u32string const & document, parlex::details::behavior::node const & b, parlex::details::document::walk & w);
 	
 	};
 
 	std::optional<erased<INHERITANCE_ITEM_PREFIX>> field_1;
+	
 	erased<EXPRESSION> expression;
+	
 	std::vector<field_2_t_1_t> field_2;
+	
 
 
 	explicit INHERITANCE_LIST(
-		std::optional<erased<INHERITANCE_ITEM_PREFIX>> && field_1,
-		erased<EXPRESSION> && expression,
-		std::vector<field_2_t_1_t> && field_2
-	) : field_1(std::move(field_1)), expression(std::move(expression)), field_2(std::move(field_2)) {}
+		std::optional<erased<INHERITANCE_ITEM_PREFIX>> && field_1, erased<EXPRESSION> && expression, std::vector<field_2_t_1_t> && field_2) : field_1(std::move(field_1)), expression(std::move(expression)), field_2(std::move(field_2)) {}
 
 	INHERITANCE_LIST(INHERITANCE_LIST const & other) = default;
 	INHERITANCE_LIST(INHERITANCE_LIST && move) = default;
 
-	static INHERITANCE_LIST build(parlex::details::behavior::node const & b, parlex::details::ast_node const & n);
+	static INHERITANCE_LIST build(std::u32string const & document, parlex::details::ast_node const & n);
 
 };
 

@@ -1,3 +1,5 @@
+// map_v<list<Ts...>>::map(functor) returns a tuple<Us...>, where functor has member function `template <typename T> U operator()()`.
+
 #ifndef INCLUDING_MPL_MAP_V_HPP
 #define INCLUDING_MPL_MAP_V_HPP
 
@@ -17,6 +19,7 @@ namespace mpl {
 
 	template<typename TList>
 	using map_v = apply<details_map_v::impl, TList>;
+
 }
 
 #define INCLUDED_MPL_MAP_V_HPP

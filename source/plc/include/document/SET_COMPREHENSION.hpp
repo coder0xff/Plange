@@ -8,6 +8,7 @@
 #include <vector>
 #include "erased.hpp"
 #include "parlex/details/abstract_syntax_tree.hpp"
+#include "parlex/details/document.hpp"
 
 #include "plange_grammar.hpp"
 
@@ -18,26 +19,26 @@ struct IC;
 
 struct SET_COMPREHENSION {
 	std::vector<erased<IC>> field_1;
+	
 	erased<EXPRESSION> field_2;
+	
 	std::vector<erased<IC>> field_3;
+	
 	std::vector<erased<IC>> field_4;
+	
 	erased<EXPRESSION> field_5;
+	
 	std::vector<erased<IC>> field_6;
+	
 
 
 	explicit SET_COMPREHENSION(
-		std::vector<erased<IC>> && field_1,
-		erased<EXPRESSION> && field_2,
-		std::vector<erased<IC>> && field_3,
-		std::vector<erased<IC>> && field_4,
-		erased<EXPRESSION> && field_5,
-		std::vector<erased<IC>> && field_6
-	) : field_1(std::move(field_1)), field_2(std::move(field_2)), field_3(std::move(field_3)), field_4(std::move(field_4)), field_5(std::move(field_5)), field_6(std::move(field_6)) {}
+		std::vector<erased<IC>> && field_1, erased<EXPRESSION> && field_2, std::vector<erased<IC>> && field_3, std::vector<erased<IC>> && field_4, erased<EXPRESSION> && field_5, std::vector<erased<IC>> && field_6) : field_1(std::move(field_1)), field_2(std::move(field_2)), field_3(std::move(field_3)), field_4(std::move(field_4)), field_5(std::move(field_5)), field_6(std::move(field_6)) {}
 
 	SET_COMPREHENSION(SET_COMPREHENSION const & other) = default;
 	SET_COMPREHENSION(SET_COMPREHENSION && move) = default;
 
-	static SET_COMPREHENSION build(parlex::details::behavior::node const & b, parlex::details::ast_node const & n);
+	static SET_COMPREHENSION build(std::u32string const & document, parlex::details::ast_node const & n);
 
 };
 

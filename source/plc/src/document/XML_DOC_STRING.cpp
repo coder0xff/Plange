@@ -8,10 +8,14 @@
 #include "parlex/details/behavior.hpp"
 
 #include "XML_DOC_STRING_INTERIOR.hpp"
-plc::XML_DOC_STRING plc::XML_DOC_STRING::build(parlex::details::behavior::node const & b, parlex::details::ast_node const & n) {
+
+plc::XML_DOC_STRING plc::XML_DOC_STRING::build(std::u32string const & document, parlex::details::ast_node const & n) {
+	static auto const & b = plange_grammar::get().XML_DOC_STRING.get_behavior();
+	parlex::details::document::walk w{ n.children.cbegin(), n.children.cend() };
 	auto const & children = b.get_children();
-	return XML_DOC_STRING(
-		parlex::details::document::element<decltype(field_1)>::build(*children[0], n.children[0])
-);
+	assert(w.pos != w.end); ++w.pos; //``` 
+	auto v_0 = parlex::details::document::element<erased<XML_DOC_STRING_INTERIOR>>::build(document, *children[1], w);
+	assert(w.pos != w.end); ++w.pos; //``` 
+	return XML_DOC_STRING(std::move(v_0));
 }
 

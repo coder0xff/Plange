@@ -8,6 +8,7 @@
 #include <vector>
 #include "erased.hpp"
 #include "parlex/details/abstract_syntax_tree.hpp"
+#include "parlex/details/document.hpp"
 
 #include "plange_grammar.hpp"
 
@@ -18,18 +19,18 @@ struct NON_FRACTIONAL;
 
 struct UNIT_EXPONENTIATION {
 	erased<DIMENSION> field_1;
+	
 	erased<NON_FRACTIONAL> field_2;
+	
 
 
 	explicit UNIT_EXPONENTIATION(
-		erased<DIMENSION> && field_1,
-		erased<NON_FRACTIONAL> && field_2
-	) : field_1(std::move(field_1)), field_2(std::move(field_2)) {}
+		erased<DIMENSION> && field_1, erased<NON_FRACTIONAL> && field_2) : field_1(std::move(field_1)), field_2(std::move(field_2)) {}
 
 	UNIT_EXPONENTIATION(UNIT_EXPONENTIATION const & other) = default;
 	UNIT_EXPONENTIATION(UNIT_EXPONENTIATION && move) = default;
 
-	static UNIT_EXPONENTIATION build(parlex::details::behavior::node const & b, parlex::details::ast_node const & n);
+	static UNIT_EXPONENTIATION build(std::u32string const & document, parlex::details::ast_node const & n);
 
 };
 

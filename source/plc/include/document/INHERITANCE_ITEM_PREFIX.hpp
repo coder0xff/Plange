@@ -8,6 +8,7 @@
 #include <vector>
 #include "erased.hpp"
 #include "parlex/details/abstract_syntax_tree.hpp"
+#include "parlex/details/document.hpp"
 
 #include "plange_grammar.hpp"
 
@@ -19,18 +20,18 @@ struct VISIBILITY_MODIFIER;
 struct INHERITANCE_ITEM_PREFIX {
 	struct field_1_t_2_t {
 		erased<VISIBILITY_MODIFIER> field_1;
+		
 		erased<ICR> field_2;
+		
 	
 	
 		explicit field_1_t_2_t(
-			erased<VISIBILITY_MODIFIER> && field_1,
-			erased<ICR> && field_2
-		) : field_1(std::move(field_1)), field_2(std::move(field_2)) {}
+			erased<VISIBILITY_MODIFIER> && field_1, erased<ICR> && field_2) : field_1(std::move(field_1)), field_2(std::move(field_2)) {}
 	
 		field_1_t_2_t(field_1_t_2_t const & other) = default;
 		field_1_t_2_t(field_1_t_2_t && move) = default;
 	
-		static field_1_t_2_t build(parlex::details::behavior::node const & b, parlex::details::ast_node const & n);
+		static field_1_t_2_t build(std::u32string const & document, parlex::details::behavior::node const & b, parlex::details::document::walk & w);
 	
 	};
 
@@ -39,7 +40,9 @@ struct INHERITANCE_ITEM_PREFIX {
 		field_1_t_2_t,
 		literal_diamond_t
 	> field_1;
+	
 	erased<ICR> field_2;
+	
 
 
 	explicit INHERITANCE_ITEM_PREFIX(
@@ -47,14 +50,12 @@ struct INHERITANCE_ITEM_PREFIX {
 			erased<VISIBILITY_MODIFIER>,
 			field_1_t_2_t,
 			literal_diamond_t
-		> && field_1,
-		erased<ICR> && field_2
-	) : field_1(std::move(field_1)), field_2(std::move(field_2)) {}
+		> && field_1, erased<ICR> && field_2) : field_1(std::move(field_1)), field_2(std::move(field_2)) {}
 
 	INHERITANCE_ITEM_PREFIX(INHERITANCE_ITEM_PREFIX const & other) = default;
 	INHERITANCE_ITEM_PREFIX(INHERITANCE_ITEM_PREFIX && move) = default;
 
-	static INHERITANCE_ITEM_PREFIX build(parlex::details::behavior::node const & b, parlex::details::ast_node const & n);
+	static INHERITANCE_ITEM_PREFIX build(std::u32string const & document, parlex::details::ast_node const & n);
 
 };
 

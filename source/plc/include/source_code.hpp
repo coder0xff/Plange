@@ -29,7 +29,7 @@ private:
 	// For initialization of `ast` data member
 	static parlex::details::abstract_syntax_tree construct_ast(std::string const & pathname, std::u32string const & document, std::map<int, int> const lineNumberByFirstCharacter);
 	// For initialization of `representation` data member
-	static STATEMENT_SCOPE construct_representation(parlex::details::abstract_syntax_tree const & ast);
+	static STATEMENT_SCOPE construct_representation(std::u32string const & document, parlex::details::abstract_syntax_tree const & ast);
 };
 
 }

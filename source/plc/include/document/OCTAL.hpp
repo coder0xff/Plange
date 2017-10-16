@@ -8,23 +8,26 @@
 #include <vector>
 #include "erased.hpp"
 #include "parlex/details/abstract_syntax_tree.hpp"
+#include "parlex/details/document.hpp"
 
 #include "plange_grammar.hpp"
 
 namespace plc {
 
 struct OCTAL {
-	int field_2;
+	parlex::details::document::built_in_terminal<parlex::details::octal_digit_t> field_1;
+	
+	std::vector<parlex::details::document::built_in_terminal<parlex::details::octal_digit_t>> field_2;
+	
 
 
 	explicit OCTAL(
-		int && field_2
-	) : field_2(std::move(field_2)) {}
+		parlex::details::document::built_in_terminal<parlex::details::octal_digit_t> && field_1, std::vector<parlex::details::document::built_in_terminal<parlex::details::octal_digit_t>> && field_2) : field_1(std::move(field_1)), field_2(std::move(field_2)) {}
 
 	OCTAL(OCTAL const & other) = default;
 	OCTAL(OCTAL && move) = default;
 
-	static OCTAL build(parlex::details::behavior::node const & b, parlex::details::ast_node const & n);
+	static OCTAL build(std::u32string const & document, parlex::details::ast_node const & n);
 
 };
 

@@ -8,6 +8,7 @@
 #include <vector>
 #include "erased.hpp"
 #include "parlex/details/abstract_syntax_tree.hpp"
+#include "parlex/details/document.hpp"
 
 #include "plange_grammar.hpp"
 
@@ -112,7 +113,7 @@ typedef std::variant<
 > EXPRESSION_base;
 
 struct EXPRESSION: EXPRESSION_base {
-	static EXPRESSION build(parlex::details::behavior::node const & b, parlex::details::ast_node const & n);
+	static EXPRESSION build(std::u32string const & document, parlex::details::ast_node const & n);
 	explicit EXPRESSION(EXPRESSION_base const & value) : EXPRESSION_base(value) {}
 };
 } // namespace plc

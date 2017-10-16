@@ -798,7 +798,7 @@ ICR:
 
 IDENTIFIER:
     syntax: >
-        (letter | "_") {letter | number | "_"}
+        %head(letter | "_") %tail{letter | number | "_"}
     filter: longest
     doc: >
         text that uniquely identifies a constant or variable within a scope

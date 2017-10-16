@@ -16,7 +16,8 @@ struct unit : node {
 
 // a leaf node representing a data structure
 struct aggregate : node {
-	std::vector<std::pair<std::string /* data member name */, erased<node>>> data_members;
+	typedef std::vector<std::pair<std::string /* data member name */, erased<node>>> data_members_t;
+	data_members_t data_members;
 	void add_member(std::string const & name, erased<node> const & type);
 };
 

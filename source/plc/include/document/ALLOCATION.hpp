@@ -8,6 +8,7 @@
 #include <vector>
 #include "erased.hpp"
 #include "parlex/details/abstract_syntax_tree.hpp"
+#include "parlex/details/document.hpp"
 
 #include "plange_grammar.hpp"
 
@@ -18,18 +19,18 @@ struct PARENTHETICAL_INVOCATION;
 
 struct ALLOCATION {
 	std::vector<erased<IC>> field_1;
+	
 	erased<PARENTHETICAL_INVOCATION> field_2;
+	
 
 
 	explicit ALLOCATION(
-		std::vector<erased<IC>> && field_1,
-		erased<PARENTHETICAL_INVOCATION> && field_2
-	) : field_1(std::move(field_1)), field_2(std::move(field_2)) {}
+		std::vector<erased<IC>> && field_1, erased<PARENTHETICAL_INVOCATION> && field_2) : field_1(std::move(field_1)), field_2(std::move(field_2)) {}
 
 	ALLOCATION(ALLOCATION const & other) = default;
 	ALLOCATION(ALLOCATION && move) = default;
 
-	static ALLOCATION build(parlex::details::behavior::node const & b, parlex::details::ast_node const & n);
+	static ALLOCATION build(std::u32string const & document, parlex::details::ast_node const & n);
 
 };
 

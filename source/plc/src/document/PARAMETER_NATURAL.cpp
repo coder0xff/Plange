@@ -12,50 +12,53 @@
 #include "IDENTIFIER.hpp"
 #include "IMPLICIT_TYPE_DEREFERENCE.hpp"
 #include "TYPE_DEREFERENCE.hpp"
+
 #include "PARAMETER_NATURAL.hpp"
 
 namespace plc {
 
-PARAMETER_NATURAL PARAMETER_NATURAL::build(parlex::details::behavior::node const & b, parlex::details::ast_node const & n) {
-	return PARAMETER_NATURAL(parlex::details::document::element<PARAMETER_NATURAL_base>::build(b, n));
+PARAMETER_NATURAL PARAMETER_NATURAL::build(std::u32string const & document, parlex::details::ast_node const & n) {
+	static auto const & b = plange_grammar::get().PARAMETER_NATURAL.get_behavior();
+	parlex::details::document::walk w{ n.children.cbegin(), n.children.cend() };
+	return PARAMETER_NATURAL(parlex::details::document::element<PARAMETER_NATURAL_base>::build(document, b, w));
 }
 
 } // namespace plc
-plc::PARAMETER_NATURAL_1_t::field_1_t_1_t plc::PARAMETER_NATURAL_1_t::field_1_t_1_t::build(parlex::details::behavior::node const & b, parlex::details::ast_node const & n) {
+plc::PARAMETER_NATURAL_1_t::field_1_t_1_t plc::PARAMETER_NATURAL_1_t::field_1_t_1_t::build(std::u32string const & document, parlex::details::behavior::node const & b, parlex::details::document::walk & w) {
 	auto const & children = b.get_children();
-	return field_1_t_1_t(
-		parlex::details::document::element<decltype(field_1)>::build(*children[0], n.children[0]),
-		parlex::details::document::element<decltype(field_2)>::build(*children[0], n.children[0])
-);
+	auto v_0 = parlex::details::document::element<erased<TYPE_DEREFERENCE>>::build(document, *children[0], w);
+	auto v_1 = parlex::details::document::element<std::vector<erased<IC>>>::build(document, *children[1], w);
+	return field_1_t_1_t(std::move(v_0), std::move(v_1));
 }
 
-plc::PARAMETER_NATURAL_1_t plc::PARAMETER_NATURAL_1_t::build(parlex::details::behavior::node const & b, parlex::details::ast_node const & n) {
+plc::PARAMETER_NATURAL_1_t plc::PARAMETER_NATURAL_1_t::build(std::u32string const & document, parlex::details::behavior::node const & b, parlex::details::document::walk & w) {
 	auto const & children = b.get_children();
-	return PARAMETER_NATURAL_1_t(
-		parlex::details::document::element<decltype(field_1)>::build(*children[0], n.children[0]),
-		parlex::details::document::element<decltype(field_2)>::build(*children[0], n.children[0]),
-		parlex::details::document::element<decltype(field_3)>::build(*children[0], n.children[0])
-);
+	auto v_0 = parlex::details::document::element<std::optional<field_1_t_1_t>>::build(document, *children[0], w);
+	auto v_1 = parlex::details::document::element<erased<IDENTIFIER>>::build(document, *children[1], w);
+	auto v_2 = parlex::details::document::element<bool>::build(document, *children[2], w);
+	return PARAMETER_NATURAL_1_t(std::move(v_0), std::move(v_1), std::move(v_2));
 }
 
-plc::PARAMETER_NATURAL_2_t::field_1_t_1_t plc::PARAMETER_NATURAL_2_t::field_1_t_1_t::build(parlex::details::behavior::node const & b, parlex::details::ast_node const & n) {
+plc::PARAMETER_NATURAL_2_t::field_1_t_1_t plc::PARAMETER_NATURAL_2_t::field_1_t_1_t::build(std::u32string const & document, parlex::details::behavior::node const & b, parlex::details::document::walk & w) {
 	auto const & children = b.get_children();
-	return field_1_t_1_t(
-		parlex::details::document::element<decltype(field_1)>::build(*children[0], n.children[0]),
-		parlex::details::document::element<decltype(field_2)>::build(*children[0], n.children[0])
-);
+	auto v_0 = parlex::details::document::element<std::variant<
+		erased<TYPE_DEREFERENCE>,
+		erased<IMPLICIT_TYPE_DEREFERENCE>
+	>>::build(document, *children[0], w);
+	auto v_1 = parlex::details::document::element<std::vector<erased<IC>>>::build(document, *children[1], w);
+	return field_1_t_1_t(std::move(v_0), std::move(v_1));
 }
 
-plc::PARAMETER_NATURAL_2_t plc::PARAMETER_NATURAL_2_t::build(parlex::details::behavior::node const & b, parlex::details::ast_node const & n) {
+plc::PARAMETER_NATURAL_2_t plc::PARAMETER_NATURAL_2_t::build(std::u32string const & document, parlex::details::behavior::node const & b, parlex::details::document::walk & w) {
 	auto const & children = b.get_children();
-	return PARAMETER_NATURAL_2_t(
-		parlex::details::document::element<decltype(field_1)>::build(*children[0], n.children[0]),
-		parlex::details::document::element<decltype(field_2)>::build(*children[0], n.children[0]),
-		parlex::details::document::element<decltype(field_3)>::build(*children[0], n.children[0]),
-		parlex::details::document::element<decltype(field_4)>::build(*children[0], n.children[0]),
-		parlex::details::document::element<decltype(field_5)>::build(*children[0], n.children[0]),
-		parlex::details::document::element<decltype(field_6)>::build(*children[0], n.children[0]),
-		parlex::details::document::element<decltype(field_7)>::build(*children[0], n.children[0])
-);
+	auto v_0 = parlex::details::document::element<std::optional<field_1_t_1_t>>::build(document, *children[0], w);
+	auto v_1 = parlex::details::document::element<erased<IDENTIFIER>>::build(document, *children[1], w);
+	auto v_2 = parlex::details::document::element<bool>::build(document, *children[2], w);
+	auto v_3 = parlex::details::document::element<std::vector<erased<IC>>>::build(document, *children[3], w);
+	assert(w.pos != w.end); ++w.pos; //= 
+	auto v_4 = parlex::details::document::element<std::vector<erased<IC>>>::build(document, *children[5], w);
+	auto v_5 = parlex::details::document::element<erased<EXPRESSION>>::build(document, *children[6], w);
+	auto v_6 = parlex::details::document::element<bool>::build(document, *children[7], w);
+	return PARAMETER_NATURAL_2_t(std::move(v_0), std::move(v_1), std::move(v_2), std::move(v_3), std::move(v_4), std::move(v_5), std::move(v_6));
 }
 

@@ -87,7 +87,7 @@ plc::source_code::source_code(std::string const & pathname, std::u32string const
 	document(document),
 	line_number_by_first_character(construct_line_number_by_first_character(document)),
     ast(construct_ast(pathname, document, line_number_by_first_character)),
-	representation(construct_representation(ast)) {
+	representation(construct_representation(document, ast)) {
 }
 
 plc::source_code::source_code(std::string const & pathname) : source_code(pathname, read_with_bom(std::ifstream(pathname))) {
@@ -163,9 +163,9 @@ parlex::details::abstract_syntax_tree plc::source_code::construct_ast(std::strin
 	return assl.tree();
 }
 
-plc::STATEMENT_SCOPE plc::source_code::construct_representation(parlex::details::abstract_syntax_tree const & ast) {
+plc::STATEMENT_SCOPE plc::source_code::construct_representation(std::u32string const & document, parlex::details::abstract_syntax_tree const & ast) {
 	parlex::details::recognizer const * expectedRecognizer = &plange_grammar::get().STATEMENT_SCOPE.get_recognizer();
 	assert(&ast.r == expectedRecognizer);
 	std::string chech = ast.to_dot();
-	return parlex::details::document::element<STATEMENT_SCOPE>::build(plange_grammar::get().STATEMENT_SCOPE.get_behavior(), ast);
+	return STATEMENT_SCOPE::build(document, ast);
 }

@@ -27,11 +27,34 @@
 #include "TYPE_CONSTRAINT.hpp"
 #include "USING.hpp"
 #include "WRITE_LOCK.hpp"
-plc::STATEMENT plc::STATEMENT::build(parlex::details::behavior::node const & b, parlex::details::ast_node const & n) {
+
+plc::STATEMENT plc::STATEMENT::build(std::u32string const & document, parlex::details::ast_node const & n) {
+	static auto const & b = plange_grammar::get().STATEMENT.get_behavior();
+	parlex::details::document::walk w{ n.children.cbegin(), n.children.cend() };
 	auto const & children = b.get_children();
-	return STATEMENT(
-		parlex::details::document::element<decltype(field_1)>::build(*children[0], n.children[0]),
-		parlex::details::document::element<decltype(field_2)>::build(*children[0], n.children[0])
-);
+	auto v_0 = parlex::details::document::element<std::variant<
+		erased<ASSIGNMENT_CHAIN>,
+		erased<BREAK>,
+		erased<CONTINUE>,
+		erased<DEFINITION>,
+		erased<DO>,
+		erased<EXPRESSION>,
+		erased<FOR>,
+		erased<FOR_COLLECTION>,
+		erased<FREE>,
+		erased<IMPORT>,
+		erased<LOCK>,
+		erased<LOOP>,
+		erased<READ_LOCK>,
+		erased<RETURN>,
+		erased<THROW>,
+		erased<TRY>,
+		erased<TYPE_CONSTRAINT>,
+		erased<WRITE_LOCK>,
+		erased<USING>
+	>>::build(document, *children[0], w);
+	auto v_1 = parlex::details::document::element<std::vector<erased<IC>>>::build(document, *children[1], w);
+	assert(w.pos != w.end); ++w.pos; //; 
+	return STATEMENT(std::move(v_0), std::move(v_1));
 }
 

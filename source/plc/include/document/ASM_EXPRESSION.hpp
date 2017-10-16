@@ -8,6 +8,7 @@
 #include <vector>
 #include "erased.hpp"
 #include "parlex/details/abstract_syntax_tree.hpp"
+#include "parlex/details/document.hpp"
 
 #include "plange_grammar.hpp"
 
@@ -26,7 +27,7 @@ typedef std::variant<
 > ASM_EXPRESSION_base;
 
 struct ASM_EXPRESSION: ASM_EXPRESSION_base {
-	static ASM_EXPRESSION build(parlex::details::behavior::node const & b, parlex::details::ast_node const & n);
+	static ASM_EXPRESSION build(std::u32string const & document, parlex::details::ast_node const & n);
 	explicit ASM_EXPRESSION(ASM_EXPRESSION_base const & value) : ASM_EXPRESSION_base(value) {}
 };
 } // namespace plc

@@ -8,6 +8,7 @@
 #include <vector>
 #include "erased.hpp"
 #include "parlex/details/abstract_syntax_tree.hpp"
+#include "parlex/details/document.hpp"
 
 #include "plange_grammar.hpp"
 
@@ -17,16 +18,16 @@ struct IC;
 
 struct IMPLICIT_TYPE_DEREFERENCE {
 	std::vector<erased<IC>> field_1;
+	
 
 
 	explicit IMPLICIT_TYPE_DEREFERENCE(
-		std::vector<erased<IC>> && field_1
-	) : field_1(std::move(field_1)) {}
+		std::vector<erased<IC>> && field_1) : field_1(std::move(field_1)) {}
 
 	IMPLICIT_TYPE_DEREFERENCE(IMPLICIT_TYPE_DEREFERENCE const & other) = default;
 	IMPLICIT_TYPE_DEREFERENCE(IMPLICIT_TYPE_DEREFERENCE && move) = default;
 
-	static IMPLICIT_TYPE_DEREFERENCE build(parlex::details::behavior::node const & b, parlex::details::ast_node const & n);
+	static IMPLICIT_TYPE_DEREFERENCE build(std::u32string const & document, parlex::details::ast_node const & n);
 
 };
 

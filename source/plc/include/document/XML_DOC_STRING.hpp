@@ -8,6 +8,7 @@
 #include <vector>
 #include "erased.hpp"
 #include "parlex/details/abstract_syntax_tree.hpp"
+#include "parlex/details/document.hpp"
 
 #include "plange_grammar.hpp"
 
@@ -17,16 +18,16 @@ struct XML_DOC_STRING_INTERIOR;
 
 struct XML_DOC_STRING {
 	erased<XML_DOC_STRING_INTERIOR> field_1;
+	
 
 
 	explicit XML_DOC_STRING(
-		erased<XML_DOC_STRING_INTERIOR> && field_1
-	) : field_1(std::move(field_1)) {}
+		erased<XML_DOC_STRING_INTERIOR> && field_1) : field_1(std::move(field_1)) {}
 
 	XML_DOC_STRING(XML_DOC_STRING const & other) = default;
 	XML_DOC_STRING(XML_DOC_STRING && move) = default;
 
-	static XML_DOC_STRING build(parlex::details::behavior::node const & b, parlex::details::ast_node const & n);
+	static XML_DOC_STRING build(std::u32string const & document, parlex::details::ast_node const & n);
 
 };
 

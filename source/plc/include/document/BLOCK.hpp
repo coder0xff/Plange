@@ -8,6 +8,7 @@
 #include <vector>
 #include "erased.hpp"
 #include "parlex/details/abstract_syntax_tree.hpp"
+#include "parlex/details/document.hpp"
 
 #include "plange_grammar.hpp"
 
@@ -17,16 +18,16 @@ struct STATEMENT_SCOPE;
 
 struct BLOCK {
 	erased<STATEMENT_SCOPE> field_1;
+	
 
 
 	explicit BLOCK(
-		erased<STATEMENT_SCOPE> && field_1
-	) : field_1(std::move(field_1)) {}
+		erased<STATEMENT_SCOPE> && field_1) : field_1(std::move(field_1)) {}
 
 	BLOCK(BLOCK const & other) = default;
 	BLOCK(BLOCK && move) = default;
 
-	static BLOCK build(parlex::details::behavior::node const & b, parlex::details::ast_node const & n);
+	static BLOCK build(std::u32string const & document, parlex::details::ast_node const & n);
 
 };
 

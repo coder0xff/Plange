@@ -8,6 +8,7 @@
 #include <vector>
 #include "erased.hpp"
 #include "parlex/details/abstract_syntax_tree.hpp"
+#include "parlex/details/document.hpp"
 
 #include "plange_grammar.hpp"
 
@@ -18,31 +19,31 @@ struct PAYLOAD;
 
 struct EMBEDDED_NEWLINE_STRING_INTERIOR_1_t {
 	erased<PAYLOAD> field_1;
+	
 
 
 	explicit EMBEDDED_NEWLINE_STRING_INTERIOR_1_t(
-		erased<PAYLOAD> && field_1
-	) : field_1(std::move(field_1)) {}
+		erased<PAYLOAD> && field_1) : field_1(std::move(field_1)) {}
 
 	EMBEDDED_NEWLINE_STRING_INTERIOR_1_t(EMBEDDED_NEWLINE_STRING_INTERIOR_1_t const & other) = default;
 	EMBEDDED_NEWLINE_STRING_INTERIOR_1_t(EMBEDDED_NEWLINE_STRING_INTERIOR_1_t && move) = default;
 
-	static EMBEDDED_NEWLINE_STRING_INTERIOR_1_t build(parlex::details::behavior::node const & b, parlex::details::ast_node const & n);
+	static EMBEDDED_NEWLINE_STRING_INTERIOR_1_t build(std::u32string const & document, parlex::details::behavior::node const & b, parlex::details::document::walk & w);
 
 };
 
 struct EMBEDDED_NEWLINE_STRING_INTERIOR_2_t {
 	erased<EMBEDDED_NEWLINE_STRING_INTERIOR> field_1;
+	
 
 
 	explicit EMBEDDED_NEWLINE_STRING_INTERIOR_2_t(
-		erased<EMBEDDED_NEWLINE_STRING_INTERIOR> && field_1
-	) : field_1(std::move(field_1)) {}
+		erased<EMBEDDED_NEWLINE_STRING_INTERIOR> && field_1) : field_1(std::move(field_1)) {}
 
 	EMBEDDED_NEWLINE_STRING_INTERIOR_2_t(EMBEDDED_NEWLINE_STRING_INTERIOR_2_t const & other) = default;
 	EMBEDDED_NEWLINE_STRING_INTERIOR_2_t(EMBEDDED_NEWLINE_STRING_INTERIOR_2_t && move) = default;
 
-	static EMBEDDED_NEWLINE_STRING_INTERIOR_2_t build(parlex::details::behavior::node const & b, parlex::details::ast_node const & n);
+	static EMBEDDED_NEWLINE_STRING_INTERIOR_2_t build(std::u32string const & document, parlex::details::behavior::node const & b, parlex::details::document::walk & w);
 
 };
 
@@ -52,7 +53,7 @@ typedef std::variant<
 > EMBEDDED_NEWLINE_STRING_INTERIOR_base;
 
 struct EMBEDDED_NEWLINE_STRING_INTERIOR: EMBEDDED_NEWLINE_STRING_INTERIOR_base {
-	static EMBEDDED_NEWLINE_STRING_INTERIOR build(parlex::details::behavior::node const & b, parlex::details::ast_node const & n);
+	static EMBEDDED_NEWLINE_STRING_INTERIOR build(std::u32string const & document, parlex::details::ast_node const & n);
 	explicit EMBEDDED_NEWLINE_STRING_INTERIOR(EMBEDDED_NEWLINE_STRING_INTERIOR_base const & value) : EMBEDDED_NEWLINE_STRING_INTERIOR_base(value) {}
 };
 } // namespace plc

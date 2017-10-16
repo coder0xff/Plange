@@ -10,12 +10,15 @@
 #include "BIT_AND.hpp"
 #include "BIT_OR.hpp"
 #include "BIT_XOR.hpp"
+
 #include "BITWISE_OP.hpp"
 
 namespace plc {
 
-BITWISE_OP BITWISE_OP::build(parlex::details::behavior::node const & b, parlex::details::ast_node const & n) {
-	return BITWISE_OP(parlex::details::document::element<BITWISE_OP_base>::build(b, n));
+BITWISE_OP BITWISE_OP::build(std::u32string const & document, parlex::details::ast_node const & n) {
+	static auto const & b = plange_grammar::get().BITWISE_OP.get_behavior();
+	parlex::details::document::walk w{ n.children.cbegin(), n.children.cend() };
+	return BITWISE_OP(parlex::details::document::element<BITWISE_OP_base>::build(document, b, w));
 }
 
 } // namespace plc

@@ -8,6 +8,7 @@
 #include <vector>
 #include "erased.hpp"
 #include "parlex/details/abstract_syntax_tree.hpp"
+#include "parlex/details/document.hpp"
 
 #include "plange_grammar.hpp"
 
@@ -19,32 +20,32 @@ struct ICR;
 struct FUNCTION_MODIFIER_ATOMIC {
 	struct field_1_t_1_t {
 		erased<ICR> field_1;
+		
 		erased<FUNCTION_MODIFIER_3> field_2;
+		
 	
 	
 		explicit field_1_t_1_t(
-			erased<ICR> && field_1,
-			erased<FUNCTION_MODIFIER_3> && field_2
-		) : field_1(std::move(field_1)), field_2(std::move(field_2)) {}
+			erased<ICR> && field_1, erased<FUNCTION_MODIFIER_3> && field_2) : field_1(std::move(field_1)), field_2(std::move(field_2)) {}
 	
 		field_1_t_1_t(field_1_t_1_t const & other) = default;
 		field_1_t_1_t(field_1_t_1_t && move) = default;
 	
-		static field_1_t_1_t build(parlex::details::behavior::node const & b, parlex::details::ast_node const & n);
+		static field_1_t_1_t build(std::u32string const & document, parlex::details::behavior::node const & b, parlex::details::document::walk & w);
 	
 	};
 
 	std::optional<field_1_t_1_t> field_1;
+	
 
 
 	explicit FUNCTION_MODIFIER_ATOMIC(
-		std::optional<field_1_t_1_t> && field_1
-	) : field_1(std::move(field_1)) {}
+		std::optional<field_1_t_1_t> && field_1) : field_1(std::move(field_1)) {}
 
 	FUNCTION_MODIFIER_ATOMIC(FUNCTION_MODIFIER_ATOMIC const & other) = default;
 	FUNCTION_MODIFIER_ATOMIC(FUNCTION_MODIFIER_ATOMIC && move) = default;
 
-	static FUNCTION_MODIFIER_ATOMIC build(parlex::details::behavior::node const & b, parlex::details::ast_node const & n);
+	static FUNCTION_MODIFIER_ATOMIC build(std::u32string const & document, parlex::details::ast_node const & n);
 
 };
 

@@ -53,12 +53,15 @@
 #include "TYPE.hpp"
 #include "UNARY_OP.hpp"
 #include "VECTOR_NORM.hpp"
+
 #include "EXPRESSION.hpp"
 
 namespace plc {
 
-EXPRESSION EXPRESSION::build(parlex::details::behavior::node const & b, parlex::details::ast_node const & n) {
-	return EXPRESSION(parlex::details::document::element<EXPRESSION_base>::build(b, n));
+EXPRESSION EXPRESSION::build(std::u32string const & document, parlex::details::ast_node const & n) {
+	static auto const & b = plange_grammar::get().EXPRESSION.get_behavior();
+	parlex::details::document::walk w{ n.children.cbegin(), n.children.cend() };
+	return EXPRESSION(parlex::details::document::element<EXPRESSION_base>::build(document, b, w));
 }
 
 } // namespace plc

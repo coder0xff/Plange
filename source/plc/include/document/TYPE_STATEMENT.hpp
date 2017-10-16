@@ -8,6 +8,7 @@
 #include <vector>
 #include "erased.hpp"
 #include "parlex/details/abstract_syntax_tree.hpp"
+#include "parlex/details/document.hpp"
 
 #include "plange_grammar.hpp"
 
@@ -20,18 +21,18 @@ struct VISIBILITY_MODIFIER;
 
 struct TYPE_STATEMENT_1_t {
 	erased<VISIBILITY_MODIFIER> field_1;
+	
 	std::vector<erased<IC>> field_2;
+	
 
 
 	explicit TYPE_STATEMENT_1_t(
-		erased<VISIBILITY_MODIFIER> && field_1,
-		std::vector<erased<IC>> && field_2
-	) : field_1(std::move(field_1)), field_2(std::move(field_2)) {}
+		erased<VISIBILITY_MODIFIER> && field_1, std::vector<erased<IC>> && field_2) : field_1(std::move(field_1)), field_2(std::move(field_2)) {}
 
 	TYPE_STATEMENT_1_t(TYPE_STATEMENT_1_t const & other) = default;
 	TYPE_STATEMENT_1_t(TYPE_STATEMENT_1_t && move) = default;
 
-	static TYPE_STATEMENT_1_t build(parlex::details::behavior::node const & b, parlex::details::ast_node const & n);
+	static TYPE_STATEMENT_1_t build(std::u32string const & document, parlex::details::behavior::node const & b, parlex::details::document::walk & w);
 
 };
 
@@ -42,7 +43,7 @@ typedef std::variant<
 > TYPE_STATEMENT_base;
 
 struct TYPE_STATEMENT: TYPE_STATEMENT_base {
-	static TYPE_STATEMENT build(parlex::details::behavior::node const & b, parlex::details::ast_node const & n);
+	static TYPE_STATEMENT build(std::u32string const & document, parlex::details::ast_node const & n);
 	explicit TYPE_STATEMENT(TYPE_STATEMENT_base const & value) : TYPE_STATEMENT_base(value) {}
 };
 } // namespace plc

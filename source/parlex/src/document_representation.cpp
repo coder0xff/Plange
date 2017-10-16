@@ -23,9 +23,7 @@ static erased<node> copy_with_conversions(erased<node> const & n) {
 	}
 
 	return covariant_invoke<erased<node>> (nPtr, 
-		[&](literal_t const & v) { 
-			return unit(v);
-		},
+		[&](literal_t const & v) { return v; },
 		[&](reference_t const & v) { return v; },
 		DO_AS(choice_t),
 		DO_AS(optional_t),
@@ -62,17 +60,19 @@ static erased<node> reduce(erased<node> const & n) {
 				}
 				return result;
 			});
-			if (children.size() == 0) {
-				auto result = erased<node>(unit(v));
-				result->tag = v.tag;
-				return result;
-			}
+// 			if (children.size() == 0) {
+// 				auto result = erased<node>(unit(v));
+// 				result->tag = v.tag;
+// 				return result;
+// 			}
 			if (std::all_of(children.begin(), children.end(), [](erased<node> const & child) { return child->tag != ""; })) {
 				aggregate result;
+				int childIndex = 0;
 				for (auto const & child : children) {
 					erased<node> childCopy = child;
 					childCopy->tag = "";
 					result.add_member(child->tag, childCopy);
+					++childIndex;
 				}
 				return erased<node>(result);
 			}

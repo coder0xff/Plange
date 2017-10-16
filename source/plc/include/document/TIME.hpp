@@ -8,94 +8,107 @@
 #include <vector>
 #include "erased.hpp"
 #include "parlex/details/abstract_syntax_tree.hpp"
+#include "parlex/details/document.hpp"
 
 #include "plange_grammar.hpp"
 
 namespace plc {
 
 struct TIME {
-	struct field_8_t_1_t {
-		int field_2;
+	struct field_08_t_1_t {
+		parlex::details::document::built_in_terminal<parlex::details::decimal_digit_t> field_1;
+		
+		std::vector<parlex::details::document::built_in_terminal<parlex::details::decimal_digit_t>> field_2;
+		
 	
 	
-		explicit field_8_t_1_t(
-			int && field_2
-		) : field_2(std::move(field_2)) {}
+		explicit field_08_t_1_t(
+			parlex::details::document::built_in_terminal<parlex::details::decimal_digit_t> && field_1, std::vector<parlex::details::document::built_in_terminal<parlex::details::decimal_digit_t>> && field_2) : field_1(std::move(field_1)), field_2(std::move(field_2)) {}
 	
-		field_8_t_1_t(field_8_t_1_t const & other) = default;
-		field_8_t_1_t(field_8_t_1_t && move) = default;
+		field_08_t_1_t(field_08_t_1_t const & other) = default;
+		field_08_t_1_t(field_08_t_1_t && move) = default;
 	
-		static field_8_t_1_t build(parlex::details::behavior::node const & b, parlex::details::ast_node const & n);
+		static field_08_t_1_t build(std::u32string const & document, parlex::details::behavior::node const & b, parlex::details::document::walk & w);
 	
 	};
 
-	struct field_9_t_1_t_1_t {
-		struct field_1_t {
-			enum type {
-				literal_0x2B,
-				literal_0x2D
-			} value;
-		
-			static field_1_t build(parlex::details::behavior::node const & b, parlex::details::ast_node const & n) {
-				static ::std::unordered_map<parlex::details::recognizer const *, type> const table {
-					{ &plange_grammar::get().get_literal("literal_0x2B"), literal_0x2B },
-					{ &plange_grammar::get().get_literal("literal_0x2D"), literal_0x2D },
-				};
-				return field_1_t{ table.find(&n.r)->second };
-			}
-		};
-	
-	
+	struct field_09_t_1_t_2_t {
 		struct field_4_t_1_t {
+			parlex::details::document::built_in_terminal<parlex::details::decimal_digit_t> field_1;
+			
+			parlex::details::document::built_in_terminal<parlex::details::decimal_digit_t> field_2;
+			
 		
 		
 			explicit field_4_t_1_t(
-			) {}
+				parlex::details::document::built_in_terminal<parlex::details::decimal_digit_t> && field_1, parlex::details::document::built_in_terminal<parlex::details::decimal_digit_t> && field_2) : field_1(std::move(field_1)), field_2(std::move(field_2)) {}
 		
 			field_4_t_1_t(field_4_t_1_t const & other) = default;
 			field_4_t_1_t(field_4_t_1_t && move) = default;
 		
-			static field_4_t_1_t build(parlex::details::behavior::node const & b, parlex::details::ast_node const & n);
+			static field_4_t_1_t build(std::u32string const & document, parlex::details::behavior::node const & b, parlex::details::document::walk & w);
 		
 		};
 	
-		field_1_t field_1;
+		std::variant<
+			literal_0x2B_t,
+			literal_0x2D_t
+		> field_1;
+		
+		parlex::details::document::built_in_terminal<parlex::details::decimal_digit_t> field_2;
+		
+		parlex::details::document::built_in_terminal<parlex::details::decimal_digit_t> field_3;
+		
 		std::optional<field_4_t_1_t> field_4;
+		
 	
 	
-		explicit field_9_t_1_t_1_t(
-			field_1_t && field_1,
-			std::optional<field_4_t_1_t> && field_4
-		) : field_1(std::move(field_1)), field_4(std::move(field_4)) {}
+		explicit field_09_t_1_t_2_t(
+			std::variant<
+				literal_0x2B_t,
+				literal_0x2D_t
+			> && field_1, parlex::details::document::built_in_terminal<parlex::details::decimal_digit_t> && field_2, parlex::details::document::built_in_terminal<parlex::details::decimal_digit_t> && field_3, std::optional<field_4_t_1_t> && field_4) : field_1(std::move(field_1)), field_2(std::move(field_2)), field_3(std::move(field_3)), field_4(std::move(field_4)) {}
 	
-		field_9_t_1_t_1_t(field_9_t_1_t_1_t const & other) = default;
-		field_9_t_1_t_1_t(field_9_t_1_t_1_t && move) = default;
+		field_09_t_1_t_2_t(field_09_t_1_t_2_t const & other) = default;
+		field_09_t_1_t_2_t(field_09_t_1_t_2_t && move) = default;
 	
-		static field_9_t_1_t_1_t build(parlex::details::behavior::node const & b, parlex::details::ast_node const & n);
+		static field_09_t_1_t_2_t build(std::u32string const & document, parlex::details::behavior::node const & b, parlex::details::document::walk & w);
 	
 	};
 
-	bool field_1;
-	std::optional<field_8_t_1_t> field_8;
+	bool field_01;
+	
+	parlex::details::document::built_in_terminal<parlex::details::decimal_digit_t> field_02;
+	
+	parlex::details::document::built_in_terminal<parlex::details::decimal_digit_t> field_03;
+	
+	parlex::details::document::built_in_terminal<parlex::details::decimal_digit_t> field_04;
+	
+	parlex::details::document::built_in_terminal<parlex::details::decimal_digit_t> field_05;
+	
+	parlex::details::document::built_in_terminal<parlex::details::decimal_digit_t> field_06;
+	
+	parlex::details::document::built_in_terminal<parlex::details::decimal_digit_t> field_07;
+	
+	std::optional<field_08_t_1_t> field_08;
+	
 	std::optional<std::variant<
 		literal_Z_t,
-		field_9_t_1_t_1_t
-	>> field_9;
+		field_09_t_1_t_2_t
+	>> field_09;
+	
 
 
 	explicit TIME(
-		bool && field_1,
-		std::optional<field_8_t_1_t> && field_8,
-		std::optional<std::variant<
+		bool && field_01, parlex::details::document::built_in_terminal<parlex::details::decimal_digit_t> && field_02, parlex::details::document::built_in_terminal<parlex::details::decimal_digit_t> && field_03, parlex::details::document::built_in_terminal<parlex::details::decimal_digit_t> && field_04, parlex::details::document::built_in_terminal<parlex::details::decimal_digit_t> && field_05, parlex::details::document::built_in_terminal<parlex::details::decimal_digit_t> && field_06, parlex::details::document::built_in_terminal<parlex::details::decimal_digit_t> && field_07, std::optional<field_08_t_1_t> && field_08, std::optional<std::variant<
 			literal_Z_t,
-			field_9_t_1_t_1_t
-		>> && field_9
-	) : field_1(std::move(field_1)), field_8(std::move(field_8)), field_9(std::move(field_9)) {}
+			field_09_t_1_t_2_t
+		>> && field_09) : field_01(std::move(field_01)), field_02(std::move(field_02)), field_03(std::move(field_03)), field_04(std::move(field_04)), field_05(std::move(field_05)), field_06(std::move(field_06)), field_07(std::move(field_07)), field_08(std::move(field_08)), field_09(std::move(field_09)) {}
 
 	TIME(TIME const & other) = default;
 	TIME(TIME && move) = default;
 
-	static TIME build(parlex::details::behavior::node const & b, parlex::details::ast_node const & n);
+	static TIME build(std::u32string const & document, parlex::details::ast_node const & n);
 
 };
 

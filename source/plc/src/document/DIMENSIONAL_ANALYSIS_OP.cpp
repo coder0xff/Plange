@@ -10,12 +10,15 @@
 #include "UNIT_DIVISION.hpp"
 #include "UNIT_EXPONENTIATION.hpp"
 #include "UNIT_MULTIPLICATION.hpp"
+
 #include "DIMENSIONAL_ANALYSIS_OP.hpp"
 
 namespace plc {
 
-DIMENSIONAL_ANALYSIS_OP DIMENSIONAL_ANALYSIS_OP::build(parlex::details::behavior::node const & b, parlex::details::ast_node const & n) {
-	return DIMENSIONAL_ANALYSIS_OP(parlex::details::document::element<DIMENSIONAL_ANALYSIS_OP_base>::build(b, n));
+DIMENSIONAL_ANALYSIS_OP DIMENSIONAL_ANALYSIS_OP::build(std::u32string const & document, parlex::details::ast_node const & n) {
+	static auto const & b = plange_grammar::get().DIMENSIONAL_ANALYSIS_OP.get_behavior();
+	parlex::details::document::walk w{ n.children.cbegin(), n.children.cend() };
+	return DIMENSIONAL_ANALYSIS_OP(parlex::details::document::element<DIMENSIONAL_ANALYSIS_OP_base>::build(document, b, w));
 }
 
 } // namespace plc

@@ -13,68 +13,86 @@
 #include "permutation.hpp"
 
 #include "mpl_fold_vx.hpp"
+#include "utf.hpp"
 
 namespace parlex::details::document {
 
-	inline behavior::node const & follow(behavior::node const & a, behavior::leaf const & b) {
-		return *a.follow(&b);
-	}
+	template<typename T>
+	struct built_in_terminal {};
 
+	struct walk {
+		ast_node::const_iterator pos;
+		ast_node::const_iterator const end;
+	};
 
 	template<typename T>
 	struct element {
-		static T build(behavior::node const & b, ast_node const & n) {
-			return T::build(b, n);
+		static T build(std::u32string const & document, behavior::node const & b, walk & w) {
+			return T::build(document, b, w);
+		}
+	};
+
+	template<typename T>
+	struct element<built_in_terminal<T>> {
+		static built_in_terminal<T> build(std::u32string const & document, behavior::node const & b, walk & w) {
+			*w.pos++;
+			return built_in_terminal<T>();
 		}
 	};
 
 	template<>
 	struct element<bool> {
-		static bool build(behavior::node const & b, ast_node const & n) {
-			return b.can_follow(n.leaf);
+		static bool build(std::u32string const & document, behavior::node const & b, walk & w) {
+			auto checkPos = w.pos;
+			for (; w.pos != w.end && b.follow(w.pos->leaf) != nullptr; ++w.pos);
+			return w.pos != checkPos;
 		}
 	};
 
 	template<>
 	struct element<int> {
-		static int build(behavior::node const & b, ast_node const & n) {
-			return n.children.size();
+		static int build(std::u32string const &, behavior::node const & b, walk & w) {
+			auto const * asRepetition = dynamic_cast<behavior::repetition const *>(&b);
+			assert(asRepetition != nullptr);
+			auto const & loneChild = asRepetition->get_children()[0];
+			for (; w.pos != w.end && loneChild->follow(w.pos->leaf) != nullptr; ++w.pos);
+			int result = w.pos->children.size();
+			++w.pos;
+			return result;
 		}
 	};
 
 	template<>
 	struct element<std::string> {
-		static std::string build(behavior::node const & b, ast_node const & n) {
-			return ""; //TODO: extract text from the document
+		static std::string build(std::u32string const & document, behavior::node const & b, walk & w) {
+			assert(w.pos != w.end);
+			auto result = to_utf8(document.substr(w.pos->document_position, w.pos->consumed_character_count));
+			++w.pos;
+			return result;
 		}
 	};
 
-// 	//literals only have one instance, so we work in pointers to that instance
-// 	template<typename T>
-// 	struct element<T const *> {
-// 		static T const * build(behavior::node const & b, ast_node const & n) {
-// 			return T::get();
-// 		}
-// 	};
-
 	template<typename T>
 	struct element<erased<T>> {
-		static erased<T> build(behavior::node const & b, ast_node const & n) {
-			auto asLeafPtr = dynamic_cast<behavior::leaf const *>(&b);
-			assert(asLeafPtr != nullptr);
-			return make_erased<T>(element<T>::build(b, n));
+		static erased<T> build(std::u32string const & document, behavior::node const & b, walk & w) {
+			auto const * asLeaf = dynamic_cast<behavior::leaf const *>(&b);
+			assert(asLeaf != nullptr);
+			assert(asLeaf == w.pos->leaf);
+			return T::build(document, *w.pos++);
 		}
 	};
 
 	template<typename T>
 	struct element<std::vector<T>> {
-		static std::vector<T> build(behavior::node const & b, ast_node const & n) {
-			assert(dynamic_cast<behavior::repetition const *>(&b) != nullptr);
-			behavior::node const & bChild = *b.get_children()[0];
+		static std::vector<T> build(std::u32string const & document, behavior::node const & b, walk & w) {
+			auto const * asRepetition = dynamic_cast<behavior::repetition const *>(&b);
+			assert(asRepetition != nullptr);
+			behavior::node const & loneChild = *asRepetition->get_children()[0];
 			std::vector<T> result;
-			for (ast_node const & child : n.children) {
-				assert(b.can_follow(child.leaf));
-				result.push_back(element<T>::build(bChild, child));
+			for (; w.pos != w.end && b.follow(w.pos->leaf) == &loneChild; ) {
+				auto checkPos = w.pos;
+				result.push_back(element<T>::build(document, loneChild, w));
+				assert(w.pos > checkPos);
 			}
 			return result;
 		}
@@ -82,12 +100,15 @@ namespace parlex::details::document {
 
 	template<typename T>
 	struct element<std::optional<T>> {
-		static std::optional<T> build(behavior::node const & b, ast_node const & n) {
-			assert(dynamic_cast<behavior::optional const *>(&b) != nullptr);
-			behavior::node const & bChild = *b.get_children()[0];
-			for (ast_node const & child : n.children) {
-				if (b.can_follow(child.leaf)) {
-					return std::optional<T>(element<T>::build(bChild, child));
+		static std::optional<T> build(std::u32string const & document, behavior::node const & b, walk & w) {
+			auto const & asOptional = dynamic_cast<behavior::optional const *>(&b);
+			assert(asOptional != nullptr);
+			if (w.pos != w.end) {
+				behavior::node const * loneChild = &*asOptional->get_children()[0];
+				behavior::node const * followedChild = b.follow(w.pos->leaf);
+				if (followedChild != nullptr) {
+					assert(followedChild == loneChild);
+					return std::optional<T>(element<T>::build(document, *loneChild, w));
 				}
 			}
 			return std::optional<T>();
@@ -95,20 +116,18 @@ namespace parlex::details::document {
 	};
 
 	template<typename... Ts>
-	struct variant_builder {
+	struct variant_helper {
 		typedef std::variant<Ts...> TVariant;
-		ast_node const * n;
+		typedef std::unordered_map<behavior::node const *, TVariant(*)(std::u32string const &, behavior::node const & b, walk & w)> TTable;
 
-		variant_builder(ast_node const * n) : n(n) {}
+		template<typename T>
+		static TVariant wrapper(std::u32string const & document, behavior::node const & b, walk & w) {
+			return TVariant(element<T>::build(document, b, w));
+		}
 
-		template<typename THead>
-		std::optional<TVariant> operator()(std::optional<TVariant> const & accumulator, erased<behavior::node> const & b) {
-			if (accumulator.has_value()) {
-				return accumulator;
-			}
-			if (b->can_follow(n->leaf)) {
-				return std::optional<TVariant>(TVariant(element<THead>::build(*b, *n)));
-			}
+		template<typename T>
+		TTable operator()(TTable && accumulator, erased<behavior::node> const & b) {
+			accumulator[&*b] = &wrapper<T>;
 			return accumulator;
 		}
 
@@ -116,105 +135,21 @@ namespace parlex::details::document {
 
 	template<typename... Ts>
 	struct element<std::variant<Ts...>> {
-		static std::variant<Ts...> build(behavior::node const & b, ast_node const & n) {
+		static std::variant<Ts...> build(std::u32string const & document, behavior::node const & b, walk & w) {
 			assert(dynamic_cast<behavior::choice const *>(&b) != nullptr);
 			using TVariant = std::variant<Ts...>;
+			using functor_t = variant_helper<Ts...>;
 			auto const & childBehaviors = b.get_children();
-			variant_builder<Ts...> functor = variant_builder<Ts...>(&n);
-			return mpl::fold_vx<mpl::list<Ts...>>(functor, std::optional<TVariant>(), childBehaviors).value();
+			auto functor = functor_t();
+			//TODO: cache this
+			typename functor_t::TTable table = mpl::fold_vx<mpl::list<Ts...>>(functor, functor_t::TTable(), childBehaviors);
+			behavior::node const * child = b.follow(w.pos->leaf);
+			assert(child != nullptr);
+			typename functor_t::TTable::iterator i = table.find(child);
+			assert(i != table.end());
+			return i->second(document, *child, w);
 		}
 	};
-
-// 	template<typename T>
-// 	void build_optional(std::optional<T> const ** value, ast_node const & n, behavior::node const & b) {
-// 		T const * wrapped;
-// 		build<T>(&wrapped, n, b(0));
-// 		*value = new std::optional<T>(*wrapped);
-// 	}
-// 
-// 	template<typename T>
-// 	void build_vector(std::vector<T> const ** value, ast_node const & n, behavior::node const & b) {
-// 		
-// 	}
-// 
-// 	template<typename T>
-// 	void build(std::optional<std::vector<T>> & value, ast_iterator & i) {
-// 		std::vector<T> results;
-// 		while (true) {
-// 			std::optional<T> element;
-// 			build(element, i);
-// 			if (element.has_value()) {
-// 				results.push_back(element.value());
-// 			}
-// 			else {
-// 				break;
-// 			}
-// 		}
-// 		if (results.size() > 0) { value = results; }
-// 	}
-// 
-// 	struct tuple_element_builder {
-// 		std::vector<match>::iterator & i;
-// 		explicit tuple_element_builder(ast_iterator & i) : i(i) {}
-// 
-// 		template<typename T>
-// 		T operator()() {
-// 			std::optional<T> temp;
-// 			build(temp, i);
-// 			return temp.value();
-// 		}
-// 	};
-// 
-// 	template<typename... Ts>
-// 	void build(std::optional<std::tuple<Ts...>> & value, ast_iterator & i) {
-// 		auto originalI = i;
-// 		tuple_element_builder functor(i);
-// 		try {
-// 			value = mpl::map_v<std::tuple<Ts...>>::map(functor);
-// 		}
-// 		catch (std::bad_optional_access) {
-// 			i = originalI;
-// 		}
-// 	}
-// 
-// 	template<typename... Ts>
-// 	struct variant_builder {
-// 		typedef std::variant<Ts...> TVariant;
-// 		std::vector<match>::iterator & i;
-// 		variant_builder(ast_iterator & i) : i(i) {}
-// 
-// 		template<typename TAccumulator, typename THead>
-// 		std::optional<TVariant> operator()(TAccumulator const & accumulator) {
-// 			if (accumulator.has_value()) {
-// 				return accumulator;
-// 			}
-// 			std::optional<THead> temp;
-// 			build(temp, i);
-// 			if (temp.has_value()) {
-// 				return std::optional<TVariant>(TVariant(temp.value()));
-// 			}
-// 			return accumulator;
-// 		}
-// 
-// 	};
-// 
-// 	template<typename... Ts>
-// 	void build(std::variant<Ts...> & value, match const & m, abstract_syntax_semilattice const & ass) {
-// 		variant_builder<Ts...> functor(i);
-// 		value = mpl::fold_v<mpl::list<Ts...>>::invoke(functor, std::optional<std::variant<Ts...>>());
-// 	}
-// 
-// 	template<typename T>
-// 	void build(std::optional<erased<T>> & value, ast_iterator & i) {
-// 		std::optional<T> temp;
-// 		build(temp, i);
-// 		if (!temp.has_value()) {
-// 			value = std::optional<erased<T>>();
-// 			return;
-// 		}
-// 		value = std::optional<erased<T>>(temp.value());
-// 	}
-
 
 }
 

@@ -8,10 +8,14 @@
 #include "parlex/details/behavior.hpp"
 
 #include "EMBEDDED_NEWLINE_STRING_INTERIOR.hpp"
-plc::EMBEDDED_NEWLINE_STRING plc::EMBEDDED_NEWLINE_STRING::build(parlex::details::behavior::node const & b, parlex::details::ast_node const & n) {
+
+plc::EMBEDDED_NEWLINE_STRING plc::EMBEDDED_NEWLINE_STRING::build(std::u32string const & document, parlex::details::ast_node const & n) {
+	static auto const & b = plange_grammar::get().EMBEDDED_NEWLINE_STRING.get_behavior();
+	parlex::details::document::walk w{ n.children.cbegin(), n.children.cend() };
 	auto const & children = b.get_children();
-	return EMBEDDED_NEWLINE_STRING(
-		parlex::details::document::element<decltype(field_1)>::build(*children[0], n.children[0])
-);
+	assert(w.pos != w.end); ++w.pos; //""" 
+	auto v_0 = parlex::details::document::element<erased<EMBEDDED_NEWLINE_STRING_INTERIOR>>::build(document, *children[1], w);
+	assert(w.pos != w.end); ++w.pos; //""" 
+	return EMBEDDED_NEWLINE_STRING(std::move(v_0));
 }
 

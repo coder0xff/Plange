@@ -1,3 +1,5 @@
+//fold_vx<list<Ts...>>(Functor functor, TAccumulator initial, TArray<U> array) returns a TAccumulator, where functor has a member function `template<typename T> TAccumulator operartor()(U arrayElement const &)`.
+
 #ifndef INCLUDING_MPL_FOLD_VX_HPP
 #define INCLUDING_MPL_FOLD_VX_HPP
 

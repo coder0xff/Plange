@@ -8,23 +8,24 @@
 #include <vector>
 #include "erased.hpp"
 #include "parlex/details/abstract_syntax_tree.hpp"
+#include "parlex/details/document.hpp"
 
 #include "plange_grammar.hpp"
 
 namespace plc {
 
 struct END_OF_LINE_COMMENT {
-	int field_1;
+	std::vector<parlex::details::document::built_in_terminal<parlex::details::not_newline_t>> field_1;
+	
 
 
 	explicit END_OF_LINE_COMMENT(
-		int && field_1
-	) : field_1(std::move(field_1)) {}
+		std::vector<parlex::details::document::built_in_terminal<parlex::details::not_newline_t>> && field_1) : field_1(std::move(field_1)) {}
 
 	END_OF_LINE_COMMENT(END_OF_LINE_COMMENT const & other) = default;
 	END_OF_LINE_COMMENT(END_OF_LINE_COMMENT && move) = default;
 
-	static END_OF_LINE_COMMENT build(parlex::details::behavior::node const & b, parlex::details::ast_node const & n);
+	static END_OF_LINE_COMMENT build(std::u32string const & document, parlex::details::ast_node const & n);
 
 };
 

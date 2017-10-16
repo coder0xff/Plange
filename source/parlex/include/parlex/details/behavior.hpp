@@ -38,9 +38,16 @@ public:
 	void compute_leaf_paths() const;
 	node const & operator()(int index) const;
 	virtual bool is_leaf() const;
-	bool can_follow(leaf const * l) const;
+
+	// if l is a descendent of this node
+	//     return the child leaf which is either
+	//         equal to l, or
+	//         is an ancestor of l
+    // otherwise
+	//     return null
 	node const * follow(leaf const * l) const;
-protected:
+	
+	protected:
 	node() = default;
 
 	node(node const & other);

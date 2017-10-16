@@ -8,6 +8,7 @@
 #include <vector>
 #include "erased.hpp"
 #include "parlex/details/abstract_syntax_tree.hpp"
+#include "parlex/details/document.hpp"
 
 #include "plange_grammar.hpp"
 
@@ -24,7 +25,7 @@ typedef std::variant<
 > MULTIPLICATIVE_OP_base;
 
 struct MULTIPLICATIVE_OP: MULTIPLICATIVE_OP_base {
-	static MULTIPLICATIVE_OP build(parlex::details::behavior::node const & b, parlex::details::ast_node const & n);
+	static MULTIPLICATIVE_OP build(std::u32string const & document, parlex::details::ast_node const & n);
 	explicit MULTIPLICATIVE_OP(MULTIPLICATIVE_OP_base const & value) : MULTIPLICATIVE_OP_base(value) {}
 };
 } // namespace plc

@@ -8,28 +8,21 @@
 #include <vector>
 #include "erased.hpp"
 #include "parlex/details/abstract_syntax_tree.hpp"
+#include "parlex/details/document.hpp"
 
 #include "plange_grammar.hpp"
 
 namespace plc {
 
-struct BOOL {
-	enum type {
-		literal_false,
-		literal_true
-	} value;
+typedef std::variant<
+	literal_true_t,
+	literal_false_t
+> BOOL_base;
 
-	static BOOL build(parlex::details::behavior::node const & b, parlex::details::ast_node const & n) {
-		static ::std::unordered_map<parlex::details::recognizer const *, type> const table {
-			{ &plange_grammar::get().get_literal("literal_false"), literal_false },
-			{ &plange_grammar::get().get_literal("literal_true"), literal_true },
-		};
-		return BOOL{ table.find(&n.r)->second };
-	}
+struct BOOL: BOOL_base {
+	static BOOL build(std::u32string const & document, parlex::details::ast_node const & n);
+	explicit BOOL(BOOL_base const & value) : BOOL_base(value) {}
 };
-
-
-
 } // namespace plc
 
 

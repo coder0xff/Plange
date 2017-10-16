@@ -9,12 +9,15 @@
 
 #include "DIMENSIONAL_ANALYSIS_OP.hpp"
 #include "IDENTIFIER.hpp"
+
 #include "DIMENSION.hpp"
 
 namespace plc {
 
-DIMENSION DIMENSION::build(parlex::details::behavior::node const & b, parlex::details::ast_node const & n) {
-	return DIMENSION(parlex::details::document::element<DIMENSION_base>::build(b, n));
+DIMENSION DIMENSION::build(std::u32string const & document, parlex::details::ast_node const & n) {
+	static auto const & b = plange_grammar::get().DIMENSION.get_behavior();
+	parlex::details::document::walk w{ n.children.cbegin(), n.children.cend() };
+	return DIMENSION(parlex::details::document::element<DIMENSION_base>::build(document, b, w));
 }
 
 } // namespace plc

@@ -7,7 +7,12 @@
 namespace parlex::details {
 	
 	struct ast_node : match {
-		std::vector<ast_node> const children;
+		typedef std::vector<ast_node> sequence;
+		typedef sequence::iterator iterator;
+		typedef sequence::const_iterator const_iterator;
+		sequence const children;
+
+		// The grammar leaf that this node satisfies
 		behavior::leaf const * leaf;
 
 		ast_node(match const &, std::vector<ast_node> const & children, behavior::leaf const * leaf);
@@ -16,6 +21,7 @@ namespace parlex::details {
 
 	typedef ast_node abstract_syntax_tree;
 }
+
 
 
 #endif //INCLUDED_PARLEX_ABSTRACT_SYNTAX_TREE_HPP

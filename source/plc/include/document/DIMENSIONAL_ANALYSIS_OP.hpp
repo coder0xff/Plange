@@ -8,6 +8,7 @@
 #include <vector>
 #include "erased.hpp"
 #include "parlex/details/abstract_syntax_tree.hpp"
+#include "parlex/details/document.hpp"
 
 #include "plange_grammar.hpp"
 
@@ -24,7 +25,7 @@ typedef std::variant<
 > DIMENSIONAL_ANALYSIS_OP_base;
 
 struct DIMENSIONAL_ANALYSIS_OP: DIMENSIONAL_ANALYSIS_OP_base {
-	static DIMENSIONAL_ANALYSIS_OP build(parlex::details::behavior::node const & b, parlex::details::ast_node const & n);
+	static DIMENSIONAL_ANALYSIS_OP build(std::u32string const & document, parlex::details::ast_node const & n);
 	explicit DIMENSIONAL_ANALYSIS_OP(DIMENSIONAL_ANALYSIS_OP_base const & value) : DIMENSIONAL_ANALYSIS_OP_base(value) {}
 };
 } // namespace plc

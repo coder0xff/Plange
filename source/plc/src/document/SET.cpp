@@ -9,29 +9,32 @@
 
 #include "EXPRESSION.hpp"
 #include "IC.hpp"
-plc::SET::elements_t_1_t::field_2_t_1_t plc::SET::elements_t_1_t::field_2_t_1_t::build(parlex::details::behavior::node const & b, parlex::details::ast_node const & n) {
+
+plc::SET::elements_t_1_t::field_2_t_1_t plc::SET::elements_t_1_t::field_2_t_1_t::build(std::u32string const & document, parlex::details::behavior::node const & b, parlex::details::document::walk & w) {
 	auto const & children = b.get_children();
-	return field_2_t_1_t(
-		parlex::details::document::element<decltype(field_1)>::build(*children[0], n.children[0]),
-		parlex::details::document::element<decltype(field_2)>::build(*children[0], n.children[0]),
-		parlex::details::document::element<decltype(field_3)>::build(*children[0], n.children[0])
-);
+	auto v_0 = parlex::details::document::element<std::vector<erased<IC>>>::build(document, *children[0], w);
+	assert(w.pos != w.end); ++w.pos; //, 
+	auto v_1 = parlex::details::document::element<std::vector<erased<IC>>>::build(document, *children[2], w);
+	auto v_2 = parlex::details::document::element<erased<EXPRESSION>>::build(document, *children[3], w);
+	return field_2_t_1_t(std::move(v_0), std::move(v_1), std::move(v_2));
 }
 
-plc::SET::elements_t_1_t plc::SET::elements_t_1_t::build(parlex::details::behavior::node const & b, parlex::details::ast_node const & n) {
+plc::SET::elements_t_1_t plc::SET::elements_t_1_t::build(std::u32string const & document, parlex::details::behavior::node const & b, parlex::details::document::walk & w) {
 	auto const & children = b.get_children();
-	return elements_t_1_t(
-		parlex::details::document::element<decltype(field_1)>::build(*children[0], n.children[0]),
-		parlex::details::document::element<decltype(field_2)>::build(*children[0], n.children[0]),
-		parlex::details::document::element<decltype(field_3)>::build(*children[0], n.children[0])
-);
+	auto v_0 = parlex::details::document::element<erased<EXPRESSION>>::build(document, *children[0], w);
+	auto v_1 = parlex::details::document::element<std::vector<field_2_t_1_t>>::build(document, *children[1], w);
+	auto v_2 = parlex::details::document::element<std::vector<erased<IC>>>::build(document, *children[2], w);
+	return elements_t_1_t(std::move(v_0), std::move(v_1), std::move(v_2));
 }
 
-plc::SET plc::SET::build(parlex::details::behavior::node const & b, parlex::details::ast_node const & n) {
+plc::SET plc::SET::build(std::u32string const & document, parlex::details::ast_node const & n) {
+	static auto const & b = plange_grammar::get().SET.get_behavior();
+	parlex::details::document::walk w{ n.children.cbegin(), n.children.cend() };
 	auto const & children = b.get_children();
-	return SET(
-		parlex::details::document::element<decltype(field_1)>::build(*children[0], n.children[0]),
-		parlex::details::document::element<decltype(elements)>::build(*children[0], n.children[0])
-);
+	assert(w.pos != w.end); ++w.pos; //{| 
+	auto v_0 = parlex::details::document::element<std::vector<erased<IC>>>::build(document, *children[1], w);
+	auto v_1 = parlex::details::document::element<std::optional<elements_t_1_t>>::build(document, *children[2], w);
+	assert(w.pos != w.end); ++w.pos; //|} 
+	return SET(std::move(v_0), std::move(v_1));
 }
 

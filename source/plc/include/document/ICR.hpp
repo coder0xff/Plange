@@ -8,6 +8,7 @@
 #include <vector>
 #include "erased.hpp"
 #include "parlex/details/abstract_syntax_tree.hpp"
+#include "parlex/details/document.hpp"
 
 #include "plange_grammar.hpp"
 
@@ -17,18 +18,18 @@ struct IC;
 
 struct ICR {
 	erased<IC> field_1;
+	
 	std::vector<erased<IC>> field_2;
+	
 
 
 	explicit ICR(
-		erased<IC> && field_1,
-		std::vector<erased<IC>> && field_2
-	) : field_1(std::move(field_1)), field_2(std::move(field_2)) {}
+		erased<IC> && field_1, std::vector<erased<IC>> && field_2) : field_1(std::move(field_1)), field_2(std::move(field_2)) {}
 
 	ICR(ICR const & other) = default;
 	ICR(ICR && move) = default;
 
-	static ICR build(parlex::details::behavior::node const & b, parlex::details::ast_node const & n);
+	static ICR build(std::u32string const & document, parlex::details::ast_node const & n);
 
 };
 

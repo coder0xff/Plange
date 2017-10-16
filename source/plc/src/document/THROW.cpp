@@ -9,29 +9,32 @@
 
 #include "EXPRESSION.hpp"
 #include "IC.hpp"
-plc::THROW::field_1_t_1_t plc::THROW::field_1_t_1_t::build(parlex::details::behavior::node const & b, parlex::details::ast_node const & n) {
+
+plc::THROW::field_1_t_1_t plc::THROW::field_1_t_1_t::build(std::u32string const & document, parlex::details::behavior::node const & b, parlex::details::document::walk & w) {
 	auto const & children = b.get_children();
-	return field_1_t_1_t(
-		parlex::details::document::element<decltype(field_1)>::build(*children[0], n.children[0]),
-		parlex::details::document::element<decltype(field_2)>::build(*children[0], n.children[0]),
-		parlex::details::document::element<decltype(field_3)>::build(*children[0], n.children[0]),
-		parlex::details::document::element<decltype(field_4)>::build(*children[0], n.children[0])
-);
+	auto v_0 = parlex::details::document::element<std::vector<erased<IC>>>::build(document, *children[0], w);
+	assert(w.pos != w.end); ++w.pos; //[ 
+	auto v_1 = parlex::details::document::element<std::vector<erased<IC>>>::build(document, *children[2], w);
+	auto v_2 = parlex::details::document::element<erased<EXPRESSION>>::build(document, *children[3], w);
+	auto v_3 = parlex::details::document::element<std::vector<erased<IC>>>::build(document, *children[4], w);
+	assert(w.pos != w.end); ++w.pos; //] 
+	return field_1_t_1_t(std::move(v_0), std::move(v_1), std::move(v_2), std::move(v_3));
 }
 
-plc::THROW::field_2_t_1_t plc::THROW::field_2_t_1_t::build(parlex::details::behavior::node const & b, parlex::details::ast_node const & n) {
+plc::THROW::field_2_t_1_t plc::THROW::field_2_t_1_t::build(std::u32string const & document, parlex::details::behavior::node const & b, parlex::details::document::walk & w) {
 	auto const & children = b.get_children();
-	return field_2_t_1_t(
-		parlex::details::document::element<decltype(field_1)>::build(*children[0], n.children[0]),
-		parlex::details::document::element<decltype(field_2)>::build(*children[0], n.children[0])
-);
+	auto v_0 = parlex::details::document::element<std::vector<erased<IC>>>::build(document, *children[0], w);
+	auto v_1 = parlex::details::document::element<erased<EXPRESSION>>::build(document, *children[1], w);
+	return field_2_t_1_t(std::move(v_0), std::move(v_1));
 }
 
-plc::THROW plc::THROW::build(parlex::details::behavior::node const & b, parlex::details::ast_node const & n) {
+plc::THROW plc::THROW::build(std::u32string const & document, parlex::details::ast_node const & n) {
+	static auto const & b = plange_grammar::get().THROW.get_behavior();
+	parlex::details::document::walk w{ n.children.cbegin(), n.children.cend() };
 	auto const & children = b.get_children();
-	return THROW(
-		parlex::details::document::element<decltype(field_1)>::build(*children[0], n.children[0]),
-		parlex::details::document::element<decltype(field_2)>::build(*children[0], n.children[0])
-);
+	assert(w.pos != w.end); ++w.pos; //throw 
+	auto v_0 = parlex::details::document::element<std::optional<field_1_t_1_t>>::build(document, *children[1], w);
+	auto v_1 = parlex::details::document::element<std::optional<field_2_t_1_t>>::build(document, *children[2], w);
+	return THROW(std::move(v_0), std::move(v_1));
 }
 

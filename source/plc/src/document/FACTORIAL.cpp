@@ -9,11 +9,14 @@
 
 #include "EXPRESSION.hpp"
 #include "IC.hpp"
-plc::FACTORIAL plc::FACTORIAL::build(parlex::details::behavior::node const & b, parlex::details::ast_node const & n) {
+
+plc::FACTORIAL plc::FACTORIAL::build(std::u32string const & document, parlex::details::ast_node const & n) {
+	static auto const & b = plange_grammar::get().FACTORIAL.get_behavior();
+	parlex::details::document::walk w{ n.children.cbegin(), n.children.cend() };
 	auto const & children = b.get_children();
-	return FACTORIAL(
-		parlex::details::document::element<decltype(field_1)>::build(*children[0], n.children[0]),
-		parlex::details::document::element<decltype(field_2)>::build(*children[0], n.children[0])
-);
+	auto v_0 = parlex::details::document::element<erased<EXPRESSION>>::build(document, *children[0], w);
+	auto v_1 = parlex::details::document::element<std::vector<erased<IC>>>::build(document, *children[1], w);
+	assert(w.pos != w.end); ++w.pos; //! 
+	return FACTORIAL(std::move(v_0), std::move(v_1));
 }
 

@@ -8,6 +8,7 @@
 #include <vector>
 #include "erased.hpp"
 #include "parlex/details/abstract_syntax_tree.hpp"
+#include "parlex/details/document.hpp"
 
 #include "plange_grammar.hpp"
 
@@ -22,7 +23,7 @@ typedef std::vector<std::variant<
 >> ASM_SCOPE_base;
 
 struct ASM_SCOPE: ASM_SCOPE_base {
-	static ASM_SCOPE build(parlex::details::behavior::node const & b, parlex::details::ast_node const & n);
+	static ASM_SCOPE build(std::u32string const & document, parlex::details::ast_node const & n);
 	explicit ASM_SCOPE(ASM_SCOPE_base const & value) : ASM_SCOPE_base(value) {}
 };
 } // namespace plc

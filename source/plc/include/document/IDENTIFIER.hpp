@@ -8,59 +8,40 @@
 #include <vector>
 #include "erased.hpp"
 #include "parlex/details/abstract_syntax_tree.hpp"
+#include "parlex/details/document.hpp"
 
 #include "plange_grammar.hpp"
 
 namespace plc {
 
 struct IDENTIFIER {
-	struct field_1_t {
-		enum type {
-			field_1_t_1_t,
-			literal__
-		} value;
+	std::variant<
+		parlex::details::document::built_in_terminal<parlex::details::letter_t>,
+		literal___t
+	> head;
 	
-		static field_1_t build(parlex::details::behavior::node const & b, parlex::details::ast_node const & n) {
-			static ::std::unordered_map<parlex::details::recognizer const *, type> const table {
-				{ &plange_grammar::get().get_literal("field_1_t_1_t"), field_1_t_1_t },
-				{ &plange_grammar::get().get_literal("literal__"), literal__ },
-			};
-			return field_1_t{ table.find(&n.r)->second };
-		}
-	};
-
-
-	struct field_2_t_1_t {
-		enum type {
-			field_2_t_1_t_1_t,
-			field_2_t_1_t_2_t,
-			literal__
-		} value;
+	std::vector<std::variant<
+		parlex::details::document::built_in_terminal<parlex::details::letter_t>,
+		parlex::details::document::built_in_terminal<parlex::details::number_t>,
+		literal___t
+	>> tail;
 	
-		static field_2_t_1_t build(parlex::details::behavior::node const & b, parlex::details::ast_node const & n) {
-			static ::std::unordered_map<parlex::details::recognizer const *, type> const table {
-				{ &plange_grammar::get().get_literal("field_2_t_1_t_1_t"), field_2_t_1_t_1_t },
-				{ &plange_grammar::get().get_literal("field_2_t_1_t_2_t"), field_2_t_1_t_2_t },
-				{ &plange_grammar::get().get_literal("literal__"), literal__ },
-			};
-			return field_2_t_1_t{ table.find(&n.r)->second };
-		}
-	};
-
-
-	field_1_t field_1;
-	std::vector<field_2_t_1_t> field_2;
 
 
 	explicit IDENTIFIER(
-		field_1_t && field_1,
-		std::vector<field_2_t_1_t> && field_2
-	) : field_1(std::move(field_1)), field_2(std::move(field_2)) {}
+		std::variant<
+			parlex::details::document::built_in_terminal<parlex::details::letter_t>,
+			literal___t
+		> && head, std::vector<std::variant<
+			parlex::details::document::built_in_terminal<parlex::details::letter_t>,
+			parlex::details::document::built_in_terminal<parlex::details::number_t>,
+			literal___t
+		>> && tail) : head(std::move(head)), tail(std::move(tail)) {}
 
 	IDENTIFIER(IDENTIFIER const & other) = default;
 	IDENTIFIER(IDENTIFIER && move) = default;
 
-	static IDENTIFIER build(parlex::details::behavior::node const & b, parlex::details::ast_node const & n);
+	static IDENTIFIER build(std::u32string const & document, parlex::details::ast_node const & n);
 
 };
 

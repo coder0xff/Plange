@@ -8,6 +8,7 @@
 #include <vector>
 #include "erased.hpp"
 #include "parlex/details/abstract_syntax_tree.hpp"
+#include "parlex/details/document.hpp"
 
 #include "plange_grammar.hpp"
 
@@ -18,18 +19,18 @@ struct IC;
 
 struct POST_DEC {
 	erased<EXPRESSION> field_1;
+	
 	std::vector<erased<IC>> field_2;
+	
 
 
 	explicit POST_DEC(
-		erased<EXPRESSION> && field_1,
-		std::vector<erased<IC>> && field_2
-	) : field_1(std::move(field_1)), field_2(std::move(field_2)) {}
+		erased<EXPRESSION> && field_1, std::vector<erased<IC>> && field_2) : field_1(std::move(field_1)), field_2(std::move(field_2)) {}
 
 	POST_DEC(POST_DEC const & other) = default;
 	POST_DEC(POST_DEC && move) = default;
 
-	static POST_DEC build(parlex::details::behavior::node const & b, parlex::details::ast_node const & n);
+	static POST_DEC build(std::u32string const & document, parlex::details::ast_node const & n);
 
 };
 

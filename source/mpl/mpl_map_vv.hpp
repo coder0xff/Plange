@@ -1,3 +1,5 @@
+// map_vv<tuple<Ts...>>::map(functor, elements) returns a tuple<Us...>, where functor has member function `template <typename T> U operator()(T const & element)`, and elements is a tuple<Ts...>
+
 #ifndef INCLUDING_MPL_MAP_VV_HPP
 #define INCLUDING_MPL_MAP_VV_HPP
 
@@ -37,7 +39,7 @@ namespace mpl {
 	}
 
 	template<typename TFunctor, typename TTuple>
-	constexpr auto map_values(TFunctor && functor, TTuple && elements) {
+	constexpr auto map_vv(TFunctor && functor, TTuple && elements) {
 		return details_map_vv::impl1(
 			std::forward<TFunctor>(functor),
 			std::forward<TTuple>(elements),

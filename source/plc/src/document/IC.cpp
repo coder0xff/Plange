@@ -11,12 +11,15 @@
 #include "EMBEDDED_COMMENT.hpp"
 #include "END_OF_LINE_COMMENT.hpp"
 #include "WS.hpp"
+
 #include "IC.hpp"
 
 namespace plc {
 
-IC IC::build(parlex::details::behavior::node const & b, parlex::details::ast_node const & n) {
-	return IC(parlex::details::document::element<IC_base>::build(b, n));
+IC IC::build(std::u32string const & document, parlex::details::ast_node const & n) {
+	static auto const & b = plange_grammar::get().IC.get_behavior();
+	parlex::details::document::walk w{ n.children.cbegin(), n.children.cend() };
+	return IC(parlex::details::document::element<IC_base>::build(document, b, w));
 }
 
 } // namespace plc

@@ -8,6 +8,7 @@
 #include <vector>
 #include "erased.hpp"
 #include "parlex/details/abstract_syntax_tree.hpp"
+#include "parlex/details/document.hpp"
 
 #include "plange_grammar.hpp"
 
@@ -17,18 +18,18 @@ struct NON_ZERO_DECIMAL_DIGIT;
 
 struct NON_NEG_INTEGER_1_t {
 	erased<NON_ZERO_DECIMAL_DIGIT> field_1;
-	int field_2;
+	
+	std::vector<parlex::details::document::built_in_terminal<parlex::details::decimal_digit_t>> field_2;
+	
 
 
 	explicit NON_NEG_INTEGER_1_t(
-		erased<NON_ZERO_DECIMAL_DIGIT> && field_1,
-		int && field_2
-	) : field_1(std::move(field_1)), field_2(std::move(field_2)) {}
+		erased<NON_ZERO_DECIMAL_DIGIT> && field_1, std::vector<parlex::details::document::built_in_terminal<parlex::details::decimal_digit_t>> && field_2) : field_1(std::move(field_1)), field_2(std::move(field_2)) {}
 
 	NON_NEG_INTEGER_1_t(NON_NEG_INTEGER_1_t const & other) = default;
 	NON_NEG_INTEGER_1_t(NON_NEG_INTEGER_1_t && move) = default;
 
-	static NON_NEG_INTEGER_1_t build(parlex::details::behavior::node const & b, parlex::details::ast_node const & n);
+	static NON_NEG_INTEGER_1_t build(std::u32string const & document, parlex::details::behavior::node const & b, parlex::details::document::walk & w);
 
 };
 
@@ -38,7 +39,7 @@ typedef std::variant<
 > NON_NEG_INTEGER_base;
 
 struct NON_NEG_INTEGER: NON_NEG_INTEGER_base {
-	static NON_NEG_INTEGER build(parlex::details::behavior::node const & b, parlex::details::ast_node const & n);
+	static NON_NEG_INTEGER build(std::u32string const & document, parlex::details::ast_node const & n);
 	explicit NON_NEG_INTEGER(NON_NEG_INTEGER_base const & value) : NON_NEG_INTEGER_base(value) {}
 };
 } // namespace plc

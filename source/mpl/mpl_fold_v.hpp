@@ -32,8 +32,8 @@ namespace mpl {
 		//TFunctor::operator() : (TInitial initial) * TElement -> (TResult result)
 		//Note that TResult may not be the same as TInitial, because we are also folding over types.
 		template<typename TFunctor, typename TInitial>
-		static auto invoke(TFunctor && functor, TInitial const & initial) {
-			return details::fold_v::impl<TFunctor, TInitial, TList>::impl_f(std::forward<TFunctor>(functor), initial);
+		static auto invoke(TFunctor && functor, TInitial && initial) {
+			return details::fold_v::impl<TFunctor, TInitial, TList>::impl_f(std::forward<TFunctor>(functor), std::forward<TInitial>(initial));
 		}
 	};
 

@@ -8,6 +8,7 @@
 #include <vector>
 #include "erased.hpp"
 #include "parlex/details/abstract_syntax_tree.hpp"
+#include "parlex/details/document.hpp"
 
 #include "plange_grammar.hpp"
 
@@ -17,37 +18,27 @@ struct EXPRESSION;
 struct IC;
 
 struct EXISTS {
-	struct field_1_t {
-		enum type {
-			literal_0xE20x880x83,
-			literal_exists
-		} value;
+	std::variant<
+		literal_0xE20x880x83_t,
+		literal_exists_t
+	> field_1;
 	
-		static field_1_t build(parlex::details::behavior::node const & b, parlex::details::ast_node const & n) {
-			static ::std::unordered_map<parlex::details::recognizer const *, type> const table {
-				{ &plange_grammar::get().get_literal("literal_0xE20x880x83"), literal_0xE20x880x83 },
-				{ &plange_grammar::get().get_literal("literal_exists"), literal_exists },
-			};
-			return field_1_t{ table.find(&n.r)->second };
-		}
-	};
-
-
-	field_1_t field_1;
 	std::vector<erased<IC>> field_2;
+	
 	erased<EXPRESSION> field_3;
+	
 
 
 	explicit EXISTS(
-		field_1_t && field_1,
-		std::vector<erased<IC>> && field_2,
-		erased<EXPRESSION> && field_3
-	) : field_1(std::move(field_1)), field_2(std::move(field_2)), field_3(std::move(field_3)) {}
+		std::variant<
+			literal_0xE20x880x83_t,
+			literal_exists_t
+		> && field_1, std::vector<erased<IC>> && field_2, erased<EXPRESSION> && field_3) : field_1(std::move(field_1)), field_2(std::move(field_2)), field_3(std::move(field_3)) {}
 
 	EXISTS(EXISTS const & other) = default;
 	EXISTS(EXISTS && move) = default;
 
-	static EXISTS build(parlex::details::behavior::node const & b, parlex::details::ast_node const & n);
+	static EXISTS build(std::u32string const & document, parlex::details::ast_node const & n);
 
 };
 

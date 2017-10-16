@@ -9,12 +9,15 @@
 
 #include "FUNCTION_MODIFIER_3.hpp"
 #include "FUNCTION_MODIFIER_ATOMIC.hpp"
+
 #include "FUNCTION_MODIFIER_2.hpp"
 
 namespace plc {
 
-FUNCTION_MODIFIER_2 FUNCTION_MODIFIER_2::build(parlex::details::behavior::node const & b, parlex::details::ast_node const & n) {
-	return FUNCTION_MODIFIER_2(parlex::details::document::element<FUNCTION_MODIFIER_2_base>::build(b, n));
+FUNCTION_MODIFIER_2 FUNCTION_MODIFIER_2::build(std::u32string const & document, parlex::details::ast_node const & n) {
+	static auto const & b = plange_grammar::get().FUNCTION_MODIFIER_2.get_behavior();
+	parlex::details::document::walk w{ n.children.cbegin(), n.children.cend() };
+	return FUNCTION_MODIFIER_2(parlex::details::document::element<FUNCTION_MODIFIER_2_base>::build(document, b, w));
 }
 
 } // namespace plc
