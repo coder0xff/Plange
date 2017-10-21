@@ -16,7 +16,7 @@ plc::INTEGER_DIVISION plc::INTEGER_DIVISION::build(std::u32string const & docume
 	auto const & children = b.get_children();
 	auto v_0 = parlex::details::document::element<erased<EXPRESSION>>::build(document, *children[0], w);
 	auto v_1 = parlex::details::document::element<std::vector<erased<IC>>>::build(document, *children[1], w);
-	assert(w.pos != w.end); ++w.pos; //\ 
+	assert(w.pos != w.end); ++w.pos;
 	auto v_2 = parlex::details::document::element<std::vector<erased<IC>>>::build(document, *children[3], w);
 	auto v_3 = parlex::details::document::element<erased<EXPRESSION>>::build(document, *children[4], w);
 	return INTEGER_DIVISION(std::move(v_0), std::move(v_1), std::move(v_2), std::move(v_3));

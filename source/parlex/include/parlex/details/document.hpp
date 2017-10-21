@@ -142,7 +142,7 @@ namespace parlex::details::document {
 			auto const & childBehaviors = b.get_children();
 			auto functor = functor_t();
 			//TODO: cache this
-			typename functor_t::TTable table = mpl::fold_vx<mpl::list<Ts...>>(functor, functor_t::TTable(), childBehaviors);
+			typename functor_t::TTable table = mpl::fold_vx<mpl::list<Ts...>>(functor, typename functor_t::TTable(), childBehaviors);
 			behavior::node const * child = b.follow(w.pos->leaf);
 			assert(child != nullptr);
 			typename functor_t::TTable::iterator i = table.find(child);
