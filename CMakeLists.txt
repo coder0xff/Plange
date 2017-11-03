@@ -24,11 +24,8 @@ if (NOT LLVM_FOUND)
 	set(LLVM_INSTALL_TARGET "llvm")
 	ExternalProject_Add(llvm
 		PREFIX "${CMAKE_BINARY_DIR}/Downloads/llvm"
-		#TODO: Point back to llvm-mirror once https://github.com/llvm-mirror/llvm/pull/50 is landed
-		GIT_REPOSITORY "https://github.com/coder0xff/llvm.git"
-		GIT_TAG "vs_2017_fix"
-		#GIT_REPOSITORY "https://github.com/llvm-mirror/llvm.git"
-		#GIT_TAG "release_50"
+		GIT_REPOSITORY "https://github.com/llvm-mirror/llvm.git"
+		GIT_TAG "release_50"
 		BINARY_DIR "${CMAKE_BINARY_DIR}/Downloads/llvm/${CMAKE_CFG_INTDIR}/build"
 		CMAKE_ARGS
 			"-DCMAKE_INSTALL_PREFIX=${CMAKE_BINARY_DIR}/Dependencies/llvm"
@@ -48,10 +45,8 @@ endif()
 # don't bother with find_package, because it does not include the libraries https://askubuntu.com/questions/145887/why-no-library-files-installed-for-google-test
 ExternalProject_Add(googletest
 	PREFIX "${CMAKE_BINARY_DIR}/Downloads/googletest"
-	# Point back to main repository once https://github.com/google/googletest/pull/1218 is landed
-	#GIT_REPOSITORY "https://github.com/google/googletest.git"
-	GIT_REPOSITORY "https://github.com/KindDragon/googletest.git"
-	GIT_TAG vs-build-fix
+	GIT_REPOSITORY "https://github.com/google/googletest.git"
+	GIT_TAG d175c8bf823e709d570772b038757fadf63bc632 
 	BINARY_DIR "${CMAKE_BINARY_DIR}/Downloads/googletest/${CMAKE_CFG_INTDIR}/build"
 	CMAKE_ARGS
 		"-DCMAKE_INSTALL_PREFIX=${CMAKE_BINARY_DIR}/Dependencies/googletest"

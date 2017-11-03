@@ -8,7 +8,7 @@
 #pragma warning(pop)
 
 #include "source_code.hpp"
-#include "statement.hpp"
+#include "STATEMENT.hpp"
 #include "analytic_value.hpp"
 #include "symbol.hpp"
 #include "natural_value.hpp"
