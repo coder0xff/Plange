@@ -1,3 +1,8 @@
+<a href="https://scan.coverity.com/projects/coder0xff-plange">
+  <img alt="Coverity Scan Build Status"
+       src="https://scan.coverity.com/projects/14241/badge.svg"/>
+</a>
+
 # Plange
 A project to create a revolutionary development environment
 
