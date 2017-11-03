@@ -1,7 +1,7 @@
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${PROJECT_SOURCE_DIR}/cmake/Modules/")
 #include(PrecompiledHeader)
 
-find_package(LLVM 6.0 REQUIRED HINTS "${DEP_DIR}/llvm/lib/cmake/llvm")
+find_package(LLVM 5.0 REQUIRED HINTS "${DEP_DIR}/llvm/lib/cmake/llvm")
 include_directories("${LLVM_INCLUDE_DIRS}")
 
 include_directories("${CMAKE_CURRENT_SOURCE_DIR}") #for tclap
