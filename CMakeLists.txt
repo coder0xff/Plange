@@ -18,14 +18,13 @@ if (NOT YAML-CPP_FOUND)
 	)
 endif()
 
-# Enable when llvm-mirror once https://github.com/llvm-mirror/llvm/pull/50 is landed
-#find_package(LLVM 5.0 QUIET)
+find_package(LLVM 6.0 QUIET)
 if (NOT LLVM_FOUND)
 	set(LLVM_INSTALL_TARGET "llvm")
 	ExternalProject_Add(llvm
 		PREFIX "${CMAKE_BINARY_DIR}/Downloads/llvm"
 		GIT_REPOSITORY "https://github.com/llvm-mirror/llvm.git"
-		GIT_TAG "release_50"
+		GIT_TAG c80a0ef3c0cda8ed483d0291170aefb30fe65381
 		BINARY_DIR "${CMAKE_BINARY_DIR}/Downloads/llvm/${CMAKE_CFG_INTDIR}/build"
 		CMAKE_ARGS
 			"-DCMAKE_INSTALL_PREFIX=${CMAKE_BINARY_DIR}/Dependencies/llvm"
@@ -38,7 +37,7 @@ else()
 		# LLVM-3.9-dev package doesn't reference zlib1g-dev package
 		# plc won't link without it
 		# TODO: Maybe this wont be needed in 5.0 release
-		find_package(ZLIB 1 REQUIRED)
+#		find_package(ZLIB 1 REQUIRED)
 	endif()
 endif()
 
