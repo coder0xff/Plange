@@ -1,4 +1,4 @@
-cmake_minimum_required (VERSION 3.9)
+cmake_minimum_required (VERSION 3.10)
 project(plange)
 
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
