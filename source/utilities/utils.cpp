@@ -7,14 +7,6 @@
 
 #include "utils.hpp"
 
-void throw_assert(bool pass) {
-#if DEBUG
-	if (!pass) {
-		throw std::runtime_error("failed assert");
-	}
-#endif
-}
-
 void debugger() {
 #ifdef _MSC_VER
 	__asm int 3
@@ -130,15 +122,5 @@ constexpr int c_strcmp(char const * lhs, char const * rhs) {
 		       : lhs[0] != rhs[0] ? lhs[0] - rhs[0]
 		       : c_strcmp(lhs + 1, rhs + 1);
 }
-
-void throw_assert(bool pass) {
-	if constexpr (c_strcmp(CMAKE_BUILD_TYPE, "Debug") == 0) {
-		if (!pass) {
-			throw std::runtime_error("failed assert");
-		}
-	}
-}
-
-#else
 
 #endif

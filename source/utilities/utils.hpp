@@ -3,6 +3,14 @@
 
 #include <string>
 
+inline void throw_assert(bool pass) {
+#if DEBUG
+	if (!pass) {
+		throw std::runtime_error("failed assert");
+	}
+#endif
+}
+
 void throw_assert(bool pass);
 
 void debugger();
