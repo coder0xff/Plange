@@ -1,6 +1,8 @@
 #include "gtest/gtest.h"
 #include "utf.hpp"
 
+// IMPORTANT: u16string tests can be uncommented once implemented
+
 //see https://stackoverflow.com/a/17106065/395029
 
 //TEST(UtfTest, banana_test1) {
