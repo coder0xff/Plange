@@ -18,8 +18,6 @@ std::string directed_graph(
 ) {
 	std::stringstream result;
 	result << "digraph nfa {\n";
-	result << "\trankdir=LR;\n";
-	result << "\tsize=\"8,5\"\n";
 
 	for (auto const & vertex : vertices) {
 		std::string name = enquote(get_name(vertex));
