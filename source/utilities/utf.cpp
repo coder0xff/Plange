@@ -8,23 +8,11 @@
 
 #ifdef _MSC_VER
 
-std::string to_utf8(std::wstring const & s) {
-	std::wstring_convert<std::codecvt_utf8<wchar_t>, wchar_t> convert;
-	auto p = reinterpret_cast<wchar_t const *>(s.data());
-	return convert.to_bytes(p, p + s.size());
-}
-
 std::string to_utf8(std::u32string const & s)
 {
 	std::wstring_convert<std::codecvt_utf8<int32_t>, int32_t> convert;
 	auto p = reinterpret_cast<int32_t const *>(s.data());
 	return convert.to_bytes(p, p + s.size());
-}
-
-std::wstring to_wchar(std::string const & s) {
-	std::wstring_convert<std::codecvt_utf8<wchar_t>, wchar_t> convert;
-	auto asInt = convert.from_bytes(s);
-	return std::wstring(reinterpret_cast<wchar_t const *>(asInt.data()), asInt.length());
 }
 
 std::u16string to_utf16(std::string const & s)
@@ -68,6 +56,18 @@ std::u32string to_utf32(std::string const & s)
 }
 
 #endif
+
+std::string to_utf8(std::wstring const & s) {
+	std::wstring_convert<std::codecvt_utf8<wchar_t>, wchar_t> convert;
+	auto p = reinterpret_cast<wchar_t const *>(s.data());
+	return convert.to_bytes(p, p + s.size());
+}
+
+std::wstring to_wchar(std::string const & s) {
+	std::wstring_convert<std::codecvt_utf8<wchar_t>, wchar_t> convert;
+	auto asInt = convert.from_bytes(s);
+	return std::wstring(reinterpret_cast<wchar_t const *>(asInt.data()), asInt.length());
+}
 
 std::wstring to_wchar(std::u32string const & s) {
 	return to_wchar(to_utf8(s));
