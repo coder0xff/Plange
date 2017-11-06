@@ -7,6 +7,22 @@
 
 #include "utils.hpp"
 
+void throw_assert(bool pass) {
+#if DEBUG
+	if (!pass) {
+		throw std::runtime_error("failed assert");
+	}
+#endif
+}
+
+void debugger() {
+#ifdef _MSC_VER
+	__asm int 3
+#else
+	raise(SIGTRAP);
+#endif
+}
+
 std::string enquote(std::string s) {
 	std::ostringstream result;
 	result << "\"";
@@ -99,14 +115,6 @@ std::string tolower(std::string const & in) {
 	return result;
 }
 
-void debugger() {
-#ifdef _MSC_VER
-	__asm int 3
-#else
-	raise(SIGTRAP);
-#endif
-}
-
 #ifndef CMAKE_INTDIR
 #define CMAKE_INTDIR "None"
 #endif
@@ -133,11 +141,4 @@ void throw_assert(bool pass) {
 
 #else
 
-void throw_assert(bool pass) {
-	if (!pass) {
-		if (strcmp(CMAKE_INTDIR, "Debug") == 0) {
-			throw std::runtime_error("failed assert");
-		}
-	}
-}
 #endif
