@@ -8,28 +8,33 @@
 
 #ifdef _MSC_VER
 
-std::string to_utf8(const std::u16string &s)
-{
-	std::wstring_convert<std::codecvt_utf8<int16_t>, int16_t> convert;
-	auto p = reinterpret_cast<const int16_t *>(s.data());
+std::string to_utf8(std::wstring const & s) {
+	std::wstring_convert<std::codecvt_utf8<wchar_t>, wchar_t> convert;
+	auto p = reinterpret_cast<wchar_t const *>(s.data());
 	return convert.to_bytes(p, p + s.size());
 }
 
-std::string to_utf8(const std::u32string &s)
+std::string to_utf8(std::u32string const & s)
 {
 	std::wstring_convert<std::codecvt_utf8<int32_t>, int32_t> convert;
-	auto p = reinterpret_cast<const int32_t *>(s.data());
+	auto p = reinterpret_cast<int32_t const *>(s.data());
 	return convert.to_bytes(p, p + s.size());
 }
 
-std::u16string to_utf16(const std::string &s)
+std::wstring to_wchar(std::string const & s) {
+	std::wstring_convert<std::codecvt_utf8<wchar_t>, wchar_t> convert;
+	auto asInt = convert.from_bytes(s);
+	return std::wstring(reinterpret_cast<wchar_t const *>(asInt.data()), asInt.length());
+}
+
+std::u16string to_utf16(std::string const & s)
 {
 	std::wstring_convert<std::codecvt_utf8<int16_t>, int16_t> convert;
 	auto asInt = convert.from_bytes(s);
 	return std::u16string(reinterpret_cast<char16_t const *>(asInt.data()), asInt.length());
 }
 
-std::u32string to_utf32(const std::string &s)
+std::u32string to_utf32(std::string const & s)
 {
 	std::wstring_convert<std::codecvt_utf8<int32_t>, int32_t> convert;
 	auto asInt = convert.from_bytes(s);
@@ -38,25 +43,25 @@ std::u32string to_utf32(const std::string &s)
 
 #else
 
-std::string to_utf8(const std::u16string &s)
+std::string to_utf8(std::u16string const & s)
 {
 	std::wstring_convert<std::codecvt_utf8<char16_t>, char16_t> conv;
 	return conv.to_bytes(s);
 }
 
-std::string to_utf8(const std::u32string &s)
+std::string to_utf8(std::u32string const & s)
 {
 	std::wstring_convert<std::codecvt_utf8<char32_t>, char32_t> conv;
 	return conv.to_bytes(s);
 }
 
-std::u16string to_utf16(const std::string &s)
+std::u16string to_utf16(std::string const & s)
 {
 	std::wstring_convert<std::codecvt_utf8<char16_t>, char16_t> convert;
 	return convert.from_bytes(s);
 }
 
-std::u32string to_utf32(const std::string &s)
+std::u32string to_utf32(std::string const & s)
 {
 	std::wstring_convert<std::codecvt_utf8<char32_t>, char32_t> conv;
 	return conv.from_bytes(s);
@@ -64,12 +69,16 @@ std::u32string to_utf32(const std::string &s)
 
 #endif
 
-std::u16string to_utf16(const std::u32string &s)
+std::wstring to_wchar(std::u32string const & s) {
+	return to_wchar(to_utf8(s));
+}
+
+std::u16string to_utf16(std::wstring const & s)
 {
 	return to_utf16(to_utf8(s));
 }
 
-std::u32string to_utf32(const std::u16string &s) {
+std::u32string to_utf32(std::wstring const & s) {
 	return to_utf32(to_utf8(s));
 }
 
@@ -138,10 +147,7 @@ std::u32string read_with_bom(std::istream && src)
 		}
 		int count = buffer.length() / 2;
 		std::u16string temp = std::u16string(count, 0);
-		for (int i = 0; i < count; ++i) {
-			temp[i] = static_cast<char16_t>(buffer[i * 2 + 1] << 0 | buffer[i * 2 + 0] << 8);
-		}
-		return to_utf32(temp);
+		throw std::logic_error("not implemented");
 	}
 	case encoding_utf16le:
 	{
@@ -150,10 +156,7 @@ std::u32string read_with_bom(std::istream && src)
 		}
 		int count = buffer.length() / 2;
 		std::u16string temp = std::u16string(count, 0);
-		for (int i = 0; i < count; ++i) {
-			temp[i] = static_cast<char16_t>(buffer[i * 2 + 0] << 0 | buffer[i * 2 + 1] << 8);
-		}
-		return to_utf32(temp);
+		throw std::logic_error("not implemented");
 	}
 	default:
 		return to_utf32(buffer);
