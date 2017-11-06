@@ -26,7 +26,7 @@ namespace fold_vx_test1 {
 		auto const data = std::array<double, 0>();
 		double expected = initial;
 		double actual = mpl::fold_vx<mpl::list<>>(f, initial, data);
-		assert(actual == expected);
+		ASSERT_EQ(expected, actual);
 	}
 
 }
@@ -54,7 +54,7 @@ namespace fold_vx_test2 {
 		auto const data = std::make_array(13.0, 3.14, -3.0);
 		double expected = ((initial * multiplier + sizeof(int) + data[0]) * multiplier + sizeof(float) + data[1]) * multiplier + sizeof(std::string) + data[2];
 		double actual = mpl::fold_vx<mpl::list<int, float, std::string>>(f, initial, data);
-		assert(actual == expected);
+		ASSERT_EQ(expected, actual);
 	}
 }
 
@@ -81,7 +81,7 @@ namespace fold_vx_test3 {
 		std::vector<double> data;
 		double expected = initial;
 		double actual = mpl::fold_vx<mpl::list<>>(f, initial, data);
-		assert(actual == expected);
+		ASSERT_EQ(expected, actual);
 	}
 
 }
@@ -109,7 +109,7 @@ namespace fold_vx_test4 {
 		std::vector<double> data { 13.0, 3.14, -3.0 };
 		double expected = ((initial * multiplier + sizeof(int) + data[0]) * multiplier + sizeof(float) + data[1]) * multiplier + sizeof(std::string) + data[2];
 		double actual = mpl::fold_vx<mpl::list<int, float, std::string>>(f, initial, data);
-		assert(actual == expected);
+		ASSERT_EQ(expected, actual);
 	}
 }
 
