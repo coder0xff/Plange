@@ -4,7 +4,7 @@
 #include <string>
 
 inline void throw_assert(bool pass) {
-#if DEBUG
+#if defined(DEBUG) || _DEBUG==1
 	if (!pass) {
 		throw std::runtime_error("failed assert");
 	}
