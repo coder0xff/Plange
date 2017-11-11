@@ -15,6 +15,19 @@ void throw_assert(bool pass);
 
 void debugger();
 
+template <typename T>
+inline size_t hash_combine(T const & v) {
+	std::hash<T> hasher;
+	return hasher(v);
+}
+
+template <typename T, typename... Rest>
+inline size_t hash_combine(T const & v, Rest... rest) {
+	std::hash<T> hasher;
+	size_t seed = hash_combine(rest...);
+	return hasher(v) + 0x9e3779b9 + (seed << 6) + (seed >> 2);
+}
+
 std::string enquote(std::string s);
 
 std::string string_replace(std::string const & original, std::string const & find, std::string const & replace);
