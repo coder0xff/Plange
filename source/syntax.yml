@@ -771,7 +771,6 @@ GREATER_CHAIN:
 GREATER_CHAIN_LOOP:
     syntax: >
         ("="|">"|"=>"|"≥") {IC} $EXPRESSION [{IC} $GREATER_CHAIN_LOOP]
-    precedes: [EXPRESSION]
     see:
         - GREATER_CHAIN
 
@@ -956,7 +955,6 @@ LESSER_CHAIN:
 LESSER_CHAIN_LOOP:
     syntax: >
         ("="|"<"|"=<"|"≤") {IC} EXPRESSION [{IC} LESSER_CHAIN_LOOP]
-    precedes: [EXPRESSION]
     see:
         - LESSER_CHAIN
 

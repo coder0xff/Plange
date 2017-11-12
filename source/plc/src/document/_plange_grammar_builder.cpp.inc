@@ -1452,8 +1452,7 @@ static parlex::builder const & builder() {
 					parlex::reference("greater_chain_loop", "GREATER_CHAIN_LOOP")
 				})
 			})
-		}),
-		parlex::associativity::none, parlex::filter_function(), {"EXPRESSION", }),
+		})),
 		parlex::production("HAS",
 		parlex::sequence("HAS", {
 			parlex::reference("EXPRESSION"),
@@ -1767,8 +1766,7 @@ static parlex::builder const & builder() {
 					parlex::reference("LESSER_CHAIN_LOOP")
 				})
 			})
-		}),
-		parlex::associativity::none, parlex::filter_function(), {"EXPRESSION", }),
+		})),
 		parlex::production("LIST",
 		parlex::sequence("LIST", {
 			parlex::literal("[|"),
