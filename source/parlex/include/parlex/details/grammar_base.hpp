@@ -19,7 +19,7 @@ public:
 	virtual std::map<std::string, state_machine_base const *> get_state_machines() const = 0;
 	virtual state_machine_base const& get_state_machine(std::string const & id) const = 0;
 	virtual string_terminal const& get_literal(std::string const & id) const = 0;
-	virtual bool test_precedence(state_machine_base const & productionA, state_machine_base const & productionB) const = 0;
+	virtual bool does_precede(recognizer const * lhs, recognizer const * rhs) const = 0;
 	virtual precedence_collection get_precedences() const = 0;
 protected:
 	~grammar_base() = default;

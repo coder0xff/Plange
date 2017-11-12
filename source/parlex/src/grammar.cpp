@@ -3,7 +3,6 @@
 #include "parlex/builder.hpp"
 #include "parlex/details/builtins.hpp"
 
-#include "graphviz_dot.hpp"
 #include "utf.hpp"
 #include "covariant_invoke.hpp"
 
@@ -40,7 +39,15 @@ grammar::grammar(builder const & grammarDefinition) : root_id(grammarDefinition.
 		i->second.set_behavior(get_behavior(*definition.behavior));
 		throw_assert(i->second.behavior != nullptr);
 	}
-
+	// Now that all the state_machines are created we can setup precedences
+	for (auto const & definition : grammarDefinition.productions) {
+		auto const & id = definition.id;
+		auto i = productions.find(id);
+		for (auto const & precedence : definition.precedences) {
+			std::set<const recognizer *> & precedenceSet = precedences[&i->second.get_recognizer()];
+			precedenceSet.insert(&get_recognizer(precedence));
+		}
+	}
 }
 
 string_terminal& grammar::get_or_add_literal(std::u32string const & contents) {
@@ -60,20 +67,20 @@ std::map<std::string, state_machine_base const *> grammar::get_state_machines() 
 	return results;
 }
 
-bool grammar::test_precedence(state_machine_base const & productionA, state_machine_base const & productionB) const {
-	auto i = precedences.find(static_cast<state_machine const *>(&productionA));
+bool grammar::does_precede(recognizer const * lhs, recognizer const * rhs) const {
+	auto i = precedences.find(lhs);
 	if (i == precedences.end()) {
 		return false;
 	}
-	return i->second.count(static_cast<state_machine const *>(&productionB)) > 0;
+	return i->second.count(rhs) > 0;
 }
 
 precedence_collection grammar::get_precedences() const {
 	precedence_collection results;
-	for (auto const & precedence : precedences) {
-		std::set<state_machine_base const *> & s = results[precedence.first];
-		for (auto const & then : precedence.second) {
-			s.insert(static_cast<state_machine_base const *>(then));
+	for (auto const & precedence : precedences) {	
+		auto const & preceding = precedence.first;
+		for (auto const & preceded : precedence.second) {
+			results[preceding].insert(preceded);
 		}
 	}
 	return results;

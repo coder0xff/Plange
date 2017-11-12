@@ -212,13 +212,13 @@ bool parser::handle_deadlocks(job const & j) const {
 	return !anyHalted;
 }
 
-bool matches_intersect(match const & left, match const & right) {
+static bool matches_intersect(match const & left, match const & right) {
 	return
 		left.document_position < (right.document_position + right.consumed_character_count) &&
 		(left.document_position + left.consumed_character_count) > right.document_position;
 }
 
-std::set<match> getChildren(abstract_syntax_semilattice const & asg, match const & m) {
+static std::set<match> getChildren(abstract_syntax_semilattice const & asg, match const & m) {
 	std::set<match> result;
 	auto i = asg.permutations.find(m);
 	if (i == asg.permutations.end()) {
@@ -250,7 +250,7 @@ struct node_props_t {
 	}
 };
 
-bool can_prune(abstract_syntax_semilattice & asg, std::map<match, node_props_t> const & nodes, node_props_t const & props) {
+static bool can_prune(abstract_syntax_semilattice & asg, std::map<match, node_props_t> const & nodes, node_props_t const & props) {
 	if (!(props.m < asg.root || asg.root < props.m)) {
 		return false;
 	}
@@ -269,7 +269,7 @@ bool can_prune(abstract_syntax_semilattice & asg, std::map<match, node_props_t> 
 	return true;
 }
 
-void prune(abstract_syntax_semilattice & asg, std::map<match, node_props_t> & nodes, node_props_t & props) {
+static void prune(abstract_syntax_semilattice & asg, std::map<match, node_props_t> & nodes, node_props_t & props) {
 	std::queue<match> toPrune;
 	std::set<match> completed;
 	std::function<void(match const &)> add = [&](match const & m) {
@@ -328,7 +328,7 @@ void prune(abstract_syntax_semilattice & asg, std::map<match, node_props_t> & no
 	}
 }
 
-void construct_nodes(abstract_syntax_semilattice & asg, std::map<match, node_props_t> & nodes, std::vector<std::set<node_props_t *>> & flattened) {
+static void construct_nodes(abstract_syntax_semilattice & asg, std::map<match, node_props_t> & nodes, std::vector<std::set<node_props_t *>> & flattened) {
 	for (auto const & entry : asg.permutations) {
 		match const & m = entry.first;
 		node_props_t & nodeProps = nodes.emplace(std::piecewise_construct, std::forward_as_tuple(m), std::forward_as_tuple(asg, m)).first->second;
@@ -349,7 +349,7 @@ void construct_nodes(abstract_syntax_semilattice & asg, std::map<match, node_pro
 	}
 }
 
-void resolve_nodes(std::map<match, node_props_t> & nodes) {
+static void resolve_nodes(std::map<match, node_props_t> & nodes) {
 	//work queue for the algorithm
 	std::queue<std::tuple<node_props_t *, node_props_t *, int>> propertyResolveQueue;
 
@@ -384,7 +384,7 @@ void resolve_nodes(std::map<match, node_props_t> & nodes) {
 	}
 }
 
-void compute_intersections(std::vector<std::set<node_props_t *>> const & flattened) {
+static void compute_intersections(std::vector<std::set<node_props_t *>> const & flattened) {
 	for (size_t i = 0; i < flattened.size(); ++i) {
 		std::set<node_props_t *>::iterator iterEnd = flattened[i].end();
 		for (std::set<node_props_t *>::iterator j = flattened[i].begin(); j != iterEnd; ++j) {
@@ -402,7 +402,7 @@ void compute_intersections(std::vector<std::set<node_props_t *>> const & flatten
 	}
 }
 
-std::vector<std::set<match>> ordered_matches_by_height(std::map<match, node_props_t> & nodes) {
+static std::vector<std::set<match>> ordered_matches_by_height(std::map<match, node_props_t> & nodes) {
 	std::vector<std::set<match>> orderedMatchesByHeight;
 	for (auto & entry : nodes) {
 		node_props_t & node = entry.second;
@@ -414,116 +414,120 @@ std::vector<std::set<match>> ordered_matches_by_height(std::map<match, node_prop
 	return orderedMatchesByHeight;
 }
 
-bool precedence_test(grammar_base const & g, node_props_t & a, node_props_t & b) {
+static bool does_precede(grammar_base const & g, node_props_t & a, node_props_t & b) {
 	if (&a.m.r == &b.m.r) {
 		return false;
 	}
-	return g.test_precedence(*dynamic_cast<state_machine_base const *>(&a.m.r), *dynamic_cast<state_machine_base const *>(&b.m.r));
+	return g.does_precede(&a.m.r, &b.m.r);
 }
 
-bool associativity_test(node_props_t & a, node_props_t & b) {
+static bool associativity_test(node_props_t & a, node_props_t & b) {
 	if (&a.m.r != &b.m.r) {
 		return false;
 	}
 	associativity const assoc = dynamic_cast<state_machine_base const *>(&a.m.r)->get_assoc();
-	switch (assoc) {
-	case associativity::left:
-	case associativity::any:
-		return a.m.document_position < b.m.document_position;
-	case associativity::right:
-		return a.m.document_position > b.m.document_position;
-	case associativity::none:
+	if (assoc == associativity::none) {
 		return false;
 	}
-	throw std::domain_error("Invalid associativity value");
+	if (a.allDescendents.count(b.m) > 0) {
+		switch (assoc) {
+		case associativity::left:
+		case associativity::any:
+			return b.m.document_position > a.m.document_position;
+		case associativity::right:
+			return b.m.document_position == a.m.document_position;
+		case associativity::none:
+			return false;
+		}
+		throw std::domain_error("Invalid associativity value");
+	}
+	return false;
 }
 
-void select_trees(abstract_syntax_semilattice & asg, grammar_base const & g, std::map<match, node_props_t> & nodes, std::vector<std::set<match>> const orderedMatchesByHeight) {
-	if (!orderedMatchesByHeight.empty()) {
-		for (match const & i : orderedMatchesByHeight[0]) {
-			nodes.find(i)->second.selected = true;
+static void select_match(abstract_syntax_semilattice & asg, grammar_base const & g, std::map<match, node_props_t> & nodes, match const & m) {
+	bool anyPermutationSelected = false;
+	node_props_t * a;
+	auto const & i = nodes.find(m);
+	if (i == nodes.end()) {
+		return; //continue
+	}
+	a = &i->second;
+	//are any of those permutations comprised of selected children?
+	for (permutation const & p : a->permutations) {
+		bool permutationSelected = true;
+		for (match const & child : p) {
+			node_props_t const & childProps = nodes.find(child)->second;
+			if (!childProps.selected) {
+				permutationSelected = false;
+				break;
+			}
+		}
+		if (permutationSelected) {
+			anyPermutationSelected = true;
+			break;
 		}
 	}
-	for (size_t height = 1; height < orderedMatchesByHeight.size(); ++height) {
+
+	if (!anyPermutationSelected) {
+		return; //continue
+	}
+
+	//is it possibly preempted by another match that it intersects with?
+	for (match const & intersected : a->allIntersections) {
+		auto pair = nodes.find(intersected);
+		throw_assert(pair != nodes.end());
+		node_props_t & b = pair->second;
+		if (does_precede(g, b, *a) || associativity_test(b, *a)) {
+			prune(asg, nodes, *a);
+			return;
+		}
+	}
+
+	a->selected = true;
+	std::set<match> preservedIntersections = a->allIntersections;
+	for (match const & intersected : preservedIntersections) {
+		auto const & pair = nodes.find(intersected);
+		if (pair == nodes.end()) {
+			continue;
+		}
+		node_props_t & b = pair->second;
+		if (does_precede(g, *a, b) || associativity_test(*a, b)) {
+			//if it must be selected, then precedence and associativity must remove preempted intersections
+			if (can_prune(asg, nodes, b)) {
+				prune(asg, nodes, b);
+			}
+			else {
+				if (does_precede(g, *a, b)) {
+					static auto stringify = [](node_props_t & np) {
+						return np.r.id + " from " + std::to_string(np.m.document_position) + " for " + std::to_string(np.m.consumed_character_count) + " characters at height " + std::to_string(np.height);
+					};
+					asg.warnings.push_back(stringify(*a) + " preempted " + stringify(b) + " by precedence, but was not applied because it would cause a degenerate parse tree.");
+				}
+				else {
+					throw std::exception(); //degenerate parse caused by associativity?
+				}
+			}
+		}
+	}
+}
+
+static void select_trees(abstract_syntax_semilattice & asg, grammar_base const & g, std::map<match, node_props_t> & nodes, std::vector<std::set<match>> const orderedMatchesByHeight) {
+	for (size_t height = 0; height < orderedMatchesByHeight.size(); ++height) {
 		std::set<match> const & matches = orderedMatchesByHeight[height];
-		std::set<match> preservedIntersections; //needs to be define well before use due to gotos skipping initializtion
 		for (match const & m : matches) {
-			bool anyPermutationSelected = false;
-			node_props_t * a;
-			auto const & i = nodes.find(m);
-			if (i == nodes.end()) {
-				goto matchLoop; //continue
-			}
-			a = &i->second;
-			//are any of those permutations comprised of selected children?
-			for (permutation const & p : a->permutations) {
-				bool permutationSelected = true;
-				for (match const & child : p) {
-					node_props_t const & childProps = nodes.find(child)->second;
-					if (!childProps.selected) {
-						permutationSelected = false;
-						break;
-					}
-				}
-				if (permutationSelected) {
-					anyPermutationSelected = true;
-					break;
-				}
-			}
-
-			if (!anyPermutationSelected) {
-				goto matchLoop; //continue
-			}
-
-			//is it possibly preempted by another fast_match that it intersects with?
-			for (match const & intersected : a->allIntersections) {
-				auto pair = nodes.find(intersected);
-				throw_assert(pair != nodes.end());
-				node_props_t & b = pair->second;
-				if (precedence_test(g, b, *a) || associativity_test(b, *a)) {
-					prune(asg, nodes, *a);
-					goto matchLoop;
-				}
-			}
-
-			a->selected = true;
-			preservedIntersections = a->allIntersections; //needs to be defined well before use, because of gotos skipping initialization otherwise
-			for (match const & intersected : preservedIntersections) {
-				auto const & pair = nodes.find(intersected);
-				if (pair == nodes.end()) {
-					continue;
-				}
-				node_props_t & b = pair->second;
-				if (precedence_test(g, *a, b) || associativity_test(*a, b)) {
-					//if it must be selected, then precedence and associativity must remove preempted intersections
-					if (can_prune(asg, nodes, b)) {
-						prune(asg, nodes, b);
-					}
-					else {
-						if (precedence_test(g, *a, b)) {
-							static auto stringify = [](node_props_t & np) {
-								return np.r.id + " from " + std::to_string(np.m.document_position) + " for " + std::to_string(np.m.consumed_character_count) + " characters at height " + std::to_string(np.height);
-							};
-							asg.warnings.push_back(stringify(*a) + " preempted " + stringify(b) + " by precedence, but was not applied because it would cause a degenerate parse tree.");
-						}
-						else {
-							throw std::exception(); //degenerate parse caused by associativity?
-						}
-
-					}
-				}
-			}
-		matchLoop:
-			;
+			select_match(asg, g, nodes, m);
 		}
 	}
 }
 
-abstract_syntax_semilattice& apply_precedence_and_associativity(grammar_base const & g, abstract_syntax_semilattice & asg) {
+static void apply_precedence_and_associativity(grammar_base const & g, abstract_syntax_semilattice & asg) {
 	throw_assert(asg.is_rooted());
 	bool anyAssociativities = false;
 	for (auto const & entry : g.get_state_machines()) {
 		anyAssociativities = entry.second->get_assoc() != associativity::none;
+		if (anyAssociativities) {
+			break;
+		}
 	}
 
 	//short circuit if no rules are given
@@ -541,7 +545,6 @@ abstract_syntax_semilattice& apply_precedence_and_associativity(grammar_base con
 		select_trees(asg, g, nodes, matchesByHeight);
 	}
 	throw_assert(asg.is_rooted());
-	return asg;
 }
 
 
@@ -557,9 +560,14 @@ abstract_syntax_semilattice parser::construct_result(job const & j, match const 
 			result.permutations[n] = permutations;
 		}
 	}
+	std::string debug0 = result.to_dot(); // todo: comment out debug code
 	if (result.is_rooted()) {
 		result.prune_detached();
-		return apply_precedence_and_associativity(j.g, result);
+		debug0 = result.to_dot();
+		apply_precedence_and_associativity(j.g, result);
+		debug0 = result.to_dot();
+		result.prune_detached();
+		debug0 = result.to_dot();
 	}
 	return result;
 }

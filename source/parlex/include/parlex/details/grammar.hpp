@@ -52,7 +52,7 @@ public:
 	std::map<std::string, state_machine_base const *> get_state_machines() const override;
 	state_machine_base const& get_state_machine(std::string const & id) const override;
 	string_terminal const& get_literal(std::string const & id) const override;
-	bool test_precedence(state_machine_base const & productionA, state_machine_base const & productionB) const override;
+	bool does_precede(recognizer const * lhs, recognizer const * rhs) const override;
 	precedence_collection get_precedences() const override;
 protected:
 	production const & get_production(std::string const & id) const;
@@ -60,7 +60,7 @@ private:
 	std::map<std::string, production> productions;
 	std::string const root_id;
 	std::map<std::string, string_terminal> literals;
-	std::map<state_machine const *, std::set<state_machine const *>> precedences;
+	std::map<recognizer const *, std::set<recognizer const *>> precedences;
 
 	string_terminal& get_or_add_literal(std::u32string const & contents);
 	recognizer const& get_recognizer(std::string const & id) const;

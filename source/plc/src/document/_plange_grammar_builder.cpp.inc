@@ -797,7 +797,7 @@ static parlex::builder const & builder() {
 			}),
 			parlex::reference("EXPRESSION")
 		}),
-		parlex::associativity::left, parlex::filter_function(), {"ADDITION", "ADD_SUB", "INTEGER_DIVISION", "MODULATION", "SUBTRACTION", }),
+		parlex::associativity::left, parlex::filter_function(), {"ADDITION", "ADD_SUB", "INTEGER_DIVISION", "MAPS_TO", "MODULATION", "SUBTRACTION", }),
 		parlex::production("DO",
 		parlex::sequence("DO", {
 			parlex::literal("do"),
@@ -1943,14 +1943,14 @@ static parlex::builder const & builder() {
 			}),
 			parlex::reference("EXPRESSION")
 		}),
-		parlex::associativity::any, parlex::filter_function(), {"MAPS_TO", }),
+		parlex::associativity::any),
 		parlex::production("MULTIPLICATIVE_OP",
 		parlex::choice("MULTIPLICATIVE_OP", {
 			parlex::reference("CROSS_PRODUCT"),
 			parlex::reference("DOT_PRODUCT"),
 			parlex::reference("MULTIPLICATION")
 		}),
-		parlex::associativity::none, parlex::filter_function(), {"ADDITION", "ADD_SUB", "INTEGER_DIVISION", "MODULATION", "SUBTRACTION", }),
+		parlex::associativity::none, parlex::filter_function(), {"ADDITION", "ADD_SUB", "INTEGER_DIVISION", "MAPS_TO", "MODULATION", "SUBTRACTION", }),
 		parlex::production("NAND",
 		parlex::sequence("NAND", {
 			parlex::reference("EXPRESSION"),

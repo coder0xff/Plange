@@ -460,7 +460,7 @@ DIVISION:
     syntax: >
         EXPRESSION {IC} ("÷"|"/" ) {IC} EXPRESSION
     assoc: left
-    precedes: [INTEGER_DIVISION, MODULATION, SUBTRACTION, ADDITION, ADD_SUB]
+    precedes: [INTEGER_DIVISION, MAPS_TO, MODULATION, SUBTRACTION, ADDITION, ADD_SUB]
     doc: >
         division or splits the left hand side collection into a collection of collections each the size of the right hand side
 
@@ -1035,14 +1035,14 @@ MULTIPLICATION:
     syntax: >
         EXPRESSION {IC} "*" {IC} EXPRESSION
     assoc: either
-    precedes: [MAPS_TO]
+    precedes:
     doc: >
         scalar multiplication, cartesian product
 
 MULTIPLICATIVE_OP:
     syntax: >
         CROSS_PRODUCT | DOT_PRODUCT | MULTIPLICATION
-    precedes: [INTEGER_DIVISION, MODULATION, SUBTRACTION, ADDITION, ADD_SUB]
+    precedes: [INTEGER_DIVISION, MAPS_TO, MODULATION, SUBTRACTION, ADDITION, ADD_SUB]
 
 NAND:
     syntax: >
