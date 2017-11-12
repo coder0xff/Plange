@@ -15,7 +15,7 @@ class leaf;
 }
 
 struct match : match_class {
-	int const consumed_character_count;
+	size_t const consumed_character_count;
 
 	match(struct match_class const & matchClass, int consumedCharacterCount);
 	match(match const & other) = default;
