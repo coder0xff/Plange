@@ -22,8 +22,6 @@ public:
 	symbol delocalize() const;
 };
 
-typedef std::map<std::u32string, symbol> symbol_table;
-
 }
 
 #endif //SYMBOL_HPP

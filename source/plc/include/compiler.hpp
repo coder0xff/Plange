@@ -1,21 +1,24 @@
 #ifndef PLC_COMPILER_HPP
 #define PLC_COMPILER_HPP
 
-#include "parlex/details/abstract_syntax_semilattice.hpp"
 #include "source_code.hpp"
 
 namespace plc {
-class module;
+	class module;
+	struct XML_DOC_STRING;
 
-class compiler
-	{
+	class compiler {
 	public:
-		compiler();
-		void inject_c_std_lib(module & m);
-		static parlex::details::abstract_syntax_semilattice parse(std::u32string const & source);
-	private:
-		source_code c_std_lib_source;
+		static void inject_std_lib(module & m);
+		static STATEMENT_SCOPE parse(std::u32string const & source);
+		static std::u32string extract_xml_doc_string(std::u32string const & document, XML_DOC_STRING const & xmlDocString);
+
+		template <typename T>
+		static T parse(std::u32string const & document) {
+			return source_code::parse<T>(document);
+		}
 	};
+
 }
 
 #endif //PLC_UTILS_HPP

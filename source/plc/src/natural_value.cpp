@@ -6,20 +6,22 @@
 
 namespace plc {
 
-std::map<std::string, std::unique_ptr<analytic_value>> concrete_value::get_constrained_symbols() const
-{
-	ERROR(NotImplemented, "");
-}
+	std::map<std::string, std::unique_ptr<analytic_value>> natural_value::get_constrained_symbols() const
+	{
+		ERROR(NotImplemented, "");
+	}
 
-std::shared_ptr<concrete_value> concrete_value::try_concretion()
-{
-	return std::dynamic_pointer_cast<concrete_value>(shared_from_this());
-}
 
-	void concrete_value::value_deleter::operator()(llvm::Value* ptr) const
+	natural_value * natural_value::collapse()
+	{
+		return this;
+	}
+
+	void natural_value::value_deleter::operator()(llvm::Value* ptr) const
 	{
 		ptr->deleteValue();
 	}
 
-concrete_value::concrete_value(llvm::Value* llvm_value) : llvm_value(llvm_value, value_deleter()) {}
+	natural_value::natural_value(llvm::Value* llvm_value) : llvm_value(llvm_value, value_deleter()) {}
+
 }

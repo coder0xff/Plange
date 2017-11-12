@@ -11,7 +11,6 @@
 #include "utils.hpp"
 
 #include "parlex/details/abstract_syntax_semilattice.hpp"
-#include "parlex/details/parser.hpp"
 #include "parlex/details/recognizer.hpp"
 
 #include "compiler.hpp"
@@ -86,21 +85,26 @@ plc::source_code::source_code(std::string const & pathname, std::u32string const
 	pathname(pathname),
 	document(document),
 	line_number_by_first_character(construct_line_number_by_first_character(document)),
-    ast(construct_ast(pathname, document, line_number_by_first_character)),
-	representation(construct_representation(document, ast)) {
+    ast(construct_ast(document, plange_grammar::get().STATEMENT_SCOPE.get_recognizer(), pathname)),
+	representation(parse(document)) {
 }
 
-plc::source_code::source_code(std::string const & pathname) : source_code(pathname, read_with_bom(std::ifstream(pathname))) {
+static std::u32string read(std::string const & pathname) {
+	std::ifstream ifs(pathname, std::ios::binary);
+	if (!ifs) {
+		ERROR(CouldNotOpenFile, pathname);
+	}
+	return read_with_bom(move(ifs));
+}
+
+plc::source_code::source_code(std::string const & pathname) : source_code(pathname, read(pathname)) {
 }
 
 plc::source_code::~source_code() {
 }
 
-std::pair<int, int> plc::source_code::get_line_number_and_column(int charIndex) const {
-	return get_line_number_and_column_impl(line_number_by_first_character, charIndex);
-}
-
-std::pair<int, int> plc::source_code::get_line_number_and_column_impl(std::map<int, int> const lineNumberByFirstCharacter, int charIndex) {
+std::pair<int, int> plc::source_code::get_line_number_and_column(std::map<int, int> const & lineNumberByFirstCharacter, int charIndex)
+{
 	std::map<int, int>::const_iterator i = lineNumberByFirstCharacter.lower_bound(charIndex);
 	if (i != lineNumberByFirstCharacter.cend() && i->first == charIndex) {
 		return std::make_pair(i->second, 0);
@@ -108,6 +112,27 @@ std::pair<int, int> plc::source_code::get_line_number_and_column_impl(std::map<i
 	throw_assert(i != lineNumberByFirstCharacter.cbegin());
 	--i;
 	return std::make_pair(i->second, charIndex - i->first);
+
+}
+
+std::pair<int, int> plc::source_code::get_line_number_and_column(int charIndex) const {
+	return get_line_number_and_column(line_number_by_first_character, charIndex);
+}
+
+
+std::string plc::source_code::describe_code_span(parlex::details::match const & m) const {
+	std::string result = pathname == "" ? "[generated]" : pathname;
+	result += ":";
+	std::pair<int, int>
+		start = get_line_number_and_column(m.document_position),
+		end = get_line_number_and_column(m.document_position + m.consumed_character_count - 1);
+	result += std::to_string(start.first) + ":" + std::to_string(start.second) + "-";
+	if (end.first == start.first) {
+		result += std::to_string(end.second);
+	} else {
+		result += std::to_string(end.first) + ":" + std::to_string(end.second);
+	}
+	return result;
 }
 
 std::map<int, int> plc::source_code::construct_line_number_by_first_character(std::u32string const & document) {
@@ -122,23 +147,42 @@ std::map<int, int> plc::source_code::construct_line_number_by_first_character(st
 	return result;
 }
 
-parlex::details::abstract_syntax_tree plc::source_code::construct_ast(std::string const & pathname, std::u32string const & document, std::map<int, int> const lineNumberByFirstCharacter) {
-	parlex::details::abstract_syntax_semilattice assl = compiler::parse(document);
-
+parlex::details::abstract_syntax_tree plc::source_code::construct_ast(std::u32string const & document, parlex::details::recognizer const & production, std::string const & pathname) {
+	std::map<int, int> const lineNumberByFirstCharacter(construct_line_number_by_first_character(document));
+	static parlex::details::parser p;
+	parlex::details::abstract_syntax_semilattice assl = p.parse(plange_grammar::get(), production, document);
+	std::string test = assl.to_dot();
 	// Was parsing successful?
 	if (!assl.is_rooted()) {
-		ERROR(CouldNotParse, pathname + " syntax tree: " + assl.to_dot());
+		//parlex::details::match const * lastValidStatement =  nullptr;
+		//parlex::details::state_machine_base const & STATEMENTStateMachine = plange_grammar::get().get_state_machine("STATEMENT");
+		//for (auto const & tableEntry : assl.permutations) {
+		//	parlex::details::match const & m = tableEntry.first;
+		//	if (&m.r == &STATEMENTStateMachine) {
+		//		if (lastValidStatement == nullptr || m.document_position + m.consumed_character_count > lastValidStatement->document_position + lastValidStatement->consumed_character_count) {
+		//			lastValidStatement = &m;
+		//		}
+		//	}
+		//}
+		//if (lastValidStatement == nullptr) {
+			std::string check = assl.to_dot();
+			ERROR(CouldNotParse, pathname + " syntax semilattice: " + assl.to_dot());
+		//} else {
+		//	//ERROR(CouldNotParse, pathname + " last valid statement: " + describe_code_span(*lastValidStatement));
+		//}
 	}
-	std::vector<std::set<parlex::details::match>> matchesByHeight;
 
-	// Was parsing unambiguous?
+
+	// Was parsing ambiguous?
 	if (assl.variation_count() > 1) {
-		for (auto const & matches : matches_by_height(assl)) {
+		std::vector<std::set<parlex::details::match>> matchesByHeight = matches_by_height(assl);
+		for (size_t height = 0; height < matchesByHeight.size(); ++height) {
+			auto const & matches = matchesByHeight[height];
 			for (auto const & m : matches) {
 				auto const & permutations = assl.permutations.find(m)->second;
 				if (permutations.size() > 1) {
-					auto posStart = get_line_number_and_column_impl(lineNumberByFirstCharacter, m.document_position);
-					auto posEnd = get_line_number_and_column_impl(lineNumberByFirstCharacter, m.document_position + m.consumed_character_count - 1);
+					auto posStart = get_line_number_and_column(lineNumberByFirstCharacter, m.document_position);
+					auto posEnd = get_line_number_and_column(lineNumberByFirstCharacter, m.document_position + m.consumed_character_count - 1);
 					std::string message;
 					if (posStart.first == posEnd.first) {
 						message = pathname + ":" + m.r.id + " at " + std::to_string(posStart.first + 1) + ":" + std::to_string(posStart.second + 1) + "-" + std::to_string(posEnd.second + 1);
@@ -146,26 +190,25 @@ parlex::details::abstract_syntax_tree plc::source_code::construct_ast(std::strin
 					else {
 						message = pathname + ":" + m.r.id + " at " + std::to_string(posStart.first + 1) + ":" + std::to_string(posStart.second + 1) + "-" + std::to_string(posEnd.first + 1) + ":" + std::to_string(posEnd.second + 1);
 					}
-					for (auto const & p : permutations) {
+					for (auto const & permutation : permutations) {
 						message += "\n";
-						for (auto const & childMatch : p) {
+						message += "permutation: ";
+						for (auto const & childMatch : permutation) {
 							message += childMatch.r.id + " ";
 						}
 						message = message.substr(0, message.length() - 1);
 					}
+					message += "\n";
+					message += assl.to_dot();
 					ERROR(AmbiguousParse, message);
 				}
 			}
 		}
 	}
 
+	test = assl.to_dot();
 	// Convert assl to ast
 	return assl.tree();
 }
 
-plc::STATEMENT_SCOPE plc::source_code::construct_representation(std::u32string const & document, parlex::details::abstract_syntax_tree const & ast) {
-	parlex::details::recognizer const * expectedRecognizer = &plange_grammar::get().STATEMENT_SCOPE.get_recognizer();
-	assert(&ast.r == expectedRecognizer);
-	std::string chech = ast.to_dot();
-	return STATEMENT_SCOPE::build(document, ast);
-}
+

@@ -4,6 +4,9 @@ set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${PROJECT_SOURCE_DIR}/cmake/Modules/
 find_package(LLVM 6.0 REQUIRED HINTS "${DEP_DIR}/llvm/lib/cmake/llvm")
 include_directories("${LLVM_INCLUDE_DIRS}")
 
+include_directories("${DEP_DIR}/googletest/include")
+link_directories("${DEP_DIR}/googletest/lib")
+
 include_directories("${CMAKE_CURRENT_SOURCE_DIR}") #for tclap
 include_directories("${CMAKE_CURRENT_SOURCE_DIR}/../parlex/include")
 include_directories("${CMAKE_CURRENT_SOURCE_DIR}/../mpl")
@@ -42,11 +45,16 @@ set(HEADERS
 FILE(GLOB DOCUMENT_SOURCES "src/document/*.cpp*")
 FILE(GLOB DOCUMENT_HEADERS "include/document/*.hpp*")
 
-add_executable(plc ${HEADERS} ${SOURCES} ${DOCUMENT_HEADERS} ${DOCUMENT_SOURCES})
+set (TEST_SOURCES
+	"plc_test/compiler.t.cpp"
+)
+
+add_executable(plc ${HEADERS} ${SOURCES} ${DOCUMENT_HEADERS} ${DOCUMENT_SOURCES} ${TEST_SOURCES})
 source_group("src" FILES ${SOURCES})
 source_group("include" FILES ${HEADERS})
 source_group("src/document" FILES ${DOCUMENT_SOURCES})
 source_group("include/document" FILES ${DOCUMENT_HEADERS})
+source_group("test" FILES ${TEST_SOURCES})
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include/document)
 set_property(TARGET plc PROPERTY CXX_STANDARD 17)
@@ -55,4 +63,4 @@ if(CMAKE_SYSTEM_NAME MATCHES "Windows")
 	add_definitions(-D_SCL_SECURE_NO_WARNINGS)
 endif()
 #add_precompiled_header(plc "include/stdafx.hpp" FORCEINCLUDE SOURCE_CXX "src/stdafx.cpp")
-target_link_libraries(plc parlex utilities LLVMCore LLVMSupport)
+target_link_libraries(plc parlex utilities LLVMCore LLVMSupport gtest gtest_main)

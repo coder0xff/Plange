@@ -1,20 +1,27 @@
 #include "stdafx.hpp"
+#include "module.hpp"
 
 #pragma warning(push, 0)
 #include <llvm/IR/Constants.h>
 #pragma warning(pop)
 
-#include "module.hpp"
-#include "utils.hpp"
 #include "utf.hpp"
 
-plc::module::module(std::vector<std::reference_wrapper<source_code const>> sources) : sources(sources), llvm_module("module", llvmContext), global(*this, nullptr, nullptr)
+#include "compiler.hpp"
+#include <fstream>
+
+plc::module::module() : llvm_module("module", llvmContext), plange(*this, nullptr, nullptr)
 {
 }
 
 void plc::module::compile(std::string output_filename) const
 {
 	ERROR(NotImplemented, "");
+}
+
+plc::source_code const & plc::module::add_source(std::string pathname) {
+	sources.emplace_back(pathname);
+	return sources.back();
 }
 
 llvm::Module const & plc::module::get_llvm_module() const

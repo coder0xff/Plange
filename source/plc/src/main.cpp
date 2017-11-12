@@ -14,51 +14,51 @@
 #pragma warning(push, 0)
 #include <llvm/IR/IRBuilder.h>
 #include <llvm/IR/LLVMContext.h>
+#include <gtest/gtest.h>
 #pragma warning(pop)
 
 
-int main(int argc, const char* argv[]) {
+int main(int argc, char * argv[]) {
+	if (strcmp(argv[1], "--test") != std::string::npos) {
+		// All arguments following --test are passed to gtest.
+		for (auto arg_index = 2; arg_index < argc; ++arg_index) {
+			argv[arg_index - 1] = argv[arg_index];
+		}
+		--argc;
+		::testing::InitGoogleTest(&argc, argv);
+		return RUN_ALL_TESTS();
+	}
 	using namespace plc;
 	std::string output_filename;
 	std::vector<std::string> filenames;
 	try {
 		TCLAP::CmdLine cmd("Plange compiler", ' ', "0.1");
-		TCLAP::ValueArg<std::string> output_file_arg("o", "output", "the path to write the output to", true, "a", "a path string");
+		TCLAP::ValueArg<std::string> output_file_arg("o", "output", "the file to write the output to", true, "a", "a path string");
 		TCLAP::UnlabeledMultiArg<std::string> files_arg("filenames", "the files to compile", true, "filename", cmd);
 		cmd.parse(argc, argv);
 		filenames = files_arg.getValue();
 		output_filename = output_file_arg.getValue();
 	} catch (TCLAP::ArgException& e) // catch any exceptions
 	{
-		std::cerr << "error: " << e.error() << " for arg " << e.argId() << std::endl;
+		std::cerr << "error: " << e.error() << " for argument " << e.argId() << std::endl;
 	}
 
-	std::vector<std::string> realpaths;
+	std::set<std::string> realpaths;
 	for (auto filename : filenames) {
-		realpaths.push_back(realpath(filename));
-	}
-
-	std::map<std::string, std::unique_ptr<source_code>> parses;
-	std::vector<std::reference_wrapper<source_code const>> sources;
-	std::unique_ptr<module> m;
-
-	for (auto filename : realpaths) {
-		if (parses.count(filename)) {
+		bool didInsert = realpaths.insert(realpath(filename)).second;
+		if (!didInsert) { // duplicate file
 			WARNING(DuplicateFileIgnored, filename);
-			continue;
-		}
-
-		std::ifstream ifs(filename, std::ios::binary);
-		if (!ifs) {
-			ERROR(CouldNotOpenFile, filename);
-		}
-		std::u32string s = read_with_bom(move(ifs));
-		auto emplaceResult = parses.emplace(std::piecewise_construct, forward_as_tuple(filename), std::forward_as_tuple(new source_code(filename)));
-		throw_assert(emplaceResult.second);
-		sources.emplace_back(*emplaceResult.first->second);
+		};
 	}
 
-	m.reset(new module(sources));
+	auto m = std::make_unique<module>();
+
+	for (auto pathname : realpaths) {
+		m->add_source(pathname);
+// 		auto emplaceResult = parses.emplace(std::piecewise_construct, forward_as_tuple(pathname), std::forward_as_tuple(new source_code(pathname)));
+// 		throw_assert(emplaceResult.second);
+// 		sources.emplace_back(*emplaceResult.first->second);
+	}
 
 	m->compile(output_filename);
 
