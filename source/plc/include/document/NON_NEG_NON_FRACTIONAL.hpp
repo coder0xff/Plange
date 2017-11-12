@@ -25,8 +25,9 @@ typedef std::variant<
 > NON_NEG_NON_FRACTIONAL_base;
 
 struct NON_NEG_NON_FRACTIONAL: NON_NEG_NON_FRACTIONAL_base {
-	static NON_NEG_NON_FRACTIONAL build(std::u32string const & document, parlex::details::ast_node const & n);
+	static NON_NEG_NON_FRACTIONAL build(parlex::details::ast_node const & n);
 	explicit NON_NEG_NON_FRACTIONAL(NON_NEG_NON_FRACTIONAL_base const & value) : NON_NEG_NON_FRACTIONAL_base(value) {}
+	static parlex::details::recognizer const & recognizer();
 };
 } // namespace plc
 

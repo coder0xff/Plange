@@ -23,8 +23,8 @@ struct COMPOSITION {
 	std::vector<erased<IC>> field_2;
 	
 	std::variant<
-		literal_0xE20x880x98_t,
-		literal__o__t
+		parlex::details::document::text<literal_0xE20x880x98_t>,
+		parlex::details::document::text<literal__o__t>
 	> field_3;
 	
 	std::vector<erased<IC>> field_4;
@@ -35,14 +35,15 @@ struct COMPOSITION {
 
 	explicit COMPOSITION(
 		erased<EXPRESSION> && field_1, std::vector<erased<IC>> && field_2, std::variant<
-			literal_0xE20x880x98_t,
-			literal__o__t
+			parlex::details::document::text<literal_0xE20x880x98_t>,
+			parlex::details::document::text<literal__o__t>
 		> && field_3, std::vector<erased<IC>> && field_4, erased<EXPRESSION> && field_5) : field_1(std::move(field_1)), field_2(std::move(field_2)), field_3(std::move(field_3)), field_4(std::move(field_4)), field_5(std::move(field_5)) {}
 
 	COMPOSITION(COMPOSITION const & other) = default;
 	COMPOSITION(COMPOSITION && move) = default;
 
-	static COMPOSITION build(std::u32string const & document, parlex::details::ast_node const & n);
+	static COMPOSITION build(parlex::details::ast_node const & n);
+	static parlex::details::recognizer const & recognizer();
 
 };
 

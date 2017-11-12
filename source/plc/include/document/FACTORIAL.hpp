@@ -22,15 +22,18 @@ struct FACTORIAL {
 	
 	std::vector<erased<IC>> field_2;
 	
+	parlex::details::document::text<literal_0x21_t> dontCare2;
+	
 
 
 	explicit FACTORIAL(
-		erased<EXPRESSION> && field_1, std::vector<erased<IC>> && field_2) : field_1(std::move(field_1)), field_2(std::move(field_2)) {}
+		erased<EXPRESSION> && field_1, std::vector<erased<IC>> && field_2, parlex::details::document::text<literal_0x21_t> && dontCare2) : field_1(std::move(field_1)), field_2(std::move(field_2)), dontCare2(std::move(dontCare2)) {}
 
 	FACTORIAL(FACTORIAL const & other) = default;
 	FACTORIAL(FACTORIAL && move) = default;
 
-	static FACTORIAL build(std::u32string const & document, parlex::details::ast_node const & n);
+	static FACTORIAL build(parlex::details::ast_node const & n);
+	static parlex::details::recognizer const & recognizer();
 
 };
 

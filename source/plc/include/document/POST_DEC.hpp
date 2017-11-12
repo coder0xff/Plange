@@ -22,15 +22,18 @@ struct POST_DEC {
 	
 	std::vector<erased<IC>> field_2;
 	
+	parlex::details::document::text<literal_0x2D0x2D_t> dontCare2;
+	
 
 
 	explicit POST_DEC(
-		erased<EXPRESSION> && field_1, std::vector<erased<IC>> && field_2) : field_1(std::move(field_1)), field_2(std::move(field_2)) {}
+		erased<EXPRESSION> && field_1, std::vector<erased<IC>> && field_2, parlex::details::document::text<literal_0x2D0x2D_t> && dontCare2) : field_1(std::move(field_1)), field_2(std::move(field_2)), dontCare2(std::move(dontCare2)) {}
 
 	POST_DEC(POST_DEC const & other) = default;
 	POST_DEC(POST_DEC && move) = default;
 
-	static POST_DEC build(std::u32string const & document, parlex::details::ast_node const & n);
+	static POST_DEC build(parlex::details::ast_node const & n);
+	static parlex::details::recognizer const & recognizer();
 
 };
 

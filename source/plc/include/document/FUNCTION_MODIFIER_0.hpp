@@ -23,8 +23,9 @@ typedef std::variant<
 > FUNCTION_MODIFIER_0_base;
 
 struct FUNCTION_MODIFIER_0: FUNCTION_MODIFIER_0_base {
-	static FUNCTION_MODIFIER_0 build(std::u32string const & document, parlex::details::ast_node const & n);
+	static FUNCTION_MODIFIER_0 build(parlex::details::ast_node const & n);
 	explicit FUNCTION_MODIFIER_0(FUNCTION_MODIFIER_0_base const & value) : FUNCTION_MODIFIER_0_base(value) {}
+	static parlex::details::recognizer const & recognizer();
 };
 } // namespace plc
 

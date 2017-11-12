@@ -37,8 +37,9 @@ typedef std::variant<
 > RELATIONAL_OP_base;
 
 struct RELATIONAL_OP: RELATIONAL_OP_base {
-	static RELATIONAL_OP build(std::u32string const & document, parlex::details::ast_node const & n);
+	static RELATIONAL_OP build(parlex::details::ast_node const & n);
 	explicit RELATIONAL_OP(RELATIONAL_OP_base const & value) : RELATIONAL_OP_base(value) {}
+	static parlex::details::recognizer const & recognizer();
 };
 } // namespace plc
 

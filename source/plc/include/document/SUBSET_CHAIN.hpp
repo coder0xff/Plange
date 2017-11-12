@@ -33,7 +33,8 @@ struct SUBSET_CHAIN {
 	SUBSET_CHAIN(SUBSET_CHAIN const & other) = default;
 	SUBSET_CHAIN(SUBSET_CHAIN && move) = default;
 
-	static SUBSET_CHAIN build(std::u32string const & document, parlex::details::ast_node const & n);
+	static SUBSET_CHAIN build(parlex::details::ast_node const & n);
+	static parlex::details::recognizer const & recognizer();
 
 };
 

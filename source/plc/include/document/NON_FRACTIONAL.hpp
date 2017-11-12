@@ -17,19 +17,20 @@ namespace plc {
 struct NON_NEG_NON_FRACTIONAL;
 
 struct NON_FRACTIONAL {
-	bool field_1;
+	std::optional<parlex::details::document::text<literal_0x2D_t>> field_1;
 	
 	erased<NON_NEG_NON_FRACTIONAL> field_2;
 	
 
 
 	explicit NON_FRACTIONAL(
-		bool && field_1, erased<NON_NEG_NON_FRACTIONAL> && field_2) : field_1(std::move(field_1)), field_2(std::move(field_2)) {}
+		std::optional<parlex::details::document::text<literal_0x2D_t>> && field_1, erased<NON_NEG_NON_FRACTIONAL> && field_2) : field_1(std::move(field_1)), field_2(std::move(field_2)) {}
 
 	NON_FRACTIONAL(NON_FRACTIONAL const & other) = default;
 	NON_FRACTIONAL(NON_FRACTIONAL && move) = default;
 
-	static NON_FRACTIONAL build(std::u32string const & document, parlex::details::ast_node const & n);
+	static NON_FRACTIONAL build(parlex::details::ast_node const & n);
+	static parlex::details::recognizer const & recognizer();
 
 };
 

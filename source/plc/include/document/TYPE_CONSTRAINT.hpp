@@ -33,7 +33,8 @@ struct TYPE_CONSTRAINT {
 	TYPE_CONSTRAINT(TYPE_CONSTRAINT const & other) = default;
 	TYPE_CONSTRAINT(TYPE_CONSTRAINT && move) = default;
 
-	static TYPE_CONSTRAINT build(std::u32string const & document, parlex::details::ast_node const & n);
+	static TYPE_CONSTRAINT build(parlex::details::ast_node const & n);
+	static parlex::details::recognizer const & recognizer();
 
 };
 

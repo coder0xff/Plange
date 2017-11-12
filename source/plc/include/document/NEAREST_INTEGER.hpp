@@ -18,41 +18,47 @@ struct EXPRESSION;
 struct IC;
 
 struct NEAREST_INTEGER_1_t {
+	parlex::details::document::text<literal_0xE20x8C0x8A_t> dontCare0;
+	
 	std::vector<erased<IC>> field_1;
 	
 	erased<EXPRESSION> field_2;
 	
 	std::vector<erased<IC>> field_3;
+	
+	parlex::details::document::text<literal_0xE20x8C0x89_t> dontCare4;
 	
 
 
 	explicit NEAREST_INTEGER_1_t(
-		std::vector<erased<IC>> && field_1, erased<EXPRESSION> && field_2, std::vector<erased<IC>> && field_3) : field_1(std::move(field_1)), field_2(std::move(field_2)), field_3(std::move(field_3)) {}
+		parlex::details::document::text<literal_0xE20x8C0x8A_t> && dontCare0, std::vector<erased<IC>> && field_1, erased<EXPRESSION> && field_2, std::vector<erased<IC>> && field_3, parlex::details::document::text<literal_0xE20x8C0x89_t> && dontCare4) : dontCare0(std::move(dontCare0)), field_1(std::move(field_1)), field_2(std::move(field_2)), field_3(std::move(field_3)), dontCare4(std::move(dontCare4)) {}
 
 	NEAREST_INTEGER_1_t(NEAREST_INTEGER_1_t const & other) = default;
 	NEAREST_INTEGER_1_t(NEAREST_INTEGER_1_t && move) = default;
 
-	static NEAREST_INTEGER_1_t build(std::u32string const & document, parlex::details::behavior::node const & b, parlex::details::document::walk & w);
-
+	static NEAREST_INTEGER_1_t build(parlex::details::behavior::node const * b, parlex::details::document::walk & w);
 };
 
 struct NEAREST_INTEGER_2_t {
+	parlex::details::document::text<literal_0x7C__t> dontCare0;
+	
 	std::vector<erased<IC>> field_1;
 	
 	erased<EXPRESSION> field_2;
 	
 	std::vector<erased<IC>> field_3;
 	
+	parlex::details::document::text<literal_0x270x7C_t> dontCare4;
+	
 
 
 	explicit NEAREST_INTEGER_2_t(
-		std::vector<erased<IC>> && field_1, erased<EXPRESSION> && field_2, std::vector<erased<IC>> && field_3) : field_1(std::move(field_1)), field_2(std::move(field_2)), field_3(std::move(field_3)) {}
+		parlex::details::document::text<literal_0x7C__t> && dontCare0, std::vector<erased<IC>> && field_1, erased<EXPRESSION> && field_2, std::vector<erased<IC>> && field_3, parlex::details::document::text<literal_0x270x7C_t> && dontCare4) : dontCare0(std::move(dontCare0)), field_1(std::move(field_1)), field_2(std::move(field_2)), field_3(std::move(field_3)), dontCare4(std::move(dontCare4)) {}
 
 	NEAREST_INTEGER_2_t(NEAREST_INTEGER_2_t const & other) = default;
 	NEAREST_INTEGER_2_t(NEAREST_INTEGER_2_t && move) = default;
 
-	static NEAREST_INTEGER_2_t build(std::u32string const & document, parlex::details::behavior::node const & b, parlex::details::document::walk & w);
-
+	static NEAREST_INTEGER_2_t build(parlex::details::behavior::node const * b, parlex::details::document::walk & w);
 };
 
 typedef std::variant<
@@ -61,8 +67,9 @@ typedef std::variant<
 > NEAREST_INTEGER_base;
 
 struct NEAREST_INTEGER: NEAREST_INTEGER_base {
-	static NEAREST_INTEGER build(std::u32string const & document, parlex::details::ast_node const & n);
+	static NEAREST_INTEGER build(parlex::details::ast_node const & n);
 	explicit NEAREST_INTEGER(NEAREST_INTEGER_base const & value) : NEAREST_INTEGER_base(value) {}
+	static parlex::details::recognizer const & recognizer();
 };
 } // namespace plc
 

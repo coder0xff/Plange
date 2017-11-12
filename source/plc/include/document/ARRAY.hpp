@@ -22,6 +22,8 @@ struct ARRAY {
 		struct field_1_t_1_t {
 			std::vector<erased<IC>> field_1;
 			
+			parlex::details::document::text<literal_0x2C_t> dontCare1;
+			
 			std::vector<erased<IC>> field_2;
 			
 			erased<EXPRESSION> expression;
@@ -29,13 +31,12 @@ struct ARRAY {
 		
 		
 			explicit field_1_t_1_t(
-				std::vector<erased<IC>> && field_1, std::vector<erased<IC>> && field_2, erased<EXPRESSION> && expression) : field_1(std::move(field_1)), field_2(std::move(field_2)), expression(std::move(expression)) {}
+				std::vector<erased<IC>> && field_1, parlex::details::document::text<literal_0x2C_t> && dontCare1, std::vector<erased<IC>> && field_2, erased<EXPRESSION> && expression) : field_1(std::move(field_1)), dontCare1(std::move(dontCare1)), field_2(std::move(field_2)), expression(std::move(expression)) {}
 		
 			field_1_t_1_t(field_1_t_1_t const & other) = default;
 			field_1_t_1_t(field_1_t_1_t && move) = default;
 		
-			static field_1_t_1_t build(std::u32string const & document, parlex::details::behavior::node const & b, parlex::details::document::walk & w);
-		
+			static field_1_t_1_t build(parlex::details::behavior::node const * b, parlex::details::document::walk & w);
 		};
 	
 		erased<EXPRESSION> expression;
@@ -52,23 +53,27 @@ struct ARRAY {
 		field_2_t_1_t(field_2_t_1_t const & other) = default;
 		field_2_t_1_t(field_2_t_1_t && move) = default;
 	
-		static field_2_t_1_t build(std::u32string const & document, parlex::details::behavior::node const & b, parlex::details::document::walk & w);
-	
+		static field_2_t_1_t build(parlex::details::behavior::node const * b, parlex::details::document::walk & w);
 	};
 
+	parlex::details::document::text<literal_0x5B_t> dontCare0;
+	
 	std::vector<erased<IC>> field_1;
 	
 	std::optional<field_2_t_1_t> field_2;
 	
+	parlex::details::document::text<literal_0x5D_t> dontCare3;
+	
 
 
 	explicit ARRAY(
-		std::vector<erased<IC>> && field_1, std::optional<field_2_t_1_t> && field_2) : field_1(std::move(field_1)), field_2(std::move(field_2)) {}
+		parlex::details::document::text<literal_0x5B_t> && dontCare0, std::vector<erased<IC>> && field_1, std::optional<field_2_t_1_t> && field_2, parlex::details::document::text<literal_0x5D_t> && dontCare3) : dontCare0(std::move(dontCare0)), field_1(std::move(field_1)), field_2(std::move(field_2)), dontCare3(std::move(dontCare3)) {}
 
 	ARRAY(ARRAY const & other) = default;
 	ARRAY(ARRAY && move) = default;
 
-	static ARRAY build(std::u32string const & document, parlex::details::ast_node const & n);
+	static ARRAY build(parlex::details::ast_node const & n);
+	static parlex::details::recognizer const & recognizer();
 
 };
 

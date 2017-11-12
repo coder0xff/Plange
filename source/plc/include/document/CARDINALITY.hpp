@@ -18,6 +18,8 @@ struct EXPRESSION;
 struct IC;
 
 struct CARDINALITY {
+	parlex::details::document::text<literal_0x23_t> dontCare0;
+	
 	std::vector<erased<IC>> field_1;
 	
 	erased<EXPRESSION> field_2;
@@ -25,12 +27,13 @@ struct CARDINALITY {
 
 
 	explicit CARDINALITY(
-		std::vector<erased<IC>> && field_1, erased<EXPRESSION> && field_2) : field_1(std::move(field_1)), field_2(std::move(field_2)) {}
+		parlex::details::document::text<literal_0x23_t> && dontCare0, std::vector<erased<IC>> && field_1, erased<EXPRESSION> && field_2) : dontCare0(std::move(dontCare0)), field_1(std::move(field_1)), field_2(std::move(field_2)) {}
 
 	CARDINALITY(CARDINALITY const & other) = default;
 	CARDINALITY(CARDINALITY && move) = default;
 
-	static CARDINALITY build(std::u32string const & document, parlex::details::ast_node const & n);
+	static CARDINALITY build(parlex::details::ast_node const & n);
+	static parlex::details::recognizer const & recognizer();
 
 };
 

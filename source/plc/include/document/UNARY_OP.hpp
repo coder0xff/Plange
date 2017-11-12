@@ -29,8 +29,9 @@ typedef std::variant<
 > UNARY_OP_base;
 
 struct UNARY_OP: UNARY_OP_base {
-	static UNARY_OP build(std::u32string const & document, parlex::details::ast_node const & n);
+	static UNARY_OP build(parlex::details::ast_node const & n);
 	explicit UNARY_OP(UNARY_OP_base const & value) : UNARY_OP_base(value) {}
+	static parlex::details::recognizer const & recognizer();
 };
 } // namespace plc
 

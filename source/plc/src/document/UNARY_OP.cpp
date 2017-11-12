@@ -17,10 +17,14 @@
 
 namespace plc {
 
-UNARY_OP UNARY_OP::build(std::u32string const & document, parlex::details::ast_node const & n) {
-	static auto const & b = plange_grammar::get().UNARY_OP.get_behavior();
+UNARY_OP UNARY_OP::build(parlex::details::ast_node const & n) {
+	static auto const * b = &plange_grammar::get().UNARY_OP.get_behavior();
 	parlex::details::document::walk w{ n.children.cbegin(), n.children.cend() };
-	return UNARY_OP(parlex::details::document::element<UNARY_OP_base>::build(document, b, w));
+	return UNARY_OP(parlex::details::document::element<UNARY_OP_base>::build(b, w));
 }
 
 } // namespace plc
+
+parlex::details::recognizer const & plc::UNARY_OP::recognizer() {
+	return plange_grammar::get().UNARY_OP.get_recognizer();
+}

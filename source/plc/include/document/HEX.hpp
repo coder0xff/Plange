@@ -15,19 +15,22 @@
 namespace plc {
 
 struct HEX {
-	parlex::details::document::built_in_terminal<parlex::details::hexadecimal_digit_t> field_1;
+	parlex::details::document::text<literal_0x_t> dontCare0;
 	
-	std::vector<parlex::details::document::built_in_terminal<parlex::details::hexadecimal_digit_t>> field_2;
+	parlex::details::document::text<parlex::details::hexadecimal_digit_t> field_1;
+	
+	std::vector<parlex::details::document::text<parlex::details::hexadecimal_digit_t>> field_2;
 	
 
 
 	explicit HEX(
-		parlex::details::document::built_in_terminal<parlex::details::hexadecimal_digit_t> && field_1, std::vector<parlex::details::document::built_in_terminal<parlex::details::hexadecimal_digit_t>> && field_2) : field_1(std::move(field_1)), field_2(std::move(field_2)) {}
+		parlex::details::document::text<literal_0x_t> && dontCare0, parlex::details::document::text<parlex::details::hexadecimal_digit_t> && field_1, std::vector<parlex::details::document::text<parlex::details::hexadecimal_digit_t>> && field_2) : dontCare0(std::move(dontCare0)), field_1(std::move(field_1)), field_2(std::move(field_2)) {}
 
 	HEX(HEX const & other) = default;
 	HEX(HEX && move) = default;
 
-	static HEX build(std::u32string const & document, parlex::details::ast_node const & n);
+	static HEX build(parlex::details::ast_node const & n);
+	static parlex::details::recognizer const & recognizer();
 
 };
 

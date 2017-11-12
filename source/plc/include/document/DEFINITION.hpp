@@ -33,8 +33,7 @@ struct DEFINITION {
 		field_1_t_1_t(field_1_t_1_t const & other) = default;
 		field_1_t_1_t(field_1_t_1_t && move) = default;
 	
-		static field_1_t_1_t build(std::u32string const & document, parlex::details::behavior::node const & b, parlex::details::document::walk & w);
-	
+		static field_1_t_1_t build(parlex::details::behavior::node const * b, parlex::details::document::walk & w);
 	};
 
 	std::optional<field_1_t_1_t> field_1;
@@ -43,6 +42,8 @@ struct DEFINITION {
 	
 	std::vector<erased<IC>> field_2;
 	
+	parlex::details::document::text<literal_0x3A0x3D_t> dontCare3;
+	
 	std::vector<erased<IC>> field_3;
 	
 	erased<EXPRESSION> expression;
@@ -50,12 +51,13 @@ struct DEFINITION {
 
 
 	explicit DEFINITION(
-		std::optional<field_1_t_1_t> && field_1, erased<IDENTIFIER> && identifier, std::vector<erased<IC>> && field_2, std::vector<erased<IC>> && field_3, erased<EXPRESSION> && expression) : field_1(std::move(field_1)), identifier(std::move(identifier)), field_2(std::move(field_2)), field_3(std::move(field_3)), expression(std::move(expression)) {}
+		std::optional<field_1_t_1_t> && field_1, erased<IDENTIFIER> && identifier, std::vector<erased<IC>> && field_2, parlex::details::document::text<literal_0x3A0x3D_t> && dontCare3, std::vector<erased<IC>> && field_3, erased<EXPRESSION> && expression) : field_1(std::move(field_1)), identifier(std::move(identifier)), field_2(std::move(field_2)), dontCare3(std::move(dontCare3)), field_3(std::move(field_3)), expression(std::move(expression)) {}
 
 	DEFINITION(DEFINITION const & other) = default;
 	DEFINITION(DEFINITION && move) = default;
 
-	static DEFINITION build(std::u32string const & document, parlex::details::ast_node const & n);
+	static DEFINITION build(parlex::details::ast_node const & n);
+	static parlex::details::recognizer const & recognizer();
 
 };
 

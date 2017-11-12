@@ -32,15 +32,14 @@ struct GREATER_CHAIN_LOOP {
 		field_3_t_1_t(field_3_t_1_t const & other) = default;
 		field_3_t_1_t(field_3_t_1_t && move) = default;
 	
-		static field_3_t_1_t build(std::u32string const & document, parlex::details::behavior::node const & b, parlex::details::document::walk & w);
-	
+		static field_3_t_1_t build(parlex::details::behavior::node const * b, parlex::details::document::walk & w);
 	};
 
 	std::variant<
-		literal_0x3D_t,
-		literal_0x3E_t,
-		literal_0x3D0x3E_t,
-		literal_0xE20x890xA5_t
+		parlex::details::document::text<literal_0x3D_t>,
+		parlex::details::document::text<literal_0x3E_t>,
+		parlex::details::document::text<literal_0x3D0x3E_t>,
+		parlex::details::document::text<literal_0xE20x890xA5_t>
 	> field_1;
 	
 	std::vector<erased<IC>> field_2;
@@ -53,16 +52,17 @@ struct GREATER_CHAIN_LOOP {
 
 	explicit GREATER_CHAIN_LOOP(
 		std::variant<
-			literal_0x3D_t,
-			literal_0x3E_t,
-			literal_0x3D0x3E_t,
-			literal_0xE20x890xA5_t
+			parlex::details::document::text<literal_0x3D_t>,
+			parlex::details::document::text<literal_0x3E_t>,
+			parlex::details::document::text<literal_0x3D0x3E_t>,
+			parlex::details::document::text<literal_0xE20x890xA5_t>
 		> && field_1, std::vector<erased<IC>> && field_2, erased<EXPRESSION> && expression, std::optional<field_3_t_1_t> && field_3) : field_1(std::move(field_1)), field_2(std::move(field_2)), expression(std::move(expression)), field_3(std::move(field_3)) {}
 
 	GREATER_CHAIN_LOOP(GREATER_CHAIN_LOOP const & other) = default;
 	GREATER_CHAIN_LOOP(GREATER_CHAIN_LOOP && move) = default;
 
-	static GREATER_CHAIN_LOOP build(std::u32string const & document, parlex::details::ast_node const & n);
+	static GREATER_CHAIN_LOOP build(parlex::details::ast_node const & n);
+	static parlex::details::recognizer const & recognizer();
 
 };
 

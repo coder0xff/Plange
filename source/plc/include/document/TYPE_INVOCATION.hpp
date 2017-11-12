@@ -20,8 +20,8 @@ struct EXPRESSION;
 struct IC;
 
 struct TYPE_INVOCATION {
-	struct field_2_t {
-		struct head_t_1_t {
+	struct field_1_t {
+		struct argsHead_t_1_t {
 			std::vector<erased<IC>> field_1;
 			
 			std::variant<
@@ -31,20 +31,19 @@ struct TYPE_INVOCATION {
 			
 		
 		
-			explicit head_t_1_t(
+			explicit argsHead_t_1_t(
 				std::vector<erased<IC>> && field_1, std::variant<
 					erased<ARGUMENT>,
 					erased<ARGUMENT_PACK>
 				> && field_2) : field_1(std::move(field_1)), field_2(std::move(field_2)) {}
 		
-			head_t_1_t(head_t_1_t const & other) = default;
-			head_t_1_t(head_t_1_t && move) = default;
+			argsHead_t_1_t(argsHead_t_1_t const & other) = default;
+			argsHead_t_1_t(argsHead_t_1_t && move) = default;
 		
-			static head_t_1_t build(std::u32string const & document, parlex::details::behavior::node const & b, parlex::details::document::walk & w);
-		
+			static argsHead_t_1_t build(parlex::details::behavior::node const * b, parlex::details::document::walk & w);
 		};
 	
-		struct field_1_t_1_t {
+		struct argsTail_t_1_t {
 			struct field_2_t_1_t {
 				std::vector<erased<IC>> field_1;
 				
@@ -64,57 +63,61 @@ struct TYPE_INVOCATION {
 				field_2_t_1_t(field_2_t_1_t const & other) = default;
 				field_2_t_1_t(field_2_t_1_t && move) = default;
 			
-				static field_2_t_1_t build(std::u32string const & document, parlex::details::behavior::node const & b, parlex::details::document::walk & w);
-			
+				static field_2_t_1_t build(parlex::details::behavior::node const * b, parlex::details::document::walk & w);
 			};
 		
 			std::vector<erased<IC>> field_1;
+			
+			parlex::details::document::text<literal_0x2C_t> dontCare1;
 			
 			std::optional<field_2_t_1_t> field_2;
 			
 		
 		
-			explicit field_1_t_1_t(
-				std::vector<erased<IC>> && field_1, std::optional<field_2_t_1_t> && field_2) : field_1(std::move(field_1)), field_2(std::move(field_2)) {}
+			explicit argsTail_t_1_t(
+				std::vector<erased<IC>> && field_1, parlex::details::document::text<literal_0x2C_t> && dontCare1, std::optional<field_2_t_1_t> && field_2) : field_1(std::move(field_1)), dontCare1(std::move(dontCare1)), field_2(std::move(field_2)) {}
 		
-			field_1_t_1_t(field_1_t_1_t const & other) = default;
-			field_1_t_1_t(field_1_t_1_t && move) = default;
+			argsTail_t_1_t(argsTail_t_1_t const & other) = default;
+			argsTail_t_1_t(argsTail_t_1_t && move) = default;
 		
-			static field_1_t_1_t build(std::u32string const & document, parlex::details::behavior::node const & b, parlex::details::document::walk & w);
-		
+			static argsTail_t_1_t build(parlex::details::behavior::node const * b, parlex::details::document::walk & w);
 		};
 	
-		std::optional<head_t_1_t> head;
+		parlex::details::document::text<literal_0x3C_t> dontCare0;
 		
-		std::vector<field_1_t_1_t> field_1;
+		std::optional<argsHead_t_1_t> argsHead;
 		
-		std::vector<erased<IC>> field_2;
+		std::vector<argsTail_t_1_t> argsTail;
+		
+		std::vector<erased<IC>> field_1;
+		
+		parlex::details::document::text<literal_0x3E_t> dontCare4;
 		
 	
 	
-		explicit field_2_t(
-			std::optional<head_t_1_t> && head, std::vector<field_1_t_1_t> && field_1, std::vector<erased<IC>> && field_2) : head(std::move(head)), field_1(std::move(field_1)), field_2(std::move(field_2)) {}
+		explicit field_1_t(
+			parlex::details::document::text<literal_0x3C_t> && dontCare0, std::optional<argsHead_t_1_t> && argsHead, std::vector<argsTail_t_1_t> && argsTail, std::vector<erased<IC>> && field_1, parlex::details::document::text<literal_0x3E_t> && dontCare4) : dontCare0(std::move(dontCare0)), argsHead(std::move(argsHead)), argsTail(std::move(argsTail)), field_1(std::move(field_1)), dontCare4(std::move(dontCare4)) {}
 	
-		field_2_t(field_2_t const & other) = default;
-		field_2_t(field_2_t && move) = default;
+		field_1_t(field_1_t const & other) = default;
+		field_1_t(field_1_t && move) = default;
 	
-		static field_2_t build(std::u32string const & document, parlex::details::behavior::node const & b, parlex::details::document::walk & w);
-	
+		static field_1_t build(parlex::details::behavior::node const * b, parlex::details::document::walk & w);
 	};
 
-	erased<EXPRESSION> field_1;
+	erased<EXPRESSION> target;
 	
-	field_2_t field_2;
+	field_1_t field_1;
 	
 
 
 	explicit TYPE_INVOCATION(
-		erased<EXPRESSION> && field_1, field_2_t && field_2) : field_1(std::move(field_1)), field_2(std::move(field_2)) {}
+		erased<EXPRESSION> && target, field_1_t && field_1) : target(std::move(target)), field_1(std::move(field_1)) {}
 
 	TYPE_INVOCATION(TYPE_INVOCATION const & other) = default;
 	TYPE_INVOCATION(TYPE_INVOCATION && move) = default;
 
-	static TYPE_INVOCATION build(std::u32string const & document, parlex::details::ast_node const & n);
+	static TYPE_INVOCATION build(parlex::details::ast_node const & n);
+	static parlex::details::recognizer const & recognizer();
 
 };
 

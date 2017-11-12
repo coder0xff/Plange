@@ -17,19 +17,20 @@ namespace plc {
 struct IDENTIFIER;
 
 struct ASM_IDENTIFIER {
-	bool field_1;
+	std::optional<parlex::details::document::text<literal_0x25_t>> field_1;
 	
 	erased<IDENTIFIER> field_2;
 	
 
 
 	explicit ASM_IDENTIFIER(
-		bool && field_1, erased<IDENTIFIER> && field_2) : field_1(std::move(field_1)), field_2(std::move(field_2)) {}
+		std::optional<parlex::details::document::text<literal_0x25_t>> && field_1, erased<IDENTIFIER> && field_2) : field_1(std::move(field_1)), field_2(std::move(field_2)) {}
 
 	ASM_IDENTIFIER(ASM_IDENTIFIER const & other) = default;
 	ASM_IDENTIFIER(ASM_IDENTIFIER && move) = default;
 
-	static ASM_IDENTIFIER build(std::u32string const & document, parlex::details::ast_node const & n);
+	static ASM_IDENTIFIER build(parlex::details::ast_node const & n);
+	static parlex::details::recognizer const & recognizer();
 
 };
 

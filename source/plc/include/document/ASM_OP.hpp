@@ -15,19 +15,20 @@
 namespace plc {
 
 struct ASM_OP {
-	parlex::details::document::built_in_terminal<parlex::details::lowercase_letter_t> field_1;
+	parlex::details::document::text<parlex::details::lowercase_letter_t> field_1;
 	
-	std::vector<parlex::details::document::built_in_terminal<parlex::details::lowercase_letter_t>> field_2;
+	std::vector<parlex::details::document::text<parlex::details::lowercase_letter_t>> field_2;
 	
 
 
 	explicit ASM_OP(
-		parlex::details::document::built_in_terminal<parlex::details::lowercase_letter_t> && field_1, std::vector<parlex::details::document::built_in_terminal<parlex::details::lowercase_letter_t>> && field_2) : field_1(std::move(field_1)), field_2(std::move(field_2)) {}
+		parlex::details::document::text<parlex::details::lowercase_letter_t> && field_1, std::vector<parlex::details::document::text<parlex::details::lowercase_letter_t>> && field_2) : field_1(std::move(field_1)), field_2(std::move(field_2)) {}
 
 	ASM_OP(ASM_OP const & other) = default;
 	ASM_OP(ASM_OP && move) = default;
 
-	static ASM_OP build(std::u32string const & document, parlex::details::ast_node const & n);
+	static ASM_OP build(parlex::details::ast_node const & n);
+	static parlex::details::recognizer const & recognizer();
 
 };
 

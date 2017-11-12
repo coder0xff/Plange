@@ -22,15 +22,18 @@ struct KLEENE_STAR {
 	
 	std::vector<erased<IC>> field_2;
 	
+	parlex::details::document::text<literal_0x2A_t> dontCare2;
+	
 
 
 	explicit KLEENE_STAR(
-		erased<EXPRESSION> && field_1, std::vector<erased<IC>> && field_2) : field_1(std::move(field_1)), field_2(std::move(field_2)) {}
+		erased<EXPRESSION> && field_1, std::vector<erased<IC>> && field_2, parlex::details::document::text<literal_0x2A_t> && dontCare2) : field_1(std::move(field_1)), field_2(std::move(field_2)), dontCare2(std::move(dontCare2)) {}
 
 	KLEENE_STAR(KLEENE_STAR const & other) = default;
 	KLEENE_STAR(KLEENE_STAR && move) = default;
 
-	static KLEENE_STAR build(std::u32string const & document, parlex::details::ast_node const & n);
+	static KLEENE_STAR build(parlex::details::ast_node const & n);
+	static parlex::details::recognizer const & recognizer();
 
 };
 

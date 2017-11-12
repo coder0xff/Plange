@@ -21,6 +21,8 @@ struct TUPLE {
 	struct field_3_t_1_t {
 		std::vector<erased<IC>> field_1;
 		
+		parlex::details::document::text<literal_0x2C_t> dontCare1;
+		
 		std::vector<erased<IC>> field_2;
 		
 		erased<EXPRESSION> field_3;
@@ -28,15 +30,16 @@ struct TUPLE {
 	
 	
 		explicit field_3_t_1_t(
-			std::vector<erased<IC>> && field_1, std::vector<erased<IC>> && field_2, erased<EXPRESSION> && field_3) : field_1(std::move(field_1)), field_2(std::move(field_2)), field_3(std::move(field_3)) {}
+			std::vector<erased<IC>> && field_1, parlex::details::document::text<literal_0x2C_t> && dontCare1, std::vector<erased<IC>> && field_2, erased<EXPRESSION> && field_3) : field_1(std::move(field_1)), dontCare1(std::move(dontCare1)), field_2(std::move(field_2)), field_3(std::move(field_3)) {}
 	
 		field_3_t_1_t(field_3_t_1_t const & other) = default;
 		field_3_t_1_t(field_3_t_1_t && move) = default;
 	
-		static field_3_t_1_t build(std::u32string const & document, parlex::details::behavior::node const & b, parlex::details::document::walk & w);
-	
+		static field_3_t_1_t build(parlex::details::behavior::node const * b, parlex::details::document::walk & w);
 	};
 
+	parlex::details::document::text<literal_0x280x7C_t> dontCare0;
+	
 	std::vector<erased<IC>> field_1;
 	
 	erased<EXPRESSION> field_2;
@@ -45,15 +48,18 @@ struct TUPLE {
 	
 	std::vector<erased<IC>> field_4;
 	
+	parlex::details::document::text<literal_0x7C0x29_t> dontCare5;
+	
 
 
 	explicit TUPLE(
-		std::vector<erased<IC>> && field_1, erased<EXPRESSION> && field_2, std::vector<field_3_t_1_t> && field_3, std::vector<erased<IC>> && field_4) : field_1(std::move(field_1)), field_2(std::move(field_2)), field_3(std::move(field_3)), field_4(std::move(field_4)) {}
+		parlex::details::document::text<literal_0x280x7C_t> && dontCare0, std::vector<erased<IC>> && field_1, erased<EXPRESSION> && field_2, std::vector<field_3_t_1_t> && field_3, std::vector<erased<IC>> && field_4, parlex::details::document::text<literal_0x7C0x29_t> && dontCare5) : dontCare0(std::move(dontCare0)), field_1(std::move(field_1)), field_2(std::move(field_2)), field_3(std::move(field_3)), field_4(std::move(field_4)), dontCare5(std::move(dontCare5)) {}
 
 	TUPLE(TUPLE const & other) = default;
 	TUPLE(TUPLE && move) = default;
 
-	static TUPLE build(std::u32string const & document, parlex::details::ast_node const & n);
+	static TUPLE build(parlex::details::ast_node const & n);
+	static parlex::details::recognizer const & recognizer();
 
 };
 

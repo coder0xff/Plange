@@ -15,16 +15,17 @@
 namespace plc {
 
 typedef std::variant<
-	literal_public_t,
-	literal_protected_t,
-	literal_protected0x20internal_t,
-	literal_internal_t,
-	literal_private_t
+	parlex::details::document::text<literal_public_t>,
+	parlex::details::document::text<literal_protected_t>,
+	parlex::details::document::text<literal_protected0x20internal_t>,
+	parlex::details::document::text<literal_internal_t>,
+	parlex::details::document::text<literal_private_t>
 > VISIBILITY_MODIFIER_base;
 
 struct VISIBILITY_MODIFIER: VISIBILITY_MODIFIER_base {
-	static VISIBILITY_MODIFIER build(std::u32string const & document, parlex::details::ast_node const & n);
+	static VISIBILITY_MODIFIER build(parlex::details::ast_node const & n);
 	explicit VISIBILITY_MODIFIER(VISIBILITY_MODIFIER_base const & value) : VISIBILITY_MODIFIER_base(value) {}
+	static parlex::details::recognizer const & recognizer();
 };
 } // namespace plc
 

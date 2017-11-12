@@ -33,7 +33,8 @@ struct GREATER_CHAIN {
 	GREATER_CHAIN(GREATER_CHAIN const & other) = default;
 	GREATER_CHAIN(GREATER_CHAIN && move) = default;
 
-	static GREATER_CHAIN build(std::u32string const & document, parlex::details::ast_node const & n);
+	static GREATER_CHAIN build(parlex::details::ast_node const & n);
+	static parlex::details::recognizer const & recognizer();
 
 };
 

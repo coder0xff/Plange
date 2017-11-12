@@ -22,6 +22,8 @@ struct LIST {
 		struct field_2_t_1_t {
 			std::vector<erased<IC>> field_1;
 			
+			parlex::details::document::text<literal_0x2C0x20_t> dontCare1;
+			
 			std::vector<erased<IC>> field_2;
 			
 			erased<EXPRESSION> field_3;
@@ -29,13 +31,12 @@ struct LIST {
 		
 		
 			explicit field_2_t_1_t(
-				std::vector<erased<IC>> && field_1, std::vector<erased<IC>> && field_2, erased<EXPRESSION> && field_3) : field_1(std::move(field_1)), field_2(std::move(field_2)), field_3(std::move(field_3)) {}
+				std::vector<erased<IC>> && field_1, parlex::details::document::text<literal_0x2C0x20_t> && dontCare1, std::vector<erased<IC>> && field_2, erased<EXPRESSION> && field_3) : field_1(std::move(field_1)), dontCare1(std::move(dontCare1)), field_2(std::move(field_2)), field_3(std::move(field_3)) {}
 		
 			field_2_t_1_t(field_2_t_1_t const & other) = default;
 			field_2_t_1_t(field_2_t_1_t && move) = default;
 		
-			static field_2_t_1_t build(std::u32string const & document, parlex::details::behavior::node const & b, parlex::details::document::walk & w);
-		
+			static field_2_t_1_t build(parlex::details::behavior::node const * b, parlex::details::document::walk & w);
 		};
 	
 		erased<EXPRESSION> field_1;
@@ -52,23 +53,27 @@ struct LIST {
 		elements_t_1_t(elements_t_1_t const & other) = default;
 		elements_t_1_t(elements_t_1_t && move) = default;
 	
-		static elements_t_1_t build(std::u32string const & document, parlex::details::behavior::node const & b, parlex::details::document::walk & w);
-	
+		static elements_t_1_t build(parlex::details::behavior::node const * b, parlex::details::document::walk & w);
 	};
 
+	parlex::details::document::text<literal_0x5B0x7C_t> dontCare0;
+	
 	std::vector<erased<IC>> field_1;
 	
 	std::optional<elements_t_1_t> elements;
 	
+	parlex::details::document::text<literal_0x7C0x5D_t> dontCare3;
+	
 
 
 	explicit LIST(
-		std::vector<erased<IC>> && field_1, std::optional<elements_t_1_t> && elements) : field_1(std::move(field_1)), elements(std::move(elements)) {}
+		parlex::details::document::text<literal_0x5B0x7C_t> && dontCare0, std::vector<erased<IC>> && field_1, std::optional<elements_t_1_t> && elements, parlex::details::document::text<literal_0x7C0x5D_t> && dontCare3) : dontCare0(std::move(dontCare0)), field_1(std::move(field_1)), elements(std::move(elements)), dontCare3(std::move(dontCare3)) {}
 
 	LIST(LIST const & other) = default;
 	LIST(LIST && move) = default;
 
-	static LIST build(std::u32string const & document, parlex::details::ast_node const & n);
+	static LIST build(parlex::details::ast_node const & n);
+	static parlex::details::recognizer const & recognizer();
 
 };
 

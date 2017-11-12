@@ -19,8 +19,9 @@ struct EXPRESSION;
 typedef erased<EXPRESSION> ARGUMENT_base;
 
 struct ARGUMENT: ARGUMENT_base {
-	static ARGUMENT build(std::u32string const & document, parlex::details::ast_node const & n);
+	static ARGUMENT build(parlex::details::ast_node const & n);
 	explicit ARGUMENT(ARGUMENT_base const & value) : ARGUMENT_base(value) {}
+	static parlex::details::recognizer const & recognizer();
 };
 } // namespace plc
 

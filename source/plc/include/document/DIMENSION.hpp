@@ -23,8 +23,9 @@ typedef std::variant<
 > DIMENSION_base;
 
 struct DIMENSION: DIMENSION_base {
-	static DIMENSION build(std::u32string const & document, parlex::details::ast_node const & n);
+	static DIMENSION build(parlex::details::ast_node const & n);
 	explicit DIMENSION(DIMENSION_base const & value) : DIMENSION_base(value) {}
+	static parlex::details::recognizer const & recognizer();
 };
 } // namespace plc
 

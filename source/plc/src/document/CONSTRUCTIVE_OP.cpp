@@ -16,10 +16,14 @@
 
 namespace plc {
 
-CONSTRUCTIVE_OP CONSTRUCTIVE_OP::build(std::u32string const & document, parlex::details::ast_node const & n) {
-	static auto const & b = plange_grammar::get().CONSTRUCTIVE_OP.get_behavior();
+CONSTRUCTIVE_OP CONSTRUCTIVE_OP::build(parlex::details::ast_node const & n) {
+	static auto const * b = &plange_grammar::get().CONSTRUCTIVE_OP.get_behavior();
 	parlex::details::document::walk w{ n.children.cbegin(), n.children.cend() };
-	return CONSTRUCTIVE_OP(parlex::details::document::element<CONSTRUCTIVE_OP_base>::build(document, b, w));
+	return CONSTRUCTIVE_OP(parlex::details::document::element<CONSTRUCTIVE_OP_base>::build(b, w));
 }
 
 } // namespace plc
+
+parlex::details::recognizer const & plc::CONSTRUCTIVE_OP::recognizer() {
+	return plange_grammar::get().CONSTRUCTIVE_OP.get_recognizer();
+}

@@ -23,8 +23,8 @@ struct HAS {
 	std::vector<erased<IC>> field_2;
 	
 	std::variant<
-		literal_0xE20x880x8B_t,
-		literal_has_t
+		parlex::details::document::text<literal_0xE20x880x8B_t>,
+		parlex::details::document::text<literal_has_t>
 	> field_3;
 	
 	std::vector<erased<IC>> field_4;
@@ -35,14 +35,15 @@ struct HAS {
 
 	explicit HAS(
 		erased<EXPRESSION> && field_1, std::vector<erased<IC>> && field_2, std::variant<
-			literal_0xE20x880x8B_t,
-			literal_has_t
+			parlex::details::document::text<literal_0xE20x880x8B_t>,
+			parlex::details::document::text<literal_has_t>
 		> && field_3, std::vector<erased<IC>> && field_4, erased<EXPRESSION> && field_5) : field_1(std::move(field_1)), field_2(std::move(field_2)), field_3(std::move(field_3)), field_4(std::move(field_4)), field_5(std::move(field_5)) {}
 
 	HAS(HAS const & other) = default;
 	HAS(HAS && move) = default;
 
-	static HAS build(std::u32string const & document, parlex::details::ast_node const & n);
+	static HAS build(parlex::details::ast_node const & n);
+	static parlex::details::recognizer const & recognizer();
 
 };
 

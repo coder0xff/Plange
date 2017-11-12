@@ -7,6 +7,7 @@
 #include "parlex/details/grammar.hpp"
 
 #include "_plange_literals.hpp"
+
 namespace plc {
 
 class plange_grammar : public parlex::details::grammar {
@@ -92,6 +93,7 @@ public:
 	production const & EXISTS_ONE;
 	production const & EXPONENTIATION;
 	production const & EXPRESSION;
+	production const & EXTERN;
 	production const & FACTORIAL;
 	production const & FLOOR;
 	production const & FOR;
@@ -167,7 +169,6 @@ public:
 	production const & PARAMETER_NATURAL;
 	production const & PARENTHETICAL;
 	production const & PARENTHETICAL_INVOCATION;
-	production const & PAYLOAD;
 	production const & PLATFORM;
 	production const & POST_DEC;
 	production const & POST_INC;
@@ -189,7 +190,7 @@ public:
 	production const & SLICE;
 	production const & STATEMENT;
 	production const & STATEMENT_SCOPE;
-	production const & STRING;
+	production const & STATIC;
 	production const & SUBSET_CHAIN;
 	production const & SUBSET_CHAIN_LOOP;
 	production const & SUBTRACTION;

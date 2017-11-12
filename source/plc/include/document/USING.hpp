@@ -19,27 +19,34 @@ struct EXPRESSION;
 struct IC;
 
 struct USING {
-	std::vector<erased<IC>> field_1;
+	parlex::details::document::text<literal_using_t> dontCare0;
 	
-	std::vector<erased<IC>> field_2;
+	std::vector<erased<IC>> field_01;
 	
-	erased<EXPRESSION> field_3;
+	parlex::details::document::text<literal_0x28_t> dontCare2;
 	
-	std::vector<erased<IC>> field_4;
+	std::vector<erased<IC>> field_02;
 	
-	std::vector<erased<IC>> field_5;
+	erased<EXPRESSION> field_03;
 	
-	erased<BLOCK> field_6;
+	std::vector<erased<IC>> field_04;
+	
+	parlex::details::document::text<literal_0x29_t> dontCare6;
+	
+	std::vector<erased<IC>> field_05;
+	
+	erased<BLOCK> field_06;
 	
 
 
 	explicit USING(
-		std::vector<erased<IC>> && field_1, std::vector<erased<IC>> && field_2, erased<EXPRESSION> && field_3, std::vector<erased<IC>> && field_4, std::vector<erased<IC>> && field_5, erased<BLOCK> && field_6) : field_1(std::move(field_1)), field_2(std::move(field_2)), field_3(std::move(field_3)), field_4(std::move(field_4)), field_5(std::move(field_5)), field_6(std::move(field_6)) {}
+		parlex::details::document::text<literal_using_t> && dontCare0, std::vector<erased<IC>> && field_01, parlex::details::document::text<literal_0x28_t> && dontCare2, std::vector<erased<IC>> && field_02, erased<EXPRESSION> && field_03, std::vector<erased<IC>> && field_04, parlex::details::document::text<literal_0x29_t> && dontCare6, std::vector<erased<IC>> && field_05, erased<BLOCK> && field_06) : dontCare0(std::move(dontCare0)), field_01(std::move(field_01)), dontCare2(std::move(dontCare2)), field_02(std::move(field_02)), field_03(std::move(field_03)), field_04(std::move(field_04)), dontCare6(std::move(dontCare6)), field_05(std::move(field_05)), field_06(std::move(field_06)) {}
 
 	USING(USING const & other) = default;
 	USING(USING && move) = default;
 
-	static USING build(std::u32string const & document, parlex::details::ast_node const & n);
+	static USING build(parlex::details::ast_node const & n);
+	static parlex::details::recognizer const & recognizer();
 
 };
 

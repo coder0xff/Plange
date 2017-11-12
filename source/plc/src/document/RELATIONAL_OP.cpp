@@ -21,10 +21,14 @@
 
 namespace plc {
 
-RELATIONAL_OP RELATIONAL_OP::build(std::u32string const & document, parlex::details::ast_node const & n) {
-	static auto const & b = plange_grammar::get().RELATIONAL_OP.get_behavior();
+RELATIONAL_OP RELATIONAL_OP::build(parlex::details::ast_node const & n) {
+	static auto const * b = &plange_grammar::get().RELATIONAL_OP.get_behavior();
 	parlex::details::document::walk w{ n.children.cbegin(), n.children.cend() };
-	return RELATIONAL_OP(parlex::details::document::element<RELATIONAL_OP_base>::build(document, b, w));
+	return RELATIONAL_OP(parlex::details::document::element<RELATIONAL_OP_base>::build(b, w));
 }
 
 } // namespace plc
+
+parlex::details::recognizer const & plc::RELATIONAL_OP::recognizer() {
+	return plange_grammar::get().RELATIONAL_OP.get_recognizer();
+}

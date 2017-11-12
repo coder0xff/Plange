@@ -15,33 +15,36 @@
 namespace plc {
 
 struct PLATFORM {
+	parlex::details::document::text<literal___t> dontCare0;
+	
 	std::variant<
-		parlex::details::document::built_in_terminal<parlex::details::letter_t>,
-		parlex::details::document::built_in_terminal<parlex::details::number_t>
+		parlex::details::document::text<parlex::details::letter_t>,
+		parlex::details::document::text<parlex::details::number_t>
 	> field_1;
 	
 	std::vector<std::variant<
-		parlex::details::document::built_in_terminal<parlex::details::letter_t>,
-		parlex::details::document::built_in_terminal<parlex::details::number_t>,
-		literal___t
+		parlex::details::document::text<parlex::details::letter_t>,
+		parlex::details::document::text<parlex::details::number_t>,
+		parlex::details::document::text<literal___t>
 	>> field_2;
 	
 
 
 	explicit PLATFORM(
-		std::variant<
-			parlex::details::document::built_in_terminal<parlex::details::letter_t>,
-			parlex::details::document::built_in_terminal<parlex::details::number_t>
+		parlex::details::document::text<literal___t> && dontCare0, std::variant<
+			parlex::details::document::text<parlex::details::letter_t>,
+			parlex::details::document::text<parlex::details::number_t>
 		> && field_1, std::vector<std::variant<
-			parlex::details::document::built_in_terminal<parlex::details::letter_t>,
-			parlex::details::document::built_in_terminal<parlex::details::number_t>,
-			literal___t
-		>> && field_2) : field_1(std::move(field_1)), field_2(std::move(field_2)) {}
+			parlex::details::document::text<parlex::details::letter_t>,
+			parlex::details::document::text<parlex::details::number_t>,
+			parlex::details::document::text<literal___t>
+		>> && field_2) : dontCare0(std::move(dontCare0)), field_1(std::move(field_1)), field_2(std::move(field_2)) {}
 
 	PLATFORM(PLATFORM const & other) = default;
 	PLATFORM(PLATFORM && move) = default;
 
-	static PLATFORM build(std::u32string const & document, parlex::details::ast_node const & n);
+	static PLATFORM build(parlex::details::ast_node const & n);
+	static parlex::details::recognizer const & recognizer();
 
 };
 

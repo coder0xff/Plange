@@ -22,6 +22,8 @@ struct UNION {
 	
 	std::vector<erased<IC>> field_2;
 	
+	parlex::details::document::text<literal_0xE20x880xAA_t> dontCare2;
+	
 	std::vector<erased<IC>> field_3;
 	
 	erased<EXPRESSION> field_4;
@@ -29,12 +31,13 @@ struct UNION {
 
 
 	explicit UNION(
-		erased<EXPRESSION> && field_1, std::vector<erased<IC>> && field_2, std::vector<erased<IC>> && field_3, erased<EXPRESSION> && field_4) : field_1(std::move(field_1)), field_2(std::move(field_2)), field_3(std::move(field_3)), field_4(std::move(field_4)) {}
+		erased<EXPRESSION> && field_1, std::vector<erased<IC>> && field_2, parlex::details::document::text<literal_0xE20x880xAA_t> && dontCare2, std::vector<erased<IC>> && field_3, erased<EXPRESSION> && field_4) : field_1(std::move(field_1)), field_2(std::move(field_2)), dontCare2(std::move(dontCare2)), field_3(std::move(field_3)), field_4(std::move(field_4)) {}
 
 	UNION(UNION const & other) = default;
 	UNION(UNION && move) = default;
 
-	static UNION build(std::u32string const & document, parlex::details::ast_node const & n);
+	static UNION build(parlex::details::ast_node const & n);
+	static parlex::details::recognizer const & recognizer();
 
 };
 

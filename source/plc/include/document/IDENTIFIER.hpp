@@ -16,32 +16,33 @@ namespace plc {
 
 struct IDENTIFIER {
 	std::variant<
-		parlex::details::document::built_in_terminal<parlex::details::letter_t>,
-		literal___t
+		parlex::details::document::text<parlex::details::letter_t>,
+		parlex::details::document::text<literal___t>
 	> head;
 	
 	std::vector<std::variant<
-		parlex::details::document::built_in_terminal<parlex::details::letter_t>,
-		parlex::details::document::built_in_terminal<parlex::details::number_t>,
-		literal___t
+		parlex::details::document::text<parlex::details::letter_t>,
+		parlex::details::document::text<parlex::details::number_t>,
+		parlex::details::document::text<literal___t>
 	>> tail;
 	
 
 
 	explicit IDENTIFIER(
 		std::variant<
-			parlex::details::document::built_in_terminal<parlex::details::letter_t>,
-			literal___t
+			parlex::details::document::text<parlex::details::letter_t>,
+			parlex::details::document::text<literal___t>
 		> && head, std::vector<std::variant<
-			parlex::details::document::built_in_terminal<parlex::details::letter_t>,
-			parlex::details::document::built_in_terminal<parlex::details::number_t>,
-			literal___t
+			parlex::details::document::text<parlex::details::letter_t>,
+			parlex::details::document::text<parlex::details::number_t>,
+			parlex::details::document::text<literal___t>
 		>> && tail) : head(std::move(head)), tail(std::move(tail)) {}
 
 	IDENTIFIER(IDENTIFIER const & other) = default;
 	IDENTIFIER(IDENTIFIER && move) = default;
 
-	static IDENTIFIER build(std::u32string const & document, parlex::details::ast_node const & n);
+	static IDENTIFIER build(parlex::details::ast_node const & n);
+	static parlex::details::recognizer const & recognizer();
 
 };
 

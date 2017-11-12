@@ -40,7 +40,8 @@ struct ARRAY_INDEXER {
 	ARRAY_INDEXER(ARRAY_INDEXER const & other) = default;
 	ARRAY_INDEXER(ARRAY_INDEXER && move) = default;
 
-	static ARRAY_INDEXER build(std::u32string const & document, parlex::details::ast_node const & n);
+	static ARRAY_INDEXER build(parlex::details::ast_node const & n);
+	static parlex::details::recognizer const & recognizer();
 
 };
 

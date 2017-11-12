@@ -33,8 +33,7 @@ struct TYPE_SCOPE_DECLARATION {
 		field_1_t_1_t(field_1_t_1_t const & other) = default;
 		field_1_t_1_t(field_1_t_1_t && move) = default;
 	
-		static field_1_t_1_t build(std::u32string const & document, parlex::details::behavior::node const & b, parlex::details::document::walk & w);
-	
+		static field_1_t_1_t build(parlex::details::behavior::node const * b, parlex::details::document::walk & w);
 	};
 
 	struct field_3_t_1_t {
@@ -50,8 +49,7 @@ struct TYPE_SCOPE_DECLARATION {
 		field_3_t_1_t(field_3_t_1_t const & other) = default;
 		field_3_t_1_t(field_3_t_1_t && move) = default;
 	
-		static field_3_t_1_t build(std::u32string const & document, parlex::details::behavior::node const & b, parlex::details::document::walk & w);
-	
+		static field_3_t_1_t build(parlex::details::behavior::node const * b, parlex::details::document::walk & w);
 	};
 
 	std::optional<field_1_t_1_t> field_1;
@@ -68,7 +66,8 @@ struct TYPE_SCOPE_DECLARATION {
 	TYPE_SCOPE_DECLARATION(TYPE_SCOPE_DECLARATION const & other) = default;
 	TYPE_SCOPE_DECLARATION(TYPE_SCOPE_DECLARATION && move) = default;
 
-	static TYPE_SCOPE_DECLARATION build(std::u32string const & document, parlex::details::ast_node const & n);
+	static TYPE_SCOPE_DECLARATION build(parlex::details::ast_node const & n);
+	static parlex::details::recognizer const & recognizer();
 
 };
 

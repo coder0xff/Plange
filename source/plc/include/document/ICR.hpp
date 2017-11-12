@@ -29,7 +29,8 @@ struct ICR {
 	ICR(ICR const & other) = default;
 	ICR(ICR && move) = default;
 
-	static ICR build(std::u32string const & document, parlex::details::ast_node const & n);
+	static ICR build(parlex::details::ast_node const & n);
+	static parlex::details::recognizer const & recognizer();
 
 };
 

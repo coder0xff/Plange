@@ -32,8 +32,7 @@ struct FUNCTION_MODIFIER_PLATFORM {
 		field_2_t_1_t(field_2_t_1_t const & other) = default;
 		field_2_t_1_t(field_2_t_1_t && move) = default;
 	
-		static field_2_t_1_t build(std::u32string const & document, parlex::details::behavior::node const & b, parlex::details::document::walk & w);
-	
+		static field_2_t_1_t build(parlex::details::behavior::node const * b, parlex::details::document::walk & w);
 	};
 
 	struct field_3_t_1_t {
@@ -49,8 +48,7 @@ struct FUNCTION_MODIFIER_PLATFORM {
 		field_3_t_1_t(field_3_t_1_t const & other) = default;
 		field_3_t_1_t(field_3_t_1_t && move) = default;
 	
-		static field_3_t_1_t build(std::u32string const & document, parlex::details::behavior::node const & b, parlex::details::document::walk & w);
-	
+		static field_3_t_1_t build(parlex::details::behavior::node const * b, parlex::details::document::walk & w);
 	};
 
 	erased<PLATFORM> field_1;
@@ -67,7 +65,8 @@ struct FUNCTION_MODIFIER_PLATFORM {
 	FUNCTION_MODIFIER_PLATFORM(FUNCTION_MODIFIER_PLATFORM const & other) = default;
 	FUNCTION_MODIFIER_PLATFORM(FUNCTION_MODIFIER_PLATFORM && move) = default;
 
-	static FUNCTION_MODIFIER_PLATFORM build(std::u32string const & document, parlex::details::ast_node const & n);
+	static FUNCTION_MODIFIER_PLATFORM build(parlex::details::ast_node const & n);
+	static parlex::details::recognizer const & recognizer();
 
 };
 

@@ -25,8 +25,9 @@ typedef std::variant<
 > MULTIPLICATIVE_OP_base;
 
 struct MULTIPLICATIVE_OP: MULTIPLICATIVE_OP_base {
-	static MULTIPLICATIVE_OP build(std::u32string const & document, parlex::details::ast_node const & n);
+	static MULTIPLICATIVE_OP build(parlex::details::ast_node const & n);
 	explicit MULTIPLICATIVE_OP(MULTIPLICATIVE_OP_base const & value) : MULTIPLICATIVE_OP_base(value) {}
+	static parlex::details::recognizer const & recognizer();
 };
 } // namespace plc
 

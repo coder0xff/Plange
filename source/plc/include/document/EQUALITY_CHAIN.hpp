@@ -33,7 +33,8 @@ struct EQUALITY_CHAIN {
 	EQUALITY_CHAIN(EQUALITY_CHAIN const & other) = default;
 	EQUALITY_CHAIN(EQUALITY_CHAIN && move) = default;
 
-	static EQUALITY_CHAIN build(std::u32string const & document, parlex::details::ast_node const & n);
+	static EQUALITY_CHAIN build(parlex::details::ast_node const & n);
+	static parlex::details::recognizer const & recognizer();
 
 };
 

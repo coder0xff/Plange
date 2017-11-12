@@ -25,8 +25,9 @@ typedef std::variant<
 > INVOCATION_base;
 
 struct INVOCATION: INVOCATION_base {
-	static INVOCATION build(std::u32string const & document, parlex::details::ast_node const & n);
+	static INVOCATION build(parlex::details::ast_node const & n);
 	explicit INVOCATION(INVOCATION_base const & value) : INVOCATION_base(value) {}
+	static parlex::details::recognizer const & recognizer();
 };
 } // namespace plc
 

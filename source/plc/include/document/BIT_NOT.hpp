@@ -18,6 +18,8 @@ struct EXPRESSION;
 struct IC;
 
 struct BIT_NOT {
+	parlex::details::document::text<literal_0x7E0x7E_t> dontCare0;
+	
 	std::vector<erased<IC>> field_1;
 	
 	erased<EXPRESSION> field_2;
@@ -25,12 +27,13 @@ struct BIT_NOT {
 
 
 	explicit BIT_NOT(
-		std::vector<erased<IC>> && field_1, erased<EXPRESSION> && field_2) : field_1(std::move(field_1)), field_2(std::move(field_2)) {}
+		parlex::details::document::text<literal_0x7E0x7E_t> && dontCare0, std::vector<erased<IC>> && field_1, erased<EXPRESSION> && field_2) : dontCare0(std::move(dontCare0)), field_1(std::move(field_1)), field_2(std::move(field_2)) {}
 
 	BIT_NOT(BIT_NOT const & other) = default;
 	BIT_NOT(BIT_NOT && move) = default;
 
-	static BIT_NOT build(std::u32string const & document, parlex::details::ast_node const & n);
+	static BIT_NOT build(parlex::details::ast_node const & n);
+	static parlex::details::recognizer const & recognizer();
 
 };
 

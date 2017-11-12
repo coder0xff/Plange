@@ -16,10 +16,14 @@
 
 namespace plc {
 
-IC IC::build(std::u32string const & document, parlex::details::ast_node const & n) {
-	static auto const & b = plange_grammar::get().IC.get_behavior();
+IC IC::build(parlex::details::ast_node const & n) {
+	static auto const * b = &plange_grammar::get().IC.get_behavior();
 	parlex::details::document::walk w{ n.children.cbegin(), n.children.cend() };
-	return IC(parlex::details::document::element<IC_base>::build(document, b, w));
+	return IC(parlex::details::document::element<IC_base>::build(b, w));
 }
 
 } // namespace plc
+
+parlex::details::recognizer const & plc::IC::recognizer() {
+	return plange_grammar::get().IC.get_recognizer();
+}

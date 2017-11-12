@@ -14,10 +14,14 @@
 
 namespace plc {
 
-PARAMETER PARAMETER::build(std::u32string const & document, parlex::details::ast_node const & n) {
-	static auto const & b = plange_grammar::get().PARAMETER.get_behavior();
+PARAMETER PARAMETER::build(parlex::details::ast_node const & n) {
+	static auto const * b = &plange_grammar::get().PARAMETER.get_behavior();
 	parlex::details::document::walk w{ n.children.cbegin(), n.children.cend() };
-	return PARAMETER(parlex::details::document::element<PARAMETER_base>::build(document, b, w));
+	return PARAMETER(parlex::details::document::element<PARAMETER_base>::build(b, w));
 }
 
 } // namespace plc
+
+parlex::details::recognizer const & plc::PARAMETER::recognizer() {
+	return plange_grammar::get().PARAMETER.get_recognizer();
+}

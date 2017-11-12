@@ -15,20 +15,21 @@
 namespace plc {
 
 typedef std::variant<
-	literal_1_t,
-	literal_2_t,
-	literal_3_t,
-	literal_4_t,
-	literal_5_t,
-	literal_6_t,
-	literal_7_t,
-	literal_8_t,
-	literal_9_t
+	parlex::details::document::text<literal_1_t>,
+	parlex::details::document::text<literal_2_t>,
+	parlex::details::document::text<literal_3_t>,
+	parlex::details::document::text<literal_4_t>,
+	parlex::details::document::text<literal_5_t>,
+	parlex::details::document::text<literal_6_t>,
+	parlex::details::document::text<literal_7_t>,
+	parlex::details::document::text<literal_8_t>,
+	parlex::details::document::text<literal_9_t>
 > NON_ZERO_DECIMAL_DIGIT_base;
 
 struct NON_ZERO_DECIMAL_DIGIT: NON_ZERO_DECIMAL_DIGIT_base {
-	static NON_ZERO_DECIMAL_DIGIT build(std::u32string const & document, parlex::details::ast_node const & n);
+	static NON_ZERO_DECIMAL_DIGIT build(parlex::details::ast_node const & n);
 	explicit NON_ZERO_DECIMAL_DIGIT(NON_ZERO_DECIMAL_DIGIT_base const & value) : NON_ZERO_DECIMAL_DIGIT_base(value) {}
+	static parlex::details::recognizer const & recognizer();
 };
 } // namespace plc
 

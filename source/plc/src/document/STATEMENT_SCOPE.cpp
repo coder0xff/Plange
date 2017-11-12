@@ -14,10 +14,14 @@
 
 namespace plc {
 
-STATEMENT_SCOPE STATEMENT_SCOPE::build(std::u32string const & document, parlex::details::ast_node const & n) {
-	static auto const & b = plange_grammar::get().STATEMENT_SCOPE.get_behavior();
+STATEMENT_SCOPE STATEMENT_SCOPE::build(parlex::details::ast_node const & n) {
+	static auto const * b = &plange_grammar::get().STATEMENT_SCOPE.get_behavior();
 	parlex::details::document::walk w{ n.children.cbegin(), n.children.cend() };
-	return STATEMENT_SCOPE(parlex::details::document::element<STATEMENT_SCOPE_base>::build(document, b, w));
+	return STATEMENT_SCOPE(parlex::details::document::element<STATEMENT_SCOPE_base>::build(b, w));
 }
 
 } // namespace plc
+
+parlex::details::recognizer const & plc::STATEMENT_SCOPE::recognizer() {
+	return plange_grammar::get().STATEMENT_SCOPE.get_recognizer();
+}

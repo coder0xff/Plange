@@ -17,17 +17,22 @@ namespace plc {
 struct STATEMENT_SCOPE;
 
 struct BLOCK {
+	parlex::details::document::text<literal_0x7B_t> dontCare0;
+	
 	erased<STATEMENT_SCOPE> field_1;
+	
+	parlex::details::document::text<literal_0x7D_t> dontCare2;
 	
 
 
 	explicit BLOCK(
-		erased<STATEMENT_SCOPE> && field_1) : field_1(std::move(field_1)) {}
+		parlex::details::document::text<literal_0x7B_t> && dontCare0, erased<STATEMENT_SCOPE> && field_1, parlex::details::document::text<literal_0x7D_t> && dontCare2) : dontCare0(std::move(dontCare0)), field_1(std::move(field_1)), dontCare2(std::move(dontCare2)) {}
 
 	BLOCK(BLOCK const & other) = default;
 	BLOCK(BLOCK && move) = default;
 
-	static BLOCK build(std::u32string const & document, parlex::details::ast_node const & n);
+	static BLOCK build(parlex::details::ast_node const & n);
+	static parlex::details::recognizer const & recognizer();
 
 };
 

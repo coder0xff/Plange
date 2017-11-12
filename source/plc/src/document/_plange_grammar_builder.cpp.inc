@@ -115,12 +115,12 @@ static parlex::builder const & builder() {
 		})),
 		parlex::production("ARRAY_INVOCATION",
 		parlex::sequence("ARRAY_INVOCATION", {
-			parlex::reference("EXPRESSION"),
+			parlex::reference("target", "EXPRESSION"),
 			parlex::literal("["),
-			parlex::optional({
+			parlex::optional("argsHead", {
 				parlex::reference("array_indexer", "ARRAY_INDEXER")
 			}),
-			parlex::repetition({
+			parlex::repetition("argsTail", {
 				parlex::sequence({
 					parlex::repetition({
 						parlex::reference("IC")
@@ -858,7 +858,9 @@ static parlex::builder const & builder() {
 		parlex::associativity::none, parlex::filter_function(), {"COMMENT", }),
 		parlex::production("EMBEDDED_COMMENT_INTERIOR",
 		parlex::choice("EMBEDDED_COMMENT_INTERIOR", {
-			parlex::reference("PAYLOAD"),
+			parlex::repetition("payload", {
+				parlex::reference("all")
+			}),
 			parlex::sequence({
 				parlex::literal("*"),
 				parlex::reference("EMBEDDED_COMMENT_INTERIOR"),
@@ -871,12 +873,14 @@ static parlex::builder const & builder() {
 			parlex::reference("EMBEDDED_NEWLINE_STRING_INTERIOR"),
 			parlex::literal("\"\"\"")
 		}),
-		parlex::associativity::none, parlex::filter_function(), {"EMBEDDED_STRING", "STRING", }),
+		parlex::associativity::none, parlex::filter_function(), {"EMBEDDED_STRING", }),
 		parlex::production("EMBEDDED_NEWLINE_STRING_INTERIOR",
 		parlex::choice("EMBEDDED_NEWLINE_STRING_INTERIOR", {
 			parlex::sequence({
 				parlex::literal("\n"),
-				parlex::reference("PAYLOAD"),
+				parlex::repetition("payload", {
+					parlex::reference("all")
+				}),
 				parlex::literal("\n")
 			}),
 			parlex::sequence({
@@ -890,11 +894,12 @@ static parlex::builder const & builder() {
 			parlex::literal("\"\"\""),
 			parlex::reference("EMBEDDED_STRING_INTERIOR"),
 			parlex::literal("\"\"\"")
-		}),
-		parlex::associativity::none, parlex::filter_function(), {"STRING", }),
+		})),
 		parlex::production("EMBEDDED_STRING_INTERIOR",
 		parlex::choice("EMBEDDED_STRING_INTERIOR", {
-			parlex::reference("PAYLOAD"),
+			parlex::repetition("payload", {
+				parlex::reference("all")
+			}),
 			parlex::sequence({
 				parlex::literal("\""),
 				parlex::reference("EMBEDDED_STRING_INTERIOR"),
@@ -1084,7 +1089,6 @@ static parlex::builder const & builder() {
 			parlex::reference("REGEX"),
 			parlex::reference("SET"),
 			parlex::reference("SET_COMPREHENSION"),
-			parlex::reference("STRING"),
 			parlex::reference("SUBSET_CHAIN"),
 			parlex::reference("SUPERSET_CHAIN"),
 			parlex::reference("SWIZZLE"),
@@ -1097,8 +1101,12 @@ static parlex::builder const & builder() {
 			parlex::reference("UNARY_OP"),
 			parlex::reference("VECTOR_NORM"),
 			parlex::literal("context"),
-			parlex::literal("null")
+			parlex::literal("null"),
+			parlex::reference("c_string")
 		})),
+		parlex::production("EXTERN",
+		parlex::literal("EXTERN", "extern"),
+		parlex::associativity::none, parlex::filter_function(), {"IDENTIFIER", }),
 		parlex::production("FACTORIAL",
 		parlex::sequence("FACTORIAL", {
 			parlex::reference("EXPRESSION"),
@@ -2259,12 +2267,12 @@ static parlex::builder const & builder() {
 		})),
 		parlex::production("PARENTHETICAL_INVOCATION",
 		parlex::sequence("PARENTHETICAL_INVOCATION", {
-			parlex::reference("EXPRESSION"),
+			parlex::reference("target", "EXPRESSION"),
 			parlex::repetition({
 				parlex::reference("IC")
 			}),
 			parlex::literal("("),
-			parlex::optional({
+			parlex::optional("argsHead", {
 				parlex::sequence({
 					parlex::repetition({
 						parlex::reference("IC")
@@ -2275,7 +2283,7 @@ static parlex::builder const & builder() {
 					})
 				})
 			}),
-			parlex::repetition({
+			parlex::repetition("argsTail", {
 				parlex::sequence({
 					parlex::repetition({
 						parlex::reference("IC")
@@ -2299,8 +2307,6 @@ static parlex::builder const & builder() {
 			}),
 			parlex::literal(")")
 		})),
-		parlex::production("PAYLOAD",
-		parlex::reference("PAYLOAD", "all")),
 		parlex::production("PLATFORM",
 		parlex::sequence("PLATFORM", {
 			parlex::literal("_"),
@@ -2462,7 +2468,7 @@ static parlex::builder const & builder() {
 		parlex::production("REGEX",
 		parlex::sequence("REGEX", {
 			parlex::literal("R"),
-			parlex::reference("STRING")
+			parlex::reference("c_string")
 		})),
 		parlex::production("RELATIONAL_COLLECTION_OP",
 		parlex::choice("RELATIONAL_COLLECTION_OP", {
@@ -2601,7 +2607,7 @@ static parlex::builder const & builder() {
 		})),
 		parlex::production("STATEMENT",
 		parlex::sequence("STATEMENT", {
-			parlex::choice({
+			parlex::choice("value", {
 				parlex::reference("ASSIGNMENT_CHAIN"),
 				parlex::reference("BREAK"),
 				parlex::reference("CONTINUE"),
@@ -2622,7 +2628,7 @@ static parlex::builder const & builder() {
 				parlex::reference("WRITE_LOCK"),
 				parlex::reference("USING")
 			}),
-			parlex::repetition({
+			parlex::repetition("ic", {
 				parlex::reference("IC")
 			}),
 			parlex::literal(";")
@@ -2634,8 +2640,9 @@ static parlex::builder const & builder() {
 				parlex::reference("STATEMENT")
 			})
 		})),
-		parlex::production("STRING",
-		parlex::reference("STRING", "c_string")),
+		parlex::production("STATIC",
+		parlex::literal("STATIC", "static"),
+		parlex::associativity::none, parlex::filter_function(), {"IDENTIFIER", }),
 		parlex::production("SUBSET_CHAIN",
 		parlex::sequence("SUBSET_CHAIN", {
 			parlex::reference("EXPRESSION"),
@@ -2973,7 +2980,8 @@ static parlex::builder const & builder() {
 				parlex::reference("IC")
 			}),
 			parlex::reference("TYPE_CONSTRAINT_CHAIN")
-		})),
+		}),
+		parlex::associativity::none, parlex::filter_function(), {"EXPRESSION", }),
 		parlex::production("TYPE_CONSTRAINT_CHAIN",
 		parlex::sequence("TYPE_CONSTRAINT_CHAIN", {
 			parlex::choice({
@@ -3022,7 +3030,7 @@ static parlex::builder const & builder() {
 			}),
 			parlex::optional({
 				parlex::sequence({
-					parlex::literal("static", "static"),
+					parlex::reference("STATIC"),
 					parlex::repetition({
 						parlex::reference("IC")
 					})
@@ -3030,7 +3038,7 @@ static parlex::builder const & builder() {
 			}),
 			parlex::optional({
 				parlex::sequence({
-					parlex::literal("extern", "extern"),
+					parlex::reference("EXTERN"),
 					parlex::repetition({
 						parlex::reference("IC")
 					})
@@ -3057,10 +3065,10 @@ static parlex::builder const & builder() {
 		})),
 		parlex::production("TYPE_INVOCATION",
 		parlex::sequence("TYPE_INVOCATION", {
-			parlex::reference("EXPRESSION"),
+			parlex::reference("target", "EXPRESSION"),
 			parlex::sequence({
 				parlex::literal("<"),
-				parlex::optional("head", {
+				parlex::optional("argsHead", {
 					parlex::sequence({
 						parlex::repetition({
 							parlex::reference("IC")
@@ -3071,7 +3079,7 @@ static parlex::builder const & builder() {
 						})
 					})
 				}),
-				parlex::repetition({
+				parlex::repetition("argsTail", {
 					parlex::sequence({
 						parlex::repetition({
 							parlex::reference("IC")
@@ -3410,7 +3418,9 @@ static parlex::builder const & builder() {
 		})),
 		parlex::production("XML_DOC_STRING_INTERIOR",
 		parlex::choice("XML_DOC_STRING_INTERIOR", {
-			parlex::reference("PAYLOAD"),
+			parlex::repetition("payload", {
+				parlex::reference("all")
+			}),
 			parlex::sequence({
 				parlex::literal("`"),
 				parlex::reference("XML_DOC_STRING_INTERIOR"),

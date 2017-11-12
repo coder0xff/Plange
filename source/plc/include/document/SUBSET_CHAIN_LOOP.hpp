@@ -32,16 +32,15 @@ struct SUBSET_CHAIN_LOOP {
 		field_4_t_1_t(field_4_t_1_t const & other) = default;
 		field_4_t_1_t(field_4_t_1_t && move) = default;
 	
-		static field_4_t_1_t build(std::u32string const & document, parlex::details::behavior::node const & b, parlex::details::document::walk & w);
-	
+		static field_4_t_1_t build(parlex::details::behavior::node const * b, parlex::details::document::walk & w);
 	};
 
 	std::variant<
-		literal_0x3D_t,
-		literal_0xE20x8A0x86_t,
-		literal_subs_t,
-		literal_0xE20x8A0x82_t,
-		literal_psubs_t
+		parlex::details::document::text<literal_0x3D_t>,
+		parlex::details::document::text<literal_0xE20x8A0x86_t>,
+		parlex::details::document::text<literal_subs_t>,
+		parlex::details::document::text<literal_0xE20x8A0x82_t>,
+		parlex::details::document::text<literal_psubs_t>
 	> field_1;
 	
 	std::vector<erased<IC>> field_2;
@@ -54,17 +53,18 @@ struct SUBSET_CHAIN_LOOP {
 
 	explicit SUBSET_CHAIN_LOOP(
 		std::variant<
-			literal_0x3D_t,
-			literal_0xE20x8A0x86_t,
-			literal_subs_t,
-			literal_0xE20x8A0x82_t,
-			literal_psubs_t
+			parlex::details::document::text<literal_0x3D_t>,
+			parlex::details::document::text<literal_0xE20x8A0x86_t>,
+			parlex::details::document::text<literal_subs_t>,
+			parlex::details::document::text<literal_0xE20x8A0x82_t>,
+			parlex::details::document::text<literal_psubs_t>
 		> && field_1, std::vector<erased<IC>> && field_2, erased<EXPRESSION> && field_3, std::optional<field_4_t_1_t> && field_4) : field_1(std::move(field_1)), field_2(std::move(field_2)), field_3(std::move(field_3)), field_4(std::move(field_4)) {}
 
 	SUBSET_CHAIN_LOOP(SUBSET_CHAIN_LOOP const & other) = default;
 	SUBSET_CHAIN_LOOP(SUBSET_CHAIN_LOOP && move) = default;
 
-	static SUBSET_CHAIN_LOOP build(std::u32string const & document, parlex::details::ast_node const & n);
+	static SUBSET_CHAIN_LOOP build(parlex::details::ast_node const & n);
+	static parlex::details::recognizer const & recognizer();
 
 };
 

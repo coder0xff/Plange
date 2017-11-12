@@ -16,10 +16,14 @@
 
 namespace plc {
 
-UNARY_LOGICAL_OP UNARY_LOGICAL_OP::build(std::u32string const & document, parlex::details::ast_node const & n) {
-	static auto const & b = plange_grammar::get().UNARY_LOGICAL_OP.get_behavior();
+UNARY_LOGICAL_OP UNARY_LOGICAL_OP::build(parlex::details::ast_node const & n) {
+	static auto const * b = &plange_grammar::get().UNARY_LOGICAL_OP.get_behavior();
 	parlex::details::document::walk w{ n.children.cbegin(), n.children.cend() };
-	return UNARY_LOGICAL_OP(parlex::details::document::element<UNARY_LOGICAL_OP_base>::build(document, b, w));
+	return UNARY_LOGICAL_OP(parlex::details::document::element<UNARY_LOGICAL_OP_base>::build(b, w));
 }
 
 } // namespace plc
+
+parlex::details::recognizer const & plc::UNARY_LOGICAL_OP::recognizer() {
+	return plange_grammar::get().UNARY_LOGICAL_OP.get_recognizer();
+}

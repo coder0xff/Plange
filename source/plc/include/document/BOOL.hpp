@@ -15,13 +15,14 @@
 namespace plc {
 
 typedef std::variant<
-	literal_true_t,
-	literal_false_t
+	parlex::details::document::text<literal_true_t>,
+	parlex::details::document::text<literal_false_t>
 > BOOL_base;
 
 struct BOOL: BOOL_base {
-	static BOOL build(std::u32string const & document, parlex::details::ast_node const & n);
+	static BOOL build(parlex::details::ast_node const & n);
 	explicit BOOL(BOOL_base const & value) : BOOL_base(value) {}
+	static parlex::details::recognizer const & recognizer();
 };
 } // namespace plc
 

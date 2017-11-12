@@ -15,17 +15,22 @@
 namespace plc {
 
 struct END_OF_LINE_COMMENT {
-	std::vector<parlex::details::document::built_in_terminal<parlex::details::not_newline_t>> field_1;
+	parlex::details::document::text<literal_0x2F0x2F_t> dontCare0;
+	
+	std::vector<parlex::details::document::text<parlex::details::not_newline_t>> field_1;
+	
+	parlex::details::document::text<literal_0x0A_t> dontCare2;
 	
 
 
 	explicit END_OF_LINE_COMMENT(
-		std::vector<parlex::details::document::built_in_terminal<parlex::details::not_newline_t>> && field_1) : field_1(std::move(field_1)) {}
+		parlex::details::document::text<literal_0x2F0x2F_t> && dontCare0, std::vector<parlex::details::document::text<parlex::details::not_newline_t>> && field_1, parlex::details::document::text<literal_0x0A_t> && dontCare2) : dontCare0(std::move(dontCare0)), field_1(std::move(field_1)), dontCare2(std::move(dontCare2)) {}
 
 	END_OF_LINE_COMMENT(END_OF_LINE_COMMENT const & other) = default;
 	END_OF_LINE_COMMENT(END_OF_LINE_COMMENT && move) = default;
 
-	static END_OF_LINE_COMMENT build(std::u32string const & document, parlex::details::ast_node const & n);
+	static END_OF_LINE_COMMENT build(parlex::details::ast_node const & n);
+	static parlex::details::recognizer const & recognizer();
 
 };
 

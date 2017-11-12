@@ -33,7 +33,8 @@ struct LESSER_CHAIN {
 	LESSER_CHAIN(LESSER_CHAIN const & other) = default;
 	LESSER_CHAIN(LESSER_CHAIN && move) = default;
 
-	static LESSER_CHAIN build(std::u32string const & document, parlex::details::ast_node const & n);
+	static LESSER_CHAIN build(parlex::details::ast_node const & n);
+	static parlex::details::recognizer const & recognizer();
 
 };
 

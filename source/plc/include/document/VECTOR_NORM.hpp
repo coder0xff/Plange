@@ -18,21 +18,26 @@ struct EXPRESSION;
 struct IC;
 
 struct VECTOR_NORM {
+	parlex::details::document::text<literal_0x7C0x7C_t> dontCare0;
+	
 	std::vector<erased<IC>> field_1;
 	
 	erased<EXPRESSION> field_2;
 	
 	std::vector<erased<IC>> field_3;
 	
+	parlex::details::document::text<literal_0x7C0x7C_t> dontCare4;
+	
 
 
 	explicit VECTOR_NORM(
-		std::vector<erased<IC>> && field_1, erased<EXPRESSION> && field_2, std::vector<erased<IC>> && field_3) : field_1(std::move(field_1)), field_2(std::move(field_2)), field_3(std::move(field_3)) {}
+		parlex::details::document::text<literal_0x7C0x7C_t> && dontCare0, std::vector<erased<IC>> && field_1, erased<EXPRESSION> && field_2, std::vector<erased<IC>> && field_3, parlex::details::document::text<literal_0x7C0x7C_t> && dontCare4) : dontCare0(std::move(dontCare0)), field_1(std::move(field_1)), field_2(std::move(field_2)), field_3(std::move(field_3)), dontCare4(std::move(dontCare4)) {}
 
 	VECTOR_NORM(VECTOR_NORM const & other) = default;
 	VECTOR_NORM(VECTOR_NORM && move) = default;
 
-	static VECTOR_NORM build(std::u32string const & document, parlex::details::ast_node const & n);
+	static VECTOR_NORM build(parlex::details::ast_node const & n);
+	static parlex::details::recognizer const & recognizer();
 
 };
 

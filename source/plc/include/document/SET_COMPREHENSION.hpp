@@ -18,27 +18,34 @@ struct EXPRESSION;
 struct IC;
 
 struct SET_COMPREHENSION {
-	std::vector<erased<IC>> field_1;
+	parlex::details::document::text<literal_0x7B_t> dontCare0;
 	
-	erased<EXPRESSION> field_2;
+	std::vector<erased<IC>> field_01;
 	
-	std::vector<erased<IC>> field_3;
+	erased<EXPRESSION> field_02;
 	
-	std::vector<erased<IC>> field_4;
+	std::vector<erased<IC>> field_03;
 	
-	erased<EXPRESSION> field_5;
+	parlex::details::document::text<literal_0x7C_t> dontCare4;
 	
-	std::vector<erased<IC>> field_6;
+	std::vector<erased<IC>> field_04;
+	
+	erased<EXPRESSION> field_05;
+	
+	std::vector<erased<IC>> field_06;
+	
+	parlex::details::document::text<literal_0x7D_t> dontCare8;
 	
 
 
 	explicit SET_COMPREHENSION(
-		std::vector<erased<IC>> && field_1, erased<EXPRESSION> && field_2, std::vector<erased<IC>> && field_3, std::vector<erased<IC>> && field_4, erased<EXPRESSION> && field_5, std::vector<erased<IC>> && field_6) : field_1(std::move(field_1)), field_2(std::move(field_2)), field_3(std::move(field_3)), field_4(std::move(field_4)), field_5(std::move(field_5)), field_6(std::move(field_6)) {}
+		parlex::details::document::text<literal_0x7B_t> && dontCare0, std::vector<erased<IC>> && field_01, erased<EXPRESSION> && field_02, std::vector<erased<IC>> && field_03, parlex::details::document::text<literal_0x7C_t> && dontCare4, std::vector<erased<IC>> && field_04, erased<EXPRESSION> && field_05, std::vector<erased<IC>> && field_06, parlex::details::document::text<literal_0x7D_t> && dontCare8) : dontCare0(std::move(dontCare0)), field_01(std::move(field_01)), field_02(std::move(field_02)), field_03(std::move(field_03)), dontCare4(std::move(dontCare4)), field_04(std::move(field_04)), field_05(std::move(field_05)), field_06(std::move(field_06)), dontCare8(std::move(dontCare8)) {}
 
 	SET_COMPREHENSION(SET_COMPREHENSION const & other) = default;
 	SET_COMPREHENSION(SET_COMPREHENSION && move) = default;
 
-	static SET_COMPREHENSION build(std::u32string const & document, parlex::details::ast_node const & n);
+	static SET_COMPREHENSION build(parlex::details::ast_node const & n);
+	static parlex::details::recognizer const & recognizer();
 
 };
 

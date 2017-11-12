@@ -17,19 +17,26 @@ namespace plc {
 struct IC;
 
 struct VOLATILE_IMPLICIT_TYPE_DEREFERENCE {
+	parlex::details::document::text<literal_0x3C_t> dontCare0;
+	
 	std::vector<erased<IC>> field_1;
 	
+	parlex::details::document::text<literal_volatile_t> dontCare2;
+	
 	std::vector<erased<IC>> field_2;
+	
+	parlex::details::document::text<literal_0x3E_t> dontCare4;
 	
 
 
 	explicit VOLATILE_IMPLICIT_TYPE_DEREFERENCE(
-		std::vector<erased<IC>> && field_1, std::vector<erased<IC>> && field_2) : field_1(std::move(field_1)), field_2(std::move(field_2)) {}
+		parlex::details::document::text<literal_0x3C_t> && dontCare0, std::vector<erased<IC>> && field_1, parlex::details::document::text<literal_volatile_t> && dontCare2, std::vector<erased<IC>> && field_2, parlex::details::document::text<literal_0x3E_t> && dontCare4) : dontCare0(std::move(dontCare0)), field_1(std::move(field_1)), dontCare2(std::move(dontCare2)), field_2(std::move(field_2)), dontCare4(std::move(dontCare4)) {}
 
 	VOLATILE_IMPLICIT_TYPE_DEREFERENCE(VOLATILE_IMPLICIT_TYPE_DEREFERENCE const & other) = default;
 	VOLATILE_IMPLICIT_TYPE_DEREFERENCE(VOLATILE_IMPLICIT_TYPE_DEREFERENCE && move) = default;
 
-	static VOLATILE_IMPLICIT_TYPE_DEREFERENCE build(std::u32string const & document, parlex::details::ast_node const & n);
+	static VOLATILE_IMPLICIT_TYPE_DEREFERENCE build(parlex::details::ast_node const & n);
+	static parlex::details::recognizer const & recognizer();
 
 };
 

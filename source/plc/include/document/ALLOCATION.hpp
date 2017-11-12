@@ -18,6 +18,8 @@ struct IC;
 struct PARENTHETICAL_INVOCATION;
 
 struct ALLOCATION {
+	parlex::details::document::text<literal_alloc_t> dontCare0;
+	
 	std::vector<erased<IC>> field_1;
 	
 	erased<PARENTHETICAL_INVOCATION> field_2;
@@ -25,12 +27,13 @@ struct ALLOCATION {
 
 
 	explicit ALLOCATION(
-		std::vector<erased<IC>> && field_1, erased<PARENTHETICAL_INVOCATION> && field_2) : field_1(std::move(field_1)), field_2(std::move(field_2)) {}
+		parlex::details::document::text<literal_alloc_t> && dontCare0, std::vector<erased<IC>> && field_1, erased<PARENTHETICAL_INVOCATION> && field_2) : dontCare0(std::move(dontCare0)), field_1(std::move(field_1)), field_2(std::move(field_2)) {}
 
 	ALLOCATION(ALLOCATION const & other) = default;
 	ALLOCATION(ALLOCATION && move) = default;
 
-	static ALLOCATION build(std::u32string const & document, parlex::details::ast_node const & n);
+	static ALLOCATION build(parlex::details::ast_node const & n);
+	static parlex::details::recognizer const & recognizer();
 
 };
 

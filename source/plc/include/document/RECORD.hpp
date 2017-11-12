@@ -18,6 +18,8 @@ struct ICR;
 struct TYPE;
 
 struct RECORD {
+	parlex::details::document::text<literal_record_t> dontCare0;
+	
 	std::vector<erased<ICR>> field_1;
 	
 	erased<TYPE> field_2;
@@ -25,12 +27,13 @@ struct RECORD {
 
 
 	explicit RECORD(
-		std::vector<erased<ICR>> && field_1, erased<TYPE> && field_2) : field_1(std::move(field_1)), field_2(std::move(field_2)) {}
+		parlex::details::document::text<literal_record_t> && dontCare0, std::vector<erased<ICR>> && field_1, erased<TYPE> && field_2) : dontCare0(std::move(dontCare0)), field_1(std::move(field_1)), field_2(std::move(field_2)) {}
 
 	RECORD(RECORD const & other) = default;
 	RECORD(RECORD && move) = default;
 
-	static RECORD build(std::u32string const & document, parlex::details::ast_node const & n);
+	static RECORD build(parlex::details::ast_node const & n);
+	static parlex::details::recognizer const & recognizer();
 
 };
 

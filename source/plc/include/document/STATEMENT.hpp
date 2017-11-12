@@ -56,9 +56,11 @@ struct STATEMENT {
 		erased<TYPE_CONSTRAINT>,
 		erased<WRITE_LOCK>,
 		erased<USING>
-	> field_1;
+	> value;
 	
-	std::vector<erased<IC>> field_2;
+	std::vector<erased<IC>> ic;
+	
+	parlex::details::document::text<literal_0x3B_t> dontCare2;
 	
 
 
@@ -83,12 +85,13 @@ struct STATEMENT {
 			erased<TYPE_CONSTRAINT>,
 			erased<WRITE_LOCK>,
 			erased<USING>
-		> && field_1, std::vector<erased<IC>> && field_2) : field_1(std::move(field_1)), field_2(std::move(field_2)) {}
+		> && value, std::vector<erased<IC>> && ic, parlex::details::document::text<literal_0x3B_t> && dontCare2) : value(std::move(value)), ic(std::move(ic)), dontCare2(std::move(dontCare2)) {}
 
 	STATEMENT(STATEMENT const & other) = default;
 	STATEMENT(STATEMENT && move) = default;
 
-	static STATEMENT build(std::u32string const & document, parlex::details::ast_node const & n);
+	static STATEMENT build(parlex::details::ast_node const & n);
+	static parlex::details::recognizer const & recognizer();
 
 };
 

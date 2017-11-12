@@ -22,6 +22,8 @@ struct ENUM_ELEMENT {
 	struct field_1_t_1_t {
 		std::vector<erased<IC>> field_1;
 		
+		parlex::details::document::text<literal_0x3A0x3D_t> dontCare1;
+		
 		std::vector<erased<IC>> field_2;
 		
 		erased<EXPRESSION> expression;
@@ -29,13 +31,12 @@ struct ENUM_ELEMENT {
 	
 	
 		explicit field_1_t_1_t(
-			std::vector<erased<IC>> && field_1, std::vector<erased<IC>> && field_2, erased<EXPRESSION> && expression) : field_1(std::move(field_1)), field_2(std::move(field_2)), expression(std::move(expression)) {}
+			std::vector<erased<IC>> && field_1, parlex::details::document::text<literal_0x3A0x3D_t> && dontCare1, std::vector<erased<IC>> && field_2, erased<EXPRESSION> && expression) : field_1(std::move(field_1)), dontCare1(std::move(dontCare1)), field_2(std::move(field_2)), expression(std::move(expression)) {}
 	
 		field_1_t_1_t(field_1_t_1_t const & other) = default;
 		field_1_t_1_t(field_1_t_1_t && move) = default;
 	
-		static field_1_t_1_t build(std::u32string const & document, parlex::details::behavior::node const & b, parlex::details::document::walk & w);
-	
+		static field_1_t_1_t build(parlex::details::behavior::node const * b, parlex::details::document::walk & w);
 	};
 
 	erased<IDENTIFIER> identifier;
@@ -50,7 +51,8 @@ struct ENUM_ELEMENT {
 	ENUM_ELEMENT(ENUM_ELEMENT const & other) = default;
 	ENUM_ELEMENT(ENUM_ELEMENT && move) = default;
 
-	static ENUM_ELEMENT build(std::u32string const & document, parlex::details::ast_node const & n);
+	static ENUM_ELEMENT build(parlex::details::ast_node const & n);
+	static parlex::details::recognizer const & recognizer();
 
 };
 

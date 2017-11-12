@@ -20,27 +20,32 @@ struct IC;
 struct CONDITIONAL {
 	erased<EXPRESSION> condition;
 	
-	std::vector<erased<IC>> field_1;
+	std::vector<erased<IC>> field_01;
 	
-	std::vector<erased<IC>> field_2;
+	parlex::details::document::text<literal_0x3F_t> dontCare2;
+	
+	std::vector<erased<IC>> field_02;
 	
 	erased<EXPRESSION> true_case;
 	
-	std::vector<erased<IC>> field_3;
+	std::vector<erased<IC>> field_03;
 	
-	std::vector<erased<IC>> field_4;
+	parlex::details::document::text<literal_0x3A_t> dontCare6;
+	
+	std::vector<erased<IC>> field_04;
 	
 	erased<EXPRESSION> false_case;
 	
 
 
 	explicit CONDITIONAL(
-		erased<EXPRESSION> && condition, std::vector<erased<IC>> && field_1, std::vector<erased<IC>> && field_2, erased<EXPRESSION> && true_case, std::vector<erased<IC>> && field_3, std::vector<erased<IC>> && field_4, erased<EXPRESSION> && false_case) : condition(std::move(condition)), field_1(std::move(field_1)), field_2(std::move(field_2)), true_case(std::move(true_case)), field_3(std::move(field_3)), field_4(std::move(field_4)), false_case(std::move(false_case)) {}
+		erased<EXPRESSION> && condition, std::vector<erased<IC>> && field_01, parlex::details::document::text<literal_0x3F_t> && dontCare2, std::vector<erased<IC>> && field_02, erased<EXPRESSION> && true_case, std::vector<erased<IC>> && field_03, parlex::details::document::text<literal_0x3A_t> && dontCare6, std::vector<erased<IC>> && field_04, erased<EXPRESSION> && false_case) : condition(std::move(condition)), field_01(std::move(field_01)), dontCare2(std::move(dontCare2)), field_02(std::move(field_02)), true_case(std::move(true_case)), field_03(std::move(field_03)), dontCare6(std::move(dontCare6)), field_04(std::move(field_04)), false_case(std::move(false_case)) {}
 
 	CONDITIONAL(CONDITIONAL const & other) = default;
 	CONDITIONAL(CONDITIONAL && move) = default;
 
-	static CONDITIONAL build(std::u32string const & document, parlex::details::ast_node const & n);
+	static CONDITIONAL build(parlex::details::ast_node const & n);
+	static parlex::details::recognizer const & recognizer();
 
 };
 

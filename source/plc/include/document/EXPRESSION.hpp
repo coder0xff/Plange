@@ -48,7 +48,6 @@ struct RANGE;
 struct REGEX;
 struct SET;
 struct SET_COMPREHENSION;
-struct STRING;
 struct SUBSET_CHAIN;
 struct SUPERSET_CHAIN;
 struct SWIZZLE;
@@ -96,7 +95,6 @@ typedef std::variant<
 	erased<REGEX>,
 	erased<SET>,
 	erased<SET_COMPREHENSION>,
-	erased<STRING>,
 	erased<SUBSET_CHAIN>,
 	erased<SUPERSET_CHAIN>,
 	erased<SWIZZLE>,
@@ -108,13 +106,15 @@ typedef std::variant<
 	erased<TYPE>,
 	erased<UNARY_OP>,
 	erased<VECTOR_NORM>,
-	literal_context_t,
-	literal_null_t
+	parlex::details::document::text<literal_context_t>,
+	parlex::details::document::text<literal_null_t>,
+	parlex::details::document::text<void>
 > EXPRESSION_base;
 
 struct EXPRESSION: EXPRESSION_base {
-	static EXPRESSION build(std::u32string const & document, parlex::details::ast_node const & n);
+	static EXPRESSION build(parlex::details::ast_node const & n);
 	explicit EXPRESSION(EXPRESSION_base const & value) : EXPRESSION_base(value) {}
+	static parlex::details::recognizer const & recognizer();
 };
 } // namespace plc
 

@@ -16,10 +16,14 @@
 
 namespace plc {
 
-BINARY_COLLECTION_OP BINARY_COLLECTION_OP::build(std::u32string const & document, parlex::details::ast_node const & n) {
-	static auto const & b = plange_grammar::get().BINARY_COLLECTION_OP.get_behavior();
+BINARY_COLLECTION_OP BINARY_COLLECTION_OP::build(parlex::details::ast_node const & n) {
+	static auto const * b = &plange_grammar::get().BINARY_COLLECTION_OP.get_behavior();
 	parlex::details::document::walk w{ n.children.cbegin(), n.children.cend() };
-	return BINARY_COLLECTION_OP(parlex::details::document::element<BINARY_COLLECTION_OP_base>::build(document, b, w));
+	return BINARY_COLLECTION_OP(parlex::details::document::element<BINARY_COLLECTION_OP_base>::build(b, w));
 }
 
 } // namespace plc
+
+parlex::details::recognizer const & plc::BINARY_COLLECTION_OP::recognizer() {
+	return plange_grammar::get().BINARY_COLLECTION_OP.get_recognizer();
+}

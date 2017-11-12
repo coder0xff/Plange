@@ -28,10 +28,10 @@
 #include "USING.hpp"
 #include "WRITE_LOCK.hpp"
 
-plc::STATEMENT plc::STATEMENT::build(std::u32string const & document, parlex::details::ast_node const & n) {
-	static auto const & b = plange_grammar::get().STATEMENT.get_behavior();
+plc::STATEMENT plc::STATEMENT::build(parlex::details::ast_node const & n) {
+	static auto const * b = &plange_grammar::get().STATEMENT.get_behavior();
 	parlex::details::document::walk w{ n.children.cbegin(), n.children.cend() };
-	auto const & children = b.get_children();
+	auto const & children = b->get_children();
 	auto v_0 = parlex::details::document::element<std::variant<
 		erased<ASSIGNMENT_CHAIN>,
 		erased<BREAK>,
@@ -52,9 +52,13 @@ plc::STATEMENT plc::STATEMENT::build(std::u32string const & document, parlex::de
 		erased<TYPE_CONSTRAINT>,
 		erased<WRITE_LOCK>,
 		erased<USING>
-	>>::build(document, *children[0], w);
-	auto v_1 = parlex::details::document::element<std::vector<erased<IC>>>::build(document, *children[1], w);
-	assert(w.pos != w.end); ++w.pos; //; 
-	return STATEMENT(std::move(v_0), std::move(v_1));
+	>>::build(&*children[0], w);
+	auto v_1 = parlex::details::document::element<std::vector<erased<IC>>>::build(&*children[1], w);
+	auto v_2 = parlex::details::document::element<parlex::details::document::text<literal_0x3B_t>>::build(&*children[2], w);
+	return STATEMENT(std::move(v_0), std::move(v_1), std::move(v_2));
 }
 
+
+parlex::details::recognizer const & plc::STATEMENT::recognizer() {
+	return plange_grammar::get().STATEMENT.get_recognizer();
+}

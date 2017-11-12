@@ -39,8 +39,9 @@ typedef std::variant<
 > BINARY_ARITHMETIC_OP_base;
 
 struct BINARY_ARITHMETIC_OP: BINARY_ARITHMETIC_OP_base {
-	static BINARY_ARITHMETIC_OP build(std::u32string const & document, parlex::details::ast_node const & n);
+	static BINARY_ARITHMETIC_OP build(parlex::details::ast_node const & n);
 	explicit BINARY_ARITHMETIC_OP(BINARY_ARITHMETIC_OP_base const & value) : BINARY_ARITHMETIC_OP_base(value) {}
+	static parlex::details::recognizer const & recognizer();
 };
 } // namespace plc
 

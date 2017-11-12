@@ -23,8 +23,9 @@ typedef std::variant<
 > DATE_base;
 
 struct DATE: DATE_base {
-	static DATE build(std::u32string const & document, parlex::details::ast_node const & n);
+	static DATE build(parlex::details::ast_node const & n);
 	explicit DATE(DATE_base const & value) : DATE_base(value) {}
+	static parlex::details::recognizer const & recognizer();
 };
 } // namespace plc
 

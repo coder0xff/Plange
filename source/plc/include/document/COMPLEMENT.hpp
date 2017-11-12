@@ -22,15 +22,18 @@ struct COMPLEMENT {
 	
 	std::vector<erased<IC>> field_2;
 	
+	parlex::details::document::text<literal_0xE10xB60x9C_t> dontCare2;
+	
 
 
 	explicit COMPLEMENT(
-		erased<EXPRESSION> && field_1, std::vector<erased<IC>> && field_2) : field_1(std::move(field_1)), field_2(std::move(field_2)) {}
+		erased<EXPRESSION> && field_1, std::vector<erased<IC>> && field_2, parlex::details::document::text<literal_0xE10xB60x9C_t> && dontCare2) : field_1(std::move(field_1)), field_2(std::move(field_2)), dontCare2(std::move(dontCare2)) {}
 
 	COMPLEMENT(COMPLEMENT const & other) = default;
 	COMPLEMENT(COMPLEMENT && move) = default;
 
-	static COMPLEMENT build(std::u32string const & document, parlex::details::ast_node const & n);
+	static COMPLEMENT build(parlex::details::ast_node const & n);
+	static parlex::details::recognizer const & recognizer();
 
 };
 

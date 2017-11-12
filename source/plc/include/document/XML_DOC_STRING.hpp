@@ -17,17 +17,22 @@ namespace plc {
 struct XML_DOC_STRING_INTERIOR;
 
 struct XML_DOC_STRING {
+	parlex::details::document::text<literal_0x600x600x60_t> dontCare0;
+	
 	erased<XML_DOC_STRING_INTERIOR> field_1;
+	
+	parlex::details::document::text<literal_0x600x600x60_t> dontCare2;
 	
 
 
 	explicit XML_DOC_STRING(
-		erased<XML_DOC_STRING_INTERIOR> && field_1) : field_1(std::move(field_1)) {}
+		parlex::details::document::text<literal_0x600x600x60_t> && dontCare0, erased<XML_DOC_STRING_INTERIOR> && field_1, parlex::details::document::text<literal_0x600x600x60_t> && dontCare2) : dontCare0(std::move(dontCare0)), field_1(std::move(field_1)), dontCare2(std::move(dontCare2)) {}
 
 	XML_DOC_STRING(XML_DOC_STRING const & other) = default;
 	XML_DOC_STRING(XML_DOC_STRING && move) = default;
 
-	static XML_DOC_STRING build(std::u32string const & document, parlex::details::ast_node const & n);
+	static XML_DOC_STRING build(parlex::details::ast_node const & n);
+	static parlex::details::recognizer const & recognizer();
 
 };
 

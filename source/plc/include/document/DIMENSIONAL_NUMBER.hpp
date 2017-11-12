@@ -30,7 +30,8 @@ struct DIMENSIONAL_NUMBER {
 	DIMENSIONAL_NUMBER(DIMENSIONAL_NUMBER const & other) = default;
 	DIMENSIONAL_NUMBER(DIMENSIONAL_NUMBER && move) = default;
 
-	static DIMENSIONAL_NUMBER build(std::u32string const & document, parlex::details::ast_node const & n);
+	static DIMENSIONAL_NUMBER build(parlex::details::ast_node const & n);
+	static parlex::details::recognizer const & recognizer();
 
 };
 

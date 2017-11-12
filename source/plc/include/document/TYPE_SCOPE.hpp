@@ -31,8 +31,7 @@ struct TYPE_SCOPE {
 		field_2_t_1_t(field_2_t_1_t const & other) = default;
 		field_2_t_1_t(field_2_t_1_t && move) = default;
 	
-		static field_2_t_1_t build(std::u32string const & document, parlex::details::behavior::node const & b, parlex::details::document::walk & w);
-	
+		static field_2_t_1_t build(parlex::details::behavior::node const * b, parlex::details::document::walk & w);
 	};
 
 	std::vector<erased<IC>> field_1;
@@ -47,7 +46,8 @@ struct TYPE_SCOPE {
 	TYPE_SCOPE(TYPE_SCOPE const & other) = default;
 	TYPE_SCOPE(TYPE_SCOPE && move) = default;
 
-	static TYPE_SCOPE build(std::u32string const & document, parlex::details::ast_node const & n);
+	static TYPE_SCOPE build(parlex::details::ast_node const & n);
+	static parlex::details::recognizer const & recognizer();
 
 };
 

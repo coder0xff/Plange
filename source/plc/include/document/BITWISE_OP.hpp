@@ -25,8 +25,9 @@ typedef std::variant<
 > BITWISE_OP_base;
 
 struct BITWISE_OP: BITWISE_OP_base {
-	static BITWISE_OP build(std::u32string const & document, parlex::details::ast_node const & n);
+	static BITWISE_OP build(parlex::details::ast_node const & n);
 	explicit BITWISE_OP(BITWISE_OP_base const & value) : BITWISE_OP_base(value) {}
+	static parlex::details::recognizer const & recognizer();
 };
 } // namespace plc
 

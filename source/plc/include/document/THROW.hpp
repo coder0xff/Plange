@@ -21,22 +21,25 @@ struct THROW {
 	struct field_1_t_1_t {
 		std::vector<erased<IC>> field_1;
 		
+		parlex::details::document::text<literal_0x5B_t> dontCare1;
+		
 		std::vector<erased<IC>> field_2;
 		
 		erased<EXPRESSION> field_3;
 		
 		std::vector<erased<IC>> field_4;
 		
+		parlex::details::document::text<literal_0x5D_t> dontCare5;
+		
 	
 	
 		explicit field_1_t_1_t(
-			std::vector<erased<IC>> && field_1, std::vector<erased<IC>> && field_2, erased<EXPRESSION> && field_3, std::vector<erased<IC>> && field_4) : field_1(std::move(field_1)), field_2(std::move(field_2)), field_3(std::move(field_3)), field_4(std::move(field_4)) {}
+			std::vector<erased<IC>> && field_1, parlex::details::document::text<literal_0x5B_t> && dontCare1, std::vector<erased<IC>> && field_2, erased<EXPRESSION> && field_3, std::vector<erased<IC>> && field_4, parlex::details::document::text<literal_0x5D_t> && dontCare5) : field_1(std::move(field_1)), dontCare1(std::move(dontCare1)), field_2(std::move(field_2)), field_3(std::move(field_3)), field_4(std::move(field_4)), dontCare5(std::move(dontCare5)) {}
 	
 		field_1_t_1_t(field_1_t_1_t const & other) = default;
 		field_1_t_1_t(field_1_t_1_t && move) = default;
 	
-		static field_1_t_1_t build(std::u32string const & document, parlex::details::behavior::node const & b, parlex::details::document::walk & w);
-	
+		static field_1_t_1_t build(parlex::details::behavior::node const * b, parlex::details::document::walk & w);
 	};
 
 	struct field_2_t_1_t {
@@ -52,10 +55,11 @@ struct THROW {
 		field_2_t_1_t(field_2_t_1_t const & other) = default;
 		field_2_t_1_t(field_2_t_1_t && move) = default;
 	
-		static field_2_t_1_t build(std::u32string const & document, parlex::details::behavior::node const & b, parlex::details::document::walk & w);
-	
+		static field_2_t_1_t build(parlex::details::behavior::node const * b, parlex::details::document::walk & w);
 	};
 
+	parlex::details::document::text<literal_throw_t> dontCare0;
+	
 	std::optional<field_1_t_1_t> field_1;
 	
 	std::optional<field_2_t_1_t> field_2;
@@ -63,12 +67,13 @@ struct THROW {
 
 
 	explicit THROW(
-		std::optional<field_1_t_1_t> && field_1, std::optional<field_2_t_1_t> && field_2) : field_1(std::move(field_1)), field_2(std::move(field_2)) {}
+		parlex::details::document::text<literal_throw_t> && dontCare0, std::optional<field_1_t_1_t> && field_1, std::optional<field_2_t_1_t> && field_2) : dontCare0(std::move(dontCare0)), field_1(std::move(field_1)), field_2(std::move(field_2)) {}
 
 	THROW(THROW const & other) = default;
 	THROW(THROW && move) = default;
 
-	static THROW build(std::u32string const & document, parlex::details::ast_node const & n);
+	static THROW build(parlex::details::ast_node const & n);
+	static parlex::details::recognizer const & recognizer();
 
 };
 

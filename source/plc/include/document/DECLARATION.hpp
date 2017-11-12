@@ -32,8 +32,7 @@ struct DECLARATION {
 		field_1_t_1_t(field_1_t_1_t const & other) = default;
 		field_1_t_1_t(field_1_t_1_t && move) = default;
 	
-		static field_1_t_1_t build(std::u32string const & document, parlex::details::behavior::node const & b, parlex::details::document::walk & w);
-	
+		static field_1_t_1_t build(parlex::details::behavior::node const * b, parlex::details::document::walk & w);
 	};
 
 	std::optional<field_1_t_1_t> field_1;
@@ -48,7 +47,8 @@ struct DECLARATION {
 	DECLARATION(DECLARATION const & other) = default;
 	DECLARATION(DECLARATION && move) = default;
 
-	static DECLARATION build(std::u32string const & document, parlex::details::ast_node const & n);
+	static DECLARATION build(parlex::details::ast_node const & n);
+	static parlex::details::recognizer const & recognizer();
 
 };
 

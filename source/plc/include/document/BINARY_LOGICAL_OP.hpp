@@ -35,8 +35,9 @@ typedef std::variant<
 > BINARY_LOGICAL_OP_base;
 
 struct BINARY_LOGICAL_OP: BINARY_LOGICAL_OP_base {
-	static BINARY_LOGICAL_OP build(std::u32string const & document, parlex::details::ast_node const & n);
+	static BINARY_LOGICAL_OP build(parlex::details::ast_node const & n);
 	explicit BINARY_LOGICAL_OP(BINARY_LOGICAL_OP_base const & value) : BINARY_LOGICAL_OP_base(value) {}
+	static parlex::details::recognizer const & recognizer();
 };
 } // namespace plc
 

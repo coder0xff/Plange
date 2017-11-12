@@ -31,13 +31,12 @@ struct FUNCTION_MODIFIER_STABILITY {
 		field_1_t_1_t(field_1_t_1_t const & other) = default;
 		field_1_t_1_t(field_1_t_1_t && move) = default;
 	
-		static field_1_t_1_t build(std::u32string const & document, parlex::details::behavior::node const & b, parlex::details::document::walk & w);
-	
+		static field_1_t_1_t build(parlex::details::behavior::node const * b, parlex::details::document::walk & w);
 	};
 
 	std::variant<
-		literal_stable_t,
-		literal_unstable_t
+		parlex::details::document::text<literal_stable_t>,
+		parlex::details::document::text<literal_unstable_t>
 	> stability;
 	
 	std::optional<field_1_t_1_t> field_1;
@@ -46,14 +45,15 @@ struct FUNCTION_MODIFIER_STABILITY {
 
 	explicit FUNCTION_MODIFIER_STABILITY(
 		std::variant<
-			literal_stable_t,
-			literal_unstable_t
+			parlex::details::document::text<literal_stable_t>,
+			parlex::details::document::text<literal_unstable_t>
 		> && stability, std::optional<field_1_t_1_t> && field_1) : stability(std::move(stability)), field_1(std::move(field_1)) {}
 
 	FUNCTION_MODIFIER_STABILITY(FUNCTION_MODIFIER_STABILITY const & other) = default;
 	FUNCTION_MODIFIER_STABILITY(FUNCTION_MODIFIER_STABILITY && move) = default;
 
-	static FUNCTION_MODIFIER_STABILITY build(std::u32string const & document, parlex::details::ast_node const & n);
+	static FUNCTION_MODIFIER_STABILITY build(parlex::details::ast_node const & n);
+	static parlex::details::recognizer const & recognizer();
 
 };
 

@@ -33,7 +33,8 @@ struct SUPERSET_CHAIN {
 	SUPERSET_CHAIN(SUPERSET_CHAIN const & other) = default;
 	SUPERSET_CHAIN(SUPERSET_CHAIN && move) = default;
 
-	static SUPERSET_CHAIN build(std::u32string const & document, parlex::details::ast_node const & n);
+	static SUPERSET_CHAIN build(parlex::details::ast_node const & n);
+	static parlex::details::recognizer const & recognizer();
 
 };
 

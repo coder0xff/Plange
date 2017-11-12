@@ -10,13 +10,17 @@
 #include "EXPRESSION.hpp"
 #include "IC.hpp"
 
-plc::FREE plc::FREE::build(std::u32string const & document, parlex::details::ast_node const & n) {
-	static auto const & b = plange_grammar::get().FREE.get_behavior();
+plc::FREE plc::FREE::build(parlex::details::ast_node const & n) {
+	static auto const * b = &plange_grammar::get().FREE.get_behavior();
 	parlex::details::document::walk w{ n.children.cbegin(), n.children.cend() };
-	auto const & children = b.get_children();
-	assert(w.pos != w.end); ++w.pos; //free 
-	auto v_0 = parlex::details::document::element<std::vector<erased<IC>>>::build(document, *children[1], w);
-	auto v_1 = parlex::details::document::element<erased<EXPRESSION>>::build(document, *children[2], w);
-	return FREE(std::move(v_0), std::move(v_1));
+	auto const & children = b->get_children();
+	auto v_0 = parlex::details::document::element<parlex::details::document::text<literal_free_t>>::build(&*children[0], w);
+	auto v_1 = parlex::details::document::element<std::vector<erased<IC>>>::build(&*children[1], w);
+	auto v_2 = parlex::details::document::element<erased<EXPRESSION>>::build(&*children[2], w);
+	return FREE(std::move(v_0), std::move(v_1), std::move(v_2));
 }
 
+
+parlex::details::recognizer const & plc::FREE::recognizer() {
+	return plange_grammar::get().FREE.get_recognizer();
+}

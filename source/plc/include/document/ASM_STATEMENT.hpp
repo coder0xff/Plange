@@ -35,24 +35,24 @@ struct ASM_STATEMENT {
 				field_2_t_1_t(field_2_t_1_t const & other) = default;
 				field_2_t_1_t(field_2_t_1_t && move) = default;
 			
-				static field_2_t_1_t build(std::u32string const & document, parlex::details::behavior::node const & b, parlex::details::document::walk & w);
-			
+				static field_2_t_1_t build(parlex::details::behavior::node const * b, parlex::details::document::walk & w);
 			};
 		
 			std::vector<erased<IC>> field_1;
+			
+			parlex::details::document::text<literal_0x2C_t> dontCare1;
 			
 			std::optional<field_2_t_1_t> field_2;
 			
 		
 		
 			explicit field_3_t_1_t(
-				std::vector<erased<IC>> && field_1, std::optional<field_2_t_1_t> && field_2) : field_1(std::move(field_1)), field_2(std::move(field_2)) {}
+				std::vector<erased<IC>> && field_1, parlex::details::document::text<literal_0x2C_t> && dontCare1, std::optional<field_2_t_1_t> && field_2) : field_1(std::move(field_1)), dontCare1(std::move(dontCare1)), field_2(std::move(field_2)) {}
 		
 			field_3_t_1_t(field_3_t_1_t const & other) = default;
 			field_3_t_1_t(field_3_t_1_t && move) = default;
 		
-			static field_3_t_1_t build(std::u32string const & document, parlex::details::behavior::node const & b, parlex::details::document::walk & w);
-		
+			static field_3_t_1_t build(parlex::details::behavior::node const * b, parlex::details::document::walk & w);
 		};
 	
 		erased<ICR> field_1;
@@ -69,8 +69,7 @@ struct ASM_STATEMENT {
 		field_2_t_1_t(field_2_t_1_t const & other) = default;
 		field_2_t_1_t(field_2_t_1_t && move) = default;
 	
-		static field_2_t_1_t build(std::u32string const & document, parlex::details::behavior::node const & b, parlex::details::document::walk & w);
-	
+		static field_2_t_1_t build(parlex::details::behavior::node const * b, parlex::details::document::walk & w);
 	};
 
 	erased<ASM_OP> field_1;
@@ -79,15 +78,18 @@ struct ASM_STATEMENT {
 	
 	std::vector<erased<IC>> field_3;
 	
+	parlex::details::document::text<literal_0x0A_t> dontCare3;
+	
 
 
 	explicit ASM_STATEMENT(
-		erased<ASM_OP> && field_1, std::optional<field_2_t_1_t> && field_2, std::vector<erased<IC>> && field_3) : field_1(std::move(field_1)), field_2(std::move(field_2)), field_3(std::move(field_3)) {}
+		erased<ASM_OP> && field_1, std::optional<field_2_t_1_t> && field_2, std::vector<erased<IC>> && field_3, parlex::details::document::text<literal_0x0A_t> && dontCare3) : field_1(std::move(field_1)), field_2(std::move(field_2)), field_3(std::move(field_3)), dontCare3(std::move(dontCare3)) {}
 
 	ASM_STATEMENT(ASM_STATEMENT const & other) = default;
 	ASM_STATEMENT(ASM_STATEMENT && move) = default;
 
-	static ASM_STATEMENT build(std::u32string const & document, parlex::details::ast_node const & n);
+	static ASM_STATEMENT build(parlex::details::ast_node const & n);
+	static parlex::details::recognizer const & recognizer();
 
 };
 

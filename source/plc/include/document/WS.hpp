@@ -15,19 +15,20 @@
 namespace plc {
 
 struct WS {
-	parlex::details::document::built_in_terminal<parlex::details::white_space_t> field_1;
+	parlex::details::document::text<parlex::details::white_space_t> field_1;
 	
-	std::vector<parlex::details::document::built_in_terminal<parlex::details::white_space_t>> field_2;
+	std::vector<parlex::details::document::text<parlex::details::white_space_t>> field_2;
 	
 
 
 	explicit WS(
-		parlex::details::document::built_in_terminal<parlex::details::white_space_t> && field_1, std::vector<parlex::details::document::built_in_terminal<parlex::details::white_space_t>> && field_2) : field_1(std::move(field_1)), field_2(std::move(field_2)) {}
+		parlex::details::document::text<parlex::details::white_space_t> && field_1, std::vector<parlex::details::document::text<parlex::details::white_space_t>> && field_2) : field_1(std::move(field_1)), field_2(std::move(field_2)) {}
 
 	WS(WS const & other) = default;
 	WS(WS && move) = default;
 
-	static WS build(std::u32string const & document, parlex::details::ast_node const & n);
+	static WS build(parlex::details::ast_node const & n);
+	static parlex::details::recognizer const & recognizer();
 
 };
 

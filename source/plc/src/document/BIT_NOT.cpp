@@ -10,13 +10,17 @@
 #include "EXPRESSION.hpp"
 #include "IC.hpp"
 
-plc::BIT_NOT plc::BIT_NOT::build(std::u32string const & document, parlex::details::ast_node const & n) {
-	static auto const & b = plange_grammar::get().BIT_NOT.get_behavior();
+plc::BIT_NOT plc::BIT_NOT::build(parlex::details::ast_node const & n) {
+	static auto const * b = &plange_grammar::get().BIT_NOT.get_behavior();
 	parlex::details::document::walk w{ n.children.cbegin(), n.children.cend() };
-	auto const & children = b.get_children();
-	assert(w.pos != w.end); ++w.pos; //~~ 
-	auto v_0 = parlex::details::document::element<std::vector<erased<IC>>>::build(document, *children[1], w);
-	auto v_1 = parlex::details::document::element<erased<EXPRESSION>>::build(document, *children[2], w);
-	return BIT_NOT(std::move(v_0), std::move(v_1));
+	auto const & children = b->get_children();
+	auto v_0 = parlex::details::document::element<parlex::details::document::text<literal_0x7E0x7E_t>>::build(&*children[0], w);
+	auto v_1 = parlex::details::document::element<std::vector<erased<IC>>>::build(&*children[1], w);
+	auto v_2 = parlex::details::document::element<erased<EXPRESSION>>::build(&*children[2], w);
+	return BIT_NOT(std::move(v_0), std::move(v_1), std::move(v_2));
 }
 
+
+parlex::details::recognizer const & plc::BIT_NOT::recognizer() {
+	return plange_grammar::get().BIT_NOT.get_recognizer();
+}

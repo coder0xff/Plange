@@ -33,7 +33,8 @@ struct TYPE_SCOPE_TYPE_CONSTRAINT {
 	TYPE_SCOPE_TYPE_CONSTRAINT(TYPE_SCOPE_TYPE_CONSTRAINT const & other) = default;
 	TYPE_SCOPE_TYPE_CONSTRAINT(TYPE_SCOPE_TYPE_CONSTRAINT && move) = default;
 
-	static TYPE_SCOPE_TYPE_CONSTRAINT build(std::u32string const & document, parlex::details::ast_node const & n);
+	static TYPE_SCOPE_TYPE_CONSTRAINT build(parlex::details::ast_node const & n);
+	static parlex::details::recognizer const & recognizer();
 
 };
 

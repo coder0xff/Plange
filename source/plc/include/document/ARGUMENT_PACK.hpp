@@ -22,15 +22,18 @@ struct ARGUMENT_PACK {
 	
 	std::vector<erased<IC>> field_2;
 	
+	parlex::details::document::text<literal_0x2E0x2E0x2E_t> dontCare2;
+	
 
 
 	explicit ARGUMENT_PACK(
-		erased<EXPRESSION> && field_1, std::vector<erased<IC>> && field_2) : field_1(std::move(field_1)), field_2(std::move(field_2)) {}
+		erased<EXPRESSION> && field_1, std::vector<erased<IC>> && field_2, parlex::details::document::text<literal_0x2E0x2E0x2E_t> && dontCare2) : field_1(std::move(field_1)), field_2(std::move(field_2)), dontCare2(std::move(dontCare2)) {}
 
 	ARGUMENT_PACK(ARGUMENT_PACK const & other) = default;
 	ARGUMENT_PACK(ARGUMENT_PACK && move) = default;
 
-	static ARGUMENT_PACK build(std::u32string const & document, parlex::details::ast_node const & n);
+	static ARGUMENT_PACK build(parlex::details::ast_node const & n);
+	static parlex::details::recognizer const & recognizer();
 
 };
 

@@ -33,7 +33,8 @@ struct CAST {
 	CAST(CAST const & other) = default;
 	CAST(CAST && move) = default;
 
-	static CAST build(std::u32string const & document, parlex::details::ast_node const & n);
+	static CAST build(parlex::details::ast_node const & n);
+	static parlex::details::recognizer const & recognizer();
 
 };
 

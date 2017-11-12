@@ -14,10 +14,14 @@
 
 namespace plc {
 
-NON_NEG_NUMBER NON_NEG_NUMBER::build(std::u32string const & document, parlex::details::ast_node const & n) {
-	static auto const & b = plange_grammar::get().NON_NEG_NUMBER.get_behavior();
+NON_NEG_NUMBER NON_NEG_NUMBER::build(parlex::details::ast_node const & n) {
+	static auto const * b = &plange_grammar::get().NON_NEG_NUMBER.get_behavior();
 	parlex::details::document::walk w{ n.children.cbegin(), n.children.cend() };
-	return NON_NEG_NUMBER(parlex::details::document::element<NON_NEG_NUMBER_base>::build(document, b, w));
+	return NON_NEG_NUMBER(parlex::details::document::element<NON_NEG_NUMBER_base>::build(b, w));
 }
 
 } // namespace plc
+
+parlex::details::recognizer const & plc::NON_NEG_NUMBER::recognizer() {
+	return plange_grammar::get().NON_NEG_NUMBER.get_recognizer();
+}
