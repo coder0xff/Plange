@@ -19,7 +19,7 @@ namespace mpl {
 		static constexpr size_t arg_index = ArgIndex;
 	};
 
-	struct variadic_bind_point {}; //todo: get variadic bind working
+	struct variadic_bind_point {};
 
 	namespace details::bind {
 

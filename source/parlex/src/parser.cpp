@@ -63,14 +63,12 @@ parser::~parser() {
 abstract_syntax_semilattice parser::construct_result_and_postprocess(recognizer const & overrideMain, std::vector<post_processor> posts, std::u32string const & document, job const & j) {
 	abstract_syntax_semilattice result = construct_result(j, match(match_class(overrideMain, 0), document.size()));
 	if (!posts.empty()) {
-		//std::string preDot = result.to_dot();
 		for (auto const & post : posts) {
 			post(result);
 		}
 		if (result.is_rooted()) {
 			result.prune_detached();
 		}
-		//std::string postDot = result.to_dot();
 	}
 	return result;
 }
@@ -560,14 +558,10 @@ abstract_syntax_semilattice parser::construct_result(job const & j, match const 
 			result.permutations[n] = permutations;
 		}
 	}
-	std::string debug0 = result.to_dot(); // todo: comment out debug code
 	if (result.is_rooted()) {
 		result.prune_detached();
-		debug0 = result.to_dot();
 		apply_precedence_and_associativity(j.g, result);
-		debug0 = result.to_dot();
 		result.prune_detached();
-		debug0 = result.to_dot();
 	}
 	return result;
 }

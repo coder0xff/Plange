@@ -27,11 +27,7 @@ public:
 	template <typename T = STATEMENT_SCOPE>
 	static T parse(std::u32string const & source) {
 		auto ast = construct_ast(source, T::recognizer(), "");
-		std::string test = ast.to_dot(); // todo: comment out debug code
 		throw_assert(&ast.r == &T::recognizer());
-#if DEBUG
-		auto check = ast.to_dot();
-#endif
 		return T::build(ast);
 	}
 

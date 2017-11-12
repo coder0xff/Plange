@@ -83,7 +83,6 @@ namespace parlex {
 			nfa2 node::compile() const {
 				compute_leaf_paths();
 				auto temp = to_nfa();
-				//std::string check = nfa2_to_dot(temp); //todo: disable debug code
 				return temp.minimal_dfa().map_to_uints();
 			}
 
@@ -180,7 +179,6 @@ namespace parlex {
 							}
 						}
 					}
-					std::string check = nfa2_to_dot(result); //todo: disable debug code
 
 					//for each transition (startStateOfPart, symbol, stateOfPart) create for each originalAcceptStatesOfResult (originalAcceptStateOfResult, symbol, stateOfPart + newStateIndexOffset) transition
 					for (size_t startStateOfPart : part.startStates) {

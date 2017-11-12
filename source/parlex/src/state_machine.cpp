@@ -14,7 +14,6 @@ void state_machine::set_behavior(behavior::node const & behavior) {
 	static_assert(std::is_same_v<behavior::nfa2, details::nfa<behavior::leaf const *, size_t>>, "these should be the same");
 	this->behavior = &behavior;
 	behavior::nfa2 dfa = reorder(behavior.compile());
-	auto check = nfa2_to_dot(dfa); //todo: disable debug code
 	auto transitions = dfa.get_transitions();
 	for (auto const & t : transitions) {
 		while (states.size() <= t.to || states.size() <= t.from) {
@@ -42,7 +41,6 @@ void state_machine::process(context const & c, size_t const s) const {
 
 behavior::nfa2 state_machine::reorder(behavior::nfa2 dfa) {
 	//construct a map from dfa states to reordered states
-	std::string check = nfa2_to_dot(dfa); //todo: disable debug code
 	std::map<size_t, size_t> stateMap;
 	size_t startState = *dfa.startStates.begin();
 	bool startIsAccept = dfa.acceptStates.count(startState) > 0;

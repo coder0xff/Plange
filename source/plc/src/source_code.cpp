@@ -151,7 +151,6 @@ parlex::details::abstract_syntax_tree plc::source_code::construct_ast(std::u32st
 	std::map<int, int> const lineNumberByFirstCharacter(construct_line_number_by_first_character(document));
 	static parlex::details::parser p;
 	parlex::details::abstract_syntax_semilattice assl = p.parse(plange_grammar::get(), production, document);
-	std::string test = assl.to_dot();
 	// Was parsing successful?
 	if (!assl.is_rooted()) {
 		//parlex::details::match const * lastValidStatement =  nullptr;
@@ -165,7 +164,6 @@ parlex::details::abstract_syntax_tree plc::source_code::construct_ast(std::u32st
 		//	}
 		//}
 		//if (lastValidStatement == nullptr) {
-			std::string check = assl.to_dot();
 			ERROR(CouldNotParse, pathname + " syntax semilattice: " + assl.to_dot());
 		//} else {
 		//	//ERROR(CouldNotParse, pathname + " last valid statement: " + describe_code_span(*lastValidStatement));
@@ -206,7 +204,6 @@ parlex::details::abstract_syntax_tree plc::source_code::construct_ast(std::u32st
 		}
 	}
 
-	test = assl.to_dot();
 	// Convert assl to ast
 	return assl.tree();
 }

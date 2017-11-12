@@ -111,7 +111,6 @@ erased<node> wirth_t::compile_expression(std::u32string const & source) const {
 		throw std::runtime_error("could not parse expression");
 	}
 	abstract_syntax_tree ast = assl.tree();
-	//auto test = ast.to_dot(); //TODO: Make sure this is commented out
 	return process_expression(source, ast);
 }
 
@@ -126,7 +125,6 @@ builder wirth_t::load_grammar(std::string const & rootId, std::map<std::string, 
 		if (!res.second) {
 			throw std::runtime_error(("duplicate reference ID " + id).c_str());
 		}
-		//std::cout << "\n" << id << "\n"; //todo: ensure debug code is commented out
 		result.productions.emplace_back(id, compile_expression(definition.source), definition.assoc, definition.filter, definition.precedences);
 	}
 	return result;
@@ -139,7 +137,6 @@ builder wirth_t::load_grammar(std::string const & rootId, std::u32string const &
 	abstract_syntax_tree ast = assl.tree();
 	std::set<std::u32string> names;
 	std::map<std::string, production> definitions;
-	//std::string check = ast.to_dot(); //todo: make sure debug code is commented out
 	std::vector<ast_node> const & top = ast.children;
 	for (ast_node const & entry : top) {
 		if (&entry.r == &productionDfa) {
@@ -262,8 +259,6 @@ wirth_t::wirth_t() : grammar(generate_wirth()),
                                tagDfa(convert(grammar::get_state_machine("tag"))),
                                factorDfa(convert(grammar::get_state_machine("factor"))),
                                identifierDfa(convert(grammar::get_state_machine("identifier"))) {
-	std::string check = termDfa.to_dot();
-
 }
 
 erased<node> wirth_t::process_production(std::u32string const & document, ast_node const & production) const {

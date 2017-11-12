@@ -60,11 +60,6 @@ static erased<node> reduce(erased<node> const & n) {
 				}
 				return result;
 			});
-// 			if (children.size() == 0) {
-// 				auto result = erased<node>(unit(v));
-// 				result->tag = v.tag;
-// 				return result;
-// 			}
 			if (std::all_of(children.begin(), children.end(), [](erased<node> const & child) { return child->tag != ""; })) {
 				aggregate result;
 				int childIndex = 0;
