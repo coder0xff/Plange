@@ -2,6 +2,6 @@
 
 namespace plc {
 
-	#include "document/_plange_grammar.cpp.inc"
+#include "document/_plange_grammar.cpp.inc"
 
 }

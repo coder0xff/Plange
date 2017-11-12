@@ -23,7 +23,6 @@ set(SOURCES
 	"src/scope.cpp"
 	"src/source_code.cpp"
 	"src/stdafx.cpp"
-	"src/stdlib.cpp"
 	"src/symbol.cpp"
 	"src/warnings.cpp")
 
@@ -38,7 +37,6 @@ set(HEADERS
 	"include/scope.hpp"
 	"include/source_code.hpp"
 	"include/stdafx.hpp"
-	"include/stdlib.hpp"
 	"include/symbol.hpp"
 	"include/warnings.hpp")
 

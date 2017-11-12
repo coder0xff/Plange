@@ -13,34 +13,34 @@
 #include "symbol.hpp"
 
 namespace plc {
-	struct EXPRESSION;
+struct EXPRESSION;
 
-	class module;
+class module;
 
-	typedef std::unordered_map<std::u32string, symbol> symbol_table;
+typedef std::unordered_map<std::u32string, symbol> symbol_table;
 
-	class scope : public natural_value {
-	public:
+class scope : public natural_value {
+public:
 
-		scope(module & m, source_code const * source, scope * parent);
-		scope(module & m, source_code const * source, scope * parent, STATEMENT_SCOPE const & dom);
-		~scope() = default;
+	scope(module & m, source_code const * source, scope * parent);
+	scope(module & m, source_code const * source, scope * parent, STATEMENT_SCOPE const & dom);
+	~scope() = default;
 
-		module & m;
-		source_code const * const source; //will be null if Plange scope, at least while were in c++
-		scope * const parent;
-		std::vector<scope> children;
+	module & m;
+	source_code const * const source; //will be null if Plange scope, at least while were in c++
+	scope * const parent;
+	std::vector<scope> children;
 
-		symbol_table symbols;
+	symbol_table symbols;
 
-		bool add_symbol(symbol const& s);
-		bool is_descendent_of(scope const& s);
-		bool can_execute(scope const& s);
+	bool add_symbol(symbol const& s);
+	bool is_descendent_of(scope const& s);
+	bool can_execute(scope const& s);
 
-		analytic_value * static_resolve(EXPRESSION const & expression);
+	analytic_value * static_resolve(EXPRESSION const & expression);
 
-	private:
-	};
+private:
+};
 
 }
 #endif //SCOPE_HPP

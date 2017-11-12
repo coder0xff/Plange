@@ -11,7 +11,9 @@
 #include "errors.hpp"
 
 namespace plc {
-	extern llvm::LLVMContext llvmContext;
+
+extern llvm::LLVMContext llvmContext;
+
 }
 
 #endif
