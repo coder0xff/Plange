@@ -231,8 +231,7 @@ symbol_table flatten_symbol_tables(symbol_table const & parent, symbol_table con
 		auto i = results.find(symbol.first);
 		if (i == results.end()) {
 			results.emplace(symbol.first, symbol.second);
-		}
-		else {
+		} else {
 			if (!!i->second.value && symbol.second.isVariable) {
 				ERROR(CannotAssignToConstant, to_utf8(symbol.first));
 			}
@@ -339,9 +338,9 @@ std::shared_ptr<analytic_value> eval_statement_scope(source_code const & source,
 	auto entryPointBlock = llvm::BasicBlock::Create(llvmContext, "", &parent.getLLVMFunction());
 	llvm::IRBuilder<> scopeBuilder(entryPointBlock);
 	for (auto part : parts) {
-	if (&part.r == &STATEMENT) {
-	eval_statement(source, source.get_parts(part), *result, unwindBlock, scopeBuilder);
-	}
+		if (&part.r == &STATEMENT) {
+			eval_statement(source, source.get_parts(part), *result, unwindBlock, scopeBuilder);
+		}
 	}
 	return result;*/
 }
@@ -349,14 +348,15 @@ std::shared_ptr<analytic_value> eval_statement_scope(source_code const & source,
 void compile(std::vector<std::reference_wrapper<source_code const>> sources) {
 	/*
 	std::vector<llvm::Type*> mainFuncArgTypes = {
-	llvm::Type::getInt32Ty(llvmContext),
-	llvm::Type::getInt8PtrTy(llvmContext)->getPointerTo()
+		llvm::Type::getInt32Ty(llvmContext),
+		llvm::Type::getInt8PtrTy(llvmContext)->getPointerTo()
 	};
 
 	auto mainFuncType = llvm::FunctionType::get(
-	llvm::Type::getInt32Ty(llvmContext),
-	mainFuncArgTypes,
-	false);
+		llvm::Type::getInt32Ty(llvmContext),
+		mainFuncArgTypes,
+		false
+	);
 
 	llvm::Function * mainFunc = llvm::Function::Create(mainFuncType, llvm::Function::ExternalLinkage, "main", &module);
 	scope rootScope(mainFunc);
@@ -370,7 +370,7 @@ void compile(std::vector<std::reference_wrapper<source_code const>> sources) {
 	builder.SetInsertPoint(entryPointBlock);
 
 	for (auto source : sources) {
-	eval_statement_scope(source.get(), source.get().get_parts(source.get().asg.root), rootScope, *unwindBlock);
+		eval_statement_scope(source.get(), source.get().get_parts(source.get().asg.root), rootScope, *unwindBlock);
 	}
 	*/
 
@@ -414,9 +414,10 @@ std::set<std::string> enumerate_std_lib_sources() {
 	auto rootPath = canonical(path(__FILE__).remove_filename().append("/../../stdlib"));
 	for (directory_entry const & entry : recursive_directory_iterator(rootPath)) {
 		if (is_regular_file(entry)) {
+			path entryPath(entry);
 			// todo: remove this filter to load the whole standard library
-			if (path(entry).filename() == "Plange.CStdLib._pg" || path(entry).filename() == "Plange.CStdLib.Generated._pg") {
-				results.insert(to_utf8(path(entry)));
+			if (entryPath.filename() == "Plange.CStdLib._pg" || entryPath.filename() == "Plange.CStdLib.Generated._pg") {
+				results.insert(entryPath.string());
 			}
 		}
 	}
@@ -436,7 +437,7 @@ static std::list<std::u32string> namespaceStringToNamespaces(std::u32string name
 
 void compiler::inject_std_lib(module & m) {
 	for (std::string const & filename : enumerate_std_lib_sources()) {
-		auto ext = to_utf8(path(filename).extension());
+		auto ext = path(filename).extension().string();
 		if (ext == "._pg") { // file is a namespace
 			source_code sourceCode(filename);
 			auto namespaceNames(namespaceStringToNamespaces(to_utf32(path(filename).stem().string())));
