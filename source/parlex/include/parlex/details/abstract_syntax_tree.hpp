@@ -12,7 +12,7 @@ namespace parlex::details {
 		typedef sequence::const_iterator const_iterator;
 		sequence const children;
 
-		// The grammar leaf that this node satisfies
+		// The grammar leaf that this ast_node satisfies
 		behavior::leaf const * leaf;
 
 		ast_node(match const &, std::vector<ast_node> const & children, behavior::leaf const * leaf);

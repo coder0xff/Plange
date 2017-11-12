@@ -12,10 +12,12 @@
 namespace parlex {
 namespace details {
 
+// an upper semilattice with two types of nodes, representing all the possible interpretations of an input document
+// If the documentation representation is unambiguous (variation_count() == 1) then tree() can produce an AST
 struct abstract_syntax_semilattice {
-	explicit abstract_syntax_semilattice(transition root);
+	explicit abstract_syntax_semilattice(match root);
 	std::map<match, std::set<permutation>> permutations;
-	transition root;
+	match root;
 	bool is_rooted() const;
 	void cut(std::set<match> const & matches);
 	void prune_detached();

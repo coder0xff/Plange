@@ -9,8 +9,7 @@
 namespace parlex {
 namespace details {
 
-abstract_syntax_semilattice::abstract_syntax_semilattice(transition root) : root(root) {
-}
+abstract_syntax_semilattice::abstract_syntax_semilattice(match root) : root(root) { }
 
 bool abstract_syntax_semilattice::is_rooted() const {
 	auto i = permutations.find(root);
@@ -159,6 +158,7 @@ abstract_syntax_tree abstract_syntax_semilattice::tree() const {
 		throw std::runtime_error("The document could not be parsed.");
 	}
 	if (variation_count() > 1) {
+		std::string check = to_dot(); // todo: comment out debug code
 		throw std::runtime_error("The document is ambiguous.");
 	}
 	return ast_node(root, build_tree(root), nullptr);
