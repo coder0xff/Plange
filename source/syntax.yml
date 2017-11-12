@@ -66,7 +66,7 @@ ARRAY_INDEXER:
 
 ARRAY_INVOCATION:
     syntax: >
-        EXPRESSION "[" [$ARRAY_INDEXER] {{IC} "," [$ARRAY_INDEXER]} {IC} "]"
+        %target(EXPRESSION) "[" %argsHead[$ARRAY_INDEXER] %argsTail{{IC} "," [$ARRAY_INDEXER]} {IC} "]"
 
 ASM_EXPRESSION:
     syntax: >
@@ -501,21 +501,20 @@ EMBEDDED_COMMENT:
 
 EMBEDDED_COMMENT_INTERIOR:
     syntax: >
-        PAYLOAD | "*" EMBEDDED_COMMENT_INTERIOR "*"
+        %payload{all} | "*" EMBEDDED_COMMENT_INTERIOR "*"
 
 EMBEDDED_NEWLINE_STRING:
     syntax: >
         "\"\"\"" EMBEDDED_NEWLINE_STRING_INTERIOR "\"\"\""
-    precedes: [EMBEDDED_STRING, STRING]
+    precedes: [EMBEDDED_STRING]
 
 EMBEDDED_NEWLINE_STRING_INTERIOR:
     syntax: >
-        ("\n" PAYLOAD "\n") | ("\"" EMBEDDED_NEWLINE_STRING_INTERIOR "\"")
+        ("\n" %payload{all} "\n") | ("\"" EMBEDDED_NEWLINE_STRING_INTERIOR "\"")
 
 EMBEDDED_STRING:
     syntax: >
          "\"\"\"" EMBEDDED_STRING_INTERIOR "\"\"\""
-    precedes: [STRING]
     doc: >
         a string bounded by arbirtrarily-sized delimiters
     example: |
@@ -535,7 +534,7 @@ EMBEDDED_STRING:
 
 EMBEDDED_STRING_INTERIOR:
     syntax: >
-        PAYLOAD | ("\"" EMBEDDED_STRING_INTERIOR "\"")
+        %payload{all} | ("\"" EMBEDDED_STRING_INTERIOR "\"")
 
 END_OF_LINE_COMMENT:
     syntax: >
@@ -606,11 +605,16 @@ EXPONENTIATION:
 
 EXPRESSION:
     syntax: >
-        ARRAY | ASM_FUNCTION | BINARY_OP | BOOL | CAST | CEILING | COMPLEMENT | CONDITIONAL | DATE | DATE_TIME | DELTA | DIMENSIONAL_NUMBER | EMBEDDED_STRING | ENUM | EQUALITY_CHAIN | FLOOR | FUNCTION | GREATER_CHAIN | IDENTIFIER | IF | INVOCATION | LESSER_CHAIN | LIST | MAGNITUDE | MAP | MEMBER_ACCESS | NEAREST_INTEGER | NON_NEG_NUMBER | OBJECT | PARENTHETICAL | RANGE | REGEX | SET | SET_COMPREHENSION | STRING | SUBSET_CHAIN | SUPERSET_CHAIN | SWIZZLE | THIS | THIS_FUNC | THIS_TYPE | TIME | TUPLE | TYPE | UNARY_OP | VECTOR_NORM | "context" | "null"
+        ARRAY | ASM_FUNCTION | BINARY_OP | BOOL | CAST | CEILING | COMPLEMENT | CONDITIONAL | DATE | DATE_TIME | DELTA | DIMENSIONAL_NUMBER | EMBEDDED_STRING | ENUM | EQUALITY_CHAIN | FLOOR | FUNCTION | GREATER_CHAIN | IDENTIFIER | IF | INVOCATION | LESSER_CHAIN | LIST | MAGNITUDE | MAP | MEMBER_ACCESS | NEAREST_INTEGER | NON_NEG_NUMBER | OBJECT | PARENTHETICAL | RANGE | REGEX | SET | SET_COMPREHENSION | SUBSET_CHAIN | SUPERSET_CHAIN | SWIZZLE | THIS | THIS_FUNC | THIS_TYPE | TIME | TUPLE | TYPE | UNARY_OP | VECTOR_NORM | "context" | "null" | c_string 
     doc: >
         a linearization of an evaluation tree containing constants, variables, operators, invocations, and sub expressions
     notes: >
         null is a literal and so is included in the syntax similarly to true, false and numeric literals (and unlike constants)
+
+EXTERN:
+    syntax: >
+        "extern"
+    precedes: [IDENTIFIER]
 
 FACTORIAL:
     syntax: >
@@ -1170,13 +1174,7 @@ PARENTHETICAL:
 
 PARENTHETICAL_INVOCATION:
     syntax: >
-        EXPRESSION {IC} "(" [{IC} (ARGUMENT|ARGUMENT_PACK)] {{IC} "," [{IC} (ARGUMENT|ARGUMENT_PACK)]} {IC} ")"
-
-PAYLOAD:
-    syntax: >
-        all
-    doc: >
-        used in EMBEDDED_COMMENT, EMBEDDED_STRING
+        %target(EXPRESSION) {IC} "(" %argsHead[{IC} (ARGUMENT|ARGUMENT_PACK)] %argsTail{{IC} "," [{IC} (ARGUMENT|ARGUMENT_PACK)]} {IC} ")"
 
 PLATFORM:
     syntax: >
@@ -1244,7 +1242,7 @@ RECORD:
 
 REGEX:
     syntax: >
-        "R" STRING
+        "R" c_string
 
 RELATIONAL_COLLECTION_OP:
     syntax: >
@@ -1300,7 +1298,7 @@ SLICE:
 
 STATEMENT:
     syntax: >
-        ( ASSIGNMENT_CHAIN | BREAK | CONTINUE | DEFINITION | DO | EXPRESSION | FOR | FOR_COLLECTION | FREE | IMPORT | LOCK | LOOP | READ_LOCK | RETURN | THROW | TRY | TYPE_CONSTRAINT | WRITE_LOCK | USING ) {IC} ";"
+        %value( ASSIGNMENT_CHAIN | BREAK | CONTINUE | DEFINITION | DO | EXPRESSION | FOR | FOR_COLLECTION | FREE | IMPORT | LOCK | LOOP | READ_LOCK | RETURN | THROW | TRY | TYPE_CONSTRAINT | WRITE_LOCK | USING ) %ic{IC} ";"
     doc: >
         top-level statement syntax
 
@@ -1310,10 +1308,11 @@ STATEMENT_SCOPE:
     doc: >
         zero or more statements, the top level syntax rule for source files
 
-STRING:
+STATIC:
     syntax: >
-        c_string
-    
+        "static"
+    precedes: [IDENTIFIER] 
+
 SUBSET_CHAIN:
     syntax: >
         EXPRESSION {IC} SUBSET_CHAIN_LOOP
@@ -1419,6 +1418,7 @@ TYPE:
 TYPE_CONSTRAINT:
     syntax: >
         TYPE_CONSTRAINT_HEAD {IC} TYPE_CONSTRAINT_CHAIN
+    precedes: [EXPRESSION]
 
 TYPE_CONSTRAINT_CHAIN:
     syntax: >
@@ -1426,7 +1426,7 @@ TYPE_CONSTRAINT_CHAIN:
 
 TYPE_CONSTRAINT_HEAD:
     syntax: >
-        [$XML_DOC_STRING {IC}] {ATTRIBUTE {IC}} [$VISIBILITY_MODIFIER {IC}] [$"static" {IC}] [$"extern" {IC}] %type_dereference(TYPE_DEREFERENCE | VOLATILE_TYPE_DEREFERENCE | IMPLICIT_TYPE_DEREFERENCE | VOLATILE_IMPLICIT_TYPE_DEREFERENCE)
+        [$XML_DOC_STRING {IC}] {ATTRIBUTE {IC}} [$VISIBILITY_MODIFIER {IC}] [STATIC {IC}] [EXTERN {IC}] %type_dereference(TYPE_DEREFERENCE | VOLATILE_TYPE_DEREFERENCE | IMPLICIT_TYPE_DEREFERENCE | VOLATILE_IMPLICIT_TYPE_DEREFERENCE)
 
 TYPE_DEREFERENCE:
     syntax: >
@@ -1436,7 +1436,7 @@ TYPE_DEREFERENCE:
 
 TYPE_INVOCATION:
     syntax: >
-        EXPRESSION ( "<" %head[{IC} (ARGUMENT|ARGUMENT_PACK)] {{IC} "," [{IC} (ARGUMENT|ARGUMENT_PACK)]} {IC} ">" )
+        %target(EXPRESSION) ( "<" %argsHead[{IC} (ARGUMENT|ARGUMENT_PACK)] %argsTail{{IC} "," [{IC} (ARGUMENT|ARGUMENT_PACK)]} {IC} ">" )
 
 TYPE_SCOPE:
     syntax: >
@@ -1571,7 +1571,7 @@ XML_DOC_STRING:
 
 XML_DOC_STRING_INTERIOR:
     syntax: >
-        PAYLOAD | ("`" XML_DOC_STRING_INTERIOR "`")
+        %payload{all} | ("`" XML_DOC_STRING_INTERIOR "`")
 XOR:
     syntax: >
         EXPRESSION {IC} ("⊕" |"xor") {IC} EXPRESSION
