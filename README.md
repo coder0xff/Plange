@@ -10,6 +10,7 @@ C++17 features are used liberally, and a capable compiler and build tools are re
 
 #### Prerequisites
  * An internet connection for downloading external dependencies
+ * (Git)[https://git-scm.com]
  * [CMake 3.10 or newer](https://cmake.org/download/)
  * Either:
    * gcc 7
