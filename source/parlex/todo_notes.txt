@@ -1,22 +1,21 @@
 A context is a snapshot of a DFA execution
-A subjob is an invocation of a given DFA at a given document position, and holds a set of DFA contexts
+A subjob is an invocation of a given DFA at a given document position, and holds a set of configurations of such DFA
 
 k is the number of DFAs
 P is the set of DFAs { p(0), p(1), ... p(k - 1) }
 n is the length of the input document.
 
-S* is the set of ordered subset of S
-:: is the ordered set builder
 
 ∀p ∈ P
 	the DFA p is the tuple (Q(p), Σ(p), δ(p), q0(p), F(p))
 		Q(p) is the set of states in p
 		Σ(p) is the alphabet of p
-		δ(p) : Q(j)*Σ(j) -> Q(j) is the transition function of p
+		δ(p) : Q(p) * Σ(p) -> Q(p) is the transition function of p
 		q0(p) is the start state of p
 		F(p) is the set of accept states of p
 
-I is the set of integers [0 - n)
+:: is the ordered set builder
+I is the set of integers such that i ∈ I, 0 <= i < n
 Z = { z(i,p) : i ∈ I ∧ p ∈ P } is the set of possible subjobs
 |Z| = n * k, the worst-case space complexity for subjobs
 
