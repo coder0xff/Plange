@@ -10,7 +10,7 @@ ADD_SUB:
         EXPRESSION {IC} ("±"|"+-") {IC} EXPRESSION
     assoc: left
     doc: >
-        creates an abstract value storing the simultaneous results of addition and subtraction
+        creates an analytic value storing the simultaneous results of addition and subtraction
 
 ADDITION:
     syntax: >
