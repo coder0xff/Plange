@@ -11,7 +11,7 @@
 
 		<div class="syntax">
 			<p>syntax</p>
-			<div><a href="/documentation/syntax/PAYLOAD.php">PAYLOAD</a> | ("`" XML_DOC_STRING_INTERIOR "`")</div>
+			<div>%payload{all} | ("`" XML_DOC_STRING_INTERIOR "`")</div>
 		</div>
 
 

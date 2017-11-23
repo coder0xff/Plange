@@ -9,6 +9,8 @@
 		<?php require('../../header.php') ?>
 
 
+		<p>the universal set excluding the elements of the collection</p>
+
 		<div class="syntax">
 			<p>syntax</p>
 			<div><a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> {<a href="/documentation/syntax/IC.php">IC</a>} "ᶜ"</div>

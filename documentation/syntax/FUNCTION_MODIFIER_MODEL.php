@@ -11,7 +11,7 @@
 
 		<div class="syntax">
 			<p>syntax</p>
-			<div>"pure" | "imperative" | "opaque"</div>
+			<div>%model("pure" | "imperative" | "opaque") [<a href="/documentation/syntax/ICR.php">ICR</a> <a href="/documentation/syntax/FUNCTION_MODIFIER_CALLING_CONVENTION.php">FUNCTION_MODIFIER_CALLING_CONVENTION</a>]</div>
 		</div>
 
 

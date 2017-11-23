@@ -11,7 +11,7 @@
 
 		<div class="syntax">
 			<p>syntax</p>
-			<div>("\n" <a href="/documentation/syntax/PAYLOAD.php">PAYLOAD</a> "\n") | ("\"" EMBEDDED_NEWLINE_STRING_INTERIOR "\"")</div>
+			<div>("\n" %payload{all} "\n") | ("\"" EMBEDDED_NEWLINE_STRING_INTERIOR "\"")</div>
 		</div>
 
 

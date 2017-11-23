@@ -11,7 +11,7 @@
 
 		<div class="syntax">
 			<p>syntax</p>
-			<div><a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> ( "&lt;" [{<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a>] {{<a href="/documentation/syntax/IC.php">IC</a>} "," [{<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a>]} {<a href="/documentation/syntax/IC.php">IC</a>} "&gt;" )</div>
+			<div>%target(<a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a>) ( "&lt;" %argsHead[{<a href="/documentation/syntax/IC.php">IC</a>} (<a href="/documentation/syntax/ARGUMENT.php">ARGUMENT</a>|<a href="/documentation/syntax/ARGUMENT_PACK.php">ARGUMENT_PACK</a>)] %argsTail{{<a href="/documentation/syntax/IC.php">IC</a>} "," [{<a href="/documentation/syntax/IC.php">IC</a>} (<a href="/documentation/syntax/ARGUMENT.php">ARGUMENT</a>|<a href="/documentation/syntax/ARGUMENT_PACK.php">ARGUMENT_PACK</a>)]} {<a href="/documentation/syntax/IC.php">IC</a>} "&gt;" )</div>
 		</div>
 
 

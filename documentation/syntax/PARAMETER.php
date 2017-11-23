@@ -13,7 +13,7 @@
 
 		<div class="syntax">
 			<p>syntax</p>
-			<div><a href="/documentation/syntax/PARAMETER_NORMAL.php">PARAMETER_NORMAL</a> | <a href="/documentation/syntax/PARAMETER_ABSTRACT.php">PARAMETER_ABSTRACT</a></div>
+			<div><a href="/documentation/syntax/PARAMETER_NATURAL.php">PARAMETER_NATURAL</a> | <a href="/documentation/syntax/PARAMETER_ANALYTIC.php">PARAMETER_ANALYTIC</a></div>
 		</div>
 		<h2>Notes</h2>
 				<p>The last variation accepts an expression, which is then set to be equivalent to the passed in value. This enables pattern matching and solving on parameters.

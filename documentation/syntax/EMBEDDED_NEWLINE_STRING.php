@@ -11,7 +11,7 @@
 
 		<div class="syntax">
 			<p>syntax</p>
-			<div>("\"\"\"" <a href="/documentation/syntax/EMBEDDED_NEWLINE_STRING_INTERIOR.php">EMBEDDED_NEWLINE_STRING_INTERIOR</a> "\"\"\"")</div>
+			<div>"\"\"\"" <a href="/documentation/syntax/EMBEDDED_NEWLINE_STRING_INTERIOR.php">EMBEDDED_NEWLINE_STRING_INTERIOR</a> "\"\"\""</div>
 		</div>
 
 

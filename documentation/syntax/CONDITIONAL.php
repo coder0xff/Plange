@@ -13,7 +13,7 @@
 
 		<div class="syntax">
 			<p>syntax (associativity: right)</p>
-			<div><a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> {<a href="/documentation/syntax/IC.php">IC</a>} "?" {<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> {<a href="/documentation/syntax/IC.php">IC</a>} ":" {<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a></div>
+			<div>%condition(<a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a>) {<a href="/documentation/syntax/IC.php">IC</a>} "?" {<a href="/documentation/syntax/IC.php">IC</a>} %true_case(<a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a>) {<a href="/documentation/syntax/IC.php">IC</a>} ":" {<a href="/documentation/syntax/IC.php">IC</a>} %false_case(<a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a>)</div>
 		</div>
 		<h2>Notes</h2>
 				<p>If the first expression is true then evaluates to the second expression otherwise evaluates to the third expression.

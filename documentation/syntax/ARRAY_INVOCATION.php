@@ -11,7 +11,7 @@
 
 		<div class="syntax">
 			<p>syntax</p>
-			<div><a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> "[" [{<a href="/documentation/syntax/IC.php">IC</a>} (<a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a>|<a href="/documentation/syntax/SLICE.php">SLICE</a>)] {{<a href="/documentation/syntax/IC.php">IC</a>} "," [{<a href="/documentation/syntax/IC.php">IC</a>} (<a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a>|<a href="/documentation/syntax/SLICE.php">SLICE</a>)]} {<a href="/documentation/syntax/IC.php">IC</a>} "]"</div>
+			<div>%target(<a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a>) "[" %argsHead[$<a href="/documentation/syntax/ARRAY_INDEXER.php">ARRAY_INDEXER</a>] %argsTail{{<a href="/documentation/syntax/IC.php">IC</a>} "," [$<a href="/documentation/syntax/ARRAY_INDEXER.php">ARRAY_INDEXER</a>]} {<a href="/documentation/syntax/IC.php">IC</a>} "]"</div>
 		</div>
 
 

@@ -11,7 +11,7 @@
 
 		<div class="syntax">
 			<p>syntax</p>
-			<div><a href="/documentation/syntax/PAYLOAD.php">PAYLOAD</a> | "*" EMBEDDED_COMMENT_INTERIOR "*"</div>
+			<div>%payload{all} | "*" EMBEDDED_COMMENT_INTERIOR "*"</div>
 		</div>
 
 

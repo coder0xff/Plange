@@ -9,7 +9,7 @@
 		<?php require('../../header.php') ?>
 
 
-		<p>create a finite, ordered list of elements</p>
+		<p>create a finite, ordered tuple of elements</p>
 
 		<div class="syntax">
 			<p>syntax</p>

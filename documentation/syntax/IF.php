@@ -13,7 +13,7 @@
 
 		<div class="syntax">
 			<p>syntax</p>
-			<div>"if" {<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/PARENTHETICAL.php">PARENTHETICAL</a> {<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> {{<a href="/documentation/syntax/IC.php">IC</a>} "elif" {<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/PARENTHETICAL.php">PARENTHETICAL</a> {<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a>} [ {<a href="/documentation/syntax/IC.php">IC</a>} "else" {<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> ]</div>
+			<div>"if" {<a href="/documentation/syntax/IC.php">IC</a>} %condition(<a href="/documentation/syntax/PARENTHETICAL.php">PARENTHETICAL</a>) {<a href="/documentation/syntax/IC.php">IC</a>} %invoke(<a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a>) {{<a href="/documentation/syntax/IC.php">IC</a>} "elif" {<a href="/documentation/syntax/IC.php">IC</a>} %condition(<a href="/documentation/syntax/PARENTHETICAL.php">PARENTHETICAL</a>) {<a href="/documentation/syntax/IC.php">IC</a>} %invoke(<a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a>)} [ {<a href="/documentation/syntax/IC.php">IC</a>} "else" {<a href="/documentation/syntax/IC.php">IC</a>} %else_invoke(<a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a>) ]</div>
 		</div>
 		<div class="code2">
 			<p>Example</p>

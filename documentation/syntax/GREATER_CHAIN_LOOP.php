@@ -11,7 +11,7 @@
 
 		<div class="syntax">
 			<p>syntax</p>
-			<div>("="|"&gt;"|"=&gt;"|"≥") {<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> [{<a href="/documentation/syntax/IC.php">IC</a>} GREATER_CHAIN_LOOP]</div>
+			<div>("="|"&gt;"|"=&gt;"|"≥") {<a href="/documentation/syntax/IC.php">IC</a>} $<a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> [{<a href="/documentation/syntax/IC.php">IC</a>} $GREATER_CHAIN_LOOP]</div>
 		</div>
 		<p>See: <a href="GREATER_CHAIN.php">GREATER_CHAIN</a>
 		</p>

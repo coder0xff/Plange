@@ -11,7 +11,7 @@
 
 		<div class="syntax">
 			<p>syntax</p>
-			<div><a href="/documentation/syntax/CASTS.php">CASTS</a> | <a href="/documentation/syntax/INEQUALITY.php">INEQUALITY</a> | <a href="/documentation/syntax/IS.php">IS</a> | <a href="/documentation/syntax/RELATIONAL_COLLECTION_OP.php">RELATIONAL_COLLECTION_OP</a></div>
+			<div><a href="/documentation/syntax/CASTS.php">CASTS</a> | <a href="/documentation/syntax/DOWNCASTS.php">DOWNCASTS</a> | <a href="/documentation/syntax/EXACTLY.php">EXACTLY</a> | <a href="/documentation/syntax/IMPLEMENTS.php">IMPLEMENTS</a> | <a href="/documentation/syntax/INEQUALITY.php">INEQUALITY</a> | <a href="/documentation/syntax/INHERITS.php">INHERITS</a> | <a href="/documentation/syntax/IS.php">IS</a> | <a href="/documentation/syntax/RELATIONAL_COLLECTION_OP.php">RELATIONAL_COLLECTION_OP</a> | <a href="/documentation/syntax/UPCASTS.php">UPCASTS</a></div>
 		</div>
 
 

@@ -11,7 +11,7 @@
 
 		<div class="syntax">
 			<p>syntax</p>
-			<div>("Δ"|"_delta_") ["^" <a href="/documentation/syntax/WHOLE_NUMBER.php">WHOLE_NUMBER</a>] <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a></div>
+			<div>("Δ"|"_delta_") ["^" $<a href="/documentation/syntax/WHOLE_NUMBER.php">WHOLE_NUMBER</a>] $<a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a></div>
 		</div>
 
 

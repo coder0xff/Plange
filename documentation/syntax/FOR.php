@@ -9,11 +9,11 @@
 		<?php require('../../header.php') ?>
 
 
-		<p>evaluate the second expression repeatedly while the second expression is true, all after evaluating the optional STATEMENT_SCOPE</p>
+		<p>evaluate the last expression repeatedly while the second expression is true, all after evaluating the optional STATEMENT_SCOPE</p>
 
 		<div class="syntax">
 			<p>syntax</p>
-			<div>"for" {<a href="/documentation/syntax/IC.php">IC</a>} "(" {<a href="/documentation/syntax/IC.php">IC</a>} [ <a href="/documentation/syntax/STATEMENT_SCOPE.php">STATEMENT_SCOPE</a> {<a href="/documentation/syntax/IC.php">IC</a>} ] <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> {<a href="/documentation/syntax/IC.php">IC</a>} ";" {<a href="/documentation/syntax/IC.php">IC</a>} [ <a href="/documentation/syntax/ASSIGNMENT_CHAIN.php">ASSIGNMENT_CHAIN</a> {{<a href="/documentation/syntax/IC.php">IC</a>} "," {<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/ASSIGNMENT_CHAIN.php">ASSIGNMENT_CHAIN</a>} {<a href="/documentation/syntax/IC.php">IC</a>} ] ")" {<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a></div>
+			<div>"for" {<a href="/documentation/syntax/IC.php">IC</a>} "(" {<a href="/documentation/syntax/IC.php">IC</a>} %initializer[ (<a href="/documentation/syntax/STATEMENT_SCOPE.php">STATEMENT_SCOPE</a>) {<a href="/documentation/syntax/IC.php">IC</a>} ] %condition(<a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a>) {<a href="/documentation/syntax/IC.php">IC</a>} ";" {<a href="/documentation/syntax/IC.php">IC</a>} %step[ <a href="/documentation/syntax/ASSIGNMENT_CHAIN.php">ASSIGNMENT_CHAIN</a> {{<a href="/documentation/syntax/IC.php">IC</a>} "," {<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/ASSIGNMENT_CHAIN.php">ASSIGNMENT_CHAIN</a>} {<a href="/documentation/syntax/IC.php">IC</a>} ] ")" {<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a></div>
 		</div>
 		<div class="code2">
 			<p>Example</p>

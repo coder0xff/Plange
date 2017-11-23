@@ -13,13 +13,13 @@
 
 		<div class="syntax">
 			<p>syntax</p>
-			<div>"∃" {<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a></div>
+			<div>("∃"|"exists") {<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a></div>
 		</div>
 		<div class="code2">
 			<p>Example</p>
 			<pre>
 shouldRejectLiquorPurchase := (List&lt;Date&gt; patronBirthdates) {
-    return ∃{ x &lt; today() - 21yr | x ∈ patronBirthdates };
+    return ∃{ x &gt; today() - 21yr | x ∈ patronBirthdates };
 }
 </pre>
 		</div>		<h2>Notes</h2>

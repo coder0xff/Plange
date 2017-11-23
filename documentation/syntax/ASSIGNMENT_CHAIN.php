@@ -13,7 +13,7 @@
 
 		<div class="syntax">
 			<p>syntax</p>
-			<div>[<a href="/documentation/syntax/XML_DOC_STRING.php">XML_DOC_STRING</a> {<a href="/documentation/syntax/IC.php">IC</a>}] <a href="/documentation/syntax/IDENTIFIER.php">IDENTIFIER</a> {<a href="/documentation/syntax/IC.php">IC</a>} ("←"|"&lt;-") {<a href="/documentation/syntax/IC.php">IC</a>} (<a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a>|ASSIGNMENT_CHAIN)</div>
+			<div>[$<a href="/documentation/syntax/XML_DOC_STRING.php">XML_DOC_STRING</a> {<a href="/documentation/syntax/IC.php">IC</a>}] $<a href="/documentation/syntax/IDENTIFIER.php">IDENTIFIER</a> {<a href="/documentation/syntax/IC.php">IC</a>} ("←"|"&lt;-") {<a href="/documentation/syntax/IC.php">IC</a>} ($<a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a>|ASSIGNMENT_CHAIN)</div>
 		</div>
 		<div class="code2">
 			<p>Example</p>
@@ -21,22 +21,11 @@
 iPow2 ← -1;
 </pre>
 		</div>		<h2>Notes</h2>
-		<p>Note that the left hand side of assignments need not be trivial expressions mapping to a single memory structure - a so called lvalue in some other languages. Rather, arbitrary expressions can be solved when a single free variable is present. Revisiting the above example:</p>
-<div class="code">
-    <p>A variable</p>
-    <pre><span style="color:red">iPow2</span> ← -1;</pre>
-    <p>is assigned</p>
-    <pre>iPow2 <span style="color:red">←</span> -1;</pre>
-    <p>a value</p>
-    <pre>iPow2 ← <span style="color:red">-1</span>;</pre>
-</div>
-<p>It is straightforward in that a single value is being put in a single variable, and both of them are clearly defined. However:</p>
+		<p>The left hand side may not be an lvalue (in C parlance). Rather, some algebras and solvers reduce free variables.</p>
 <div class="code">
     <p>Example</p>
     <pre>x + 1 ← 0;</pre>
 </div>
-<p>The above example is contrived, but provides a simple segue to constraint based programming. When this statement is executed the value -1 is stored in <code>x</code>. Substituting -1 for x yields <code>(-1) + 1 = 0</code>.</p>
-
 <p>Assignment operations can be chained together</p>
 <div class="code">
     <p>Example</p>

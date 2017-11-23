@@ -9,12 +9,12 @@
 		<?php require('../../header.php') ?>
 
 
-		<p>see: function</p>
-
 		<div class="syntax">
 			<p>syntax</p>
-			<div>"_" {letter | number | PLATFORM}</div>
+			<div>"_" (letter | number) {letter | number | "_"}</div>
 		</div>
+		<p>See: <a href="FUNCTION.php">FUNCTION</a>
+		</p>
 
 
 

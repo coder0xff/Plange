@@ -11,7 +11,7 @@
 
 		<div class="syntax">
 			<p>syntax</p>
-			<div>"(" [<a href="/documentation/syntax/ASM_IDENTIFIER.php">ASM_IDENTIFIER</a>] ["," <a href="/documentation/syntax/ASM_IDENTIFIER.php">ASM_IDENTIFIER</a> ["," <a href="/documentation/syntax/NON_NEG_NON_FRACTIONAL.php">NON_NEG_NON_FRACTIONAL</a>]] ")"</div>
+			<div>"(" [$<a href="/documentation/syntax/ASM_IDENTIFIER.php">ASM_IDENTIFIER</a>] ["," $<a href="/documentation/syntax/ASM_IDENTIFIER.php">ASM_IDENTIFIER</a> ["," <a href="/documentation/syntax/NON_NEG_NON_FRACTIONAL.php">NON_NEG_NON_FRACTIONAL</a>]] ")"</div>
 		</div>
 
 
