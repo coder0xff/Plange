@@ -1,5 +1,3 @@
-[![Travis CI](https://travis-ci.org/coder0xff/Plange.svg?branch=master)](https://travis-ci.org/coder0xff/Plange)
-
 For documentation, see the [plange.tech](http://plange.tech) website, which is a clone of this repository.
 
 ## Notation
