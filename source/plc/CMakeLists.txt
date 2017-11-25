@@ -64,4 +64,4 @@ else()
 endif()
 #add_precompiled_header(plc "include/stdafx.hpp" FORCEINCLUDE SOURCE_CXX "src/stdafx.cpp")
 target_link_libraries(plc parlex utilities LLVMCore LLVMSupport gtest gtest_main)
-#
+install(TARGETS plc DESTINATION ${ARTIFACTS_PREFIX}/bin)
