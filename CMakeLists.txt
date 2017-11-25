@@ -2,8 +2,6 @@ cmake_minimum_required (VERSION 3.8)
 project(plange_superbuild)
 include(ExternalProject)
 
-set(CMAKE_MODULE_PATH "${CMAKE_MODULE_PATH}" "${CMAKE_SOURCE_DIR}/cmake/Modules/")
-
 find_package(YAML-CPP QUIET)
 if (NOT YAML-CPP_FOUND)
 	set(YAML-CPP_INSTALL_TARGET "yaml-cpp")
