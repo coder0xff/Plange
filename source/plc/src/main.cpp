@@ -19,7 +19,7 @@
 
 
 int main(int argc, char * argv[]) {
-	if (strcmp(argv[1], "--test") != std::string::npos) {
+	if (argc > 1 && strcmp(argv[1], "--test") != std::string::npos) {
 		// All arguments following --test are passed to gtest.
 		for (auto arg_index = 2; arg_index < argc; ++arg_index) {
 			argv[arg_index - 1] = argv[arg_index];
