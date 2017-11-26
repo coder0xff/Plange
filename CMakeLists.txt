@@ -53,6 +53,8 @@ ExternalProject_Add(googletest
 		"-Dgtest_force_shared_crt=ON"
 )
 
+set(ARTIFACTS_PREFIX "${CMAKE_BINARY_DIR}/artifacts" CACHE PATH "Location to copy useful build outputs")
+
 ExternalProject_Add(plange
 	DEPENDS ${YAML-CPP_INSTALL_TARGET} ${LLVM_INSTALL_TARGET} googletest
 	PREFIX "${CMAKE_BINARY_DIR}/prefix"
@@ -61,8 +63,8 @@ ExternalProject_Add(plange
 		"-DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}"
 		"-DCMAKE_INSTALL_PREFIX=${CMAKE_INSTALL_PREFIX}"
 		"-DCMAKE_CXX_COMPILER=${CMAKE_CXX_COMPILER}"
-		"-DARTIFACTS_PREFIX=${CMAKE_BINARY_DIR}/artifacts"
+		"-DARTIFACTS_PREFIX=${ARTIFACTS_PREFIX}"
 	INSTALL_COMMAND ""
 )
 
-add_test(plange_test ${CMAKE_COMMAND} --build ${CMAKE_BINARY_DIR}/prefix/src/plange-build --target test)
+add_test(NAME plange_test COMMAND "${ARTIFACTS_PREFIX}/bin/plc${CMAKE_EXECUTABLE_SUFFIX}" --test)
