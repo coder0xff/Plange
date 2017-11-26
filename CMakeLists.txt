@@ -1,5 +1,6 @@
 cmake_minimum_required (VERSION 3.8)
 project(plange_superbuild)
+enable_testing()
 include(ExternalProject)
 
 find_package(YAML-CPP QUIET)
@@ -63,3 +64,5 @@ ExternalProject_Add(plange
 		"-DARTIFACTS_PREFIX=${CMAKE_BINARY_DIR}/artifacts"
 	INSTALL_COMMAND ""
 )
+
+add_test(plange_test ${CMAKE_COMMAND} --build ${CMAKE_BINARY_DIR}/prefix/src/plange-build --target test)
