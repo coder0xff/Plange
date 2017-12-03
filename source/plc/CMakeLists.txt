@@ -69,7 +69,7 @@ target_link_libraries(plc parlex utilities LLVMCore LLVMSupport gtest gtest_main
 add_custom_command(
 	TARGET plc
 	POST_BUILD
-	COMMAND ${CMAKE_COMMAND} -E copy "$<TARGET_FILE:plc>" ${ARTIFACTS_PREFIX}/bin/"$<TARGET_FILE_NAME:plc>"
+	COMMAND ${CMAKE_COMMAND} -E copy "$<TARGET_FILE:plc>" "${ARTIFACTS_PREFIX}/bin/$<TARGET_FILE_NAME:plc>"
 )
 
 add_test(NAME plc_test COMMAND "$<TARGET_FILE:plc>" --test)
