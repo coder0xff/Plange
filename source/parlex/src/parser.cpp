@@ -424,11 +424,7 @@ static bool associativity_test(node_props_t & a, node_props_t & b) {
 		return false;
 	}
 	associativity const assoc = dynamic_cast<state_machine_base const *>(&a.m.r)->get_assoc();
-	if (assoc == associativity::none) {
-		return false;
-	}
-	if (a.allDescendents.count(b.m) > 0) {
-		switch (assoc) {
+	switch (assoc) {
 		case associativity::left:
 		case associativity::any:
 			return b.m.document_position > a.m.document_position;
@@ -436,10 +432,8 @@ static bool associativity_test(node_props_t & a, node_props_t & b) {
 			return b.m.document_position == a.m.document_position;
 		case associativity::none:
 			return false;
-		}
-		throw std::domain_error("Invalid associativity value");
 	}
-	return false;
+	throw std::domain_error("Invalid associativity value");
 }
 
 static void select_match(abstract_syntax_semilattice & asg, grammar_base const & g, std::map<match, node_props_t> & nodes, match const & m) {
