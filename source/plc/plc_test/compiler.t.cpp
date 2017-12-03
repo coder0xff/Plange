@@ -42,3 +42,24 @@ TEST(PlcCompiler, ParseExternBinaryFunctionTypeConstraint) {
 TEST(PlcCompiler, ParseExternBinaryFunctionTypeConstraintStatement) {
 	auto result = plc::compiler::parse<plc::STATEMENT>(U"extern <a * b -> c> d;");
 }
+
+TEST(PlcCompiler, ParseCompound) {
+	auto result = plc::compiler::parse<plc::EXPRESSION>(U"a|b|c");
+}
+
+TEST(PlcCompiler, ParseHelloWorld) {
+	auto result = plc::compiler::parse(U"print(\"Hello, world!\");");
+}
+
+TEST(PlcCompiler, ParseType) {
+	auto source = U"myType := type {"
+		"    public <Int> aVariable;"
+		"};"
+		"";
+	auto result = plc::compiler::parse(source);
+}
+
+TEST(PlcCompiler, LoadSource) {
+	auto source = U"print(\"Hello, world!\");";
+	plc::source_code module("", source);
+}
