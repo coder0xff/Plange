@@ -241,10 +241,8 @@ struct node_props_t {
 	std::set<match> allAncestors;
 	std::set<match> allDescendentsAndAncestors;
 	std::set<match> allIntersections;
-	bool selected;
 
-
-	node_props_t(abstract_syntax_semilattice & asg, match const & m) : m(m), r(m.r), permutations(asg.permutations[m]), children(getChildren(asg, m)), height(0), selected(false) {
+	node_props_t(abstract_syntax_semilattice & asg, match const & m) : m(m), r(m.r), permutations(asg.permutations[m]), children(getChildren(asg, m)), height(0) {
 	}
 };
 
@@ -353,12 +351,12 @@ static void resolve_nodes(std::map<match, node_props_t> & nodes) {
 
 	for (auto & entry : nodes) {
 		node_props_t & props = entry.second;
-		//seed algorithm with "fast_match A has all of fast_match A's permutation's matches as descendants"
+		//seed algorithm with "match A has all of match A's permutation's matches as descendants"
 		propertyResolveQueue.push(std::make_tuple(&props, &props, 0));
 	}
 
 	//containment algorithm
-	//fast_match A contains all of fast_match B's permutation's matches
+	//match A contains all of match B's permutation's matches
 	while (!propertyResolveQueue.empty()) {
 		std::tuple<node_props_t *, node_props_t *, int> entry = propertyResolveQueue.front();
 		propertyResolveQueue.pop();
@@ -437,32 +435,11 @@ static bool associativity_test(node_props_t & a, node_props_t & b) {
 }
 
 static void select_match(abstract_syntax_semilattice & asg, grammar_base const & g, std::map<match, node_props_t> & nodes, match const & m) {
-	bool anyPermutationSelected = false;
-	node_props_t * a;
 	auto const & i = nodes.find(m);
 	if (i == nodes.end()) {
 		return; //continue
 	}
-	a = &i->second;
-	//are any of those permutations comprised of selected children?
-	for (permutation const & p : a->permutations) {
-		bool permutationSelected = true;
-		for (match const & child : p) {
-			node_props_t const & childProps = nodes.find(child)->second;
-			if (!childProps.selected) {
-				permutationSelected = false;
-				break;
-			}
-		}
-		if (permutationSelected) {
-			anyPermutationSelected = true;
-			break;
-		}
-	}
-
-	if (!anyPermutationSelected) {
-		return; //continue
-	}
+	node_props_t * a = &i->second;
 
 	//is it possibly preempted by another match that it intersects with?
 	for (match const & intersected : a->allIntersections) {
@@ -475,7 +452,6 @@ static void select_match(abstract_syntax_semilattice & asg, grammar_base const &
 		}
 	}
 
-	a->selected = true;
 	std::set<match> preservedIntersections = a->allIntersections;
 	for (match const & intersected : preservedIntersections) {
 		auto const & pair = nodes.find(intersected);

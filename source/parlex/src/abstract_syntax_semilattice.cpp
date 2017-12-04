@@ -29,12 +29,10 @@ void abstract_syntax_semilattice::cut(std::set<match> const & matches) {
 	for (auto const & m : matches) {
 		pending.push(m);
 	}
-	bool anyCut = false;
 	while (!pending.empty()) {
 		match m = pending.front();
 		pending.pop();
 		if (permutations.erase(m) == 1) {
-			anyCut = true;
 			for (auto const & n : reversedDependencies[m]) {
 				std::set<permutation> newPermutations;
 				for (auto const & p : permutations[n]) {
@@ -57,9 +55,6 @@ void abstract_syntax_semilattice::cut(std::set<match> const & matches) {
 				}
 			}
 		}
-	}
-	if (anyCut) {
-
 	}
 }
 
