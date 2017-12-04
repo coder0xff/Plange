@@ -34,6 +34,7 @@ public:
 	static std::pair<int, int> get_line_number_and_column(std::map<int, int> const & lineNumberByFirstCharacter, int charIndex);
 	// For initialization of `line_number_by_first_character` data member, requires document already constructed
 	static std::map<int, int> construct_line_number_by_first_character(std::u32string const & document);
+	static std::string describe_code_span(parlex::details::match const & m, std::map<int, int> const & lineNumberByFirstCharacter, std::string const & pathname = "");
 	static parlex::details::abstract_syntax_tree construct_ast(std::u32string const & document, parlex::details::recognizer const & production, std::string const & pathname);
 
 	parlex::details::abstract_syntax_tree const ast;

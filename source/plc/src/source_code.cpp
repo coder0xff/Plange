@@ -121,18 +121,7 @@ std::pair<int, int> plc::source_code::get_line_number_and_column(int charIndex) 
 
 
 std::string plc::source_code::describe_code_span(parlex::details::match const & m) const {
-	std::string result = pathname == "" ? "[generated]" : pathname;
-	result += ":";
-	std::pair<int, int>
-		start = get_line_number_and_column(m.document_position),
-		end = get_line_number_and_column(m.document_position + m.consumed_character_count - 1);
-	result += std::to_string(start.first) + ":" + std::to_string(start.second) + "-";
-	if (end.first == start.first) {
-		result += std::to_string(end.second);
-	} else {
-		result += std::to_string(end.first) + ":" + std::to_string(end.second);
-	}
-	return result;
+	return describe_code_span(m, line_number_by_first_character, pathname);
 }
 
 std::map<int, int> plc::source_code::construct_line_number_by_first_character(std::u32string const & document) {
@@ -147,27 +136,45 @@ std::map<int, int> plc::source_code::construct_line_number_by_first_character(st
 	return result;
 }
 
+std::string plc::source_code::describe_code_span(parlex::details::match const & m, std::map<int, int> const & lineNumberByFirstCharacter, std::string const & pathname)
+{
+	std::string result = pathname == "" ? "[generated]" : pathname;
+	result += ":";
+	std::pair<int, int>
+		start = get_line_number_and_column(lineNumberByFirstCharacter, m.document_position),
+		end = get_line_number_and_column(lineNumberByFirstCharacter, m.document_position + m.consumed_character_count - 1);
+	result += std::to_string(start.first + 1) + ":" + std::to_string(start.second) + "-";
+	if (end.first == start.first) {
+		result += std::to_string(end.second);
+	} else {
+		result += std::to_string(end.first + 1) + ":" + std::to_string(end.second);
+	}
+	return result;
+
+}
+
 parlex::details::abstract_syntax_tree plc::source_code::construct_ast(std::u32string const & document, parlex::details::recognizer const & production, std::string const & pathname) {
 	std::map<int, int> const lineNumberByFirstCharacter(construct_line_number_by_first_character(document));
 	static parlex::details::parser p;
 	parlex::details::abstract_syntax_semilattice assl = p.parse(plange_grammar::get(), production, document);
 	// Was parsing successful?
 	if (!assl.is_rooted()) {
-		//parlex::details::match const * lastValidStatement =  nullptr;
-		//parlex::details::state_machine_base const & STATEMENTStateMachine = plange_grammar::get().get_state_machine("STATEMENT");
-		//for (auto const & tableEntry : assl.permutations) {
-		//	parlex::details::match const & m = tableEntry.first;
-		//	if (&m.r == &STATEMENTStateMachine) {
-		//		if (lastValidStatement == nullptr || m.document_position + m.consumed_character_count > lastValidStatement->document_position + lastValidStatement->consumed_character_count) {
-		//			lastValidStatement = &m;
-		//		}
-		//	}
-		//}
-		//if (lastValidStatement == nullptr) {
+		parlex::details::match const * lastValidStatement =  nullptr;
+		parlex::details::state_machine_base const & STATEMENTStateMachine = plange_grammar::get().get_state_machine("STATEMENT");
+		for (auto const & tableEntry : assl.permutations) {
+			parlex::details::match const & m = tableEntry.first;
+			if (&m.r == &STATEMENTStateMachine) {
+				if (lastValidStatement == nullptr || m.document_position + m.consumed_character_count > lastValidStatement->document_position + lastValidStatement->consumed_character_count) {
+					lastValidStatement = &m;
+				}
+			}
+		}
+		if (lastValidStatement == nullptr) {
 			ERROR(CouldNotParse, pathname + " syntax semilattice: " + assl.to_dot());
-		//} else {
-		//	//ERROR(CouldNotParse, pathname + " last valid statement: " + describe_code_span(*lastValidStatement));
-		//}
+		} else {
+			auto description = pathname + " last valid statement: " + describe_code_span(*lastValidStatement, lineNumberByFirstCharacter, pathname);
+			ERROR(CouldNotParse, description);
+		}
 	}
 
 
