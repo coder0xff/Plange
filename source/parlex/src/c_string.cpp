@@ -108,8 +108,8 @@ std::u32string c_string_t::extract(std::u32string const & document, ast_node con
 
 std::u32string c_string_t::extract(std::u32string const & document, match const & m, abstract_syntax_semilattice const & asg) const {
 	throw_assert(&m.r == this);
-	auto const & asgTableIterator = asg.permutations.find(m);
-	throw_assert(asgTableIterator != asg.permutations.end());
+	auto const & asgTableIterator = asg.permutations_of_matches.find(m);
+	throw_assert(asgTableIterator != asg.permutations_of_matches.end());
 	std::set<permutation> const & permutations = asgTableIterator->second;
 	throw_assert(permutations.size() != 0);
 	permutation const & p = *permutations.begin();

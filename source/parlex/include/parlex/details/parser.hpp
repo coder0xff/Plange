@@ -43,8 +43,8 @@ private:
 	std::condition_variable work_cv;
 
 	void start_workers(int threadCount);
-	static abstract_syntax_semilattice construct_result(job const & j, match const & m);
-	static abstract_syntax_semilattice construct_result_and_postprocess(recognizer const & overrideMain, std::vector<post_processor> posts, std::u32string const & document, job const & j);
+	static abstract_syntax_semilattice construct_result(job & j, match const & m);
+	static abstract_syntax_semilattice construct_result_and_postprocess(recognizer const & overrideMain, std::vector<post_processor> posts, std::u32string const & document, job & j);
 	static void complete_progress_handler(job & j);
 	static void update_progress(context const & context);
 	std::tuple<context const*, int> get_work_item();

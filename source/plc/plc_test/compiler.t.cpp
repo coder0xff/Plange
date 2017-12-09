@@ -1,6 +1,8 @@
 #include "compiler.hpp"
- 
- #include <gtest/gtest.h>
+
+#include <experimental/filesystem>
+
+#include <gtest/gtest.h>
 
 #include "EXPRESSION.hpp"
 #include "TYPE_CONSTRAINT.hpp"
@@ -9,6 +11,13 @@
 #include "MULTIPLICATION.hpp"
 #include "BINARY_OP.hpp"
 #include "BINARY_LOGICAL_OP.hpp"
+
+#include "module.hpp"
+
+static std::string const & examples_dir() {
+	static std::string result = to_utf8(std::experimental::filesystem::canonical(std::experimental::filesystem::path(__FILE__).remove_filename().append("/../../stdlib"))).c_str() + std::string("/");
+	return result;
+}
 
 TEST(PlcCompiler, ParseTupleMapsToExpression) {
 	auto result = plc::compiler::parse<plc::MAPS_TO>(U"a*b->c");
@@ -59,7 +68,17 @@ TEST(PlcCompiler, ParseType) {
 	auto result = plc::compiler::parse(source);
 }
 
-TEST(PlcCompiler, LoadSource) {
+TEST(PlcCompiler, ParseFILEPointer) {
+	auto source = U"FILEPointer := type_abstraction(Pointer<Void>);\n";
+	auto result = plc::compiler::parse(source);
+}
+
+TEST(PlcCompiler, ParsePrintHelloWorld) {
 	auto source = U"print(\"Hello, world!\");";
-	plc::source_code module("", source);
+	plc::source_code("", source);
+}
+
+TEST(PlcCompiler, LoadCStdLibGenerated) {
+	std::string filePathname = examples_dir() + "Plange.CStdLib.Generated._pg";
+	auto result = plc::source_code(filePathname);
 }

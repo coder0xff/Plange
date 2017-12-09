@@ -83,6 +83,8 @@ void subjob::decrement_lifetime() {
 		return;
 	}
 	flush();
+	contexts.clear();
+	queuedPermutations.clear();
 	terminate();
 }
 

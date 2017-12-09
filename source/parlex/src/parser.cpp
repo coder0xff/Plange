@@ -13,6 +13,7 @@
 #include "parlex/details/subjob.hpp"
 
 #include "utils.hpp"
+#include <iterator>
 
 namespace parlex {
 namespace details {
@@ -60,7 +61,7 @@ parser::~parser() {
 	}
 }
 
-abstract_syntax_semilattice parser::construct_result_and_postprocess(recognizer const & overrideMain, std::vector<post_processor> posts, std::u32string const & document, job const & j) {
+abstract_syntax_semilattice parser::construct_result_and_postprocess(recognizer const & overrideMain, std::vector<post_processor> posts, std::u32string const & document, job & j) {
 	abstract_syntax_semilattice result = construct_result(j, match(match_class(overrideMain, 0), document.size()));
 	if (!posts.empty()) {
 		for (auto const & post : posts) {
@@ -218,8 +219,8 @@ static bool matches_intersect(match const & left, match const & right) {
 
 static std::set<match> getChildren(abstract_syntax_semilattice const & asg, match const & m) {
 	std::set<match> result;
-	auto i = asg.permutations.find(m);
-	if (i == asg.permutations.end()) {
+	auto i = asg.permutations_of_matches.find(m);
+	if (i == asg.permutations_of_matches.end()) {
 		return std::set<match>();
 	}
 	for (permutation const & perm : i->second) {
@@ -232,7 +233,6 @@ static std::set<match> getChildren(abstract_syntax_semilattice const & asg, matc
 
 struct node_props_t {
 	match const m;
-	recognizer const & r;
 	std::set<permutation> & permutations;
 	std::set<match> children;
 	std::map<match, std::set<permutation>> parentPermutationsByMatch;
@@ -240,9 +240,9 @@ struct node_props_t {
 	std::set<match> allDescendents;
 	std::set<match> allAncestors;
 	std::set<match> allDescendentsAndAncestors;
-	std::set<match> allIntersections;
+	std::set<match> allUnrelatedIntersections;
 
-	node_props_t(abstract_syntax_semilattice & asg, match const & m) : m(m), r(m.r), permutations(asg.permutations[m]), children(getChildren(asg, m)), height(0) {
+	node_props_t(abstract_syntax_semilattice & asg, match const & m) : m(m), permutations(asg.permutations_of_matches[m]), children(getChildren(asg, m)), height(0) {
 	}
 };
 
@@ -310,23 +310,23 @@ static void prune(abstract_syntax_semilattice & asg, std::map<match, node_props_
 			ancestor.allDescendentsAndAncestors.erase(thisMatch);
 			ancestor.children.erase(thisMatch);
 		}
-		for (match const & intersectorMatch : thisNode.allIntersections) {
+		for (match const & intersectorMatch : thisNode.allUnrelatedIntersections) {
 			auto const i = nodes.find(intersectorMatch);
 			throw_assert(i != nodes.end());
 			node_props_t & intersector = i->second;
-			intersector.allIntersections.erase(thisMatch);
+			intersector.allUnrelatedIntersections.erase(thisMatch);
 		}
 	}
 
 	for (match const & i : completed) {
 		nodes.erase(i);
-		asg.permutations.erase(i);
+		asg.permutations_of_matches.erase(i);
 	}
 }
 
 static void construct_nodes(abstract_syntax_semilattice & asg, std::map<match, node_props_t> & nodes, std::vector<std::set<node_props_t *>> & flattened) {
-	for (auto const & entry : asg.permutations) {
-		match const & m = entry.first;
+	for (auto const & matchAndPermutations : asg.permutations_of_matches) {
+		match const & m = matchAndPermutations.first;
 		node_props_t & nodeProps = nodes.emplace(std::piecewise_construct, std::forward_as_tuple(m), std::forward_as_tuple(asg, m)).first->second;
 
 		for (permutation const & perm : nodeProps.permutations) {
@@ -381,19 +381,19 @@ static void resolve_nodes(std::map<match, node_props_t> & nodes) {
 }
 
 static void compute_intersections(std::vector<std::set<node_props_t *>> const & flattened) {
-	for (size_t i = 0; i < flattened.size(); ++i) {
-		std::set<node_props_t *>::iterator iterEnd = flattened[i].end();
-		for (std::set<node_props_t *>::iterator j = flattened[i].begin(); j != iterEnd; ++j) {
-			node_props_t & left = **j;
-			std::set<node_props_t *>::iterator k = j;
-			++k;
-			for (; k != iterEnd; ++k) {
-				node_props_t & right = **k;
-				if (left.allDescendentsAndAncestors.count(right.m) == 0) {
-					left.allIntersections.insert(right.m);
-					right.allIntersections.insert(left.m);
-				}
-			}
+	for (size_t column = 0; column < flattened.size(); ++column) {
+		std::set<match> columnMatches;
+		for (auto const & nodeProp : flattened[column]) {
+			columnMatches.insert(nodeProp->m);
+		}
+		for (auto & nodeProp : flattened[column]) {
+			std::set<match> unrelatedIntersection;
+			std::set_difference(
+				columnMatches.begin(), columnMatches.end(),
+				nodeProp->allDescendentsAndAncestors.begin(), nodeProp->allDescendentsAndAncestors.end(),
+				std::inserter(nodeProp->allUnrelatedIntersections, nodeProp->allUnrelatedIntersections.end())
+			);
+			nodeProp->allUnrelatedIntersections.erase(nodeProp->m);
 		}
 	}
 }
@@ -442,7 +442,7 @@ static void select_match(abstract_syntax_semilattice & asg, grammar_base const &
 	node_props_t * a = &i->second;
 
 	//is it possibly preempted by another match that it intersects with?
-	for (match const & intersected : a->allIntersections) {
+	for (match const & intersected : a->allUnrelatedIntersections) {
 		auto pair = nodes.find(intersected);
 		throw_assert(pair != nodes.end());
 		node_props_t & b = pair->second;
@@ -452,7 +452,7 @@ static void select_match(abstract_syntax_semilattice & asg, grammar_base const &
 		}
 	}
 
-	std::set<match> preservedIntersections = a->allIntersections;
+	std::set<match> preservedIntersections = a->allUnrelatedIntersections;
 	for (match const & intersected : preservedIntersections) {
 		auto const & pair = nodes.find(intersected);
 		if (pair == nodes.end()) {
@@ -467,7 +467,7 @@ static void select_match(abstract_syntax_semilattice & asg, grammar_base const &
 			else {
 				if (does_precede(g, *a, b)) {
 					static auto stringify = [](node_props_t & np) {
-						return np.r.id + " from " + std::to_string(np.m.document_position) + " for " + std::to_string(np.m.consumed_character_count) + " characters at height " + std::to_string(np.height);
+						return np.m.r.id + " from " + std::to_string(np.m.document_position) + " for " + std::to_string(np.m.consumed_character_count) + " characters at height " + std::to_string(np.height);
 					};
 					asg.warnings.push_back(stringify(*a) + " preempted " + stringify(b) + " by precedence, but was not applied because it would cause a degenerate parse tree.");
 				}
@@ -517,7 +517,7 @@ static void apply_precedence_and_associativity(grammar_base const & g, abstract_
 
 
 //Construct an ASS, and if a solution was found, prunes unreachable nodes
-abstract_syntax_semilattice parser::construct_result(job const & j, match const & m) {
+abstract_syntax_semilattice parser::construct_result(job & j, match const & m) {
 	//perf_timer timer("construct_result");
 	abstract_syntax_semilattice result = abstract_syntax_semilattice(transition(match(m), nullptr));
 	for (auto const & pair : j.producers) {
@@ -525,9 +525,10 @@ abstract_syntax_semilattice parser::construct_result(job const & j, match const 
 		for (auto const & pair2 : producer.match_to_permutations) {
 			struct match const & n = match(pair2.first);
 			std::set<permutation> const & permutations = pair2.second;
-			result.permutations[n] = permutations;
+			result.permutations_of_matches[n] = permutations;
 		}
 	}
+	j.producers.clear();
 	if (result.is_rooted()) {
 		result.prune_detached();
 		apply_precedence_and_associativity(j.g, result);

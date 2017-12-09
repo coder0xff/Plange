@@ -12,16 +12,16 @@ namespace details {
 abstract_syntax_semilattice::abstract_syntax_semilattice(match root) : root(root) { }
 
 bool abstract_syntax_semilattice::is_rooted() const {
-	auto i = permutations.find(root);
-	return i != permutations.end() && i->second.size() > 0;
+	auto i = permutations_of_matches.find(root);
+	return i != permutations_of_matches.end() && i->second.size() > 0;
 }
 
 void abstract_syntax_semilattice::cut(std::set<match> const & matches) {
 	std::map<match, std::set<match>> reversedDependencies;
-	for (auto const & entry : permutations) {
-		for (auto const & p : entry.second) {
-			for (auto const & m : p) {
-				reversedDependencies[m].insert(entry.first);
+	for (auto const & matchAndPermutations : permutations_of_matches) {
+		for (auto const & permutation : matchAndPermutations.second) {
+			for (auto const & m : permutation) {
+				reversedDependencies[m].insert(matchAndPermutations.first);
 			}
 		}
 	}
@@ -32,10 +32,10 @@ void abstract_syntax_semilattice::cut(std::set<match> const & matches) {
 	while (!pending.empty()) {
 		match m = pending.front();
 		pending.pop();
-		if (permutations.erase(m) == 1) {
+		if (permutations_of_matches.erase(m) == 1) {
 			for (auto const & n : reversedDependencies[m]) {
 				std::set<permutation> newPermutations;
-				for (auto const & p : permutations[n]) {
+				for (auto const & p : permutations_of_matches[n]) {
 					bool cutPermutation = false;
 					for (auto const & o : p) {
 						if (!(o < m) && !(m < o)) {
@@ -51,7 +51,7 @@ void abstract_syntax_semilattice::cut(std::set<match> const & matches) {
 					pending.push(n);
 				}
 				else {
-					permutations[n].swap(newPermutations);
+					permutations_of_matches[n].swap(newPermutations);
 				}
 			}
 		}
@@ -60,7 +60,7 @@ void abstract_syntax_semilattice::cut(std::set<match> const & matches) {
 
 void abstract_syntax_semilattice::prune_detached() {
 	std::set<match> unconnecteds;
-	for (auto const & entry : permutations) {
+	for (auto const & entry : permutations_of_matches) {
 		unconnecteds.insert(entry.first);
 	}
 	std::queue<match> pending;
@@ -69,7 +69,7 @@ void abstract_syntax_semilattice::prune_detached() {
 	while (!pending.empty()) {
 		match m = pending.front();
 		pending.pop();
-		for (auto const & permutation : permutations[m]) {
+		for (auto const & permutation : permutations_of_matches[m]) {
 			for (auto const & child : permutation) {
 				if (unconnecteds.erase(child) > 0) {
 					pending.push(child);
@@ -78,14 +78,14 @@ void abstract_syntax_semilattice::prune_detached() {
 		}
 	}
 	for (auto const & unconnected : unconnecteds) {
-		permutations.erase(unconnected);
+		permutations_of_matches.erase(unconnected);
 	}
 }
 
 std::string abstract_syntax_semilattice::to_dot() const {
 	std::string result = "digraph {\n";
 	std::set<match> completed;
-	for (auto const & entry : permutations) {
+	for (auto const & entry : permutations_of_matches) {
 		match i = entry.first;
 		completed.insert(i);
 		std::string from_name = i.r.id + ":" + std::to_string(i.document_position + 1) + ":" + std::to_string(i.consumed_character_count);
@@ -103,7 +103,7 @@ std::string abstract_syntax_semilattice::to_dot() const {
 std::string abstract_syntax_semilattice::to_concrete_dot(std::u32string const & document) {
 	std::string result = "digraph {\n";
 	std::set<match> completed;
-	for (auto const & entry : permutations) {
+	for (auto const & entry : permutations_of_matches) {
 		match i = entry.first;
 		completed.insert(i);
 		std::string from_name = i.r.id + ":" + std::to_string(i.document_position + 1) + ":" + std::to_string(i.consumed_character_count) + "\n" + to_utf8(document.substr(i.document_position, i.consumed_character_count));
@@ -120,7 +120,7 @@ std::string abstract_syntax_semilattice::to_concrete_dot(std::u32string const & 
 
 uint64_t abstract_syntax_semilattice::variation_count() const {
 	uint64_t result = 1;
-	for (auto const & permutation : permutations) {
+	for (auto const & permutation : permutations_of_matches) {
 		result *= permutation.second.size();
 	}
 	return result;
@@ -129,8 +129,8 @@ uint64_t abstract_syntax_semilattice::variation_count() const {
 
 std::set<permutation> const & abstract_syntax_semilattice::lookup(match const & m) const
 {
-	auto i = permutations.find(m);
-	if (i == permutations.end()) {
+	auto i = permutations_of_matches.find(m);
+	if (i == permutations_of_matches.end()) {
 		throw std::runtime_error("permutations not found");
 	}
 	return i->second;
@@ -138,7 +138,7 @@ std::set<permutation> const & abstract_syntax_semilattice::lookup(match const & 
 
 std::vector<ast_node> abstract_syntax_semilattice::build_tree(match const & m) const {
 	std::vector<ast_node> results;
-	std::set<permutation> const & ps = permutations.find(m)->second;
+	std::set<permutation> const & ps = permutations_of_matches.find(m)->second;
 	if (!ps.empty()) {
 		permutation const & p = *ps.begin();
 		for (transition const & t : p) {

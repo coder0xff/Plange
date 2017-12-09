@@ -21,7 +21,7 @@
 //Any PAYLOAD that fully contains another PAYLOAD is not a PAYLOAD
 static void payload_postprocess(parlex::details::abstract_syntax_semilattice & asg) {
 	std::set<parlex::details::match> payloadMatches;
-	for (auto const & entry : asg.permutations) {
+	for (auto const & entry : asg.permutations_of_matches) {
 		if (entry.first.r.id == "PAYLOAD") {
 			payloadMatches.insert(entry.first);
 		}
@@ -49,7 +49,7 @@ static std::vector<std::set<parlex::details::match>> matches_by_height(parlex::d
 	std::map<parlex::details::match, std::set<parlex::details::match>> reversedDependencies;
 	std::set<parlex::details::match> pending;
 	std::map<parlex::details::match, size_t> reversedResults;
-	for (auto const & entry : asg.permutations) {
+	for (auto const & entry : asg.permutations_of_matches) {
 		pending.insert(entry.first);
 		reversedResults[entry.first] = 0;
 		for (auto const & p : entry.second) {
@@ -86,7 +86,7 @@ plc::source_code::source_code(std::string const & pathname, std::u32string const
 	document(document),
 	line_number_by_first_character(construct_line_number_by_first_character(document)),
     ast(construct_ast(document, plange_grammar::get().STATEMENT_SCOPE.get_recognizer(), pathname)),
-	representation(parse(document)) {
+	representation(STATEMENT_SCOPE::build(ast)) {
 }
 
 static std::u32string read(std::string const & pathname) {
@@ -161,7 +161,7 @@ parlex::details::abstract_syntax_tree plc::source_code::construct_ast(std::u32st
 	if (!assl.is_rooted()) {
 		parlex::details::match const * lastValidStatement =  nullptr;
 		parlex::details::state_machine_base const & STATEMENTStateMachine = plange_grammar::get().get_state_machine("STATEMENT");
-		for (auto const & tableEntry : assl.permutations) {
+		for (auto const & tableEntry : assl.permutations_of_matches) {
 			parlex::details::match const & m = tableEntry.first;
 			if (&m.r == &STATEMENTStateMachine) {
 				if (lastValidStatement == nullptr || m.document_position + m.consumed_character_count > lastValidStatement->document_position + lastValidStatement->consumed_character_count) {
@@ -184,7 +184,7 @@ parlex::details::abstract_syntax_tree plc::source_code::construct_ast(std::u32st
 		for (size_t height = 0; height < matchesByHeight.size(); ++height) {
 			auto const & matches = matchesByHeight[height];
 			for (auto const & m : matches) {
-				auto const & permutations = assl.permutations.find(m)->second;
+				auto const & permutations = assl.permutations_of_matches.find(m)->second;
 				if (permutations.size() > 1) {
 					auto posStart = get_line_number_and_column(lineNumberByFirstCharacter, m.document_position);
 					auto posEnd = get_line_number_and_column(lineNumberByFirstCharacter, m.document_position + m.consumed_character_count - 1);

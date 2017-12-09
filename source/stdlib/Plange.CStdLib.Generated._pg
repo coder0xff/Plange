@@ -1,7 +1,7 @@
 extern <Pointer<Const<Char>> -> CInt> remove;
 extern <Pointer<Const<Char>> * Pointer<Const<Char>> -> CInt> rename;
 extern <CInt * Pointer<Const<Char>> * CInt * Pointer<Const<Char>> -> CInt> renameat;
-FILEPointer := type_abstraction(Pointer<Void>)
+FILEPointer := type_abstraction(Pointer<Void>);
 extern <Void -> FILEPointer> tmpfile;
 extern <Pointer<Char> -> Pointer<Char>> tmpnam;
 extern <Pointer<Char> -> Pointer<Char>> tmpnam_r;
@@ -18,14 +18,6 @@ extern <FILEPointer * Pointer<Char> -> Void> setbuf;
 extern <FILEPointer * Pointer<Char> * CInt * CInt -> CInt> setvbuf;
 extern <FILEPointer * Pointer<Char> * CInt -> Void> setbuffer;
 extern <FILEPointer -> Void> setlinebuf;
-extern <FILEPointer * Pointer<Const<Char>> * UInt * Pointer<Void>^ -> CInt> fprintf;
-extern <Pointer<Const<Char>> * UInt * Pointer<Void>^ -> CInt> printf;
-extern <Pointer<Char> * Pointer<Const<Char>> * UInt * Pointer<Void>^ -> CInt> sprintf;
-extern <CInt * Pointer<Const<Char>> * CInt -> CInt> vdprintf;
-extern <CInt * Pointer<Const<Char>> * UInt * Pointer<Void>^ -> CInt> dprintf;
-extern <FILEPointer * Pointer<Const<Char>> * UInt * Pointer<Void>^ -> CInt> fscanf;
-extern <Pointer<Const<Char>> * UInt * Pointer<Void>^ -> CInt> scanf;
-extern <Pointer<Const<Char>> * Pointer<Const<Char>> * UInt * Pointer<Void>^ -> CInt> sscanf;
 extern <FILEPointer -> CInt> fgetc;
 extern <FILEPointer -> CInt> getc;
 extern <Void -> CInt> getchar;
@@ -56,9 +48,9 @@ extern <FILEPointer -> CLong> ftell;
 extern <FILEPointer -> Void> rewind;
 extern <FILEPointer * CInt * CInt -> CInt> fseeko;
 extern <FILEPointer -> CInt> ftello;
-fpos_tPointer := type_abstraction(Pointer<Void>)
+fpos_tPointer := type_abstraction(Pointer<Void>);
 extern <FILEPointer * fpos_tPointer -> CInt> fgetpos;
-Constfpos_tPointer := type_abstraction(Pointer<Const<Void>>)
+Constfpos_tPointer := type_abstraction(Pointer<Const<Void>>);
 extern <FILEPointer * Constfpos_tPointer -> CInt> fsetpos;
 extern <FILEPointer -> Void> clearerr;
 extern <FILEPointer -> CInt> feof;
@@ -126,9 +118,9 @@ extern <CInt -> Pointer<Void>> valloc;
 extern <Pointer<Pointer<Void>> * CInt * CInt -> CInt> posix_memalign;
 extern <CInt * CInt -> Pointer<Void>> aligned_alloc;
 extern <Void -> Void> abort;
-extern <<Void -> Void> -> CInt> atexit;
-extern <<Void -> Void> -> CInt> at_quick_exit;
-extern <<Int32 * Pointer<Void> -> Void> * Pointer<Void> -> CInt> on_exit;
+extern <(Void -> Void) -> CInt> atexit;
+extern <(Void -> Void) -> CInt> at_quick_exit;
+extern <(Int32 * Pointer<Void> -> Void) * Pointer<Void> -> CInt> on_exit;
 extern <CInt -> Void> exit;
 extern <CInt -> Void> quick_exit;
 extern <CInt -> Void> _Exit;
@@ -143,8 +135,8 @@ extern <Pointer<Char> * CInt -> CInt> mkstemps;
 extern <Pointer<Char> -> Pointer<Char>> mkdtemp;
 extern <Pointer<Const<Char>> -> CInt> system;
 extern <Pointer<Const<Char>> * Pointer<Char> -> Pointer<Char>> realpath;
-extern <Pointer<Const<Void>> * Pointer<Const<Void>> * CInt * CInt * <Pointer<Const<Void>> * Pointer<Const<Void>> -> Int32> -> Pointer<Void>> bsearch;
-extern <Pointer<Void> * CInt * CInt * <Pointer<Const<Void>> * Pointer<Const<Void>> -> Int32> -> Void> qsort;
+extern <Pointer<Const<Void>> * Pointer<Const<Void>> * CInt * CInt * (Pointer<Const<Void>> * Pointer<Const<Void>> -> Int32) -> Pointer<Void>> bsearch;
+extern <Pointer<Void> * CInt * CInt * (Pointer<Const<Void>> * Pointer<Const<Void>> -> Int32) -> Void> qsort;
 extern <CInt -> CInt> abs;
 extern <CLong -> CLong> labs;
 extern <CLongLong -> CLongLong> llabs;
@@ -199,54 +191,54 @@ extern <CInt -> Pointer<Char>> strsignal;
 extern <Pointer<Char> * Pointer<Const<Char>> -> Pointer<Char>> __stpcpy;
 extern <Pointer<Char> * Pointer<Const<Char>> -> Pointer<Char>> stpcpy;
 extern <Pointer<Char> * Pointer<Const<Char>> * CInt -> Pointer<Char>> __stpncpy;
-extern <CInt * <Int32 -> Void> -> <Int32 -> Void>> __sysv_signal;
-extern <CInt * <Int32 -> Void> -> <Int32 -> Void>> signal;
+extern <CInt * (Int32 -> Void) -> (Int32 -> Void)> __sysv_signal;
+extern <CInt * (Int32 -> Void) -> (Int32 -> Void)> signal;
 extern <CInt * CInt -> CInt> kill;
 extern <CInt * CInt -> CInt> killpg;
 extern <CInt -> CInt> raise;
-extern <CInt * <Int32 -> Void> -> <Int32 -> Void>> ssignal;
+extern <CInt * (Int32 -> Void) -> (Int32 -> Void)> ssignal;
 extern <CInt -> CInt> gsignal;
 extern <CInt * Pointer<Const<Char>> -> Void> psignal;
-Constsiginfo_tPointer := type_abstraction(Pointer<Const<Void>>)
+Constsiginfo_tPointer := type_abstraction(Pointer<Const<Void>>);
 extern <Constsiginfo_tPointer * Pointer<Const<Char>> -> Void> psiginfo;
 extern <CInt -> CInt> sigblock;
 extern <CInt -> CInt> sigsetmask;
 extern <Void -> CInt> siggetmask;
-sigset_tPointer := type_abstraction(Pointer<Void>)
+sigset_tPointer := type_abstraction(Pointer<Void>);
 extern <sigset_tPointer -> CInt> sigemptyset;
 extern <sigset_tPointer -> CInt> sigfillset;
 extern <sigset_tPointer * CInt -> CInt> sigaddset;
 extern <sigset_tPointer * CInt -> CInt> sigdelset;
-Constsigset_tPointer := type_abstraction(Pointer<Const<Void>>)
+Constsigset_tPointer := type_abstraction(Pointer<Const<Void>>);
 extern <Constsigset_tPointer * CInt -> CInt> sigismember;
 extern <CInt * Constsigset_tPointer * sigset_tPointer -> CInt> sigprocmask;
 extern <Constsigset_tPointer -> CInt> sigsuspend;
-ConstsigactionPointer := type_abstraction(Pointer<Const<Void>>)
-sigactionPointer := type_abstraction(Pointer<Void>)
+ConstsigactionPointer := type_abstraction(Pointer<Const<Void>>);
+sigactionPointer := type_abstraction(Pointer<Void>);
 extern <CInt * ConstsigactionPointer * sigactionPointer -> CInt> sigaction;
 extern <sigset_tPointer -> CInt> sigpending;
 extern <Constsigset_tPointer * Pointer<CInt> -> CInt> sigwait;
-siginfo_tPointer := type_abstraction(Pointer<Void>)
+siginfo_tPointer := type_abstraction(Pointer<Void>);
 extern <Constsigset_tPointer * siginfo_tPointer -> CInt> sigwaitinfo;
-ConsttimespecPointer := type_abstraction(Pointer<Const<Void>>)
+ConsttimespecPointer := type_abstraction(Pointer<Const<Void>>);
 extern <Constsigset_tPointer * siginfo_tPointer * ConsttimespecPointer -> CInt> sigtimedwait;
 extern <CInt * CInt * Const<CSigval> -> CInt> sigqueue;
-sigcontextPointer := type_abstraction(Pointer<Void>)
+sigcontextPointer := type_abstraction(Pointer<Void>);
 extern <sigcontextPointer -> CInt> sigreturn;
 extern <CInt * CInt -> CInt> siginterrupt;
-sigstackPointer := type_abstraction(Pointer<Void>)
+sigstackPointer := type_abstraction(Pointer<Void>);
 extern <sigstackPointer * sigstackPointer -> CInt> sigstack;
-ConstsigaltstackPointer := type_abstraction(Pointer<Const<Void>>)
-sigaltstackPointer := type_abstraction(Pointer<Void>)
+ConstsigaltstackPointer := type_abstraction(Pointer<Const<Void>>);
+sigaltstackPointer := type_abstraction(Pointer<Void>);
 extern <ConstsigaltstackPointer * sigaltstackPointer -> CInt> sigaltstack;
 extern <Void -> CInt> __libc_current_sigrtmin;
 extern <Void -> CInt> __libc_current_sigrtmax;
 extern <Void -> Int64> clock;
 extern <Pointer<Int64> -> Int64> time;
 extern <Int64 * Int64 -> Float64> difftime;
-tmPointer := type_abstraction(Pointer<Void>)
+tmPointer := type_abstraction(Pointer<Void>);
 extern <tmPointer -> Int64> mktime;
-ConsttmPointer := type_abstraction(Pointer<Const<Void>>)
+ConsttmPointer := type_abstraction(Pointer<Const<Void>>);
 extern <Pointer<Char> * CInt * Pointer<Const<Char>> * ConsttmPointer -> CInt> strftime;
 extern <Pointer<Char> * CInt * Pointer<Const<Char>> * ConsttmPointer * Pointer<Void> -> CInt> strftime_l;
 extern <Pointer<Const<Int64>> -> tmPointer> gmtime;
@@ -262,18 +254,18 @@ extern <Pointer<Const<Int64>> -> CInt> stime;
 extern <tmPointer -> Int64> timegm;
 extern <tmPointer -> Int64> timelocal;
 extern <CInt -> CInt> dysize;
-timespecPointer := type_abstraction(Pointer<Void>)
+timespecPointer := type_abstraction(Pointer<Void>);
 extern <ConsttimespecPointer * timespecPointer -> CInt> nanosleep;
 extern <CInt * timespecPointer -> CInt> clock_getres;
 extern <CInt * timespecPointer -> CInt> clock_gettime;
 extern <CInt * ConsttimespecPointer -> CInt> clock_settime;
 extern <CInt * CInt * ConsttimespecPointer * timespecPointer -> CInt> clock_nanosleep;
 extern <CInt * Pointer<CInt> -> CInt> clock_getcpuclockid;
-sigeventPointer := type_abstraction(Pointer<Void>)
+sigeventPointer := type_abstraction(Pointer<Void>);
 extern <CInt * sigeventPointer * Pointer<CInt> -> CInt> timer_create;
 extern <CInt -> CInt> timer_delete;
-ConstitimerspecPointer := type_abstraction(Pointer<Const<Void>>)
-itimerspecPointer := type_abstraction(Pointer<Void>)
+ConstitimerspecPointer := type_abstraction(Pointer<Const<Void>>);
+itimerspecPointer := type_abstraction(Pointer<Void>);
 extern <CInt * CInt * ConstitimerspecPointer * itimerspecPointer -> CInt> timer_settime;
 extern <CInt * itimerspecPointer -> CInt> timer_gettime;
 extern <CInt -> CInt> timer_getoverrun;

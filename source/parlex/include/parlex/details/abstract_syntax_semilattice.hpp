@@ -16,7 +16,7 @@ namespace details {
 // If the documentation representation is unambiguous (variation_count() == 1) then tree() can produce an AST
 struct abstract_syntax_semilattice {
 	explicit abstract_syntax_semilattice(match root);
-	std::map<match, std::set<permutation>> permutations;
+	std::map<match, std::set<permutation>> permutations_of_matches;
 	match root;
 	bool is_rooted() const;
 	void cut(std::set<match> const & matches);
