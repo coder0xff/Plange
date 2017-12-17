@@ -65,6 +65,8 @@ endif()
 #add_precompiled_header(plc "include/stdafx.hpp" FORCEINCLUDE SOURCE_CXX "src/stdafx.cpp")
 target_link_libraries(plc parlex utilities LLVMCore LLVMSupport gtest gtest_main)
 
+add_test(NAME plc_test COMMAND "$<TARGET_FILE:plc>" --test)
+
 # copy plc to artifacts folder
 add_custom_command(
 	TARGET plc
@@ -72,4 +74,4 @@ add_custom_command(
 	COMMAND ${CMAKE_COMMAND} -E copy "$<TARGET_FILE:plc>" "${ARTIFACTS_PREFIX}/bin/$<TARGET_FILE_NAME:plc>"
 )
 
-add_test(NAME plc_test COMMAND "$<TARGET_FILE:plc>" --test)
+
