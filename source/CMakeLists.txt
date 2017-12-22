@@ -8,6 +8,7 @@ set(DEP_DIR "${CMAKE_BINARY_DIR}/../../../Dependencies" CACHE INTERNAL "Dependen
 
 add_subdirectory(utilities)
 add_subdirectory(mpl)
+add_subdirectory(collections)
 add_subdirectory(parlex)
 add_subdirectory(plc)
 add_subdirectory(grammar_gen)

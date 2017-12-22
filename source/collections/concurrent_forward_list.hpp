@@ -1,6 +1,8 @@
 #ifndef CONCURRENT_FORWARD_LIST_HPP
 #define CONCURRENT_FORWARD_LIST_HPP
 
+/* concurrent_forward_list provides fast lock-free push_front, with slower and cache-incoherent iteration */
+
 #include <atomic>
 #include <cassert>
 #include <list>

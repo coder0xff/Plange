@@ -5,10 +5,11 @@
 #include <mutex>
 #include <atomic>
 
+#include "concurrent_forward_list.hpp"
+
 #include "parlex/detail/permutation.hpp"
 #include "parlex/detail/context.hpp"
 #include "parlex/detail/producer.hpp"
-#include "concurrent_forward_list.hpp"
 
 namespace parlex {
 namespace detail {
