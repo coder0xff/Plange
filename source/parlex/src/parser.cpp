@@ -211,30 +211,9 @@ bool parser::handle_deadlocks(job const & j) const {
 	return !anyHalted;
 }
 
-static bool matches_intersect(match const & left, match const & right) {
-	return
-		left.document_position < (right.document_position + right.consumed_character_count) &&
-		(left.document_position + left.consumed_character_count) > right.document_position;
-}
-
-static std::set<match> getChildren(abstract_syntax_semilattice const & asg, match const & m) {
-	std::set<match> result;
-	auto i = asg.permutations_of_matches.find(m);
-	if (i == asg.permutations_of_matches.end()) {
-		return std::set<match>();
-	}
-	for (permutation const & perm : i->second) {
-		for (match const & n : perm) {
-			result.insert(n);
-		}
-	}
-	return result;
-}
-
 struct node_props_t {
 	match const m;
 	std::set<permutation> & permutations;
-	std::set<match> children;
 	std::map<match, std::set<permutation>> parentPermutationsByMatch;
 	size_t height;
 	std::set<match> allDescendents;
@@ -242,7 +221,7 @@ struct node_props_t {
 	std::set<match> allDescendentsAndAncestors;
 	std::set<match> allUnrelatedIntersections;
 
-	node_props_t(abstract_syntax_semilattice & asg, match const & m) : m(m), permutations(asg.permutations_of_matches[m]), children(getChildren(asg, m)), height(0) {
+	node_props_t(abstract_syntax_semilattice & asg, match const & m) : m(m), permutations(asg.permutations_of_matches[m]), height(0) {
 	}
 };
 
@@ -308,7 +287,6 @@ static void prune(abstract_syntax_semilattice & asg, std::map<match, node_props_
 			node_props_t & ancestor = i->second;
 			ancestor.allDescendents.erase(thisMatch);
 			ancestor.allDescendentsAndAncestors.erase(thisMatch);
-			ancestor.children.erase(thisMatch);
 		}
 		for (match const & intersectorMatch : thisNode.allUnrelatedIntersections) {
 			auto const i = nodes.find(intersectorMatch);
