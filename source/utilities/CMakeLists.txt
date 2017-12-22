@@ -11,6 +11,7 @@ set (SOURCES
 	
 set (HEADERS
 	"auto_map_c.hpp"
+	"bits.hpp"
 	"concurrent_forward_list.hpp"
 	"covariant_invoke.hpp"
 	"graphviz_dot.hpp"

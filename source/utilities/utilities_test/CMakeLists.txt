@@ -5,6 +5,7 @@ link_directories("${DEP_DIR}/googletest/lib")
 find_package (Threads)
 
 SET(SOURCES
+	"bits.test.cpp"
 	"erased.test.cpp"
 	"utf.test.cpp"
 )
