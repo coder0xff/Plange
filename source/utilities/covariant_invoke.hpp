@@ -16,7 +16,7 @@ namespace detail {
 	};
 }
 
-template<typename U, typename T, typename V1, typename std::enable_if<!std::is_same<U, void>::value, int>::type = 0>
+template<typename U, typename T, typename V1, SFINAE_OVERLOAD(!mpl::equals<U, void>)>
 U covariant_invoke(T const & value, V1 const & func1) {
 	typedef typename detail::invoke_type<V1>::in_t in_t;
 	auto const * asU1 = dynamic_cast<in_t const *>(&value);

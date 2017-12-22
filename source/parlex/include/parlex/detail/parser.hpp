@@ -22,7 +22,7 @@ class subjob;
 
 class parser {
 public:
-	parser(unsigned threadCount = std::thread::hardware_concurrency());
+	explicit parser(unsigned threadCount = std::thread::hardware_concurrency());
 	~parser();
 	abstract_syntax_semilattice parse(grammar_base const & g, recognizer const & overrideMain, std::vector<post_processor> posts, std::u32string const & document, progress_handler_t progressHandler = progress_handler_t());
 	abstract_syntax_semilattice parse(grammar_base const & g, recognizer const & overrideMain, std::u32string const & document, progress_handler_t progressHandler = progress_handler_t());

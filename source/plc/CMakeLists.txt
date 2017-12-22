@@ -8,9 +8,9 @@ include_directories("${DEP_DIR}/googletest/include")
 link_directories("${DEP_DIR}/googletest/lib")
 
 include_directories("${CMAKE_CURRENT_SOURCE_DIR}") #for tclap
-include_directories("${CMAKE_CURRENT_SOURCE_DIR}/../parlex/include")
-include_directories("${CMAKE_CURRENT_SOURCE_DIR}/../mpl")
-include_directories("${CMAKE_CURRENT_SOURCE_DIR}/../utilities")
+include_directories("${PROJECT_SOURCE_DIR}/utilities")
+include_directories("${PROJECT_SOURCE_DIR}/mpl")
+include_directories("${PROJECT_SOURCE_DIR}/parlex/include")
 
 set(SOURCES
 	"src/analytic_value.cpp"
