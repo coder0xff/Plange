@@ -3,9 +3,13 @@
 
 #include <type_traits>
 
+// SFINAE(x, y = sfinae_t) => std::enable_if<x, y>::type
 #define SFINAE(...) ::mpl::sfinae<__VA_ARGS__>
+// In function signature
 #define SFINAE_PARAM(...) SFINAE(__VA_ARGS__) = ::mpl::sfinae_t()
+// In base-type template for specialized types
 #define SFINAE_TYPE_PARAM typename TSfinae = ::mpl::sfinae_t
+// In template of overloaded function
 #define SFINAE_OVERLOAD(...) typename = SFINAE(__VA_ARGS__) 
 
 namespace mpl {
