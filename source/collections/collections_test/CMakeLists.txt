@@ -2,6 +2,7 @@ include_directories("${DEP_DIR}/googletest/include")
 link_directories("${DEP_DIR}/googletest/lib")
 
 set (SOURCES
+	"coherent_queue.t.cpp"
 	"concurrent_forward_list.t.cpp"
 )
 

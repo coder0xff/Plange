@@ -5,6 +5,7 @@ set (SOURCES
 )
 	
 set (HEADERS
+	"coherent_queue.hpp"
 	"concurrent_forward_list.hpp"
 )
 	
