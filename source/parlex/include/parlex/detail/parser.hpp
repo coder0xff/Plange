@@ -9,6 +9,7 @@
 #include "parlex/detail/abstract_syntax_semilattice.hpp"
 #include "parlex/post_processor.hpp"
 #include "erased.hpp"
+#include "coherent_queue.hpp"
 
 namespace parlex {
 namespace detail {
@@ -39,7 +40,7 @@ private:
 	bool terminating;
 
 	std::vector<std::thread> workers;
-	std::queue<std::tuple<context const*, int>> work;
+	collections::coherent_queue<std::tuple<context const*, int>> work;
 	std::condition_variable work_cv;
 
 	void start_workers(int threadCount);
@@ -47,7 +48,6 @@ private:
 	static abstract_syntax_semilattice construct_result_and_postprocess(recognizer const & overrideMain, std::vector<post_processor> posts, std::u32string const & document, job & j);
 	static void complete_progress_handler(job & j);
 	static void update_progress(context const & context);
-	std::tuple<context const*, int> get_work_item();
 	abstract_syntax_semilattice single_thread_parse(grammar_base const & g, recognizer const & overrideMain, std::vector<post_processor> posts, std::u32string const & document, progress_handler_t progressHandler);
 	abstract_syntax_semilattice multi_thread_parse(grammar_base const & g, recognizer const & overrideMain, std::vector<post_processor> posts, std::u32string const & document, progress_handler_t progressHandler);
 	void schedule(context const & c, int nextDfaState);

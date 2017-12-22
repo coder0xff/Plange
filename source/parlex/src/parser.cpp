@@ -27,7 +27,7 @@ void parser::start_workers(int threadCount) {
 			while (!terminating) {
 				{
 					//DBG("THREAD ", threadCount, " POPPING ITEM");
-					auto item = get_work_item();
+					auto item = work.pop();
 					lock.unlock();
 					context const & c = *std::get<0>(item);
 					int const nextDfaState = std::get<1>(item);
@@ -82,19 +82,13 @@ void parser::update_progress(context const & context) {
 	context.owner.owner.update_progress(context.currentDocumentPosition);
 }
 
-std::tuple<context const*, int> parser::get_work_item() {
-	std::tuple<context const*, int> item = work.front();
-	work.pop();
-	return item;
-}
-
 abstract_syntax_semilattice parser::single_thread_parse(grammar_base const & g, recognizer const & overrideMain, std::vector<post_processor> posts, std::u32string const & document, progress_handler_t progressHandler) {
 	//perf_timer timer("parse");
 	job j(*this, document, g, overrideMain, progressHandler);
 	throw_assert(activeCount > 0);
 	while (true) {
 		while (work.size() > 0) {
-			auto item = get_work_item();
+			auto item = work.pop();
 			auto const & c = *std::get<0>(item);
 			int const nextDfaState = std::get<1>(item);
 			update_progress(c);	
