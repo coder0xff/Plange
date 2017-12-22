@@ -12,7 +12,7 @@
 
 
 namespace parlex {
-namespace details {
+namespace detail {
 
 /// <summary>
 /// A nondeterministic finite automaton (∪-Nfa) with labeled states
@@ -253,7 +253,7 @@ struct nfa {
 
 };
 
-} // namespace details
+} // namespace detail
 } // namespace parlex
 
 #endif //NFA_H

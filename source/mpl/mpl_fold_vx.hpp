@@ -11,7 +11,7 @@
 
 namespace mpl {
 
-	namespace details::fold_vx {
+	namespace detail::fold_vx {
 
 		template<typename TList>
 		struct impl {
@@ -39,12 +39,12 @@ namespace mpl {
 
 	template<typename TList, typename TFunctor, typename TAccumulator, typename TX, size_t DataSize>
 	constexpr static TAccumulator fold_vx(TFunctor const && functor, TAccumulator && initial, std::array<TX, DataSize> && data, SFINAE_PARAM(variadic_size<TList> == DataSize)) {
-		return details::fold_vx::impl<TList>::template f<TFunctor, TAccumulator, std::array<TX, DataSize>>(std::forward<TFunctor>(functor), std::forward<TAccumulator>(initial), std::forward<std::array<TX, DataSize>>(data), 0);
+		return detail::fold_vx::impl<TList>::template f<TFunctor, TAccumulator, std::array<TX, DataSize>>(std::forward<TFunctor>(functor), std::forward<TAccumulator>(initial), std::forward<std::array<TX, DataSize>>(data), 0);
 	}
 
 	template<typename TList, typename TFunctor, typename TAccumulator, typename TArray>
 	constexpr auto fold_vx(TFunctor && functor, TAccumulator && initial, TArray && data) {
-		TAccumulator result = details::fold_vx::impl<TList>::template f<TFunctor, TAccumulator, TArray>(std::forward<TFunctor>(functor), std::forward<TAccumulator>(initial), std::forward<TArray>(data), 0);
+		TAccumulator result = detail::fold_vx::impl<TList>::template f<TFunctor, TAccumulator, TArray>(std::forward<TFunctor>(functor), std::forward<TAccumulator>(initial), std::forward<TArray>(data), 0);
 		return result;
 	}
 

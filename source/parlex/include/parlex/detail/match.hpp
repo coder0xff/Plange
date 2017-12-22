@@ -1,12 +1,12 @@
 #ifndef MATCH_HPP
 #define MATCH_HPP
 
-#include "parlex/details/match_class.hpp"
+#include "parlex/detail/match_class.hpp"
 
 #include <set>
 
 namespace parlex {
-namespace details {
+namespace detail {
 
 namespace behavior {
 
@@ -27,7 +27,7 @@ struct match : match_class {
 };
 
 
-} // namespace details
+} // namespace detail
 } // namespace parlex
 
 #endif //FAST_MATCH_HPP

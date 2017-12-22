@@ -7,8 +7,8 @@
 #include <variant>
 #include <vector>
 #include "erased.hpp"
-#include "parlex/details/abstract_syntax_tree.hpp"
-#include "parlex/details/document.hpp"
+#include "parlex/detail/abstract_syntax_tree.hpp"
+#include "parlex/detail/document.hpp"
 
 #include "plange_grammar.hpp"
 
@@ -23,8 +23,8 @@ struct IFF {
 	std::vector<erased<IC>> field_2;
 	
 	std::variant<
-		parlex::details::document::text<literal_0xE20x870x94_t>,
-		parlex::details::document::text<literal_0x3C0x3D0x3E_t>
+		parlex::detail::document::text<literal_0xE20x870x94_t>,
+		parlex::detail::document::text<literal_0x3C0x3D0x3E_t>
 	> field_3;
 	
 	std::vector<erased<IC>> field_4;
@@ -35,15 +35,15 @@ struct IFF {
 
 	explicit IFF(
 		erased<EXPRESSION> && field_1, std::vector<erased<IC>> && field_2, std::variant<
-			parlex::details::document::text<literal_0xE20x870x94_t>,
-			parlex::details::document::text<literal_0x3C0x3D0x3E_t>
+			parlex::detail::document::text<literal_0xE20x870x94_t>,
+			parlex::detail::document::text<literal_0x3C0x3D0x3E_t>
 		> && field_3, std::vector<erased<IC>> && field_4, erased<EXPRESSION> && field_5) : field_1(std::move(field_1)), field_2(std::move(field_2)), field_3(std::move(field_3)), field_4(std::move(field_4)), field_5(std::move(field_5)) {}
 
 	IFF(IFF const & other) = default;
 	IFF(IFF && move) = default;
 
-	static IFF build(parlex::details::ast_node const & n);
-	static parlex::details::recognizer const & recognizer();
+	static IFF build(parlex::detail::ast_node const & n);
+	static parlex::detail::recognizer const & recognizer();
 
 };
 

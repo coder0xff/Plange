@@ -5,7 +5,7 @@
 
 namespace mpl {
 
-	namespace details::flatten {
+	namespace detail::flatten {
 		template<typename TAccumulator, typename TList>
 		struct impl {};
 
@@ -21,7 +21,7 @@ namespace mpl {
 	}
 
 	template<typename TList>
-	using flatten = typename details::flatten::impl<list<>, TList>::result;
+	using flatten = typename detail::flatten::impl<list<>, TList>::result;
 }
 
 #define INCLUDED_MPL_FLATTEN_HPP

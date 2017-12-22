@@ -10,23 +10,23 @@
 #include "utf.hpp"
 #include "utils.hpp"
 
-#include "parlex/details/abstract_syntax_semilattice.hpp"
-#include "parlex/details/recognizer.hpp"
+#include "parlex/detail/abstract_syntax_semilattice.hpp"
+#include "parlex/detail/recognizer.hpp"
 
 #include "compiler.hpp"
 #include "scope.hpp"
-#include "parlex/details/document.hpp"
+#include "parlex/detail/document.hpp"
 
 //filter super delimiters
 //Any PAYLOAD that fully contains another PAYLOAD is not a PAYLOAD
-static void payload_postprocess(parlex::details::abstract_syntax_semilattice & asg) {
-	std::set<parlex::details::match> payloadMatches;
+static void payload_postprocess(parlex::detail::abstract_syntax_semilattice & asg) {
+	std::set<parlex::detail::match> payloadMatches;
 	for (auto const & entry : asg.permutations_of_matches) {
 		if (entry.first.r.id == "PAYLOAD") {
 			payloadMatches.insert(entry.first);
 		}
 	}
-	std::set<parlex::details::match> payloadsToCut;
+	std::set<parlex::detail::match> payloadsToCut;
 	for (auto const & i : payloadMatches) {
 		for (auto const & j : payloadMatches) {
 			if (i < j || j < i) {
@@ -45,10 +45,10 @@ static void payload_postprocess(parlex::details::abstract_syntax_semilattice & a
 	asg.cut(payloadsToCut);
 }
 
-static std::vector<std::set<parlex::details::match>> matches_by_height(parlex::details::abstract_syntax_semilattice const & asg) {
-	std::map<parlex::details::match, std::set<parlex::details::match>> reversedDependencies;
-	std::set<parlex::details::match> pending;
-	std::map<parlex::details::match, size_t> reversedResults;
+static std::vector<std::set<parlex::detail::match>> matches_by_height(parlex::detail::abstract_syntax_semilattice const & asg) {
+	std::map<parlex::detail::match, std::set<parlex::detail::match>> reversedDependencies;
+	std::set<parlex::detail::match> pending;
+	std::map<parlex::detail::match, size_t> reversedResults;
 	for (auto const & entry : asg.permutations_of_matches) {
 		pending.insert(entry.first);
 		reversedResults[entry.first] = 0;
@@ -59,7 +59,7 @@ static std::vector<std::set<parlex::details::match>> matches_by_height(parlex::d
 		}
 	}
 	while (!pending.empty()) {
-		parlex::details::match m = *pending.begin();
+		parlex::detail::match m = *pending.begin();
 		pending.erase(m);
 		size_t h = reversedResults[m] + 1;
 		for (auto const & dep : reversedDependencies[m]) {
@@ -69,9 +69,9 @@ static std::vector<std::set<parlex::details::match>> matches_by_height(parlex::d
 			}
 		}
 	}
-	std::vector<std::set<parlex::details::match>> result;
+	std::vector<std::set<parlex::detail::match>> result;
 	for (auto const & e : reversedResults) {
-		parlex::details::match m = e.first;
+		parlex::detail::match m = e.first;
 		size_t height = e.second;
 		if (result.size() <= height) {
 			result.resize(height + 1);
@@ -120,7 +120,7 @@ std::pair<int, int> plc::source_code::get_line_number_and_column(int charIndex) 
 }
 
 
-std::string plc::source_code::describe_code_span(parlex::details::match const & m) const {
+std::string plc::source_code::describe_code_span(parlex::detail::match const & m) const {
 	return describe_code_span(m, line_number_by_first_character, pathname);
 }
 
@@ -136,7 +136,7 @@ std::map<int, int> plc::source_code::construct_line_number_by_first_character(st
 	return result;
 }
 
-std::string plc::source_code::describe_code_span(parlex::details::match const & m, std::map<int, int> const & lineNumberByFirstCharacter, std::string const & pathname)
+std::string plc::source_code::describe_code_span(parlex::detail::match const & m, std::map<int, int> const & lineNumberByFirstCharacter, std::string const & pathname)
 {
 	std::string result = pathname == "" ? "[generated]" : pathname;
 	result += ":";
@@ -153,16 +153,16 @@ std::string plc::source_code::describe_code_span(parlex::details::match const & 
 
 }
 
-parlex::details::abstract_syntax_tree plc::source_code::construct_ast(std::u32string const & document, parlex::details::recognizer const & production, std::string const & pathname) {
+parlex::detail::abstract_syntax_tree plc::source_code::construct_ast(std::u32string const & document, parlex::detail::recognizer const & production, std::string const & pathname) {
 	std::map<int, int> const lineNumberByFirstCharacter(construct_line_number_by_first_character(document));
-	static parlex::details::parser p;
-	parlex::details::abstract_syntax_semilattice assl = p.parse(plange_grammar::get(), production, document);
+	static parlex::detail::parser p;
+	parlex::detail::abstract_syntax_semilattice assl = p.parse(plange_grammar::get(), production, document);
 	// Was parsing successful?
 	if (!assl.is_rooted()) {
-		parlex::details::match const * lastValidStatement =  nullptr;
-		parlex::details::state_machine_base const & STATEMENTStateMachine = plange_grammar::get().get_state_machine("STATEMENT");
+		parlex::detail::match const * lastValidStatement =  nullptr;
+		parlex::detail::state_machine_base const & STATEMENTStateMachine = plange_grammar::get().get_state_machine("STATEMENT");
 		for (auto const & tableEntry : assl.permutations_of_matches) {
-			parlex::details::match const & m = tableEntry.first;
+			parlex::detail::match const & m = tableEntry.first;
 			if (&m.r == &STATEMENTStateMachine) {
 				if (lastValidStatement == nullptr || m.document_position + m.consumed_character_count > lastValidStatement->document_position + lastValidStatement->consumed_character_count) {
 					lastValidStatement = &m;
@@ -180,7 +180,7 @@ parlex::details::abstract_syntax_tree plc::source_code::construct_ast(std::u32st
 
 	// Was parsing ambiguous?
 	if (assl.variation_count() > 1) {
-		std::vector<std::set<parlex::details::match>> matchesByHeight = matches_by_height(assl);
+		std::vector<std::set<parlex::detail::match>> matchesByHeight = matches_by_height(assl);
 		for (size_t height = 0; height < matchesByHeight.size(); ++height) {
 			auto const & matches = matchesByHeight[height];
 			for (auto const & m : matches) {

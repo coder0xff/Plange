@@ -4,7 +4,7 @@
 #include <cstddef>
 
 namespace parlex {
-namespace details {
+namespace detail {
 
 class recognizer;
 
@@ -18,7 +18,7 @@ struct match_class {
 	bool operator <(match_class const & rhs) const;
 };
 
-} // namespace details
+} // namespace detail
 } // namespace parlex
 
 #endif //MATCH_CLASS_HPP

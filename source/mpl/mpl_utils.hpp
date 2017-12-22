@@ -7,7 +7,7 @@
 
 namespace mpl {
 
-	namespace details::variadic_size {
+	namespace detail::variadic_size {
 		template<typename TList>
 		struct impl {};
 
@@ -18,7 +18,7 @@ namespace mpl {
 	}
 
 	template<typename TList>
-	constexpr size_t variadic_size = details::variadic_size::impl<TList>::result;
+	constexpr size_t variadic_size = detail::variadic_size::impl<TList>::result;
 
 	template<typename T>
 	struct print_as_error {
@@ -29,7 +29,7 @@ namespace mpl {
 }
 
 namespace std {
-	namespace details {
+	namespace detail {
 		template<class> struct is_ref_wrapper : std::false_type {};
 		template<class T> struct is_ref_wrapper<std::reference_wrapper<T>> : std::true_type {};
 
@@ -49,7 +49,7 @@ namespace std {
 	}
 
 	template < class D = void, class... Types>
-	constexpr details::return_type<D, Types...> make_array(Types&&... t) {
+	constexpr detail::return_type<D, Types...> make_array(Types&&... t) {
 		return { std::forward<Types>(t)... };
 	}
 }

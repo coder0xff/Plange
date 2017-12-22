@@ -5,7 +5,7 @@
 
 namespace mpl {
 
-	namespace details_map_i {
+	namespace detail_map_i {
 
 		template<template <typename, int> typename TMetaFunction, int Index, typename TList>
 		struct impl {

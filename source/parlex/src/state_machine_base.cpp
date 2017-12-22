@@ -1,10 +1,10 @@
-#include "parlex/details/state_machine_base.hpp"
+#include "parlex/detail/state_machine_base.hpp"
 
-#include "parlex/details/behavior.hpp"
-#include "parlex/details/subjob.hpp"
+#include "parlex/detail/behavior.hpp"
+#include "parlex/detail/subjob.hpp"
 
 namespace parlex {
-namespace details {
+namespace detail {
 
 state_machine_base::state_machine_base(std::string const & id) : recognizer(id) {
 }
@@ -21,5 +21,5 @@ void state_machine_base::accept(context const & c) {
 	c.owner.accept(c);
 }
 
-} // namespace details
+} // namespace detail
 } // namespace parlex

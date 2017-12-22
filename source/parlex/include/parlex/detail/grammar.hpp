@@ -8,10 +8,10 @@
 
 #include "parlex/precedence_collection.hpp"
 
-#include "parlex/details/behavior.hpp"
-#include "parlex/details/grammar_base.hpp"
-#include "parlex/details/state_machine.hpp"
-#include "parlex/details/string_terminal.hpp"
+#include "parlex/detail/behavior.hpp"
+#include "parlex/detail/grammar_base.hpp"
+#include "parlex/detail/state_machine.hpp"
+#include "parlex/detail/string_terminal.hpp"
 
 
 namespace parlex {
@@ -23,7 +23,7 @@ class node;
 
 } // namespace behavior
 
-namespace details {
+namespace detail {
 
 struct node;
 class builtins_t;
@@ -67,7 +67,7 @@ private:
 	erased<behavior::node> get_behavior(node const & b);
 };
 
-} // namespace details
+} // namespace detail
 } // namespace parlex
 
 #endif //CORRELATED_GRAMMAR_HPP

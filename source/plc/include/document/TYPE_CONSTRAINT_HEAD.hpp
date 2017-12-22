@@ -7,8 +7,8 @@
 #include <variant>
 #include <vector>
 #include "erased.hpp"
-#include "parlex/details/abstract_syntax_tree.hpp"
-#include "parlex/details/document.hpp"
+#include "parlex/detail/abstract_syntax_tree.hpp"
+#include "parlex/detail/document.hpp"
 
 #include "plange_grammar.hpp"
 
@@ -39,7 +39,7 @@ struct TYPE_CONSTRAINT_HEAD {
 		field_1_t_1_t(field_1_t_1_t const & other) = default;
 		field_1_t_1_t(field_1_t_1_t && move) = default;
 	
-		static field_1_t_1_t build(parlex::details::behavior::node const * b, parlex::details::document::walk & w);
+		static field_1_t_1_t build(parlex::detail::behavior::node const * b, parlex::detail::document::walk & w);
 	};
 
 	struct field_2_t_1_t {
@@ -55,7 +55,7 @@ struct TYPE_CONSTRAINT_HEAD {
 		field_2_t_1_t(field_2_t_1_t const & other) = default;
 		field_2_t_1_t(field_2_t_1_t && move) = default;
 	
-		static field_2_t_1_t build(parlex::details::behavior::node const * b, parlex::details::document::walk & w);
+		static field_2_t_1_t build(parlex::detail::behavior::node const * b, parlex::detail::document::walk & w);
 	};
 
 	struct field_3_t_1_t {
@@ -71,7 +71,7 @@ struct TYPE_CONSTRAINT_HEAD {
 		field_3_t_1_t(field_3_t_1_t const & other) = default;
 		field_3_t_1_t(field_3_t_1_t && move) = default;
 	
-		static field_3_t_1_t build(parlex::details::behavior::node const * b, parlex::details::document::walk & w);
+		static field_3_t_1_t build(parlex::detail::behavior::node const * b, parlex::detail::document::walk & w);
 	};
 
 	struct field_4_t_1_t {
@@ -87,7 +87,7 @@ struct TYPE_CONSTRAINT_HEAD {
 		field_4_t_1_t(field_4_t_1_t const & other) = default;
 		field_4_t_1_t(field_4_t_1_t && move) = default;
 	
-		static field_4_t_1_t build(parlex::details::behavior::node const * b, parlex::details::document::walk & w);
+		static field_4_t_1_t build(parlex::detail::behavior::node const * b, parlex::detail::document::walk & w);
 	};
 
 	struct field_5_t_1_t {
@@ -103,7 +103,7 @@ struct TYPE_CONSTRAINT_HEAD {
 		field_5_t_1_t(field_5_t_1_t const & other) = default;
 		field_5_t_1_t(field_5_t_1_t && move) = default;
 	
-		static field_5_t_1_t build(parlex::details::behavior::node const * b, parlex::details::document::walk & w);
+		static field_5_t_1_t build(parlex::detail::behavior::node const * b, parlex::detail::document::walk & w);
 	};
 
 	std::optional<field_1_t_1_t> field_1;
@@ -136,8 +136,8 @@ struct TYPE_CONSTRAINT_HEAD {
 	TYPE_CONSTRAINT_HEAD(TYPE_CONSTRAINT_HEAD const & other) = default;
 	TYPE_CONSTRAINT_HEAD(TYPE_CONSTRAINT_HEAD && move) = default;
 
-	static TYPE_CONSTRAINT_HEAD build(parlex::details::ast_node const & n);
-	static parlex::details::recognizer const & recognizer();
+	static TYPE_CONSTRAINT_HEAD build(parlex::detail::ast_node const & n);
+	static parlex::detail::recognizer const & recognizer();
 
 };
 

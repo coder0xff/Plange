@@ -1,17 +1,17 @@
-#include "parlex/details/job.hpp"
+#include "parlex/detail/job.hpp"
 
-#include "parlex/details/parser.hpp"
-#include "parlex/details/state_machine_base.hpp"
-#include "parlex/details/terminal.hpp"
-#include "parlex/details/token.hpp"
+#include "parlex/detail/parser.hpp"
+#include "parlex/detail/state_machine_base.hpp"
+#include "parlex/detail/terminal.hpp"
+#include "parlex/detail/token.hpp"
 
-#include "parlex/details/context.hpp"
-#include "parlex/details/subjob.hpp"
+#include "parlex/detail/context.hpp"
+#include "parlex/detail/subjob.hpp"
 
 #include "logging.hpp"
 
 namespace parlex {
-namespace details {
+namespace detail {
 
 job::job(parser & owner, std::u32string const & document, grammar_base const & g, recognizer const & main, progress_handler_t progressHandler) :
 	document(document),

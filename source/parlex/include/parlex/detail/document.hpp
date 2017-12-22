@@ -14,7 +14,7 @@
 #include "mpl_fold_vx.hpp"
 #include "utf.hpp"
 
-namespace parlex::details::document {
+namespace parlex::detail::document {
 
 	struct walk {
 		ast_node::const_iterator pos;

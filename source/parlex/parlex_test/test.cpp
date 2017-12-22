@@ -6,18 +6,18 @@
 #include "utf.hpp"
 
 #include "parlex/builder.hpp"
-#include "parlex/details/raw_grammar.hpp"
-#include "parlex/details/grammar.hpp"
-#include "parlex/details/parser.hpp"
+#include "parlex/detail/raw_grammar.hpp"
+#include "parlex/detail/grammar.hpp"
+#include "parlex/detail/parser.hpp"
 
-#include "parlex/details/string_terminal.hpp"
+#include "parlex/detail/string_terminal.hpp"
 
-#include "parlex/details/builtins.hpp"
-#include "parlex/details/wirth.hpp"
+#include "parlex/detail/builtins.hpp"
+#include "parlex/detail/wirth.hpp"
 
 
 using namespace parlex;
-using namespace parlex::details;
+using namespace parlex::detail;
 
 std::string wirthInItself = "\
 SYNTAX     = {white_space} { PRODUCTION {white_space} } . \

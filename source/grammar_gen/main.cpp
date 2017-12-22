@@ -15,12 +15,12 @@
 #include "utf.hpp"
 #include "utils.hpp"
 
-#include "parlex/details/parser.hpp"
-#include "parlex/details/grammar.hpp"
-#include "parlex/details/builtins.hpp"
+#include "parlex/detail/parser.hpp"
+#include "parlex/detail/grammar.hpp"
+#include "parlex/detail/builtins.hpp"
 #include "parlex/builder.hpp"
 #include "parlex/cpp_generator.hpp"
-#include "parlex/details/wirth.hpp"
+#include "parlex/detail/wirth.hpp"
 
 inline std::string trim(std::string str)
 {
@@ -79,8 +79,8 @@ int main(int argc, const char* argv[]) {
 	std::u32string syntaxYaml = read_with_bom(move(ifs));
 	YAML::Node spec = YAML::Load(to_utf8(syntaxYaml));
 
-	parlex::details::parser p;
-	std::map<std::string, parlex::details::wirth_t::production> defs;
+	parlex::detail::parser p;
+	std::map<std::string, parlex::detail::wirth_t::production> defs;
 	for (auto const & elem : spec) {
 		std::string name = elem.first.as<std::string>();
 		auto data = elem.second;
@@ -105,7 +105,7 @@ int main(int argc, const char* argv[]) {
 		if (data["filter"]) {
 			std::string filterName = data["filter"].as<std::string>();
 			if (filterName == "longest") {
-				filter = parlex::details::builtins().longest;
+				filter = parlex::detail::builtins().longest;
 			} else {
 				throw std::logic_error(("unrecognized filter " + filterName).c_str());
 			}

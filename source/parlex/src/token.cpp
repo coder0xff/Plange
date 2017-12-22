@@ -1,10 +1,10 @@
-#include "parlex/details/token.hpp"
+#include "parlex/detail/token.hpp"
 
-#include "parlex/details/job.hpp"
-#include "parlex/details/terminal.hpp"
+#include "parlex/detail/job.hpp"
+#include "parlex/detail/terminal.hpp"
 
 namespace parlex {
-namespace details {
+namespace detail {
 
 token::token(job & owner, terminal const & t, size_t documentPosition) : producer(owner, t, documentPosition) {
 	if (t.test(owner.document, documentPosition)) {
@@ -16,5 +16,5 @@ token::token(job & owner, terminal const & t, size_t documentPosition) : produce
 	terminate();
 }
 
-} // namespace details
+} // namespace detail
 } // namespace parlex

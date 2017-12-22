@@ -4,7 +4,7 @@
 #include <map>
 
 
-namespace parlex::details {
+namespace parlex::detail {
 	
 	struct ast_node : match {
 		typedef std::vector<ast_node> sequence;

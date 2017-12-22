@@ -1,14 +1,14 @@
-#include "parlex/details/producer.hpp"
+#include "parlex/detail/producer.hpp"
 
 #include <mutex>
 
-#include "parlex/details/behavior.hpp"
-#include "parlex/details/job.hpp"
-#include "parlex/details/parser.hpp"
-#include "parlex/details/subjob.hpp"
+#include "parlex/detail/behavior.hpp"
+#include "parlex/detail/job.hpp"
+#include "parlex/detail/parser.hpp"
+#include "parlex/detail/subjob.hpp"
 
 namespace parlex {
-namespace details {
+namespace detail {
 
 producer::producer(job & owner, recognizer const & r, size_t const documentPosition) :
 	owner(owner),
@@ -78,5 +78,5 @@ producer::subscription::subscription(context const & c, size_t const nextDfaStat
 	l(l)
 {}
 
-} // namespace details
+} // namespace detail
 } // namespace parlex

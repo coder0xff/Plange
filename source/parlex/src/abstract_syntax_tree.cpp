@@ -1,12 +1,12 @@
-#include "../include/parlex/details/abstract_syntax_tree.hpp"
+#include "../include/parlex/detail/abstract_syntax_tree.hpp"
 
 #include "graphviz_dot.hpp"
 
-#include "parlex/details/behavior.hpp"
+#include "parlex/detail/behavior.hpp"
 
-parlex::details::ast_node::ast_node(match const & m, std::vector<ast_node> const & children, behavior::leaf const * leaf) : match(m), children(children), leaf(leaf) {}
+parlex::detail::ast_node::ast_node(match const & m, std::vector<ast_node> const & children, behavior::leaf const * leaf) : match(m), children(children), leaf(leaf) {}
 
-std::string parlex::details::ast_node::to_dot() const
+std::string parlex::detail::ast_node::to_dot() const
 {
 	auto name_func2 = [&](ast_node const * n)
 	{

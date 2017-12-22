@@ -5,11 +5,11 @@
 
 #include "parlex/precedence_collection.hpp"
 
-#include "parlex/details/state_machine_base.hpp"
-#include "parlex/details/string_terminal.hpp"
+#include "parlex/detail/state_machine_base.hpp"
+#include "parlex/detail/string_terminal.hpp"
 
 namespace parlex {
-namespace details {
+namespace detail {
 
 class builtins_t;
 

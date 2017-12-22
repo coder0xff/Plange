@@ -3,10 +3,10 @@
 
 #include <map>
 
-#include "parlex/details/state_machine_base.hpp"
+#include "parlex/detail/state_machine_base.hpp"
 
 namespace parlex {
-namespace details {
+namespace detail {
 
 typedef std::map<recognizer const *, std::set<recognizer const *>> precedence_collection;
 

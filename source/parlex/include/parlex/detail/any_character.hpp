@@ -3,10 +3,10 @@
 
 #include <string>
 
-#include "parlex/details/terminal.hpp"
+#include "parlex/detail/terminal.hpp"
 
 namespace parlex {
-namespace details {
+namespace detail {
 
 class any_character_t : public terminal {
 public:
@@ -15,7 +15,7 @@ public:
 	bool test(std::u32string const & document, size_t documentPosition) const override final;
 };
 
-} // namespace details
+} // namespace detail
 } // namespace parlex
 
 #endif

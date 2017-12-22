@@ -5,12 +5,12 @@
 #include "parlex/builder.hpp"
 #include "parlex/filter_function.hpp"
 
-#include "parlex/details/grammar.hpp"
+#include "parlex/detail/grammar.hpp"
 
 #include "erased.hpp"
 
 namespace parlex {
-namespace details {
+namespace detail {
 
 struct abstract_syntax_semilattice;
 struct node;
@@ -75,9 +75,9 @@ private:
 
 };
 
-} //namespace details
+} //namespace detail
 
-details::wirth_t const& wirth();
+detail::wirth_t const& wirth();
 
 } //namespace parlex
 

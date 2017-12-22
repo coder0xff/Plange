@@ -4,7 +4,7 @@
 #include "parlex/filter_function.hpp"
 #include "parlex/associativity.hpp"
 
-#include "parlex/details/recognizer.hpp"
+#include "parlex/detail/recognizer.hpp"
 
 namespace parlex {
 namespace behavior {
@@ -13,7 +13,7 @@ class node;
 
 } // namespace behavior
 
-namespace details {
+namespace detail {
 
 class context;
 class parser;
@@ -39,7 +39,7 @@ protected:
 	static void accept(context const & c);
 };
 
-} // namespace details
+} // namespace detail
 } // namespace parlex
 
 #endif // STATE_MACHINE_BASE_HPP

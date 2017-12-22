@@ -5,13 +5,13 @@
 #include <mutex>
 #include <atomic>
 
-#include "parlex/details/permutation.hpp"
-#include "parlex/details/context.hpp"
-#include "parlex/details/producer.hpp"
+#include "parlex/detail/permutation.hpp"
+#include "parlex/detail/context.hpp"
+#include "parlex/detail/producer.hpp"
 #include "concurrent_forward_list.hpp"
 
 namespace parlex {
-namespace details {
+namespace detail {
 
 class job;
 class state_machine_base;
@@ -45,7 +45,7 @@ private:
 	void decrement_lifetime();
 };
 
-} // namespace details
+} // namespace detail
 } // namespace parlex
 
 #endif //SUBJOB_HPP

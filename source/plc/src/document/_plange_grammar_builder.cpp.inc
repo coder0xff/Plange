@@ -1505,7 +1505,7 @@ static parlex::builder const & builder() {
 				})
 			})
 		}),
-		parlex::associativity::none, parlex::details::builtins().longest),
+		parlex::associativity::none, parlex::detail::builtins().longest),
 		parlex::production("IF",
 		parlex::sequence("IF", {
 			parlex::literal("if"),
@@ -2320,7 +2320,7 @@ static parlex::builder const & builder() {
 				})
 			})
 		}),
-		parlex::associativity::none, parlex::details::builtins().longest),
+		parlex::associativity::none, parlex::detail::builtins().longest),
 		parlex::production("POST_DEC",
 		parlex::sequence("POST_DEC", {
 			parlex::reference("EXPRESSION"),
@@ -3407,7 +3407,7 @@ static parlex::builder const & builder() {
 				parlex::reference("white_space")
 			})
 		}),
-		parlex::associativity::none, parlex::details::builtins().longest),
+		parlex::associativity::none, parlex::detail::builtins().longest),
 		parlex::production("XML_DOC_STRING",
 		parlex::sequence("XML_DOC_STRING", {
 			parlex::literal("```"),

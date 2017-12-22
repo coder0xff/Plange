@@ -12,7 +12,7 @@ namespace mpl {
 	template<size_t... Offsets>
 	using indices = std::index_sequence<Offsets...>;
 
-	namespace details::indices {
+	namespace detail::indices {
 
 		template<typename TList>
 		struct indices_of_impl {};
@@ -45,14 +45,14 @@ namespace mpl {
 	}
 
 	template<typename TTuple>
-	using indices_of = typename details::indices::indices_of_impl<TTuple>::result;
+	using indices_of = typename detail::indices::indices_of_impl<TTuple>::result;
 
 	template<size_t Count, typename TIndices>
-	using drop_indices = decltype(details::indices::drop_indices_impl(std::integral_constant<size_t, Count>(), TIndices()));
+	using drop_indices = decltype(detail::indices::drop_indices_impl(std::integral_constant<size_t, Count>(), TIndices()));
 
 	template<typename TIndices, typename TFunctor>
 	constexpr auto apply_indices(TFunctor && functor) {
-		return details::indices::apply_impl<TIndices>::invoke(functor);
+		return detail::indices::apply_impl<TIndices>::invoke(functor);
 	}
 }
 

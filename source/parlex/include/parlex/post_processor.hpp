@@ -4,13 +4,13 @@
 #include <functional>
 
 namespace parlex {
-namespace details {
+namespace detail {
 
 struct abstract_syntax_semilattice;
 
-} // namespace details
+} // namespace detail
 
-typedef std::function<void(details::abstract_syntax_semilattice &)> post_processor;
+typedef std::function<void(detail::abstract_syntax_semilattice &)> post_processor;
 
 } // namespace parlex
 

@@ -7,8 +7,8 @@
 #include <variant>
 #include <vector>
 #include "erased.hpp"
-#include "parlex/details/abstract_syntax_tree.hpp"
-#include "parlex/details/document.hpp"
+#include "parlex/detail/abstract_syntax_tree.hpp"
+#include "parlex/detail/document.hpp"
 
 #include "plange_grammar.hpp"
 
@@ -23,23 +23,23 @@ struct INHERITANCE_ITEM_PREFIX {
 		
 		erased<ICR> field_2;
 		
-		parlex::details::document::text<literal_diamond_t> dontCare2;
+		parlex::detail::document::text<literal_diamond_t> dontCare2;
 		
 	
 	
 		explicit field_1_t_2_t(
-			erased<VISIBILITY_MODIFIER> && field_1, erased<ICR> && field_2, parlex::details::document::text<literal_diamond_t> && dontCare2) : field_1(std::move(field_1)), field_2(std::move(field_2)), dontCare2(std::move(dontCare2)) {}
+			erased<VISIBILITY_MODIFIER> && field_1, erased<ICR> && field_2, parlex::detail::document::text<literal_diamond_t> && dontCare2) : field_1(std::move(field_1)), field_2(std::move(field_2)), dontCare2(std::move(dontCare2)) {}
 	
 		field_1_t_2_t(field_1_t_2_t const & other) = default;
 		field_1_t_2_t(field_1_t_2_t && move) = default;
 	
-		static field_1_t_2_t build(parlex::details::behavior::node const * b, parlex::details::document::walk & w);
+		static field_1_t_2_t build(parlex::detail::behavior::node const * b, parlex::detail::document::walk & w);
 	};
 
 	std::variant<
 		erased<VISIBILITY_MODIFIER>,
 		field_1_t_2_t,
-		parlex::details::document::text<literal_diamond_t>
+		parlex::detail::document::text<literal_diamond_t>
 	> field_1;
 	
 	erased<ICR> field_2;
@@ -50,14 +50,14 @@ struct INHERITANCE_ITEM_PREFIX {
 		std::variant<
 			erased<VISIBILITY_MODIFIER>,
 			field_1_t_2_t,
-			parlex::details::document::text<literal_diamond_t>
+			parlex::detail::document::text<literal_diamond_t>
 		> && field_1, erased<ICR> && field_2) : field_1(std::move(field_1)), field_2(std::move(field_2)) {}
 
 	INHERITANCE_ITEM_PREFIX(INHERITANCE_ITEM_PREFIX const & other) = default;
 	INHERITANCE_ITEM_PREFIX(INHERITANCE_ITEM_PREFIX && move) = default;
 
-	static INHERITANCE_ITEM_PREFIX build(parlex::details::ast_node const & n);
-	static parlex::details::recognizer const & recognizer();
+	static INHERITANCE_ITEM_PREFIX build(parlex::detail::ast_node const & n);
+	static parlex::detail::recognizer const & recognizer();
 
 };
 

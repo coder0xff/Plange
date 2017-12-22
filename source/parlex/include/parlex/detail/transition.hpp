@@ -2,7 +2,7 @@
 #define TRANSITION_HPP
 #include "match.hpp"
 
-namespace parlex::details {
+namespace parlex::detail {
 
 struct transition : match {
 	behavior::leaf const * const l;

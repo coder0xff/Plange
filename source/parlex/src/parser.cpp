@@ -1,22 +1,22 @@
-#include "parlex/details/parser.hpp"
+#include "parlex/detail/parser.hpp"
 
 #include <stack>
 #include <unordered_set>
 
 #include "parlex/post_processor.hpp"
 
-#include "parlex/details/context.hpp"
-#include "parlex/details/grammar_base.hpp"
-#include "parlex/details/job.hpp"
-#include "parlex/details/permutation.hpp"
-#include "parlex/details/producer.hpp"
-#include "parlex/details/subjob.hpp"
+#include "parlex/detail/context.hpp"
+#include "parlex/detail/grammar_base.hpp"
+#include "parlex/detail/job.hpp"
+#include "parlex/detail/permutation.hpp"
+#include "parlex/detail/producer.hpp"
+#include "parlex/detail/subjob.hpp"
 
 #include "utils.hpp"
 #include <iterator>
 
 namespace parlex {
-namespace details {
+namespace detail {
 
 void parser::start_workers(int threadCount) {
 	for (; threadCount > 0; --threadCount) {
@@ -515,5 +515,5 @@ abstract_syntax_semilattice parser::construct_result(job & j, match const & m) {
 	return result;
 }
 
-} // namespace details
+} // namespace detail
 } // namespace parlex

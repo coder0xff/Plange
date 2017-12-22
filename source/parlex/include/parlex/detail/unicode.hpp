@@ -1,10 +1,10 @@
 #ifndef UNICODE_HPP
 #define UNICODE_HPP
 
-#include "parlex/details/terminal.hpp"
+#include "parlex/detail/terminal.hpp"
 
 namespace parlex {
-namespace details {
+namespace detail {
 
 #define  U32(name, condition) \
 		class name##_t : public terminal { \
@@ -13,11 +13,11 @@ namespace details {
 			bool test(std::u32string const& document, size_t documentPosition) const override final; \
 		};
 
-#include "parlex/details/unicode.inc"
+#include "parlex/detail/unicode.inc"
 
 #undef U32
 
-} // namespace details
+} // namespace detail
 } // namespace parlex
 
 #endif //UNICODE_HPP

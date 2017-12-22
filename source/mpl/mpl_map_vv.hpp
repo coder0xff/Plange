@@ -10,7 +10,7 @@
 
 namespace mpl {
 
-	namespace details_map_vv {
+	namespace detail_map_vv {
 
 		template <typename TFunctor, typename TTuple, size_t... Indices>
 		constexpr auto impl1(TFunctor & functor, TTuple && t, std::index_sequence<Indices...>)
@@ -43,7 +43,7 @@ namespace mpl {
 		return details_map_vv::impl1(
 			std::forward<TFunctor>(functor),
 			std::forward<TTuple>(elements),
-			details::sequence<TTuple>()
+			detail::sequence<TTuple>()
 		);
 	}
 
@@ -55,12 +55,12 @@ namespace mpl {
 	struct map_array_values {
 		template<typename TFunctor, typename TElement, size_t size>
 		static constexpr auto map(TFunctor && functor, std::array<TElement, size> && elements) {
-			static_assert(details::variadic_size<Ts...>() == size);
+			static_assert(detail::variadic_size<Ts...>() == size);
 			typedef std::tuple<Ts...> TTuple;
 			return details_map_vv::impl2<TTuple>(
 				std::forward<TFunctor>(functor),
 				std::forward<std::array<TElement, size>>(elements),
-				details::sequence<TTuple>()
+				detail::sequence<TTuple>()
 			);
 		}		
 	};
@@ -70,14 +70,14 @@ namespace mpl {
 	struct map_vector_values {
 		template<typename TFunctor, typename TElement>
 		static constexpr auto map(TFunctor && functor, std::vector<TElement> && elements) {
-			if (details::variadic_size<Ts...>() != elements.size()) {
+			if (detail::variadic_size<Ts...>() != elements.size()) {
 				throw std::runtime_error("mismatch in element count");
 			}
 			typedef std::tuple<Ts...> TTuple;
 			return details_map_vv::impl2<TTuple>(
 				std::forward<TFunctor>(functor),
 				std::forward<std::vector<TElement>>(elements),
-				details::sequence<TTuple>()
+				detail::sequence<TTuple>()
 			);
 		}
 	};

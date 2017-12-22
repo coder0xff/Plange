@@ -1,8 +1,8 @@
-#include "parlex/details/wirth.hpp"
+#include "parlex/detail/wirth.hpp"
 
-#include "parlex/details/builtins.hpp"
+#include "parlex/detail/builtins.hpp"
 
-#include "parlex/details/parser.hpp"
+#include "parlex/detail/parser.hpp"
 
 #include "utils.hpp"
 #include "parlex/builder.hpp"
@@ -10,7 +10,7 @@
 #include <iostream>
 
 namespace parlex {
-namespace details {
+namespace detail {
 
 erased<node> wirth_t::process_factor(std::u32string const & document, ast_node const & factor) const {
 	auto i = factor.children.begin();
@@ -34,7 +34,7 @@ erased<node> wirth_t::process_factor(std::u32string const & document, ast_node c
 	}
 
 	std::unique_ptr<erased<node>> result;
-	auto set = [&result](erased<node> const & node) { result.reset(new erased<details::node>(node)); };
+	auto set = [&result](erased<node> const & node) { result.reset(new erased<detail::node>(node)); };
 	if (&i->r == &identifierDfa) {
 		std::string name = to_utf8(document.substr(i->document_position, i->consumed_character_count));
 		set(reference(name));
@@ -271,9 +271,9 @@ erased<node> wirth_t::process_production(std::u32string const & document, ast_no
 }
 
 
-} //namespace details
-details::wirth_t const& wirth() {
-	static details::wirth_t value;
+} //namespace detail
+detail::wirth_t const& wirth() {
+	static detail::wirth_t value;
 	return value;
 }
 } //namespace parlex

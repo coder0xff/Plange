@@ -1,14 +1,14 @@
 #include <algorithm>
 #include <iterator>
 
-#include "parlex/details/behavior.hpp"
+#include "parlex/detail/behavior.hpp"
 
 #include "graphviz_dot.hpp"
-#include "parlex/details/raw_state_machine.hpp"
+#include "parlex/detail/raw_state_machine.hpp"
 #include "covariant_invoke.hpp"
 
 namespace parlex {
-	namespace details {
+	namespace detail {
 		namespace behavior {
 
 			std::string nfa2_to_dot(nfa2 const & nfa) {
@@ -203,5 +203,5 @@ namespace parlex {
 			}
 
 		} // namespace behavior
-	} // namespace details
+	} // namespace detail
 } // namespace parlex

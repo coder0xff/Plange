@@ -1,13 +1,13 @@
-#include "parlex/details/grammar.hpp"
+#include "parlex/detail/grammar.hpp"
 
 #include "parlex/builder.hpp"
-#include "parlex/details/builtins.hpp"
+#include "parlex/detail/builtins.hpp"
 
 #include "utf.hpp"
 #include "covariant_invoke.hpp"
 
 namespace parlex {
-namespace details {
+namespace detail {
 
 grammar::production::production(std::string const & id, filter_function const & filter, associativity assoc) : machine(id, filter, assoc) {
 }
@@ -146,5 +146,5 @@ grammar::production const & grammar::get_production(std::string const & id) cons
 	return i->second;
 }
 
-} // namespace details
+} // namespace detail
 } // namespace parlex

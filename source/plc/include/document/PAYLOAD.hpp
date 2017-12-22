@@ -7,17 +7,17 @@
 #include <variant>
 #include <vector>
 #include "erased.hpp"
-#include "parlex/details/abstract_syntax_tree.hpp"
-#include "parlex/details/document.hpp"
+#include "parlex/detail/abstract_syntax_tree.hpp"
+#include "parlex/detail/document.hpp"
 
 #include "plange_grammar.hpp"
 
 namespace plc {
 
-typedef parlex::details::document::built_in_terminal<parlex::details::all_t> PAYLOAD_base;
+typedef parlex::detail::document::built_in_terminal<parlex::detail::all_t> PAYLOAD_base;
 
 struct PAYLOAD: PAYLOAD_base {
-	static PAYLOAD build(std::u32string const & document, parlex::details::ast_node const & n);
+	static PAYLOAD build(std::u32string const & document, parlex::detail::ast_node const & n);
 	explicit PAYLOAD(PAYLOAD_base const & value) : PAYLOAD_base(value) {}
 };
 } // namespace plc

@@ -7,8 +7,8 @@
 #include <variant>
 #include <vector>
 #include "erased.hpp"
-#include "parlex/details/abstract_syntax_tree.hpp"
-#include "parlex/details/document.hpp"
+#include "parlex/detail/abstract_syntax_tree.hpp"
+#include "parlex/detail/document.hpp"
 
 #include "plange_grammar.hpp"
 
@@ -17,22 +17,22 @@ namespace plc {
 struct STATEMENT_SCOPE;
 
 struct BLOCK {
-	parlex::details::document::text<literal_0x7B_t> dontCare0;
+	parlex::detail::document::text<literal_0x7B_t> dontCare0;
 	
 	erased<STATEMENT_SCOPE> field_1;
 	
-	parlex::details::document::text<literal_0x7D_t> dontCare2;
+	parlex::detail::document::text<literal_0x7D_t> dontCare2;
 	
 
 
 	explicit BLOCK(
-		parlex::details::document::text<literal_0x7B_t> && dontCare0, erased<STATEMENT_SCOPE> && field_1, parlex::details::document::text<literal_0x7D_t> && dontCare2) : dontCare0(std::move(dontCare0)), field_1(std::move(field_1)), dontCare2(std::move(dontCare2)) {}
+		parlex::detail::document::text<literal_0x7B_t> && dontCare0, erased<STATEMENT_SCOPE> && field_1, parlex::detail::document::text<literal_0x7D_t> && dontCare2) : dontCare0(std::move(dontCare0)), field_1(std::move(field_1)), dontCare2(std::move(dontCare2)) {}
 
 	BLOCK(BLOCK const & other) = default;
 	BLOCK(BLOCK && move) = default;
 
-	static BLOCK build(parlex::details::ast_node const & n);
-	static parlex::details::recognizer const & recognizer();
+	static BLOCK build(parlex::detail::ast_node const & n);
+	static parlex::detail::recognizer const & recognizer();
 
 };
 

@@ -7,28 +7,28 @@
 #include <variant>
 #include <vector>
 #include "erased.hpp"
-#include "parlex/details/abstract_syntax_tree.hpp"
-#include "parlex/details/document.hpp"
+#include "parlex/detail/abstract_syntax_tree.hpp"
+#include "parlex/detail/document.hpp"
 
 #include "plange_grammar.hpp"
 
 namespace plc {
 
 struct WS {
-	parlex::details::document::text<parlex::details::white_space_t> field_1;
+	parlex::detail::document::text<parlex::detail::white_space_t> field_1;
 	
-	std::vector<parlex::details::document::text<parlex::details::white_space_t>> field_2;
+	std::vector<parlex::detail::document::text<parlex::detail::white_space_t>> field_2;
 	
 
 
 	explicit WS(
-		parlex::details::document::text<parlex::details::white_space_t> && field_1, std::vector<parlex::details::document::text<parlex::details::white_space_t>> && field_2) : field_1(std::move(field_1)), field_2(std::move(field_2)) {}
+		parlex::detail::document::text<parlex::detail::white_space_t> && field_1, std::vector<parlex::detail::document::text<parlex::detail::white_space_t>> && field_2) : field_1(std::move(field_1)), field_2(std::move(field_2)) {}
 
 	WS(WS const & other) = default;
 	WS(WS && move) = default;
 
-	static WS build(parlex::details::ast_node const & n);
-	static parlex::details::recognizer const & recognizer();
+	static WS build(parlex::detail::ast_node const & n);
+	static parlex::detail::recognizer const & recognizer();
 
 };
 

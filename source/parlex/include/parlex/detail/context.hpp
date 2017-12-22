@@ -4,10 +4,10 @@
 #include <optional>
 #include <vector>
 
-#include "parlex/details/permutation.hpp"
+#include "parlex/detail/permutation.hpp"
 
 namespace parlex {
-namespace details {
+namespace detail {
 namespace behavior {
 
 class leaf;

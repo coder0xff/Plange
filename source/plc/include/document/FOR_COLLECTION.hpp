@@ -7,8 +7,8 @@
 #include <variant>
 #include <vector>
 #include "erased.hpp"
-#include "parlex/details/abstract_syntax_tree.hpp"
-#include "parlex/details/document.hpp"
+#include "parlex/detail/abstract_syntax_tree.hpp"
+#include "parlex/detail/document.hpp"
 
 #include "plange_grammar.hpp"
 
@@ -41,7 +41,7 @@ struct FOR_COLLECTION {
 			field_1_t_1_t(field_1_t_1_t const & other) = default;
 			field_1_t_1_t(field_1_t_1_t && move) = default;
 		
-			static field_1_t_1_t build(parlex::details::behavior::node const * b, parlex::details::document::walk & w);
+			static field_1_t_1_t build(parlex::detail::behavior::node const * b, parlex::detail::document::walk & w);
 		};
 	
 		std::optional<field_1_t_1_t> field_1;
@@ -56,14 +56,14 @@ struct FOR_COLLECTION {
 		declaration(declaration const & other) = default;
 		declaration(declaration && move) = default;
 	
-		static declaration build(parlex::details::behavior::node const * b, parlex::details::document::walk & w);
+		static declaration build(parlex::detail::behavior::node const * b, parlex::detail::document::walk & w);
 	};
 
-	parlex::details::document::text<literal_for_t> dontCare0;
+	parlex::detail::document::text<literal_for_t> dontCare0;
 	
 	std::vector<erased<IC>> field_01;
 	
-	parlex::details::document::text<literal_0x28_t> dontCare2;
+	parlex::detail::document::text<literal_0x28_t> dontCare2;
 	
 	std::vector<erased<IC>> field_02;
 	
@@ -75,8 +75,8 @@ struct FOR_COLLECTION {
 	std::vector<erased<IC>> field_04;
 	
 	std::variant<
-		parlex::details::document::text<literal_in_t>,
-		parlex::details::document::text<literal_0xE20x880x88_t>
+		parlex::detail::document::text<literal_in_t>,
+		parlex::detail::document::text<literal_0xE20x880x88_t>
 	> field_05;
 	
 	std::vector<erased<IC>> field_06;
@@ -85,7 +85,7 @@ struct FOR_COLLECTION {
 	
 	std::vector<erased<IC>> field_07;
 	
-	parlex::details::document::text<literal_0x29_t> dontCare10;
+	parlex::detail::document::text<literal_0x29_t> dontCare10;
 	
 	std::vector<erased<IC>> field_08;
 	
@@ -94,19 +94,19 @@ struct FOR_COLLECTION {
 
 
 	explicit FOR_COLLECTION(
-		parlex::details::document::text<literal_for_t> && dontCare0, std::vector<erased<IC>> && field_01, parlex::details::document::text<literal_0x28_t> && dontCare2, std::vector<erased<IC>> && field_02, std::variant<
+		parlex::detail::document::text<literal_for_t> && dontCare0, std::vector<erased<IC>> && field_01, parlex::detail::document::text<literal_0x28_t> && dontCare2, std::vector<erased<IC>> && field_02, std::variant<
 			declaration,
 			erased<EXPRESSION>
 		> && field_03, std::vector<erased<IC>> && field_04, std::variant<
-			parlex::details::document::text<literal_in_t>,
-			parlex::details::document::text<literal_0xE20x880x88_t>
-		> && field_05, std::vector<erased<IC>> && field_06, erased<EXPRESSION> && collection, std::vector<erased<IC>> && field_07, parlex::details::document::text<literal_0x29_t> && dontCare10, std::vector<erased<IC>> && field_08, erased<EXPRESSION> && invoke) : dontCare0(std::move(dontCare0)), field_01(std::move(field_01)), dontCare2(std::move(dontCare2)), field_02(std::move(field_02)), field_03(std::move(field_03)), field_04(std::move(field_04)), field_05(std::move(field_05)), field_06(std::move(field_06)), collection(std::move(collection)), field_07(std::move(field_07)), dontCare10(std::move(dontCare10)), field_08(std::move(field_08)), invoke(std::move(invoke)) {}
+			parlex::detail::document::text<literal_in_t>,
+			parlex::detail::document::text<literal_0xE20x880x88_t>
+		> && field_05, std::vector<erased<IC>> && field_06, erased<EXPRESSION> && collection, std::vector<erased<IC>> && field_07, parlex::detail::document::text<literal_0x29_t> && dontCare10, std::vector<erased<IC>> && field_08, erased<EXPRESSION> && invoke) : dontCare0(std::move(dontCare0)), field_01(std::move(field_01)), dontCare2(std::move(dontCare2)), field_02(std::move(field_02)), field_03(std::move(field_03)), field_04(std::move(field_04)), field_05(std::move(field_05)), field_06(std::move(field_06)), collection(std::move(collection)), field_07(std::move(field_07)), dontCare10(std::move(dontCare10)), field_08(std::move(field_08)), invoke(std::move(invoke)) {}
 
 	FOR_COLLECTION(FOR_COLLECTION const & other) = default;
 	FOR_COLLECTION(FOR_COLLECTION && move) = default;
 
-	static FOR_COLLECTION build(parlex::details::ast_node const & n);
-	static parlex::details::recognizer const & recognizer();
+	static FOR_COLLECTION build(parlex::detail::ast_node const & n);
+	static parlex::detail::recognizer const & recognizer();
 
 };
 

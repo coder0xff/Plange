@@ -4,16 +4,16 @@
 #include "parlex/filter_function.hpp"
 
 // Terminals
-#include "parlex/details/any_character.hpp"
-#include "parlex/details/unicode.hpp"
-#include "parlex/details/not_double_quote.hpp"
-#include "parlex/details/not_newline.hpp"
+#include "parlex/detail/any_character.hpp"
+#include "parlex/detail/unicode.hpp"
+#include "parlex/detail/not_double_quote.hpp"
+#include "parlex/detail/not_newline.hpp"
 
 // Misc
-#include "parlex/details/c_string.hpp"
+#include "parlex/detail/c_string.hpp"
 
 namespace parlex {
-namespace details {
+namespace detail {
 
 class parser;
 class builtins_t;
@@ -89,7 +89,7 @@ private:
 };
 
 
-} // namespace details
+} // namespace detail
 } // namespace parlex
 
 #endif //BUILTINS_HPP

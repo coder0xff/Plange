@@ -1,13 +1,13 @@
-#include "parlex/details/abstract_syntax_semilattice.hpp"
+#include "parlex/detail/abstract_syntax_semilattice.hpp"
 
 #include <queue>
 
-#include "parlex/details/recognizer.hpp"
+#include "parlex/detail/recognizer.hpp"
 #include "utils.hpp"
 #include "utf.hpp"
 
 namespace parlex {
-namespace details {
+namespace detail {
 
 abstract_syntax_semilattice::abstract_syntax_semilattice(match root) : root(root) { }
 
@@ -158,5 +158,5 @@ abstract_syntax_tree abstract_syntax_semilattice::tree() const {
 	return ast_node(root, build_tree(root), nullptr);
 }
 
-} // namespace details
+} // namespace detail
 } // namespace parlex

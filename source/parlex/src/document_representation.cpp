@@ -3,7 +3,7 @@
 #include <optional>
 
 namespace parlex {
-namespace details {
+namespace detail {
 
 unit::unit(node const & n) : original_leaf(n) {
 	tag = n.tag;
@@ -92,5 +92,5 @@ erased<node> compute_document_representation(erased<node> const & root) {
 }
 
 
-} // namespace details
+} // namespace detail
 } // namespace parlex

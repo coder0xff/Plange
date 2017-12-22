@@ -9,7 +9,7 @@
 
 namespace mpl {
 	
-	namespace details::choose_v {
+	namespace detail::choose_v {
 		template<typename IndexSequenceT>
 		struct impl {};
 
@@ -29,7 +29,7 @@ namespace mpl {
 
 	template<typename IndexSequenceT, typename T>
 	constexpr auto choose_v(T const & data) {
-		return details::choose_v::impl<IndexSequenceT>::f(data);
+		return detail::choose_v::impl<IndexSequenceT>::f(data);
 	}
 }
 

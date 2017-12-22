@@ -8,11 +8,11 @@
 #include "parlex/filter_function.hpp"
 #include "parlex/associativity.hpp"
 
-#include "parlex/details/builtins.hpp"
+#include "parlex/detail/builtins.hpp"
 
 
 namespace parlex {
-namespace details {
+namespace detail {
 
 struct node {
 	virtual ~node() = default;
@@ -50,24 +50,24 @@ struct reference_t final : node {
 
 	std::string const id;
 };
-} // namespace details
+} // namespace detail
 
-erased<details::node> literal(std::u32string const & content);
-erased<details::node> literal(std::string const & tag, std::u32string const & content);
-erased<details::node> literal(std::u32string && content);
-erased<details::node> literal(std::string && tag, std::u32string && content);
-erased<details::node> literal(std::string const & content);
-erased<details::node> literal(std::string const & tag, std::string const & content);
-erased<details::node> literal(std::string && tag, std::string const & content);
+erased<detail::node> literal(std::u32string const & content);
+erased<detail::node> literal(std::string const & tag, std::u32string const & content);
+erased<detail::node> literal(std::u32string && content);
+erased<detail::node> literal(std::string && tag, std::u32string && content);
+erased<detail::node> literal(std::string const & content);
+erased<detail::node> literal(std::string const & tag, std::string const & content);
+erased<detail::node> literal(std::string && tag, std::string const & content);
 
-erased<details::node> reference(std::string const & id);
-erased<details::node> reference(std::string const & tag, std::string const & id);
-erased<details::node> reference(std::string && id);
-erased<details::node> reference(std::string && tag, std::string && id);
+erased<detail::node> reference(std::string const & id);
+erased<detail::node> reference(std::string const & tag, std::string const & id);
+erased<detail::node> reference(std::string && id);
+erased<detail::node> reference(std::string && tag, std::string && id);
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #define MAKE_NODE_TYPE(name)                                                                                                                         \
-namespace details {                                                                                                                                   \
+namespace detail {                                                                                                                                   \
 struct name##_t final : node{                                                                                                                          \
 	name##_t() {}                                                                                                                                       \
 	name##_t(std::initializer_list<erased<node>> const & children) : node(children) {}                                                                   \
@@ -78,10 +78,10 @@ struct name##_t final : node{                                                   
 };                                                                                                                                                            \
 }                                                                                                                                                              \
                                                                                                                                                                 \
-inline erased<details::node> name(std::initializer_list<erased<details::node>> const & children) { return erased<details::node>(details::name##_t(children)); }                                      \
-inline erased<details::node> name(std::string const & tag, std::initializer_list<erased<details::node>> const & children) { return erased<details::node>(details::name##_t(tag, children)); }         \
-inline erased<details::node> name(std::initializer_list<erased<details::node>>&& children) { return erased<details::node>(details::name##_t(move(children))); }                                        \
-inline erased<details::node> name(std::string && tag, std::initializer_list<erased<details::node>>&& children) { return erased<details::node>(details::name##_t(move(tag), move(children))); }          \
+inline erased<detail::node> name(std::initializer_list<erased<detail::node>> const & children) { return erased<detail::node>(detail::name##_t(children)); }                                      \
+inline erased<detail::node> name(std::string const & tag, std::initializer_list<erased<detail::node>> const & children) { return erased<detail::node>(detail::name##_t(tag, children)); }         \
+inline erased<detail::node> name(std::initializer_list<erased<detail::node>>&& children) { return erased<detail::node>(detail::name##_t(move(children))); }                                        \
+inline erased<detail::node> name(std::string && tag, std::initializer_list<erased<detail::node>>&& children) { return erased<detail::node>(detail::name##_t(move(tag), move(children))); }          \
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 MAKE_NODE_TYPE(sequence)
@@ -90,7 +90,7 @@ MAKE_NODE_TYPE(choice)
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #define MAKE_NODE_TYPE(name)                                                                                                                           \
-namespace details {                                                                                                                                   \
+namespace detail {                                                                                                                                   \
 struct name##_t final : node {                                                                                                                          \
 	name##_t() {}                                                                                                                  \
 	name##_t(erased<node> const & child) : node({ child }) {}                                                                                          \
@@ -99,8 +99,8 @@ struct name##_t final : node {                                                  
 };                                                                                                                                                           \
 }                                                                                                                                                              \
                                                                                                                                                               \
-inline erased<details::node> name(erased<details::node> const & child) { return erased<details::node>(details::name##_t(child)); }                                                                 \
-inline erased<details::node> name(std::string const & tag, erased<details::node> const & child) { return erased<details::node>(details::name##_t(tag, child)); }                                    \
+inline erased<detail::node> name(erased<detail::node> const & child) { return erased<detail::node>(detail::name##_t(child)); }                                                                 \
+inline erased<detail::node> name(std::string const & tag, erased<detail::node> const & child) { return erased<detail::node>(detail::name##_t(tag, child)); }                                    \
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 MAKE_NODE_TYPE(optional)
@@ -111,14 +111,14 @@ MAKE_NODE_TYPE(repetition)
 struct production {
 	production(
 		std::string const & id,
-		erased<details::node> const & behavior,
+		erased<detail::node> const & behavior,
 		associativity assoc = associativity::none,
 		filter_function const & filter = filter_function(),
 		std::set<std::string> const & precedences = std::set<std::string>()
 	);
 
 	std::string id;
-	erased<details::node> behavior;
+	erased<detail::node> behavior;
 	filter_function filter;
 	associativity assoc;
 	std::set<std::string> precedences;
@@ -142,19 +142,19 @@ struct builder {
 	class name##_t : public parlex::state_machine_base {                                              \
 	public:                                                                                            \
 		name##_t();                                                                                     \
-		void process(parlex::details::context const & c, size_t dfaState) const override;            \
+		void process(parlex::detail::context const & c, size_t dfaState) const override;            \
 		int get_start_state() const final;                                                                \
 		parlex::filter_function get_filter() const final;                                                  \
 		parlex::associativity get_assoc() const final;                                                      \
 	}                                                                                                        \
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-#define DEFINE_TERMINAL(name, U32content) static parlex::details::string_terminal name(U32content)
+#define DEFINE_TERMINAL(name, U32content) static parlex::detail::string_terminal name(U32content)
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #define DEFINE_DFA(name, cases, startStates)                                                                          \
 	name##_t::name##_t() : state_machine_base(#name) {}                                                                \
-	void name##_t::process(parlex::details::context const & c, size_t dfaState) const {                             \
+	void name##_t::process(parlex::detail::context const & c, size_t dfaState) const {                             \
 		switch (dfaState) {                                                                                              \
 		cases                                                                                                             \
 		default:                                                                                                           \

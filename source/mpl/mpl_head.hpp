@@ -3,7 +3,7 @@
 
 namespace mpl {
 
-	namespace details::head {
+	namespace detail::head {
 		template<typename TList>
 		struct impl {
 			static_assert(!std::is_same_v<TList, TList>, "template instantiation failed");
@@ -16,7 +16,7 @@ namespace mpl {
 	}
 
 	template<typename TList>
-	using head = typename details::head::impl<TList>::result;
+	using head = typename detail::head::impl<TList>::result;
 
 }
 

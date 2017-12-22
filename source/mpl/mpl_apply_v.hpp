@@ -7,7 +7,7 @@
 
 namespace mpl {
 
-	namespace details::apply_values {
+	namespace detail::apply_values {
 
 		template <typename TFunctor, typename TTuple, size_t... Indices>
 		constexpr auto impl(TFunctor const & functor, TTuple && t, std::index_sequence<Indices...>)
@@ -28,7 +28,7 @@ namespace mpl {
 		return impl(
 			std::forward<TFunctor>(functor),
 			std::forward<TTuple>(elements),
-			details::sequence(std::forward<TTuple>(elements))
+			detail::sequence(std::forward<TTuple>(elements))
 		);
 	}
 

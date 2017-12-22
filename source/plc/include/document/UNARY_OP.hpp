@@ -7,8 +7,8 @@
 #include <variant>
 #include <vector>
 #include "erased.hpp"
-#include "parlex/details/abstract_syntax_tree.hpp"
-#include "parlex/details/document.hpp"
+#include "parlex/detail/abstract_syntax_tree.hpp"
+#include "parlex/detail/document.hpp"
 
 #include "plange_grammar.hpp"
 
@@ -29,9 +29,9 @@ typedef std::variant<
 > UNARY_OP_base;
 
 struct UNARY_OP: UNARY_OP_base {
-	static UNARY_OP build(parlex::details::ast_node const & n);
+	static UNARY_OP build(parlex::detail::ast_node const & n);
 	explicit UNARY_OP(UNARY_OP_base const & value) : UNARY_OP_base(value) {}
-	static parlex::details::recognizer const & recognizer();
+	static parlex::detail::recognizer const & recognizer();
 };
 } // namespace plc
 

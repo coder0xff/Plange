@@ -7,8 +7,8 @@
 #include <variant>
 #include <vector>
 #include "erased.hpp"
-#include "parlex/details/abstract_syntax_tree.hpp"
-#include "parlex/details/document.hpp"
+#include "parlex/detail/abstract_syntax_tree.hpp"
+#include "parlex/detail/document.hpp"
 
 #include "plange_grammar.hpp"
 
@@ -31,23 +31,23 @@ struct FUNCTION_MODIFIER_ATOMIC {
 		field_1_t_1_t(field_1_t_1_t const & other) = default;
 		field_1_t_1_t(field_1_t_1_t && move) = default;
 	
-		static field_1_t_1_t build(parlex::details::behavior::node const * b, parlex::details::document::walk & w);
+		static field_1_t_1_t build(parlex::detail::behavior::node const * b, parlex::detail::document::walk & w);
 	};
 
-	parlex::details::document::text<literal_atomic_t> dontCare0;
+	parlex::detail::document::text<literal_atomic_t> dontCare0;
 	
 	std::optional<field_1_t_1_t> field_1;
 	
 
 
 	explicit FUNCTION_MODIFIER_ATOMIC(
-		parlex::details::document::text<literal_atomic_t> && dontCare0, std::optional<field_1_t_1_t> && field_1) : dontCare0(std::move(dontCare0)), field_1(std::move(field_1)) {}
+		parlex::detail::document::text<literal_atomic_t> && dontCare0, std::optional<field_1_t_1_t> && field_1) : dontCare0(std::move(dontCare0)), field_1(std::move(field_1)) {}
 
 	FUNCTION_MODIFIER_ATOMIC(FUNCTION_MODIFIER_ATOMIC const & other) = default;
 	FUNCTION_MODIFIER_ATOMIC(FUNCTION_MODIFIER_ATOMIC && move) = default;
 
-	static FUNCTION_MODIFIER_ATOMIC build(parlex::details::ast_node const & n);
-	static parlex::details::recognizer const & recognizer();
+	static FUNCTION_MODIFIER_ATOMIC build(parlex::detail::ast_node const & n);
+	static parlex::detail::recognizer const & recognizer();
 
 };
 

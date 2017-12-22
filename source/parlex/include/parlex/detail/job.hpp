@@ -3,12 +3,12 @@
 
 #include <functional>
 
-#include "parlex/details/match_class.hpp"
-#include "parlex/details/subjob.hpp"
-#include "parlex/details/abstract_syntax_semilattice.hpp"
+#include "parlex/detail/match_class.hpp"
+#include "parlex/detail/subjob.hpp"
+#include "parlex/detail/abstract_syntax_semilattice.hpp"
 
 namespace parlex {
-namespace details {
+namespace detail {
 
 class correlated_grammar;
 class parser;
@@ -41,7 +41,7 @@ private:
 	friend class producer;
 };
 
-} // namespace details
+} // namespace detail
 } // namespace parlex
 
 #endif //JOB_HPP

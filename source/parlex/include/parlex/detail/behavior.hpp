@@ -10,14 +10,14 @@
 #include "mpl_list.hpp"
 #include "mpl_map_v.hpp"
 
-#include "parlex/details/nfa.hpp"
-#include "parlex/details/recognizer.hpp"
+#include "parlex/detail/nfa.hpp"
+#include "parlex/detail/recognizer.hpp"
 #include <variant>
 #include "permutation.hpp"
 #include <unordered_map>
 
 namespace parlex {
-namespace details {
+namespace detail {
 
 namespace behavior {
 
@@ -90,7 +90,7 @@ public:
 };
 
 } // namespace behavior
-} // namespace details
+} // namespace detail
 } // namespace parlex
 
 #endif //BEHAVIOR_HPP

@@ -1,9 +1,9 @@
-#include "parlex/details/context.hpp"
+#include "parlex/detail/context.hpp"
 
 #include <csignal>
 #include <iostream>
 
-#include "parlex/details/subjob.hpp"
+#include "parlex/detail/subjob.hpp"
 
 #include "logging.hpp"
 #include "utils.hpp"
@@ -12,7 +12,7 @@ std::atomic<int> refIDCounter(0);
 std::atomic<int> contextIDCounter(0);
 
 namespace parlex {
-namespace details {
+namespace detail {
 
 context::context(subjob & owner, context const* const prior, int documentPosition, std::optional<match> const & fromTransition, behavior::leaf const * leaf) :
 	id(++contextIDCounter), owner(owner), prior(prior),

@@ -7,8 +7,8 @@
 #include <variant>
 #include <vector>
 #include "erased.hpp"
-#include "parlex/details/abstract_syntax_tree.hpp"
-#include "parlex/details/document.hpp"
+#include "parlex/detail/abstract_syntax_tree.hpp"
+#include "parlex/detail/document.hpp"
 
 #include "plange_grammar.hpp"
 
@@ -25,9 +25,9 @@ typedef std::variant<
 > BITWISE_OP_base;
 
 struct BITWISE_OP: BITWISE_OP_base {
-	static BITWISE_OP build(parlex::details::ast_node const & n);
+	static BITWISE_OP build(parlex::detail::ast_node const & n);
 	explicit BITWISE_OP(BITWISE_OP_base const & value) : BITWISE_OP_base(value) {}
-	static parlex::details::recognizer const & recognizer();
+	static parlex::detail::recognizer const & recognizer();
 };
 } // namespace plc
 

@@ -4,26 +4,26 @@
 
 #include "plange_grammar.hpp"
 
-#include "parlex/details/document.hpp"
-#include "parlex/details/behavior.hpp"
+#include "parlex/detail/document.hpp"
+#include "parlex/detail/behavior.hpp"
 
 #include "EXPRESSION.hpp"
 #include "IC.hpp"
 
-plc::EXISTS_ONE plc::EXISTS_ONE::build(parlex::details::ast_node const & n) {
+plc::EXISTS_ONE plc::EXISTS_ONE::build(parlex::detail::ast_node const & n) {
 	static auto const * b = &plange_grammar::get().EXISTS_ONE.get_behavior();
-	parlex::details::document::walk w{ n.children.cbegin(), n.children.cend() };
+	parlex::detail::document::walk w{ n.children.cbegin(), n.children.cend() };
 	auto const & children = b->get_children();
-	auto v_0 = parlex::details::document::element<std::variant<
-		parlex::details::document::text<literal_0xE20x880x830x21_t>,
-		parlex::details::document::text<literal_exists0x21_t>
+	auto v_0 = parlex::detail::document::element<std::variant<
+		parlex::detail::document::text<literal_0xE20x880x830x21_t>,
+		parlex::detail::document::text<literal_exists0x21_t>
 	>>::build(&*children[0], w);
-	auto v_1 = parlex::details::document::element<std::vector<erased<IC>>>::build(&*children[1], w);
-	auto v_2 = parlex::details::document::element<erased<EXPRESSION>>::build(&*children[2], w);
+	auto v_1 = parlex::detail::document::element<std::vector<erased<IC>>>::build(&*children[1], w);
+	auto v_2 = parlex::detail::document::element<erased<EXPRESSION>>::build(&*children[2], w);
 	return EXISTS_ONE(std::move(v_0), std::move(v_1), std::move(v_2));
 }
 
 
-parlex::details::recognizer const & plc::EXISTS_ONE::recognizer() {
+parlex::detail::recognizer const & plc::EXISTS_ONE::recognizer() {
 	return plange_grammar::get().EXISTS_ONE.get_recognizer();
 }

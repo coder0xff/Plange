@@ -7,8 +7,8 @@
 #include <memory>
 #include <vector>
 
-namespace details {
-namespace concurrent_forward_list_details {
+namespace detail {
+namespace concurrent_forward_list_detail {
 
 // provides a globally unique pointer used for the terminal node
 inline void* terminal() {
@@ -380,8 +380,8 @@ private:
 		return true;
 	}
 
-	static node * terminal() { return (node*)::details::concurrent_forward_list_details::terminal(); }
-	static node * spin() { return (node*)::details::concurrent_forward_list_details::spin(); }
+	static node * terminal() { return (node*)::detail::concurrent_forward_list_detail::terminal(); }
+	static node * spin() { return (node*)::detail::concurrent_forward_list_detail::spin(); }
 
 	class node {
 	public:

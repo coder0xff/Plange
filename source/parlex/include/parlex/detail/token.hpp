@@ -1,10 +1,10 @@
 #ifndef TOKEN_HPP
 #define TOKEN_HPP
 
-#include "parlex/details/producer.hpp"
+#include "parlex/detail/producer.hpp"
 
 namespace parlex {
-namespace details {
+namespace detail {
 
 class terminal;
 
@@ -13,7 +13,7 @@ public:
 	token(job & owner, terminal const & t, size_t documentPosition);
 };
 
-} // namespace details
+} // namespace detail
 } // namespace parlex
 
 #endif //TOKEN_HPP

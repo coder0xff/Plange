@@ -6,7 +6,7 @@
 #include "builder.hpp"
 
 namespace parlex {
-namespace details {
+namespace detail {
 
 // a leaf node that may reduce its parent's representation to a simpler form
 struct unit : node {
@@ -23,7 +23,7 @@ struct aggregate : node {
 
 erased<node> compute_document_representation(erased<node> const & root);
 
-} // namespace details
+} // namespace detail
 } // namespace parlex
 
 #endif //DOCUMENT_REPRESENTATION_HPP

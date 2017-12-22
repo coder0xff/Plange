@@ -6,12 +6,12 @@
 #include <atomic>
 #include <queue>
 
-#include "parlex/details/abstract_syntax_semilattice.hpp"
+#include "parlex/detail/abstract_syntax_semilattice.hpp"
 #include "parlex/post_processor.hpp"
 #include "erased.hpp"
 
 namespace parlex {
-namespace details {
+namespace detail {
 
 class grammar_base;
 typedef std::function<void(size_t /*done*/, size_t /*total*/)> progress_handler_t;
@@ -64,7 +64,7 @@ private:
 	bool handle_deadlocks(job const & j) const;
 };
 
-} // namespace details
+} // namespace detail
 } // namespace parlex
 
 #endif //PARSER_HPP

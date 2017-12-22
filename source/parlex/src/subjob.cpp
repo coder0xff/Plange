@@ -1,16 +1,16 @@
-#include "parlex/details/subjob.hpp"
+#include "parlex/detail/subjob.hpp"
 
-#include "parlex/details/parser.hpp"
-#include "parlex/details/recognizer.hpp"
-#include "parlex/details/state_machine_base.hpp"
+#include "parlex/detail/parser.hpp"
+#include "parlex/detail/recognizer.hpp"
+#include "parlex/detail/state_machine_base.hpp"
 
-#include "parlex/details/context.hpp"
-#include "parlex/details/job.hpp"
+#include "parlex/detail/context.hpp"
+#include "parlex/detail/job.hpp"
 
 #include "utils.hpp"
 
 namespace parlex {
-namespace details {
+namespace detail {
 
 subjob::subjob(
 	job & owner,
@@ -130,5 +130,5 @@ void subjob::flush() {
 	}
 }
 
-} // namespace details
+} // namespace detail
 } // namespace parlex

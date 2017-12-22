@@ -8,7 +8,7 @@
 #include "mpl_utils.hpp"
 #include "mpl_sfinae.hpp"
 
-namespace details {
+namespace detail {
 	template <typename T>
 	struct invoke_type {
 		typedef mpl::decay<mpl::head<mpl::function_arguments<decltype(&T::operator ())>>> in_t;
@@ -18,7 +18,7 @@ namespace details {
 
 template<typename U, typename T, typename V1, typename std::enable_if<!std::is_same<U, void>::value, int>::type = 0>
 U covariant_invoke(T const & value, V1 const & func1) {
-	typedef typename details::invoke_type<V1>::in_t in_t;
+	typedef typename detail::invoke_type<V1>::in_t in_t;
 	auto const * asU1 = dynamic_cast<in_t const *>(&value);
 	if (asU1 != nullptr) {
 		return func1(*asU1);
@@ -28,7 +28,7 @@ U covariant_invoke(T const & value, V1 const & func1) {
 
 template<typename U, typename T, typename V1, typename V2, typename... Vs, SFINAE_OVERLOAD(!mpl::equals<U, void>)>
 U covariant_invoke(T const & value, V1 const & func1, V2 const & func2, Vs const &... funcs) {
-	typedef typename details::invoke_type<V1>::in_t in_t;
+	typedef typename detail::invoke_type<V1>::in_t in_t;
 	auto const * asU1 = dynamic_cast<in_t const *>(&value);
 	if (asU1 != nullptr) {
 		return func1(*asU1);
@@ -38,8 +38,8 @@ U covariant_invoke(T const & value, V1 const & func1, V2 const & func2, Vs const
 
 template<typename U, typename T, typename V1, SFINAE_OVERLOAD(mpl::equals<U, void>)>
 void covariant_invoke(T const & value, V1 const & func1) {
-	typedef typename details::invoke_type<V1>::in_t in_t;
-	static_assert(std::is_same<typename details::invoke_type<V1>::out_t, void>::value, "function does not return void");
+	typedef typename detail::invoke_type<V1>::in_t in_t;
+	static_assert(std::is_same<typename detail::invoke_type<V1>::out_t, void>::value, "function does not return void");
 	auto const * asU1 = dynamic_cast<in_t const *>(&value);
 	if (asU1 != nullptr) {
 		func1(*asU1);
@@ -50,8 +50,8 @@ void covariant_invoke(T const & value, V1 const & func1) {
 
 template<typename U, typename T, typename V1, typename V2, typename... Vs, SFINAE_OVERLOAD(mpl::equals<U, void>)>
 void covariant_invoke(T const & value, V1 const & func1, V2 const & func2, Vs const &... funcs) {
-	typedef typename details::invoke_type<V1>::in_t in_t;
-	static_assert(std::is_same<typename details::invoke_type<V1>::out_t, void>::value, "function does not return void");
+	typedef typename detail::invoke_type<V1>::in_t in_t;
+	static_assert(std::is_same<typename detail::invoke_type<V1>::out_t, void>::value, "function does not return void");
 	auto const * asU1 = dynamic_cast<in_t const *>(&value);
 	if (asU1 != nullptr) {
 		func1(*asU1);
@@ -62,7 +62,7 @@ void covariant_invoke(T const & value, V1 const & func1, V2 const & func2, Vs co
 
 template<typename U, typename T, typename V1, SFINAE_OVERLOAD(!mpl::equals<U, void> && !mpl::is_const<T>)>
 U covariant_invoke(T & value, V1 const & func1) {
-	typedef typename details::invoke_type<V1>::in_t in_t;
+	typedef typename detail::invoke_type<V1>::in_t in_t;
 	auto * asU1 = dynamic_cast<in_t *>(&value);
 	if (asU1 != nullptr) {
 		return func1(*asU1);
@@ -72,7 +72,7 @@ U covariant_invoke(T & value, V1 const & func1) {
 
 template<typename U, typename T, typename V1, typename V2, typename... Vs, SFINAE_OVERLOAD(!mpl::equals<U, void> && !mpl::is_const<T>)>
 U covariant_invoke(T & value, V1 const & func1, V2 const & func2, Vs const &... funcs) {
-	typedef typename details::invoke_type<V1>::in_t in_t;
+	typedef typename detail::invoke_type<V1>::in_t in_t;
 	auto * asU1 = dynamic_cast<in_t *>(&value);
 	if (asU1 != nullptr) {
 		return func1(*asU1);
@@ -82,8 +82,8 @@ U covariant_invoke(T & value, V1 const & func1, V2 const & func2, Vs const &... 
 
 template<typename U, typename T, typename V1, SFINAE_OVERLOAD(mpl::equals<U, void> && !mpl::is_const<T>)>
 void covariant_invoke(T & value, V1 const & func1) {
-	typedef typename details::invoke_type<V1>::in_t in_t;
-	static_assert(std::is_same<typename details::invoke_type<V1>::out_t, void>::value, "function does not return void");
+	typedef typename detail::invoke_type<V1>::in_t in_t;
+	static_assert(std::is_same<typename detail::invoke_type<V1>::out_t, void>::value, "function does not return void");
 	auto * asU1 = dynamic_cast<in_t *>(&value);
 	if (asU1 != nullptr) {
 		func1(*asU1);
@@ -93,8 +93,8 @@ void covariant_invoke(T & value, V1 const & func1) {
 }
 template<typename U, typename T, typename V1, typename V2, typename... Vs, SFINAE_OVERLOAD(mpl::equals<U, void> && !mpl::is_const<T>)>
 void covariant_invoke(T & value, V1 const & func1, V2 const & func2, Vs const &... funcs) {
-	typedef typename details::invoke_type<V1>::in_t in_t;
-	static_assert(std::is_same<typename details::invoke_type<V1>::out_t, void>::value, "function does not return void");
+	typedef typename detail::invoke_type<V1>::in_t in_t;
+	static_assert(std::is_same<typename detail::invoke_type<V1>::out_t, void>::value, "function does not return void");
 	auto * asU1 = dynamic_cast<in_t *>(&value);
 	if (asU1 != nullptr) {
 		func1(*asU1);

@@ -4,20 +4,20 @@
 
 #include "plange_grammar.hpp"
 
-#include "parlex/details/document.hpp"
-#include "parlex/details/behavior.hpp"
+#include "parlex/detail/document.hpp"
+#include "parlex/detail/behavior.hpp"
 
 #include "ARGUMENT.hpp"
 #include "ARGUMENT_PACK.hpp"
 #include "IC.hpp"
 #include "SLICE.hpp"
 
-plc::ARRAY_INDEXER plc::ARRAY_INDEXER::build(parlex::details::ast_node const & n) {
+plc::ARRAY_INDEXER plc::ARRAY_INDEXER::build(parlex::detail::ast_node const & n) {
 	static auto const * b = &plange_grammar::get().ARRAY_INDEXER.get_behavior();
-	parlex::details::document::walk w{ n.children.cbegin(), n.children.cend() };
+	parlex::detail::document::walk w{ n.children.cbegin(), n.children.cend() };
 	auto const & children = b->get_children();
-	auto v_0 = parlex::details::document::element<std::vector<erased<IC>>>::build(&*children[0], w);
-	auto v_1 = parlex::details::document::element<std::variant<
+	auto v_0 = parlex::detail::document::element<std::vector<erased<IC>>>::build(&*children[0], w);
+	auto v_1 = parlex::detail::document::element<std::variant<
 		erased<ARGUMENT>,
 		erased<ARGUMENT_PACK>,
 		erased<SLICE>
@@ -26,6 +26,6 @@ plc::ARRAY_INDEXER plc::ARRAY_INDEXER::build(parlex::details::ast_node const & n
 }
 
 
-parlex::details::recognizer const & plc::ARRAY_INDEXER::recognizer() {
+parlex::detail::recognizer const & plc::ARRAY_INDEXER::recognizer() {
 	return plange_grammar::get().ARRAY_INDEXER.get_recognizer();
 }

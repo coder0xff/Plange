@@ -7,8 +7,8 @@
 #include <variant>
 #include <vector>
 #include "erased.hpp"
-#include "parlex/details/abstract_syntax_tree.hpp"
-#include "parlex/details/document.hpp"
+#include "parlex/detail/abstract_syntax_tree.hpp"
+#include "parlex/detail/document.hpp"
 
 #include "plange_grammar.hpp"
 
@@ -23,9 +23,9 @@ typedef std::variant<
 > FUNCTION_MODIFIER_0_base;
 
 struct FUNCTION_MODIFIER_0: FUNCTION_MODIFIER_0_base {
-	static FUNCTION_MODIFIER_0 build(parlex::details::ast_node const & n);
+	static FUNCTION_MODIFIER_0 build(parlex::detail::ast_node const & n);
 	explicit FUNCTION_MODIFIER_0(FUNCTION_MODIFIER_0_base const & value) : FUNCTION_MODIFIER_0_base(value) {}
-	static parlex::details::recognizer const & recognizer();
+	static parlex::detail::recognizer const & recognizer();
 };
 } // namespace plc
 

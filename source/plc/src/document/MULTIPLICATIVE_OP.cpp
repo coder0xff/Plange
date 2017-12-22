@@ -4,8 +4,8 @@
 
 #include "plange_grammar.hpp"
 
-#include "parlex/details/document.hpp"
-#include "parlex/details/behavior.hpp"
+#include "parlex/detail/document.hpp"
+#include "parlex/detail/behavior.hpp"
 
 #include "CROSS_PRODUCT.hpp"
 #include "DOT_PRODUCT.hpp"
@@ -15,14 +15,14 @@
 
 namespace plc {
 
-MULTIPLICATIVE_OP MULTIPLICATIVE_OP::build(parlex::details::ast_node const & n) {
+MULTIPLICATIVE_OP MULTIPLICATIVE_OP::build(parlex::detail::ast_node const & n) {
 	static auto const * b = &plange_grammar::get().MULTIPLICATIVE_OP.get_behavior();
-	parlex::details::document::walk w{ n.children.cbegin(), n.children.cend() };
-	return MULTIPLICATIVE_OP(parlex::details::document::element<MULTIPLICATIVE_OP_base>::build(b, w));
+	parlex::detail::document::walk w{ n.children.cbegin(), n.children.cend() };
+	return MULTIPLICATIVE_OP(parlex::detail::document::element<MULTIPLICATIVE_OP_base>::build(b, w));
 }
 
 } // namespace plc
 
-parlex::details::recognizer const & plc::MULTIPLICATIVE_OP::recognizer() {
+parlex::detail::recognizer const & plc::MULTIPLICATIVE_OP::recognizer() {
 	return plange_grammar::get().MULTIPLICATIVE_OP.get_recognizer();
 }

@@ -4,8 +4,8 @@
 
 #include "plange_grammar.hpp"
 
-#include "parlex/details/document.hpp"
-#include "parlex/details/behavior.hpp"
+#include "parlex/detail/document.hpp"
+#include "parlex/detail/behavior.hpp"
 
 #include "COMMENT.hpp"
 #include "EMBEDDED_COMMENT.hpp"
@@ -16,14 +16,14 @@
 
 namespace plc {
 
-IC IC::build(parlex::details::ast_node const & n) {
+IC IC::build(parlex::detail::ast_node const & n) {
 	static auto const * b = &plange_grammar::get().IC.get_behavior();
-	parlex::details::document::walk w{ n.children.cbegin(), n.children.cend() };
-	return IC(parlex::details::document::element<IC_base>::build(b, w));
+	parlex::detail::document::walk w{ n.children.cbegin(), n.children.cend() };
+	return IC(parlex::detail::document::element<IC_base>::build(b, w));
 }
 
 } // namespace plc
 
-parlex::details::recognizer const & plc::IC::recognizer() {
+parlex::detail::recognizer const & plc::IC::recognizer() {
 	return plange_grammar::get().IC.get_recognizer();
 }

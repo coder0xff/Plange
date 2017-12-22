@@ -9,7 +9,7 @@
 
 namespace mpl {
 
-	namespace details::first {
+	namespace detail::first {
 
 		template<template<typename> typename TMetaPredicate>
 		struct fold_metafunction {
@@ -21,7 +21,7 @@ namespace mpl {
 	}
 
 	template<template<typename> typename TMetaPredicate, typename TList>
-	using first = typename fold<details::first::fold_metafunction<TMetaPredicate>::template result, none, TList>::type;
+	using first = typename fold<detail::first::fold_metafunction<TMetaPredicate>::template result, none, TList>::type;
 }
 
 #define INCLUDED_MPL_FIRST_HPP

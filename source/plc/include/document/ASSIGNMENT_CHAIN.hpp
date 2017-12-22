@@ -7,8 +7,8 @@
 #include <variant>
 #include <vector>
 #include "erased.hpp"
-#include "parlex/details/abstract_syntax_tree.hpp"
-#include "parlex/details/document.hpp"
+#include "parlex/detail/abstract_syntax_tree.hpp"
+#include "parlex/detail/document.hpp"
 
 #include "plange_grammar.hpp"
 
@@ -34,7 +34,7 @@ struct ASSIGNMENT_CHAIN {
 		field_1_t_1_t(field_1_t_1_t const & other) = default;
 		field_1_t_1_t(field_1_t_1_t && move) = default;
 	
-		static field_1_t_1_t build(parlex::details::behavior::node const * b, parlex::details::document::walk & w);
+		static field_1_t_1_t build(parlex::detail::behavior::node const * b, parlex::detail::document::walk & w);
 	};
 
 	std::optional<field_1_t_1_t> field_1;
@@ -44,8 +44,8 @@ struct ASSIGNMENT_CHAIN {
 	std::vector<erased<IC>> field_2;
 	
 	std::variant<
-		parlex::details::document::text<literal_0xE20x860x90_t>,
-		parlex::details::document::text<literal_0x3C0x2D_t>
+		parlex::detail::document::text<literal_0xE20x860x90_t>,
+		parlex::detail::document::text<literal_0x3C0x2D_t>
 	> field_3;
 	
 	std::vector<erased<IC>> field_4;
@@ -59,8 +59,8 @@ struct ASSIGNMENT_CHAIN {
 
 	explicit ASSIGNMENT_CHAIN(
 		std::optional<field_1_t_1_t> && field_1, erased<IDENTIFIER> && identifier, std::vector<erased<IC>> && field_2, std::variant<
-			parlex::details::document::text<literal_0xE20x860x90_t>,
-			parlex::details::document::text<literal_0x3C0x2D_t>
+			parlex::detail::document::text<literal_0xE20x860x90_t>,
+			parlex::detail::document::text<literal_0x3C0x2D_t>
 		> && field_3, std::vector<erased<IC>> && field_4, std::variant<
 			erased<EXPRESSION>,
 			erased<ASSIGNMENT_CHAIN>
@@ -69,8 +69,8 @@ struct ASSIGNMENT_CHAIN {
 	ASSIGNMENT_CHAIN(ASSIGNMENT_CHAIN const & other) = default;
 	ASSIGNMENT_CHAIN(ASSIGNMENT_CHAIN && move) = default;
 
-	static ASSIGNMENT_CHAIN build(parlex::details::ast_node const & n);
-	static parlex::details::recognizer const & recognizer();
+	static ASSIGNMENT_CHAIN build(parlex::detail::ast_node const & n);
+	static parlex::detail::recognizer const & recognizer();
 
 };
 

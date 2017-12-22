@@ -7,8 +7,8 @@
 #include <variant>
 #include <vector>
 #include "erased.hpp"
-#include "parlex/details/abstract_syntax_tree.hpp"
-#include "parlex/details/document.hpp"
+#include "parlex/detail/abstract_syntax_tree.hpp"
+#include "parlex/detail/document.hpp"
 
 #include "plange_grammar.hpp"
 
@@ -17,22 +17,22 @@ namespace plc {
 struct EMBEDDED_STRING_INTERIOR;
 
 struct EMBEDDED_STRING {
-	parlex::details::document::text<literal_0x220x220x22_t> dontCare0;
+	parlex::detail::document::text<literal_0x220x220x22_t> dontCare0;
 	
 	erased<EMBEDDED_STRING_INTERIOR> field_1;
 	
-	parlex::details::document::text<literal_0x220x220x22_t> dontCare2;
+	parlex::detail::document::text<literal_0x220x220x22_t> dontCare2;
 	
 
 
 	explicit EMBEDDED_STRING(
-		parlex::details::document::text<literal_0x220x220x22_t> && dontCare0, erased<EMBEDDED_STRING_INTERIOR> && field_1, parlex::details::document::text<literal_0x220x220x22_t> && dontCare2) : dontCare0(std::move(dontCare0)), field_1(std::move(field_1)), dontCare2(std::move(dontCare2)) {}
+		parlex::detail::document::text<literal_0x220x220x22_t> && dontCare0, erased<EMBEDDED_STRING_INTERIOR> && field_1, parlex::detail::document::text<literal_0x220x220x22_t> && dontCare2) : dontCare0(std::move(dontCare0)), field_1(std::move(field_1)), dontCare2(std::move(dontCare2)) {}
 
 	EMBEDDED_STRING(EMBEDDED_STRING const & other) = default;
 	EMBEDDED_STRING(EMBEDDED_STRING && move) = default;
 
-	static EMBEDDED_STRING build(parlex::details::ast_node const & n);
-	static parlex::details::recognizer const & recognizer();
+	static EMBEDDED_STRING build(parlex::detail::ast_node const & n);
+	static parlex::detail::recognizer const & recognizer();
 
 };
 

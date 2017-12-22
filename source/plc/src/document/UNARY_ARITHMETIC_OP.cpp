@@ -4,8 +4,8 @@
 
 #include "plange_grammar.hpp"
 
-#include "parlex/details/document.hpp"
-#include "parlex/details/behavior.hpp"
+#include "parlex/detail/document.hpp"
+#include "parlex/detail/behavior.hpp"
 
 #include "FACTORIAL.hpp"
 #include "NEGATION.hpp"
@@ -19,14 +19,14 @@
 
 namespace plc {
 
-UNARY_ARITHMETIC_OP UNARY_ARITHMETIC_OP::build(parlex::details::ast_node const & n) {
+UNARY_ARITHMETIC_OP UNARY_ARITHMETIC_OP::build(parlex::detail::ast_node const & n) {
 	static auto const * b = &plange_grammar::get().UNARY_ARITHMETIC_OP.get_behavior();
-	parlex::details::document::walk w{ n.children.cbegin(), n.children.cend() };
-	return UNARY_ARITHMETIC_OP(parlex::details::document::element<UNARY_ARITHMETIC_OP_base>::build(b, w));
+	parlex::detail::document::walk w{ n.children.cbegin(), n.children.cend() };
+	return UNARY_ARITHMETIC_OP(parlex::detail::document::element<UNARY_ARITHMETIC_OP_base>::build(b, w));
 }
 
 } // namespace plc
 
-parlex::details::recognizer const & plc::UNARY_ARITHMETIC_OP::recognizer() {
+parlex::detail::recognizer const & plc::UNARY_ARITHMETIC_OP::recognizer() {
 	return plange_grammar::get().UNARY_ARITHMETIC_OP.get_recognizer();
 }

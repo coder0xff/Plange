@@ -7,11 +7,11 @@
 #include <set>
 #include <mutex>
 
-#include "parlex/details/context.hpp"
-#include "parlex/details/permutation.hpp"
+#include "parlex/detail/context.hpp"
+#include "parlex/detail/permutation.hpp"
 
 namespace parlex {
-namespace details {
+namespace detail {
 namespace behavior {
 
 class leaf;
@@ -50,7 +50,7 @@ public:
 	void terminate();
 };
 
-} // namespace details
+} // namespace detail
 } // namespace parlex
 
 #endif //PRODUCER_HPP

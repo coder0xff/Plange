@@ -7,8 +7,8 @@
 #include <variant>
 #include <vector>
 #include "erased.hpp"
-#include "parlex/details/abstract_syntax_tree.hpp"
-#include "parlex/details/document.hpp"
+#include "parlex/detail/abstract_syntax_tree.hpp"
+#include "parlex/detail/document.hpp"
 
 #include "plange_grammar.hpp"
 
@@ -33,7 +33,7 @@ struct DEFINITION {
 		field_1_t_1_t(field_1_t_1_t const & other) = default;
 		field_1_t_1_t(field_1_t_1_t && move) = default;
 	
-		static field_1_t_1_t build(parlex::details::behavior::node const * b, parlex::details::document::walk & w);
+		static field_1_t_1_t build(parlex::detail::behavior::node const * b, parlex::detail::document::walk & w);
 	};
 
 	std::optional<field_1_t_1_t> field_1;
@@ -42,7 +42,7 @@ struct DEFINITION {
 	
 	std::vector<erased<IC>> field_2;
 	
-	parlex::details::document::text<literal_0x3A0x3D_t> dontCare3;
+	parlex::detail::document::text<literal_0x3A0x3D_t> dontCare3;
 	
 	std::vector<erased<IC>> field_3;
 	
@@ -51,13 +51,13 @@ struct DEFINITION {
 
 
 	explicit DEFINITION(
-		std::optional<field_1_t_1_t> && field_1, erased<IDENTIFIER> && identifier, std::vector<erased<IC>> && field_2, parlex::details::document::text<literal_0x3A0x3D_t> && dontCare3, std::vector<erased<IC>> && field_3, erased<EXPRESSION> && expression) : field_1(std::move(field_1)), identifier(std::move(identifier)), field_2(std::move(field_2)), dontCare3(std::move(dontCare3)), field_3(std::move(field_3)), expression(std::move(expression)) {}
+		std::optional<field_1_t_1_t> && field_1, erased<IDENTIFIER> && identifier, std::vector<erased<IC>> && field_2, parlex::detail::document::text<literal_0x3A0x3D_t> && dontCare3, std::vector<erased<IC>> && field_3, erased<EXPRESSION> && expression) : field_1(std::move(field_1)), identifier(std::move(identifier)), field_2(std::move(field_2)), dontCare3(std::move(dontCare3)), field_3(std::move(field_3)), expression(std::move(expression)) {}
 
 	DEFINITION(DEFINITION const & other) = default;
 	DEFINITION(DEFINITION && move) = default;
 
-	static DEFINITION build(parlex::details::ast_node const & n);
-	static parlex::details::recognizer const & recognizer();
+	static DEFINITION build(parlex::detail::ast_node const & n);
+	static parlex::detail::recognizer const & recognizer();
 
 };
 

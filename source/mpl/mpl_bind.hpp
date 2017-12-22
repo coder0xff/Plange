@@ -21,7 +21,7 @@ namespace mpl {
 
 	struct variadic_bind_point {};
 
-	namespace details::bind {
+	namespace detail::bind {
 
 		template<typename T>
 		struct is_variadic_bind_point : false_type { };
@@ -107,7 +107,7 @@ namespace mpl {
 	}
 
 	template<template <typename...> typename TMetaFunction, typename TBindingList>
-	using bind = details::bind::impl<TMetaFunction, TBindingList>;
+	using bind = detail::bind::impl<TMetaFunction, TBindingList>;
 
 }
 

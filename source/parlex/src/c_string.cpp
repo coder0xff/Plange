@@ -1,16 +1,16 @@
-#include "parlex/details/c_string.hpp"
+#include "parlex/detail/c_string.hpp"
 
-#include "parlex/details/abstract_syntax_semilattice.hpp"
-#include "parlex/details/builtins.hpp"
+#include "parlex/detail/abstract_syntax_semilattice.hpp"
+#include "parlex/detail/builtins.hpp"
 
-#include "parlex/details/terminal.hpp"
+#include "parlex/detail/terminal.hpp"
 
 #include "utils.hpp"
 #include "utf.hpp"
-#include "parlex/details/behavior.hpp"
+#include "parlex/detail/behavior.hpp"
 
 namespace parlex {
-namespace details {
+namespace detail {
 
 c_string_t::c_string_t(builtins_t const & builtins) :
 	raw_state_machine("c_string", 0, 1, builtins.longest, associativity::none),
@@ -143,5 +143,5 @@ bool c_string_t::basic_escape_sequence_t::test(std::u32string const & document, 
 	return document[documentPosition] == '\\' && (c == '\"' || c == '\'' || c == '?' || c == '\\' || c == 'a' || c == 'b' || c == 'f' || c == 'n' || c == 'r' || c == 't' || c == 'v');
 }
 
-} //namespace details
+} //namespace detail
 } //namespace parlex

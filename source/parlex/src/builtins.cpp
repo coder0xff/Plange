@@ -1,12 +1,12 @@
 #include <iostream>
 #include <mutex>
 
-#include "parlex/details/builtins.hpp"
+#include "parlex/detail/builtins.hpp"
 
 #include "utf.hpp"
 
 namespace parlex {
-namespace details {
+namespace detail {
 
 any_character_t::any_character_t() : terminal("any_character", 1) {
 }
@@ -145,5 +145,5 @@ std::u32string string_terminal::get_content() const {
 }
 
 
-} //namespace details
+} //namespace detail
 } // namespace parlex

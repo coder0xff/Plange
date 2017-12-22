@@ -5,12 +5,12 @@
 #include <set>
 #include <list>
 
-#include "parlex/details/match.hpp"
-#include "parlex/details/permutation.hpp"
+#include "parlex/detail/match.hpp"
+#include "parlex/detail/permutation.hpp"
 #include "abstract_syntax_tree.hpp"
 
 namespace parlex {
-namespace details {
+namespace detail {
 
 // an upper semilattice with two types of nodes, representing all the possible interpretations of an input document
 // If the documentation representation is unambiguous (variation_count() == 1) then tree() can produce an AST
@@ -30,7 +30,7 @@ struct abstract_syntax_semilattice {
 	abstract_syntax_tree tree() const; // throws if variation_count() > 1
 };
 
-} // namespace details
+} // namespace detail
 } // namespace parlex
 
 #endif //ABSTRACT_SYNTAX_SEMILATTICE_HPP

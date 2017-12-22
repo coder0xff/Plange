@@ -5,7 +5,7 @@
 
 namespace mpl {
 
-	namespace details::fold_v {
+	namespace detail::fold_v {
 
 		template<typename TFunctor, typename TAccumulator, typename TList>
 		struct impl {	};
@@ -33,7 +33,7 @@ namespace mpl {
 		//Note that TResult may not be the same as TInitial, because we are also folding over types.
 		template<typename TFunctor, typename TInitial>
 		static auto invoke(TFunctor && functor, TInitial && initial) {
-			return details::fold_v::impl<TFunctor, TInitial, TList>::impl_f(std::forward<TFunctor>(functor), std::forward<TInitial>(initial));
+			return detail::fold_v::impl<TFunctor, TInitial, TList>::impl_f(std::forward<TFunctor>(functor), std::forward<TInitial>(initial));
 		}
 	};
 

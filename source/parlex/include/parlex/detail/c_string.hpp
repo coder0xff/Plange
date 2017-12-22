@@ -1,13 +1,13 @@
 #ifndef C_STRING_HPP
 #define C_STRING_HPP
 
-#include "parlex/details/abstract_syntax_semilattice.hpp"
-#include "parlex/details/string_terminal.hpp"
-#include "parlex/details/raw_state_machine.hpp"
-#include "parlex/details/terminal.hpp"
+#include "parlex/detail/abstract_syntax_semilattice.hpp"
+#include "parlex/detail/string_terminal.hpp"
+#include "parlex/detail/raw_state_machine.hpp"
+#include "parlex/detail/terminal.hpp"
 
 namespace parlex {
-namespace details {
+namespace detail {
 
 class builtins_t;
 

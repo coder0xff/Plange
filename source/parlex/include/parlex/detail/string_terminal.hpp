@@ -1,10 +1,10 @@
 #ifndef STRING_TERMINAL_HPP
 #define STRING_TERMINAL_HPP
 
-#include "parlex/details/terminal.hpp"
+#include "parlex/detail/terminal.hpp"
 
 namespace parlex {
-namespace details {
+namespace detail {
 
 class string_terminal : public terminal {
 public:
@@ -20,7 +20,7 @@ private:
 	std::u32string const s;
 };
 
-} //namespace details
+} //namespace detail
 } //namespace parlex
 
 #endif //STRING_TERMINAL_HPP

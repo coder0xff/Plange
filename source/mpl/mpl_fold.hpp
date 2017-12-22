@@ -2,7 +2,7 @@
 #define INCLUDING_MPL_FOLD_HPP
 
 namespace mpl {
-	namespace details::fold {
+	namespace detail::fold {
 		template<template <typename, typename> typename TMetaFunction, typename TAccumulator, typename TList>
 		struct impl {
 			using result = TAccumulator;
@@ -19,7 +19,7 @@ namespace mpl {
 	//         ^ element
 	//                         ^ initial accumulator
 	template<template <typename, typename> typename TMetaFunction, typename TAccumulator, typename TList>
-	using fold = typename details::fold::impl<TMetaFunction, TAccumulator, TList>::result;
+	using fold = typename detail::fold::impl<TMetaFunction, TAccumulator, TList>::result;
 }
 
 #define INCLUDED_MPL_FOLD_HPP

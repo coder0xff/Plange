@@ -6,7 +6,7 @@
 
 namespace mpl {
 
-	namespace details::fold_vv {
+	namespace detail::fold_vv {
 
 		template<typename TFunctor, typename TAccumulator, typename TList>
 		struct impl {	};
@@ -31,7 +31,7 @@ namespace mpl {
 
 	template<typename TFunctor, typename TAccumulator, typename... Ts>
 	constexpr TAccumulator fold_vv(TFunctor && functor, TAccumulator initial, std::tuple<Ts...> const & list) {
-		return details::fold_vv::impl<TFunctor, TAccumulator, std::tuple<Ts...>>::impl_f(std::forward<TFunctor>(functor), initial, list);
+		return detail::fold_vv::impl<TFunctor, TAccumulator, std::tuple<Ts...>>::impl_f(std::forward<TFunctor>(functor), initial, list);
 	}
 
 }

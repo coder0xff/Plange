@@ -7,19 +7,19 @@
 #include <variant>
 #include <vector>
 #include "erased.hpp"
-#include "parlex/details/abstract_syntax_tree.hpp"
-#include "parlex/details/document.hpp"
+#include "parlex/detail/abstract_syntax_tree.hpp"
+#include "parlex/detail/document.hpp"
 
 #include "plange_grammar.hpp"
 
 namespace plc {
 
-typedef parlex::details::document::text<literal_extern_t> EXTERN_base;
+typedef parlex::detail::document::text<literal_extern_t> EXTERN_base;
 
 struct EXTERN: EXTERN_base {
-	static EXTERN build(parlex::details::ast_node const & n);
+	static EXTERN build(parlex::detail::ast_node const & n);
 	explicit EXTERN(EXTERN_base const & value) : EXTERN_base(value) {}
-	static parlex::details::recognizer const & recognizer();
+	static parlex::detail::recognizer const & recognizer();
 };
 } // namespace plc
 

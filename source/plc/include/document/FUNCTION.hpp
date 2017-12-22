@@ -7,8 +7,8 @@
 #include <variant>
 #include <vector>
 #include "erased.hpp"
-#include "parlex/details/abstract_syntax_tree.hpp"
-#include "parlex/details/document.hpp"
+#include "parlex/detail/abstract_syntax_tree.hpp"
+#include "parlex/detail/document.hpp"
 
 #include "plange_grammar.hpp"
 
@@ -25,7 +25,7 @@ struct FUNCTION {
 			struct field_1_t_1_t {
 				std::vector<erased<IC>> field_1;
 				
-				parlex::details::document::text<literal_0x2C_t> dontCare1;
+				parlex::detail::document::text<literal_0x2C_t> dontCare1;
 				
 				std::vector<erased<IC>> field_2;
 				
@@ -34,12 +34,12 @@ struct FUNCTION {
 			
 			
 				explicit field_1_t_1_t(
-					std::vector<erased<IC>> && field_1, parlex::details::document::text<literal_0x2C_t> && dontCare1, std::vector<erased<IC>> && field_2, erased<PARAMETER> && parameter) : field_1(std::move(field_1)), dontCare1(std::move(dontCare1)), field_2(std::move(field_2)), parameter(std::move(parameter)) {}
+					std::vector<erased<IC>> && field_1, parlex::detail::document::text<literal_0x2C_t> && dontCare1, std::vector<erased<IC>> && field_2, erased<PARAMETER> && parameter) : field_1(std::move(field_1)), dontCare1(std::move(dontCare1)), field_2(std::move(field_2)), parameter(std::move(parameter)) {}
 			
 				field_1_t_1_t(field_1_t_1_t const & other) = default;
 				field_1_t_1_t(field_1_t_1_t && move) = default;
 			
-				static field_1_t_1_t build(parlex::details::behavior::node const * b, parlex::details::document::walk & w);
+				static field_1_t_1_t build(parlex::detail::behavior::node const * b, parlex::detail::document::walk & w);
 			};
 		
 			erased<PARAMETER> parameter;
@@ -56,28 +56,28 @@ struct FUNCTION {
 			field_2_t_1_t(field_2_t_1_t const & other) = default;
 			field_2_t_1_t(field_2_t_1_t && move) = default;
 		
-			static field_2_t_1_t build(parlex::details::behavior::node const * b, parlex::details::document::walk & w);
+			static field_2_t_1_t build(parlex::detail::behavior::node const * b, parlex::detail::document::walk & w);
 		};
 	
-		parlex::details::document::text<literal_0x28_t> dontCare0;
+		parlex::detail::document::text<literal_0x28_t> dontCare0;
 		
 		std::vector<erased<IC>> field_1;
 		
 		std::optional<field_2_t_1_t> field_2;
 		
-		parlex::details::document::text<literal_0x29_t> dontCare3;
+		parlex::detail::document::text<literal_0x29_t> dontCare3;
 		
 		std::vector<erased<IC>> field_3;
 		
 	
 	
 		explicit field_1_t_1_t(
-			parlex::details::document::text<literal_0x28_t> && dontCare0, std::vector<erased<IC>> && field_1, std::optional<field_2_t_1_t> && field_2, parlex::details::document::text<literal_0x29_t> && dontCare3, std::vector<erased<IC>> && field_3) : dontCare0(std::move(dontCare0)), field_1(std::move(field_1)), field_2(std::move(field_2)), dontCare3(std::move(dontCare3)), field_3(std::move(field_3)) {}
+			parlex::detail::document::text<literal_0x28_t> && dontCare0, std::vector<erased<IC>> && field_1, std::optional<field_2_t_1_t> && field_2, parlex::detail::document::text<literal_0x29_t> && dontCare3, std::vector<erased<IC>> && field_3) : dontCare0(std::move(dontCare0)), field_1(std::move(field_1)), field_2(std::move(field_2)), dontCare3(std::move(dontCare3)), field_3(std::move(field_3)) {}
 	
 		field_1_t_1_t(field_1_t_1_t const & other) = default;
 		field_1_t_1_t(field_1_t_1_t && move) = default;
 	
-		static field_1_t_1_t build(parlex::details::behavior::node const * b, parlex::details::document::walk & w);
+		static field_1_t_1_t build(parlex::detail::behavior::node const * b, parlex::detail::document::walk & w);
 	};
 
 	struct field_2_t_1_t {
@@ -93,7 +93,7 @@ struct FUNCTION {
 		field_2_t_1_t(field_2_t_1_t const & other) = default;
 		field_2_t_1_t(field_2_t_1_t && move) = default;
 	
-		static field_2_t_1_t build(parlex::details::behavior::node const * b, parlex::details::document::walk & w);
+		static field_2_t_1_t build(parlex::detail::behavior::node const * b, parlex::detail::document::walk & w);
 	};
 
 	std::optional<field_1_t_1_t> field_1;
@@ -110,8 +110,8 @@ struct FUNCTION {
 	FUNCTION(FUNCTION const & other) = default;
 	FUNCTION(FUNCTION && move) = default;
 
-	static FUNCTION build(parlex::details::ast_node const & n);
-	static parlex::details::recognizer const & recognizer();
+	static FUNCTION build(parlex::detail::ast_node const & n);
+	static parlex::detail::recognizer const & recognizer();
 
 };
 

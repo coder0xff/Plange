@@ -3,7 +3,7 @@
 
 #include <map>
 
-#include "parlex/details/parser.hpp"
+#include "parlex/detail/parser.hpp"
 
 #include "plange_grammar.hpp"
 #include "STATEMENT_SCOPE.hpp"
@@ -34,14 +34,14 @@ public:
 	static std::pair<int, int> get_line_number_and_column(std::map<int, int> const & lineNumberByFirstCharacter, int charIndex);
 	// For initialization of `line_number_by_first_character` data member, requires document already constructed
 	static std::map<int, int> construct_line_number_by_first_character(std::u32string const & document);
-	static std::string describe_code_span(parlex::details::match const & m, std::map<int, int> const & lineNumberByFirstCharacter, std::string const & pathname = "");
-	static parlex::details::abstract_syntax_tree construct_ast(std::u32string const & document, parlex::details::recognizer const & production, std::string const & pathname);
+	static std::string describe_code_span(parlex::detail::match const & m, std::map<int, int> const & lineNumberByFirstCharacter, std::string const & pathname = "");
+	static parlex::detail::abstract_syntax_tree construct_ast(std::u32string const & document, parlex::detail::recognizer const & production, std::string const & pathname);
 
-	parlex::details::abstract_syntax_tree const ast;
+	parlex::detail::abstract_syntax_tree const ast;
 	STATEMENT_SCOPE const representation;
 
 	std::pair<int, int> get_line_number_and_column(int charIndex) const;
-	std::string describe_code_span(parlex::details::match const & m) const;
+	std::string describe_code_span(parlex::detail::match const & m) const;
 
 private:
 	// For initialization of `representation` data member

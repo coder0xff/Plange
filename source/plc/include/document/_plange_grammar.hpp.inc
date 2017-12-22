@@ -4,13 +4,13 @@
 #define INCLUDED_PLANGE_GRAMMAR_HPP
 
 #include "parlex/builder.hpp"
-#include "parlex/details/grammar.hpp"
+#include "parlex/detail/grammar.hpp"
 
 #include "_plange_literals.hpp"
 
 namespace plc {
 
-class plange_grammar : public parlex::details::grammar {
+class plange_grammar : public parlex::detail::grammar {
 public:
 	static plange_grammar const & get() {
 		static plange_grammar value;

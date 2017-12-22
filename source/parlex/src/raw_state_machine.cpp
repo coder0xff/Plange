@@ -1,11 +1,11 @@
-#include "parlex/details/raw_state_machine.hpp"
+#include "parlex/detail/raw_state_machine.hpp"
 
 #include "parlex/associativity.hpp"
 
-#include "parlex/details/behavior.hpp"
+#include "parlex/detail/behavior.hpp"
 
 namespace parlex {
-namespace details {
+namespace detail {
 
 raw_state_machine::raw_state_machine(std::string const & id, int startState, int acceptStateCount, filter_function const & filter, associativity assoc) : state_machine_base(id), filter(filter), assoc(assoc), start_state(startState), accept_state_count(acceptStateCount) {
 }
@@ -53,5 +53,5 @@ associativity raw_state_machine::get_assoc() const {
 	return assoc;
 }
 
-} // namespace details
+} // namespace detail
 } // namespace parlex

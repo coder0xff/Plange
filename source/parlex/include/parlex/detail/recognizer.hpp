@@ -4,7 +4,7 @@
 #include <string>
 
 namespace parlex {
-namespace details {
+namespace detail {
 namespace behavior {
 
 class leaf;
@@ -23,7 +23,7 @@ public:
 	friend std::ostream& operator<<(std::ostream & os, const recognizer & r);
 };
 
-} // namespace details
+} // namespace detail
 } // namespace parlex
 
 #endif //RECOGNIZER_HPP

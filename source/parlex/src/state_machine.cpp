@@ -1,17 +1,17 @@
-#include "parlex/details/state_machine.hpp"
+#include "parlex/detail/state_machine.hpp"
 
 #include "parlex/associativity.hpp"
 
-#include "parlex/details/behavior.hpp"
+#include "parlex/detail/behavior.hpp"
 
 namespace parlex {
-namespace details {
+namespace detail {
 
 state_machine::state_machine(std::string const & id, filter_function const & filter, associativity assoc) : state_machine_base(id), filter(filter), assoc(assoc), behavior(nullptr), start_state(-1), accept_state_count(-1) {
 }
 
 void state_machine::set_behavior(behavior::node const & behavior) {
-	static_assert(std::is_same_v<behavior::nfa2, details::nfa<behavior::leaf const *, size_t>>, "these should be the same");
+	static_assert(std::is_same_v<behavior::nfa2, detail::nfa<behavior::leaf const *, size_t>>, "these should be the same");
 	this->behavior = &behavior;
 	behavior::nfa2 dfa = reorder(behavior.compile());
 	auto transitions = dfa.get_transitions();
@@ -136,5 +136,5 @@ std::string state_machine::to_dot() const {
 
 }
 
-} // namespace details
+} // namespace detail
 } // namespace parlex

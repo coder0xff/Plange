@@ -6,7 +6,7 @@
 #include <llvm/IR/IRBuilder.h>
 #pragma warning(pop)
 
-#include <parlex/details/parser.hpp>
+#include <parlex/detail/parser.hpp>
 #include <utf.hpp>
 #include <utils.hpp>
 
@@ -32,9 +32,9 @@ std::shared_ptr<analytic_value> do_concrete_invoke(llvm::Function * function, st
 	return result;*/
 }
 
-std::shared_ptr<analytic_value> eval_expression(source_code const& source, std::vector<parlex::details::match> const& parts, scope& parent, llvm::BasicBlock & unwindDest, llvm::IRBuilder<> & builder);
+std::shared_ptr<analytic_value> eval_expression(source_code const& source, std::vector<parlex::detail::match> const& parts, scope& parent, llvm::BasicBlock & unwindDest, llvm::IRBuilder<> & builder);
 
-std::shared_ptr<analytic_value> eval_parenthetical_invocation(source_code const& source, std::vector<parlex::details::match> const& parts, scope& parent, llvm::BasicBlock & unwindDest, llvm::IRBuilder<> & builder) {
+std::shared_ptr<analytic_value> eval_parenthetical_invocation(source_code const& source, std::vector<parlex::detail::match> const& parts, scope& parent, llvm::BasicBlock & unwindDest, llvm::IRBuilder<> & builder) {
 	ERROR(NotImplemented, "");
 	/*
 	std::vector<llvm::Value *> arguments;
@@ -59,7 +59,7 @@ std::shared_ptr<analytic_value> eval_parenthetical_invocation(source_code const&
 	return do_concrete_invoke(llvmFunc, arguments, parent, &unwindDest, builder);*/
 }
 
-// std::shared_ptr<analytic_value> eval_invocation(source_code const& source, std::vector<parlex::details::match> const& parts, scope& parent, llvm::BasicBlock & unwindDest, llvm::IRBuilder<> & builder) {
+// std::shared_ptr<analytic_value> eval_invocation(source_code const& source, std::vector<parlex::detail::match> const& parts, scope& parent, llvm::BasicBlock & unwindDest, llvm::IRBuilder<> & builder) {
 // 	auto expressionType = &parts[0].r;
 // 	if (expressionType == &PARENTHETICAL_INVOCATION) {
 // 		return eval_parenthetical_invocation(source, source.get_parts(parts[0]), parent, unwindDest, builder);
@@ -75,7 +75,7 @@ std::shared_ptr<analytic_value> eval_parenthetical_invocation(source_code const&
 // 	return i->second.value;
 // }
 // 
-// std::shared_ptr<analytic_value> eval_expression(source_code const& source, std::vector<parlex::details::match> const& parts, scope& parent, llvm::BasicBlock & unwindDest, llvm::IRBuilder<> & builder) {
+// std::shared_ptr<analytic_value> eval_expression(source_code const& source, std::vector<parlex::detail::match> const& parts, scope& parent, llvm::BasicBlock & unwindDest, llvm::IRBuilder<> & builder) {
 // 	auto expressionType = &parts[0].r;
 // 
 // 	if (expressionType == &ALLOCATION) {
@@ -169,7 +169,7 @@ std::shared_ptr<analytic_value> eval_parenthetical_invocation(source_code const&
 // 	}
 // }
 // 
-// void eval_statement(source_code const& source, std::vector<parlex::details::match> const& parts, scope& parent, llvm::BasicBlock & unwindDest, llvm::IRBuilder<> & builder) {
+// void eval_statement(source_code const& source, std::vector<parlex::detail::match> const& parts, scope& parent, llvm::BasicBlock & unwindDest, llvm::IRBuilder<> & builder) {
 // 	ERROR(NotImplemented, "");
 // /*
 // 	auto p = parts[0];
@@ -243,7 +243,7 @@ symbol_table flatten_symbol_tables(symbol_table const & parent, symbol_table con
 	return results;
 }
 
-// symbol_table compute_assignment_chain_symbol_table(source_code const& source, std::vector<parlex::details::match> const& parts) {
+// symbol_table compute_assignment_chain_symbol_table(source_code const& source, std::vector<parlex::detail::match> const& parts) {
 // 	symbol_table results;
 // 	for (auto const & part : parts) {
 // 		if (&part.r == &IDENTIFIER) {
@@ -255,7 +255,7 @@ symbol_table flatten_symbol_tables(symbol_table const & parent, symbol_table con
 // 	return results;
 // }
 //
-// symbol compute_definition_symbol(source_code const& source, std::vector<parlex::details::match> const& parts, scope & parent, llvm::BasicBlock & unwindBlock, llvm::IRBuilder<> & builder) {
+// symbol compute_definition_symbol(source_code const& source, std::vector<parlex::detail::match> const& parts, scope & parent, llvm::BasicBlock & unwindBlock, llvm::IRBuilder<> & builder) {
 // 	std::u32string name;
 // 	std::shared_ptr<analytic_value> value;
 // 	for (auto const & part : parts) {
@@ -268,7 +268,7 @@ symbol_table flatten_symbol_tables(symbol_table const & parent, symbol_table con
 // 	ERROR(NotImplemented, "");
 // }
 // 
-// symbol_table compute_statement_symbol_table(source_code const& source, std::vector<parlex::details::match> const& parts, scope & parent, llvm::BasicBlock & unwindBlock, llvm::IRBuilder<> & builder) {
+// symbol_table compute_statement_symbol_table(source_code const& source, std::vector<parlex::detail::match> const& parts, scope & parent, llvm::BasicBlock & unwindBlock, llvm::IRBuilder<> & builder) {
 // 	auto p = parts[0];
 // 	if (&p.r == &ASSIGNMENT_CHAIN) {
 // 		return compute_assignment_chain_symbol_table(source, source.get_parts(p));
@@ -321,7 +321,7 @@ symbol_table flatten_symbol_tables(symbol_table const & parent, symbol_table con
 // 	ERROR(Unknown, "invalid statement type " + p.r.id);
 // }
 // 
-// symbol_table compute_scope_symbol_table(source_code const& source, std::vector<parlex::details::match> const& parts, scope& parent, llvm::BasicBlock & unwindBlock, llvm::IRBuilder<> & builder) {
+// symbol_table compute_scope_symbol_table(source_code const& source, std::vector<parlex::detail::match> const& parts, scope& parent, llvm::BasicBlock & unwindBlock, llvm::IRBuilder<> & builder) {
 // 	symbol_table results;
 // 	for (auto part : parts) {
 // 		if (&part.r == &STATEMENT) {
@@ -331,7 +331,7 @@ symbol_table flatten_symbol_tables(symbol_table const & parent, symbol_table con
 // 	return flatten_symbol_tables(parent.symbols, results);
 // }
 
-std::shared_ptr<analytic_value> eval_statement_scope(source_code const & source, std::vector<parlex::details::match> const& parts, scope& parent, llvm::BasicBlock & unwindBlock) {
+std::shared_ptr<analytic_value> eval_statement_scope(source_code const & source, std::vector<parlex::detail::match> const& parts, scope& parent, llvm::BasicBlock & unwindBlock) {
 	ERROR(NotImplemented, "");
 	/*
 	auto result = std::make_shared<scope>(source, parent);
@@ -380,7 +380,7 @@ STATEMENT_SCOPE compiler::parse(std::u32string const & source) {
 	return source_code::parse(source);
 }
 
-static std::u32string extract_payload(std::u32string const & document, std::vector<parlex::details::document::text<parlex::details::all_t>> const & characters) {
+static std::u32string extract_payload(std::u32string const & document, std::vector<parlex::detail::document::text<parlex::detail::all_t>> const & characters) {
 	std::basic_stringstream<char32_t> buffer;
 	for (auto const & character : characters) {
 		buffer << document[character.document_position];
@@ -395,7 +395,7 @@ static std::u32string extract_xml_doc_string_payload(std::u32string const & docu
 			xmlDocStringInterior = &*x.field_1;
 			continue;
 		}
-		typedef std::vector<parlex::details::document::text<parlex::details::all_t>> characters_t;
+		typedef std::vector<parlex::detail::document::text<parlex::detail::all_t>> characters_t;
 		// 		if (std::holds_alternative<characters_t>(*xmlDocStringInterior)) {
 		// 			return extract_payload(document, std::get<characters_t>(*xmlDocStringInterior));
 		// 		}

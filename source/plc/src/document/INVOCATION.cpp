@@ -4,8 +4,8 @@
 
 #include "plange_grammar.hpp"
 
-#include "parlex/details/document.hpp"
-#include "parlex/details/behavior.hpp"
+#include "parlex/detail/document.hpp"
+#include "parlex/detail/behavior.hpp"
 
 #include "ARRAY_INVOCATION.hpp"
 #include "PARENTHETICAL_INVOCATION.hpp"
@@ -15,14 +15,14 @@
 
 namespace plc {
 
-INVOCATION INVOCATION::build(parlex::details::ast_node const & n) {
+INVOCATION INVOCATION::build(parlex::detail::ast_node const & n) {
 	static auto const * b = &plange_grammar::get().INVOCATION.get_behavior();
-	parlex::details::document::walk w{ n.children.cbegin(), n.children.cend() };
-	return INVOCATION(parlex::details::document::element<INVOCATION_base>::build(b, w));
+	parlex::detail::document::walk w{ n.children.cbegin(), n.children.cend() };
+	return INVOCATION(parlex::detail::document::element<INVOCATION_base>::build(b, w));
 }
 
 } // namespace plc
 
-parlex::details::recognizer const & plc::INVOCATION::recognizer() {
+parlex::detail::recognizer const & plc::INVOCATION::recognizer() {
 	return plange_grammar::get().INVOCATION.get_recognizer();
 }

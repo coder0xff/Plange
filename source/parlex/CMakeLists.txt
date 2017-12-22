@@ -37,46 +37,46 @@ set (HEADERS
 	"include/parlex/precedence_collection.hpp"
 )
 
-set (DETAILS_HEADERS
-	"include/parlex/details/abstract_syntax_semilattice.hpp"
-	"include/parlex/details/abstract_syntax_tree.hpp"
-	"include/parlex/details/any_character.hpp"
-	"include/parlex/details/behavior.hpp"
-	"include/parlex/details/builtins.hpp"
-	"include/parlex/details/c_string.hpp"
-	"include/parlex/details/context.hpp"
-	"include/parlex/details/document.hpp"
-	"include/parlex/details/grammar.hpp"
-	"include/parlex/details/grammar_base.hpp"
-	"include/parlex/details/job.hpp"
-	"include/parlex/details/match.hpp"
-	"include/parlex/details/match_class.hpp"
-	"include/parlex/details/nfa.hpp"
-	"include/parlex/details/not_double_quote.hpp"
-	"include/parlex/details/not_newline.hpp"
-	"include/parlex/details/permutation.hpp"
-	"include/parlex/details/parser.hpp"
-	"include/parlex/details/producer.hpp"
-	"include/parlex/details/raw_state_machine.hpp"
-	"include/parlex/details/recognizer.hpp"
-	"include/parlex/details/state_machine.hpp"
-	"include/parlex/details/state_machine_base.hpp"
-	"include/parlex/details/string_terminal.hpp"
-	"include/parlex/details/subjob.hpp"
-	"include/parlex/details/terminal.hpp"	
-	"include/parlex/details/token.hpp"
-	"include/parlex/details/transition.hpp"
-	"include/parlex/details/unicode.hpp"
-	"include/parlex/details/wirth.hpp"
+set (DETAIL_HEADERS
+	"include/parlex/detail/abstract_syntax_semilattice.hpp"
+	"include/parlex/detail/abstract_syntax_tree.hpp"
+	"include/parlex/detail/any_character.hpp"
+	"include/parlex/detail/behavior.hpp"
+	"include/parlex/detail/builtins.hpp"
+	"include/parlex/detail/c_string.hpp"
+	"include/parlex/detail/context.hpp"
+	"include/parlex/detail/document.hpp"
+	"include/parlex/detail/grammar.hpp"
+	"include/parlex/detail/grammar_base.hpp"
+	"include/parlex/detail/job.hpp"
+	"include/parlex/detail/match.hpp"
+	"include/parlex/detail/match_class.hpp"
+	"include/parlex/detail/nfa.hpp"
+	"include/parlex/detail/not_double_quote.hpp"
+	"include/parlex/detail/not_newline.hpp"
+	"include/parlex/detail/permutation.hpp"
+	"include/parlex/detail/parser.hpp"
+	"include/parlex/detail/producer.hpp"
+	"include/parlex/detail/raw_state_machine.hpp"
+	"include/parlex/detail/recognizer.hpp"
+	"include/parlex/detail/state_machine.hpp"
+	"include/parlex/detail/state_machine_base.hpp"
+	"include/parlex/detail/string_terminal.hpp"
+	"include/parlex/detail/subjob.hpp"
+	"include/parlex/detail/terminal.hpp"	
+	"include/parlex/detail/token.hpp"
+	"include/parlex/detail/transition.hpp"
+	"include/parlex/detail/unicode.hpp"
+	"include/parlex/detail/wirth.hpp"
 )
 
 source_group("src" FILES ${SOURCES})
 source_group("include" FILES ${HEADERS})
 source_group("include\\builtins" FILES ${BUILTINS_HEADERS})
-source_group("include\\details" FILES ${DETAILS_HEADERS})
+source_group("include\\detail" FILES ${DETAIL_HEADERS})
 
 include_directories("include" "${PROJECT_SOURCE_DIR}/utilities" "${PROJECT_SOURCE_DIR}/mpl")
-add_library(parlex ${SOURCES} ${HEADERS} ${BUILTINS_HEADERS} ${DETAILS_HEADERS})
+add_library(parlex ${SOURCES} ${HEADERS} ${BUILTINS_HEADERS} ${DETAIL_HEADERS})
 set_property(TARGET parlex PROPERTY CXX_STANDARD 17)
 set_property(TARGET parlex PROPERTY CXX_STANDARD_REQUIRED ON)
 find_package (Threads)
