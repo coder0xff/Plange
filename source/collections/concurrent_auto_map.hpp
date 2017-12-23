@@ -5,16 +5,18 @@
 #include <map>
 #include <mutex>
 
+/* concurrent_auto_map wraps wraps a std::map, using a value factory to instantiate default values, and mutex-based synchronization */
+
 template <typename TKey, typename TValue>
-class auto_map_c {
+class concurrent_auto_map {
 	std::function<TValue (TKey const &)> value_factory;
 	std::map<TKey, TValue> storage;
 	mutable std::mutex mutex;
 public:
-	explicit auto_map_c(std::function<TValue (TKey const &)> valueFactory) : value_factory(valueFactory) {
+	explicit concurrent_auto_map(std::function<TValue (TKey const &)> valueFactory) : value_factory(valueFactory) {
 	}
 
-	auto_map_c() : value_factory([](TKey) { return TValue(); }) {
+	concurrent_auto_map() : value_factory([](TKey) { return TValue(); }) {
 	}
 
 	TValue const & operator()(TKey key) {

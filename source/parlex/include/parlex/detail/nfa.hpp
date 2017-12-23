@@ -6,7 +6,7 @@
 #include <string>
 #include <vector>
 
-#include "auto_map_c.hpp"
+#include "concurrent_auto_map.hpp"
 #include "graphviz_dot.hpp"
 #include "utils.hpp"
 

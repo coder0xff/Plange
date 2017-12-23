@@ -10,7 +10,6 @@ set (SOURCES
 	"utf.cpp")
 	
 set (HEADERS
-	"auto_map_c.hpp"
 	"bits.hpp"
 	"covariant_invoke.hpp"
 	"graphviz_dot.hpp"
