@@ -7,13 +7,13 @@
 namespace parlex {
 namespace detail {
 
-state_machine::state_machine(std::string const & id, filter_function const & filter, associativity assoc) : state_machine_base(id), filter(filter), assoc(assoc), behavior(nullptr), start_state(-1), accept_state_count(-1) {
+state_machine::state_machine(std::string const & id, filter_function const & filter, associativity const assoc) : state_machine_base(id), filter(filter), assoc(assoc), behavior(nullptr), start_state(-1), accept_state_count(-1) {
 }
 
 void state_machine::set_behavior(behavior::node const & behavior) {
 	static_assert(std::is_same_v<behavior::nfa2, detail::nfa<behavior::leaf const *, size_t>>, "these should be the same");
 	this->behavior = &behavior;
-	behavior::nfa2 dfa = reorder(behavior.compile());
+	auto dfa = reorder(behavior.compile());
 	auto transitions = dfa.get_transitions();
 	for (auto const & t : transitions) {
 		while (states.size() <= t.to || states.size() <= t.from) {
@@ -21,8 +21,8 @@ void state_machine::set_behavior(behavior::node const & behavior) {
 		}
 		states[t.from][t.symbol] = t.to;
 	}
-	start_state = *dfa.startStates.begin();
-	accept_state_count = dfa.acceptStates.size();
+	start_state = *dfa.start_states.begin();
+	accept_state_count = dfa.accept_states.size();
 }
 
 void state_machine::process(context const & c, size_t const s) const {
@@ -31,34 +31,34 @@ void state_machine::process(context const & c, size_t const s) const {
 		accept(c);
 	}
 	for (auto const & kvp : states[s]) {
-		behavior::leaf const & transition = *kvp.first;
-		int const next_state = kvp.second;
-		recognizer const & r = transition.r;
+		auto const & transition = *kvp.first;
+		int const nextState = kvp.second;
+		auto const & r = transition.r;
 		//DBG("'", get_id(), "' state ", s, " position ", c.current_document_position(), " subscribes to '", transition.id, "' position ", c.current_document_position());
-		on(c, r, next_state, &transition);
+		on(c, r, nextState, &transition);
 	}
 }
 
 behavior::nfa2 state_machine::reorder(behavior::nfa2 dfa) {
 	//construct a map from dfa states to reordered states
 	std::map<size_t, size_t> stateMap;
-	size_t startState = *dfa.startStates.begin();
-	bool startIsAccept = dfa.acceptStates.count(startState) > 0;
+	auto const startState = *dfa.start_states.begin();
+	auto const startIsAccept = dfa.accept_states.count(startState) > 0;
 	if (!startIsAccept) {
-		stateMap[*dfa.startStates.begin()] = 0;
+		stateMap[*dfa.start_states.begin()] = 0;
 	}
 	for (size_t i = 0; i < dfa.states.size(); ++i) {
 		//all the un-added non-accept states
-		if (i != startState && dfa.acceptStates.count(i) == 0) {
+		if (i != startState && dfa.accept_states.count(i) == 0) {
 			stateMap[i] = stateMap.size();
 		}
 	}
 	if (startIsAccept) {
-		stateMap[*dfa.startStates.begin()] = stateMap.size();
+		stateMap[*dfa.start_states.begin()] = stateMap.size();
 	}
 	for (size_t i = 0; i < dfa.states.size(); ++i) {
 		//all the un-added accept states
-		if (i != startState && dfa.acceptStates.count(i) > 0) {
+		if (i != startState && dfa.accept_states.count(i) > 0) {
 			stateMap[i] = stateMap.size();
 		}
 	}
@@ -71,14 +71,14 @@ behavior::nfa2 state_machine::reorder(behavior::nfa2 dfa) {
 
 	//construct the reordered dfa
 	behavior::nfa2 reordered;
-	size_t firstAcceptState = dfa.states.size() - dfa.acceptStates.size();
+	auto const firstAcceptState = dfa.states.size() - dfa.accept_states.size();
 	for (size_t i = 0; i < dfa.states.size(); ++i) {
-		size_t const dual = stateMapDual[i];
-		behavior::nfa2::state const & dfa_state = dfa.states[dual];
+		auto const dual = stateMapDual[i];
+		auto const & dfaState = dfa.states[dual];
 		reordered.add_state(i, i >= firstAcceptState, dual == startState);
-		behavior::nfa2::state & reordered_state = reordered.states[i];
-		for (auto out_transition : dfa_state.out_transitions) {
-			reordered_state.out_transitions[out_transition.first] = { stateMap[*out_transition.second.begin()] };
+		auto & reorderedState = reordered.states[i];
+		for (auto outTransition : dfaState.out_transitions) {
+			reorderedState.out_transitions[outTransition.first] = { stateMap[*outTransition.second.begin()] };
 		}
 	}
 	return reordered;
@@ -106,19 +106,19 @@ std::string state_machine::to_dot() const {
 		stateInts.push_back(i);
 	}
 
-	auto get_name = [&](size_t const & i) { return std::to_string(i); };
+	auto getName = [&](size_t const & i) { return std::to_string(i); };
 
-	auto get_edges = [&](size_t const & i) {
+	auto getEdges = [&](size_t const & i) {
 		std::vector<std::pair<std::string, size_t>> edges;
 		for (auto const & edge : states[i]) {
-			behavior::leaf const * leaf = edge.first;
+			auto leaf = edge.first;
 			int toState = edge.second;
 			edges.push_back(make_pair("label=" + leaf->id, toState));
 		}
 		return edges;
 	};
 
-	auto get_properties = [&](size_t const & i) {
+	auto getProperties = [&](size_t const & i) {
 		std::string nodeProperties;
 		if (i == start_state) {
 			nodeProperties = "color=red";
@@ -132,7 +132,7 @@ std::string state_machine::to_dot() const {
 		return nodeProperties;
 	};
 
-	return directed_graph<size_t>(stateInts, get_name, get_edges, get_properties);
+	return directed_graph<size_t>(stateInts, getName, getEdges, getProperties);
 
 }
 

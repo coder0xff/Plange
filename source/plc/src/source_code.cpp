@@ -1,11 +1,6 @@
-#include "stdafx.hpp"
 #include "source_code.hpp"
 
 #include <fstream>
-
-#pragma warning(push, 0)
-#include <llvm/IR/Constants.h>
-#pragma warning(pop)
 
 #include "utf.hpp"
 #include "utils.hpp"
@@ -13,9 +8,9 @@
 #include "parlex/detail/abstract_syntax_semilattice.hpp"
 #include "parlex/detail/recognizer.hpp"
 
-#include "compiler.hpp"
 #include "scope.hpp"
-#include "parlex/detail/document.hpp"
+#include "errors.hpp"
+#include "parlex/detail/parser.hpp"
 
 //filter super delimiters
 //Any PAYLOAD that fully contains another PAYLOAD is not a PAYLOAD
@@ -30,10 +25,10 @@ static void payload_postprocess(parlex::detail::abstract_syntax_semilattice & as
 	for (auto const & i : payloadMatches) {
 		for (auto const & j : payloadMatches) {
 			if (i < j || j < i) {
-				int iSpanLeft = i.document_position;
-				int iSpanRight = i.document_position + i.consumed_character_count - 1;
-				int jSpanLeft = j.document_position;
-				int jSpanRight = j.document_position + j.consumed_character_count - 1;
+				int const iSpanLeft = i.document_position;
+				int const iSpanRight = i.document_position + i.consumed_character_count - 1;
+				int const jSpanLeft = j.document_position;
+				int const jSpanRight = j.document_position + j.consumed_character_count - 1;
 				if (iSpanLeft < jSpanLeft && iSpanRight >= jSpanLeft) {
 					payloadsToCut.insert(i);
 				} else if (iSpanLeft == jSpanLeft && iSpanRight > jSpanRight) {
@@ -59,9 +54,9 @@ static std::vector<std::set<parlex::detail::match>> matches_by_height(parlex::de
 		}
 	}
 	while (!pending.empty()) {
-		parlex::detail::match m = *pending.begin();
+		auto const m = *pending.begin();
 		pending.erase(m);
-		size_t h = reversedResults[m] + 1;
+		auto const h = reversedResults[m] + 1;
 		for (auto const & dep : reversedDependencies[m]) {
 			if (h > reversedResults[dep]) {
 				reversedResults[dep] = h;
@@ -71,8 +66,8 @@ static std::vector<std::set<parlex::detail::match>> matches_by_height(parlex::de
 	}
 	std::vector<std::set<parlex::detail::match>> result;
 	for (auto const & e : reversedResults) {
-		parlex::detail::match m = e.first;
-		size_t height = e.second;
+		auto const m = e.first;
+		auto const height = e.second;
 		if (result.size() <= height) {
 			result.resize(height + 1);
 		}
@@ -103,9 +98,9 @@ plc::source_code::source_code(std::string const & pathname) : source_code(pathna
 plc::source_code::~source_code() {
 }
 
-std::pair<int, int> plc::source_code::get_line_number_and_column(std::map<int, int> const & lineNumberByFirstCharacter, int charIndex)
+std::pair<int, int> plc::source_code::get_line_number_and_column(std::map<int, int> const & lineNumberByFirstCharacter, int const charIndex)
 {
-	std::map<int, int>::const_iterator i = lineNumberByFirstCharacter.lower_bound(charIndex);
+	auto i = lineNumberByFirstCharacter.lower_bound(charIndex);
 	if (i != lineNumberByFirstCharacter.cend() && i->first == charIndex) {
 		return std::make_pair(i->second, 0);
 	}
@@ -115,7 +110,7 @@ std::pair<int, int> plc::source_code::get_line_number_and_column(std::map<int, i
 
 }
 
-std::pair<int, int> plc::source_code::get_line_number_and_column(int charIndex) const {
+std::pair<int, int> plc::source_code::get_line_number_and_column(int const charIndex) const {
 	return get_line_number_and_column(line_number_by_first_character, charIndex);
 }
 
@@ -128,7 +123,7 @@ std::map<int, int> plc::source_code::construct_line_number_by_first_character(st
 	//compute line number lookup table
 	std::map<int, int> result;
 	size_t pos = 0;
-	int line = 0;
+	auto line = 0;
 	while (pos != std::u32string::npos) {
 		result[pos++] = line++;
 		pos = document.find(U'\n', pos);
@@ -138,11 +133,10 @@ std::map<int, int> plc::source_code::construct_line_number_by_first_character(st
 
 std::string plc::source_code::describe_code_span(parlex::detail::match const & m, std::map<int, int> const & lineNumberByFirstCharacter, std::string const & pathname)
 {
-	std::string result = pathname == "" ? "[generated]" : pathname;
+	auto result = pathname == "" ? "[generated]" : pathname;
 	result += ":";
-	std::pair<int, int>
-		start = get_line_number_and_column(lineNumberByFirstCharacter, m.document_position),
-		end = get_line_number_and_column(lineNumberByFirstCharacter, m.document_position + m.consumed_character_count - 1);
+	auto const start = get_line_number_and_column(lineNumberByFirstCharacter, m.document_position);
+	auto const end = get_line_number_and_column(lineNumberByFirstCharacter, m.document_position + m.consumed_character_count - 1);
 	result += std::to_string(start.first + 1) + ":" + std::to_string(start.second) + "-";
 	if (end.first == start.first) {
 		result += std::to_string(end.second);
@@ -154,16 +148,16 @@ std::string plc::source_code::describe_code_span(parlex::detail::match const & m
 }
 
 parlex::detail::abstract_syntax_tree plc::source_code::construct_ast(std::u32string const & document, parlex::detail::recognizer const & production, std::string const & pathname) {
-	std::map<int, int> const lineNumberByFirstCharacter(construct_line_number_by_first_character(document));
+	auto const lineNumberByFirstCharacter(construct_line_number_by_first_character(document));
 	static parlex::detail::parser p;
-	parlex::detail::abstract_syntax_semilattice assl = p.parse(plange_grammar::get(), production, document);
+	auto assl = p.parse(plange_grammar::get(), production, document);
 	// Was parsing successful?
 	if (!assl.is_rooted()) {
 		parlex::detail::match const * lastValidStatement =  nullptr;
-		parlex::detail::state_machine_base const & STATEMENTStateMachine = plange_grammar::get().get_state_machine("STATEMENT");
+		auto const & statementStateMachine = plange_grammar::get().get_state_machine("STATEMENT");
 		for (auto const & tableEntry : assl.permutations_of_matches) {
-			parlex::detail::match const & m = tableEntry.first;
-			if (&m.r == &STATEMENTStateMachine) {
+			auto const & m = tableEntry.first;
+			if (&m.r == &statementStateMachine) {
 				if (lastValidStatement == nullptr || m.document_position + m.consumed_character_count > lastValidStatement->document_position + lastValidStatement->consumed_character_count) {
 					lastValidStatement = &m;
 				}
@@ -180,14 +174,14 @@ parlex::detail::abstract_syntax_tree plc::source_code::construct_ast(std::u32str
 
 	// Was parsing ambiguous?
 	if (assl.variation_count() > 1) {
-		std::vector<std::set<parlex::detail::match>> matchesByHeight = matches_by_height(assl);
+		auto matchesByHeight = matches_by_height(assl);
 		for (size_t height = 0; height < matchesByHeight.size(); ++height) {
 			auto const & matches = matchesByHeight[height];
 			for (auto const & m : matches) {
 				auto const & permutations = assl.permutations_of_matches.find(m)->second;
 				if (permutations.size() > 1) {
-					auto posStart = get_line_number_and_column(lineNumberByFirstCharacter, m.document_position);
-					auto posEnd = get_line_number_and_column(lineNumberByFirstCharacter, m.document_position + m.consumed_character_count - 1);
+					auto const posStart = get_line_number_and_column(lineNumberByFirstCharacter, m.document_position);
+					auto const posEnd = get_line_number_and_column(lineNumberByFirstCharacter, m.document_position + m.consumed_character_count - 1);
 					std::string message;
 					if (posStart.first == posEnd.first) {
 						message = pathname + ":" + m.r.id + " at " + std::to_string(posStart.first + 1) + ":" + std::to_string(posStart.second + 1) + "-" + std::to_string(posEnd.second + 1);

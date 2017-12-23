@@ -24,8 +24,8 @@ namespace mpl {
 			return make_tuple((functor(std::get<Indices>(std::forward<TTuple>(t))))...);
 		}
 
-		template <typename TTuple, typename TFunctor, typename TElement, size_t size, size_t... Indices>
-		constexpr auto impl2(TFunctor & functor, std::array<TElement, size> const & elements, std::index_sequence<Indices...>)
+		template <typename TTuple, typename TFunctor, typename TElement, size_t Size, size_t... Indices>
+		constexpr auto impl2(TFunctor & functor, std::array<TElement, Size> const & elements, std::index_sequence<Indices...>)
 		{
 			return make_tuple((functor.template operator() < std::tuple_element<Indices, TTuple> > (elements[Indices]))...);
 		}

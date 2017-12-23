@@ -3,7 +3,7 @@
 namespace parlex {
 namespace detail {
 
-match_class::match_class(recognizer const & r, size_t documentPosition) : r(r), document_position(documentPosition) {
+match_class::match_class(recognizer const & r, size_t const documentPosition) : r(r), document_position(documentPosition) {
 }
 
 bool match_class::operator <(match_class const & rhs) const {

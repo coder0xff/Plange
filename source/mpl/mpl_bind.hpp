@@ -2,7 +2,6 @@
 #define INCLUDING_MPL_BIND_HPP
 #include <tuple>
 
-#include "mpl_any.hpp"
 #include "mpl_apply.hpp"
 #include "mpl_bool.hpp"
 #include "mpl_drop.hpp"
@@ -10,7 +9,7 @@
 #include "mpl_fold.hpp"
 #include "mpl_list.hpp"
 #include "mpl_map.hpp"
-#include "mpl_utils.hpp"
+#include "mpl_any.hpp"
 
 namespace mpl {
 
@@ -47,7 +46,7 @@ namespace mpl {
 
 		// the number of required arguments
 		template<typename TBindingList>
-		static constexpr size_t binding_count = mpl::fold<binding_count_folder, std::integral_constant<size_t, 0>, TBindingList>::value;
+		static constexpr size_t BINDING_COUNT = mpl::fold<binding_count_folder, std::integral_constant<size_t, 0>, TBindingList>::value;
 		
 		// substitute a bind_point or variadic_bind_point with the appropriate arguments
 		template<size_t RequiredArgumentCount, typename T, typename... ArgTs>
@@ -75,22 +74,22 @@ namespace mpl {
 
 		template<template <typename...> typename TMetaFunction, typename... TBindings, typename... TArgs>
 		struct invoke_impl<TMetaFunction, list<TBindings...>, list<TArgs...>> {
-			using TBindingsList = list<TBindings...>;
-			using TArgsList = list<TArgs...>;
+			using t_bindings_list = list<TBindings...>;
+			using t_args_list = list<TArgs...>;
 			//STATIC_PRINT_TYPE(TBindingsList);
-			static constexpr size_t required_argument_count = binding_count<TBindingsList>;
+			static constexpr size_t required_argument_count = BINDING_COUNT<t_bindings_list>;
 			//STATIC_PRINT_SIZE_T(required_argument_count);
-			static constexpr size_t argument_count = TArgsList::size;
+			static constexpr size_t argument_count = t_args_list::size;
 			static constexpr size_t variadic_argument_count = argument_count - required_argument_count;
-			static constexpr bool has_variadic_bind_point = mpl::any<is_variadic_bind_point, TBindingsList>;
+			static constexpr bool has_variadic_bind_point = mpl::ANY<is_variadic_bind_point, t_bindings_list>;
 
 			//Does the invocation contain too many arguments?
 			static_assert(variadic_argument_count == 0 || has_variadic_bind_point, "The binding must either have a variadic bind point, or there must be no extra arguments in the invocation.");
 
 			template<typename T>
 			using partially_invoked_binder = typename binder<required_argument_count, T, TArgs...>::result;
-			using mappedArguments = mpl::flatten<mpl::map<partially_invoked_binder, TBindingsList>>;
-			using result = mpl::apply<TMetaFunction, mappedArguments>;
+			using mapped_arguments = mpl::flatten<mpl::map<partially_invoked_binder, t_bindings_list>>;
+			using result = mpl::apply<TMetaFunction, mapped_arguments>;
 		};
 
 		template<template <typename...> typename TMetaFunction, typename TBindingList>

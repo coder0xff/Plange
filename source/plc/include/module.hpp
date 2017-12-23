@@ -20,7 +20,7 @@ class module
 {
 public:
 	module();
-	void compile(std::string output_filename) const;
+	void compile(std::string outputFilename) const;
 	source_code const & add_source(std::string pathname);
 	llvm::Module const& get_llvm_module() const;
 	llvm::Module& get_llvm_module();

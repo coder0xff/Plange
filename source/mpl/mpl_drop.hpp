@@ -1,7 +1,6 @@
 #ifndef INCLUDING_MPL_DROP_HPP
 #define INCLUDING_MPL_DROP_HPP
 
-#include "mpl_list.hpp"
 #include "mpl_sfinae.hpp"
 
 namespace mpl {

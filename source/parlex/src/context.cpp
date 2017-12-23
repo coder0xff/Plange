@@ -1,23 +1,19 @@
 #include "parlex/detail/context.hpp"
 
-#include <csignal>
-#include <iostream>
-
 #include "parlex/detail/subjob.hpp"
 
-#include "logging.hpp"
 #include "utils.hpp"
 
-std::atomic<int> refIDCounter(0);
-std::atomic<int> contextIDCounter(0);
+std::atomic<int> ref_id_counter(0);
+std::atomic<int> context_id_counter(0);
 
 namespace parlex {
 namespace detail {
 
-context::context(subjob & owner, context const* const prior, int documentPosition, std::optional<match> const & fromTransition, behavior::leaf const * leaf) :
-	id(++contextIDCounter), owner(owner), prior(prior),
-	currentDocumentPosition(documentPosition),
-	fromTransition(fromTransition),
+context::context(subjob & owner, context const* const prior, int const documentPosition, std::optional<match> const & fromTransition, behavior::leaf const * leaf) :
+	id(++context_id_counter), owner(owner), prior(prior),
+	current_document_position(documentPosition),
+	from_transition(fromTransition),
 	leaf(leaf) {
 	throw_assert((prior != nullptr) == fromTransition.has_value());
 	//DBG("constructed context ", id);
@@ -29,9 +25,9 @@ context::~context() {
 
 permutation context::result() const {
 	permutation result;
-	context const* current = this;
+	auto current = this;
 	while (current->prior) {
-		result.emplace_back(match(*current->fromTransition), current->leaf);
+		result.emplace_back(match(*current->from_transition), current->leaf);
 		current = current->prior;
 	}
 	// std::reverse would require a swap function to be defined for match

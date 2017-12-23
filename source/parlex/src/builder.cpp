@@ -1,6 +1,5 @@
 #include "parlex/builder.hpp"
 
-#include <queue>
 #include <sstream>
 
 #include "utf.hpp"
@@ -71,7 +70,7 @@ erased<detail::node> reference(std::string && id) { return erased<detail::node>(
 
 erased<detail::node> reference(std::string && tag, std::string && id) { return erased<detail::node>(detail::reference_t(move(tag), move(id))); }
 
-production::production(std::string const & id, erased<detail::node> const & behavior, associativity assoc /*= associativity::none*/, filter_function const & filter /*= filter_function()*/, std::set<std::string> const & precedences /*= set<string>() */) : id(id), behavior(behavior), filter(filter), assoc(assoc), precedences(precedences) {
+production::production(std::string const & id, erased<detail::node> const & behavior, associativity const assoc /*= associativity::none*/, filter_function const & filter /*= filter_function()*/, std::set<std::string> const & precedences /*= set<string>() */) : id(id), behavior(behavior), filter(filter), assoc(assoc), precedences(precedences) {
 	this->behavior->tag = id;
 }
 
@@ -102,11 +101,11 @@ std::string production::to_dot() const {
 		&*behavior, detail::node_to_name,
 		[&](detail::node const * n)
 		{
-		detail::sequence_t const * as_sequence = dynamic_cast<detail::sequence_t const *>(n);
+			auto asSequence = dynamic_cast<detail::sequence_t const *>(n);
 			std::vector<std::pair<std::string, detail::node const *>> edges;
 			for (size_t childIndex = 0; childIndex < n->children.size(); ++childIndex) {
 				auto const & erasedChild = n->children[childIndex];
-				std::string edgeName = as_sequence != nullptr ? "label=" + std::to_string(childIndex) : "";
+				auto edgeName = asSequence != nullptr ? "label=" + std::to_string(childIndex) : "";
 				edges.push_back(make_pair(edgeName, &*erasedChild));
 			}
 			return edges;
@@ -114,7 +113,7 @@ std::string production::to_dot() const {
 	);
 }
 
-builder::builder(std::string rootId, std::list<production> const & productions) : root_id(rootId), productions(move(productions)) {
+builder::builder(std::string const rootId, std::list<production> const & productions) : root_id(rootId), productions(move(productions)) {
 }
 
 } // namespace parlex

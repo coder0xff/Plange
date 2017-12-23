@@ -22,11 +22,11 @@ public:
 	int const id;
 	subjob & owner;
 	context const* const prior;
-	size_t const currentDocumentPosition;
-	std::optional<match> const fromTransition;
+	size_t const current_document_position;
+	std::optional<match> const from_transition;
 	behavior::leaf const * const leaf;
 
-	context(subjob & owner, context const* const prior, int documentPosition, std::optional<match> const & from_transition, behavior::leaf const * leaf);
+	context(subjob & owner, context const* const prior, int documentPosition, std::optional<match> const & fromTransition, behavior::leaf const * leaf);
 	context(context const & other) = delete;
 	context(context && move) = delete;
 	~context();

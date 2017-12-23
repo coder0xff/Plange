@@ -55,18 +55,18 @@ public:
 	erased<node> compile_expression(std::u32string const & source) const;
 
 private:
-	string_terminal const & openSquare;
-	string_terminal const & openParen;
-	string_terminal const & openCurly;
-	string_terminal const & dollarSign;
+	string_terminal const & open_square;
+	string_terminal const & open_paren;
+	string_terminal const & open_curly;
+	string_terminal const & dollar_sign;
 
-	state_machine const & productionDfa;
-	state_machine const & expressionDfa;
-	state_machine const & termDfa;
-	state_machine const & parentheticalDfa;
-	state_machine const & tagDfa;
-	state_machine const & factorDfa;
-	state_machine const & identifierDfa;
+	state_machine const & production_dfa;
+	state_machine const & expression_dfa;
+	state_machine const & term_dfa;
+	state_machine const & parenthetical_dfa;
+	state_machine const & tag_dfa;
+	state_machine const & factor_dfa;
+	state_machine const & identifier_dfa;
 
 	erased<node> process_factor(std::u32string const & document, ast_node const & factor) const;
 	erased<node> process_term(std::u32string const & document, ast_node const & term) const;

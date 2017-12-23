@@ -21,9 +21,9 @@ class subjob : public producer {
 public:
 	state_machine_base const & machine;
 	concurrent_forward_list<context> contexts;
-	std::list<permutation> queuedPermutations;
+	std::list<permutation> queued_permutations;
 	std::mutex mutex;
-	std::atomic<int> lifetimeCounter;
+	std::atomic<int> lifetime_counter;
 
 	subjob(job & owner, state_machine_base const & machine, int const documentPosition);
 	subjob(subjob const & other) = delete;

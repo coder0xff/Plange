@@ -13,7 +13,7 @@ namespace mpl {
 			using concrete_type = apply<TFunctor, TFunctorTemplateArguments>;
 			using return_type = decltype(
 				concrete_type().operator()(
-					(*(TFunctorInvokeArgs*)nullptr)...
+					(*reinterpret_cast<TFunctorInvokeArgs*>(nullptr))...
 				)
 			);
 		};

@@ -17,13 +17,13 @@ class coherent_queue {
 	size_t pop_index;
 
 	template<typename U>
-	static void mover(U* const dst, U* const src, SFINAE_PARAM(mpl::is_movable<U>)) {
+	static void mover(U* const dst, U* const src, SFINAE_PARAM(mpl::IS_MOVABLE<U>)) {
 		new (dst) U(std::move(*src));
 		src->~U();
 	}
 
 	template<typename U>
-	static void mover(U* const dst, U* const src, SFINAE_PARAM(!mpl::is_movable<U> && mpl::is_copyable<U>)) {
+	static void mover(U* const dst, U* const src, SFINAE_PARAM(!mpl::IS_MOVABLE<U> && mpl::IS_COPYABLE<U>)) {
 		new (dst) U(*src);
 		src->~U();
 	}

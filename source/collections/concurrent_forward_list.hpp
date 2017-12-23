@@ -52,7 +52,7 @@ public:
 		iterator_template() : current(terminal()) {
 		}
 
-		iterator_template(node * n) : current(n != terminal() ? increment_reference_count(n) : terminal()) {
+		explicit iterator_template(node * n) : current(n != terminal() ? increment_reference_count(n) : terminal()) {
 		}
 
 		iterator_template(iterator_template const & other) : current(other.current != terminal() ? increment_reference_count(other.current) : terminal()) {
@@ -107,7 +107,7 @@ public:
 			return temp;
 		}
 
-		operator iterator_template<const T>() const {
+		explicit operator iterator_template<const T>() const {
 			return iterator_template<const T>(current);
 		}
 
@@ -296,10 +296,10 @@ public:
 	}
 
 	// lock free
-	iterator insert_after(const_iterator pos, int count, const T & value) {
+	iterator insert_after(const_iterator pos, int const count, const T & value) {
 		if (count <= 0) return iterator();
 		iterator result = pos = insert_after(pos, value);
-		for (int i = 1; i < count; i++) {
+		for (auto i = 1; i < count; i++) {
 			pos = insert_after(pos, value);
 		}
 		return result;
@@ -351,55 +351,55 @@ private:
 	std::atomic<node*> first; // mutable because iterator construction requires a lock
 
 	// lock free
-	static iterator insert_node(std::atomic<node*> & atomic_ptr, node * n) {
+	static iterator insert_node(std::atomic<node*> & atomicPtr, node * n) {
 		iterator result(n); // it's possible that the node is removed before we return, so do this early
 		n->next.store(n);
-		full_exchange(n->next, atomic_ptr);
+		full_exchange(n->next, atomicPtr);
 		return result;
 	}
 
 	// lock free, removes all the nodes from *atomic_ptr forward, and returns that node with links still intact
-	static node* split(std::atomic<node*> & atomic_ptr) {
+	static node* split(std::atomic<node*> & atomicPtr) {
 		node * oldNext = terminal();
-		half_exchange(atomic_ptr, oldNext);
+		half_exchange(atomicPtr, oldNext);
 		return oldNext;
 	}
 
 	// NOT lock free
-	static bool remove_node(std::atomic<node*> & atomic_ptr, T * value) {
-		node * x = owner_lock(atomic_ptr);
+	static bool remove_node(std::atomic<node*> & atomicPtr, T * value) {
+		node * x = owner_lock(atomicPtr);
 		if (x == terminal()) {
-			if (atomic_ptr.load() == terminal()) return false;
+			if (atomicPtr.load() == terminal()) return false;
 			node * temp = terminal();
-			owner_unlock(atomic_ptr, temp);
+			owner_unlock(atomicPtr, temp);
 			return false;
 		}
 		*value = x->value;
 		node * y = owner_lock(x->next);
-		owner_unlock(atomic_ptr, y);
+		owner_unlock(atomicPtr, y);
 		x->next.store(terminal());
 		decrement_reference_count(x);
 		return true;
 	}
 
-	static node * terminal() { return (node*)::detail::concurrent_forward_list_detail::terminal(); }
-	static node * spin() { return (node*)::detail::concurrent_forward_list_detail::spin(); }
+	static node * terminal() { return static_cast<node*>(::detail::concurrent_forward_list_detail::terminal()); }
+	static node * spin() { return static_cast<node*>(::detail::concurrent_forward_list_detail::spin()); }
 
 	class node {
 	public:
 		friend class iterator_template<T>;
 		T value;
 		std::atomic<node*> next;
-		std::atomic<int> referenceCount; // for keeping a node referenced by an iterator alive
+		std::atomic<int> reference_count; // for keeping a node referenced by an iterator alive
 
-		node(T const & value) : value(value), next(terminal()), referenceCount(1) {
+		explicit node(T const & value) : value(value), next(terminal()), reference_count(1) {
 		}
 
-		node(T && value) : value(std::move(value)), next(terminal()), referenceCount(1) {
+		explicit node(T && value) : value(std::move(value)), next(terminal()), reference_count(1) {
 		}
 
 		template <class... U>
-		node(U&& ... params) : value(std::forward<U>(params)...), next(terminal()), referenceCount(1) {
+		explicit node(U&& ... params) : value(std::forward<U>(params)...), next(terminal()), reference_count(1) {
 		}
 
 		~node() {
@@ -414,12 +414,9 @@ private:
 	// lock free, decrement node::referenceCount which is used for iterator and for prior-node's link
 	static void decrement_reference_count(node *& n) {
 		assert(n != nullptr);
-		if (n == terminal()) {
-			int i = 0;
-		}
 		assert(n != terminal()); // not a valid node
 		assert(n != spin()); // not a valid node
-		if (--(n->referenceCount) == 0) {
+		if (--(n->reference_count) == 0) {
 			delete n;
 		}
 		n = nullptr;
@@ -431,7 +428,7 @@ private:
 		assert(n != nullptr); //must be a valid node because ownership is a precondition
 		assert(n != terminal());
 		assert(n != spin());
-		++(n->referenceCount);
+		++(n->reference_count);
 		return n;
 	}
 
@@ -469,11 +466,11 @@ private:
 
 	// NOT lock free, set atomic_ptr to spin and return the node * leaving the node locked, unless atomic_ptr is already terminal then return terminal
 	// "ownership" is transferred from atomic_ptr to the return value
-	static node* owner_lock(std::atomic<node*> & atomic_ptr) {
-		node * n = wait_and_exchange(atomic_ptr, spin());
+	static node* owner_lock(std::atomic<node*> & atomicPtr) {
+		node * n = wait_and_exchange(atomicPtr, spin());
 		if (n == terminal()) { // the node has been deleted already
 							   // put terminal back in to owner_unlock
-			atomic_ptr.store(terminal(), std::memory_order_relaxed); // relaxed because observers will see spin
+			atomicPtr.store(terminal(), std::memory_order_relaxed); // relaxed because observers will see spin
 			return terminal();
 		} // else stays locked
 		return n;
@@ -481,22 +478,22 @@ private:
 
 	// lock free, but requires a preceding call to lock, changes atomic_ptr from spin to n, sets n to nullptr
 	// "ownership" is transfered from n to atomic_ptr
-	static void owner_unlock(std::atomic<node*> & atomic_ptr, node * & n) {
+	static void owner_unlock(std::atomic<node*> & atomicPtr, node * & n) {
 		assert(n != nullptr);
 		assert(n != spin());
-		assert(atomic_ptr.load(std::memory_order_relaxed) == spin()); // relaxed because it was set to spin by the current thread
-		atomic_ptr.store(n, std::memory_order_relaxed); // relaxed because observers will see spin
+		assert(atomicPtr.load(std::memory_order_relaxed) == spin()); // relaxed because it was set to spin by the current thread
+		atomicPtr.store(n, std::memory_order_relaxed); // relaxed because observers will see spin
 		n = nullptr; // make sure the caller cant use the pointer anymore
 	}
 
 	// NOT lock free, 
-	static node* new_ownership(std::atomic<node*> & atomic_ptr) {
-		node * temp = owner_lock(atomic_ptr);
+	static node* new_ownership(std::atomic<node*> & atomicPtr) {
+		node * temp = owner_lock(atomicPtr);
 		if (temp == terminal()) {
 			return terminal();
 		}
 		node * result = temp != terminal() ? increment_reference_count(temp) : terminal();
-		owner_unlock(atomic_ptr, temp);
+		owner_unlock(atomicPtr, temp);
 		return result;
 	}
 

@@ -4,10 +4,10 @@
 namespace parlex {
 
 enum class associativity {
-	none,
-	any,
-	left,
-	right
+	NONE,
+	ANY,
+	LEFT,
+	RIGHT
 };
 
 } // namespace parlex

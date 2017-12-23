@@ -2,6 +2,6 @@
 
 namespace plc {
 
-llvm::LLVMContext llvmContext;
+llvm::LLVMContext llvm_context;
 
 }

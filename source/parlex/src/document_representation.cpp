@@ -10,7 +10,7 @@ unit::unit(node const & n) : original_leaf(n) {
 }
 
 static erased<node> copy_with_conversions(erased<node> const & n) {
-	node const & nPtr = *n;
+	auto const & nPtr = *n;
 
 #define DO_AS(name) \
 	[&](name const & v) { \
@@ -33,7 +33,7 @@ static erased<node> copy_with_conversions(erased<node> const & n) {
 }
 
 static erased<node> reduce(erased<node> const & n) {
-	auto get_children = [&](std::function<std::optional<erased<node>> (erased<node> const &)> selector)
+	auto getChildren = [&](std::function<std::optional<erased<node>> (erased<node> const &)> selector)
 	{
 		node::children_t newChildren;
 		for (auto & child : n->children) {
@@ -52,7 +52,7 @@ static erased<node> reduce(erased<node> const & n) {
 		[&](optional_t const & v) { return v; },
 		[&](repetition_t const & v) { return v; },
 		[&](sequence_t const & v) {
-			node::children_t children = get_children([&](erased<node> const & child) {
+			node::children_t children = getChildren([&](erased<node> const & child) {
 				std::optional<erased<node>> result;
 				auto const * asUnitPtr = dynamic_cast<unit const *>(&*child);
 				if (asUnitPtr == nullptr || asUnitPtr->tag != "") {
@@ -62,9 +62,9 @@ static erased<node> reduce(erased<node> const & n) {
 			});
 			if (std::all_of(children.begin(), children.end(), [](erased<node> const & child) { return child->tag != ""; })) {
 				aggregate result;
-				int childIndex = 0;
+				auto childIndex = 0;
 				for (auto const & child : children) {
-					erased<node> childCopy = child;
+					auto childCopy = child;
 					childCopy->tag = "";
 					result.add_member(child->tag, childCopy);
 					++childIndex;

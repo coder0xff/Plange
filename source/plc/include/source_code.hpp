@@ -3,9 +3,6 @@
 
 #include <map>
 
-#include "parlex/detail/parser.hpp"
-
-#include "plange_grammar.hpp"
 #include "STATEMENT_SCOPE.hpp"
 
 namespace plc {
@@ -15,7 +12,7 @@ class scope;
 class source_code {
 public:
 	source_code(std::string const & pathname, std::u32string const & document);
-	source_code(std::string const & pathname);
+	explicit source_code(std::string const & pathname);
 	~source_code();
 	std::string const pathname;
 	std::u32string const document;
@@ -43,8 +40,6 @@ public:
 	std::pair<int, int> get_line_number_and_column(int charIndex) const;
 	std::string describe_code_span(parlex::detail::match const & m) const;
 
-private:
-	// For initialization of `representation` data member
 };
 
 }

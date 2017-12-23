@@ -16,7 +16,7 @@
 namespace parlex {
 
 struct type : detail::node {
-	type(std::string const & name) : name(name) {}
+	explicit type(std::string const & name) : name(name) {}
 	std::string name;
 };
 
@@ -34,7 +34,7 @@ void cpp_generator::output_files::add(output_files const & other)
 	}
 }
 
-static std::string const generated_notice = "// This file was generated using Parlex's cpp_generator\n\n";
+static std::string const GENERATED_NOTICE = "// This file was generated using Parlex's cpp_generator\n\n";
 
 #pragma region String Generation
 
@@ -47,7 +47,7 @@ static std::string include_guard_name(std::string const & name) {
 }
 
 static std::string include_guard_start(std::string const & name) {
-	std::string guardName = include_guard_name(name);
+	auto const guardName = include_guard_name(name);
 	std::stringstream result;
 	result << "#ifndef " << guardName << "\n";
 	result << "#define " << guardName << "\n";
@@ -56,7 +56,7 @@ static std::string include_guard_start(std::string const & name) {
 }
 
 static std::string include_guard_end(std::string const & name) {
-	std::string guardName = include_guard_name(name);
+	auto const guardName = include_guard_name(name);
 	std::stringstream result;
 	result << "\n\n";
 	result << "#endif //" << guardName << "\n";
@@ -64,8 +64,8 @@ static std::string include_guard_end(std::string const & name) {
 
 }
 
-static std::string string_to_c_name(std::string prefix, std::string const & s) {
-	std::string s1 = prefix + s;
+static std::string string_to_c_name(std::string const prefix, std::string const & s) {
+	auto s1 = prefix + s;
 	auto test = [](size_t pos, char c)
 	{
 		return (pos == 0 ? false : c >= '0' && c <= '9') || c >= 'A' && c <= 'Z' || c >= 'a' && c <= 'z' || c == '_';
@@ -122,7 +122,7 @@ static std::string namespaces_access(std::list<std::string> const & namespaces)
 }
 
 // generate a c++ enum class
-static std::string generate_enumeration(bool isProduction, std::string const & grammarName, std::string const & name, std::set<std::string> const & elements) {
+static std::string generate_enumeration(bool const isProduction, std::string const & grammarName, std::string const & name, std::set<std::string> const & elements) {
 	throw_assert(!name.empty());
 	std::stringstream ss;
 	ss << "struct " << name << " {\n";
@@ -155,10 +155,10 @@ static std::string generate_enumeration(bool isProduction, std::string const & g
 }
 
 // indent the multi-line string s1 by count tab characters
-static std::string indent(std::string const & s, int count = 1) {
+static std::string indent(std::string const & s, int const count = 1) {
 	std::stringstream in(s);
 	std::stringstream result;
-	std::string indentStr(count, '\t');
+	std::string const indentStr(count, '\t');
 	std::string line;
 	while (getline(in, line)) {
 		result << indentStr << line;
@@ -174,7 +174,7 @@ static std::string indent(std::string const & s, int count = 1) {
 }
 
 // generate an inline type for the given unit node
-static std::string stringize_unit(detail::unit const & u, size_t index = std::numeric_limits<size_t>::max()) {
+static std::string stringize_unit(detail::unit const & u, size_t const index = std::numeric_limits<size_t>::max()) {
 	if (u.tag.empty()) {
 		if (index != std::numeric_limits<size_t>::max()) {
 			return "std::integral_constant<int, " + std::to_string(index) + ">";
@@ -245,8 +245,8 @@ static std::string generate_struct_constructor_initializers(detail::aggregate::d
 
 static std::string generate_struct_builder_children(detail::aggregate::data_members_t const & flattenedDataMembers) {
 	std::stringstream ss;
-	int childCounter = 0;
-	int varCounter = 0;
+	auto childCounter = 0;
+	auto varCounter = 0;
 	for (auto const & flattenedDataMember : flattenedDataMembers) {
 		covariant_invoke<void>(*flattenedDataMember.second,
 			[&](detail::literal_t const & l) {
@@ -263,7 +263,7 @@ static std::string generate_struct_builder_children(detail::aggregate::data_memb
 
 static std::string generate_struct_build_moves(detail::aggregate::data_members_t const & flattenedDataMembers) {
 	std::stringstream ss;
-	int counter = 0;
+	auto counter = 0;
 	auto needsComma = false;
 	for (auto const & flattenedDataMember : flattenedDataMembers) {
 		covariant_invoke<void>(*flattenedDataMember.second,
@@ -284,14 +284,14 @@ static std::string generate_struct_build_moves(detail::aggregate::data_members_t
 
 // generate the builder expression portion of the cpp.inc that constructs the parlex grammar
 static std::string generate_grammar_builder_initializer(detail::node const & n) {
-	auto add_tag = [&]() {
+	auto addTag = [&]() {
 		if (n.tag != "") {
 			return enquote(n.tag) + ", ";
 		}
 		return std::string();
 	};
 
-	auto add_children = [&]() {
+	auto addChildren = [&]() {
 		std::stringstream ss;
 		for (auto const & child : n.children) {
 			ss << indent(generate_grammar_builder_initializer(*child));
@@ -303,14 +303,14 @@ static std::string generate_grammar_builder_initializer(detail::node const & n) 
 		return ss.str();
 	};
 
-#define DO_AS(name)	[&](detail::name##_t const & v) { return "parlex::" #name "(" + add_tag() + "{\n" + add_children() + "})"; }
+#define DO_AS(name)	[&](detail::name##_t const & v) { return "parlex::" #name "(" + addTag() + "{\n" + addChildren() + "})"; }
 
 	return covariant_invoke<std::string>(n,
 	                                     [&](detail::literal_t const & v) {
-	                                     return "parlex::literal(" + add_tag() + enquote(v.id) + ")";
+	                                     return "parlex::literal(" + addTag() + enquote(v.id) + ")";
                                      },
 	                                     [&](detail::reference_t const & v) {
-	                                     return "parlex::reference(" + add_tag() + enquote(v.id) + ")";
+	                                     return "parlex::reference(" + addTag() + enquote(v.id) + ")";
                                      },
 	                                     DO_AS(choice),
 	                                     DO_AS(optional),
@@ -327,23 +327,23 @@ static std::string generate_production_builder_initializer(production const & p)
 	std::stringstream ss;
 	ss << "parlex::production(" << enquote(p.id) << ",\n";
 	ss << indent(generate_grammar_builder_initializer(*p.behavior), 2);
-	bool needsPrecendences = p.precedences.size() > 0;
-	bool needsFilter = p.filter != filter_function() || needsPrecendences;
-	bool needsAssociativity = p.assoc != associativity::none || needsFilter;
+	auto const needsPrecendences = p.precedences.size() > 0;
+	auto const needsFilter = p.filter != filter_function() || needsPrecendences;
+	auto const needsAssociativity = p.assoc != associativity::NONE || needsFilter;
 	if (needsAssociativity) {
 		ss << ",\n\t\tparlex::associativity::";
 		switch (p.assoc) {
-			case associativity::any:
-				ss << "any";
+			case associativity::ANY:
+				ss << "ANY";
 				break;
-			case associativity::left:
-				ss << "left";
+			case associativity::LEFT:
+				ss << "LEFT";
 				break;
-			case associativity::none:
-				ss << "none";
+			case associativity::NONE:
+				ss << "NONE";
 				break;
-			case associativity::right:
-				ss << "right";
+			case associativity::RIGHT:
+				ss << "RIGHT";
 				break;
 		}
 	}
@@ -395,7 +395,7 @@ static std::string generate_production_member_declarations(builder const & b) {
 // return a string containing constructor initializers for each production
 static std::string generate_production_member_initializers(builder const & b) {
 	std::stringstream ss;
-	bool isFirst = true;
+	auto isFirst = true;
 	for (auto const & p : b.productions) {
 		if (isFirst) {
 			isFirst = false;
@@ -425,19 +425,19 @@ static erased<detail::node> flatten_node(bool isProduction, std::string const & 
 
 static detail::node::children_t flatten_children(std::string const & grammarName, std::string const & elementNameHint, detail::node::children_t & children, std::vector<std::string> & subResults, std::set<std::string> & forwardDeclarations, std::list<std::string> const & scopes, std::vector<std::string> & builderDefinitions) {
 	detail::node::children_t results;
-	int counter = 0;
+	auto counter = 0;
 	for (auto & child : children) {
 		if (child->tag == "") {
 			child->tag = elementNameHint + "_" + std::to_string(counter++ + 1) + "_t";
 		}
 		bool dontCareChildWasFullyDefined;
-		auto temp = flatten_node(false, grammarName, child, subResults, forwardDeclarations, scopes, builderDefinitions, dontCareChildWasFullyDefined);
+		auto const temp = flatten_node(false, grammarName, child, subResults, forwardDeclarations, scopes, builderDefinitions, dontCareChildWasFullyDefined);
 		results.push_back(temp);
 	}
 	return results;
 }
 
-static std::string generate_struct_build_parameters(bool isProduction) {
+static std::string generate_struct_build_parameters(bool const isProduction) {
 	std::stringstream signatureParams;
 	if (isProduction) {
 		signatureParams << "parlex::detail::ast_node const & n";
@@ -447,7 +447,7 @@ static std::string generate_struct_build_parameters(bool isProduction) {
 	return signatureParams.str();
 }
 
-static std::string generate_struct_declaration(bool isProduction, std::string const & name, std::vector<std::string> const & internalSubResults, detail::aggregate::data_members_t const & flattenedDataMembers) {
+static std::string generate_struct_declaration(bool const isProduction, std::string const & name, std::vector<std::string> const & internalSubResults, detail::aggregate::data_members_t const & flattenedDataMembers) {
 	std::stringstream declaration;
 
 	declaration << "struct " << name << " {\n";
@@ -477,7 +477,7 @@ static std::string generate_struct_declaration(bool isProduction, std::string co
 }
 
 // return a type node and any sub results needed to define the referenced type
-static erased<detail::node> flatten_aggregate(bool isProduction, std::string const & grammarName, detail::aggregate const & aggregate, std::vector<std::string> & subResults, std::set<std::string> & forwardDeclarations, std::list<std::string> const & scopes, std::vector<std::string> & builderDefinitions) {
+static erased<detail::node> flatten_aggregate(bool const isProduction, std::string const & grammarName, detail::aggregate const & aggregate, std::vector<std::string> & subResults, std::set<std::string> & forwardDeclarations, std::list<std::string> const & scopes, std::vector<std::string> & builderDefinitions) {
 	throw_assert(!aggregate.tag.empty());
 	std::vector<std::string> internalSubResults;
 	detail::aggregate flattenedAggregate;
@@ -487,14 +487,14 @@ static erased<detail::node> flatten_aggregate(bool isProduction, std::string con
 			dataMember.second->tag = dataMember.first + "_t";
 		}
 		bool memberWasFullyDefined;
-		auto flattenedMember = flatten_node(false, grammarName, dataMember.second, internalSubResults, forwardDeclarations, scopes, builderDefinitions, memberWasFullyDefined);
+		auto const flattenedMember = flatten_node(false, grammarName, dataMember.second, internalSubResults, forwardDeclarations, scopes, builderDefinitions, memberWasFullyDefined);
 		flattenedAggregate.add_member(dataMember.first, flattenedMember);
 	}
 	auto & flattenedDataMembers = flattenedAggregate.data_members;
-	auto declaration = generate_struct_declaration(isProduction, aggregate.tag, internalSubResults, flattenedDataMembers);
+	auto const declaration = generate_struct_declaration(isProduction, aggregate.tag, internalSubResults, flattenedDataMembers);
 
 	std::stringstream builderDefinition;
-	std::string fullyQualifiedName = namespaces_access(scopes);
+	auto fullyQualifiedName = namespaces_access(scopes);
 	fullyQualifiedName = fullyQualifiedName.substr(0, fullyQualifiedName.size() - 2);
 	builderDefinition << fullyQualifiedName << " " << fullyQualifiedName << "::build(" << generate_struct_build_parameters(isProduction) << ") {\n";
 	if (isProduction) {
@@ -514,28 +514,23 @@ static erased<detail::node> flatten_aggregate(bool isProduction, std::string con
 	return type(aggregate.tag);
 }
 
-static erased<detail::node> flatten_choice_as_enum(bool isProduction, std::string const & grammarName, detail::choice_t const & choice, detail::node::children_t const & children, std::vector<std::string> & subResults, std::set<std::string> & forwardDeclarations, std::vector<std::string> & builderDefinitions) {
+static erased<detail::node> flatten_choice_as_enum(bool const isProduction, std::string const & grammarName, detail::choice_t const & choice, detail::node::children_t const & children, std::vector<std::string> & subResults, std::set<std::string> & forwardDeclarations, std::vector<std::string> & builderDefinitions) {
 	std::set<std::string> enumElements;
 	for (auto const & child : children) {
-		detail::unit const * asUnit = dynamic_cast<detail::unit const *>(&*child);
+		auto const asUnit = dynamic_cast<detail::unit const *>(&*child);
 		if (asUnit->original_leaf.tag != "") {
 			enumElements.insert(asUnit->original_leaf.tag);
 		} else {
 			enumElements.insert(asUnit->tag);
 		}
 	}
-	auto enumDef = generate_enumeration(isProduction, grammarName, choice.tag, enumElements);
+	auto const enumDef = generate_enumeration(isProduction, grammarName, choice.tag, enumElements);
 	if (choice.tag != "") {
 		subResults.push_back(enumDef);
 		return type(choice.tag);
 	}
 	subResults.push_back(enumDef);
 	return type(choice.tag);
-}
-
-static std::string c_name_of_literal(detail::literal_t const &l)
-{
-	return string_to_c_name("literal_", l.id);
 }
 
 static erased<detail::node> flatten_choice_as_variant(detail::node::children_t & children) {
@@ -564,7 +559,7 @@ static erased<detail::node> flatten_choice_as_variant(detail::node::children_t &
 	return type(ss.str());
 }
 
-static erased<detail::node> flatten_choice(bool isProduction, std::string const & grammarName, detail::choice_t & choice, std::vector<std::string> & subResults, std::set<std::string> & forwardDeclarations, std::list<std::string> const & scopes, std::vector<std::string> & builderDefinitions, bool & fullyDefined) {
+static erased<detail::node> flatten_choice(bool const isProduction, std::string const & grammarName, detail::choice_t & choice, std::vector<std::string> & subResults, std::set<std::string> & forwardDeclarations, std::list<std::string> const & scopes, std::vector<std::string> & builderDefinitions, bool & fullyDefined) {
 	throw_assert(!choice.tag.empty());
 	// If all flattened child nodes are tagged units then we want to make an enum, otherwise a variant.
 	// Getting this information requires calling flatten_children, which will modify subResults, forwardDeclarations, and builderDefinitions
@@ -578,11 +573,11 @@ static erased<detail::node> flatten_choice(bool isProduction, std::string const 
 		allTaggedUnits = std::all_of(children.begin(), children.end(), [](erased<detail::node> const & child) { return child->tag != "" && dynamic_cast<detail::unit const *>(&*child) != nullptr; });
 	}
 	if (allTaggedUnits) {
-		auto children = flatten_children(grammarName, choice.tag, choice.children, subResults, forwardDeclarations, scopes, builderDefinitions);
+		auto const children = flatten_children(grammarName, choice.tag, choice.children, subResults, forwardDeclarations, scopes, builderDefinitions);
 		fullyDefined = true;
 		return flatten_choice_as_enum(isProduction, grammarName, choice, children, subResults, forwardDeclarations, builderDefinitions);
 	} else {
-		std::list<std::string> newScopes(scopes);
+		auto newScopes(scopes);
 		newScopes.pop_back();
 		auto children = flatten_children(grammarName, choice.tag, choice.children, subResults, forwardDeclarations, newScopes, builderDefinitions);
 		fullyDefined = false;
@@ -592,7 +587,7 @@ static erased<detail::node> flatten_choice(bool isProduction, std::string const 
 
 static erased<detail::node> flatten_optional(std::string const & grammarName, detail::optional_t & optional, std::vector<std::string> & subResults, std::set<std::string> & forwardDeclarations, std::list<std::string> const & scopes, std::vector<std::string> & builderDefinitions) {
 	throw_assert(!optional.tag.empty());
-	std::list<std::string> newScopes(scopes);
+	auto newScopes(scopes);
 	newScopes.pop_back(); // the child will be lifted out, so skip this scope
 	auto children = flatten_children(grammarName, optional.tag, optional.children, subResults, forwardDeclarations, newScopes, builderDefinitions);
 	auto result = covariant_invoke<std::string>(*children[0],
@@ -612,7 +607,7 @@ static erased<detail::node> flatten_optional(std::string const & grammarName, de
 
 static erased<detail::node> flatten_repetition(std::string const & grammarName, detail::repetition_t & repetition, std::vector<std::string> & subResults, std::set<std::string> & forwardDeclarations, std::list<std::string> const & scopes, std::vector<std::string> & builderDefinitions) {
 	throw_assert(!repetition.tag.empty());
-	std::list<std::string> newScopes(scopes);
+	auto newScopes(scopes);
 	newScopes.pop_back(); // the child will be lifted out, so skip this scope
 	auto children = flatten_children(grammarName, repetition.tag, repetition.children, subResults, forwardDeclarations, newScopes, builderDefinitions);
 	auto result = covariant_invoke<std::string>(*children[0],
@@ -632,7 +627,7 @@ static erased<detail::node> flatten_sequence_as_tuple(std::string const & gramma
 	auto children = flatten_children(grammarName, sequence.tag, sequence.children, subResults, forwardDeclarations, scopes, builderDefinitions);
 	std::stringstream ss;
 	ss << "std::tuple<\n";
-	int elementCount = 0;
+	auto elementCount = 0;
 	for (auto const & child : children) {
 		covariant_invoke<void>(*child,
 			[&](type const & v) {
@@ -662,11 +657,11 @@ static detail::node::children_t flatten_children(detail::node::children_t childr
 	return flatten_children("", "", children, dontCareSubResults, dontCareForwardDeclarations, std::list<std::string>(), dontCareBuilderDefinitions);
 }
 
-static erased<detail::node> flatten_sequence_as_forced_aggregate(bool isProduction, std::string const & grammarName, detail::sequence_t & sequence, std::vector<std::string> & subResults, std::set<std::string> & forwardDeclarations, std::list<std::string> const & scopes, std::vector<std::string> & builderDefinitions) {
-	int untaggedCount = 0;
+static erased<detail::node> flatten_sequence_as_forced_aggregate(bool const isProduction, std::string const & grammarName, detail::sequence_t & sequence, std::vector<std::string> & subResults, std::set<std::string> & forwardDeclarations, std::list<std::string> const & scopes, std::vector<std::string> & builderDefinitions) {
+	auto untaggedCount = 0;
 	for (auto const & child : flatten_children(sequence.children)) {
-		auto asUnit = dynamic_cast<detail::unit const *>(&*child);
-		auto asLiteral = dynamic_cast<detail::literal_t const *>(&*child);
+		auto const asUnit = dynamic_cast<detail::unit const *>(&*child);
+		auto const asLiteral = dynamic_cast<detail::literal_t const *>(&*child);
 		if (asUnit == nullptr && asLiteral == nullptr && child->tag.empty()) {
 			++untaggedCount;
 		}
@@ -674,16 +669,16 @@ static erased<detail::node> flatten_sequence_as_forced_aggregate(bool isProducti
 
 	detail::aggregate forcedAggregate;
 	forcedAggregate.tag = sequence.tag;
-	int numberLength = int(ceil(log10(untaggedCount + 2)));
+	auto const numberLength = int(ceil(log10(untaggedCount + 2)));
 	untaggedCount = 0;
-	int childIndex = 0;
+	auto childIndex = 0;
 	for (auto child : sequence.children) {
 		std::string fieldName;
-		auto asUnit = dynamic_cast<detail::unit const *>(&*child);
-		auto asLiteral = dynamic_cast<detail::literal_t const *>(&*child);
+		auto const asUnit = dynamic_cast<detail::unit const *>(&*child);
+		auto const asLiteral = dynamic_cast<detail::literal_t const *>(&*child);
 		if (asUnit == nullptr && asLiteral == nullptr) {
 			if (child->tag.empty()) {
-				std::string number = std::to_string(untaggedCount + 1);
+				auto number = std::to_string(untaggedCount + 1);
 				fieldName = "field_" + std::string(numberLength - number.length(), '0') + number;
 				++untaggedCount;
 			}
@@ -700,7 +695,7 @@ static erased<detail::node> flatten_sequence_as_forced_aggregate(bool isProducti
 	return flatten_aggregate(isProduction, grammarName, forcedAggregate, subResults, forwardDeclarations, scopes, builderDefinitions);
 }
 
-static erased<detail::node> flatten_sequence(bool isProduction, std::string const & grammarName, detail::sequence_t & sequence, std::vector<std::string> & subResults, std::set<std::string> & forwardDeclarations, std::list<std::string> const & scopes, std::vector<std::string> & builderDefinitions, bool & fullyDefined) {
+static erased<detail::node> flatten_sequence(bool const isProduction, std::string const & grammarName, detail::sequence_t & sequence, std::vector<std::string> & subResults, std::set<std::string> & forwardDeclarations, std::list<std::string> const & scopes, std::vector<std::string> & builderDefinitions, bool & fullyDefined) {
 	if (sequence.tag == "") {
 		fullyDefined = false;
 		return flatten_sequence_as_tuple(grammarName, sequence, subResults, forwardDeclarations, scopes, builderDefinitions);
@@ -760,9 +755,9 @@ static std::set<std::u32string> get_literals(builder const & b)
 
 	while (pending.size() > 0)
 	{
-		detail::node const * n = pending.front();
+		auto n = pending.front();
 		pending.pop();
-		detail::literal_t const * asLiteral = dynamic_cast<detail::literal_t const *>(n);
+		auto const asLiteral = dynamic_cast<detail::literal_t const *>(n);
 		if (asLiteral != nullptr)
 		{
 			results.insert(asLiteral->content);
@@ -782,9 +777,9 @@ cpp_generator::output_files generate_literals(std::string const & name, std::lis
 	cpp_generator::output_files results;
 	auto & headers = results.headers;
 
-	auto headerName = "_" + name + "_literals" + ".hpp";
+	auto const headerName = "_" + name + "_literals" + ".hpp";
 
-	std::set<std::u32string> literals = get_literals(b);
+	auto literals = get_literals(b);
 	for (auto const & literal : literals) {
 		mapping[literal] = string_to_c_name("literal_", to_utf8(literal)) + "_t";
 	}
@@ -803,10 +798,10 @@ cpp_generator::output_files generate_literals(std::string const & name, std::lis
 }
 
 void tag_all_literals(erased<detail::node> & n) {
-	detail::unit * asUnit = dynamic_cast<detail::unit *>(&*n);
+	auto asUnit = dynamic_cast<detail::unit *>(&*n);
 	if (asUnit != nullptr) {
 		if (asUnit->tag == "") {
-			detail::literal_t const * originalAsLiteral = dynamic_cast<detail::literal_t const *>(&asUnit->original_leaf);
+			auto const originalAsLiteral = dynamic_cast<detail::literal_t const *>(&asUnit->original_leaf);
 			if (originalAsLiteral != nullptr) {
 				asUnit->tag = string_to_c_name("literal_", originalAsLiteral->id);
 			}
@@ -832,9 +827,9 @@ static cpp_generator::output_files generate_production_struct(std::string const 
 	auto flattened = flatten_node(true, grammarName, representation, subResults, forwardDeclarations, namespaces, builderDefinitions, fullyDefined);
 	std::stringstream header;
 	std::stringstream source;
-	std::string headerName = p.id + ".hpp";
-	header << generated_notice;
-	source << generated_notice;
+	auto headerName = p.id + ".hpp";
+	header << GENERATED_NOTICE;
+	source << GENERATED_NOTICE;
 	source << "#include \"" << headerName << "\"\n\n";
 	source << "#include \"" << grammar_header_name(grammarName) << "\"\n\n";
 	source << "#include \"parlex/detail/document.hpp\"\n";
@@ -905,9 +900,9 @@ static cpp_generator::output_files generate_production_struct(std::string const 
 //generate text for the grammar's .hpp.inc file
 std::string generate_grammar_hpp_inc(std::string const & name, std::list<std::string> const & namespaces, builder const & b)
 {
-	std::string fullName = name + "_grammar";
+	auto const fullName = name + "_grammar";
 	std::stringstream header;
-	header << generated_notice;
+	header << GENERATED_NOTICE;
 	header << include_guard_start(fullName);
 	header << "#include \"parlex/builder.hpp\"\n";
 	header << "#include \"parlex/detail/grammar.hpp\"\n\n";
@@ -931,9 +926,9 @@ std::string generate_grammar_hpp_inc(std::string const & name, std::list<std::st
 //generate text for the grammar's .cpp.inc file
 std::string generate_grammar_cpp_inc(std::string const & name, builder const & b)
 {
-	std::string fullName = name + "_grammar";
-	std::string hppName = "_" + fullName + ".hpp.inc";
-	std::string builderCppName = "_" + fullName + "_builder.cpp.inc";
+	auto const fullName = name + "_grammar";
+	auto const hppName = "_" + fullName + ".hpp.inc";
+	auto const builderCppName = "_" + fullName + "_builder.cpp.inc";
 
 	std::stringstream source;
 	source << "#include \"" << hppName << "\"\n";
@@ -949,7 +944,7 @@ cpp_generator::output_files generate_grammar(std::string const & name, std::list
 	auto & headers = results.headers;
 	auto & sources = results.sources;
 
-	std::string fullName = "_" + name + "_grammar";
+	auto const fullName = "_" + name + "_grammar";
 
 	headers[fullName + ".hpp.inc"] = generate_grammar_hpp_inc(name, namespaces, b);
 	sources[fullName + "_builder.cpp.inc"] = generate_x_builder_cpp_inc(b);

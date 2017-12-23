@@ -9,10 +9,8 @@
 #include "behavior.hpp"
 #include "erased.hpp"
 #include "match.hpp"
-#include "permutation.hpp"
 
 #include "mpl_fold_vx.hpp"
-#include "utf.hpp"
 
 namespace parlex::detail::document {
 
@@ -46,8 +44,8 @@ namespace parlex::detail::document {
 	template<>
 	struct element<bool> {
 		static bool build(behavior::node const * b, walk & w) {
-			auto checkPos = w.pos;
-			for (; w.pos != w.end && b->follow(w.pos->leaf) != nullptr; ++w.pos);
+			auto const checkPos = w.pos;
+			for (; w.pos != w.end && b->follow(w.pos->leaf) != nullptr; ++w.pos) {}
 			return w.pos != checkPos;
 		}
 	};
@@ -67,10 +65,10 @@ namespace parlex::detail::document {
 		static std::vector<T> build(behavior::node const * b, walk & w) {
 			auto const * asRepetition = dynamic_cast<behavior::repetition const *>(b);
 			throw_assert(asRepetition != nullptr);
-			behavior::node const * loneChild = &*asRepetition->get_children()[0];
+			auto loneChild = &*asRepetition->get_children()[0];
 			std::vector<T> result;
 			for (; w.pos != w.end && b->follow(w.pos->leaf) == loneChild; ) {
-				auto checkPos = w.pos;
+				auto const checkPos = w.pos;
 				result.push_back(element<T>::build(loneChild, w));
 				throw_assert(w.pos > checkPos);
 			}
@@ -84,8 +82,8 @@ namespace parlex::detail::document {
 			auto const & asOptional = dynamic_cast<behavior::optional const *>(b);
 			throw_assert(asOptional != nullptr);
 			if (w.pos != w.end) {
-				behavior::node const * loneChild = &*asOptional->get_children()[0];
-				behavior::node const * followedChild = b->follow(w.pos->leaf);
+				auto loneChild = &*asOptional->get_children()[0];
+				auto const followedChild = b->follow(w.pos->leaf);
 				if (followedChild != nullptr) {
 					throw_assert(followedChild == loneChild);
 					return std::optional<T>(element<T>::build(loneChild, w));
@@ -97,16 +95,16 @@ namespace parlex::detail::document {
 
 	template<typename... Ts>
 	struct variant_helper {
-		typedef std::variant<Ts...> TVariant;
-		typedef std::map<behavior::node const *, TVariant(*)(behavior::node const * b, walk & w)> TTable;
+		typedef std::variant<Ts...> t_variant;
+		typedef std::map<behavior::node const *, t_variant(*)(behavior::node const * b, walk & w)> t_table;
 
 		template<typename T>
-		static TVariant wrapper(behavior::node const * b, walk & w) {
-			return TVariant(element<T>::build(b, w));
+		static t_variant wrapper(behavior::node const * b, walk & w) {
+			return t_variant(element<T>::build(b, w));
 		}
 
 		template<typename T>
-		TTable operator()(TTable && accumulator, erased<behavior::node> const & b) {
+		t_table operator()(t_table && accumulator, erased<behavior::node> const & b) {
 			accumulator[&*b] = &wrapper<T>;
 			return accumulator;
 		}
@@ -117,15 +115,15 @@ namespace parlex::detail::document {
 	struct element<std::variant<Ts...>> {
 		static std::variant<Ts...> build(behavior::node const * b, walk & w) {
 			throw_assert(dynamic_cast<behavior::choice const *>(b) != nullptr);
-			using TVariant = std::variant<Ts...>;
+			using t_variant = std::variant<Ts...>;
 			using functor_t = variant_helper<Ts...>;
 			auto const & childBehaviors = b->get_children();
 			auto functor = functor_t();
 			//TODO: cache this
-			typename functor_t::TTable table = mpl::fold_vx<mpl::list<Ts...>>(functor, typename functor_t::TTable(), childBehaviors);
-			behavior::node const * child = b->follow(w.pos->leaf);
+			typename functor_t::t_table table = mpl::fold_vx<mpl::list<Ts...>>(functor, typename functor_t::t_table(), childBehaviors);
+			auto child = b->follow(w.pos->leaf);
 			throw_assert(child != nullptr);
-			typename functor_t::TTable::iterator i = table.find(child);
+			typename functor_t::t_table::iterator i = table.find(child);
 			throw_assert(i != table.end());
 			return i->second(child, w);
 		}

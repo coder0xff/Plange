@@ -44,7 +44,7 @@ public:
 		void set_behavior(erased<behavior::node> const & behavior);
 	};
 
-	grammar(builder const & grammarDefinition);
+	explicit grammar(builder const & grammarDefinition);
 	grammar(grammar const & copy) = delete;
 	virtual ~grammar() = default;
 

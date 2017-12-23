@@ -7,10 +7,10 @@
 namespace parlex {
 namespace detail {
 
-raw_state_machine::raw_state_machine(std::string const & id, int startState, int acceptStateCount, filter_function const & filter, associativity assoc) : state_machine_base(id), filter(filter), assoc(assoc), start_state(startState), accept_state_count(acceptStateCount) {
+raw_state_machine::raw_state_machine(std::string const & id, int const startState, int const acceptStateCount, filter_function const & filter, associativity const assoc) : state_machine_base(id), filter(filter), assoc(assoc), start_state(startState), accept_state_count(acceptStateCount) {
 }
 
-void raw_state_machine::add_transition(size_t from, recognizer const * transition, size_t to) {
+void raw_state_machine::add_transition(size_t const from, recognizer const * transition, size_t const to) {
 	while (states.size() <= from || states.size() <= to) {
 		states.emplace_back();
 	}
@@ -30,10 +30,10 @@ void raw_state_machine::process(context const & c, size_t const s) const {
 		accept(c);
 	}
 	for (auto const & kvp : states[s]) {
-		recognizer const & r = *kvp.first;
-		int const next_state = kvp.second;
+		auto const & r = *kvp.first;
+		int const nextState = kvp.second;
 		//DBG("'", get_id(), "' state ", s, " position ", c.current_document_position(), " subscribes to '", transition.id, "' position ", c.current_document_position());
-		on(c, r, next_state, nullptr);
+		on(c, r, nextState, nullptr);
 	}
 }
 

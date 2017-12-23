@@ -20,7 +20,7 @@ namespace mpl {
 	}
 
 	template<template <typename> typename TMetaFunction, typename TList>
-	using map = typename details_map::impl<TMetaFunction, 0, TList>::result;
+	using map = typename detail_map_i::impl<TMetaFunction, 0, TList>::result;
 
 }
 

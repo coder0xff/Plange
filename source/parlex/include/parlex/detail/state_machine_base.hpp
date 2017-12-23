@@ -32,7 +32,7 @@ protected:
 	friend class parser;
 	friend class subjob;
 
-	state_machine_base(std::string const & id);
+	explicit state_machine_base(std::string const & id);
 	void start(context const & c) const;
 	virtual void process(context const & c, size_t dfaState) const = 0;
 	static void on(context const & c, recognizer const & r, int nextDfaState, behavior::leaf const * leaf);

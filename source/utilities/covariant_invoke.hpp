@@ -4,9 +4,9 @@
 #include "mpl_equals.hpp"
 #include "mpl_function_decomposition.hpp"
 #include "mpl_head.hpp"
-#include "mpl_is_const.hpp"
 #include "mpl_utils.hpp"
 #include "mpl_sfinae.hpp"
+#include "mpl_is_const.hpp"
 
 namespace detail {
 	template <typename T>
@@ -16,7 +16,7 @@ namespace detail {
 	};
 }
 
-template<typename U, typename T, typename V1, SFINAE_OVERLOAD(!mpl::equals<U, void>)>
+template<typename U, typename T, typename V1, SFINAE_OVERLOAD(!mpl::EQUALS<U, void>)>
 U covariant_invoke(T const & value, V1 const & func1) {
 	typedef typename detail::invoke_type<V1>::in_t in_t;
 	auto const * asU1 = dynamic_cast<in_t const *>(&value);
@@ -26,7 +26,7 @@ U covariant_invoke(T const & value, V1 const & func1) {
 	throw std::runtime_error("no suitable dispatch function");
 }
 
-template<typename U, typename T, typename V1, typename V2, typename... Vs, SFINAE_OVERLOAD(!mpl::equals<U, void>)>
+template<typename U, typename T, typename V1, typename V2, typename... Vs, SFINAE_OVERLOAD(!mpl::EQUALS<U, void>)>
 U covariant_invoke(T const & value, V1 const & func1, V2 const & func2, Vs const &... funcs) {
 	typedef typename detail::invoke_type<V1>::in_t in_t;
 	auto const * asU1 = dynamic_cast<in_t const *>(&value);
@@ -36,7 +36,7 @@ U covariant_invoke(T const & value, V1 const & func1, V2 const & func2, Vs const
 	return covariant_invoke<U>(value, func2, funcs...);
 }
 
-template<typename U, typename T, typename V1, SFINAE_OVERLOAD(mpl::equals<U, void>)>
+template<typename U, typename T, typename V1, SFINAE_OVERLOAD(mpl::EQUALS<U, void>)>
 void covariant_invoke(T const & value, V1 const & func1) {
 	typedef typename detail::invoke_type<V1>::in_t in_t;
 	static_assert(std::is_same<typename detail::invoke_type<V1>::out_t, void>::value, "function does not return void");
@@ -48,7 +48,7 @@ void covariant_invoke(T const & value, V1 const & func1) {
 	throw std::runtime_error("no suitable dispatch function");
 }
 
-template<typename U, typename T, typename V1, typename V2, typename... Vs, SFINAE_OVERLOAD(mpl::equals<U, void>)>
+template<typename U, typename T, typename V1, typename V2, typename... Vs, SFINAE_OVERLOAD(mpl::EQUALS<U, void>)>
 void covariant_invoke(T const & value, V1 const & func1, V2 const & func2, Vs const &... funcs) {
 	typedef typename detail::invoke_type<V1>::in_t in_t;
 	static_assert(std::is_same<typename detail::invoke_type<V1>::out_t, void>::value, "function does not return void");
@@ -60,7 +60,7 @@ void covariant_invoke(T const & value, V1 const & func1, V2 const & func2, Vs co
 	covariant_invoke<U>(value, func2, funcs...);
 }
 
-template<typename U, typename T, typename V1, SFINAE_OVERLOAD(!mpl::equals<U, void> && !mpl::is_const<T>)>
+template<typename U, typename T, typename V1, SFINAE_OVERLOAD(!mpl::EQUALS<U, void> && !mpl::IS_CONST<T>)>
 U covariant_invoke(T & value, V1 const & func1) {
 	typedef typename detail::invoke_type<V1>::in_t in_t;
 	auto * asU1 = dynamic_cast<in_t *>(&value);
@@ -70,7 +70,7 @@ U covariant_invoke(T & value, V1 const & func1) {
 	throw std::runtime_error("no suitable dispatch function");
 }
 
-template<typename U, typename T, typename V1, typename V2, typename... Vs, SFINAE_OVERLOAD(!mpl::equals<U, void> && !mpl::is_const<T>)>
+template<typename U, typename T, typename V1, typename V2, typename... Vs, SFINAE_OVERLOAD(!mpl::EQUALS<U, void> && !mpl::IS_CONST<T>)>
 U covariant_invoke(T & value, V1 const & func1, V2 const & func2, Vs const &... funcs) {
 	typedef typename detail::invoke_type<V1>::in_t in_t;
 	auto * asU1 = dynamic_cast<in_t *>(&value);
@@ -80,7 +80,7 @@ U covariant_invoke(T & value, V1 const & func1, V2 const & func2, Vs const &... 
 	return covariant_invoke<U>(value, func2, funcs...);
 }
 
-template<typename U, typename T, typename V1, SFINAE_OVERLOAD(mpl::equals<U, void> && !mpl::is_const<T>)>
+template<typename U, typename T, typename V1, SFINAE_OVERLOAD(mpl::EQUALS<U, void> && !mpl::IS_CONST<T>)>
 void covariant_invoke(T & value, V1 const & func1) {
 	typedef typename detail::invoke_type<V1>::in_t in_t;
 	static_assert(std::is_same<typename detail::invoke_type<V1>::out_t, void>::value, "function does not return void");
@@ -91,7 +91,7 @@ void covariant_invoke(T & value, V1 const & func1) {
 	}
 	throw std::runtime_error("no suitable dispatch function");
 }
-template<typename U, typename T, typename V1, typename V2, typename... Vs, SFINAE_OVERLOAD(mpl::equals<U, void> && !mpl::is_const<T>)>
+template<typename U, typename T, typename V1, typename V2, typename... Vs, SFINAE_OVERLOAD(mpl::EQUALS<U, void> && !mpl::IS_CONST<T>)>
 void covariant_invoke(T & value, V1 const & func1, V2 const & func2, Vs const &... funcs) {
 	typedef typename detail::invoke_type<V1>::in_t in_t;
 	static_assert(std::is_same<typename detail::invoke_type<V1>::out_t, void>::value, "function does not return void");

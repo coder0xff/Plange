@@ -18,8 +18,8 @@ namespace mpl {
 		int operator =(int const & x) const { return x; };
 	};
 
-	template<bool enable, typename T = sfinae_t>
-	using sfinae = typename std::enable_if<enable, T>::type;
+	template<bool Enable, typename T = sfinae_t>
+	using sfinae = typename std::enable_if<Enable, T>::type;
 
 }
 

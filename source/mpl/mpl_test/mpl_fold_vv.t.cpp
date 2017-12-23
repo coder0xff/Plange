@@ -7,19 +7,19 @@ namespace {
 	struct functor {
 		double multiplier;
 
-		functor(double multiplier) : multiplier(multiplier) {}
+		explicit functor(double const multiplier) : multiplier(multiplier) {}
 
 		template<typename TElement>
-		double operator()(double accumulator, TElement value) {
+		double operator()(double const accumulator, TElement value) {
 			return accumulator * multiplier + value;
 		}
 	};
 
 	void fold_vv_1() {
 		functor f(2);
-		auto data = std::make_tuple(13, 3.14, 'a');
-		double expected = (((10.2) * 2 + 13) * 2 + 3.14) * 2 + 'a';
-		double actual = mpl::fold_vv(f, 10.2, data);
+		auto const data = std::make_tuple(13, 3.14, 'a');
+		auto expected = (((10.2) * 2 + 13) * 2 + 3.14) * 2 + 'a';
+		auto actual = mpl::fold_vv(f, 10.2, data);
 		ASSERT_EQ(expected, actual);
 	}
 }

@@ -8,7 +8,7 @@ namespace detail {
 
 class string_terminal : public terminal {
 public:
-	string_terminal(std::u32string const & s);
+	explicit string_terminal(std::u32string const & s);
 
 	~string_terminal() override = default;
 

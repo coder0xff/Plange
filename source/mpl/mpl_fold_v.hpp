@@ -20,8 +20,8 @@ namespace mpl {
 		template<typename TFunctor, typename TAccumulator, template <typename...> typename TContainer, typename THead, typename... TTail>
 		struct impl<TFunctor, TAccumulator, TContainer<THead, TTail...>> {
 			static auto impl_f(TFunctor & functor, TAccumulator accumulator) {
-				auto next_accumulator = functor.template operator()<TAccumulator, THead>(accumulator);
-				return impl<TFunctor, decltype(next_accumulator), std::tuple<TTail...>>::impl_f(functor, next_accumulator);
+				auto nextAccumulator = functor.template operator()<TAccumulator, THead>(accumulator);
+				return impl<TFunctor, decltype(nextAccumulator), std::tuple<TTail...>>::impl_f(functor, nextAccumulator);
 			}
 		};
 

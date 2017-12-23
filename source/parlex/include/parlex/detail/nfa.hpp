@@ -19,7 +19,7 @@ namespace detail {
 /// </summary>
 /// <typeparam name="alphabet_t">The domain of the transition function is S x alphabet_t, where S is the set of states.</typeparam>
 /// <typeparam name="label_t">The type of state labels.</typeparam>
-template <typename alphabet_t, typename label_t, typename compare = std::less<alphabet_t>>
+template <typename AlphabetT, typename LabelT, typename Compare = std::less<AlphabetT>>
 struct nfa {
 
 	template <typename X, typename Y, typename Z>
@@ -28,49 +28,49 @@ struct nfa {
 	using state_indices_t = std::set<size_t>;
 
 	struct state {
-		label_t label;
-		std::map<alphabet_t, state_indices_t, compare> out_transitions;
+		LabelT label;
+		std::map<AlphabetT, state_indices_t, Compare> out_transitions;
 
-		state(label_t label) : label(label) {
+		explicit state(LabelT label) : label(label) {
 		};
 	};
 
-	state_indices_t acceptStates;
-	state_indices_t startStates;
+	state_indices_t accept_states;
+	state_indices_t start_states;
 	std::vector<state> states;
 
-	int add_state(label_t label, bool isAcceptState, bool isStartState) {
+	int add_state(LabelT label, bool const isAcceptState, bool const isStartState) {
 		states.emplace_back(label);
-		int result = states.size() - 1;
+		int const result = states.size() - 1;
 		if (isAcceptState) {
-			acceptStates.insert(result);
+			accept_states.insert(result);
 		}
 		if (isStartState) {
-			startStates.insert(result);
+			start_states.insert(result);
 		}
 		return result;
 	}
 
 	state_indices_t get_start_states() const {
-		return startStates;
+		return start_states;
 	}
 
 	state_indices_t get_accept_states() const {
-		return acceptStates;
+		return accept_states;
 	}
 
 	struct transition {
 		size_t from;
-		alphabet_t symbol;
+		AlphabetT symbol;
 		size_t to;
 
-		transition(size_t from, alphabet_t symbol, size_t to) : from(from), symbol(symbol), to(to) {
+		transition(size_t const from, AlphabetT symbol, size_t const to) : from(from), symbol(symbol), to(to) {
 		}
 	};
 
 	std::vector<transition> get_transitions() const {
 		std::vector<transition> result;
-		int fromState = 0;
+		auto fromState = 0;
 		for (state s : states) {
 			for (auto transitionAndToStates : s.out_transitions) {
 				for (auto toState : transitionAndToStates.second) {
@@ -82,7 +82,7 @@ struct nfa {
 		return result;
 	}
 
-	std::string to_dot(std::function<std::string (label_t const &)> getLabelName, std::function<std::string (alphabet_t const &)> getTransitionName) const {
+	std::string to_dot(std::function<std::string (LabelT const &)> getLabelName, std::function<std::string (AlphabetT const &)> getTransitionName) const {
 		std::vector<int> vertices;
 		for (size_t i = 0; i < states.size(); ++i) { vertices.push_back(i); }
 		return directed_graph<int>(
@@ -101,10 +101,10 @@ struct nfa {
 			},
 			[&](int i) {
 				std::string properties;
-				if (startStates.count(i) > 0) {
+				if (start_states.count(i) > 0) {
 					properties = "color=red";
 				}
-				if (acceptStates.count(i) > 0) {
+				if (accept_states.count(i) > 0) {
 					if (!properties.empty()) {
 						properties += ", ";
 					}
@@ -115,9 +115,9 @@ struct nfa {
 		);
 	}
 
-	state_indices_t transition_function_extended(state_indices_t fromStateIndices, alphabet_t input) const {
+	state_indices_t transition_function_extended(state_indices_t fromStateIndices, AlphabetT input) const {
 		std::set<size_t> result;
-		for (size_t fromStateIndex : fromStateIndices) {
+		for (auto fromStateIndex : fromStateIndices) {
 			throw_assert(fromStateIndex < states.size());
 			auto i = states[fromStateIndex].out_transitions.find(input);
 			if (i != states[fromStateIndex].out_transitions.end()) {
@@ -130,40 +130,40 @@ struct nfa {
 	}
 
 	// Creates a new Nfa that has only one transition for each input symbol for each state - i.e. it is deterministic
-	nfa<alphabet_t, state_indices_t> determinize() const {
-		nfa<alphabet_t, state_indices_t> result;
+	nfa<AlphabetT, state_indices_t> determinize() const {
+		nfa<AlphabetT, state_indices_t> result;
 		std::map<state_indices_t, int> stateSetToIndex;
-		result.add_state(startStates, false, true);
-		stateSetToIndex[startStates] = 0;
+		result.add_state(start_states, false, true);
+		stateSetToIndex[start_states] = 0;
 
 		//perform subset construction
 		for (unsigned int processCounter = 0; processCounter < result.states.size(); ++processCounter) {
 			state_indices_t fromIndices = result.states[processCounter].label; //must be copied due to modifying result.states
-			std::set<alphabet_t> out_symbols;
+			std::set<AlphabetT> outSymbols;
 			for (int fromIndex : fromIndices) {
-				for (std::pair<alphabet_t, state_indices_t> trans : states[fromIndex].out_transitions) {
-					out_symbols.insert(trans.first);
+				for (std::pair<AlphabetT, state_indices_t> trans : states[fromIndex].out_transitions) {
+					outSymbols.insert(trans.first);
 				}
 			}
-			for (alphabet_t symbol : out_symbols) {
-				auto next_set = transition_function_extended(fromIndices, symbol);
-				int to_state_index;
-				auto i = stateSetToIndex.find(next_set);
+			for (AlphabetT symbol : outSymbols) {
+				auto nextSet = transition_function_extended(fromIndices, symbol);
+				int toStateIndex;
+				auto i = stateSetToIndex.find(nextSet);
 				if (i == stateSetToIndex.end()) {
-					to_state_index = stateSetToIndex[next_set] = result.states.size();
-					result.states.emplace_back(next_set);
+					toStateIndex = stateSetToIndex[nextSet] = result.states.size();
+					result.states.emplace_back(nextSet);
 				} else {
-					to_state_index = i->second;
+					toStateIndex = i->second;
 				}
-				result.states[processCounter].out_transitions[symbol].insert(to_state_index);
+				result.states[processCounter].out_transitions[symbol].insert(toStateIndex);
 			}
 		}
 
 		// set accept states
 		for (auto pair : stateSetToIndex) {
 			for (int s : pair.first) {
-				if (acceptStates.count(s)) {
-					result.acceptStates.insert(pair.second);
+				if (accept_states.count(s)) {
+					result.accept_states.insert(pair.second);
 					break;
 				}
 			}
@@ -172,19 +172,19 @@ struct nfa {
 		return result;
 	}
 
-	nfa<alphabet_t, state_indices_t> minimal_dfa() const {
+	nfa<AlphabetT, state_indices_t> minimal_dfa() const {
 		//TODO: create a correct implementation of Hopcroft's algorithm - the pseudocode on wikipedia is bunk
 		return dual().determinize().dual().determinize();
 	}
 
-	nfa<alphabet_t, size_t> map_to_uints() {
-		nfa<alphabet_t, size_t> result;
+	nfa<AlphabetT, size_t> map_to_uints() {
+		nfa<AlphabetT, size_t> result;
 		for (size_t i = 0; i < states.size(); ++i) {
 			result.states.emplace_back(i);
 			result.states[i].out_transitions = states[i].out_transitions;
 		}
-		result.startStates = startStates;
-		result.acceptStates = acceptStates;
+		result.start_states = start_states;
+		result.accept_states = accept_states;
 		return result;
 	}
 
@@ -194,15 +194,15 @@ struct nfa {
 	/// <returns>The new Nfa</returns>
 	nfa dual() const {
 		nfa result;
-		result.startStates = acceptStates;
-		result.acceptStates = startStates;
-		for (unsigned int state_index = 0; state_index < states.size(); ++state_index) {
-			result.states.emplace_back(states[state_index].label);
+		result.start_states = accept_states;
+		result.accept_states = start_states;
+		for (unsigned int stateIndex = 0; stateIndex < states.size(); ++stateIndex) {
+			result.states.emplace_back(states[stateIndex].label);
 		}
-		for (unsigned int from_state_index = 0; from_state_index < states.size(); ++from_state_index) {
-			for (auto symbolAndToStates : states[from_state_index].out_transitions) {
-				for (int to_state_index : symbolAndToStates.second) {
-					result.states[to_state_index].out_transitions[symbolAndToStates.first].insert(from_state_index);
+		for (unsigned int fromStateIndex = 0; fromStateIndex < states.size(); ++fromStateIndex) {
+			for (auto symbolAndToStates : states[fromStateIndex].out_transitions) {
+				for (int toStateIndex : symbolAndToStates.second) {
+					result.states[toStateIndex].out_transitions[symbolAndToStates.first].insert(fromStateIndex);
 				}
 			}
 		}
@@ -217,11 +217,11 @@ struct nfa {
 		std::vector<state_indices_t> storage;
 		int row_count, column_count;
 	public:
-		state_map(size_t row_count, size_t column_count) : row_count(row_count), column_count(column_count) {
-			storage.resize(row_count * column_count);
+		state_map(size_t const rowCount, size_t const columnCount) : row_count(rowCount), column_count(columnCount) {
+			storage.resize(rowCount * columnCount);
 		}
 
-		state_indices_t& operator()(size_t row, size_t column) {
+		state_indices_t& operator()(size_t const row, size_t const column) {
 			return storage[row * column_count + column];
 		}
 	};
@@ -229,7 +229,7 @@ struct nfa {
 	static nfa union_(std::vector<nfa> const & nfas) {
 		nfa result;
 		for (nfa const & n : nfas) {
-			int indexTranslation = result.states.size();
+			int const indexTranslation = result.states.size();
 			for (unsigned int stateIndex = 0; stateIndex < n.states.size(); ++stateIndex) {
 				state const & oldFrom = n.states[stateIndex];
 				result.states.emplace_back(oldFrom.label);
@@ -241,11 +241,11 @@ struct nfa {
 					}
 				}
 			}
-			for (int startState : n.startStates) {
-				result.startStates.insert(startState + indexTranslation);
+			for (int startState : n.start_states) {
+				result.start_states.insert(startState + indexTranslation);
 			}
-			for (int acceptState : n.acceptStates) {
-				result.acceptStates.insert(acceptState + indexTranslation);
+			for (int acceptState : n.accept_states) {
+				result.accept_states.insert(acceptState + indexTranslation);
 			}
 		}
 		return result;

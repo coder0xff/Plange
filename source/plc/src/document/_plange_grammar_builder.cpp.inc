@@ -12,7 +12,7 @@ static parlex::builder const & builder() {
 			}),
 			parlex::reference("EXPRESSION")
 		}),
-		parlex::associativity::any),
+		parlex::associativity::ANY),
 		parlex::production("ADD_SUB",
 		parlex::sequence("ADD_SUB", {
 			parlex::reference("EXPRESSION"),
@@ -28,7 +28,7 @@ static parlex::builder const & builder() {
 			}),
 			parlex::reference("EXPRESSION")
 		}),
-		parlex::associativity::left),
+		parlex::associativity::LEFT),
 		parlex::production("ALL",
 		parlex::sequence("ALL", {
 			parlex::choice({
@@ -63,7 +63,7 @@ static parlex::builder const & builder() {
 			}),
 			parlex::reference("EXPRESSION")
 		}),
-		parlex::associativity::any, parlex::filter_function(), {"IFF", "IMPLICATION", "OR", "XOR", }),
+		parlex::associativity::ANY, parlex::filter_function(), {"IFF", "IMPLICATION", "OR", "XOR", }),
 		parlex::production("ARGUMENT",
 		parlex::reference("ARGUMENT", "EXPRESSION")),
 		parlex::production("ARGUMENT_PACK",
@@ -347,7 +347,7 @@ static parlex::builder const & builder() {
 				parlex::reference("ASSIGNMENT_CHAIN")
 			})
 		}),
-		parlex::associativity::none, parlex::filter_function(), {"EXPRESSION", "LESSER_CHAIN", }),
+		parlex::associativity::NONE, parlex::filter_function(), {"EXPRESSION", "LESSER_CHAIN", }),
 		parlex::production("ATTRIBUTE",
 		parlex::sequence("ATTRIBUTE", {
 			parlex::literal("@"),
@@ -375,7 +375,7 @@ static parlex::builder const & builder() {
 			}),
 			parlex::reference("EXPRESSION")
 		}),
-		parlex::associativity::any),
+		parlex::associativity::ANY),
 		parlex::production("BINARY_ARITHMETIC_OP",
 		parlex::choice("BINARY_ARITHMETIC_OP", {
 			parlex::reference("ADD_SUB"),
@@ -434,7 +434,7 @@ static parlex::builder const & builder() {
 			}),
 			parlex::reference("EXPRESSION")
 		}),
-		parlex::associativity::any),
+		parlex::associativity::ANY),
 		parlex::production("BIT_NOT",
 		parlex::sequence("BIT_NOT", {
 			parlex::literal("~~"),
@@ -455,7 +455,7 @@ static parlex::builder const & builder() {
 			}),
 			parlex::reference("EXPRESSION")
 		}),
-		parlex::associativity::any),
+		parlex::associativity::ANY),
 		parlex::production("BIT_XOR",
 		parlex::sequence("BIT_XOR", {
 			parlex::reference("EXPRESSION"),
@@ -468,7 +468,7 @@ static parlex::builder const & builder() {
 			}),
 			parlex::reference("EXPRESSION")
 		}),
-		parlex::associativity::any),
+		parlex::associativity::ANY),
 		parlex::production("BLOCK",
 		parlex::sequence("BLOCK", {
 			parlex::literal("{"),
@@ -516,7 +516,7 @@ static parlex::builder const & builder() {
 			}),
 			parlex::reference("EXPRESSION")
 		}),
-		parlex::associativity::none, parlex::filter_function(), {"BINARY_OP", }),
+		parlex::associativity::NONE, parlex::filter_function(), {"BINARY_OP", }),
 		parlex::production("CAST",
 		parlex::sequence("CAST", {
 			parlex::reference("PARENTHETICAL"),
@@ -525,7 +525,7 @@ static parlex::builder const & builder() {
 			}),
 			parlex::reference("EXPRESSION")
 		}),
-		parlex::associativity::none, parlex::filter_function(), {"BINARY_OP", }),
+		parlex::associativity::NONE, parlex::filter_function(), {"BINARY_OP", }),
 		parlex::production("CASTS",
 		parlex::sequence("CASTS", {
 			parlex::reference("EXPRESSION"),
@@ -579,7 +579,7 @@ static parlex::builder const & builder() {
 			}),
 			parlex::literal("ᶜ")
 		}),
-		parlex::associativity::none, parlex::filter_function(), {"BINARY_OP", }),
+		parlex::associativity::NONE, parlex::filter_function(), {"BINARY_OP", }),
 		parlex::production("COMPOSITION",
 		parlex::sequence("COMPOSITION", {
 			parlex::reference("EXPRESSION"),
@@ -595,7 +595,7 @@ static parlex::builder const & builder() {
 			}),
 			parlex::reference("EXPRESSION")
 		}),
-		parlex::associativity::any),
+		parlex::associativity::ANY),
 		parlex::production("COMPOUND",
 		parlex::sequence("COMPOUND", {
 			parlex::reference("EXPRESSION"),
@@ -608,7 +608,7 @@ static parlex::builder const & builder() {
 			}),
 			parlex::reference("EXPRESSION")
 		}),
-		parlex::associativity::left),
+		parlex::associativity::LEFT),
 		parlex::production("CONDITIONAL",
 		parlex::sequence("CONDITIONAL", {
 			parlex::reference("condition", "EXPRESSION"),
@@ -629,7 +629,7 @@ static parlex::builder const & builder() {
 			}),
 			parlex::reference("false_case", "EXPRESSION")
 		}),
-		parlex::associativity::right),
+		parlex::associativity::RIGHT),
 		parlex::production("CONSTRUCTIVE_OP",
 		parlex::choice("CONSTRUCTIVE_OP", {
 			parlex::reference("COMPOSITION"),
@@ -680,7 +680,7 @@ static parlex::builder const & builder() {
 			}),
 			parlex::reference("EXPRESSION")
 		}),
-		parlex::associativity::left, parlex::filter_function(), {"DOT_PRODUCT", }),
+		parlex::associativity::LEFT, parlex::filter_function(), {"DOT_PRODUCT", }),
 		parlex::production("DATE",
 		parlex::choice("DATE", {
 			parlex::reference("DATE_YEAR_MONTH_DAY"),
@@ -703,7 +703,7 @@ static parlex::builder const & builder() {
 			parlex::reference("decimal_digit"),
 			parlex::reference("decimal_digit")
 		}),
-		parlex::associativity::none, parlex::filter_function(), {"SUBTRACTION", }),
+		parlex::associativity::NONE, parlex::filter_function(), {"SUBTRACTION", }),
 		parlex::production("DATE_YEAR_MONTH_DAY",
 		parlex::sequence("DATE_YEAR_MONTH_DAY", {
 			parlex::reference("decimal_digit"),
@@ -717,7 +717,7 @@ static parlex::builder const & builder() {
 			parlex::reference("decimal_digit"),
 			parlex::reference("decimal_digit")
 		}),
-		parlex::associativity::none, parlex::filter_function(), {"SUBTRACTION", }),
+		parlex::associativity::NONE, parlex::filter_function(), {"SUBTRACTION", }),
 		parlex::production("DECLARATION",
 		parlex::sequence("DECLARATION", {
 			parlex::optional({
@@ -764,7 +764,7 @@ static parlex::builder const & builder() {
 			}),
 			parlex::reference("expression", "EXPRESSION")
 		}),
-		parlex::associativity::none, parlex::filter_function(), {"BINARY_OP", "EXPONENTIATION", }),
+		parlex::associativity::NONE, parlex::filter_function(), {"BINARY_OP", "EXPONENTIATION", }),
 		parlex::production("DIMENSION",
 		parlex::choice("DIMENSION", {
 			parlex::reference("IDENTIFIER"),
@@ -781,7 +781,7 @@ static parlex::builder const & builder() {
 			parlex::reference("NON_NEG_NUMBER"),
 			parlex::reference("DIMENSION")
 		}),
-		parlex::associativity::none, parlex::filter_function(), {"BINARY_OP", "EXPONENTIATION", }),
+		parlex::associativity::NONE, parlex::filter_function(), {"BINARY_OP", "EXPONENTIATION", }),
 		parlex::production("DIVISION",
 		parlex::sequence("DIVISION", {
 			parlex::reference("EXPRESSION"),
@@ -797,7 +797,7 @@ static parlex::builder const & builder() {
 			}),
 			parlex::reference("EXPRESSION")
 		}),
-		parlex::associativity::left, parlex::filter_function(), {"ADDITION", "ADD_SUB", "INTEGER_DIVISION", "MAPS_TO", "MODULATION", "SUBTRACTION", }),
+		parlex::associativity::LEFT, parlex::filter_function(), {"ADDITION", "ADD_SUB", "INTEGER_DIVISION", "MAPS_TO", "MODULATION", "SUBTRACTION", }),
 		parlex::production("DO",
 		parlex::sequence("DO", {
 			parlex::literal("do"),
@@ -836,7 +836,7 @@ static parlex::builder const & builder() {
 			}),
 			parlex::reference("EXPRESSION")
 		}),
-		parlex::associativity::left),
+		parlex::associativity::LEFT),
 		parlex::production("DOWNCASTS",
 		parlex::sequence("DOWNCASTS", {
 			parlex::reference("EXPRESSION"),
@@ -855,7 +855,7 @@ static parlex::builder const & builder() {
 			parlex::reference("EMBEDDED_COMMENT_INTERIOR"),
 			parlex::literal("***/")
 		}),
-		parlex::associativity::none, parlex::filter_function(), {"COMMENT", }),
+		parlex::associativity::NONE, parlex::filter_function(), {"COMMENT", }),
 		parlex::production("EMBEDDED_COMMENT_INTERIOR",
 		parlex::choice("EMBEDDED_COMMENT_INTERIOR", {
 			parlex::repetition("payload", {
@@ -873,7 +873,7 @@ static parlex::builder const & builder() {
 			parlex::reference("EMBEDDED_NEWLINE_STRING_INTERIOR"),
 			parlex::literal("\"\"\"")
 		}),
-		parlex::associativity::none, parlex::filter_function(), {"EMBEDDED_STRING", }),
+		parlex::associativity::NONE, parlex::filter_function(), {"EMBEDDED_STRING", }),
 		parlex::production("EMBEDDED_NEWLINE_STRING_INTERIOR",
 		parlex::choice("EMBEDDED_NEWLINE_STRING_INTERIOR", {
 			parlex::sequence({
@@ -988,7 +988,7 @@ static parlex::builder const & builder() {
 			}),
 			parlex::reference("equality_chain_loop", "EQUALITY_CHAIN_LOOP")
 		}),
-		parlex::associativity::none, parlex::filter_function(), {"GREATER_CHAIN", "LESSER_CHAIN", "SUBSET_CHAIN", "SUPERSET_CHAIN", }),
+		parlex::associativity::NONE, parlex::filter_function(), {"GREATER_CHAIN", "LESSER_CHAIN", "SUBSET_CHAIN", "SUPERSET_CHAIN", }),
 		parlex::production("EQUALITY_CHAIN_LOOP",
 		parlex::sequence("EQUALITY_CHAIN_LOOP", {
 			parlex::literal("="),
@@ -1005,7 +1005,7 @@ static parlex::builder const & builder() {
 				})
 			})
 		}),
-		parlex::associativity::none, parlex::filter_function(), {"EXPRESSION", }),
+		parlex::associativity::NONE, parlex::filter_function(), {"EXPRESSION", }),
 		parlex::production("EXACTLY",
 		parlex::sequence("EXACTLY", {
 			parlex::reference("EXPRESSION"),
@@ -1052,7 +1052,7 @@ static parlex::builder const & builder() {
 			}),
 			parlex::reference("EXPRESSION")
 		}),
-		parlex::associativity::right, parlex::filter_function(), {"ADDITION", "ADD_SUB", "DIVISION", "INTEGER_DIVISION", "MODULATION", "MULTIPLICATIVE_OP", "SUBTRACTION", }),
+		parlex::associativity::RIGHT, parlex::filter_function(), {"ADDITION", "ADD_SUB", "DIVISION", "INTEGER_DIVISION", "MODULATION", "MULTIPLICATIVE_OP", "SUBTRACTION", }),
 		parlex::production("EXPRESSION",
 		parlex::choice("EXPRESSION", {
 			parlex::reference("ARRAY"),
@@ -1106,7 +1106,7 @@ static parlex::builder const & builder() {
 		})),
 		parlex::production("EXTERN",
 		parlex::literal("EXTERN", "extern"),
-		parlex::associativity::none, parlex::filter_function(), {"IDENTIFIER", }),
+		parlex::associativity::NONE, parlex::filter_function(), {"IDENTIFIER", }),
 		parlex::production("FACTORIAL",
 		parlex::sequence("FACTORIAL", {
 			parlex::reference("EXPRESSION"),
@@ -1115,7 +1115,7 @@ static parlex::builder const & builder() {
 			}),
 			parlex::literal("!")
 		}),
-		parlex::associativity::none, parlex::filter_function(), {"BINARY_OP", }),
+		parlex::associativity::NONE, parlex::filter_function(), {"BINARY_OP", }),
 		parlex::production("FLOOR",
 		parlex::choice("FLOOR", {
 			parlex::sequence({
@@ -1292,7 +1292,7 @@ static parlex::builder const & builder() {
 			}),
 			parlex::reference("block", "BLOCK")
 		}),
-		parlex::associativity::none, parlex::filter_function(), {"CAST", }),
+		parlex::associativity::NONE, parlex::filter_function(), {"CAST", }),
 		parlex::production("FUNCTION_MODIFIER_0",
 		parlex::choice("FUNCTION_MODIFIER_0", {
 			parlex::reference("FUNCTION_MODIFIER_STABILITY"),
@@ -1468,7 +1468,7 @@ static parlex::builder const & builder() {
 			}),
 			parlex::reference("EXPRESSION")
 		}),
-		parlex::associativity::left),
+		parlex::associativity::LEFT),
 		parlex::production("HEX",
 		parlex::sequence("HEX", {
 			parlex::literal("0x"),
@@ -1505,7 +1505,7 @@ static parlex::builder const & builder() {
 				})
 			})
 		}),
-		parlex::associativity::none, parlex::detail::builtins().longest),
+		parlex::associativity::NONE, parlex::detail::builtins().longest),
 		parlex::production("IF",
 		parlex::sequence("IF", {
 			parlex::literal("if"),
@@ -1561,7 +1561,7 @@ static parlex::builder const & builder() {
 			}),
 			parlex::reference("EXPRESSION")
 		}),
-		parlex::associativity::any),
+		parlex::associativity::ANY),
 		parlex::production("IMPLEMENTS",
 		parlex::sequence("IMPLEMENTS", {
 			parlex::reference("EXPRESSION"),
@@ -1589,7 +1589,7 @@ static parlex::builder const & builder() {
 			}),
 			parlex::reference("EXPRESSION")
 		}),
-		parlex::associativity::right, parlex::filter_function(), {"IFF", "XOR", }),
+		parlex::associativity::RIGHT, parlex::filter_function(), {"IFF", "XOR", }),
 		parlex::production("IMPLICIT_TYPE_DEREFERENCE",
 		parlex::sequence("IMPLICIT_TYPE_DEREFERENCE", {
 			parlex::literal("<"),
@@ -1621,7 +1621,7 @@ static parlex::builder const & builder() {
 			}),
 			parlex::reference("EXPRESSION")
 		}),
-		parlex::associativity::left),
+		parlex::associativity::LEFT),
 		parlex::production("INEQUALITY",
 		parlex::sequence("INEQUALITY", {
 			parlex::reference("EXPRESSION"),
@@ -1637,7 +1637,7 @@ static parlex::builder const & builder() {
 			}),
 			parlex::reference("EXPRESSION")
 		}),
-		parlex::associativity::left),
+		parlex::associativity::LEFT),
 		parlex::production("INHERITANCE_ITEM_PREFIX",
 		parlex::sequence("INHERITANCE_ITEM_PREFIX", {
 			parlex::choice({
@@ -1697,7 +1697,7 @@ static parlex::builder const & builder() {
 			}),
 			parlex::reference("EXPRESSION")
 		}),
-		parlex::associativity::left, parlex::filter_function(), {"ADDITION", "ADD_SUB", "SUBTRACTION", }),
+		parlex::associativity::LEFT, parlex::filter_function(), {"ADDITION", "ADD_SUB", "SUBTRACTION", }),
 		parlex::production("INTERSECTION",
 		parlex::sequence("INTERSECTION", {
 			parlex::reference("EXPRESSION"),
@@ -1710,14 +1710,14 @@ static parlex::builder const & builder() {
 			}),
 			parlex::reference("EXPRESSION")
 		}),
-		parlex::associativity::any),
+		parlex::associativity::ANY),
 		parlex::production("INVOCATION",
 		parlex::choice("INVOCATION", {
 			parlex::reference("PARENTHETICAL_INVOCATION"),
 			parlex::reference("ARRAY_INVOCATION"),
 			parlex::reference("TYPE_INVOCATION")
 		}),
-		parlex::associativity::none, parlex::filter_function(), {"BINARY_OP", "NEGATION", "RADICAL", }),
+		parlex::associativity::NONE, parlex::filter_function(), {"BINARY_OP", "NEGATION", "RADICAL", }),
 		parlex::production("IS",
 		parlex::sequence("IS", {
 			parlex::reference("EXPRESSION"),
@@ -1878,7 +1878,7 @@ static parlex::builder const & builder() {
 			}),
 			parlex::literal("}")
 		}),
-		parlex::associativity::none, parlex::filter_function(), {"FUNCTION", }),
+		parlex::associativity::NONE, parlex::filter_function(), {"FUNCTION", }),
 		parlex::production("MAPS_TO",
 		parlex::sequence("MAPS_TO", {
 			parlex::reference("EXPRESSION"),
@@ -1894,7 +1894,7 @@ static parlex::builder const & builder() {
 			}),
 			parlex::reference("EXPRESSION")
 		}),
-		parlex::associativity::right),
+		parlex::associativity::RIGHT),
 		parlex::production("MEMBER_ACCESS",
 		parlex::sequence("MEMBER_ACCESS", {
 			parlex::reference("EXPRESSION"),
@@ -1907,7 +1907,7 @@ static parlex::builder const & builder() {
 			}),
 			parlex::reference("IDENTIFIER")
 		}),
-		parlex::associativity::left),
+		parlex::associativity::LEFT),
 		parlex::production("MEMBER_OFFSET",
 		parlex::sequence("MEMBER_OFFSET", {
 			parlex::literal("@"),
@@ -1928,7 +1928,7 @@ static parlex::builder const & builder() {
 			}),
 			parlex::reference("EXPRESSION")
 		}),
-		parlex::associativity::left, parlex::filter_function(), {"ADDITION", "ADD_SUB", "SUBTRACTION", }),
+		parlex::associativity::LEFT, parlex::filter_function(), {"ADDITION", "ADD_SUB", "SUBTRACTION", }),
 		parlex::production("MULTIPLICATION",
 		parlex::sequence("MULTIPLICATION", {
 			parlex::reference("EXPRESSION"),
@@ -1941,14 +1941,14 @@ static parlex::builder const & builder() {
 			}),
 			parlex::reference("EXPRESSION")
 		}),
-		parlex::associativity::any),
+		parlex::associativity::ANY),
 		parlex::production("MULTIPLICATIVE_OP",
 		parlex::choice("MULTIPLICATIVE_OP", {
 			parlex::reference("CROSS_PRODUCT"),
 			parlex::reference("DOT_PRODUCT"),
 			parlex::reference("MULTIPLICATION")
 		}),
-		parlex::associativity::none, parlex::filter_function(), {"ADDITION", "ADD_SUB", "INTEGER_DIVISION", "MAPS_TO", "MODULATION", "SUBTRACTION", }),
+		parlex::associativity::NONE, parlex::filter_function(), {"ADDITION", "ADD_SUB", "INTEGER_DIVISION", "MAPS_TO", "MODULATION", "SUBTRACTION", }),
 		parlex::production("NAND",
 		parlex::sequence("NAND", {
 			parlex::reference("EXPRESSION"),
@@ -1961,7 +1961,7 @@ static parlex::builder const & builder() {
 			}),
 			parlex::reference("EXPRESSION")
 		}),
-		parlex::associativity::left, parlex::filter_function(), {"IFF", "IMPLICATION", "OR", "XOR", }),
+		parlex::associativity::LEFT, parlex::filter_function(), {"IFF", "IMPLICATION", "OR", "XOR", }),
 		parlex::production("NEAREST_INTEGER",
 		parlex::choice("NEAREST_INTEGER", {
 			parlex::sequence({
@@ -1995,7 +1995,7 @@ static parlex::builder const & builder() {
 			}),
 			parlex::reference("EXPRESSION")
 		}),
-		parlex::associativity::none, parlex::filter_function(), {"BINARY_OP", }),
+		parlex::associativity::NONE, parlex::filter_function(), {"BINARY_OP", }),
 		parlex::production("NON_FRACTIONAL",
 		parlex::sequence("NON_FRACTIONAL", {
 			parlex::optional({
@@ -2068,7 +2068,7 @@ static parlex::builder const & builder() {
 			}),
 			parlex::reference("EXPRESSION")
 		}),
-		parlex::associativity::left, parlex::filter_function(), {"IFF", "IMPLICATION", "OR", "XOR", }),
+		parlex::associativity::LEFT, parlex::filter_function(), {"IFF", "IMPLICATION", "OR", "XOR", }),
 		parlex::production("NOT",
 		parlex::sequence("NOT", {
 			parlex::choice({
@@ -2080,7 +2080,7 @@ static parlex::builder const & builder() {
 			}),
 			parlex::reference("EXPRESSION")
 		}),
-		parlex::associativity::none, parlex::filter_function(), {"BINARY_OP", }),
+		parlex::associativity::NONE, parlex::filter_function(), {"BINARY_OP", }),
 		parlex::production("NOT_HAS",
 		parlex::sequence("NOT_HAS", {
 			parlex::reference("EXPRESSION"),
@@ -2096,7 +2096,7 @@ static parlex::builder const & builder() {
 			}),
 			parlex::reference("EXPRESSION")
 		}),
-		parlex::associativity::left),
+		parlex::associativity::LEFT),
 		parlex::production("NOT_IN",
 		parlex::sequence("NOT_IN", {
 			parlex::reference("EXPRESSION"),
@@ -2112,7 +2112,7 @@ static parlex::builder const & builder() {
 			}),
 			parlex::reference("EXPRESSION")
 		}),
-		parlex::associativity::left),
+		parlex::associativity::LEFT),
 		parlex::production("NULL_COALESCE",
 		parlex::sequence("NULL_COALESCE", {
 			parlex::reference("EXPRESSION"),
@@ -2125,7 +2125,7 @@ static parlex::builder const & builder() {
 			}),
 			parlex::reference("EXPRESSION")
 		}),
-		parlex::associativity::left),
+		parlex::associativity::LEFT),
 		parlex::production("OBJECT",
 		parlex::sequence("OBJECT", {
 			parlex::literal("object"),
@@ -2183,7 +2183,7 @@ static parlex::builder const & builder() {
 			}),
 			parlex::reference("EXPRESSION")
 		}),
-		parlex::associativity::any, parlex::filter_function(), {"IFF", "IMPLICATION", "XOR", }),
+		parlex::associativity::ANY, parlex::filter_function(), {"IFF", "IMPLICATION", "XOR", }),
 		parlex::production("PARAMETER",
 		parlex::choice("PARAMETER", {
 			parlex::reference("PARAMETER_NATURAL"),
@@ -2250,7 +2250,7 @@ static parlex::builder const & builder() {
 				})
 			})
 		}),
-		parlex::associativity::none, parlex::filter_function(), {"PARAMETER_ANALYTIC", }),
+		parlex::associativity::NONE, parlex::filter_function(), {"PARAMETER_ANALYTIC", }),
 		parlex::production("PARENTHETICAL",
 		parlex::sequence("PARENTHETICAL", {
 			parlex::literal("("),
@@ -2320,7 +2320,7 @@ static parlex::builder const & builder() {
 				})
 			})
 		}),
-		parlex::associativity::none, parlex::detail::builtins().longest),
+		parlex::associativity::NONE, parlex::detail::builtins().longest),
 		parlex::production("POST_DEC",
 		parlex::sequence("POST_DEC", {
 			parlex::reference("EXPRESSION"),
@@ -2329,7 +2329,7 @@ static parlex::builder const & builder() {
 			}),
 			parlex::literal("--")
 		}),
-		parlex::associativity::none, parlex::filter_function(), {"BINARY_OP", "NEGATION", }),
+		parlex::associativity::NONE, parlex::filter_function(), {"BINARY_OP", "NEGATION", }),
 		parlex::production("POST_INC",
 		parlex::sequence("POST_INC", {
 			parlex::reference("EXPRESSION"),
@@ -2338,7 +2338,7 @@ static parlex::builder const & builder() {
 			}),
 			parlex::literal("++")
 		}),
-		parlex::associativity::none, parlex::filter_function(), {"BINARY_OP", "NEGATION", }),
+		parlex::associativity::NONE, parlex::filter_function(), {"BINARY_OP", "NEGATION", }),
 		parlex::production("PREPEND",
 		parlex::sequence("PREPEND", {
 			parlex::reference("EXPRESSION"),
@@ -2351,7 +2351,7 @@ static parlex::builder const & builder() {
 			}),
 			parlex::reference("EXPRESSION")
 		}),
-		parlex::associativity::right),
+		parlex::associativity::RIGHT),
 		parlex::production("PRE_DEC",
 		parlex::sequence("PRE_DEC", {
 			parlex::literal("--"),
@@ -2360,7 +2360,7 @@ static parlex::builder const & builder() {
 			}),
 			parlex::reference("EXPRESSION")
 		}),
-		parlex::associativity::none, parlex::filter_function(), {"BINARY_OP", "NEGATION", }),
+		parlex::associativity::NONE, parlex::filter_function(), {"BINARY_OP", "NEGATION", }),
 		parlex::production("PRE_INC",
 		parlex::sequence("PRE_INC", {
 			parlex::literal("++"),
@@ -2369,7 +2369,7 @@ static parlex::builder const & builder() {
 			}),
 			parlex::reference("EXPRESSION")
 		}),
-		parlex::associativity::none, parlex::filter_function(), {"BINARY_OP", "NEGATION", }),
+		parlex::associativity::NONE, parlex::filter_function(), {"BINARY_OP", "NEGATION", }),
 		parlex::production("RADICAL",
 		parlex::sequence("RADICAL", {
 			parlex::literal("√"),
@@ -2378,7 +2378,7 @@ static parlex::builder const & builder() {
 			}),
 			parlex::reference("EXPRESSION")
 		}),
-		parlex::associativity::none, parlex::filter_function(), {"ADDITION", "ADD_SUB", "DIVISION", "INTEGER_DIVISION", "MODULATION", "MULTIPLICATIVE_OP", "SUBTRACTION", }),
+		parlex::associativity::NONE, parlex::filter_function(), {"ADDITION", "ADD_SUB", "DIVISION", "INTEGER_DIVISION", "MODULATION", "MULTIPLICATIVE_OP", "SUBTRACTION", }),
 		parlex::production("RANGE",
 		parlex::choice("RANGE", {
 			parlex::sequence({
@@ -2487,7 +2487,7 @@ static parlex::builder const & builder() {
 			parlex::reference("RELATIONAL_COLLECTION_OP"),
 			parlex::reference("UPCASTS")
 		}),
-		parlex::associativity::none, parlex::filter_function(), {"BINARY_LOGICAL_OP", }),
+		parlex::associativity::NONE, parlex::filter_function(), {"BINARY_LOGICAL_OP", }),
 		parlex::production("RETURN",
 		parlex::sequence("RETURN", {
 			parlex::literal("return"),
@@ -2544,7 +2544,7 @@ static parlex::builder const & builder() {
 			}),
 			parlex::literal("|}")
 		}),
-		parlex::associativity::none, parlex::filter_function(), {"MAGNITUDE", }),
+		parlex::associativity::NONE, parlex::filter_function(), {"MAGNITUDE", }),
 		parlex::production("SET_COMPREHENSION",
 		parlex::sequence("SET_COMPREHENSION", {
 			parlex::literal("{"),
@@ -2577,7 +2577,7 @@ static parlex::builder const & builder() {
 			}),
 			parlex::reference("EXPRESSION")
 		}),
-		parlex::associativity::left),
+		parlex::associativity::LEFT),
 		parlex::production("SHIFTR",
 		parlex::sequence("SHIFTR", {
 			parlex::reference("EXPRESSION"),
@@ -2590,7 +2590,7 @@ static parlex::builder const & builder() {
 			}),
 			parlex::reference("EXPRESSION")
 		}),
-		parlex::associativity::left),
+		parlex::associativity::LEFT),
 		parlex::production("SLICE",
 		parlex::sequence("SLICE", {
 			parlex::reference("EXPRESSION"),
@@ -2640,7 +2640,7 @@ static parlex::builder const & builder() {
 		})),
 		parlex::production("STATIC",
 		parlex::literal("STATIC", "static"),
-		parlex::associativity::none, parlex::filter_function(), {"IDENTIFIER", }),
+		parlex::associativity::NONE, parlex::filter_function(), {"IDENTIFIER", }),
 		parlex::production("SUBSET_CHAIN",
 		parlex::sequence("SUBSET_CHAIN", {
 			parlex::reference("EXPRESSION"),
@@ -2671,7 +2671,7 @@ static parlex::builder const & builder() {
 				})
 			})
 		}),
-		parlex::associativity::none, parlex::filter_function(), {"EXPRESSION", }),
+		parlex::associativity::NONE, parlex::filter_function(), {"EXPRESSION", }),
 		parlex::production("SUBTRACTION",
 		parlex::sequence("SUBTRACTION", {
 			parlex::reference("EXPRESSION"),
@@ -2684,7 +2684,7 @@ static parlex::builder const & builder() {
 			}),
 			parlex::reference("EXPRESSION")
 		}),
-		parlex::associativity::left),
+		parlex::associativity::LEFT),
 		parlex::production("SUPERSET_CHAIN",
 		parlex::sequence("SUPERSET_CHAIN", {
 			parlex::reference("EXPRESSION"),
@@ -2715,7 +2715,7 @@ static parlex::builder const & builder() {
 				})
 			})
 		}),
-		parlex::associativity::none, parlex::filter_function(), {"EXPRESSION", }),
+		parlex::associativity::NONE, parlex::filter_function(), {"EXPRESSION", }),
 		parlex::production("SWIZZLE",
 		parlex::sequence("SWIZZLE", {
 			parlex::reference("EXPRESSION"),
@@ -2743,7 +2743,7 @@ static parlex::builder const & builder() {
 			}),
 			parlex::reference("EXPRESSION")
 		}),
-		parlex::associativity::left),
+		parlex::associativity::LEFT),
 		parlex::production("THIS",
 		parlex::sequence("THIS", {
 			parlex::literal("this"),
@@ -2936,7 +2936,7 @@ static parlex::builder const & builder() {
 			}),
 			parlex::literal("|)")
 		}),
-		parlex::associativity::none, parlex::filter_function(), {"MAGNITUDE", }),
+		parlex::associativity::NONE, parlex::filter_function(), {"MAGNITUDE", }),
 		parlex::production("TYPE",
 		parlex::sequence("TYPE", {
 			parlex::literal("type"),
@@ -2979,7 +2979,7 @@ static parlex::builder const & builder() {
 			}),
 			parlex::reference("TYPE_CONSTRAINT_CHAIN")
 		}),
-		parlex::associativity::none, parlex::filter_function(), {"EXPRESSION", }),
+		parlex::associativity::NONE, parlex::filter_function(), {"EXPRESSION", }),
 		parlex::production("TYPE_CONSTRAINT_CHAIN",
 		parlex::sequence("TYPE_CONSTRAINT_CHAIN", {
 			parlex::choice({
@@ -3150,7 +3150,7 @@ static parlex::builder const & builder() {
 				parlex::reference("ASSIGNMENT_CHAIN")
 			})
 		}),
-		parlex::associativity::none, parlex::filter_function(), {"EXPRESSION", }),
+		parlex::associativity::NONE, parlex::filter_function(), {"EXPRESSION", }),
 		parlex::production("TYPE_SCOPE_DECLARATION",
 		parlex::sequence("TYPE_SCOPE_DECLARATION", {
 			parlex::optional({
@@ -3179,7 +3179,7 @@ static parlex::builder const & builder() {
 			}),
 			parlex::reference("TYPE_SCOPE_TYPE_CONSTRAINT_CHAIN")
 		}),
-		parlex::associativity::none, parlex::filter_function(), {"TYPE_CONSTRAINT", }),
+		parlex::associativity::NONE, parlex::filter_function(), {"TYPE_CONSTRAINT", }),
 		parlex::production("TYPE_SCOPE_TYPE_CONSTRAINT_CHAIN",
 		parlex::sequence("TYPE_SCOPE_TYPE_CONSTRAINT_CHAIN", {
 			parlex::optional({
@@ -3237,7 +3237,7 @@ static parlex::builder const & builder() {
 			parlex::reference("EXISTS_ONE"),
 			parlex::reference("NOT")
 		}),
-		parlex::associativity::none, parlex::filter_function(), {"BINARY_LOGICAL_OP", }),
+		parlex::associativity::NONE, parlex::filter_function(), {"BINARY_LOGICAL_OP", }),
 		parlex::production("UNARY_OP",
 		parlex::choice("UNARY_OP", {
 			parlex::reference("ALLOCATION"),
@@ -3258,28 +3258,28 @@ static parlex::builder const & builder() {
 			}),
 			parlex::reference("EXPRESSION")
 		}),
-		parlex::associativity::any),
+		parlex::associativity::ANY),
 		parlex::production("UNIT_DIVISION",
 		parlex::sequence("UNIT_DIVISION", {
 			parlex::reference("DIMENSION"),
 			parlex::literal("/"),
 			parlex::reference("DIMENSION")
 		}),
-		parlex::associativity::left),
+		parlex::associativity::LEFT),
 		parlex::production("UNIT_EXPONENTIATION",
 		parlex::sequence("UNIT_EXPONENTIATION", {
 			parlex::reference("DIMENSION"),
 			parlex::literal("^"),
 			parlex::reference("NON_FRACTIONAL")
 		}),
-		parlex::associativity::right, parlex::filter_function(), {"UNIT_DIVISION", "UNIT_MULTIPLICATION", }),
+		parlex::associativity::RIGHT, parlex::filter_function(), {"UNIT_DIVISION", "UNIT_MULTIPLICATION", }),
 		parlex::production("UNIT_MULTIPLICATION",
 		parlex::sequence("UNIT_MULTIPLICATION", {
 			parlex::reference("DIMENSION"),
 			parlex::literal("*"),
 			parlex::reference("DIMENSION")
 		}),
-		parlex::associativity::left),
+		parlex::associativity::LEFT),
 		parlex::production("UPCASTS",
 		parlex::sequence("UPCASTS", {
 			parlex::reference("EXPRESSION"),
@@ -3407,7 +3407,7 @@ static parlex::builder const & builder() {
 				parlex::reference("white_space")
 			})
 		}),
-		parlex::associativity::none, parlex::detail::builtins().longest),
+		parlex::associativity::NONE, parlex::detail::builtins().longest),
 		parlex::production("XML_DOC_STRING",
 		parlex::sequence("XML_DOC_STRING", {
 			parlex::literal("```"),
@@ -3440,7 +3440,7 @@ static parlex::builder const & builder() {
 			}),
 			parlex::reference("EXPRESSION")
 		}),
-		parlex::associativity::left),
+		parlex::associativity::LEFT),
 	});
 	return result;
 }

@@ -5,7 +5,7 @@
 
 namespace mpl {
 	template<typename T>
-	constexpr bool is_copyable = std::is_copy_constructible<T>::value;
+	constexpr bool IS_COPYABLE = std::is_copy_constructible<T>::value;
 }
 
 #define INCLUDED_MPL_IS_COPYABLE_HPP

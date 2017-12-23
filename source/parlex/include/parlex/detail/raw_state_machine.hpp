@@ -30,7 +30,7 @@ class raw_state_machine : public state_machine_base {
 public:
 	typedef std::vector<std::map<recognizer const *, size_t>> states_t;
 
-	raw_state_machine(std::string const & id, int startState, int acceptStateCount, filter_function const & filter, associativity = associativity::none);
+	raw_state_machine(std::string const & id, int startState, int acceptStateCount, filter_function const & filter, associativity = associativity::NONE);
 	virtual ~raw_state_machine() = default;
 
 	filter_function const filter;

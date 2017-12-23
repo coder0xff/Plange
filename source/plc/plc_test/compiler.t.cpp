@@ -13,9 +13,10 @@
 #include "BINARY_LOGICAL_OP.hpp"
 
 #include "module.hpp"
+#include "utf.hpp"
 
 static std::string const & examples_dir() {
-	static std::string result = to_utf8(std::experimental::filesystem::canonical(std::experimental::filesystem::path(__FILE__).remove_filename().append("/../../stdlib"))).c_str() + std::string("/");
+	static auto result = to_utf8(std::experimental::filesystem::canonical(std::experimental::filesystem::path(__FILE__).remove_filename().append("/../../stdlib"))).c_str() + std::string("/");
 	return result;
 }
 
@@ -28,7 +29,7 @@ TEST(PlcCompiler, ParseMultiplyMapsTo) {
 }
 
 TEST(PlcCompiler, ParseMultiplyMapsToExpression) {
-	plc::EXPRESSION result = plc::compiler::parse<plc::EXPRESSION>(U"a*b->c");
+	auto result = plc::compiler::parse<plc::EXPRESSION>(U"a*b->c");
 	ASSERT_TRUE(std::holds_alternative<erased<plc::BINARY_OP>>(result));
 	plc::BINARY_OP const & binaryOp = *std::get<erased<plc::BINARY_OP>>(result);
 	ASSERT_TRUE(std::holds_alternative<erased<plc::BINARY_LOGICAL_OP>>(binaryOp));
@@ -61,7 +62,7 @@ TEST(PlcCompiler, ParseHelloWorld) {
 }
 
 TEST(PlcCompiler, ParseType) {
-	auto source = U"myType := type {"
+	auto const source = U"myType := type {"
 		"    public <Int> aVariable;"
 		"};"
 		"";
@@ -69,16 +70,16 @@ TEST(PlcCompiler, ParseType) {
 }
 
 TEST(PlcCompiler, ParseFILEPointer) {
-	auto source = U"FILEPointer := type_abstraction(Pointer<Void>);\n";
+	auto const source = U"FILEPointer := type_abstraction(Pointer<Void>);\n";
 	auto result = plc::compiler::parse(source);
 }
 
 TEST(PlcCompiler, ParsePrintHelloWorld) {
-	auto source = U"print(\"Hello, world!\");";
+	auto const source = U"print(\"Hello, world!\");";
 	plc::source_code("", source);
 }
 
 TEST(PlcCompiler, LoadCStdLibGenerated) {
-	std::string filePathname = examples_dir() + "Plange.CStdLib.Generated._pg";
+	auto const filePathname = examples_dir() + "Plange.CStdLib.Generated._pg";
 	auto result = plc::source_code(filePathname);
 }

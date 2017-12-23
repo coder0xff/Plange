@@ -13,7 +13,7 @@ void state_machine_base::start(context const & c) const {
 	process(c, get_start_state());
 }
 
-void state_machine_base::on(context const & c, recognizer const & r, int nextDfaState, behavior::leaf const * leaf) {
+void state_machine_base::on(context const & c, recognizer const & r, int const nextDfaState, behavior::leaf const * leaf) {
 	c.owner.on(c, r, nextDfaState, leaf);
 }
 

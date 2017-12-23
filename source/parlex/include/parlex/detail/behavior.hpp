@@ -1,19 +1,11 @@
 #ifndef BEHAVIOR_HPP
 #define BEHAVIOR_HPP
 
-#include <optional>
-
 #include "erased.hpp"
-#include "match.hpp"
-
-#include "mpl_fold_v.hpp"
-#include "mpl_list.hpp"
-#include "mpl_map_v.hpp"
 
 #include "parlex/detail/nfa.hpp"
 #include "parlex/detail/recognizer.hpp"
 #include <variant>
-#include "permutation.hpp"
 #include <unordered_map>
 
 namespace parlex {

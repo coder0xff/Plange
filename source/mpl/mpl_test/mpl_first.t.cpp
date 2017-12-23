@@ -8,7 +8,7 @@ namespace test5 {
 		static constexpr bool result = std::is_integral<T>::value;
 	};
 
-	static_assert(mpl::equals<mpl::first<predicate, std::tuple<float, int, double, char>>, int>, "");
-	static_assert(mpl::equals<mpl::first<predicate, std::tuple<float, double, int, char>>, int>, "");
-	static_assert(mpl::equals<mpl::first<predicate, std::tuple<float, double, char, int>>, char>, "");
+	static_assert(mpl::EQUALS<mpl::first<predicate, std::tuple<float, int, double, char>>, int>, "");
+	static_assert(mpl::EQUALS<mpl::first<predicate, std::tuple<float, double, int, char>>, int>, "");
+	static_assert(mpl::EQUALS<mpl::first<predicate, std::tuple<float, double, char, int>>, char>, "");
 }

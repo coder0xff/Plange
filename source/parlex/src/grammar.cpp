@@ -9,7 +9,7 @@
 namespace parlex {
 namespace detail {
 
-grammar::production::production(std::string const & id, filter_function const & filter, associativity assoc) : machine(id, filter, assoc) {
+grammar::production::production(std::string const & id, filter_function const & filter, associativity const assoc) : machine(id, filter, assoc) {
 }
 
 behavior::node const& grammar::production::get_behavior() const
@@ -42,9 +42,9 @@ grammar::grammar(builder const & grammarDefinition) : root_id(grammarDefinition.
 	// Now that all the state_machines are created we can setup precedences
 	for (auto const & definition : grammarDefinition.productions) {
 		auto const & id = definition.id;
-		auto i = productions.find(id);
+		auto const i = productions.find(id);
 		for (auto const & precedence : definition.precedences) {
-			std::set<const recognizer *> & precedenceSet = precedences[&i->second.get_recognizer()];
+			auto & precedenceSet = precedences[&i->second.get_recognizer()];
 			precedenceSet.insert(&get_recognizer(precedence));
 		}
 	}
@@ -68,7 +68,7 @@ std::map<std::string, state_machine_base const *> grammar::get_state_machines() 
 }
 
 bool grammar::does_precede(recognizer const * lhs, recognizer const * rhs) const {
-	auto i = precedences.find(lhs);
+	auto const i = precedences.find(lhs);
 	if (i == precedences.end()) {
 		return false;
 	}
@@ -87,13 +87,13 @@ precedence_collection grammar::get_precedences() const {
 }
 
 state_machine_base const& grammar::get_state_machine(std::string const & id) const {
-	auto i = productions.find(id);
+	auto const i = productions.find(id);
 	throw_assert(i != productions.end());
 	return i->second.machine;
 }
 
 string_terminal const& grammar::get_literal(std::string const & id) const {
-	auto i = literals.find(id);
+	auto const i = literals.find(id);
 	throw_assert(i != literals.end());
 	return i->second;
 }
@@ -103,7 +103,7 @@ recognizer const& grammar::get_recognizer(std::string const & id) const {
 	if (builtins().resolve_builtin(id, r)) {
 		return *r;
 	} {
-		auto i = literals.find(id);
+		auto const i = literals.find(id);
 		if (i != literals.end()) {
 			return i->second;
 		}
@@ -142,7 +142,7 @@ erased<behavior::node> grammar::get_behavior(node const & b) {
 }
 
 grammar::production const & grammar::get_production(std::string const & id) const {
-	auto i = productions.find(id);
+	auto const i = productions.find(id);
 	return i->second;
 }
 

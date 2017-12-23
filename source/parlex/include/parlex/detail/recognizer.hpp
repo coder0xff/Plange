@@ -15,7 +15,7 @@ class leaf;
 //base class for terminal and state_machine_base
 class recognizer {
 public:
-	recognizer(std::string const & id);
+	explicit recognizer(std::string const & id);
 	virtual ~recognizer() = default;
 	virtual bool is_terminal() const;
 	std::string const id;

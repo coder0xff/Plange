@@ -15,7 +15,7 @@ namespace mpl {
 		struct fold_metafunction {
 
 			template<typename TAccumulator, typename TElement>
-			using result = _if<equals<TAccumulator, none>, _if<TMetaPredicate<TElement>::result, some<TElement>, none>, TAccumulator>;
+			using result = _if<EQUALS<TAccumulator, none>, _if<TMetaPredicate<TElement>::result, some<TElement>, none>, TAccumulator>;
 
 		};
 	}

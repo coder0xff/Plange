@@ -5,7 +5,7 @@
 
 namespace mpl {
 	template<typename T>
-	constexpr bool has_move_assignment = std::is_move_assignable<T>::value;
+	constexpr bool HAS_MOVE_ASSIGNMENT = std::is_move_assignable<T>::value;
 }
 
 #define INCLUDED_MPL_HAS_MOVE_ASSIGNMENT_HPP

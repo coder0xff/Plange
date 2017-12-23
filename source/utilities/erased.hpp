@@ -24,7 +24,7 @@ public:
 
 	// construct from erased<U> where U inherits T
 	template <typename U>
-	erased(erased<U> const & other) : op_ptr(other.op_ptr), downcast_offset(other.downcast_offset + compute_downcast_offset<U>()), value(other.do_clone()) {
+	explicit erased(erased<U> const & other) : op_ptr(other.op_ptr), downcast_offset(other.downcast_offset + compute_downcast_offset<U>()), value(other.do_clone()) {
 		static_assert(std::is_base_of<T, U>::value, "the given value does not inherit the erasure type");
 	}
 
@@ -86,7 +86,7 @@ private:
 	}
 
 	template <typename U>
-	static void * op(void const * value, bool doDelete) {
+	static void * op(void const * value, bool const doDelete) {
 		if (doDelete) {
 			delete reinterpret_cast<U*>(const_cast<void *>(value));
 			return nullptr;

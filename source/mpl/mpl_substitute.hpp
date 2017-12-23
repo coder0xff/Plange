@@ -12,8 +12,8 @@ namespace mpl {
 		template<typename TSearch, typename TReplace>
 		struct impl {
 			template<typename T>
-			using result = _if<equals<T, TSearch>, TReplace, T>;
-		}
+			using result = _if<EQUALS<T, TSearch>, TReplace, T>;
+		};
 
 	}
 

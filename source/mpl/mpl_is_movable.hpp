@@ -5,7 +5,7 @@
 
 namespace mpl {
 	template<typename T>
-	constexpr bool is_movable = std::is_move_constructible<T>::value;
+	constexpr bool IS_MOVABLE = std::is_move_constructible<T>::value;
 }
 
 #define INCLUDED_MPL_IS_MOVABLE_HPP

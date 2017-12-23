@@ -1,6 +1,5 @@
 #ifndef INCLUDED_MPL_UTILS_HPP
 #define INCLUDED_MPL_UTILS_HPP
-#include <tuple>
 
 #define STATIC_PRINT_TYPE(x) using mpl_print_as_error = typename mpl::print_as_error<x>::print
 #define STATIC_PRINT_SIZE_T(x) using mpl_print_as_error = typename mpl::print_as_error<std::integral_constant<size_t, x>>::print
@@ -18,7 +17,7 @@ namespace mpl {
 	}
 
 	template<typename TList>
-	constexpr size_t variadic_size = detail::variadic_size::impl<TList>::result;
+	constexpr size_t VARIADIC_SIZE = detail::variadic_size::impl<TList>::result;
 
 	template<typename T>
 	struct print_as_error {

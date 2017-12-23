@@ -6,7 +6,7 @@
 namespace parlex {
 namespace detail {
 
-token::token(job & owner, terminal const & t, size_t documentPosition) : producer(owner, t, documentPosition) {
+token::token(job & owner, terminal const & t, size_t const documentPosition) : producer(owner, t, documentPosition) {
 	if (t.test(owner.document, documentPosition)) {
 		//DBG("found a '", t.id, "' at ", documentPosition);
 		enque_permutation(t.length, permutation());

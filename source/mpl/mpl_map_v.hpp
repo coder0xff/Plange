@@ -4,6 +4,7 @@
 #define INCLUDING_MPL_MAP_V_HPP
 
 #include "mpl_apply.hpp"
+#include <tuple>
 
 namespace mpl {
 

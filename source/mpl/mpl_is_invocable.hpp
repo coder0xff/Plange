@@ -85,16 +85,16 @@ namespace std {
 namespace mpl {
 
 	template <typename TFunctor, typename TList>
-	constexpr bool is_invocable = apply<std::is_invocable, push<TFunctor, TList>>::value;
+	constexpr bool IS_INVOCABLE = apply<std::is_invocable, push<TFunctor, TList>>::value;
 
 	template <typename R, typename TFunctor, typename TList>
-	constexpr bool is_invocable_r = apply<std::is_invocable_r, push<R, push<TFunctor, TList>>>::value;
+	constexpr bool IS_INVOCABLE_R = apply<std::is_invocable_r, push<R, push<TFunctor, TList>>>::value;
 
 	template <typename TFunctor, typename TList>
-	constexpr bool is_nothrow_invocable = apply<std::is_nothrow_invocable, push<TFunctor, TList>>::value;
+	constexpr bool IS_NOTHROW_INVOCABLE = apply<std::is_nothrow_invocable, push<TFunctor, TList>>::value;
 
 	template <typename R, typename TFunctor, typename TList>
-	constexpr bool is_nothrow_invocable_r = apply<std::is_nothrow_invocable_r, push<R, push<TFunctor, TList>>>::value;
+	constexpr bool IS_NOTHROW_INVOCABLE_R = apply<std::is_nothrow_invocable_r, push<R, push<TFunctor, TList>>>::value;
 
 }
 

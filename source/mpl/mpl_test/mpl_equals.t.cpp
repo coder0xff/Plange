@@ -7,9 +7,9 @@
 #include "../mpl_fold.hpp"
 #include "../mpl_fold_i.hpp"
 
-static_assert(!mpl::equals<int, float>, "");
+static_assert(!mpl::EQUALS<int, float>, "");
 
-static_assert(mpl::equals<std::map<int, float>, mpl::apply<std::map, std::tuple<int, float>>>, "");
+static_assert(mpl::EQUALS<std::map<int, float>, mpl::apply<std::map, std::tuple<int, float>>>, "");
 
 namespace test1 {
 	template <typename T, typename U>
@@ -24,7 +24,7 @@ namespace test1 {
 	using test = typename test_impl<T, U>::result;
 
 	using result = mpl::fold<test, std::integral_constant<int, 0>, std::tuple<float, char>>;
-	static_assert(mpl::equals<result, std::integral_constant<int, 5>>, "");
+	static_assert(mpl::EQUALS<result, std::integral_constant<int, 5>>, "");
 }
 
 namespace test2 {
@@ -40,5 +40,5 @@ namespace test2 {
 	using test = typename test_impl<T, Index, U>::result;
 
 	using result = mpl::fold_i<test, std::integral_constant<int, 0>, std::tuple<float, char>>;
-	static_assert(mpl::equals<result, std::integral_constant<int, 6>>, "");
+	static_assert(mpl::EQUALS<result, std::integral_constant<int, 6>>, "");
 }

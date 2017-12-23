@@ -10,28 +10,26 @@
 #include <IntSafe.h>
 #include <intrin.h>
 
-uint32_t __inline ctz(uint32_t value)
+uint32_t __inline ctz(uint32_t const value)
 {
-	DWORD trailing_zero = 0;
+	DWORD trailingZero = 0;
 
-	if (_BitScanForward(&trailing_zero, value))	{
-		return trailing_zero;
-	} else {
-		// This is undefined, I better choose 32 than 0
-		return 32;
+	if (_BitScanForward(&trailingZero, value))	{
+		return trailingZero;
 	}
+	// This is undefined, I better choose 32 than 0
+	return 32;
 }
 
-uint32_t __inline clz(uint32_t value)
+uint32_t __inline clz(uint32_t const value)
 {
-	DWORD leading_zero = 0;
+	DWORD leadingZero = 0;
 
-	if (_BitScanReverse(&leading_zero, value)) {
-		return 31 - leading_zero;
-	} else {
-		// Same remarks as above
-		return 32;
+	if (_BitScanReverse(&leadingZero, value)) {
+		return 31 - leadingZero;
 	}
+	// Same remarks as above
+	return 32;
 }
 #endif
 

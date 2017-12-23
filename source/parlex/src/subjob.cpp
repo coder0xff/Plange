@@ -15,11 +15,11 @@ namespace detail {
 subjob::subjob(
 	job & owner,
 	state_machine_base const & machine,
-	int documentPosition
+	int const documentPosition
 ):
 	producer(owner, machine, documentPosition),
 	machine(machine),
-	lifetimeCounter(1) //see finish_creation
+	lifetime_counter(1) //see finish_creation
 {
 	//DBG("constructed subjob b:", documentPosition, " m:", machine);
 }
@@ -35,56 +35,56 @@ void subjob::start() {
 
 context const & subjob::construct_start_state_context(int documentPosition) {
 	std::unique_lock<std::mutex> lock(mutex);
-	auto i = contexts.emplace_front(*this, nullptr, documentPosition, std::optional<match>(), nullptr);
+	auto const i = contexts.emplace_front(*this, nullptr, documentPosition, std::optional<match>(), nullptr);
 	return *i;
 }
 
 context const & subjob::construct_stepped_context(context const* const prior, match const & fromTransition, behavior::leaf const * leaf) {
 	std::unique_lock<std::mutex> lock(mutex);
-	auto i = contexts.emplace_front(*this, prior, prior->currentDocumentPosition + fromTransition.consumed_character_count, std::optional<match>(fromTransition), leaf);
+	auto const i = contexts.emplace_front(*this, prior, prior->current_document_position + fromTransition.consumed_character_count, std::optional<match>(fromTransition), leaf);
 	return *i;
 }
 
-void subjob::on(context const & c, recognizer const & r, int nextDfaState, behavior::leaf const * leaf) {
-	if (c.currentDocumentPosition >= c.owner.owner.document.length()) {
+void subjob::on(context const & c, recognizer const & r, int const nextDfaState, behavior::leaf const * leaf) {
+	if (c.current_document_position >= c.owner.owner.document.length()) {
 		return;
 	}
 	begin_subscription_reference();
-	owner.connect(match_class(r, c.currentDocumentPosition), c, nextDfaState, leaf);
+	owner.connect(match_class(r, c.current_document_position), c, nextDfaState, leaf);
 }
 
 void subjob::accept(context const & c) {
-	int len = c.currentDocumentPosition - c.owner.document_position;
+	int const len = c.current_document_position - c.owner.document_position;
 	if (len == 0) {
 		return;
 	}
 	throw_assert(&c.owner == this);
-	permutation p = c.result();
+	auto const p = c.result();
 	if (!machine.get_filter()) {
 		//DBG("Accepting r:", r.id, " p:", c.owner().document_position, " l:", c.current_document_position() - c.owner().document_position);
 		enque_permutation(len, p);
 	} else {
 		//DBG("Candidate r:", r.id, " p:", c.owner().document_position, " l:", c.current_document_position() - c.owner().document_position);
 		std::unique_lock<std::mutex> lock(mutex);
-		queuedPermutations.push_back(p);
+		queued_permutations.push_back(p);
 	}
 }
 
 void subjob::increment_lifetime() {
-	int temp = ++lifetimeCounter;
+	auto const temp = ++lifetime_counter;
 	throw_assert(temp > 1);
 	//DBG("increment_lifetime m:", machine, " b:", documentPosition, " r:", temp);
 }
 
 void subjob::decrement_lifetime() {
-	int temp = --lifetimeCounter;
+	auto const temp = --lifetime_counter;
 	//DBG("decrement_lifetime m:", machine, " b:", documentPosition, " r:", temp);
 	if (temp > 0) {
 		return;
 	}
 	flush();
 	contexts.clear();
-	queuedPermutations.clear();
+	queued_permutations.clear();
 	terminate();
 }
 
@@ -112,17 +112,17 @@ void subjob::end_subscription_reference() {
 
 void subjob::flush() {
 	///DBG("flush m:", machine, " b:", documentPosition);
-	filter_function const & filter = machine.get_filter();
+	auto const & filter = machine.get_filter();
 	if (filter != nullptr) {
 		std::unique_lock<std::mutex> lock(mutex);
-		if (queuedPermutations.size() == 0) {
+		if (queued_permutations.size() == 0) {
 			return;
 		}
-		std::set<int> selections = (*filter)(owner.document, queuedPermutations);
-		int counter = 0;
-		for (auto const & permutation : queuedPermutations) {
+		auto selections = (*filter)(owner.document, queued_permutations);
+		auto counter = 0;
+		for (auto const & permutation : queued_permutations) {
 			if (selections.count(counter) > 0) {
-				int len = permutation.size() > 0 ? permutation.back().document_position + permutation.back().consumed_character_count - document_position : 0;
+				int const len = permutation.size() > 0 ? permutation.back().document_position + permutation.back().consumed_character_count - document_position : 0;
 				enque_permutation(len, permutation);
 			}
 			counter++;

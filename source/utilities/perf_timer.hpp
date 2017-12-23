@@ -6,7 +6,7 @@
 
 class perf_timer {
 public:
-	perf_timer(std::string const & name);
+	explicit perf_timer(std::string const & name);
 	~perf_timer();
 private:
 	std::chrono::time_point<std::chrono::steady_clock> start;

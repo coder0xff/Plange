@@ -28,12 +28,12 @@ void producer::add_subscription(context const & c, size_t nextDfaState, behavior
 void producer::do_events() {
 	auto & parser = owner.owner;
 	std::unique_lock<std::mutex> lock(mutex);
-	for (subscription & subscription : consumers) {
-		subjob & targetSubjob = subscription.c.owner;
+	for (auto & subscription : consumers) {
+		auto & targetSubjob = subscription.c.owner;
 		while (subscription.next_index < match_to_permutations.size()) {
 			auto & match = matches[subscription.next_index];
 			subscription.next_index++;
-			context const & next = targetSubjob.construct_stepped_context(&subscription.c, match, subscription.l);
+			auto const & next = targetSubjob.construct_stepped_context(&subscription.c, match, subscription.l);
 			parser.schedule(next, subscription.next_dfa_state);
 		}
 	}
@@ -41,18 +41,18 @@ void producer::do_events() {
 		std::list<subscription> temp;
 		swap(temp, consumers);
 		lock.unlock();
-		for (subscription & subscription : temp) {
-			subjob & targetSubjob = subscription.c.owner;
+		for (auto & subscription : temp) {
+			auto & targetSubjob = subscription.c.owner;
 			targetSubjob.end_subscription_reference();
 		}
 	}
 }
 
-void producer::enque_permutation(size_t consumedCharacterCount, permutation const & p) {
-	bool newMatch = false; {
+void producer::enque_permutation(size_t const consumedCharacterCount, permutation const & p) {
+	auto newMatch = false; {
 		std::unique_lock<std::mutex> lock(mutex);
 		throw_assert(!completed);
-		match m(match_class(r, document_position), consumedCharacterCount);
+		match const m(match_class(r, document_position), consumedCharacterCount);
 		if (!match_to_permutations.count(m)) {
 			match_to_permutations[m] = std::set<permutation>();
 			matches.push_back(m);

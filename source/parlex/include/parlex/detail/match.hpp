@@ -3,8 +3,6 @@
 
 #include "parlex/detail/match_class.hpp"
 
-#include <set>
-
 namespace parlex {
 namespace detail {
 

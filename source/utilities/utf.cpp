@@ -11,7 +11,7 @@
 std::string to_utf8(std::u32string const & s)
 {
 	std::wstring_convert<std::codecvt_utf8<int32_t>, int32_t> convert;
-	auto p = reinterpret_cast<int32_t const *>(s.data());
+	auto const p = reinterpret_cast<int32_t const *>(s.data());
 	return convert.to_bytes(p, p + s.size());
 }
 
@@ -63,7 +63,7 @@ std::string to_utf8(std::string const & s) {
 
 std::string to_utf8(std::wstring const & s) {
 	std::wstring_convert<std::codecvt_utf8<wchar_t>, wchar_t> convert;
-	auto p = reinterpret_cast<wchar_t const *>(s.data());
+	auto const p = reinterpret_cast<wchar_t const *>(s.data());
 	return convert.to_bytes(p, p + s.size());
 }
 
@@ -102,12 +102,12 @@ std::u32string read_with_bom(std::istream && src)
 {
 
 	enum encoding {
-		encoding_utf32be = 0,
-		encoding_utf32le,
-		encoding_utf16be,
-		encoding_utf16le,
-		encoding_utf8,
-		encoding_ascii,
+		ENCODING_UTF32_BE = 0,
+		ENCODING_UTF32_LE,
+		ENCODING_UTF16_BE,
+		ENCODING_UTF16_LE,
+		ENCODING_UTF8,
+		ENCODING_ASCII,
 	};
 
 	static std::vector<std::string> boms = {
@@ -120,10 +120,10 @@ std::u32string read_with_bom(std::istream && src)
 
 	std::string buffer((std::istreambuf_iterator<char>(src)), std::istreambuf_iterator<char>());
 
-	encoding enc = encoding_ascii;
+	auto enc = ENCODING_ASCII;
 
 	for (unsigned int i = 0; i < boms.size(); ++i) {
-		std::string testBom = boms[i];
+		auto testBom = boms[i];
 		if (buffer.compare(0, testBom.length(), testBom) == 0) {
 			enc = encoding(i);
 			buffer = buffer.substr(testBom.length());
@@ -132,46 +132,46 @@ std::u32string read_with_bom(std::istream && src)
 	}
 
 	switch (enc) {
-	case encoding_utf32be:
+	case ENCODING_UTF32_BE:
 	{
 		if (buffer.length() % 4 != 0) {
 			throw std::logic_error("size in bytes must be a multiple of 4");
 		}
-		int count = buffer.length() / 4;
-		std::u32string temp = std::u32string(count, 0);
-		for (int i = 0; i < count; ++i) {
+		int const count = buffer.length() / 4;
+		auto temp = std::u32string(count, 0);
+		for (auto i = 0; i < count; ++i) {
 			temp[i] = static_cast<char32_t>(buffer[i * 4 + 3] << 0 | buffer[i * 4 + 2] << 8 | buffer[i * 4 + 1] << 16 | buffer[i * 4 + 0] << 24);
 		}
 		return temp;
 	}
-	case encoding_utf32le:
+	case ENCODING_UTF32_LE:
 	{
 		if (buffer.length() % 4 != 0) {
 			throw std::logic_error("size in bytes must be a multiple of 4");
 		}
-		int count = buffer.length() / 4;
-		std::u32string temp = std::u32string(count, 0);
-		for (int i = 0; i < count; ++i) {
+		int const count = buffer.length() / 4;
+		auto temp = std::u32string(count, 0);
+		for (auto i = 0; i < count; ++i) {
 			temp[i] = static_cast<char32_t>(buffer[i * 4 + 0] << 0 | buffer[i * 4 + 1] << 8 | buffer[i * 4 + 2] << 16 | buffer[i * 4 + 3] << 24);
 		}
 		return temp;
 	}
-	case encoding_utf16be:
+	case ENCODING_UTF16_BE:
 	{
 		if (buffer.length() % 2 != 0) {
 			throw std::logic_error("size in bytes must be a multiple of 2");
 		}
-		int count = buffer.length() / 2;
-		std::u16string temp = std::u16string(count, 0);
+		int const count = buffer.length() / 2;
+		auto temp = std::u16string(count, 0);
 		throw std::logic_error("not implemented");
 	}
-	case encoding_utf16le:
+	case ENCODING_UTF16_LE:
 	{
 		if (buffer.length() % 2 != 0) {
 			throw std::logic_error("size in bytes must be a multiple of 2");
 		}
-		int count = buffer.length() / 2;
-		std::u16string temp = std::u16string(count, 0);
+		int const count = buffer.length() / 2;
+		auto temp = std::u16string(count, 0);
 		throw std::logic_error("not implemented");
 	}
 	default:

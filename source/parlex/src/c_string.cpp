@@ -13,7 +13,7 @@ namespace parlex {
 namespace detail {
 
 c_string_t::c_string_t(builtins_t const & builtins) :
-	raw_state_machine("c_string", 0, 1, builtins.longest, associativity::none),
+	raw_state_machine("c_string", 0, 1, builtins.longest, associativity::NONE),
 	backslash(to_utf32("\\")),
 	double_quote(to_utf32("\"")),
 	x(to_utf32("x")),
@@ -38,11 +38,11 @@ c_string_t::c_string_t(builtins_t const & builtins) :
 	add_transition(1, &double_quote, 2);
 }
 
-void c_string_t::extract_step(std::u32string const & document, std::u32string * result, recognizer const * r, size_t document_position, size_t consumed_character_count) const {
+void c_string_t::extract_step(std::u32string const & document, std::u32string * result, recognizer const * r, size_t const documentPosition, size_t const consumedCharacterCount) const {
 	if (r == &content) {
-		result->append(1, document[document_position]);
+		result->append(1, document[documentPosition]);
 	} else if (r == &basic_escape_sequence) {
-		char32_t const c = document[document_position + 1];
+		auto const c = document[documentPosition + 1];
 		switch (c) {
 		case '"':
 		case '\'':
@@ -76,16 +76,16 @@ void c_string_t::extract_step(std::u32string const & document, std::u32string * 
 		}
 	} else if (r == &octal_escape_sequence) {
 		char32_t c = 0;
-		for (size_t j = 1; j < consumed_character_count; ++j) {
+		for (size_t j = 1; j < consumedCharacterCount; ++j) {
 			c = c << 3;
-			c += document[document_position + j] - '0';
+			c += document[documentPosition + j] - '0';
 		}
 		result->append(1, c);
 	} else if (r == &hex_escape_sequence) {
 		char32_t c = 0;
-		for (size_t j = 1; j < consumed_character_count; ++j) {
+		for (size_t j = 1; j < consumedCharacterCount; ++j) {
 			c = c << 4;
-			char32_t const d = document[document_position + j];
+			auto const d = document[documentPosition + j];
 			c += d < 'A' ? d - '0' : (d < 'a' ? d - 'A' : d - 'a'); //48 = '0'
 		}
 		result->append(1, c);
@@ -110,9 +110,9 @@ std::u32string c_string_t::extract(std::u32string const & document, match const 
 	throw_assert(&m.r == this);
 	auto const & asgTableIterator = asg.permutations_of_matches.find(m);
 	throw_assert(asgTableIterator != asg.permutations_of_matches.end());
-	std::set<permutation> const & permutations = asgTableIterator->second;
+	auto const & permutations = asgTableIterator->second;
 	throw_assert(permutations.size() != 0);
-	permutation const & p = *permutations.begin();
+	auto const & p = *permutations.begin();
 	std::u32string result;
 	result.reserve(p.size());
 	auto i = p.begin();
@@ -129,7 +129,7 @@ std::u32string c_string_t::extract(std::u32string const & document, match const 
 c_string_t::content_t::content_t() : terminal("content", 1) {
 }
 
-bool c_string_t::content_t::test(std::u32string const & document, size_t documentPosition) const {
+bool c_string_t::content_t::test(std::u32string const & document, size_t const documentPosition) const {
 	return document[documentPosition] != '\"' && document[documentPosition] != '\\';
 }
 
@@ -137,7 +137,7 @@ c_string_t::basic_escape_sequence_t::basic_escape_sequence_t() : terminal("basic
 
 }
 
-bool c_string_t::basic_escape_sequence_t::test(std::u32string const & document, size_t documentPosition) const {
+bool c_string_t::basic_escape_sequence_t::test(std::u32string const & document, size_t const documentPosition) const {
 	if (documentPosition + 1 >= document.length()) return false;
 	auto const c = document[documentPosition + 1];
 	return document[documentPosition] == '\\' && (c == '\"' || c == '\'' || c == '?' || c == '\\' || c == 'a' || c == 'b' || c == 'f' || c == 'n' || c == 'r' || c == 't' || c == 'v');

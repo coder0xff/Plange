@@ -10,16 +10,13 @@
 #include "parlex/detail/grammar.hpp"
 #include "parlex/detail/parser.hpp"
 
-#include "parlex/detail/string_terminal.hpp"
-
-#include "parlex/detail/builtins.hpp"
 #include "parlex/detail/wirth.hpp"
 
 
 using namespace parlex;
 using namespace parlex::detail;
 
-std::string wirthInItself = "\
+std::string wirth_in_itself = "\
 SYNTAX     = {white_space} { PRODUCTION {white_space} } . \
 PRODUCTION = IDENTIFIER {white_space} \"=\" {white_space} EXPRESSION {white_space} \".\" . \
 EXPRESSION = TERM { {white_space} \"|\" {white_space} TERM } . \
@@ -33,7 +30,7 @@ IDENTIFIER = letter { letter } .";
 
 TEST(ParlexTest, wirth_test_1) {
 	parser p(1);
-	abstract_syntax_semilattice result = p.parse(wirth(), U"a=x.");
+	auto result = p.parse(wirth(), U"a=x.");
 	if (!result.is_rooted()) {
 		throw std::logic_error("Test failed");
 	}
@@ -41,7 +38,7 @@ TEST(ParlexTest, wirth_test_1) {
 
 TEST(ParlexTest, wirth_test_2) {
 	parser p;
-	abstract_syntax_semilattice result = p.parse(wirth(), to_utf32(wirthInItself));
+	auto result = p.parse(wirth(), to_utf32(wirth_in_itself));
 	if (!result.is_rooted()) {
 		throw std::logic_error("Test failed");
 	}
@@ -49,7 +46,7 @@ TEST(ParlexTest, wirth_test_2) {
 
 TEST(ParlexTest, wirth_test_3) {
 	parser p;
-	abstract_syntax_semilattice result = p.parse(wirth(), U"a=\"\\\\\".b=\"\".");
+	auto result = p.parse(wirth(), U"a=\"\\\\\".b=\"\".");
 	if (!result.is_rooted()) {
 		throw std::logic_error("Test failed");
 	}
@@ -72,13 +69,13 @@ TEST(ParlexTest, wirth_test_3_5) {
 
 TEST(ParlexTest, wirth_test_4) {
 	parser p;
-	auto grammar = wirth().load_grammar("SYNTAX", to_utf32(wirthInItself), {}, {});
+	auto grammar = wirth().load_grammar("SYNTAX", to_utf32(wirth_in_itself), {}, {});
 }
 
 TEST(ParlexTest, wirth_test_5) {
 	parser p;
-	grammar grammar(wirth().load_grammar("SYNTAX", U"SYNTAX = \"a\".", {}, {}));
-	abstract_syntax_semilattice result = p.parse(grammar, U"b");
+	grammar const grammar(wirth().load_grammar("SYNTAX", U"SYNTAX = \"a\".", {}, {}));
+	auto result = p.parse(grammar, U"b");
 	if (result.is_rooted()) {
 		throw std::logic_error("Test failed");
 	}
@@ -86,8 +83,8 @@ TEST(ParlexTest, wirth_test_5) {
 
 TEST(ParlexTest, wirth_test_6) {
 	parser p;
-	grammar grammar(wirth().load_grammar("SYNTAX", U"SYNTAX = letter number.", {}, {}));
-	abstract_syntax_semilattice result = p.parse(grammar, U"a1");
+	grammar const grammar(wirth().load_grammar("SYNTAX", U"SYNTAX = letter number.", {}, {}));
+	auto result = p.parse(grammar, U"a1");
 	if (!result.is_rooted()) {
 		throw std::logic_error("Test failed");
 	}
@@ -95,28 +92,28 @@ TEST(ParlexTest, wirth_test_6) {
 
 TEST(ParlexTest, wirth_test_7) {
 	parser p;
-	grammar grammar(wirth().load_grammar("SYNTAX", U"SYNTAX = letter { number }.", {}, {}));
-	abstract_syntax_semilattice result = p.parse(grammar, U"a1234");
+	grammar const grammar(wirth().load_grammar("SYNTAX", U"SYNTAX = letter { number }.", {}, {}));
+	auto result = p.parse(grammar, U"a1234");
 	EXPECT_TRUE(result.is_rooted());
 }
 
 TEST(ParlexTest, wirth_test_8) {
 	parser p;
-	grammar grammar(wirth().load_grammar("SYNTAX", U"SYNTAX = letter [ number ].", {}, {}));
-	abstract_syntax_semilattice result1 = p.parse(grammar, U"a");
+	grammar const grammar(wirth().load_grammar("SYNTAX", U"SYNTAX = letter [ number ].", {}, {}));
+	auto result1 = p.parse(grammar, U"a");
 	EXPECT_TRUE(result1.is_rooted());
-	abstract_syntax_semilattice result2 = p.parse(grammar, U"a1");
+	auto result2 = p.parse(grammar, U"a1");
 	EXPECT_TRUE(result2.is_rooted());
 }
 
 TEST(ParlexTest, wirth_test_9) {
 	parser p;
-	grammar grammar(wirth().load_grammar("SYNTAX", U"SYNTAX = letter ( number | c_string ).", {}, {}));
-	abstract_syntax_semilattice result1 = p.parse(grammar, U"a1");
+	grammar const grammar(wirth().load_grammar("SYNTAX", U"SYNTAX = letter ( number | c_string ).", {}, {}));
+	auto result1 = p.parse(grammar, U"a1");
 	if (!result1.is_rooted()) {
 		throw std::logic_error("Test failed");
 	}
-	abstract_syntax_semilattice result2 = p.parse(grammar, U"a\"test\"");
+	auto result2 = p.parse(grammar, U"a\"test\"");
 	if (!result2.is_rooted()) {
 		throw std::logic_error("Test failed");
 	}
@@ -124,10 +121,10 @@ TEST(ParlexTest, wirth_test_9) {
 
 TEST(ParlexTest, wirth_test_10) {
 	parser p;
-	grammar grammar(wirth().load_grammar("ARRAY", U"\
+	grammar const grammar(wirth().load_grammar("ARRAY", U"\
 ARRAY = \"[\" [EXPRESSION { \", \" EXPRESSION} ] \"]\".\
 EXPRESSION = \"EXPRESSION\".", {}, {}));
-	abstract_syntax_semilattice result = p.parse(grammar, U"[]");
+	auto result = p.parse(grammar, U"[]");
 	if (!result.is_rooted()) {
 		throw std::logic_error("Test failed");
 	}
@@ -142,13 +139,13 @@ STATEMENT = \"STATEMENT\".", {}, {}));
 }
 
 TEST(ParlexTest, wirth_test_12) {
-	std::u32string t = U"DIMENSIONAL_NUMBER | EMBEDDED_STRING";
+	std::u32string const t = U"DIMENSIONAL_NUMBER | EMBEDDED_STRING";
 	parser p(1);
 	wirth().compile_expression(t);
 }
 
 TEST(ParlexTest, behavior_1) {
-	builder g_builder("EXPR", {
+	builder const gBuilder("EXPR", {
 		                           production("ADD", sequence({reference("EXPR"), literal(U"+"), reference("EXPR")})),
 		                           production("MUL", sequence({reference("EXPR"), literal(U"*"), reference("EXPR")})),
 		                           production("EXPR",
@@ -164,19 +161,19 @@ TEST(ParlexTest, behavior_1) {
 	                           });
 
 	parser p;
-	grammar g(g_builder);
+	grammar const g(gBuilder);
 
-	std::u32string document = U"5+3*2";
-	abstract_syntax_semilattice result = p.parse(g, document);
+	std::u32string const document = U"5+3*2";
+	auto result = p.parse(g, document);
 	if (!result.is_rooted()) {
 		throw std::logic_error("Test failed");
 	}
-	std::string concreteDot = result.to_concrete_dot(document);
+	auto concreteDot = result.to_concrete_dot(document);
 
 }
 
 TEST(ParlexTest, behavior_2) {
-	builder g_builder("A", {
+	builder const gBuilder("A", {
 								   production("A", sequence({
 												  optional(reference("white_space")),
 												  reference("letter")
@@ -184,7 +181,7 @@ TEST(ParlexTest, behavior_2) {
 	});
 
 	parser p;
-	grammar g(g_builder);
+	grammar g(gBuilder);
 
 }
 

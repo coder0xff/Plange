@@ -13,13 +13,13 @@ class builtins_t;
 
 class c_string_t : public raw_state_machine {
 public:
-	void extract_step(std::u32string const & document, std::u32string * result, recognizer const * r, size_t document_position, size_t consumed_character_count) const;
+	void extract_step(std::u32string const & document, std::u32string * result, recognizer const * r, size_t documentPosition, size_t consumedCharacterCount) const;
 	std::u32string extract(std::u32string const & document, ast_node const & n) const;
 	std::u32string extract(std::u32string const & document, match const & m, abstract_syntax_semilattice const & asg) const;
 
 private:
 	friend class builtins_t;
-	c_string_t(builtins_t const &);
+	explicit c_string_t(builtins_t const &);
 
 	class content_t : public terminal {
 	public:

@@ -8,7 +8,6 @@
 
 #include "parlex/detail/abstract_syntax_semilattice.hpp"
 #include "parlex/post_processor.hpp"
-#include "erased.hpp"
 #include "coherent_queue.hpp"
 
 namespace parlex {
@@ -36,7 +35,7 @@ private:
 	bool const single_thread_mode;
 	mutable std::mutex mutex;
 	std::condition_variable halt_cv;
-	std::atomic<int> activeCount;
+	std::atomic<int> active_count;
 	bool terminating;
 
 	std::vector<std::thread> workers;

@@ -11,7 +11,7 @@ class auto_map_c {
 	std::map<TKey, TValue> storage;
 	mutable std::mutex mutex;
 public:
-	auto_map_c(std::function<TValue (TKey const &)> valueFactory) : value_factory(valueFactory) {
+	explicit auto_map_c(std::function<TValue (TKey const &)> valueFactory) : value_factory(valueFactory) {
 	}
 
 	auto_map_c() : value_factory([](TKey) { return TValue(); }) {
@@ -28,7 +28,7 @@ public:
 		return i->second;
 	}
 
-	void Set(TKey key, TValue value) {
+	void set(TKey key, TValue value) {
 		std::unique_lock<std::mutex> lock(mutex);
 		storage[key] = value;
 	}

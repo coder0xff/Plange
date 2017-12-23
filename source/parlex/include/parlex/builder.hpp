@@ -112,7 +112,7 @@ struct production {
 	production(
 		std::string const & id,
 		erased<detail::node> const & behavior,
-		associativity assoc = associativity::none,
+		associativity assoc = associativity::NONE,
 		filter_function const & filter = filter_function(),
 		std::set<std::string> const & precedences = std::set<std::string>()
 	);

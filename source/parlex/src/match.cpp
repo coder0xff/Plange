@@ -24,7 +24,7 @@ bool match::operator<(match const & rhs) const {
 
 }
 
-match::match(struct match_class const & matchClass, int consumedCharacterCount) : match_class(matchClass), consumed_character_count(consumedCharacterCount) { throw_assert(consumedCharacterCount >= 0); }
+match::match(struct match_class const & matchClass, int const consumedCharacterCount) : match_class(matchClass), consumed_character_count(consumedCharacterCount) { throw_assert(consumedCharacterCount >= 0); }
 
 } // namespace detail
 } // namespace parlex

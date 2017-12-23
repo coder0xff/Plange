@@ -1,8 +1,6 @@
 #ifndef DOCUMENT_REPRESENTATION_HPP
 #define DOCUMENT_REPRESENTATION_HPP
 
-#include <map>
-
 #include "builder.hpp"
 
 namespace parlex {
@@ -10,7 +8,7 @@ namespace detail {
 
 // a leaf node that may reduce its parent's representation to a simpler form
 struct unit : node {
-	unit(node const & n);
+	explicit unit(node const & n);
 	node const & original_leaf;
 };
 
