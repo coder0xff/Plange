@@ -462,8 +462,8 @@ static void select_trees(abstract_syntax_semilattice & asg, grammar_base const &
 static void apply_precedence_and_associativity(grammar_base const & g, abstract_syntax_semilattice & asg) {
 	throw_assert(asg.is_rooted());
 	auto anyAssociativities = false;
-	for (auto const & entry : g.get_state_machines()) {
-		anyAssociativities = entry.second->get_assoc() != associativity::NONE;
+	for (auto const & stateMachineBase : g.get_state_machines()) {
+		anyAssociativities = stateMachineBase->get_assoc() != associativity::NONE;
 		if (anyAssociativities) {
 			break;
 		}

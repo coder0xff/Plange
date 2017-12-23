@@ -49,7 +49,7 @@ public:
 	virtual ~grammar() = default;
 
 	state_machine_base const& get_main_state_machine() const override;
-	std::map<std::string, state_machine_base const *> get_state_machines() const override;
+	std::vector<state_machine_base const *> get_state_machines() const override;
 	state_machine_base const& get_state_machine(std::string const & id) const override;
 	string_terminal const& get_literal(std::string const & id) const override;
 	bool does_precede(recognizer const * lhs, recognizer const * rhs) const override;

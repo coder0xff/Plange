@@ -16,13 +16,13 @@ class builtins_t;
 class grammar_base {
 public:
 	virtual state_machine_base const& get_main_state_machine() const = 0;
-	virtual std::map<std::string, state_machine_base const *> get_state_machines() const = 0;
+	virtual std::vector<state_machine_base const *> get_state_machines() const = 0;
 	virtual state_machine_base const& get_state_machine(std::string const & id) const = 0;
 	virtual string_terminal const& get_literal(std::string const & id) const = 0;
 	virtual bool does_precede(recognizer const * lhs, recognizer const * rhs) const = 0;
 	virtual precedence_collection get_precedences() const = 0;
 protected:
-	~grammar_base() = default;
+	virtual ~grammar_base() = default;
 	grammar_base() = default;
 	grammar_base(grammar_base const & other) = default;
 };

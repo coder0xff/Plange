@@ -59,10 +59,11 @@ state_machine_base const& grammar::get_main_state_machine() const {
 	return get_state_machine(root_id);
 }
 
-std::map<std::string, state_machine_base const *> grammar::get_state_machines() const {
-	std::map<std::string, state_machine_base const *> results;
+std::vector<state_machine_base const *> grammar::get_state_machines() const {
+	std::vector<state_machine_base const *> results;
+	results.reserve(productions.size());
 	for (auto const & production : productions) {
-		results[production.first] = &production.second.machine;
+		results.push_back(&production.second.machine);
 	}
 	return results;
 }
