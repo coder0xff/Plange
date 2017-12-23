@@ -6,6 +6,7 @@ set (SOURCES
 	
 set (HEADERS
     "concurrent_auto_map.hpp"
+    "coherent_map.hpp"
 	"coherent_queue.hpp"
 	"concurrent_forward_list.hpp"
 	"mover.hpp"
