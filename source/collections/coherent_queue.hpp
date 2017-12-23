@@ -1,11 +1,9 @@
 #ifndef COHERENT_QUEUE_HPP
 #define COHERENT_QUEUE_HPP
 
-#include "../mpl/mpl_sfinae.hpp"
-#include "../mpl/mpl_is_movable.hpp"
-#include "../mpl/mpl_is_copyable.hpp"
-
 /* coherent_queue provides push and pop with coherence */
+
+#include "mover.hpp"
 
 namespace collections {
 
@@ -15,18 +13,6 @@ class coherent_queue {
 	T* storage;
 	size_t push_index;
 	size_t pop_index;
-
-	template<typename U>
-	static void mover(U* const dst, U* const src, SFINAE_PARAM(mpl::IS_MOVABLE<U>)) {
-		new (dst) U(std::move(*src));
-		src->~U();
-	}
-
-	template<typename U>
-	static void mover(U* const dst, U* const src, SFINAE_PARAM(!mpl::IS_MOVABLE<U> && mpl::IS_COPYABLE<U>)) {
-		new (dst) U(*src);
-		src->~U();
-	}
 
 public:
 	coherent_queue() : capacity(2), storage(static_cast<T*>(malloc(sizeof(T) * capacity))), push_index(0), pop_index(0) {}
@@ -56,7 +42,7 @@ public:
 			T* newStorage = static_cast<T*>(malloc(sizeof(T) * newCapacity));
 			size_t counter = 0;
 			while (pop_index != push_index) {
-				mover(newStorage + counter++, storage + pop_index++);
+				detail::mover(newStorage + counter++, storage + pop_index++);
 				if (pop_index == capacity) {
 					pop_index = 0;
 				}
@@ -102,4 +88,4 @@ public:
 };
 
 }
-#endif
+#endif //COHERENT_QUEUE_HPP

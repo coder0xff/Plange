@@ -8,6 +8,7 @@ set (HEADERS
     "concurrent_auto_map.hpp"
 	"coherent_queue.hpp"
 	"concurrent_forward_list.hpp"
+	"mover.hpp"
 )
 	
 add_library(collections ${HEADERS} ${SOURCES})
