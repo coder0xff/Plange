@@ -4,6 +4,7 @@ link_directories("${DEP_DIR}/googletest/lib")
 set (SOURCES
 	"coherent_map.t.cpp"
 	"coherent_queue.t.cpp"
+	"coherent_set.t.cpp"
 	"concurrent_forward_list.t.cpp"
 )
 
