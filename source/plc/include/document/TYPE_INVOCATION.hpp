@@ -6,8 +6,11 @@
 #include <optional>
 #include <variant>
 #include <vector>
+
 #include "erased.hpp"
+
 #include "parlex/detail/abstract_syntax_tree.hpp"
+#include "parlex/detail/builtins.hpp"
 #include "parlex/detail/document.hpp"
 
 #include "plange_grammar.hpp"
@@ -40,7 +43,7 @@ struct TYPE_INVOCATION {
 			argsHead_t_1_t(argsHead_t_1_t const & other) = default;
 			argsHead_t_1_t(argsHead_t_1_t && move) = default;
 		
-			static argsHead_t_1_t build(parlex::detail::behavior::node const * b, parlex::detail::document::walk & w);
+			static argsHead_t_1_t build(parlex::detail::node const * b, parlex::detail::document::walk & w);
 		};
 	
 		struct argsTail_t_1_t {
@@ -63,7 +66,7 @@ struct TYPE_INVOCATION {
 				field_2_t_1_t(field_2_t_1_t const & other) = default;
 				field_2_t_1_t(field_2_t_1_t && move) = default;
 			
-				static field_2_t_1_t build(parlex::detail::behavior::node const * b, parlex::detail::document::walk & w);
+				static field_2_t_1_t build(parlex::detail::node const * b, parlex::detail::document::walk & w);
 			};
 		
 			std::vector<erased<IC>> field_1;
@@ -80,7 +83,7 @@ struct TYPE_INVOCATION {
 			argsTail_t_1_t(argsTail_t_1_t const & other) = default;
 			argsTail_t_1_t(argsTail_t_1_t && move) = default;
 		
-			static argsTail_t_1_t build(parlex::detail::behavior::node const * b, parlex::detail::document::walk & w);
+			static argsTail_t_1_t build(parlex::detail::node const * b, parlex::detail::document::walk & w);
 		};
 	
 		parlex::detail::document::text<literal_0x3C_t> dontCare0;
@@ -101,7 +104,7 @@ struct TYPE_INVOCATION {
 		field_1_t(field_1_t const & other) = default;
 		field_1_t(field_1_t && move) = default;
 	
-		static field_1_t build(parlex::detail::behavior::node const * b, parlex::detail::document::walk & w);
+		static field_1_t build(parlex::detail::node const * b, parlex::detail::document::walk & w);
 	};
 
 	erased<EXPRESSION> target;
@@ -117,7 +120,7 @@ struct TYPE_INVOCATION {
 	TYPE_INVOCATION(TYPE_INVOCATION && move) = default;
 
 	static TYPE_INVOCATION build(parlex::detail::ast_node const & n);
-	static parlex::detail::recognizer const & recognizer();
+	static parlex::detail::state_machine const & state_machine();
 
 };
 

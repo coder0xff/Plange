@@ -6,8 +6,11 @@
 #include <optional>
 #include <variant>
 #include <vector>
+
 #include "erased.hpp"
+
 #include "parlex/detail/abstract_syntax_tree.hpp"
+#include "parlex/detail/builtins.hpp"
 #include "parlex/detail/document.hpp"
 
 #include "plange_grammar.hpp"
@@ -42,7 +45,7 @@ struct ASM_PTR_ARITHMETIC_INTEL {
 		field_1_t_1_t(field_1_t_1_t const & other) = default;
 		field_1_t_1_t(field_1_t_1_t && move) = default;
 	
-		static field_1_t_1_t build(parlex::detail::behavior::node const * b, parlex::detail::document::walk & w);
+		static field_1_t_1_t build(parlex::detail::node const * b, parlex::detail::document::walk & w);
 	};
 
 	struct field_2_t_1_t {
@@ -58,7 +61,7 @@ struct ASM_PTR_ARITHMETIC_INTEL {
 		field_2_t_1_t(field_2_t_1_t const & other) = default;
 		field_2_t_1_t(field_2_t_1_t && move) = default;
 	
-		static field_2_t_1_t build(parlex::detail::behavior::node const * b, parlex::detail::document::walk & w);
+		static field_2_t_1_t build(parlex::detail::node const * b, parlex::detail::document::walk & w);
 	};
 
 	struct field_4_t_1_t {
@@ -75,7 +78,7 @@ struct ASM_PTR_ARITHMETIC_INTEL {
 			field_2_t_1_t(field_2_t_1_t const & other) = default;
 			field_2_t_1_t(field_2_t_1_t && move) = default;
 		
-			static field_2_t_1_t build(parlex::detail::behavior::node const * b, parlex::detail::document::walk & w);
+			static field_2_t_1_t build(parlex::detail::node const * b, parlex::detail::document::walk & w);
 		};
 	
 		parlex::detail::document::text<literal_0x2B_t> dontCare0;
@@ -92,7 +95,7 @@ struct ASM_PTR_ARITHMETIC_INTEL {
 		field_4_t_1_t(field_4_t_1_t const & other) = default;
 		field_4_t_1_t(field_4_t_1_t && move) = default;
 	
-		static field_4_t_1_t build(parlex::detail::behavior::node const * b, parlex::detail::document::walk & w);
+		static field_4_t_1_t build(parlex::detail::node const * b, parlex::detail::document::walk & w);
 	};
 
 	struct field_5_t_1_t {
@@ -114,7 +117,7 @@ struct ASM_PTR_ARITHMETIC_INTEL {
 		field_5_t_1_t(field_5_t_1_t const & other) = default;
 		field_5_t_1_t(field_5_t_1_t && move) = default;
 	
-		static field_5_t_1_t build(parlex::detail::behavior::node const * b, parlex::detail::document::walk & w);
+		static field_5_t_1_t build(parlex::detail::node const * b, parlex::detail::document::walk & w);
 	};
 
 	std::optional<field_1_t_1_t> field_1;
@@ -140,7 +143,7 @@ struct ASM_PTR_ARITHMETIC_INTEL {
 	ASM_PTR_ARITHMETIC_INTEL(ASM_PTR_ARITHMETIC_INTEL && move) = default;
 
 	static ASM_PTR_ARITHMETIC_INTEL build(parlex::detail::ast_node const & n);
-	static parlex::detail::recognizer const & recognizer();
+	static parlex::detail::state_machine const & state_machine();
 
 };
 

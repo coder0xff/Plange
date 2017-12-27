@@ -5,8 +5,6 @@
 #include "plange_grammar.hpp"
 
 #include "parlex/detail/document.hpp"
-#include "parlex/detail/behavior.hpp"
-
 #include "HAS.hpp"
 #include "IN.hpp"
 #include "NOT_HAS.hpp"
@@ -17,13 +15,14 @@
 namespace plc {
 
 RELATIONAL_COLLECTION_OP RELATIONAL_COLLECTION_OP::build(parlex::detail::ast_node const & n) {
-	static auto const * b = &plange_grammar::get().RELATIONAL_COLLECTION_OP.get_behavior();
+	static auto const * b = state_machine().behavior;
 	parlex::detail::document::walk w{ n.children.cbegin(), n.children.cend() };
 	return RELATIONAL_COLLECTION_OP(parlex::detail::document::element<RELATIONAL_COLLECTION_OP_base>::build(b, w));
 }
 
 } // namespace plc
 
-parlex::detail::recognizer const & plc::RELATIONAL_COLLECTION_OP::recognizer() {
-	return plange_grammar::get().RELATIONAL_COLLECTION_OP.get_recognizer();
+parlex::detail::state_machine const & plc::RELATIONAL_COLLECTION_OP::state_machine() {
+	static auto const & result = *static_cast<parlex::detail::state_machine const *>(&plange_grammar::get().get_recognizer(plange_grammar::get().RELATIONAL_COLLECTION_OP));
+	return result;
 }

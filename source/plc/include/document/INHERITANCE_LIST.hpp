@@ -6,8 +6,11 @@
 #include <optional>
 #include <variant>
 #include <vector>
+
 #include "erased.hpp"
+
 #include "parlex/detail/abstract_syntax_tree.hpp"
+#include "parlex/detail/builtins.hpp"
 #include "parlex/detail/document.hpp"
 
 #include "plange_grammar.hpp"
@@ -38,7 +41,7 @@ struct INHERITANCE_LIST {
 		field_2_t_1_t(field_2_t_1_t const & other) = default;
 		field_2_t_1_t(field_2_t_1_t && move) = default;
 	
-		static field_2_t_1_t build(parlex::detail::behavior::node const * b, parlex::detail::document::walk & w);
+		static field_2_t_1_t build(parlex::detail::node const * b, parlex::detail::document::walk & w);
 	};
 
 	std::optional<erased<INHERITANCE_ITEM_PREFIX>> field_1;
@@ -56,7 +59,7 @@ struct INHERITANCE_LIST {
 	INHERITANCE_LIST(INHERITANCE_LIST && move) = default;
 
 	static INHERITANCE_LIST build(parlex::detail::ast_node const & n);
-	static parlex::detail::recognizer const & recognizer();
+	static parlex::detail::state_machine const & state_machine();
 
 };
 

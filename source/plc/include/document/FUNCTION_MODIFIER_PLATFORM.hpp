@@ -6,8 +6,11 @@
 #include <optional>
 #include <variant>
 #include <vector>
+
 #include "erased.hpp"
+
 #include "parlex/detail/abstract_syntax_tree.hpp"
+#include "parlex/detail/builtins.hpp"
 #include "parlex/detail/document.hpp"
 
 #include "plange_grammar.hpp"
@@ -32,7 +35,7 @@ struct FUNCTION_MODIFIER_PLATFORM {
 		field_2_t_1_t(field_2_t_1_t const & other) = default;
 		field_2_t_1_t(field_2_t_1_t && move) = default;
 	
-		static field_2_t_1_t build(parlex::detail::behavior::node const * b, parlex::detail::document::walk & w);
+		static field_2_t_1_t build(parlex::detail::node const * b, parlex::detail::document::walk & w);
 	};
 
 	struct field_3_t_1_t {
@@ -48,7 +51,7 @@ struct FUNCTION_MODIFIER_PLATFORM {
 		field_3_t_1_t(field_3_t_1_t const & other) = default;
 		field_3_t_1_t(field_3_t_1_t && move) = default;
 	
-		static field_3_t_1_t build(parlex::detail::behavior::node const * b, parlex::detail::document::walk & w);
+		static field_3_t_1_t build(parlex::detail::node const * b, parlex::detail::document::walk & w);
 	};
 
 	erased<PLATFORM> field_1;
@@ -66,7 +69,7 @@ struct FUNCTION_MODIFIER_PLATFORM {
 	FUNCTION_MODIFIER_PLATFORM(FUNCTION_MODIFIER_PLATFORM && move) = default;
 
 	static FUNCTION_MODIFIER_PLATFORM build(parlex::detail::ast_node const & n);
-	static parlex::detail::recognizer const & recognizer();
+	static parlex::detail::state_machine const & state_machine();
 
 };
 

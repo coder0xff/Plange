@@ -5,8 +5,6 @@
 #include "plange_grammar.hpp"
 
 #include "parlex/detail/document.hpp"
-#include "parlex/detail/behavior.hpp"
-
 #include "ALLOCATION.hpp"
 #include "CARDINALITY.hpp"
 #include "KLEENE_STAR.hpp"
@@ -18,13 +16,14 @@
 namespace plc {
 
 UNARY_OP UNARY_OP::build(parlex::detail::ast_node const & n) {
-	static auto const * b = &plange_grammar::get().UNARY_OP.get_behavior();
+	static auto const * b = state_machine().behavior;
 	parlex::detail::document::walk w{ n.children.cbegin(), n.children.cend() };
 	return UNARY_OP(parlex::detail::document::element<UNARY_OP_base>::build(b, w));
 }
 
 } // namespace plc
 
-parlex::detail::recognizer const & plc::UNARY_OP::recognizer() {
-	return plange_grammar::get().UNARY_OP.get_recognizer();
+parlex::detail::state_machine const & plc::UNARY_OP::state_machine() {
+	static auto const & result = *static_cast<parlex::detail::state_machine const *>(&plange_grammar::get().get_recognizer(plange_grammar::get().UNARY_OP));
+	return result;
 }

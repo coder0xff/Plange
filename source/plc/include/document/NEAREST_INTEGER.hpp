@@ -6,8 +6,11 @@
 #include <optional>
 #include <variant>
 #include <vector>
+
 #include "erased.hpp"
+
 #include "parlex/detail/abstract_syntax_tree.hpp"
+#include "parlex/detail/builtins.hpp"
 #include "parlex/detail/document.hpp"
 
 #include "plange_grammar.hpp"
@@ -36,7 +39,7 @@ struct NEAREST_INTEGER_1_t {
 	NEAREST_INTEGER_1_t(NEAREST_INTEGER_1_t const & other) = default;
 	NEAREST_INTEGER_1_t(NEAREST_INTEGER_1_t && move) = default;
 
-	static NEAREST_INTEGER_1_t build(parlex::detail::behavior::node const * b, parlex::detail::document::walk & w);
+	static NEAREST_INTEGER_1_t build(parlex::detail::node const * b, parlex::detail::document::walk & w);
 };
 
 struct NEAREST_INTEGER_2_t {
@@ -58,7 +61,7 @@ struct NEAREST_INTEGER_2_t {
 	NEAREST_INTEGER_2_t(NEAREST_INTEGER_2_t const & other) = default;
 	NEAREST_INTEGER_2_t(NEAREST_INTEGER_2_t && move) = default;
 
-	static NEAREST_INTEGER_2_t build(parlex::detail::behavior::node const * b, parlex::detail::document::walk & w);
+	static NEAREST_INTEGER_2_t build(parlex::detail::node const * b, parlex::detail::document::walk & w);
 };
 
 typedef std::variant<
@@ -69,7 +72,7 @@ typedef std::variant<
 struct NEAREST_INTEGER: NEAREST_INTEGER_base {
 	static NEAREST_INTEGER build(parlex::detail::ast_node const & n);
 	explicit NEAREST_INTEGER(NEAREST_INTEGER_base const & value) : NEAREST_INTEGER_base(value) {}
-	static parlex::detail::recognizer const & recognizer();
+	static parlex::detail::state_machine const & state_machine();
 };
 } // namespace plc
 

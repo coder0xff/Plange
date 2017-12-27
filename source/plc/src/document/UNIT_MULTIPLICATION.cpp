@@ -5,21 +5,20 @@
 #include "plange_grammar.hpp"
 
 #include "parlex/detail/document.hpp"
-#include "parlex/detail/behavior.hpp"
-
 #include "DIMENSION.hpp"
 
 plc::UNIT_MULTIPLICATION plc::UNIT_MULTIPLICATION::build(parlex::detail::ast_node const & n) {
-	static auto const * b = &plange_grammar::get().UNIT_MULTIPLICATION.get_behavior();
+	static auto const * b = state_machine().behavior;
 	parlex::detail::document::walk w{ n.children.cbegin(), n.children.cend() };
-	auto const & children = b->get_children();
-	auto v_0 = parlex::detail::document::element<erased<DIMENSION>>::build(&*children[0], w);
-	auto v_1 = parlex::detail::document::element<parlex::detail::document::text<literal_0x2A_t>>::build(&*children[1], w);
-	auto v_2 = parlex::detail::document::element<erased<DIMENSION>>::build(&*children[2], w);
-	return UNIT_MULTIPLICATION(std::move(v_0), std::move(v_1), std::move(v_2));
+	auto const & children = b->children;
+	auto v0 = parlex::detail::document::element<erased<DIMENSION>>::build(&*children[0], w);
+	auto v1 = parlex::detail::document::element<parlex::detail::document::text<literal_0x2A_t>>::build(&*children[1], w);
+	auto v2 = parlex::detail::document::element<erased<DIMENSION>>::build(&*children[2], w);
+	return UNIT_MULTIPLICATION(std::move(v0), std::move(v1), std::move(v2));
 }
 
 
-parlex::detail::recognizer const & plc::UNIT_MULTIPLICATION::recognizer() {
-	return plange_grammar::get().UNIT_MULTIPLICATION.get_recognizer();
+parlex::detail::state_machine const & plc::UNIT_MULTIPLICATION::state_machine() {
+	static auto const & result = *static_cast<parlex::detail::state_machine const *>(&plange_grammar::get().get_recognizer(plange_grammar::get().UNIT_MULTIPLICATION));
+	return result;
 }

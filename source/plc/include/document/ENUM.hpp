@@ -6,8 +6,11 @@
 #include <optional>
 #include <variant>
 #include <vector>
+
 #include "erased.hpp"
+
 #include "parlex/detail/abstract_syntax_tree.hpp"
+#include "parlex/detail/builtins.hpp"
 #include "parlex/detail/document.hpp"
 
 #include "plange_grammar.hpp"
@@ -36,7 +39,7 @@ struct ENUM {
 		field_2_t_1_t(field_2_t_1_t const & other) = default;
 		field_2_t_1_t(field_2_t_1_t && move) = default;
 	
-		static field_2_t_1_t build(parlex::detail::behavior::node const * b, parlex::detail::document::walk & w);
+		static field_2_t_1_t build(parlex::detail::node const * b, parlex::detail::document::walk & w);
 	};
 
 	struct field_3_t_1_t {
@@ -56,7 +59,7 @@ struct ENUM {
 		field_3_t_1_t(field_3_t_1_t const & other) = default;
 		field_3_t_1_t(field_3_t_1_t && move) = default;
 	
-		static field_3_t_1_t build(parlex::detail::behavior::node const * b, parlex::detail::document::walk & w);
+		static field_3_t_1_t build(parlex::detail::node const * b, parlex::detail::document::walk & w);
 	};
 
 	struct field_4_t_1_t {
@@ -77,7 +80,7 @@ struct ENUM {
 			field_1_t_1_t(field_1_t_1_t const & other) = default;
 			field_1_t_1_t(field_1_t_1_t && move) = default;
 		
-			static field_1_t_1_t build(parlex::detail::behavior::node const * b, parlex::detail::document::walk & w);
+			static field_1_t_1_t build(parlex::detail::node const * b, parlex::detail::document::walk & w);
 		};
 	
 		erased<ENUM_ELEMENT> enum_element;
@@ -92,7 +95,7 @@ struct ENUM {
 		field_4_t_1_t(field_4_t_1_t const & other) = default;
 		field_4_t_1_t(field_4_t_1_t && move) = default;
 	
-		static field_4_t_1_t build(parlex::detail::behavior::node const * b, parlex::detail::document::walk & w);
+		static field_4_t_1_t build(parlex::detail::node const * b, parlex::detail::document::walk & w);
 	};
 
 	parlex::detail::document::text<literal_enum_t> dontCare0;
@@ -118,7 +121,7 @@ struct ENUM {
 	ENUM(ENUM && move) = default;
 
 	static ENUM build(parlex::detail::ast_node const & n);
-	static parlex::detail::recognizer const & recognizer();
+	static parlex::detail::state_machine const & state_machine();
 
 };
 

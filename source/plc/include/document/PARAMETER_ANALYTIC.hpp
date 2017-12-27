@@ -6,8 +6,11 @@
 #include <optional>
 #include <variant>
 #include <vector>
+
 #include "erased.hpp"
+
 #include "parlex/detail/abstract_syntax_tree.hpp"
+#include "parlex/detail/builtins.hpp"
 #include "parlex/detail/document.hpp"
 
 #include "plange_grammar.hpp"
@@ -35,7 +38,7 @@ struct PARAMETER_ANALYTIC {
 		field_2_t_1_t(field_2_t_1_t const & other) = default;
 		field_2_t_1_t(field_2_t_1_t && move) = default;
 	
-		static field_2_t_1_t build(parlex::detail::behavior::node const * b, parlex::detail::document::walk & w);
+		static field_2_t_1_t build(parlex::detail::node const * b, parlex::detail::document::walk & w);
 	};
 
 	erased<EXPRESSION> field_1;
@@ -51,7 +54,7 @@ struct PARAMETER_ANALYTIC {
 	PARAMETER_ANALYTIC(PARAMETER_ANALYTIC && move) = default;
 
 	static PARAMETER_ANALYTIC build(parlex::detail::ast_node const & n);
-	static parlex::detail::recognizer const & recognizer();
+	static parlex::detail::state_machine const & state_machine();
 
 };
 

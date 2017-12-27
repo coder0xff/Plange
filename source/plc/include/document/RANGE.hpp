@@ -6,8 +6,11 @@
 #include <optional>
 #include <variant>
 #include <vector>
+
 #include "erased.hpp"
+
 #include "parlex/detail/abstract_syntax_tree.hpp"
+#include "parlex/detail/builtins.hpp"
 #include "parlex/detail/document.hpp"
 
 #include "plange_grammar.hpp"
@@ -46,7 +49,7 @@ struct RANGE_1_t {
 	RANGE_1_t(RANGE_1_t const & other) = default;
 	RANGE_1_t(RANGE_1_t && move) = default;
 
-	static RANGE_1_t build(parlex::detail::behavior::node const * b, parlex::detail::document::walk & w);
+	static RANGE_1_t build(parlex::detail::node const * b, parlex::detail::document::walk & w);
 };
 
 struct RANGE_2_t {
@@ -78,7 +81,7 @@ struct RANGE_2_t {
 	RANGE_2_t(RANGE_2_t const & other) = default;
 	RANGE_2_t(RANGE_2_t && move) = default;
 
-	static RANGE_2_t build(parlex::detail::behavior::node const * b, parlex::detail::document::walk & w);
+	static RANGE_2_t build(parlex::detail::node const * b, parlex::detail::document::walk & w);
 };
 
 struct RANGE_3_t {
@@ -120,7 +123,7 @@ struct RANGE_3_t {
 	RANGE_3_t(RANGE_3_t const & other) = default;
 	RANGE_3_t(RANGE_3_t && move) = default;
 
-	static RANGE_3_t build(parlex::detail::behavior::node const * b, parlex::detail::document::walk & w);
+	static RANGE_3_t build(parlex::detail::node const * b, parlex::detail::document::walk & w);
 };
 
 typedef std::variant<
@@ -132,7 +135,7 @@ typedef std::variant<
 struct RANGE: RANGE_base {
 	static RANGE build(parlex::detail::ast_node const & n);
 	explicit RANGE(RANGE_base const & value) : RANGE_base(value) {}
-	static parlex::detail::recognizer const & recognizer();
+	static parlex::detail::state_machine const & state_machine();
 };
 } // namespace plc
 

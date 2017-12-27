@@ -6,8 +6,11 @@
 #include <optional>
 #include <variant>
 #include <vector>
+
 #include "erased.hpp"
+
 #include "parlex/detail/abstract_syntax_tree.hpp"
+#include "parlex/detail/builtins.hpp"
 #include "parlex/detail/document.hpp"
 
 #include "plange_grammar.hpp"
@@ -34,7 +37,7 @@ struct ARRAY_INVOCATION {
 		argsTail_t_1_t(argsTail_t_1_t const & other) = default;
 		argsTail_t_1_t(argsTail_t_1_t && move) = default;
 	
-		static argsTail_t_1_t build(parlex::detail::behavior::node const * b, parlex::detail::document::walk & w);
+		static argsTail_t_1_t build(parlex::detail::node const * b, parlex::detail::document::walk & w);
 	};
 
 	erased<EXPRESSION> target;
@@ -58,7 +61,7 @@ struct ARRAY_INVOCATION {
 	ARRAY_INVOCATION(ARRAY_INVOCATION && move) = default;
 
 	static ARRAY_INVOCATION build(parlex::detail::ast_node const & n);
-	static parlex::detail::recognizer const & recognizer();
+	static parlex::detail::state_machine const & state_machine();
 
 };
 

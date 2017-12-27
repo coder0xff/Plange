@@ -6,8 +6,11 @@
 #include <optional>
 #include <variant>
 #include <vector>
+
 #include "erased.hpp"
+
 #include "parlex/detail/abstract_syntax_tree.hpp"
+#include "parlex/detail/builtins.hpp"
 #include "parlex/detail/document.hpp"
 
 #include "plange_grammar.hpp"
@@ -34,7 +37,7 @@ struct PARAMETER_NATURAL_1_t {
 		field_1_t_1_t(field_1_t_1_t const & other) = default;
 		field_1_t_1_t(field_1_t_1_t && move) = default;
 	
-		static field_1_t_1_t build(parlex::detail::behavior::node const * b, parlex::detail::document::walk & w);
+		static field_1_t_1_t build(parlex::detail::node const * b, parlex::detail::document::walk & w);
 	};
 
 	std::optional<field_1_t_1_t> field_1;
@@ -51,7 +54,7 @@ struct PARAMETER_NATURAL_1_t {
 	PARAMETER_NATURAL_1_t(PARAMETER_NATURAL_1_t const & other) = default;
 	PARAMETER_NATURAL_1_t(PARAMETER_NATURAL_1_t && move) = default;
 
-	static PARAMETER_NATURAL_1_t build(parlex::detail::behavior::node const * b, parlex::detail::document::walk & w);
+	static PARAMETER_NATURAL_1_t build(parlex::detail::node const * b, parlex::detail::document::walk & w);
 };
 
 struct PARAMETER_NATURAL_2_t {
@@ -74,7 +77,7 @@ struct PARAMETER_NATURAL_2_t {
 		field_1_t_1_t(field_1_t_1_t const & other) = default;
 		field_1_t_1_t(field_1_t_1_t && move) = default;
 	
-		static field_1_t_1_t build(parlex::detail::behavior::node const * b, parlex::detail::document::walk & w);
+		static field_1_t_1_t build(parlex::detail::node const * b, parlex::detail::document::walk & w);
 	};
 
 	std::optional<field_1_t_1_t> field_1;
@@ -101,7 +104,7 @@ struct PARAMETER_NATURAL_2_t {
 	PARAMETER_NATURAL_2_t(PARAMETER_NATURAL_2_t const & other) = default;
 	PARAMETER_NATURAL_2_t(PARAMETER_NATURAL_2_t && move) = default;
 
-	static PARAMETER_NATURAL_2_t build(parlex::detail::behavior::node const * b, parlex::detail::document::walk & w);
+	static PARAMETER_NATURAL_2_t build(parlex::detail::node const * b, parlex::detail::document::walk & w);
 };
 
 typedef std::variant<
@@ -112,7 +115,7 @@ typedef std::variant<
 struct PARAMETER_NATURAL: PARAMETER_NATURAL_base {
 	static PARAMETER_NATURAL build(parlex::detail::ast_node const & n);
 	explicit PARAMETER_NATURAL(PARAMETER_NATURAL_base const & value) : PARAMETER_NATURAL_base(value) {}
-	static parlex::detail::recognizer const & recognizer();
+	static parlex::detail::state_machine const & state_machine();
 };
 } // namespace plc
 

@@ -6,8 +6,11 @@
 #include <optional>
 #include <variant>
 #include <vector>
+
 #include "erased.hpp"
+
 #include "parlex/detail/abstract_syntax_tree.hpp"
+#include "parlex/detail/builtins.hpp"
 #include "parlex/detail/document.hpp"
 
 #include "plange_grammar.hpp"
@@ -36,7 +39,7 @@ struct FLOOR_1_t {
 	FLOOR_1_t(FLOOR_1_t const & other) = default;
 	FLOOR_1_t(FLOOR_1_t && move) = default;
 
-	static FLOOR_1_t build(parlex::detail::behavior::node const * b, parlex::detail::document::walk & w);
+	static FLOOR_1_t build(parlex::detail::node const * b, parlex::detail::document::walk & w);
 };
 
 struct FLOOR_2_t {
@@ -58,7 +61,7 @@ struct FLOOR_2_t {
 	FLOOR_2_t(FLOOR_2_t const & other) = default;
 	FLOOR_2_t(FLOOR_2_t && move) = default;
 
-	static FLOOR_2_t build(parlex::detail::behavior::node const * b, parlex::detail::document::walk & w);
+	static FLOOR_2_t build(parlex::detail::node const * b, parlex::detail::document::walk & w);
 };
 
 typedef std::variant<
@@ -69,7 +72,7 @@ typedef std::variant<
 struct FLOOR: FLOOR_base {
 	static FLOOR build(parlex::detail::ast_node const & n);
 	explicit FLOOR(FLOOR_base const & value) : FLOOR_base(value) {}
-	static parlex::detail::recognizer const & recognizer();
+	static parlex::detail::state_machine const & state_machine();
 };
 } // namespace plc
 

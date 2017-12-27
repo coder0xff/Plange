@@ -6,8 +6,11 @@
 #include <optional>
 #include <variant>
 #include <vector>
+
 #include "erased.hpp"
+
 #include "parlex/detail/abstract_syntax_tree.hpp"
+#include "parlex/detail/builtins.hpp"
 #include "parlex/detail/document.hpp"
 
 #include "plange_grammar.hpp"
@@ -33,7 +36,7 @@ struct FOR {
 		initializer_t_1_t(initializer_t_1_t const & other) = default;
 		initializer_t_1_t(initializer_t_1_t && move) = default;
 	
-		static initializer_t_1_t build(parlex::detail::behavior::node const * b, parlex::detail::document::walk & w);
+		static initializer_t_1_t build(parlex::detail::node const * b, parlex::detail::document::walk & w);
 	};
 
 	struct step_t_1_t {
@@ -54,7 +57,7 @@ struct FOR {
 			field_2_t_1_t(field_2_t_1_t const & other) = default;
 			field_2_t_1_t(field_2_t_1_t && move) = default;
 		
-			static field_2_t_1_t build(parlex::detail::behavior::node const * b, parlex::detail::document::walk & w);
+			static field_2_t_1_t build(parlex::detail::node const * b, parlex::detail::document::walk & w);
 		};
 	
 		erased<ASSIGNMENT_CHAIN> field_1;
@@ -71,7 +74,7 @@ struct FOR {
 		step_t_1_t(step_t_1_t const & other) = default;
 		step_t_1_t(step_t_1_t && move) = default;
 	
-		static step_t_1_t build(parlex::detail::behavior::node const * b, parlex::detail::document::walk & w);
+		static step_t_1_t build(parlex::detail::node const * b, parlex::detail::document::walk & w);
 	};
 
 	parlex::detail::document::text<literal_for_t> dontCare0;
@@ -109,7 +112,7 @@ struct FOR {
 	FOR(FOR && move) = default;
 
 	static FOR build(parlex::detail::ast_node const & n);
-	static parlex::detail::recognizer const & recognizer();
+	static parlex::detail::state_machine const & state_machine();
 
 };
 
