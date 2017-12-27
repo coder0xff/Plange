@@ -11,6 +11,7 @@
 
 namespace parlex {
 namespace detail {
+struct ast_node;
 
 struct abstract_syntax_semilattice;
 struct node;
@@ -47,7 +48,7 @@ public:
 		std::set<std::string> const precedences;
 	};
 
-	explicit wirth_t();
+	wirth_t();
 
 	builder load_grammar(std::string const & rootId, std::map<std::string, production> const & definitions) const;
 	builder load_grammar(std::string const & rootId, std::u32string const & document, std::map<std::string, associativity> const & associativities, std::set<std::string> const & longestNames) const;
@@ -55,18 +56,19 @@ public:
 	erased<node> compile_expression(std::u32string const & source) const;
 
 private:
-	string_terminal const & open_square;
-	string_terminal const & open_paren;
-	string_terminal const & open_curly;
-	string_terminal const & dollar_sign;
+	size_t const open_square;
+	size_t const open_paren;
+	size_t const open_curly;
+	size_t const dollar_sign;
+	size_t const production_dfa;
+	size_t const expression_dfa;
+	size_t const term_dfa;
+	size_t const parenthetical_dfa;
+	size_t const tag_dfa;
+	size_t const factor_dfa;
+	size_t const identifier_dfa;
 
-	state_machine const & production_dfa;
-	state_machine const & expression_dfa;
-	state_machine const & term_dfa;
-	state_machine const & parenthetical_dfa;
-	state_machine const & tag_dfa;
-	state_machine const & factor_dfa;
-	state_machine const & identifier_dfa;
+	size_t c_string_recognizer_index;
 
 	erased<node> process_factor(std::u32string const & document, ast_node const & factor) const;
 	erased<node> process_term(std::u32string const & document, ast_node const & term) const;

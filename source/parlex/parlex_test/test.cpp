@@ -11,10 +11,68 @@
 #include "parlex/detail/parser.hpp"
 
 #include "parlex/detail/wirth.hpp"
+#include "parlex/detail/builtins.hpp"
 
 
 using namespace parlex;
 using namespace parlex::detail;
+
+builder small_grammar_builder(
+	"root",
+	{
+		production("root", sequence{reference("identifier"), literal(U".")}),
+		production("identifier", sequence{reference("letter"), repetition(reference("letter"))})
+	}
+);
+
+TEST(ParlexTest, small_test_0) {
+	grammar const smallGrammar(small_grammar_builder);
+	auto debugCheck = static_cast<state_machine const *>(&smallGrammar.get_recognizer(smallGrammar.lookup_recognizer_index("root")))->to_dot(smallGrammar.get_recognizers());
+	parser p(1);
+	auto result = p.parse(smallGrammar, U"A.");
+}
+
+
+TEST(ParlexTest, small_test_1) {
+	grammar const smallGrammar(small_grammar_builder);
+	parser p(1);
+	auto result = p.parse(smallGrammar, U"AAAAAAAAAAAAAAAAAA.");
+}
+
+builder medium_grammar_builder(
+	"root",
+	{
+		production("root", sequence {
+			reference("identifier"),
+			optional(reference("white_spaces")),
+			literal(U"="),
+			optional(reference("white_spaces")),
+			reference("identifier"),
+			literal(U".")
+		}),
+		production("identifier", sequence {
+			reference("letter"),
+			repetition(reference("letter"))
+		}, associativity::NONE, longest()),
+		production("white_spaces", sequence {
+			reference("white_space"),
+			repetition(reference("white_space"))
+		}, associativity::NONE, longest())
+	}
+);
+
+TEST(ParlexTest, medium_test_0) {
+	grammar const smallGrammar(medium_grammar_builder);
+	parser p(1);
+	auto result = p.parse(smallGrammar, U"A=B.");
+}
+
+TEST(ParlexTest, medium_test_1) {
+	grammar const smallGrammar(medium_grammar_builder);
+	auto debugCheck = static_cast<state_machine const *>(&smallGrammar.get_recognizer(smallGrammar.lookup_recognizer_index("root")))->to_dot(smallGrammar.get_recognizers());
+	parser p(1);
+	auto result = p.parse(smallGrammar, U"AAAAAAAAAAA           =           BBBBBBBBBBBBB.");
+}
 
 std::string wirth_in_itself = "\
 SYNTAX     = {white_space} { PRODUCTION {white_space} } . \
@@ -28,6 +86,7 @@ FACTOR     = IDENTIFIER \
            | \"{\" {white_space} EXPRESSION {white_space} \"}\" . \
 IDENTIFIER = letter { letter } .";
 
+
 TEST(ParlexTest, wirth_test_1) {
 	parser p(1);
 	auto result = p.parse(wirth(), U"a=x.");
@@ -36,8 +95,16 @@ TEST(ParlexTest, wirth_test_1) {
 	}
 }
 
+TEST(ParlexTest, wirth_test_1_5) {
+	parser p(1);
+	auto result = p.parse(wirth(), U"AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=x.");
+	if (!result.is_rooted()) {
+		throw std::logic_error("Test failed");
+	}
+}
+
 TEST(ParlexTest, wirth_test_2) {
-	parser p;
+	parser p(1);
 	auto result = p.parse(wirth(), to_utf32(wirth_in_itself));
 	if (!result.is_rooted()) {
 		throw std::logic_error("Test failed");
@@ -168,7 +235,7 @@ TEST(ParlexTest, behavior_1) {
 	if (!result.is_rooted()) {
 		throw std::logic_error("Test failed");
 	}
-	auto concreteDot = result.to_concrete_dot(document);
+	//auto concreteDot = result.to_concrete_dot(document);
 
 }
 

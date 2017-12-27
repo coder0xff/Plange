@@ -7,41 +7,35 @@
 
 #include "parlex/detail/context.hpp"
 #include "parlex/detail/subjob.hpp"
+#include "parlex/detail/grammar_base.hpp"
 
-#include "logging.hpp"
+//#include "logging.hpp"
 
 namespace parlex {
 namespace detail {
 
-job::job(parser & owner, std::u32string const & document, grammar_base const & g, recognizer const & main, progress_handler_t const progressHandler) :
+job::job(parser & owner, std::u32string const & document, grammar_base const & g, size_t const rootRecognizerIndex, progress_handler_t const & progressHandler) :
 	document(document),
 	g(g),
-	main(main),
+	producers(new producer_table(document.size(), g.get_recognizer_count())),
 	progress(0),
-	owner(owner),
+	owner(&owner),
 	progress_handler(progressHandler),
 	progress_counter(0) {
 	//DBG("starting job using recognizer '", main, "'");
 
 	//similar to get_product, but different for constructor
 	//because parser::mutex is already locked
-	match_class matchClass(main, 0);
-	if (main.is_terminal()) {
-		auto const t = static_cast<terminal const *>(&main);
-		auto result = new token(*this, *t, 0);
-		producers.emplace(
-			std::piecewise_construct,
-			std::forward_as_tuple(matchClass),
-			std::forward_as_tuple(result)
-		);
+	match_class const matchClass(0, rootRecognizerIndex, 0);
+	auto & storage = (*producers)(matchClass);
+	auto const & root = g.get_recognizer(rootRecognizerIndex);
+	if (root.is_terminal()) {
+		auto const t = static_cast<terminal const *>(&root);
+		storage.reset(new token(*this, 0, rootRecognizerIndex, *t));
 	} else {
-		auto const machine = static_cast<state_machine_base const *>(&main);
-		auto result = new subjob(*this, *machine, 0);
-		producers.emplace(
-			std::piecewise_construct,
-			std::forward_as_tuple(matchClass),
-			std::forward_as_tuple(result)
-		);
+		auto const machine = static_cast<state_machine_base const *>(&root);
+		auto result = new subjob(*this, 0, rootRecognizerIndex, *machine);
+		storage.reset(result);
 		//seed the parser with the root state
 		result->begin_work_queue_reference(); //reference code A
 		owner.work.emplace(&result->construct_start_state_context(0), 0);
@@ -52,40 +46,34 @@ job::job(parser & owner, std::u32string const & document, grammar_base const & g
 	}
 }
 
-void job::connect(match_class const & matchClass, context const & c, int const nextDfaState, behavior::leaf const * leaf) {
+void job::connect(match_class const & matchClass, context const & c, int const nextDfaState, leaf const * leaf) {
 	get_producer(matchClass).add_subscription(c, nextDfaState, leaf);
 }
 
 producer& job::get_producer(match_class const & matchClass) {
 	std::unique_lock<std::mutex> lock(producers_mutex);
-	if (producers.count(matchClass)) {
-		return *producers[matchClass];
+	auto & storage = (*producers)(matchClass);
+	if (storage) {
+		return *storage;
 	}
-	lock.unlock();
-	if (matchClass.r.is_terminal()) {
-		auto const t = static_cast<terminal const *>(&matchClass.r);
-		auto result = new token(*this, *t, matchClass.document_position);
+	auto const & r = g.get_recognizer(matchClass.recognizer_index);
+	std::unique_ptr<producer> newUniquePtr;
+	if (r.is_terminal()) {
+		auto const t = static_cast<terminal const *>(&r);
+		storage.reset(new token(*this, matchClass.document_position, matchClass.recognizer_index, *t));
+		return *storage;
+	} else {
+		lock.unlock();
+		auto const machine = static_cast<state_machine_base const *>(&r);
+		auto sj = new subjob(*this, matchClass.document_position, matchClass.recognizer_index, *machine);
 		lock.lock();
-		return *producers.emplace(
-			std::piecewise_construct,
-			std::forward_as_tuple(matchClass),
-			std::forward_as_tuple(result)
-		).first->second.get();
+		if (!storage) { // is it still empty? (ie. dont kill an existing one!)
+			storage.reset(sj);
+			lock.unlock(); // may be used recursively by sj->start() so we need to unlock it again
+			sj->start();
+		}
+		return *storage;
 	}
-	auto const machine = static_cast<state_machine_base const *>(&matchClass.r);
-	auto sj = new subjob(*this, *machine, matchClass.document_position);
-	lock.lock();
-	auto const temp = producers.emplace(
-		std::piecewise_construct,
-		std::forward_as_tuple(matchClass),
-		std::forward_as_tuple(sj)
-	);
-	auto result = static_cast<subjob*>(temp.first->second.get());
-	lock.unlock();
-	if (temp.second) {
-		result->start();
-	}
-	return *result;
 }
 
 

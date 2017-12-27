@@ -1,8 +1,6 @@
 #ifndef GRAMMAR_BASE_HPP
 #define GRAMMAR_BASE_HPP
 
-#include <map>
-
 #include "parlex/precedence_collection.hpp"
 
 #include "parlex/detail/state_machine_base.hpp"
@@ -11,15 +9,16 @@
 namespace parlex {
 namespace detail {
 
-class builtins_t;
+class builtin_terminals_t;
 
 class grammar_base {
 public:
-	virtual state_machine_base const& get_main_state_machine() const = 0;
+	virtual state_machine_base const& get_root_state_machine() const = 0;
 	virtual std::vector<state_machine_base const *> get_state_machines() const = 0;
-	virtual state_machine_base const& get_state_machine(std::string const & id) const = 0;
-	virtual string_terminal const& get_literal(std::string const & id) const = 0;
-	virtual bool does_precede(recognizer const * lhs, recognizer const * rhs) const = 0;
+	virtual size_t get_recognizer_count() const = 0;
+	virtual recognizer const& get_recognizer(size_t const index) const = 0;
+	virtual bool does_precede(size_t const lhs, size_t const rhs) const = 0;
+	virtual size_t lookup_recognizer_index(recognizer const & recognizer) const = 0;
 	virtual precedence_collection get_precedences() const = 0;
 protected:
 	virtual ~grammar_base() = default;

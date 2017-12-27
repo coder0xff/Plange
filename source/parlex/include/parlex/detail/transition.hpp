@@ -1,13 +1,15 @@
 #ifndef TRANSITION_HPP
 #define TRANSITION_HPP
-#include "match.hpp"
+
+#include "parlex/detail/match.hpp"
 
 namespace parlex::detail {
+struct leaf;
 
 struct transition : match {
-	behavior::leaf const * const l;
+	leaf const * const l;
 
-	transition(match const & m, behavior::leaf const * l) : match(m), l(l) {}
+	transition(match const & m, leaf const * l) : match(m), l(l) {}
 };
 
 }

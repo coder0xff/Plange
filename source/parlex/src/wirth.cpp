@@ -8,51 +8,53 @@
 #include "parlex/builder.hpp"
 #include "utf.hpp"
 #include <iostream>
+#include "parlex/detail/c_string.hpp"
 
 namespace parlex {
 namespace detail {
 
 erased<node> wirth_t::process_factor(std::u32string const & document, ast_node const & factor) const {
+
 	auto i = factor.children.begin();
 	std::string tag;
-	if (&i->r == &dollar_sign) {
+	if (i->recognizer_index == dollar_sign) {
 		++i;
-		if (&i->r == &identifier_dfa) {
+		if (i->recognizer_index == identifier_dfa) {
 			tag = tolower(to_utf8(document.substr(i->document_position, i->consumed_character_count)));
-		} else if (&i->r == &builtins().c_string) {
-			tag = to_utf8(builtins().c_string.extract(document, *i));
+		} else if (i->recognizer_index == c_string_recognizer_index) {
+			tag = to_utf8(c_string_t::extract(*this, document, *i));
 		} else {
 			throw;
 		}
 	}
 	
-	if (&i->r == &tag_dfa) {
+	if (i->recognizer_index == tag_dfa) {
 		auto const & j = i->children[1];
 		++i;
-		throw_assert(&j.r == &identifier_dfa);
+		throw_assert(j.recognizer_index == identifier_dfa);
 		tag = to_utf8(document.substr(j.document_position, j.consumed_character_count));
 	}
 
 	std::unique_ptr<erased<node>> result;
 	auto set = [&result](erased<node> const & node) { result.reset(new erased<detail::node>(node)); };
-	if (&i->r == &identifier_dfa) {
+	if (i->recognizer_index == identifier_dfa) {
 		auto const name = to_utf8(document.substr(i->document_position, i->consumed_character_count));
 		set(reference(name));
-	} else if (&i->r == &builtins().c_string) {
-		auto const text = builtins().c_string.extract(document, *i);
+	} else if (i->recognizer_index == c_string_recognizer_index) {
+		auto const text = c_string_t::extract(*this, document, *i);
 		set(literal(text));
-	} else if (&i->r == &parenthetical_dfa) {
+	} else if (i->recognizer_index == parenthetical_dfa) {
 		auto const & q = i->children;
 		auto j = q.begin();
-		auto const parentheticalType = &j->r;
-		while (&j->r != &expression_dfa) {
+		auto const parentheticalType = j->recognizer_index;
+		while (j->recognizer_index != expression_dfa) {
 			++j;
 		}
-		if (parentheticalType == &open_square) {
-			set(optional_t(process_expression(document, *j)));
-		} else if (parentheticalType == &open_curly) {
-			set(repetition_t(process_expression(document, *j)));
-		} else if (parentheticalType == &open_paren) {
+		if (parentheticalType == open_square) {
+			set(optional(process_expression(document, *j)));
+		} else if (parentheticalType == open_curly) {
+			set(repetition(process_expression(document, *j)));
+		} else if (parentheticalType == open_paren) {
 			set(process_expression(document, *j));
 		} else {
 			throw;
@@ -71,14 +73,14 @@ erased<node> wirth_t::process_term(std::u32string const & document, ast_node con
 	std::vector<ast_node const *> factors;
 
 	for (auto const & entry : term.children) {
-		if (&entry.r == &factor_dfa) {
+		if (entry.recognizer_index == factor_dfa) {
 			factors.push_back(&entry);
 		}
 	}
 	if (factors.size() == 1) {
 		return process_factor(document, *factors[0]);
 	}
-	sequence_t result;
+	sequence result;
 	for (auto factor : factors) {
 		result.children.push_back(process_factor(document, *factor));
 	}
@@ -90,14 +92,14 @@ erased<node> wirth_t::process_expression(std::u32string const & document, ast_no
 
 	auto const & p = expression.children;
 	for (auto const & entry : p) {
-		if (&entry.r == &term_dfa) {
+		if (entry.recognizer_index == term_dfa) {
 			terms.push_back(&entry);
 		}
 	}
 	if (terms.size() == 1) {
 		return process_term(document, *terms[0]);
 	}
-	choice_t result;
+	choice result;
 	for (auto term : terms) {
 		result.children.push_back(process_term(document, *term));
 	}
@@ -106,7 +108,7 @@ erased<node> wirth_t::process_expression(std::u32string const & document, ast_no
 
 erased<node> wirth_t::compile_expression(std::u32string const & source) const {
 	parser p;
-	auto assl = p.parse(*this, expression_dfa, source, builtins().progress_bar);
+	auto assl = p.parse(*this, get_recognizer(expression_dfa), source, progress_bar);
 	if (!assl.is_rooted()) {
 		throw std::runtime_error("could not parse expression");
 	}
@@ -117,7 +119,7 @@ erased<node> wirth_t::compile_expression(std::u32string const & source) const {
 builder wirth_t::load_grammar(std::string const & rootId, std::map<std::string, production> const & definitions) const {
 	std::set<std::string> names;
 	builder result;
-	result.root_id = rootId;
+	result.root_name = rootId;
 	for (auto const & entry : definitions) {
 		auto const & id = entry.first;
 		auto const & definition = entry.second;
@@ -139,7 +141,7 @@ builder wirth_t::load_grammar(std::string const & rootId, std::u32string const &
 	std::map<std::string, production> definitions;
 	auto const & top = ast.children;
 	for (auto const & entry : top) {
-		if (&entry.r == &production_dfa) {
+		if (entry.recognizer_index == production_dfa) {
 			auto const & namePart = entry.children[0];
 			auto const u32Name = document.substr(namePart.document_position, namePart.consumed_character_count);
 			auto const name = to_utf8(u32Name);
@@ -149,13 +151,13 @@ builder wirth_t::load_grammar(std::string const & rootId, std::u32string const &
 			}
 			std::u32string source;
 			for (auto const & entry2 : entry.children) {
-				if (&entry2.r == &expression_dfa) {
+				if (entry2.recognizer_index == expression_dfa) {
 					source = document.substr(entry2.document_position, entry2.consumed_character_count);
 					break;
 				}
 			}
 			auto assoc = associativities.count(name) > 0 ? associativities.find(name)->second : associativity::NONE;
-			auto filter = longestNames.count(name) > 0 ? builtins().longest : filter_function();
+			auto filter = longestNames.count(name) > 0 ? longest() : filter_function();
 			definitions.emplace(std::piecewise_construct, forward_as_tuple(name), forward_as_tuple(source, assoc, filter, std::set<std::string>()));
 		}
 	}
@@ -170,20 +172,20 @@ builder generate_wirth() {
 		               production("whiteSpace", sequence({
 			                          reference("white_space"),
 			                          repetition(reference("white_space"))}),
-		                          associativity::NONE, builtins().longest
+		                          associativity::NONE, longest()
 		               ),
 
 		               production("comment", sequence({
-			                          literal("#"),
+			                          literal(U"#"),
 			                          repetition(reference("not_newline")),
-			                          literal("\n")
+			                          literal(U"\n")
 		                          })),
 
 		               production("identifier", sequence({
-			                          choice({reference("letter"), literal("_")}),
-			                          repetition(choice({reference("letter"), literal("_"), reference("decimal_digit")}))
+			                          choice({reference("letter"), literal(U"_")}),
+			                          repetition(choice({reference("letter"), literal(U"_"), reference("decimal_digit")}))
 		                          }),
-		                          associativity::NONE, builtins().longest),
+		                          associativity::NONE, longest()),
 
 		               production("production", sequence({
 			                          reference("identifier"),
@@ -199,7 +201,7 @@ builder generate_wirth() {
 			                          reference("term"),
 			                          repetition(sequence({
 				                          optional(reference("whiteSpace")),
-				                          literal("|"),
+				                          literal(U"|"),
 				                          optional(reference("whiteSpace")),
 				                          reference("term")
 			                          }))
@@ -215,21 +217,21 @@ builder generate_wirth() {
 
 		               production("parenthetical", choice({
 			                          sequence({
-				                          literal("["), optional(reference("whiteSpace")), reference("expression"), optional(reference("whiteSpace")), literal("]")
+				                          literal(U"["), optional(reference("whiteSpace")), reference("expression"), optional(reference("whiteSpace")), literal(U"]")
 			                          }),
 			                          sequence({
-				                          literal("("), optional(reference("whiteSpace")), reference("expression"), optional(reference("whiteSpace")), literal(")")
+				                          literal(U"("), optional(reference("whiteSpace")), reference("expression"), optional(reference("whiteSpace")), literal(U")")
 			                          }),
 			                          sequence({
-				                          literal("{"), optional(reference("whiteSpace")), reference("expression"), optional(reference("whiteSpace")), literal("}")
+				                          literal(U"{"), optional(reference("whiteSpace")), reference("expression"), optional(reference("whiteSpace")), literal(U"}")
 			                          })
 		                          })),
 
-		               production("tag", sequence({literal("%"), reference("identifier")})),
+		               production("tag", sequence({literal(U"%"), reference("identifier")})),
 
 		               production("factor", choice({
-			                          sequence({optional(literal("$")), reference("identifier")}),
-			                          sequence({optional(literal("$")), reference("c_string")}),
+			                          sequence({optional(literal(U"$")), reference("identifier")}),
+			                          sequence({optional(literal(U"$")), reference("c_string")}),
 			                          sequence({optional(reference("tag")), reference("parenthetical")})
 		                          }), associativity::NONE, filter_function(), {"factor"}),
 
@@ -242,28 +244,24 @@ builder generate_wirth() {
 
 }
 
-static state_machine const & convert(state_machine_base const & s) {
-	return *static_cast<state_machine const *>(&s);
-}
-
 wirth_t::wirth_t() : grammar(generate_wirth()),
-                               open_square(grammar::get_literal("[")),
-                               open_paren(grammar::get_literal("(")),
-                               open_curly(grammar::get_literal("{")),
-                               dollar_sign(grammar::get_literal("$")),
+                     open_square(lookup_literal_recognizer_index(U"[")),
+                     open_paren(lookup_literal_recognizer_index(U"(")),
+                     open_curly(lookup_literal_recognizer_index(U"{")),
+                     dollar_sign(lookup_literal_recognizer_index(U"$")),
 
-                               production_dfa(convert(grammar::get_state_machine("production"))),
-                               expression_dfa(convert(grammar::get_state_machine("expression"))),
-                               term_dfa(convert(grammar::get_state_machine("term"))),
-                               parenthetical_dfa(convert(grammar::get_state_machine("parenthetical"))),
-                               tag_dfa(convert(grammar::get_state_machine("tag"))),
-                               factor_dfa(convert(grammar::get_state_machine("factor"))),
-                               identifier_dfa(convert(grammar::get_state_machine("identifier"))) {
-}
+                     production_dfa(lookup_recognizer_index("production")),
+                     expression_dfa(lookup_recognizer_index("expression")),
+                     term_dfa(lookup_recognizer_index("term")),
+                     parenthetical_dfa(lookup_recognizer_index("parenthetical")),
+                     tag_dfa(lookup_recognizer_index("tag")),
+                     factor_dfa(lookup_recognizer_index("factor")),
+                     identifier_dfa(lookup_recognizer_index("identifier")),
+					 c_string_recognizer_index(grammar::lookup_recognizer_index("c_string")) {}
 
 erased<node> wirth_t::process_production(std::u32string const & document, ast_node const & production) const {
 	for (auto const & entry : production.children) {
-		if (&entry.r == &expression_dfa) {
+		if (entry.recognizer_index == expression_dfa) {
 			return process_expression(document, entry);
 		}
 	}

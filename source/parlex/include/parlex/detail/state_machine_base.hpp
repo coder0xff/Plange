@@ -1,18 +1,12 @@
 #ifndef STATE_MACHINE_BASE_HPP
 #define STATE_MACHINE_BASE_HPP
 
-#include "parlex/filter_function.hpp"
 #include "parlex/associativity.hpp"
+#include "parlex/filter_function.hpp"
 
 #include "parlex/detail/recognizer.hpp"
 
 namespace parlex {
-namespace behavior {
-
-class node;
-
-} // namespace behavior
-
 namespace detail {
 
 class context;
@@ -32,10 +26,10 @@ protected:
 	friend class parser;
 	friend class subjob;
 
-	explicit state_machine_base(std::string const & id);
+	explicit state_machine_base(std::string const & name);
 	void start(context const & c) const;
 	virtual void process(context const & c, size_t dfaState) const = 0;
-	static void on(context const & c, recognizer const & r, int nextDfaState, behavior::leaf const * leaf);
+	static void on(context const & c, size_t const recognizerIndex, int nextDfaState, leaf const * leaf);
 	static void accept(context const & c);
 };
 

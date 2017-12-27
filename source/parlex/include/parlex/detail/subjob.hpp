@@ -24,14 +24,15 @@ public:
 	std::list<permutation> queued_permutations;
 	std::mutex mutex;
 	std::atomic<int> lifetime_counter;
+	size_t const document_position;
 
-	subjob(job & owner, state_machine_base const & machine, int const documentPosition);
+	subjob(job & owner, size_t const documentPosition, size_t const recognizerIndex, state_machine_base const & machine);
 	subjob(subjob const & other) = delete;
 	virtual ~subjob();
 
 	void start();
-	context const & construct_stepped_context(context const* const prior, match const & fromTransition, behavior::leaf const * leaf);
-	void on(context const & c, recognizer const & r, int nextDfaState, behavior::leaf const * leaf);
+	context const & construct_stepped_context(context const* const prior, match const & fromTransition, leaf const * l);
+	void on(context const & c, size_t const recognizerIndex, int nextDfaState, leaf const * l);
 	void accept(context const & c);
 	// for special use by the parser to seed the queue
 	context const & construct_start_state_context(int documentPosition);

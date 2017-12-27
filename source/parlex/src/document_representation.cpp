@@ -9,6 +9,11 @@ unit::unit(node const & n) : original_leaf(n) {
 	tag = n.tag;
 }
 
+automaton unit::to_nfa() const
+{
+	throw std::logic_error("This operation is invalid");
+}
+
 static erased<node> copy_with_conversions(erased<node> const & n) {
 	auto const & nPtr = *n;
 
@@ -23,12 +28,12 @@ static erased<node> copy_with_conversions(erased<node> const & n) {
 	}
 
 	return covariant_invoke<erased<node>> (nPtr, 
-		[&](literal_t const & v) { return v; },
-		[&](reference_t const & v) { return v; },
-		DO_AS(choice_t),
-		DO_AS(optional_t),
-		DO_AS(repetition_t),
-		DO_AS(sequence_t)
+		[&](literal const & v) { return v; },
+		[&](reference const & v) { return v; },
+		DO_AS(choice),
+		DO_AS(optional),
+		DO_AS(repetition),
+		DO_AS(sequence)
 	);
 }
 
@@ -48,10 +53,10 @@ static erased<node> reduce(erased<node> const & n) {
 	return covariant_invoke<erased<node>>(*n,
 		[&](unit const & v) { return v; },
 		[&](aggregate const & v) { return v; },
-		[&](choice_t const & v) { return v; },
-		[&](optional_t const & v) { return v; },
-		[&](repetition_t const & v) { return v; },
-		[&](sequence_t const & v) {
+		[&](choice const & v) { return v; },
+		[&](optional const & v) { return v; },
+		[&](repetition const & v) { return v; },
+		[&](sequence const & v) {
 			node::children_t children = getChildren([&](erased<node> const & child) {
 				std::optional<erased<node>> result;
 				auto const * asUnitPtr = dynamic_cast<unit const *>(&*child);
@@ -71,7 +76,7 @@ static erased<node> reduce(erased<node> const & n) {
 				}
 				return erased<node>(result);
 			}
-			sequence_t result;
+			sequence result;
 			result.children = children;
 			return erased<node>(result);
 		}
@@ -85,6 +90,12 @@ void aggregate::add_member(std::string const & name, erased<node> const & type) 
 		}
 	}
 	data_members.emplace_back(name, type);
+}
+
+
+automaton aggregate::to_nfa() const
+{
+	throw std::logic_error("This operation is invalid");
 }
 
 erased<node> compute_document_representation(erased<node> const & root) {

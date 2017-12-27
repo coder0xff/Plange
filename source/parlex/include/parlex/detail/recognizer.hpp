@@ -5,20 +5,16 @@
 
 namespace parlex {
 namespace detail {
-namespace behavior {
 
-class leaf;
-
-}
 
 
 //base class for terminal and state_machine_base
 class recognizer {
 public:
-	explicit recognizer(std::string const & id);
+	explicit recognizer(std::string const & name);
 	virtual ~recognizer() = default;
 	virtual bool is_terminal() const;
-	std::string const id;
+	std::string const name;
 
 	friend std::ostream& operator<<(std::ostream & os, const recognizer & r);
 };

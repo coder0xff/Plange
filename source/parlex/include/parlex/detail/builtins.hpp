@@ -1,38 +1,46 @@
 #ifndef BUILTINS_HPP
 #define BUILTINS_HPP
 
+#include "parlex/builder.hpp"
 #include "parlex/filter_function.hpp"
 
 // Terminals
 #include "parlex/detail/any_character.hpp"
-#include "parlex/detail/unicode.hpp"
+#include "parlex/detail/basic_escape_sequence.hpp"
+#include "parlex/detail/content.hpp"
 #include "parlex/detail/not_double_quote.hpp"
 #include "parlex/detail/not_newline.hpp"
+#include "parlex/detail/unicode.hpp"
 
 // Misc
-#include "parlex/detail/c_string.hpp"
 
 namespace parlex {
+
+// filter out all but the longest matches
+filter_function const & longest();
+
+// when passed to parser::parse as a progress handler, prints a text-based 
+void progress_bar(int done, int outOf);
+
 namespace detail {
 
 class parser;
-class builtins_t;
+class builtin_terminals_t;
 
 // get singleton
-builtins_t const& builtins();
+builtin_terminals_t const& builtin_terminals();
 
-class builtins_t {
+class builtin_terminals_t {
 
 public:
-	builtins_t(builtins_t const & copy) = delete;
-	static void progress_bar(int done, int outOf);
-
-	filter_function longest;
-
+	builtin_terminals_t(builtin_terminals_t const & copy) = delete;
 	any_character_t const any_character;
+	basic_escape_sequence_t basic_escape_sequence;
+	content_t content;
 	not_double_quote_t const not_double_quote;
 	not_newline_t const not_newline;
 
+	// Unicode categories
 	all_t const all;
 	alphanumeric_t const alphanumeric;
 	close_punctuation_t const close_punctuation;
@@ -73,21 +81,16 @@ public:
 	white_space_t const white_space;
 	white_space_control_t const white_space_control;
 
-	c_string_t const c_string;
-
 	std::map<std::string, recognizer const *> const recognizer_table;
 
-	bool resolve_builtin(std::string const & name, recognizer const *& ptr) const;
+	bool resolve_builtin_terminal(std::string const & name, terminal const * & ptr) const;
 
 private:
-	friend builtins_t const& builtins();
-	builtins_t();
+	friend builtin_terminals_t const& builtin_terminals();
+	builtin_terminals_t();
 	std::map<std::string, recognizer const *> generate_lookup_table() const;
 
-	// satisfies filter_function
-	static std::set<int> longest_f(std::u32string document, std::list<permutation> const & permutations);
 };
-
 
 } // namespace detail
 } // namespace parlex

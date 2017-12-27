@@ -1,31 +1,31 @@
 #include "parlex/detail/subjob.hpp"
 
 #include "parlex/detail/parser.hpp"
-#include "parlex/detail/recognizer.hpp"
 #include "parlex/detail/state_machine_base.hpp"
 
 #include "parlex/detail/context.hpp"
 #include "parlex/detail/job.hpp"
 
 #include "utils.hpp"
+#include "logging.hpp"
 
 namespace parlex {
 namespace detail {
 
-subjob::subjob(
-	job & owner,
-	state_machine_base const & machine,
-	int const documentPosition
-):
-	producer(owner, machine, documentPosition),
+subjob::subjob(job & owner,	size_t const documentPosition, size_t const recognizerIndex, state_machine_base const & machine) : producer(owner, documentPosition, recognizerIndex, 0),
 	machine(machine),
-	lifetime_counter(1) //see finish_creation
+	lifetime_counter(1), //see finish_creation
+	document_position(documentPosition)
 {
-	//DBG("constructed subjob b:", documentPosition, " m:", machine);
+	if (documentPosition == 3 && machine.name == "white_spaces") {
+		debugger();
+	}
+
+	//DBG("constructed subjob p:", documentPosition, " m:", machine);
 }
 
 subjob::~subjob() {
-	//DBG("destructing subjob b:", documentPosition, " m:", machine);
+	//DBG("destructing subjob p:", document_position, " m:", machine);
 }
 
 void subjob::start() {
@@ -39,18 +39,18 @@ context const & subjob::construct_start_state_context(int documentPosition) {
 	return *i;
 }
 
-context const & subjob::construct_stepped_context(context const* const prior, match const & fromTransition, behavior::leaf const * leaf) {
+context const & subjob::construct_stepped_context(context const* const prior, match const & fromTransition, leaf const * l) {
 	std::unique_lock<std::mutex> lock(mutex);
-	auto const i = contexts.emplace_front(*this, prior, prior->current_document_position + fromTransition.consumed_character_count, std::optional<match>(fromTransition), leaf);
+	auto const i = contexts.emplace_front(*this, prior, prior->current_document_position + fromTransition.consumed_character_count, std::optional<match>(fromTransition), l);
 	return *i;
 }
 
-void subjob::on(context const & c, recognizer const & r, int const nextDfaState, behavior::leaf const * leaf) {
+void subjob::on(context const & c, size_t const recognizerIndex, int const nextDfaState, leaf const * l) {
 	if (c.current_document_position >= c.owner.owner.document.length()) {
 		return;
 	}
 	begin_subscription_reference();
-	owner.connect(match_class(r, c.current_document_position), c, nextDfaState, leaf);
+	owner.connect(match_class(c.current_document_position, recognizerIndex, 0), c, nextDfaState, l);
 }
 
 void subjob::accept(context const & c) {
@@ -61,10 +61,10 @@ void subjob::accept(context const & c) {
 	throw_assert(&c.owner == this);
 	auto const p = c.result();
 	if (!machine.get_filter()) {
-		//DBG("Accepting r:", r.id, " p:", c.owner().document_position, " l:", c.current_document_position() - c.owner().document_position);
+		//DBG("Accepting r:", r.name, " p:", c.owner().document_position, " l:", c.current_document_position() - c.owner().document_position);
 		enque_permutation(len, p);
 	} else {
-		//DBG("Candidate r:", r.id, " p:", c.owner().document_position, " l:", c.current_document_position() - c.owner().document_position);
+		//DBG("Candidate r:", r.name, " p:", c.owner().document_position, " l:", c.current_document_position() - c.owner().document_position);
 		std::unique_lock<std::mutex> lock(mutex);
 		queued_permutations.push_back(p);
 	}

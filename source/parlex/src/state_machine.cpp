@@ -1,17 +1,15 @@
 #include "parlex/detail/state_machine.hpp"
 
 #include "parlex/associativity.hpp"
-
-#include "parlex/detail/behavior.hpp"
+#include "parlex/builder.hpp"
 
 namespace parlex {
 namespace detail {
 
-state_machine::state_machine(std::string const & id, filter_function const & filter, associativity const assoc) : state_machine_base(id), filter(filter), assoc(assoc), behavior(nullptr), start_state(-1), accept_state_count(-1) {
+state_machine::state_machine(std::string const & name, filter_function const & filter, associativity const assoc) : state_machine_base(name), filter(filter), assoc(assoc), behavior(nullptr), start_state(-1), accept_state_count(-1) {
 }
 
-void state_machine::set_behavior(behavior::node const & behavior) {
-	static_assert(std::is_same_v<behavior::nfa2, detail::nfa<behavior::leaf const *, size_t>>, "these should be the same");
+void state_machine::set_behavior(std::map<recognizer const *, size_t> const & recognizerLookup, node & behavior) {
 	this->behavior = &behavior;
 	auto dfa = reorder(behavior.compile());
 	auto transitions = dfa.get_transitions();
@@ -19,7 +17,10 @@ void state_machine::set_behavior(behavior::node const & behavior) {
 		while (states.size() <= t.to || states.size() <= t.from) {
 			states.emplace_back();
 		}
-		states[t.from][t.symbol] = t.to;
+		transition_info_t transitionInfo;
+		transitionInfo.l = t.symbol;
+		transitionInfo.recognizer_index = t.symbol->recognizer_index;
+		states[t.from][transitionInfo] = t.to;
 	}
 	start_state = *dfa.start_states.begin();
 	accept_state_count = dfa.accept_states.size();
@@ -31,15 +32,14 @@ void state_machine::process(context const & c, size_t const s) const {
 		accept(c);
 	}
 	for (auto const & kvp : states[s]) {
-		auto const & transition = *kvp.first;
+		auto const & transitionInfo = kvp.first;
 		int const nextState = kvp.second;
-		auto const & r = transition.r;
-		//DBG("'", get_id(), "' state ", s, " position ", c.current_document_position(), " subscribes to '", transition.id, "' position ", c.current_document_position());
-		on(c, r, nextState, &transition);
+		//DBG("'", get_id(), "' state ", s, " position ", c.current_document_position(), " subscribes to '", transition.name, "' position ", c.current_document_position());
+		on(c, transitionInfo.recognizer_index, nextState, transitionInfo.l);
 	}
 }
 
-behavior::nfa2 state_machine::reorder(behavior::nfa2 dfa) {
+automaton state_machine::reorder(automaton const & dfa) {
 	//construct a map from dfa states to reordered states
 	std::map<size_t, size_t> stateMap;
 	auto const startState = *dfa.start_states.begin();
@@ -57,7 +57,7 @@ behavior::nfa2 state_machine::reorder(behavior::nfa2 dfa) {
 		stateMap[*dfa.start_states.begin()] = stateMap.size();
 	}
 	for (size_t i = 0; i < dfa.states.size(); ++i) {
-		//all the un-added accept states
+		//all the unadded accept states
 		if (i != startState && dfa.accept_states.count(i) > 0) {
 			stateMap[i] = stateMap.size();
 		}
@@ -70,7 +70,7 @@ behavior::nfa2 state_machine::reorder(behavior::nfa2 dfa) {
 	}
 
 	//construct the reordered dfa
-	behavior::nfa2 reordered;
+	automaton reordered;
 	auto const firstAcceptState = dfa.states.size() - dfa.accept_states.size();
 	for (size_t i = 0; i < dfa.states.size(); ++i) {
 		auto const dual = stateMapDual[i];
@@ -100,7 +100,7 @@ associativity state_machine::get_assoc() const {
 	return assoc;
 }
 
-std::string state_machine::to_dot() const {
+std::string state_machine::to_dot(std::vector<recognizer const *> const & recognizers) const {
 	std::vector<size_t> stateInts;
 	for (size_t i = 0; i < states.size(); ++i) {
 		stateInts.push_back(i);
@@ -111,9 +111,12 @@ std::string state_machine::to_dot() const {
 	auto getEdges = [&](size_t const & i) {
 		std::vector<std::pair<std::string, size_t>> edges;
 		for (auto const & edge : states[i]) {
-			auto leaf = edge.first;
+			auto transitionInfo = edge.first;
 			int toState = edge.second;
-			edges.push_back(make_pair("label=" + leaf->id, toState));
+			auto const & recognizer = *recognizers[transitionInfo.recognizer_index];
+			std::stringstream ss;
+			ss << transitionInfo.l;
+			edges.push_back(make_pair("label=" + enquote(recognizer.name + " (" + ss.str() + ")"), toState));
 		}
 		return edges;
 	};

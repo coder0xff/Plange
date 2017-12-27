@@ -6,12 +6,6 @@
 namespace parlex {
 namespace detail {
 
-namespace behavior {
-
-class leaf;
-
-}
-
 struct match : match_class {
 	size_t const consumed_character_count;
 
@@ -21,7 +15,6 @@ struct match : match_class {
 	match() = delete;
 
 	bool operator <(match const & rhs) const;
-
 };
 
 

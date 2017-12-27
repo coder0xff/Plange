@@ -82,41 +82,41 @@ void abstract_syntax_semilattice::prune_detached() {
 	}
 }
 
-std::string abstract_syntax_semilattice::to_dot() const {
-	std::string result = "digraph {\n";
-	std::set<match> completed;
-	for (auto const & entry : permutations_of_matches) {
-		auto const i = entry.first;
-		completed.insert(i);
-		auto const fromName = i.r.id + ":" + std::to_string(i.document_position + 1) + ":" + std::to_string(i.consumed_character_count);
-		for (auto const & j : entry.second) {
-			for (match const & k : j) {
-				auto const toName = k.r.id + ":" + std::to_string(k.document_position + 1) + ":" + std::to_string(k.consumed_character_count);
-				result += "\t" + enquote(fromName) + " -> " + enquote(toName) + "\n";
-			}
-		}
-	}
-	result += "}";
-	return result;
-}
+//std::string abstract_syntax_semilattice::to_dot() const {
+//	std::string result = "digraph {\n";
+//	std::set<match> completed;
+//	for (auto const & entry : permutations_of_matches) {
+//		auto const i = entry.first;
+//		completed.insert(i);
+//		auto const fromName = i.r.name + ":" + std::to_string(i.document_position + 1) + ":" + std::to_string(i.consumed_character_count);
+//		for (auto const & j : entry.second) {
+//			for (match const & k : j) {
+//				auto const toName = k.r.name + ":" + std::to_string(k.document_position + 1) + ":" + std::to_string(k.consumed_character_count);
+//				result += "\t" + enquote(fromName) + " -> " + enquote(toName) + "\n";
+//			}
+//		}
+//	}
+//	result += "}";
+//	return result;
+//}
 
-std::string abstract_syntax_semilattice::to_concrete_dot(std::u32string const & document) {
-	std::string result = "digraph {\n";
-	std::set<match> completed;
-	for (auto const & entry : permutations_of_matches) {
-		auto const i = entry.first;
-		completed.insert(i);
-		auto const fromName = i.r.id + ":" + std::to_string(i.document_position + 1) + ":" + std::to_string(i.consumed_character_count) + "\n" + to_utf8(document.substr(i.document_position, i.consumed_character_count));
-		for (auto const & j : entry.second) {
-			for (match const & k : j) {
-				auto const toName = k.r.id + ":" + std::to_string(k.document_position + 1) + ":" + std::to_string(k.consumed_character_count) + "\n" + to_utf8(document.substr(k.document_position, k.consumed_character_count));
-				result += "\t" + enquote(fromName) + " -> " + enquote(toName) + "\n";
-			}
-		}
-	}
-	result += "}";
-	return result;
-}
+//std::string abstract_syntax_semilattice::to_concrete_dot(std::u32string const & document) {
+//	std::string result = "digraph {\n";
+//	std::set<match> completed;
+//	for (auto const & entry : permutations_of_matches) {
+//		auto const i = entry.first;
+//		completed.insert(i);
+//		auto const fromName = i.r.name + ":" + std::to_string(i.document_position + 1) + ":" + std::to_string(i.consumed_character_count) + "\n" + to_utf8(document.substr(i.document_position, i.consumed_character_count));
+//		for (auto const & j : entry.second) {
+//			for (match const & k : j) {
+//				auto const toName = k.r.name + ":" + std::to_string(k.document_position + 1) + ":" + std::to_string(k.consumed_character_count) + "\n" + to_utf8(document.substr(k.document_position, k.consumed_character_count));
+//				result += "\t" + enquote(fromName) + " -> " + enquote(toName) + "\n";
+//			}
+//		}
+//	}
+//	result += "}";
+//	return result;
+//}
 
 uint64_t abstract_syntax_semilattice::variation_count() const {
 	uint64_t result = 1;

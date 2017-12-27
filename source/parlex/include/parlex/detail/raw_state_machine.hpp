@@ -1,7 +1,7 @@
 #ifndef RAW_STATE_MACHINE_HPP
 #define RAW_STATE_MACHINE_HPP
 
-#include <map>
+#include "coherent_map.hpp"
 
 #include "parlex/associativity.hpp"
 #include "parlex/filter_function.hpp"
@@ -11,13 +11,6 @@
 
 namespace parlex {
 namespace detail {
-namespace behavior {
-
-class node;
-class leaf;
-using nfa2 = nfa<leaf const *, size_t>;
-
-} // namespace behavior
 
 class context;
 class subjob;
@@ -28,7 +21,7 @@ class parser;
 //States from N-a to N-1 are the accept states, where N is states.size() and a is accept_state_count
 class raw_state_machine : public state_machine_base {
 public:
-	typedef std::vector<std::map<recognizer const *, size_t>> states_t;
+	typedef std::vector<collections::coherent_map<size_t /*recognizerIndex*/, size_t /*toState*/>> states_t;
 
 	raw_state_machine(std::string const & id, int startState, int acceptStateCount, filter_function const & filter, associativity = associativity::NONE);
 	virtual ~raw_state_machine() = default;
@@ -38,7 +31,7 @@ public:
 	int const start_state;
 	size_t const accept_state_count; //must be greater than 0
 
-	void add_transition(size_t from, recognizer const * transition, size_t to);
+	void add_transition(size_t const from, size_t const recognizerIndex, size_t const to);
 	states_t const& get_states() const;
 private:
 	friend class parser;
