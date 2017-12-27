@@ -47,7 +47,7 @@ std::shared_ptr<analytic_value> eval_parenthetical_invocation(source_code const&
 	}
 
 	for (size_t i = 1; i < parts.size(); ++i) { //0 is the function to invoke
-	if (parts[i].r.id == "EXPRESSION") {
+	if (parts[i].r.name == "EXPRESSION") {
 	auto argument = eval_expression(source, source.get_parts(parts[i]), parent, unwindDest, builder)->collapse();
 	if (!argument) {
 	ERROR(UnsupportedBootstrapFunctionality, "non-concrete function arguments are not available");
@@ -155,16 +155,16 @@ std::shared_ptr<analytic_value> eval_parenthetical_invocation(source_code const&
 // 		ERROR(NotImplemented, "expression not implemented");
 // 	} else if (expressionType == &VECTOR_NORM) {
 // 		ERROR(NotImplemented, "expression not implemented");
-// 	} else if (parts[0].r.id == "null") {
+// 	} else if (parts[0].r.name == "null") {
 // 		ERROR(NotImplemented, "expression not implemented");
-// 	} else if (parts[0].r.id == "this") {
+// 	} else if (parts[0].r.name == "this") {
 // 		ERROR(NotImplemented, "expression not implemented");
-// 	} else if (parts[0].r.id == "this_func") {
+// 	} else if (parts[0].r.name == "this_func") {
 // 		ERROR(NotImplemented, "expression not implemented");
-// 	} else if (parts[0].r.id == "this_type") {
+// 	} else if (parts[0].r.name == "this_type") {
 // 		ERROR(NotImplemented, "expression not implemented");
 // 	} else {
-// 		ERROR(Unknown, "invalid expression type " + expressionType->id);
+// 		ERROR(Unknown, "invalid expression type " + expressionType->name);
 // 	}
 // }
 // 
@@ -210,12 +210,12 @@ std::shared_ptr<analytic_value> eval_parenthetical_invocation(source_code const&
 // 		ERROR(NotImplemented, "statement not implemented");
 // 	} else if (&p.r == &TYPE_CONSTRAINT) {
 // 		ERROR(NotImplemented, "statement not implemented");
-// 	} else if (p.r.id == "break") {
+// 	} else if (p.r.name == "break") {
 // 		ERROR(NotImplemented, "statement not implemented");
-// 	} else if (p.r.id == "continue") {
+// 	} else if (p.r.name == "continue") {
 // 		ERROR(NotImplemented, "statement not implemented");
 // 	} else {
-// 		ERROR(Unknown, "invalid statement type " + p.r.id);
+// 		ERROR(Unknown, "invalid statement type " + p.r.name);
 // 	}
 // */
 // }
@@ -311,13 +311,13 @@ symbol_table flatten_symbol_tables(symbol_table const & parent, symbol_table con
 // 	if (&p.r == &TYPE_CONSTRAINT) {
 // 		ERROR(NotImplemented, "statement not implemented");
 // 	}
-// 	if (p.r.id == "break") {
+// 	if (p.r.name == "break") {
 // 		ERROR(NotImplemented, "statement not implemented");
 // 	}
-// 	if (p.r.id == "continue") {
+// 	if (p.r.name == "continue") {
 // 		ERROR(NotImplemented, "statement not implemented");
 // 	}
-// 	ERROR(Unknown, "invalid statement type " + p.r.id);
+// 	ERROR(Unknown, "invalid statement type " + p.r.name);
 // }
 // 
 // symbol_table compute_scope_symbol_table(source_code const& source, std::vector<parlex::detail::match> const& parts, scope& parent, llvm::BasicBlock & unwindBlock, llvm::IRBuilder<> & builder) {

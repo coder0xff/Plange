@@ -14,31 +14,31 @@
 
 //filter super delimiters
 //Any PAYLOAD that fully contains another PAYLOAD is not a PAYLOAD
-static void payload_postprocess(parlex::detail::abstract_syntax_semilattice & asg) {
-	std::set<parlex::detail::match> payloadMatches;
-	for (auto const & entry : asg.permutations_of_matches) {
-		if (entry.first.r.id == "PAYLOAD") {
-			payloadMatches.insert(entry.first);
-		}
-	}
-	std::set<parlex::detail::match> payloadsToCut;
-	for (auto const & i : payloadMatches) {
-		for (auto const & j : payloadMatches) {
-			if (i < j || j < i) {
-				int const iSpanLeft = i.document_position;
-				int const iSpanRight = i.document_position + i.consumed_character_count - 1;
-				int const jSpanLeft = j.document_position;
-				int const jSpanRight = j.document_position + j.consumed_character_count - 1;
-				if (iSpanLeft < jSpanLeft && iSpanRight >= jSpanLeft) {
-					payloadsToCut.insert(i);
-				} else if (iSpanLeft == jSpanLeft && iSpanRight > jSpanRight) {
-					payloadsToCut.insert(i);
-				}
-			}
-		}
-	}
-	asg.cut(payloadsToCut);
-}
+//static void payload_postprocess(parlex::detail::abstract_syntax_semilattice & asg) {
+//	std::set<parlex::detail::match> payloadMatches;
+//	for (auto const & entry : asg.permutations_of_matches) {
+//		if (entry.first.recognizer_index == plc::plange_grammar::get().PAYLOAD) {
+//			payloadMatches.insert(entry.first);
+//		}
+//	}
+//	std::set<parlex::detail::match> payloadsToCut;
+//	for (auto const & i : payloadMatches) {
+//		for (auto const & j : payloadMatches) {
+//			if (i < j || j < i) {
+//				int const iSpanLeft = i.document_position;
+//				int const iSpanRight = i.document_position + i.consumed_character_count - 1;
+//				int const jSpanLeft = j.document_position;
+//				int const jSpanRight = j.document_position + j.consumed_character_count - 1;
+//				if (iSpanLeft < jSpanLeft && iSpanRight >= jSpanLeft) {
+//					payloadsToCut.insert(i);
+//				} else if (iSpanLeft == jSpanLeft && iSpanRight > jSpanRight) {
+//					payloadsToCut.insert(i);
+//				}
+//			}
+//		}
+//	}
+//	asg.cut(payloadsToCut);
+//}
 
 static std::vector<std::set<parlex::detail::match>> matches_by_height(parlex::detail::abstract_syntax_semilattice const & asg) {
 	std::map<parlex::detail::match, std::set<parlex::detail::match>> reversedDependencies;
@@ -80,7 +80,7 @@ plc::source_code::source_code(std::string const & pathname, std::u32string const
 	pathname(pathname),
 	document(document),
 	line_number_by_first_character(construct_line_number_by_first_character(document)),
-    ast(construct_ast(document, plange_grammar::get().STATEMENT_SCOPE.get_recognizer(), pathname)),
+    ast(construct_ast(document, STATEMENT_SCOPE::state_machine(), pathname)),
 	representation(STATEMENT_SCOPE::build(ast)) {
 }
 
@@ -147,24 +147,23 @@ std::string plc::source_code::describe_code_span(parlex::detail::match const & m
 
 }
 
-parlex::detail::abstract_syntax_tree plc::source_code::construct_ast(std::u32string const & document, parlex::detail::recognizer const & production, std::string const & pathname) {
+parlex::detail::abstract_syntax_tree plc::source_code::construct_ast(std::u32string const & document, parlex::detail::recognizer const & recognizer, std::string const & pathname) {
 	auto const lineNumberByFirstCharacter(construct_line_number_by_first_character(document));
 	static parlex::detail::parser p;
-	auto assl = p.parse(plange_grammar::get(), production, document);
+	auto assl = p.parse(plange_grammar::get(), recognizer, document);
 	// Was parsing successful?
 	if (!assl.is_rooted()) {
 		parlex::detail::match const * lastValidStatement =  nullptr;
-		auto const & statementStateMachine = plange_grammar::get().get_state_machine("STATEMENT");
 		for (auto const & tableEntry : assl.permutations_of_matches) {
 			auto const & m = tableEntry.first;
-			if (&m.r == &statementStateMachine) {
+			if (plc::plange_grammar::get().get_recognizer(m.recognizer_index).name == "STATEMENT") {
 				if (lastValidStatement == nullptr || m.document_position + m.consumed_character_count > lastValidStatement->document_position + lastValidStatement->consumed_character_count) {
 					lastValidStatement = &m;
 				}
 			}
 		}
 		if (lastValidStatement == nullptr) {
-			ERROR(CouldNotParse, pathname + " syntax semilattice: " + assl.to_dot());
+			ERROR(CouldNotParse, pathname + " syntax semilattice: " /*+ assl.to_dot()*/);
 		} else {
 			auto description = pathname + " last valid statement: " + describe_code_span(*lastValidStatement, lineNumberByFirstCharacter, pathname);
 			ERROR(CouldNotParse, description);
@@ -184,21 +183,21 @@ parlex::detail::abstract_syntax_tree plc::source_code::construct_ast(std::u32str
 					auto const posEnd = get_line_number_and_column(lineNumberByFirstCharacter, m.document_position + m.consumed_character_count - 1);
 					std::string message;
 					if (posStart.first == posEnd.first) {
-						message = pathname + ":" + m.r.id + " at " + std::to_string(posStart.first + 1) + ":" + std::to_string(posStart.second + 1) + "-" + std::to_string(posEnd.second + 1);
+						message = pathname + ":" + plc::plange_grammar::get().get_recognizer(m.recognizer_index).name + " at " + std::to_string(posStart.first + 1) + ":" + std::to_string(posStart.second + 1) + "-" + std::to_string(posEnd.second + 1);
 					}
 					else {
-						message = pathname + ":" + m.r.id + " at " + std::to_string(posStart.first + 1) + ":" + std::to_string(posStart.second + 1) + "-" + std::to_string(posEnd.first + 1) + ":" + std::to_string(posEnd.second + 1);
+						message = pathname + ":" + plc::plange_grammar::get().get_recognizer(m.recognizer_index).name + " at " + std::to_string(posStart.first + 1) + ":" + std::to_string(posStart.second + 1) + "-" + std::to_string(posEnd.first + 1) + ":" + std::to_string(posEnd.second + 1);
 					}
 					for (auto const & permutation : permutations) {
 						message += "\n";
 						message += "permutation: ";
 						for (auto const & childMatch : permutation) {
-							message += childMatch.r.id + " ";
+							message += plc::plange_grammar::get().get_recognizer(childMatch.recognizer_index).name + " ";
 						}
 						message = message.substr(0, message.length() - 1);
 					}
 					message += "\n";
-					message += assl.to_dot();
+					/*message += assl.to_dot();*/
 					ERROR(AmbiguousParse, message);
 				}
 			}
