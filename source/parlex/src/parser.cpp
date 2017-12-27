@@ -359,10 +359,10 @@ static void compute_intersections(std::vector<std::set<node_props_t *>> const & 
 		}
 		for (auto & nodeProp : flattened[column]) {
 			std::set<match> unrelatedIntersection;
-			std::set_difference(
+			set_difference(
 				columnMatches.begin(), columnMatches.end(),
 				nodeProp->all_descendents_and_ancestors.begin(), nodeProp->all_descendents_and_ancestors.end(),
-				std::inserter(nodeProp->all_unrelated_intersections, nodeProp->all_unrelated_intersections.end())
+				inserter(nodeProp->all_unrelated_intersections, nodeProp->all_unrelated_intersections.end())
 			);
 			nodeProp->all_unrelated_intersections.erase(nodeProp->m);
 		}

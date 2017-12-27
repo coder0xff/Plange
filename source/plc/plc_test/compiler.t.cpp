@@ -16,7 +16,7 @@
 #include "utf.hpp"
 
 static std::string const & examples_dir() {
-	static auto result = to_utf8(std::experimental::filesystem::canonical(std::experimental::filesystem::path(__FILE__).remove_filename().append("/../../stdlib"))).c_str() + std::string("/");
+	static auto result = to_utf8(canonical(std::experimental::filesystem::path(__FILE__).remove_filename().append("/../../stdlib"))).c_str() + std::string("/");
 	return result;
 }
 

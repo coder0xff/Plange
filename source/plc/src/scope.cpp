@@ -85,14 +85,14 @@ scope::scope(module & m, source_code const * source, scope * parent, STATEMENT_S
 		erased<STATEMENT> const * statementPtr = std::get_if<erased<STATEMENT>>(&entry);
 		if (statementPtr != nullptr) {
 			STATEMENT const & statement = **statementPtr;
-			std::visit(statement_visitor{ *this }, statement.value);
+			visit(statement_visitor{ *this }, statement.value);
 		}
 	}
 }
 
 bool scope::add_symbol(symbol const& s)
 {
-	return symbols.emplace(std::piecewise_construct, std::forward_as_tuple(s.name), std::forward_as_tuple(s)).second;
+	return symbols.emplace(std::piecewise_construct, forward_as_tuple(s.name), std::forward_as_tuple(s)).second;
 }
 
 analytic_value * scope::static_resolve(EXPRESSION const & expression) {

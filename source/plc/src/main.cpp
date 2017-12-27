@@ -17,7 +17,7 @@ int main(int argc, char * argv[]) {
 			argv[argIndex - 1] = argv[argIndex];
 		}
 		--argc;
-		::testing::InitGoogleTest(&argc, argv);
+		testing::InitGoogleTest(&argc, argv);
 		return RUN_ALL_TESTS();
 	}
 	using namespace plc;

@@ -36,7 +36,7 @@ std::optional<std::string> read_file(std::string const & pathname)
 	if (file) {
 		std::string str;
 		std::string fileContents;
-		while (std::getline(file, str))
+		while (getline(file, str))
 		{
 			fileContents += str;
 			fileContents.push_back('\n');

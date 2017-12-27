@@ -29,21 +29,21 @@ namespace mpl {
 
 namespace std {
 	namespace detail {
-		template<class> struct is_ref_wrapper : std::false_type {};
-		template<class T> struct is_ref_wrapper<std::reference_wrapper<T>> : std::true_type {};
+		template<class> struct is_ref_wrapper : false_type {};
+		template<class T> struct is_ref_wrapper<reference_wrapper<T>> : true_type {};
 
 		template<class T>
-		using not_ref_wrapper = std::negation<is_ref_wrapper<std::decay_t<T>>>;
+		using not_ref_wrapper = negation<is_ref_wrapper<decay_t<T>>>;
 
 		template <class D, class...> struct return_type_helper { using type = D; };
 		template <class... Types>
-		struct return_type_helper<void, Types...> : std::common_type<Types...> {
+		struct return_type_helper<void, Types...> : common_type<Types...> {
 			static_assert(conjunction_v<not_ref_wrapper<Types>...>,
 				"Types cannot contain reference_wrappers when D is void");
 		};
 
 		template <class D, class... Types>
-		using return_type = std::array<typename return_type_helper<D, Types...>::type,
+		using return_type = array<typename return_type_helper<D, Types...>::type,
 			sizeof...(Types)>;
 	}
 

@@ -382,8 +382,8 @@ private:
 		return true;
 	}
 
-	static node * terminal() { return static_cast<node*>(::detail::concurrent_forward_list_detail::terminal()); }
-	static node * spin() { return static_cast<node*>(::detail::concurrent_forward_list_detail::spin()); }
+	static node * terminal() { return static_cast<node*>(detail::concurrent_forward_list_detail::terminal()); }
+	static node * spin() { return static_cast<node*>(detail::concurrent_forward_list_detail::spin()); }
 
 	class node {
 	public:
