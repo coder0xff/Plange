@@ -20,7 +20,7 @@ namespace mpl {
 		template<>
 		struct impl<list<>> {
 			template<typename TFunctor, typename TAccumulator, typename TxList>
-			constexpr static TAccumulator f(TFunctor &&, TAccumulator && accumulator, TxList &&, size_t) {
+			constexpr static std::remove_reference_t<TAccumulator> f(TFunctor &&, TAccumulator && accumulator, TxList &&, size_t) {
 				return accumulator;
 			}
 		};
@@ -28,8 +28,8 @@ namespace mpl {
 		template<typename THead, typename... TTail>
 		struct impl<list<THead, TTail...>> {
 			template<typename TFunctor, typename TAccumulator, typename TxList>
-			constexpr static TAccumulator f(TFunctor && functor, TAccumulator && accumulator, TxList && data, size_t const index) {
-				TAccumulator nextAccumulator = functor.template operator()<THead>(std::forward<TAccumulator>(accumulator), data[index]);
+			constexpr static std::remove_reference_t<TAccumulator> f(TFunctor && functor, TAccumulator && accumulator, TxList && data, size_t const index) {
+				auto nextAccumulator = functor.template operator()<THead>(std::forward<TAccumulator>(accumulator), data[index]);
 				return impl<list<TTail...>>::template f<TFunctor, TAccumulator, TxList>(std::forward<TFunctor>(functor), std::move(nextAccumulator), std::forward<TxList>(data), index + 1);
 			}
 		};
@@ -37,13 +37,13 @@ namespace mpl {
 	}
 
 	template<typename TList, typename TFunctor, typename TAccumulator, typename Tx, size_t DataSize>
-	constexpr static TAccumulator fold_vx(TFunctor const && functor, TAccumulator && initial, std::array<Tx, DataSize> && data, SFINAE_PARAM(VARIADIC_SIZE<TList> == DataSize)) {
+	constexpr static std::remove_reference_t<TAccumulator> fold_vx(TFunctor const && functor, TAccumulator && initial, std::array<Tx, DataSize> && data, SFINAE_PARAM(VARIADIC_SIZE<TList> == DataSize)) {
 		return detail::fold_vx::impl<TList>::template f<TFunctor, TAccumulator, std::array<Tx, DataSize>>(std::forward<TFunctor>(functor), std::forward<TAccumulator>(initial), std::forward<std::array<Tx, DataSize>>(data), 0);
 	}
 
 	template<typename TList, typename TFunctor, typename TAccumulator, typename TArray>
 	constexpr auto fold_vx(TFunctor && functor, TAccumulator && initial, TArray && data) {
-		TAccumulator result = detail::fold_vx::impl<TList>::template f<TFunctor, TAccumulator, TArray>(std::forward<TFunctor>(functor), std::forward<TAccumulator>(initial), std::forward<TArray>(data), 0);
+		std::remove_reference_t<TAccumulator> result = detail::fold_vx::impl<TList>::template f<TFunctor, TAccumulator, TArray>(std::forward<TFunctor>(functor), std::forward<TAccumulator>(initial), std::forward<TArray>(data), 0);
 		return result;
 	}
 
