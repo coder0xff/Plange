@@ -38,7 +38,7 @@ job::job(parser & owner, std::u32string const & document, grammar_base const & g
 		storage.reset(result);
 		//seed the parser with the root state
 		result->begin_work_queue_reference(); //reference code A
-		owner.work.emplace(&result->construct_start_state_context(0), 0);
+		owner.work.emplace_back(&result->construct_start_state_context(0), 0);
 		result->finish_creation();
 		++owner.active_count;
 		// start when parser::mutex is unlocked

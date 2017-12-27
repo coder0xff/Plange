@@ -26,7 +26,8 @@ void parser::start_workers(int threadCount) {
 			while (!terminating) {
 				{
 					//DBG("THREAD ", threadCount, " POPPING ITEM");
-					auto item = work.pop();
+					auto item = work.back();
+					work.pop_back();
 					lock.unlock();
 					auto const & c = *std::get<0>(item);
 					auto const nextDfaState = std::get<1>(item);
@@ -87,7 +88,8 @@ abstract_syntax_semilattice parser::single_thread_parse(grammar_base const & g, 
 	throw_assert(active_count > 0);
 	while (true) {
 		while (work.size() > 0) {
-			auto item = work.pop();
+			auto item = work.back();
+			work.pop_back();
 			auto const & c = *std::get<0>(item);
 			auto const nextDfaState = std::get<1>(item);
 			update_progress(c);	
@@ -149,7 +151,7 @@ void parser::schedule(context const & c, int nextDfaState) {
 	c.owner.begin_work_queue_reference();
 	++active_count;
 	std::unique_lock<std::mutex> lock(mutex);
-	work.emplace(&c, nextDfaState);
+	work.emplace_back(&c, nextDfaState);
 	work_cv.notify_one();
 }
 

@@ -39,7 +39,7 @@ private:
 	bool terminating;
 
 	std::vector<std::thread> workers;
-	collections::coherent_queue<std::tuple<context const*, int>> work;
+	std::vector<std::tuple<context const*, int>> work;
 	std::condition_variable work_cv;
 
 	void start_workers(int threadCount);
