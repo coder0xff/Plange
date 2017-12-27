@@ -106,7 +106,7 @@ int main(int const argc, const char* argv[]) {
 		if (data["filter"]) {
 			std::string const filterName = data["filter"].as<std::string>();
 			if (filterName == "longest") {
-				filter = parlex::detail::builtins().longest;
+				filter = parlex::longest();
 			} else {
 				throw std::logic_error(("unrecognized filter " + filterName).c_str());
 			}
