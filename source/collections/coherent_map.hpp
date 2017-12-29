@@ -23,7 +23,7 @@ public:
 	template<typename U>
 	class iterator_template {
 		friend class coherent_map;
-		typedef std::forward_iterator_tag iterator_category;
+		typedef std::random_access_iterator_tag iterator_category;
 		typedef U value_type;
 		typedef U & reference;
 		typedef U * pointer;
@@ -44,14 +44,20 @@ public:
 		iterator_template(iterator_template && other) = default;
 		~iterator_template() = default;
 
-		template<typename V>
-		iterator_template& operator=(iterator_template<V> const & other) {
-			current = other.current;
+		iterator_template & operator=(iterator_template const & rhs) {
+			current = rhs.current;
+			return *this;
+		}
+
+		template <typename V>
+		iterator_template & operator=(iterator_template<V> const & rhs) {
+			current = rhs.current;
 			return *this;
 		}
 
 		U & operator*() const {
 			assert(owner != nullptr);
+			assert(current < owner->size_);
 			return owner->storage[current];
 		}
 
@@ -59,25 +65,63 @@ public:
 			return &operator*();
 		}
 
-		iterator_template& operator++() {
-			assert(owner != nullptr); // this is end()
+		iterator_template & operator++() {
+			assert(owner != nullptr);
+			assert(current < owner->size_);
 			++current;
-			if (current == owner->size_) {
-				owner = nullptr;
-				current = 0;
-			}
 			return *this;
 		}
 
 		iterator_template operator++(int) {
-			assert(owner != nullptr); // this is end()
-			iterator_template temp = *this;
+			iterator_template result = *this;
 			++*this;
-			return temp;
+			return result;
+		}
+
+		iterator_template & operator--() {
+			assert(owner != nullptr);
+			assert(current != 0);
+			--current;
+			return *this;
+		}
+
+		iterator_template operator--(int) {
+			iterator_template result = *this;
+			--*this;
+			return result;
+		}
+
+		iterator_template operator+(int const rhs) const {
+			assert(owner != nullptr);
+			if (rhs == 0) {
+				return *this;
+			} 
+			if (rhs > 0) {
+				if (current + rhs > owner->size_) {
+					throw std::logic_error("Cannot move iterator past the end of the collection");
+				}
+				iterator_template result = *this;
+				result.current += rhs;
+				return result;
+			}
+			if (-rhs > int(current)) {
+				throw std::logic_error("Cannot move iterator before the start of the collection");
+			}
+			iterator_template result = *this;
+			result.current += rhs;
+			return result;
+		}
+
+		iterator_template operator-(int const rhs) const {
+			return *this + (-rhs);
+		}
+
+		int operator-(iterator_template const & rhs) const {
+			return current - int(rhs.current);
 		}
 
 		explicit operator iterator_template<const value_type>() const {
-			return iterator_template<const value_type>(current);
+			return iterator_template<const value_type>(owner, current);
 		}
 
 		template<typename V>
@@ -175,7 +219,7 @@ public:
 				high = mid;
 			}
 		}
-		return size_ == 0 || high == size_ ? const_iterator() : const_iterator(this, high);
+		return size_ == 0 || high == size_ ? cend() : const_iterator(this, high);
 	}
 
 	iterator lower_bound(TKey const & key) {
@@ -206,25 +250,39 @@ private:
 		}
 	}
 
+	struct less_than_predicate {
+		bool operator()(value_type const & lhs, value_type const & rhs) const {
+			return TCompare()(lhs.first, rhs.first);
+		}
+	};
+
+	struct equals_predicate {
+		bool operator()(value_type const & lhs, value_type const & rhs) const {
+			return !TCompare()(lhs.first, rhs.first) && !TCompare()(rhs.first, lhs.first);
+		}
+	};
+
 public:
 
 	template<typename... U, typename... V>
 	std::pair<iterator, bool> emplace(std::piecewise_construct_t const &, std::tuple<U...> && keyArgs, std::tuple<V...> && valueArgs) {
-		TKey key = mpl::apply_v_constructor<TKey, std::tuple<U...>>(std::forward<std::tuple<U...> &&>(keyArgs));
+		std::remove_reference_t<TKey> key(std::move(mpl::apply_v_constructor<TKey, std::tuple<U...>>(std::forward<std::tuple<U...> &&>(keyArgs))));
 		reserve(size_ + 1);
 		auto position = lower_bound(key);
-		if (position != iterator()) {
+		if (position != end()) {
 			bool const equalKeys = !(TCompare()(position->first, key)) && !(TCompare()(key, position->first));
 			if (equalKeys) {
 				return std::make_pair(position, false);
 			}
 			auto insertIndex = position.current;
 			shift_one(insertIndex);
-			new (storage + position.current) value_type(std::piecewise_construct, std::forward_as_tuple(key), valueArgs);
+			std::remove_reference_t<TValue> value(std::move(mpl::apply_v_constructor<TValue, std::tuple<V...>>(std::forward<std::tuple<V...> &&>(valueArgs))));
+			new (storage + position.current) value_type(std::move(key), std::move(value));
 			++size_;
 			return std::make_pair(position, true);
 		}
-		new (storage + size_) value_type(std::piecewise_construct, std::forward_as_tuple(key), valueArgs);
+		std::remove_reference_t<TValue> value(std::move(mpl::apply_v_constructor<TValue, std::tuple<V...>>(std::forward<std::tuple<V...> &&>(valueArgs))));
+		new (storage + size_) value_type(std::move(key), std::move(value));
 		++size_;
 		return std::make_pair(iterator(this, size_ - 1), true);
 	}
@@ -239,16 +297,6 @@ public:
 
 	template<typename TIterator>
 	size_t insert_many(TIterator const & begin, TIterator const & end) {
-		struct less_than_predicate {
-			bool operator()(value_type const & lhs, value_type const & rhs) const {
-				return TCompare()(lhs.first, rhs.first);
-			}
-		};
-		struct equals_predicate {
-			bool operator()(value_type const & lhs, value_type const & rhs) const {
-				return !TCompare()(lhs.first, rhs.first) && !TCompare()(rhs.first, lhs.first);
-			}
-		};
 		size_t const requestedCount = end - begin;
 		reserve(size_ + requestedCount);
 		size_t counter = 0;
@@ -258,14 +306,51 @@ public:
 		std::stable_sort(storage, storage + size_ + requestedCount, less_than_predicate());
 		auto const originalSize = size_;
 		auto newEnd = std::unique(storage, storage + size_ + requestedCount, equals_predicate());
+		for (size_t i = newEnd - storage; i < size_; ++i) {
+			storage[i].~value_type();
+		}
 		size_ = newEnd - storage;
 		return size_ - originalSize;
 	}
 
+	template<typename TIterator>
+	size_t erase_many(TIterator const & beginParam, TIterator const & endParam) {
+		TCompare compare;
+		assert(std::is_sorted(beginParam, endParam, compare));
+		size_t readIndex = 0;
+		size_t writeIndex = 0;
+		TIterator i = beginParam;
+		while (i != endParam && readIndex < size_) {
+			if (compare(*i, storage[readIndex].first)) {
+				++i;
+				continue;
+			}
+			if (compare(storage[readIndex].first, *i)) {
+				if (writeIndex < readIndex) {
+					detail::mover(storage + writeIndex, storage + readIndex);
+				}
+				++readIndex;
+				++writeIndex;
+				continue;
+			}
+			// elements are equal, so remove
+			storage[readIndex++].~value_type();
+			++i;
+		}
+		// if any elements were removed then shift any remaining elements
+		if (writeIndex < readIndex) {
+			while (readIndex < size_) {
+				detail::mover(storage + writeIndex++, storage + readIndex++);
+			}
+		}
+		size_ = writeIndex;
+		return readIndex - writeIndex;
+	}
+
 	const_iterator find(TKey const & key) const {
 		auto result = lower_bound(key);
-		if (result == const_iterator() || TCompare()(key, result->first)) {
-			return const_iterator();
+		if (result == end() || TCompare()(key, result->first)) {
+			return cend();
 		}
 		return result;
 	}
@@ -278,7 +363,7 @@ public:
 	TValue & operator[](TKey const & key)
 	{
 		auto i = lower_bound(key);
-		if (i != iterator()) {
+		if (i != end()) {
 			if (!(TCompare()(key, i->first))) {
 				return i->second;
 			}
@@ -297,7 +382,7 @@ public:
 	TValue & operator[](TKey && key)
 	{
 		auto i = lower_bound(key);
-		if (i != iterator()) {
+		if (i != end()) {
 			if (!(TCompare()(key, i->first))) {
 				return i->second;
 			}
@@ -315,7 +400,7 @@ public:
 
 	size_t erase(TKey const & key) {
 		auto i = find(key);
-		if (i != iterator()) {
+		if (i != end()) {
 			unshift_one(i.current);
 			--size_;
 			return 1;
@@ -324,32 +409,27 @@ public:
 	}
 
 	iterator begin() noexcept {
-		if (size_ > 0) {
-			return iterator(this, 0);
-		}
-		return iterator();
+		return iterator(this, 0);
 	}
 
 	const_iterator begin() const noexcept {
-		if (size_ > 0) {
-			return const_iterator(this, 0);
-		}
-		return const_iterator();
+		return const_iterator(this, 0);
 	}
 
 	const_iterator cbegin() const noexcept {
-		if (size_ > 0) {
-			return const_iterator(this, 0);
-		}
-		return const_iterator();
+		return const_iterator(this, 0);
 	}
 
 	iterator end() const noexcept {
-		return iterator();
+		return iterator(this, size_);
+	}
+
+	const_iterator cend() const noexcept {
+		return const_iterator(this, size_);
 	}
 
 	size_t count(TKey const & key) const {
-		return find(key) == iterator() ? 0 : 1;
+		return find(key) == end() ? 0 : 1;
 	}
 
 private:

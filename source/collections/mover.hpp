@@ -16,7 +16,7 @@ void mover(T* const dst, T* const src, SFINAE_PARAM(mpl::IS_MOVABLE<T>)) {
 template<typename T>
 void mover(T* const dst, T* const src, SFINAE_PARAM(!mpl::IS_MOVABLE<T> && mpl::IS_COPYABLE<T>)) {
 	new (dst) T(*src);
-	src->~U();
+	src->~T();
 }
 
 }

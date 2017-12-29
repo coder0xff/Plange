@@ -21,7 +21,7 @@ namespace collections {
 		template<typename U>
 		class iterator_template {
 			friend class coherent_set;
-			typedef std::forward_iterator_tag iterator_category;
+			typedef std::random_access_iterator_tag iterator_category;
 			typedef U value_type;
 			typedef U & reference;
 			typedef U * pointer;
@@ -57,15 +57,39 @@ namespace collections {
 			}
 
 			iterator_template& operator++() {
-				assert(underlying != underlying_t());
 				++underlying;
 				return *this;
 			}
 
 			iterator_template operator++(int) {
-				iterator_template temp = *this;
+				iterator_template result = *this;
 				++*this;
-				return temp;
+				return result;
+			}
+
+			iterator_template operator--() {
+				--underlying;
+				return *this;
+			}
+
+			iterator_template operator--(int) {
+				iterator_template result = *this;
+				--*this;
+				return result;
+			}
+
+			iterator_template operator+(int const rhs) const {
+				iterator_template result;
+				result.underlying = underlying + rhs;
+				return result;
+			}
+
+			iterator_template operator-(int const rhs) const {
+				return *this + (-rhs);
+			}
+
+			int operator-(iterator_template const & rhs) const {
+				return underlying - rhs.underlying;
 			}
 
 			explicit operator iterator_template<const value_type>() const {
@@ -135,6 +159,11 @@ namespace collections {
 			return storage.insert_many(temp.begin(), temp.end());
 		}
 
+		template<typename TIterator>
+		size_t erase_many(TIterator const & begin, TIterator const & end) {
+			return storage.erase_many(begin, end);
+		}
+
 		size_t erase(T const & key) {
 			return storage.erase(key);
 		}
@@ -152,7 +181,7 @@ namespace collections {
 		}
 
 		iterator end() const noexcept {
-			return iterator();
+			return iterator(storage.end());
 		}
 
 		size_t count(T const & v) const {
