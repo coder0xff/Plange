@@ -223,7 +223,7 @@ struct node_props_t {
 	std::set<match> all_descendents;
 	std::set<match> all_ancestors;
 	std::set<match> all_descendents_and_ancestors;
-	std::set<match> all_unrelated_intersections;
+	collections::coherent_set<match> all_unrelated_intersections;
 
 	node_props_t(abstract_syntax_semilattice & asg, match const & m) : m(m), permutations(asg.permutations_of_matches[m]), height(0) {
 	}
@@ -384,13 +384,13 @@ struct intersection_lookup {
 			for (size_t i = 0; i + 1 < lowerRow.size(); i += 2) {
 				auto const column = i / 2;
 				auto & cell = row[column];
-				cell.insert(lowerRow[i].begin(), lowerRow[i].end());
-				cell.insert(lowerRow[i + 1].begin(), lowerRow[i + 1].end());
+				cell.insert_many(lowerRow[i].begin(), lowerRow[i].end());
+				cell.insert_many(lowerRow[i + 1].begin(), lowerRow[i + 1].end());
 			}
 		}
 	}
 
-	void query(int const first, int const last, std::set<match> & results) {
+	void query(int const first, int const last, collections::coherent_set<match> & results) {
 		int const lookupDepth = lookup.size();
 		// common higher-order bits identify the row and column fully containing the span
 		auto const containmentAntiRow = sizeof(int32_t) * 8 - clz(first ^ last);
@@ -401,13 +401,7 @@ struct intersection_lookup {
 		int const containmentRow = int(lookupDepth - 1) - containmentAntiRow;
 		if (containmentRow >= 0 && int(lookup[containmentRow].size()) > containmentColumn && first == containmentFirst && last == containmentLast) {
 			auto resolved = lookup[containmentRow][containmentColumn];
-			std::set<match> temp;
-			std::set_union(
-				results.begin(), results.end(),
-				resolved.begin(), resolved.end(),
-				std::inserter(temp, temp.end())
-			);
-			results.swap(temp);
+			results.insert_many(resolved.begin(), resolved.end());
 		} else {
 			int const divisionAntiRow = containmentAntiRow - 1;
 			auto const divisionColumn = (containmentColumn << 1) + 1;
@@ -418,7 +412,7 @@ struct intersection_lookup {
 	}
 
 private:
-	std::vector<std::vector<std::set<match>>> lookup;	
+	std::vector<std::vector<collections::coherent_set<match>>> lookup;	
 };
 
 static void compute_intersections(std::map<match, node_props_t> & nodes, std::vector<std::set<node_props_t *>> const & flattened) {
@@ -428,15 +422,10 @@ static void compute_intersections(std::map<match, node_props_t> & nodes, std::ve
 		auto & props = matchAndProps.second;
 		auto const first = m.document_position;
 		auto const last = first + m.consumed_character_count - 1;
-		std::set<match> temp;
-		lookup.query(first, last, temp);
-		temp.erase(m);
+		lookup.query(first, last, props.all_unrelated_intersections);
+		props.all_unrelated_intersections.erase(m);
 		auto const & remove = props.all_descendents_and_ancestors;
-		std::set_difference(
-			temp.begin(), temp.end(),
-			remove.begin(), remove.end(),
-			std::inserter(props.all_unrelated_intersections, props.all_unrelated_intersections.end())
-		);
+		props.all_unrelated_intersections.erase_many(remove.begin(), remove.end());
 	}
 }
 
