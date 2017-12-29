@@ -1,5 +1,6 @@
 #include "parlex/detail/parser.hpp"
 
+#include <iterator>
 #include <stack>
 
 #include "parlex/post_processor.hpp"
@@ -12,7 +13,7 @@
 #include "parlex/detail/subjob.hpp"
 
 #include "utils.hpp"
-#include <iterator>
+#include "bits.hpp"
 
 namespace parlex {
 namespace detail {
@@ -361,21 +362,81 @@ static void resolve_nodes(std::map<match, node_props_t> & nodes) {
 	}
 }
 
-static void compute_intersections(std::vector<std::set<node_props_t *>> const & flattened) {
-	for (size_t column = 0; column < flattened.size(); ++column) {
-		std::set<match> columnMatches;
-		for (auto const & nodeProp : flattened[column]) {
-			columnMatches.insert(nodeProp->m);
+//Algorithm for quickly getting the `matches` that are present in a range of document indices
+struct intersection_lookup {
+	explicit intersection_lookup(std::vector<std::set<node_props_t *>> const & flattened) {
+		auto const docLen = flattened.size();
+		auto const lookupDepth = sizeof(int32_t) * 8 - clz(uint32_t(docLen));
+		lookup.resize(lookupDepth);
+		auto & lowestRow = lookup[lookupDepth - 1];
+		lowestRow.resize(docLen);
+		for (size_t i = 0; i < docLen; ++i) {
+			for (auto const & node : flattened[i]) {
+				lowestRow[i].insert(node->m);
+			}
 		}
-		for (auto & nodeProp : flattened[column]) {
-			std::set<match> unrelatedIntersection;
-			set_difference(
-				columnMatches.begin(), columnMatches.end(),
-				nodeProp->all_descendents_and_ancestors.begin(), nodeProp->all_descendents_and_ancestors.end(),
-				inserter(nodeProp->all_unrelated_intersections, nodeProp->all_unrelated_intersections.end())
+		for (int depth = lookupDepth - 2; depth >= 0; --depth) {
+			auto const antiDepth = (lookupDepth - 1) - depth;
+			auto const rowWidth = docLen >> antiDepth;
+			auto & row = lookup[depth];
+			row.resize(rowWidth);
+			auto & lowerRow = lookup[depth + 1];
+			for (size_t i = 0; i + 1 < lowerRow.size(); i += 2) {
+				auto const column = i / 2;
+				auto & cell = row[column];
+				cell.insert(lowerRow[i].begin(), lowerRow[i].end());
+				cell.insert(lowerRow[i + 1].begin(), lowerRow[i + 1].end());
+			}
+		}
+	}
+
+	void query(int const first, int const last, std::set<match> & results) {
+		int const lookupDepth = lookup.size();
+		// common higher-order bits identify the row and column fully containing the span
+		auto const containmentAntiRow = sizeof(int32_t) * 8 - clz(first ^ last);
+		int const containmentBreadth = 1 << containmentAntiRow;
+		int const containmentColumn = first >> containmentAntiRow;
+		int const containmentFirst = containmentColumn << containmentAntiRow;
+		auto const containmentLast = containmentFirst + containmentBreadth - 1;
+		int const containmentRow = int(lookupDepth - 1) - containmentAntiRow;
+		if (containmentRow >= 0 && int(lookup[containmentRow].size()) > containmentColumn && first == containmentFirst && last == containmentLast) {
+			auto resolved = lookup[containmentRow][containmentColumn];
+			std::set<match> temp;
+			std::set_union(
+				results.begin(), results.end(),
+				resolved.begin(), resolved.end(),
+				std::inserter(temp, temp.end())
 			);
-			nodeProp->all_unrelated_intersections.erase(nodeProp->m);
+			results.swap(temp);
+		} else {
+			int const divisionAntiRow = containmentAntiRow - 1;
+			auto const divisionColumn = (containmentColumn << 1) + 1;
+			auto const divisionIndex = divisionColumn << divisionAntiRow;
+			query(first, divisionIndex - 1, results);
+			query(divisionIndex, last, results);
 		}
+	}
+
+private:
+	std::vector<std::vector<std::set<match>>> lookup;	
+};
+
+static void compute_intersections(std::map<match, node_props_t> & nodes, std::vector<std::set<node_props_t *>> const & flattened) {
+	intersection_lookup lookup(flattened);
+	for (auto & matchAndProps : nodes) {		
+		auto const & m = matchAndProps.first;
+		auto & props = matchAndProps.second;
+		auto const first = m.document_position;
+		auto const last = first + m.consumed_character_count - 1;
+		std::set<match> temp;
+		lookup.query(first, last, temp);
+		temp.erase(m);
+		auto const & remove = props.all_descendents_and_ancestors;
+		std::set_difference(
+			temp.begin(), temp.end(),
+			remove.begin(), remove.end(),
+			std::inserter(props.all_unrelated_intersections, props.all_unrelated_intersections.end())
+		);
 	}
 }
 
@@ -490,7 +551,7 @@ static void apply_precedence_and_associativity(grammar_base const & g, abstract_
 
 		construct_nodes(asg, nodes, flattened);
 		resolve_nodes(nodes);
-		compute_intersections(flattened);
+		compute_intersections(nodes, flattened);
 		auto const matchesByHeight = ordered_matches_by_height(nodes);
 		select_trees(asg, g, nodes, matchesByHeight);
 	}
