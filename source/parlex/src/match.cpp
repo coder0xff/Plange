@@ -7,6 +7,12 @@ namespace detail {
 
 match::match(struct match_class const & matchClass, int const consumedCharacterCount) : match_class(matchClass), consumed_character_count(consumedCharacterCount) { throw_assert(consumedCharacterCount >= 0); }
 
+match & match::operator=(match && move) noexcept {
+	this->~match();
+	new (this) match(std::move(move));
+	return *this;
+}
+
 bool match::operator<(match const & rhs) const {
 	if (this->match_class::operator<(rhs)) {
 		return true;

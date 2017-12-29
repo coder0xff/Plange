@@ -9,10 +9,11 @@ namespace detail {
 struct match : match_class {
 	size_t const consumed_character_count;
 
-	match(struct match_class const & matchClass, int consumedCharacterCount);
+	match() = delete;
+	match(match_class const & matchClass, int consumedCharacterCount);
 	match(match const & other) = default;
 	match(match && move) = default;
-	match() = delete;
+	match & operator =(match && move) noexcept;
 
 	bool operator <(match const & rhs) const;
 };
