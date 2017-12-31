@@ -1,5 +1,6 @@
 #include "compiler.hpp"
 
+#include <fstream>
 #include <experimental/filesystem>
 
 #include <gtest/gtest.h>
@@ -14,9 +15,16 @@
 
 #include "module.hpp"
 #include "utf.hpp"
+#include "errors.hpp"
+#include "parlex/detail/parser.hpp"
+
+static std::string const & stdlibs_dir() {
+	static auto result = to_utf8(canonical(std::experimental::filesystem::path(__FILE__).remove_filename().append("/../../stdlib/"))) + std::string("/");
+	return result;
+}
 
 static std::string const & examples_dir() {
-	static auto result = to_utf8(canonical(std::experimental::filesystem::path(__FILE__).remove_filename().append("/../../stdlib"))).c_str() + std::string("/");
+	static auto result = to_utf8(canonical(std::experimental::filesystem::path(__FILE__).remove_filename().append("/../../../examples/"))) + std::string("/");
 	return result;
 }
 
@@ -79,7 +87,43 @@ TEST(PlcCompiler, ParsePrintHelloWorld) {
 	plc::source_code("", source);
 }
 
+static std::u32string read(std::string const & filePathname) {
+	std::ifstream ifs(filePathname, std::ios::binary);
+	if (!ifs) {
+		ERROR(CouldNotOpenFile, filePathname);
+	}
+	return read_with_bom(move(ifs));
+}
+
+TEST(PlcCompiler, ParseCStdLibGenerated) {
+	auto const filePathname = stdlibs_dir() + "Plange.CStdLib.Generated._pg";
+	static parlex::detail::parser p;
+	auto assl = p.parse(plc::plange_grammar::get(), plc::plange_grammar::get().get_recognizer(plc::plange_grammar::get().STATEMENT_SCOPE), read(filePathname));
+	EXPECT_TRUE(assl.is_rooted());
+}
+
 TEST(PlcCompiler, LoadCStdLibGenerated) {
-	auto const filePathname = examples_dir() + "Plange.CStdLib.Generated._pg";
+	auto const filePathname = stdlibs_dir() + "Plange.CStdLib.Generated._pg";
 	auto result = plc::source_code(filePathname);
+}
+
+static void parse_example(std::string const & exampleName) {
+	auto const filePathname = examples_dir() + exampleName;
+	static parlex::detail::parser p;
+	auto const & statementScopeRecognizer = plc::plange_grammar::get().get_recognizer(plc::plange_grammar::get().STATEMENT_SCOPE);
+	auto assl = p.parse(plc::plange_grammar::get(), statementScopeRecognizer, read(filePathname));
+	EXPECT_TRUE(assl.is_rooted());
+}
+
+static void load_example(std::string const & exampleName) {
+	auto const filePathname = examples_dir() + exampleName;
+	auto result = plc::source_code(filePathname);
+}
+
+TEST(PlcCompiler, ParseEmbeddedCommentExample) {
+	parse_example("embeddedComment.pge");
+}
+
+TEST(PlcCompiler, LoadEmbeddedCommentExample) {
+	load_example("embeddedComment.pge");
 }

@@ -46,8 +46,8 @@ private:
 	static void update_progress(context const & context);
 	static void apply_precedence_and_associativity(grammar_base const & g, abstract_syntax_semilattice & asg);
 	void start_workers(int threadCount);
-	abstract_syntax_semilattice single_thread_parse(grammar_base const & g, size_t const overrideRootRecognizerIndex, std::vector<post_processor> const & posts, std::u32string const & document, progress_handler_t progressHandler);
-	abstract_syntax_semilattice multi_thread_parse(grammar_base const & g, size_t const overrideRootRecognizerIndex, std::vector<post_processor> const & posts, std::u32string const & document, progress_handler_t progressHandler);
+	abstract_syntax_semilattice single_thread_parse(grammar_base const & g, size_t const overrideRootRecognizerIndex, std::vector<post_processor> const & posts, std::u32string const & document, progress_handler_t const & progressHandler);
+	abstract_syntax_semilattice multi_thread_parse(grammar_base const & g, size_t const overrideRootRecognizerIndex, std::vector<post_processor> const & posts, std::u32string const & document, progress_handler_t const & progressHandler);
 	void schedule(context const & c, int nextDfaState);
 };
 

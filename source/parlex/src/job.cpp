@@ -9,6 +9,7 @@
 #include "parlex/detail/subjob.hpp"
 #include "parlex/detail/grammar_base.hpp"
 #include <stack>
+#include "perf_timer.hpp"
 
 //#include "logging.hpp"
 
@@ -87,8 +88,8 @@ job::job(parser & owner, std::u32string const & document, grammar_base const & g
 	}
 }
 
-void job::connect(match_class const & matchClass, context const & c, int const nextDfaState, leaf const * leaf) {
-	get_producer(matchClass).add_subscription(c, nextDfaState, leaf);
+void job::connect(match_class const & matchClass, context const & c, int const nextState, leaf const * leaf) {
+	get_producer(matchClass).add_subscription(c, nextState, leaf);
 }
 
 producer & job::get_producer(match_class const & matchClass) {
@@ -130,7 +131,10 @@ void job::update_progress(size_t const completed)
 }
 
 bool job::handle_deadlocks() const {
-	//perf_timer timer("handle_deadlocks");
+	perf_timer perf(__func__);
+
+
+
 
 	//build a dependency graph and detect cyclical portions that should be halted
 	//if no subjobs remain, return true
@@ -220,6 +224,7 @@ abstract_syntax_semilattice job::construct_result(match const & m) {
 
 
 abstract_syntax_semilattice job::construct_result_and_postprocess(size_t const overrideRootRecognizerIndex, std::vector<post_processor> const & posts, std::u32string const & document) {
+	perf_timer perf(__func__);
 	auto result = construct_result(match(match_class(0, overrideRootRecognizerIndex, 0), document.size()));
 	if (!posts.empty()) {
 		for (auto const & post : posts) {

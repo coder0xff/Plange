@@ -25,7 +25,6 @@ class job {
 public:
 	std::u32string const document;
 	grammar_base const & g;
-	mutable std::mutex producers_mutex;
 	std::atomic<int> progress;
 
 	job(parser & owner, std::u32string const & document, grammar_base const & g, size_t const rootRecognizerIndex, progress_handler_t const & progressHandler);

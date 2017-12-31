@@ -13,6 +13,7 @@
 
 #include "utils.hpp"
 #include "bits.hpp"
+#include "perf_timer.hpp"
 
 namespace parlex {
 namespace detail {
@@ -41,7 +42,7 @@ void parser::start_workers(int threadCount) {
 					lock.lock();
 				}
 			wait:
-				work_cv.wait(lock, [this]() { return work.size() > 0 || terminating; });
+				work_cv.wait(lock, [this]() { return !work.empty() || terminating; });
 			}
 		});
 	}
@@ -69,26 +70,29 @@ void parser::update_progress(context const & context) {
 	context.owner.owner.update_progress(context.current_document_position);
 }
 
-abstract_syntax_semilattice parser::single_thread_parse(grammar_base const & g, size_t const overrideRootRecognizerIndex, std::vector<post_processor> const & posts, std::u32string const & document, progress_handler_t const progressHandler) {
-	//perf_timer timer("parse");
+abstract_syntax_semilattice parser::single_thread_parse(grammar_base const & g, size_t const overrideRootRecognizerIndex, std::vector<post_processor> const & posts, std::u32string const & document, progress_handler_t const & progressHandler) {
+	perf_timer perf(__func__);
 	job j(*this, document, g, overrideRootRecognizerIndex, progressHandler);
 	throw_assert(active_count > 0);
-	while (true) {
-		while (work.size() > 0) {
-			auto item = work.back();
-			work.pop_back();
-			auto const & c = *std::get<0>(item);
-			auto const nextDfaState = std::get<1>(item);
-			update_progress(c);	
-			//INF("thread ", threadCount, " executing DFA state");
-			c.owner.machine.process(c, nextDfaState);
-			c.owner.end_work_queue_reference();
-			--active_count;
-		}
-		throw_assert(active_count == 0);
-		//DBG("parser is idle; checking for deadlocks");
-		if (j.handle_deadlocks()) {
-			break;
+	{
+		perf_timer perf("Recognizer work queue processing");
+		while (true) {
+			while (!work.empty()) {
+				auto item = work.back();
+				work.pop_back();
+				auto const & c = *std::get<0>(item);
+				auto const nextDfaState = std::get<1>(item);
+				update_progress(c);
+				//INF("thread ", threadCount, " executing DFA state");
+				c.owner.machine.process(c, nextDfaState);
+				c.owner.end_work_queue_reference();
+				--active_count;
+			}
+			throw_assert(active_count == 0);
+			//DBG("parser is idle; checking for deadlocks");			
+			if (j.handle_deadlocks()) {
+				break;
+			}
 		}
 	}
 	throw_assert(active_count == 0);
@@ -96,17 +100,20 @@ abstract_syntax_semilattice parser::single_thread_parse(grammar_base const & g, 
 	return j.construct_result_and_postprocess(overrideRootRecognizerIndex, posts, document);
 }
 
-abstract_syntax_semilattice parser::multi_thread_parse(grammar_base const & g, size_t const overrideRootRecognizerIndex, std::vector<post_processor> const & posts, std::u32string const & document, progress_handler_t const progressHandler) {
+abstract_syntax_semilattice parser::multi_thread_parse(grammar_base const & g, size_t const overrideRootRecognizerIndex, std::vector<post_processor> const & posts, std::u32string const & document, progress_handler_t const & progressHandler) {
 	//perf_timer timer("parse");
 	std::unique_lock<std::mutex> lock(mutex); //use the lock to make sure we see activeCount != 0
 	job j(*this, document, g, overrideRootRecognizerIndex, progressHandler);
 	throw_assert(active_count > 0);
-	while (true) {
-		halt_cv.wait(lock, [this]() { return active_count == 0; });
-		//DBG("parser is idle; checking for deadlocks");
-		throw_assert(active_count == 0);
-		if (j.handle_deadlocks()) {
-			break;
+	{
+		perf_timer recognizeTimer("Recognizer work queue processing");
+		while (true) {
+			halt_cv.wait(lock, [this]() { return active_count == 0; });
+			//DBG("parser is idle; checking for deadlocks");
+			throw_assert(active_count == 0);
+			if (j.handle_deadlocks()) {
+				break;
+			}
 		}
 	}
 	throw_assert(active_count == 0);
