@@ -1,6 +1,5 @@
 #include "parlex/detail/parser.hpp"
 
-#include <iterator>
 #include <stack>
 
 #include "parlex/post_processor.hpp"
@@ -62,19 +61,6 @@ parser::~parser() {
 	}
 }
 
-abstract_syntax_semilattice parser::construct_result_and_postprocess(size_t const overrideRootRecognizerIndex, std::vector<post_processor> const & posts, std::u32string const & document, job & j) {
-	auto result = construct_result(j, match(match_class(0, overrideRootRecognizerIndex, 0), document.size()));
-	if (!posts.empty()) {
-		for (auto const & post : posts) {
-			post(result);
-		}
-		if (result.is_rooted()) {
-			result.prune_detached();
-		}
-	}
-	return result;
-}
-
 void parser::complete_progress_handler(job & j) {
 	j.update_progress(j.document.length());
 }
@@ -101,13 +87,13 @@ abstract_syntax_semilattice parser::single_thread_parse(grammar_base const & g, 
 		}
 		throw_assert(active_count == 0);
 		//DBG("parser is idle; checking for deadlocks");
-		if (handle_deadlocks(j)) {
+		if (j.handle_deadlocks()) {
 			break;
 		}
 	}
 	throw_assert(active_count == 0);
 	complete_progress_handler(j);
-	return construct_result_and_postprocess(overrideRootRecognizerIndex, posts, document, j);
+	return j.construct_result_and_postprocess(overrideRootRecognizerIndex, posts, document);
 }
 
 abstract_syntax_semilattice parser::multi_thread_parse(grammar_base const & g, size_t const overrideRootRecognizerIndex, std::vector<post_processor> const & posts, std::u32string const & document, progress_handler_t const progressHandler) {
@@ -118,13 +104,14 @@ abstract_syntax_semilattice parser::multi_thread_parse(grammar_base const & g, s
 	while (true) {
 		halt_cv.wait(lock, [this]() { return active_count == 0; });
 		//DBG("parser is idle; checking for deadlocks");
-		if (handle_deadlocks(j)) {
+		throw_assert(active_count == 0);
+		if (j.handle_deadlocks()) {
 			break;
 		}
 	}
 	throw_assert(active_count == 0);
 	complete_progress_handler(j);
-	return construct_result_and_postprocess(overrideRootRecognizerIndex, posts, document, j);
+	return j.construct_result_and_postprocess(overrideRootRecognizerIndex, posts, document);
 }
 
 abstract_syntax_semilattice parser::parse(grammar_base const & g, recognizer const & overrideMain, std::vector<post_processor> const & posts, std::u32string const & document, progress_handler_t const & progressHandler) {
@@ -154,65 +141,6 @@ void parser::schedule(context const & c, int nextDfaState) {
 	std::unique_lock<std::mutex> lock(mutex);
 	work.emplace_back(&c, nextDfaState);
 	work_cv.notify_one();
-}
-
-bool parser::handle_deadlocks(job const & j) const {
-	throw_assert(active_count == 0);
-	//perf_timer timer("handle_deadlocks");
-
-	//build a dependency graph and detect cyclical portions that should be halted
-	//if no subjobs remain, return true
-	//otherwise return false (still work to be done)
-
-	std::stack<std::pair<match_class, match_class>> s;
-
-	//Examine subscriptions from one subjob to another to construct the graph
-	std::map<match_class, std::set<match_class>> directSubscriptions;
-	std::map<match_class, std::set<match_class>> allSubscriptions;
-	for (size_t documentPosition = 0; documentPosition < j.producers->document_length; ++documentPosition) {
-		for (size_t recognizerIndex = 0; recognizerIndex < j.producers->recognizer_count; ++recognizerIndex) {
-			match_class const matchClass(documentPosition, recognizerIndex, 0);
-			auto const & storage = (*j.producers)(matchClass);
-			if (!storage) {
-				continue;
-			}
-			auto const & producer = *storage;
-			auto const & recognizer = j.g.get_recognizer(producer.recognizer_index);
-			if (recognizer.is_terminal() || producer.completed) {
-				continue;
-			}
-			for (auto const & subscription : producer.consumers) {
-				auto const & c = subscription.c;
-				match_class temp(c.owner.document_position, c.owner.recognizer_index, 0);
-				allSubscriptions[matchClass].insert(temp);
-				directSubscriptions[matchClass].insert(temp);
-				s.push(std::pair<match_class, match_class>(matchClass, temp));
-			}
-		}
-	}
-
-	//Apply transitivity to the graph
-	while (s.size() > 0) {
-		auto entry = s.top();
-		s.pop();
-		for (auto const & next : directSubscriptions[entry.first]) {
-			if (allSubscriptions[entry.first].insert(next).second) {
-				s.push(std::pair<match_class, match_class>(entry.first, next));
-			}
-		}
-	}
-
-	auto anyHalted = false;
-	//halt subjobs that are subscribed to themselves (in)directly
-	for (auto const & i : allSubscriptions) {
-		auto const & matchClass = i.first;
-		auto & p = *(*j.producers)(matchClass);
-		if (i.second.count(matchClass) > 0) {
-			p.terminate();
-			anyHalted = true;
-		}
-	}
-	return !anyHalted;
 }
 
 struct node_props_t {
@@ -520,7 +448,7 @@ static void select_trees(abstract_syntax_semilattice & asg, grammar_base const &
 	}
 }
 
-static void apply_precedence_and_associativity(grammar_base const & g, abstract_syntax_semilattice & asg) {
+void parser::apply_precedence_and_associativity(grammar_base const & g, abstract_syntax_semilattice & asg) {
 	throw_assert(asg.is_rooted());
 	auto anyAssociativities = false;
 	for (auto const & stateMachineBase : g.get_state_machines()) {
@@ -548,34 +476,6 @@ static void apply_precedence_and_associativity(grammar_base const & g, abstract_
 }
 
 
-//Construct an ASS, and if a solution was found, prunes unreachable nodes
-abstract_syntax_semilattice parser::construct_result(job & j, match const & m) {
-	//perf_timer timer("construct_result");
-	auto result = abstract_syntax_semilattice(transition(match(m), nullptr));
-	for (size_t documentPosition = 0; documentPosition < j.producers->document_length; ++documentPosition) {
-		for (size_t recognizerIndex = 0; recognizerIndex < j.producers->recognizer_count; ++recognizerIndex) {
-			match_class const matchClass(documentPosition, recognizerIndex, 0);
-			auto const & storage = (*j.producers)(matchClass);
-			if (!storage) {
-				continue;
-			}
-			auto const & producer = *storage;
-			for (auto const & pair2 : producer.match_to_permutations) {
-				auto const & n = match(pair2.first);
-				auto const & permutations = pair2.second;
-				result.permutations_of_matches[n] = permutations;
-			}
-		}
-	}
-
-	j.producers.reset();
-	if (result.is_rooted()) {
-		result.prune_detached();
-		apply_precedence_and_associativity(j.g, result);
-		result.prune_detached();
-	}
-	return result;
-}
 
 } // namespace detail
 } // namespace parlex
