@@ -5,7 +5,8 @@
 namespace parlex {
 namespace detail {
 
-match::match(struct match_class const & matchClass, int const consumedCharacterCount) : match_class(matchClass), consumed_character_count(consumedCharacterCount) { throw_assert(consumedCharacterCount >= 0); }
+match::match(size_t documentPosition, size_t recognizerIndex, size_t const consumedCharacterCount) : match_class(documentPosition, recognizerIndex), consumed_character_count(consumedCharacterCount) {}
+match::match(struct match_class const & matchClass, size_t const consumedCharacterCount) : match_class(matchClass), consumed_character_count(consumedCharacterCount) { }
 
 match & match::operator=(match && move) noexcept {
 	this->~match();

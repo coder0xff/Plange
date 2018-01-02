@@ -50,7 +50,7 @@ void subjob::on(context const & c, size_t const recognizerIndex, int const nextD
 		return;
 	}
 	begin_subscription_reference();
-	owner.connect(match_class(c.current_document_position, recognizerIndex, 0), c, nextDfaState, l);
+	owner.connect(match_class(c.current_document_position, recognizerIndex), c, nextDfaState, l);
 }
 
 void subjob::accept(context const & c) {
