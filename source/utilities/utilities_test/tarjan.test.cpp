@@ -2,26 +2,27 @@
 
 #include "../tarjan.hpp"
 
-TEST(Tarjan, instantiate_template) {	
+TEST(Tarjan, instantiate_template) {
+	typedef std::vector<std::string>::iterator iterator_t;
 	struct functor {
-		std::vector<size_t *> operator()(size_t * const & i) const { return {}; }
+		std::vector<iterator_t> operator()(iterator_t const & i) const { return {}; }
 	};
-	(void)&tarjan<size_t, functor>;
+	(void)&tarjan<iterator_t, functor>;
 }
 
 TEST(Tarjan, verts_0_edges_0) {
-	std::vector<size_t> vertices;
-	typedef std::vector<size_t>::iterator iterator;
+	std::vector<std::string> vertices;
+	typedef std::vector<std::string>::iterator iterator;
 	std::vector<std::vector<iterator>> expected{};
 	auto const actual = tarjan<iterator>(vertices.begin(), vertices.end(), [](iterator const &) { return std::vector<iterator>(); });
 	ASSERT_EQ(expected, actual);
 }
 
 TEST(Tarjan, verts_2_edges_1) {
-	std::vector<size_t> vertices;
-	vertices.push_back(0);
-	vertices.push_back(1);
-	typedef std::vector<size_t>::iterator iterator;
+	std::vector<std::string> vertices;
+	vertices.emplace_back("0");
+	vertices.emplace_back("1");
+	typedef std::vector<std::string>::iterator iterator;
 	std::vector<std::vector<iterator>> expected{{vertices.begin() + 1}, {vertices.begin() + 0}};
 	auto const actual = tarjan<iterator>(vertices.begin(), vertices.end(), [&](iterator const & i)
 	{
@@ -43,10 +44,10 @@ TEST(Tarjan, verts_2_edges_1) {
 }
 
 TEST(Tarjan, strongly_connected_verts_2_edges_2) {
-	std::vector<size_t> vertices;
+	std::vector<std::string> vertices;
 	vertices.push_back(0);
 	vertices.push_back(0);
-	typedef std::vector<size_t>::iterator iterator;
+	typedef std::vector<std::string>::iterator iterator;
 	std::vector<std::vector<iterator>> expected{{vertices.begin() + 1, vertices.begin() + 0}};
 	auto const actual = tarjan<iterator>(vertices.begin(), vertices.end(), [&](iterator const & i){
 		if (i == vertices.begin()) {
@@ -68,8 +69,11 @@ TEST(Tarjan, strongly_connected_verts_2_edges_2) {
 }
 
 TEST(Tarjan, ptr_verts) {
+	std::string vertices[2];
+	vertices[0] = "0";
+	vertices[1] = "1";
 	struct functor {
-		std::vector<size_t **> operator()(size_t ** const & i) const { return {}; }
+		std::vector<std::string *> operator()(std::string * const & i) const { return {}; }
 	};
-	(void)&tarjan<size_t *, functor>;
+	(void)tarjan<std::string *, functor>(vertices + 0, vertices + 1, functor());
 }

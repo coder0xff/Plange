@@ -5,10 +5,6 @@
 
 #include <functional>
 #include <optional>
-#include "../mpl/mpl_function_decomposition.hpp"
-#include "../mpl/mpl_is_invocable.hpp"
-#include "../mpl/mpl_equals.hpp"
-#include "../mpl/mpl_utils.hpp"
 
 template<typename TVertexIterator, typename TTransitionFunctor>
 std::vector<std::vector<TVertexIterator>> tarjan(TVertexIterator const & begin, TVertexIterator const & end, TTransitionFunctor const & transitionFunctor, bool connectedComponentsOnly = false) {
