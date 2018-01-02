@@ -138,7 +138,9 @@ std::set<permutation> const & abstract_syntax_semilattice::lookup(match const & 
 
 std::vector<ast_node> abstract_syntax_semilattice::build_tree(match const & m) const {
 	std::vector<ast_node> results;
-	auto const & ps = permutations_of_matches.find(m)->second;
+	auto const i = permutations_of_matches.find(m);
+	throw_assert(i != permutations_of_matches.end());
+	auto const & ps = i->second;
 	if (!ps.empty()) {
 		auto const & p = *ps.begin();
 		for (auto const & t : p) {
