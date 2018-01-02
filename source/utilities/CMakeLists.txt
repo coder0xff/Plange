@@ -12,11 +12,12 @@ set (SOURCES
 set (HEADERS
 	"bits.hpp"
 	"covariant_invoke.hpp"
+	"erased.hpp"
 	"graphviz_dot.hpp"
 	"logging.hpp"
 	"one_shot.hpp"
 	"perf_timer.hpp"
-	"erased.hpp"
+	"tarjan.hpp"
 	"utils.hpp"
 	"utf.hpp")
 	
