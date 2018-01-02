@@ -10,6 +10,7 @@
 #include "parlex/detail/grammar_base.hpp"
 #include <stack>
 #include "perf_timer.hpp"
+#include "tarjan.hpp"
 
 //#include "logging.hpp"
 
@@ -53,6 +54,14 @@ public:
 
 	t & operator()(match_class const matchClass) const {
 		return operator()(matchClass.document_position, matchClass.recognizer_index);
+	}
+
+	t const * cbegin() const {
+		return storage;
+	}
+
+	t const * cend() const {
+		return storage + document_length * recognizer_count;
 	}
 };
 
@@ -132,62 +141,46 @@ void job::update_progress(size_t const completed)
 
 bool job::handle_deadlocks() const {
 	perf_timer perf(__func__);
+	using iterator_t = std::atomic<producer *> const *;
 
+	struct transition_function {
+		producer_table const & producer_table;
+		job const & j;
 
+		explicit transition_function(detail::producer_table const & producerTable, job const & j) : producer_table(producerTable), j(j) {}
 
-
-	//build a dependency graph and detect cyclical portions that should be halted
-	//if no subjobs remain, return true
-	//otherwise return false (still work to be done)
-
-	std::stack<std::pair<match_class, match_class>> s;
-
-	//Examine subscriptions from one subjob to another to construct the graph
-	std::map<match_class, std::set<match_class>> directSubscriptions;
-	std::map<match_class, std::set<match_class>> allSubscriptions;
-	for (size_t documentPosition = 0; documentPosition < producer_table_ptr->document_length; ++documentPosition) {
-		for (size_t recognizerIndex = 0; recognizerIndex < producer_table_ptr->recognizer_count; ++recognizerIndex) {
-			match_class const matchClass(documentPosition, recognizerIndex, 0);
-			auto const & storage = (*producer_table_ptr)(matchClass);
-			if (!storage) {
-				continue;
+		std::vector<iterator_t> operator()(iterator_t const & i) const {
+			producer const * producerPtr = i->load();
+			std::vector<iterator_t> results;
+			if (producerPtr != nullptr) {
+				for (auto const & subscription : producerPtr->consumers) {
+					auto const & c = subscription.c;
+					iterator_t subscribedProducerPtrAtomicPtr = &producer_table(c.owner.document_position, c.owner.recognizer_index);
+					producer * subscribedProducerPtr = *subscribedProducerPtrAtomicPtr;
+					if (subscribedProducerPtr != nullptr) {
+						throw_assert(!subscribedProducerPtr->completed);
+						auto const & r = j.g.get_recognizer(subscribedProducerPtr->recognizer_index);
+						throw_assert(!r.is_terminal());
+						results.push_back(subscribedProducerPtrAtomicPtr);
+					}
+				}
 			}
-			auto const & producer = *storage;
-			auto const & recognizer = g.get_recognizer(producer.recognizer_index);
-			if (recognizer.is_terminal() || producer.completed) {
-				continue;
-			}
-			for (auto const & subscription : producer.consumers) {
-				auto const & c = subscription.c;
-				match_class temp(c.owner.document_position, c.owner.recognizer_index, 0);
-				allSubscriptions[matchClass].insert(temp);
-				directSubscriptions[matchClass].insert(temp);
-				s.push(std::pair<match_class, match_class>(matchClass, temp));
-			}
+			return results;
 		}
-	}
+	};
 
-	//Apply transitivity to the graph
-	while (!s.empty()) {
-		auto entry = s.top();
-		s.pop();
-		for (auto const & next : directSubscriptions[entry.first]) {
-			if (allSubscriptions[entry.first].insert(next).second) {
-				s.push(std::pair<match_class, match_class>(entry.first, next));
-			}
-		}
-	}
+	transition_function const f(*producer_table_ptr, *this);
+	auto stronglyConnectedComponents = tarjan<iterator_t, transition_function>(producer_table_ptr->cbegin(), producer_table_ptr->cend(), f, true);
 
 	auto anyHalted = false;
 	//halt subjobs that are subscribed to themselves (in)directly
-	for (auto const & i : allSubscriptions) {
-		auto const & matchClass = i.first;
-		auto & p = *(*producer_table_ptr)(matchClass);
-		if (i.second.count(matchClass) > 0) {
-			p.terminate();
+	for (auto const & stronglyConnectedComponent : stronglyConnectedComponents) {
+		for (auto ptr : stronglyConnectedComponent) {
+			ptr->load()->terminate();
 			anyHalted = true;
 		}
 	}
+
 	return !anyHalted;
 }
 
