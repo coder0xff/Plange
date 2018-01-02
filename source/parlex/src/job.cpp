@@ -43,7 +43,10 @@ public:
 	~producer_table() {
 		auto const elementCount = document_length * recognizer_count;
 		for (size_t i = 0; i < elementCount; ++i) {
-			storage[i].~t();
+			auto & element = storage[i];
+			auto * recognizerPtr = element.load();
+			delete recognizerPtr;
+			element.~t();
 		}
 		free(storage);
 	}
@@ -77,7 +80,7 @@ job::job(parser & owner, std::u32string const & document, grammar_base const & g
 
 	//similar to get_product, but different for constructor
 	//because parser::mutex is already locked
-	match_class const matchClass(0, rootRecognizerIndex, 0);
+	match_class const matchClass(0, rootRecognizerIndex);
 	auto & storage = (*producer_table_ptr)(matchClass);
 	auto const & root = g.get_recognizer(rootRecognizerIndex);
 	if (root.is_terminal()) {
@@ -144,18 +147,18 @@ bool job::handle_deadlocks() const {
 	using iterator_t = std::atomic<producer *> const *;
 
 	struct transition_function {
-		producer_table const & producer_table;
+		producer_table const & table;
 		job const & j;
 
-		explicit transition_function(detail::producer_table const & producerTable, job const & j) : producer_table(producerTable), j(j) {}
+		explicit transition_function(detail::producer_table const & producerTable, job const & j) : table(producerTable), j(j) {}
 
 		std::vector<iterator_t> operator()(iterator_t const & i) const {
-			producer const * producerPtr = i->load();
 			std::vector<iterator_t> results;
+			producer const * producerPtr = i->load();
 			if (producerPtr != nullptr) {
 				for (auto const & subscription : producerPtr->consumers) {
 					auto const & c = subscription.c;
-					iterator_t subscribedProducerPtrAtomicPtr = &producer_table(c.owner.document_position, c.owner.recognizer_index);
+					iterator_t subscribedProducerPtrAtomicPtr = &table(c.owner.document_position, c.owner.recognizer_index);
 					producer * subscribedProducerPtr = *subscribedProducerPtrAtomicPtr;
 					if (subscribedProducerPtr != nullptr) {
 						throw_assert(!subscribedProducerPtr->completed);
@@ -190,14 +193,15 @@ abstract_syntax_semilattice job::construct_result(match const & m) {
 	auto result = abstract_syntax_semilattice(m);
 	for (size_t documentPosition = 0; documentPosition < producer_table_ptr->document_length; ++documentPosition) {
 		for (size_t recognizerIndex = 0; recognizerIndex < producer_table_ptr->recognizer_count; ++recognizerIndex) {
-			match_class const matchClass(documentPosition, recognizerIndex, 0);
+			match_class const matchClass(documentPosition, recognizerIndex);
 			auto const & storage = (*producer_table_ptr)(matchClass);
 			if (!storage) {
 				continue;
 			}
 			auto const & producer = *storage;
-			for (auto const & pair2 : producer.match_to_permutations) {
-				auto const & n = match(pair2.first);
+			for (auto const & pair2 : producer.match_length_to_permutations) {
+				auto const matchLength = pair2.first;
+				match const n(producer.document_position, producer.recognizer_index, matchLength);
 				auto const & permutations = pair2.second;
 				result.permutations_of_matches[n] = permutations;
 			}
@@ -218,7 +222,7 @@ abstract_syntax_semilattice job::construct_result(match const & m) {
 
 abstract_syntax_semilattice job::construct_result_and_postprocess(size_t const overrideRootRecognizerIndex, std::vector<post_processor> const & posts, std::u32string const & document) {
 	perf_timer perf(__func__);
-	auto result = construct_result(match(match_class(0, overrideRootRecognizerIndex, 0), document.size()));
+	auto result = construct_result(match(0, overrideRootRecognizerIndex, document.size()));
 	if (!posts.empty()) {
 		for (auto const & post : posts) {
 			post(result);
