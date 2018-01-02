@@ -115,19 +115,20 @@ void subjob::flush() {
 	auto const & filter = machine.get_filter();
 	if (filter != nullptr) {
 		std::unique_lock<std::mutex> lock(mutex);
-		if (queued_permutations.size() == 0) {
+		if (queued_permutations.empty()) {
 			return;
 		}
 		auto selections = (*filter)(owner.document, queued_permutations);
 		auto counter = 0;
 		for (auto const & permutation : queued_permutations) {
 			if (selections.count(counter) > 0) {
-				int const len = permutation.size() > 0 ? permutation.back().document_position + permutation.back().consumed_character_count - document_position : 0;
+				int const len = !permutation.empty() ? permutation.back().document_position + permutation.back().consumed_character_count - document_position : 0;
 				enque_permutation(len, permutation);
 			}
 			counter++;
 		}
 	}
+	queued_permutations.clear();
 }
 
 } // namespace detail
