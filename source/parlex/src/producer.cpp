@@ -30,20 +30,25 @@ void producer::do_events() {
 	std::unique_lock<std::mutex> lock(mutex);
 	for (auto & subscription : consumers) {
 		auto & targetSubjob = subscription.c.owner;
-		while (subscription.next_transmit_index < match_to_permutations.size()) {
-			auto & match = matches[subscription.next_transmit_index];
+		while (subscription.next_transmit_index < match_length_to_permutations.size()) {
+			auto const matchLength = match_lengths[subscription.next_transmit_index];
 			subscription.next_transmit_index++;
-			auto const & next = targetSubjob.construct_stepped_context(&subscription.c, match, subscription.l);
+			auto const & next = targetSubjob.construct_stepped_context(&subscription.c, match(document_position, recognizer_index, matchLength), subscription.l);
 			p->schedule(next, subscription.next_dfa_state);
 		}
 	}
 	if (completed) {
-		std::list<subscription> temp;
+		std::vector<subscription> temp;
 		swap(temp, consumers);
 		lock.unlock();
 		for (auto & subscription : temp) {
 			auto & targetSubjob = subscription.c.owner;
 			targetSubjob.end_subscription_reference();
+		}
+		lock.lock();
+		if (!consumers.empty()) {
+			lock.unlock();
+			do_events();
 		}
 	}
 }
@@ -52,13 +57,13 @@ void producer::enque_permutation(size_t const consumedCharacterCount, permutatio
 	auto newMatch = false; {
 		std::unique_lock<std::mutex> lock(mutex);
 		throw_assert(!completed);
-		match const m(match_class(document_position, recognizer_index, 0), consumedCharacterCount);
-		if (!match_to_permutations.count(m)) {
-			match_to_permutations[m] = std::set<permutation>();
-			matches.push_back(m);
+		match const m(document_position, recognizer_index, consumedCharacterCount);
+		if (!match_length_to_permutations.count(consumedCharacterCount)) {
+			match_length_to_permutations[consumedCharacterCount] = std::set<permutation>();
+			match_lengths.push_back(consumedCharacterCount);
 			newMatch = true;
 		}
-		match_to_permutations[m].insert(p);
+		match_length_to_permutations[consumedCharacterCount].insert(p);
 	}
 	if (newMatch) {
 		do_events();

@@ -31,12 +31,12 @@ public:
 	void do_events();
 
 	job & owner;
-	int const document_position;
+	size_t const document_position;
 	size_t recognizer_index;
 	bool completed;
-	std::list<subscription> consumers;
-	std::vector<match> matches;
-	std::map<match, std::set<permutation>> match_to_permutations;
+	std::vector<subscription> consumers;
+	std::vector<size_t> match_lengths;
+	std::map<size_t, std::set<permutation>> match_length_to_permutations;
 	std::mutex mutex;
 
 	producer(job & owner, size_t const documentPosition, size_t const recognizerIndex, size_t const dummy);
