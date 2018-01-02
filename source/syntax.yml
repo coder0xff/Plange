@@ -501,7 +501,8 @@ EMBEDDED_COMMENT:
 
 EMBEDDED_COMMENT_INTERIOR:
     syntax: >
-        %payload{all} | "*" EMBEDDED_COMMENT_INTERIOR "*"
+        %PAYLOAD | "*" EMBEDDED_COMMENT_INTERIOR "*"
+    precedes: [PAYLOAD]
 
 EMBEDDED_NEWLINE_STRING:
     syntax: >
@@ -510,7 +511,8 @@ EMBEDDED_NEWLINE_STRING:
 
 EMBEDDED_NEWLINE_STRING_INTERIOR:
     syntax: >
-        ("\n" %payload{all} "\n") | ("\"" EMBEDDED_NEWLINE_STRING_INTERIOR "\"")
+        ("\n" %PAYLOAD "\n") | ("\"" EMBEDDED_NEWLINE_STRING_INTERIOR "\"")
+    precedes: [PAYLOAD]
 
 EMBEDDED_STRING:
     syntax: >
@@ -534,7 +536,8 @@ EMBEDDED_STRING:
 
 EMBEDDED_STRING_INTERIOR:
     syntax: >
-        %payload{all} | ("\"" EMBEDDED_STRING_INTERIOR "\"")
+        %PAYLOAD | ("\"" EMBEDDED_STRING_INTERIOR "\"")
+    precedes: [PAYLOAD]
 
 END_OF_LINE_COMMENT:
     syntax: >
@@ -1174,6 +1177,10 @@ PARENTHETICAL_INVOCATION:
     syntax: >
         %target(EXPRESSION) {IC} "(" %argsHead[{IC} (ARGUMENT|ARGUMENT_PACK)] %argsTail{{IC} "," [{IC} (ARGUMENT|ARGUMENT_PACK)]} {IC} ")"
 
+PAYLOAD:
+    syntax: >
+        all { all }
+
 PLATFORM:
     syntax: >
         "_" (letter | number) {letter | number | "_"}
@@ -1569,7 +1576,9 @@ XML_DOC_STRING:
 
 XML_DOC_STRING_INTERIOR:
     syntax: >
-        %payload{all} | ("`" XML_DOC_STRING_INTERIOR "`")
+        %PAYLOAD | ("`" XML_DOC_STRING_INTERIOR "`")
+    precedes: [PAYLOAD]
+
 XOR:
     syntax: >
         EXPRESSION {IC} ("⊕" |"xor") {IC} EXPRESSION
