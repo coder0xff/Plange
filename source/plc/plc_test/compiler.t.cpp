@@ -98,7 +98,10 @@ static std::u32string read(std::string const & filePathname) {
 TEST(PlcCompiler, ParseCStdLibGenerated) {
 	auto const filePathname = stdlibs_dir() + "Plange.CStdLib.Generated._pg";
 	static parlex::detail::parser p;
-	auto assl = p.parse(plc::plange_grammar::get(), plc::plange_grammar::get().get_recognizer(plc::plange_grammar::get().STATEMENT_SCOPE), read(filePathname));
+	auto & g = plc::plange_grammar::get();
+	auto & main = g.get_recognizer(plc::plange_grammar::get().STATEMENT_SCOPE);
+	auto const document = read(filePathname);
+	auto assl = p.parse(g, main, document);
 	EXPECT_TRUE(assl.is_rooted());
 }
 

@@ -45,17 +45,19 @@ TEST(Tarjan, verts_2_edges_1) {
 
 TEST(Tarjan, strongly_connected_verts_2_edges_2) {
 	std::vector<std::string> vertices;
-	vertices.push_back(0);
-	vertices.push_back(0);
+	vertices.emplace_back("0");
+	vertices.emplace_back("1");
 	typedef std::vector<std::string>::iterator iterator;
 	std::vector<std::vector<iterator>> expected{{vertices.begin() + 1, vertices.begin() + 0}};
-	auto const actual = tarjan<iterator>(vertices.begin(), vertices.end(), [&](iterator const & i){
-		if (i == vertices.begin()) {
-			return std::vector<iterator>{vertices.begin() + 1};
-		} else {
-			return std::vector<iterator>{vertices.begin()};
-		}
-	});
+	auto const actual = tarjan<iterator>(vertices.begin(), vertices.end(), [&](iterator const & i)
+		{
+			if (i == vertices.begin()) {
+				return std::vector<iterator>{vertices.begin() + 1};
+			} else {
+				return std::vector<iterator>{vertices.begin() + 0};
+			}
+			return std::vector<iterator>{};
+		});
 	ASSERT_EQ(expected.size(), actual.size());
 	for (size_t i = 0; i < expected.size(); ++i) {
 		auto const & subExpected = expected[i];
