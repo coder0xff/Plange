@@ -18,6 +18,7 @@
 namespace plc {
 
 struct EMBEDDED_STRING_INTERIOR;
+struct PAYLOAD;
 
 struct EMBEDDED_STRING_INTERIOR_1_t {
 	parlex::detail::document::text<literal_0x22_t> dontCare0;
@@ -38,7 +39,7 @@ struct EMBEDDED_STRING_INTERIOR_1_t {
 };
 
 typedef std::variant<
-	std::vector<parlex::detail::document::text<parlex::detail::all_t>>,
+	erased<PAYLOAD>,
 	EMBEDDED_STRING_INTERIOR_1_t
 > EMBEDDED_STRING_INTERIOR_base;
 

@@ -748,14 +748,14 @@ static parlex::builder const & builder() {
 		parlex::associativity::NONE, parlex::filter_function(), {"COMMENT", }),
 		parlex::production("EMBEDDED_COMMENT_INTERIOR",
 		parlex::choice ("EMBEDDED_COMMENT_INTERIOR", {
-			parlex::repetition("payload", 	parlex::reference("all")
-			),
+			parlex::reference("payload", "PAYLOAD"),
 			parlex::sequence({
 				parlex::literal("*", U"*"),
 				parlex::reference("EMBEDDED_COMMENT_INTERIOR"),
 				parlex::literal("*", U"*")
 			})
-		})),
+		}),
+		parlex::associativity::NONE, parlex::filter_function(), {"PAYLOAD", }),
 		parlex::production("EMBEDDED_NEWLINE_STRING",
 		parlex::sequence("EMBEDDED_NEWLINE_STRING", {
 			parlex::literal("\"\"\"", U"\"\"\""),
@@ -767,8 +767,7 @@ static parlex::builder const & builder() {
 		parlex::choice ("EMBEDDED_NEWLINE_STRING_INTERIOR", {
 			parlex::sequence({
 				parlex::literal("\n", U"\n"),
-				parlex::repetition("payload", 	parlex::reference("all")
-				),
+				parlex::reference("payload", "PAYLOAD"),
 				parlex::literal("\n", U"\n")
 			}),
 			parlex::sequence({
@@ -776,7 +775,8 @@ static parlex::builder const & builder() {
 				parlex::reference("EMBEDDED_NEWLINE_STRING_INTERIOR"),
 				parlex::literal("\"", U"\"")
 			})
-		})),
+		}),
+		parlex::associativity::NONE, parlex::filter_function(), {"PAYLOAD", }),
 		parlex::production("EMBEDDED_STRING",
 		parlex::sequence("EMBEDDED_STRING", {
 			parlex::literal("\"\"\"", U"\"\"\""),
@@ -785,14 +785,14 @@ static parlex::builder const & builder() {
 		})),
 		parlex::production("EMBEDDED_STRING_INTERIOR",
 		parlex::choice ("EMBEDDED_STRING_INTERIOR", {
-			parlex::repetition("payload", 	parlex::reference("all")
-			),
+			parlex::reference("payload", "PAYLOAD"),
 			parlex::sequence({
 				parlex::literal("\"", U"\""),
 				parlex::reference("EMBEDDED_STRING_INTERIOR"),
 				parlex::literal("\"", U"\"")
 			})
-		})),
+		}),
+		parlex::associativity::NONE, parlex::filter_function(), {"PAYLOAD", }),
 		parlex::production("END_OF_LINE_COMMENT",
 		parlex::sequence("END_OF_LINE_COMMENT", {
 			parlex::literal("//", U"//"),
@@ -1991,6 +1991,12 @@ static parlex::builder const & builder() {
 			),
 			parlex::literal(")", U")")
 		})),
+		parlex::production("PAYLOAD",
+		parlex::sequence("PAYLOAD", {
+			parlex::reference("all"),
+			parlex::repetition(	parlex::reference("all")
+			)
+		})),
 		parlex::production("PLATFORM",
 		parlex::sequence("PLATFORM", {
 			parlex::literal("_", U"_"),
@@ -2938,14 +2944,14 @@ static parlex::builder const & builder() {
 		})),
 		parlex::production("XML_DOC_STRING_INTERIOR",
 		parlex::choice ("XML_DOC_STRING_INTERIOR", {
-			parlex::repetition("payload", 	parlex::reference("all")
-			),
+			parlex::reference("payload", "PAYLOAD"),
 			parlex::sequence({
 				parlex::literal("`", U"`"),
 				parlex::reference("XML_DOC_STRING_INTERIOR"),
 				parlex::literal("`", U"`")
 			})
-		})),
+		}),
+		parlex::associativity::NONE, parlex::filter_function(), {"PAYLOAD", }),
 		parlex::production("XOR",
 		parlex::sequence("XOR", {
 			parlex::reference("EXPRESSION"),

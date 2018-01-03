@@ -170,6 +170,7 @@ public:
 	size_t const PARAMETER_NATURAL;
 	size_t const PARENTHETICAL;
 	size_t const PARENTHETICAL_INVOCATION;
+	size_t const PAYLOAD;
 	size_t const PLATFORM;
 	size_t const POST_DEC;
 	size_t const POST_INC;

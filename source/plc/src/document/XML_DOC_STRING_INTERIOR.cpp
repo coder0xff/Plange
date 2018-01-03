@@ -5,6 +5,7 @@
 #include "plange_grammar.hpp"
 
 #include "parlex/detail/document.hpp"
+#include "PAYLOAD.hpp"
 #include "XML_DOC_STRING_INTERIOR.hpp"
 
 #include "XML_DOC_STRING_INTERIOR.hpp"

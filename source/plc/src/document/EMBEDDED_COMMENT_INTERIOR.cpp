@@ -6,6 +6,7 @@
 
 #include "parlex/detail/document.hpp"
 #include "EMBEDDED_COMMENT_INTERIOR.hpp"
+#include "PAYLOAD.hpp"
 
 #include "EMBEDDED_COMMENT_INTERIOR.hpp"
 
