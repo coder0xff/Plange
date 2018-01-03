@@ -211,6 +211,12 @@ TEST(ParlexTest, wirth_test_12) {
 	wirth().compile_expression(t);
 }
 
+TEST(ParlexTest, LeadingTagRegression) {
+	std::u32string const t = U"$P";
+	parser p(1);
+	wirth().compile_expression(t);
+}
+
 TEST(ParlexTest, behavior_1) {
 	builder const gBuilder("EXPR", {
 		                           production("ADD", sequence({reference("EXPR"), literal(U"+"), reference("EXPR")})),
