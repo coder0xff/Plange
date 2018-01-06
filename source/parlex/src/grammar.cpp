@@ -1,9 +1,12 @@
 #include "parlex/detail/grammar.hpp"
 
+#include <stack>
+
+#include "coherent_queue.hpp"
+
 #include "parlex/builder.hpp"
 #include "parlex/detail/builtins.hpp"
 #include "parlex/detail/c_string.hpp"
-#include "coherent_queue.hpp"
 
 namespace parlex {
 namespace detail {
@@ -85,21 +88,49 @@ void grammar::link_sub_builder(sub_builder const & grammarDefinition) {
 }
 
 grammar::grammar(builder const & grammarDefinition, bool noBuiltIns) {
+	std::set<std::string> referencedRecognizers;
+	auto cStringWasReferenced = false;
+	for (auto const & production : grammarDefinition.productions) {
+		referencedRecognizers.insert(production.name);
+		std::stack<node const *> pending;
+		pending.push(&*production.behavior);
+		while (!pending.empty()) {
+			auto const asNodePtr = pending.top();
+			pending.pop();
+			auto const * asReferencePtr = dynamic_cast<reference const *>(asNodePtr);
+			if (asReferencePtr != nullptr) {
+				if (asReferencePtr->target == "c_string") {
+					cStringWasReferenced = true;
+				}
+				referencedRecognizers.insert(asReferencePtr->target);
+			}
+			for (auto const & child : asNodePtr->children) {
+				pending.push(&*child);
+			}
+		}
+	}
+
+	auto const & cStringSubgrammar = c_string();
+	if (cStringWasReferenced) {
+		referencedRecognizers.insert("basic_escape_sequence");
+		referencedRecognizers.insert("content");
+		referencedRecognizers.insert("hexadecimal_digit");
+		referencedRecognizers.insert("octal_digit");
+	}
+
 	std::map<std::string, recognizer const *> nameToRecognizerPtr;
-	
-	if (!noBuiltIns) {
-		// assign integer to every builtin
-		for (auto const & builtin : builtin_terminals().recognizer_table) {
+
+	for (auto const & builtin : builtin_terminals().recognizer_table) {
+		if (referencedRecognizers.count(builtin.first) > 0) {
 			add_table_data(nameToRecognizerPtr, builtin.second);
 		}
 	}
 
-	auto const cStringSubgrammar = c_string();
 
 	std::set<std::u32string> allStringLiterals;
 	{
-		if (!noBuiltIns) {
-			allStringLiterals = std::move(cStringSubgrammar.extract_string_literals());
+		if (cStringWasReferenced) {
+			allStringLiterals = cStringSubgrammar.extract_string_literals();
 		}
 		auto grammerStringLiterals = grammarDefinition.extract_string_literals();
 		allStringLiterals.insert(grammerStringLiterals.begin(), grammerStringLiterals.end());
@@ -120,7 +151,7 @@ grammar::grammar(builder const & grammarDefinition, bool noBuiltIns) {
 		}
 	}
 	
-	if (noBuiltIns) {
+	if (!cStringWasReferenced) {
 		local_productions.reserve(grammarDefinition.productions.size());
 		compile_sub_builder(nameToRecognizerPtr, grammarDefinition);
 		link_sub_builder(grammarDefinition);
