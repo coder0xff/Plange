@@ -25,11 +25,11 @@ namespace collections {
 			typedef U value_type;
 			typedef U & reference;
 			typedef U * pointer;
-
 			template<typename V>
 			friend class iterator_template;
 
-			typedef typename storage_t::iterator underlying_t;
+			typedef std::conditional_t<std::is_const_v<U>, std::pair<T, dummy> const, std::pair<T, dummy>> underlying_element_t;
+			typedef typename storage_t::template iterator_template<underlying_element_t> underlying_t;
 			underlying_t underlying;
 
 		public:
@@ -47,12 +47,12 @@ namespace collections {
 				return *this;
 			}
 
-			U & operator*() const {
+			auto operator*() const {
 				assert(underlying != underlying_t());
 				return underlying->first;
 			}
 
-			U * operator->() const {
+			auto operator->() const {
 				return &operator*();
 			}
 
