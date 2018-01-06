@@ -15,10 +15,10 @@ void progress_bar(int const done, int const outOf) {
 	std::cout << "\r[" << std::string(ticks, '*') << std::string(25 - ticks, ' ') << "]";
 }
 
-static std::set<int> longest_f(std::u32string /*document*/, std::list<detail::permutation> const & permutations) {
+static std::set<int> longest_f(std::u32string const & /*document*/, std::list<detail::permutation> const & permutations) {
 	auto selectedSize = 0;
 	for (auto const & p : permutations) {
-		int const len = p.size() > 0 ? p.back().document_position + p.back().consumed_character_count - p.front().document_position : 0;
+		int const len = !p.empty() ? p.back().document_position + p.back().consumed_character_count - p.front().document_position : 0;
 		if (len > selectedSize) {
 			selectedSize = len;
 		}
@@ -26,7 +26,7 @@ static std::set<int> longest_f(std::u32string /*document*/, std::list<detail::pe
 	std::set<int> result;
 	auto counter = 0;
 	for (auto const & p : permutations) {
-		int const len = p.size() > 0 ? p.back().document_position + p.back().consumed_character_count - p.front().document_position : 0;
+		int const len = !p.empty() ? p.back().document_position + p.back().consumed_character_count - p.front().document_position : 0;
 		if (len == selectedSize) {
 			result.insert(counter);
 		}
@@ -91,7 +91,7 @@ bool builtin_terminals_t::resolve_builtin_terminal(std::string const & name, ter
 	if (i == recognizer_table.end()) {
 		return false;
 	}
-	ptr = static_cast<terminal const *>(i->second);
+	ptr = static_cast<terminal const *>(i->second); // NOLINT // it is always a terminal
 	return true;
 }
 
@@ -144,9 +144,7 @@ std::map<std::string, recognizer const *> builtin_terminals_t::generate_lookup_t
 		&white_space_control
 	};
 
-	auto const count = sizeof tableInitializer / sizeof *tableInitializer;
-	for (unsigned int i = 0; i < count; ++i) {
-		auto const item = tableInitializer[i];
+	for (auto item : tableInitializer) {
 		auto const name = item->name;
 		result[name] = item;
 	}

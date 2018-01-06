@@ -9,19 +9,19 @@ parlex::detail::ast_node::ast_node(match const & m, std::vector<ast_node> const 
 
 std::string parlex::detail::ast_node::to_dot(grammar_base const & g) const
 {
-	auto nameFunc = [&](ast_node const * n)
+	auto const nameFunc = [&](ast_node const * n)
 	{
 		std::stringstream result;
 		result << g.get_recognizer(n->l->recognizer_index).name << " (" << n << ")";
 		return result.str();
 	};
-	auto edgeFunc = [&](ast_node const * n) {
+	auto const edgeFunc = [&](ast_node const * n) {
 		std::vector<std::pair<std::string, ast_node const *>> results;
 		for (auto i = n->children.begin(); i != n->children.end(); ++i) {
 			results.emplace_back("label=" + enquote(std::to_string(i - n->children.begin() + 1)), &*i);
 		}
 		return results;
 	};
-	auto propFunc = [&](ast_node const * n) { return std::string(); };
+	auto const propFunc = [&](ast_node const * n) { return std::string(); };
 	return directed_graph<ast_node const *>(this, nameFunc, edgeFunc, propFunc);
 }

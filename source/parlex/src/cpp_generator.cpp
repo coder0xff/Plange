@@ -147,9 +147,6 @@ static std::string generate_enumeration(bool const isProduction, std::string con
 	ss << "parlex::detail::ast_node const & n) {\n";
 	ss << "\t\tstatic ::std::unordered_map<parlex::detail::recognizer const *, type> const table {\n";
 	for (auto const & element : elements) {
-		if (element.substr(0, 8) != "literal_") {
-			debugger();
-		}
 		ss << "\t\t\t{ &" << grammarName << "_grammar::get().get_literal(\"" << element << "\"), " << element << " },\n";
 	}
 	ss << "\t\t};\n";
@@ -963,7 +960,6 @@ cpp_generator::output_files cpp_generator::generate(std::string const & name, st
 	output_files results;
 
 	for (auto const & production : b.productions) {
-		// if (production.name == "PAYLOAD") debugger();
 		results.add(generate_production_struct(name, namespaces, production));
 	}
 	std::map<std::u32string, std::string> literalMap;

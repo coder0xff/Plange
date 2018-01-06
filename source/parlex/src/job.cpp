@@ -1,72 +1,24 @@
 #include "parlex/detail/job.hpp"
 
-#include "parlex/detail/parser.hpp"
-#include "parlex/detail/state_machine_base.hpp"
-#include "parlex/detail/terminal.hpp"
-#include "parlex/detail/token.hpp"
-
-#include "parlex/detail/context.hpp"
-#include "parlex/detail/subjob.hpp"
-#include "parlex/detail/grammar_base.hpp"
 #include <stack>
+
 #include "perf_timer.hpp"
 #include "tarjan.hpp"
+
+#include "parlex/detail/context.hpp"
+#include "parlex/detail/grammar_base.hpp"
+#include "parlex/detail/match_class.hpp"
+#include "parlex/detail/parser.hpp"
+#include "parlex/detail/producer_table.hpp"
+#include "parlex/detail/state_machine_base.hpp"
+#include "parlex/detail/subjob.hpp"
+#include "parlex/detail/terminal.hpp"
+#include "parlex/detail/token.hpp"
 
 //#include "logging.hpp"
 
 namespace parlex {
 namespace detail {
-
-class producer_table {
-public:
-	typedef std::atomic<producer *> t;
-
-	size_t const document_length;
-	size_t const recognizer_count;
-
-private:
-	t * const storage;
-	size_t compute_offset(size_t const documentPosition, size_t const recognizerIndex) const {
-		throw_assert(documentPosition < document_length);
-		throw_assert(recognizerIndex < recognizer_count);
-		return documentPosition * recognizer_count + recognizerIndex;
-	}
-
-public:
-	producer_table(size_t const documentLength, size_t const recognizerCount) : document_length(documentLength), recognizer_count(recognizerCount), storage(static_cast<t *>(malloc(sizeof(t) * documentLength * recognizerCount))) {
-		auto const elementCount = document_length * recognizer_count;
-		for (size_t i = 0; i < elementCount; ++i) {
-			new (storage + i) t();
-		}
-	}
-
-	~producer_table() {
-		auto const elementCount = document_length * recognizer_count;
-		for (size_t i = 0; i < elementCount; ++i) {
-			auto & element = storage[i];
-			auto * recognizerPtr = element.load();
-			delete recognizerPtr;
-			element.~t();
-		}
-		free(storage);
-	}
-
-	t & operator()(size_t const documentPosition, size_t const recognizerIndex) const {
-		return storage[compute_offset(documentPosition, recognizerIndex)];
-	}
-
-	t & operator()(match_class const matchClass) const {
-		return operator()(matchClass.document_position, matchClass.recognizer_index);
-	}
-
-	t const * cbegin() const {
-		return storage;
-	}
-
-	t const * cend() const {
-		return storage + document_length * recognizer_count;
-	}
-};
 
 job::job(parser & owner, std::u32string const & document, grammar_base const & g, size_t const rootRecognizerIndex, progress_handler_t const & progressHandler) :
 	document(document),
@@ -100,8 +52,8 @@ job::job(parser & owner, std::u32string const & document, grammar_base const & g
 	}
 }
 
-void job::connect(match_class const & matchClass, context const & c, int const nextState, leaf const * leaf) {
-	get_producer(matchClass).add_subscription(c, nextState, leaf);
+void job::connect(match_class const & matchClass, context const & c, size_t const nextState, leaf const * l) {
+	get_producer(matchClass).add_subscription(c, nextState, l);
 }
 
 producer & job::get_producer(match_class const & matchClass) {
@@ -112,8 +64,8 @@ producer & job::get_producer(match_class const & matchClass) {
 	}
 	auto const & r = g.get_recognizer(matchClass.recognizer_index);
 	if (r.is_terminal()) {
-		auto const t = static_cast<terminal const *>(&r);  // NOLINT
-		auto const newTokenPtr = new token(*this, matchClass.document_position, matchClass.recognizer_index, *t);
+		auto const & t = *static_cast<terminal const *>(&r);  // NOLINT
+		auto const newTokenPtr = new token(*this, matchClass.document_position, matchClass.recognizer_index, t);
 		if (storage.compare_exchange_strong(resultPtr, newTokenPtr)) {
 			return *newTokenPtr;
 		}
@@ -129,7 +81,6 @@ producer & job::get_producer(match_class const & matchClass) {
 	delete newSubjobPtr; //womp womp womp
 	return *resultPtr;
 }
-
 
 void job::update_progress(size_t const completed)
 {
@@ -162,8 +113,8 @@ bool job::handle_deadlocks() const {
 					producer * subscribedProducerPtr = *subscribedProducerPtrAtomicPtr;
 					if (subscribedProducerPtr != nullptr) {
 						throw_assert(!subscribedProducerPtr->completed);
-						auto const & r = j.g.get_recognizer(subscribedProducerPtr->recognizer_index);
-						throw_assert(!r.is_terminal());
+						//auto const & r = j.g.get_recognizer(subscribedProducerPtr->recognizer_index);
+						//throw_assert(!r.is_terminal());
 						results.push_back(subscribedProducerPtrAtomicPtr);
 					}
 				}
@@ -173,12 +124,12 @@ bool job::handle_deadlocks() const {
 	};
 
 	transition_function const f(*producer_table_ptr, *this);
-	auto stronglyConnectedComponents = tarjan<iterator_t, transition_function>(producer_table_ptr->cbegin(), producer_table_ptr->cend(), f, true);
+	auto stronglyConnectedComponents = tarjan(producer_table_ptr->cbegin(), producer_table_ptr->cend(), f, true);
 
 	auto anyHalted = false;
 	//halt subjobs that are subscribed to themselves (in)directly
 	for (auto const & stronglyConnectedComponent : stronglyConnectedComponents) {
-		for (auto ptr : stronglyConnectedComponent) {
+		for (std::atomic<producer *> const * ptr : stronglyConnectedComponent) {
 			ptr->load()->terminate();
 			anyHalted = true;
 		}
@@ -208,8 +159,7 @@ abstract_syntax_semilattice job::construct_result(match const & m) {
 		}
 	}
 
-	delete producer_table_ptr;
-	producer_table_ptr = nullptr;
+	producer_table_ptr.reset();
 
 	if (result.is_rooted()) {
 		result.prune_detached();

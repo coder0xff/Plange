@@ -11,8 +11,8 @@
 
 namespace parlex {
 namespace detail {
-
 struct ast_node;
+
 struct abstract_syntax_semilattice;
 struct node;
 

@@ -28,8 +28,8 @@ protected:
 
 	explicit state_machine_base(std::string const & name);
 	void start(context const & c) const;
-	virtual void process(context const & c, size_t dfaState) const = 0;
-	static void on(context const & c, size_t const recognizerIndex, int nextDfaState, leaf const * leaf);
+	virtual void process(context const & c, size_t const dfaState) const = 0;
+	static void on(context const & c, size_t const recognizerIndex, size_t const nextDfaState, leaf const * leaf);
 	static void accept(context const & c);
 };
 

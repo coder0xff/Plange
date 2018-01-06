@@ -1,9 +1,7 @@
 #include "source_code.hpp"
 
-#include <fstream>
-
 #include "utf.hpp"
-#include "utils.hpp"
+#include "plc_utils.hpp"
 
 #include "parlex/detail/abstract_syntax_semilattice.hpp"
 #include "parlex/detail/recognizer.hpp"
@@ -84,18 +82,7 @@ plc::source_code::source_code(std::string const & pathname, std::u32string const
 	representation(STATEMENT_SCOPE::build(ast)) {
 }
 
-static std::u32string read(std::string const & pathname) {
-	std::ifstream ifs(pathname, std::ios::binary);
-	if (!ifs) {
-		ERROR(CouldNotOpenFile, pathname);
-	}
-	return read_with_bom(move(ifs));
-}
-
-plc::source_code::source_code(std::string const & pathname) : source_code(pathname, read(pathname)) {
-}
-
-plc::source_code::~source_code() {
+plc::source_code::source_code(std::string const & pathname) : source_code(pathname, plc::read_utf_file(pathname)) {
 }
 
 std::pair<int, int> plc::source_code::get_line_number_and_column(std::map<int, int> const & lineNumberByFirstCharacter, int const charIndex)
@@ -133,7 +120,7 @@ std::map<int, int> plc::source_code::construct_line_number_by_first_character(st
 
 std::string plc::source_code::describe_code_span(parlex::detail::match const & m, std::map<int, int> const & lineNumberByFirstCharacter, std::string const & pathname)
 {
-	auto result = pathname == "" ? "[generated]" : pathname;
+	auto result = pathname.empty() ? "[generated]" : pathname;
 	result += ":";
 	auto const start = get_line_number_and_column(lineNumberByFirstCharacter, m.document_position);
 	auto const end = get_line_number_and_column(lineNumberByFirstCharacter, m.document_position + m.consumed_character_count - 1);
@@ -165,7 +152,7 @@ parlex::detail::abstract_syntax_tree plc::source_code::construct_ast(std::u32str
 		if (lastValidStatement == nullptr) {
 			ERROR(CouldNotParse, pathname + " syntax semilattice: " /*+ assl.to_dot()*/);
 		} else {
-			auto description = pathname + " last valid statement: " + describe_code_span(*lastValidStatement, lineNumberByFirstCharacter, pathname);
+			auto const description = pathname + " last valid statement: " + describe_code_span(*lastValidStatement, lineNumberByFirstCharacter, pathname);
 			ERROR(CouldNotParse, description);
 		}
 	}
@@ -174,8 +161,7 @@ parlex::detail::abstract_syntax_tree plc::source_code::construct_ast(std::u32str
 	// Was parsing ambiguous?
 	if (assl.variation_count() > 1) {
 		auto matchesByHeight = matches_by_height(assl);
-		for (size_t height = 0; height < matchesByHeight.size(); ++height) {
-			auto const & matches = matchesByHeight[height];
+		for (const auto & matches : matchesByHeight) {
 			for (auto const & m : matches) {
 				auto const & permutations = assl.permutations_of_matches.find(m)->second;
 				if (permutations.size() > 1) {

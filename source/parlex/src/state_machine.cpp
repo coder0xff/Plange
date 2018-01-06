@@ -26,15 +26,15 @@ void state_machine::set_behavior(std::map<recognizer const *, size_t> const & re
 	accept_state_count = dfa.accept_states.size();
 }
 
-void state_machine::process(context const & c, size_t const s) const {
-	//DBG("processing '", get_id(), "' s:", s, " p:", c.current_document_position());
-	if (s >= states.size() - accept_state_count) {
+void state_machine::process(context const & c, size_t const dfaState) const {
+	//DBG("processing '", get_id(), "' dfaState:", dfaState, " p:", c.current_document_position());
+	if (dfaState >= states.size() - accept_state_count) {
 		accept(c);
 	}
-	for (auto const & kvp : states[s]) {
+	for (auto const & kvp : states[dfaState]) {
 		auto const & transitionInfo = kvp.first;
 		int const nextState = kvp.second;
-		//DBG("'", get_id(), "' state ", s, " position ", c.current_document_position(), " subscribes to '", transition.name, "' position ", c.current_document_position());
+		//DBG("'", get_id(), "' state ", dfaState, " position ", c.current_document_position(), " subscribes to '", transition.name, "' position ", c.current_document_position());
 		on(c, transitionInfo.recognizer_index, nextState, transitionInfo.l);
 	}
 }
@@ -106,9 +106,9 @@ std::string state_machine::to_dot(std::vector<recognizer const *> const & recogn
 		stateInts.push_back(i);
 	}
 
-	auto getName = [&](size_t const & i) { return std::to_string(i); };
+	auto const getName = [&](size_t const & i) { return std::to_string(i); };
 
-	auto getEdges = [&](size_t const & i) {
+	auto const getEdges = [&](size_t const & i) {
 		std::vector<std::pair<std::string, size_t>> edges;
 		for (auto const & edge : states[i]) {
 			auto transitionInfo = edge.first;
@@ -121,7 +121,7 @@ std::string state_machine::to_dot(std::vector<recognizer const *> const & recogn
 		return edges;
 	};
 
-	auto getProperties = [&](size_t const & i) {
+	auto const getProperties = [&](size_t const & i) {
 		std::string nodeProperties;
 		if (i == start_state) {
 			nodeProperties = "color=red";

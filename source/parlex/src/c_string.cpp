@@ -115,7 +115,7 @@ std::u32string c_string_t::extract(grammar const & g, std::u32string const & doc
 	auto const & asgTableIterator = asg.permutations_of_matches.find(m);
 	throw_assert(asgTableIterator != asg.permutations_of_matches.end());
 	auto const & permutations = asgTableIterator->second;
-	throw_assert(permutations.size() != 0);
+	throw_assert(!permutations.empty());
 	auto const & p = *permutations.begin();
 	std::u32string result;
 	result.reserve(p.size());

@@ -18,6 +18,16 @@
 namespace parlex {
 namespace detail {
 
+void parser::process(std::tuple<context const*, int> const & item) const {
+	auto const & c = *std::get<0>(item);
+	auto const nextDfaState = std::get<1>(item);
+	update_progress(c);
+	auto & sj = c.owner;
+	//INF("thread ", threadCount, " executing DFA state");
+	sj.machine.process(c, nextDfaState);
+	sj.end_work_queue_reference();
+}
+
 void parser::start_workers(int threadCount) {
 	for (; threadCount > 0; --threadCount) {
 		workers.emplace_back([=]() {
@@ -30,12 +40,7 @@ void parser::start_workers(int threadCount) {
 					auto item = work.back();
 					work.pop_back();
 					lock.unlock();
-					auto const & c = *std::get<0>(item);
-					auto const nextDfaState = std::get<1>(item);
-					update_progress(c);
-					//INF("thread ", threadCount, " executing DFA state");	
-					c.owner.machine.process(c, nextDfaState);
-					c.owner.end_work_queue_reference();
+					process(item);
 					if (--active_count == 0) {
 						halt_cv.notify_one();
 					}
@@ -71,21 +76,16 @@ void parser::update_progress(context const & context) {
 }
 
 abstract_syntax_semilattice parser::single_thread_parse(grammar_base const & g, size_t const overrideRootRecognizerIndex, std::vector<post_processor> const & posts, std::u32string const & document, progress_handler_t const & progressHandler) {
-	//perf_timer perf(__func__);
+	//perf_timer perf1(__func__);
 	job j(*this, document, g, overrideRootRecognizerIndex, progressHandler);
 	throw_assert(active_count > 0);
 	{
-		//perf_timer perf("Recognizer work queue processing");
+		//perf_timer perf2("Recognizer work queue processing");
 		while (true) {
 			while (!work.empty()) {
-				auto item = work.back();
+				auto const item = work.back();
 				work.pop_back();
-				auto const & c = *std::get<0>(item);
-				auto const nextDfaState = std::get<1>(item);
-				update_progress(c);
-				//INF("thread ", threadCount, " executing DFA state");
-				c.owner.machine.process(c, nextDfaState);
-				c.owner.end_work_queue_reference();
+				process(item);
 				--active_count;
 			}
 			throw_assert(active_count == 0);
@@ -205,7 +205,7 @@ static void prune(abstract_syntax_semilattice & asg, std::map<match, node_props_
 			for (auto const & perm : parentPermutations) {
 				parentProps.permutations.erase(perm);
 			}
-			if (parentProps.permutations.size() == 0) {
+			if (parentProps.permutations.empty()) {
 				add(parentMatch);
 			}
 		}
@@ -447,8 +447,7 @@ static void select_match(abstract_syntax_semilattice & asg, grammar_base const &
 }
 
 static void select_trees(abstract_syntax_semilattice & asg, grammar_base const & g, std::map<match, node_props_t> & nodes, std::vector<std::set<match>> const orderedMatchesByHeight) {
-	for (size_t height = 0; height < orderedMatchesByHeight.size(); ++height) {
-		auto const & matches = orderedMatchesByHeight[height];
+	for (const auto & matches : orderedMatchesByHeight) {
 		for (auto const & m : matches) {
 			select_match(asg, g, nodes, m);
 		}

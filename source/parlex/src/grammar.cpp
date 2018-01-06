@@ -68,7 +68,6 @@ size_t grammar::add_table_data(std::map<std::string, recognizer const *> & nameT
 }
 
 void grammar::compile_sub_builder(std::map<std::string, recognizer const *> & nameToRecognizerPtr, sub_builder const & grammarDefinition) {
-
 	for (auto const & definition : grammarDefinition.productions) {
 		local_productions.emplace_back(definition.name, definition.filter, definition.assoc);
 		name_to_local_production_index[definition.name] = local_productions.size() - 1;

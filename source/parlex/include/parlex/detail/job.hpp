@@ -4,19 +4,20 @@
 #include <functional>
 
 #include "parlex/post_processor.hpp"
-#include "parlex/detail/match_class.hpp"
-#include "parlex/detail/subjob.hpp"
+
 #include "parlex/detail/abstract_syntax_semilattice.hpp"
+#include "parlex/detail/producer_table.hpp"
+#include "parlex/detail/subjob.hpp"
 
 namespace parlex {
 namespace detail {
 
 class correlated_grammar;
-class parser;
-class producer_table;
-class raw_state_machine;
 class grammar_base;
+struct match_class;
+class parser;
 typedef std::function<void(size_t /*done*/, size_t /*total*/)> progress_handler_t;
+class raw_state_machine;
 
 
 //holds the state of the parser during a parse
@@ -29,10 +30,10 @@ public:
 
 	job(parser & owner, std::u32string const & document, grammar_base const & g, size_t const rootRecognizerIndex, progress_handler_t const & progressHandler);
 
-	void connect(match_class const & matchClass, context const & c, int nextState, leaf const * l);
+	void connect(match_class const & matchClass, context const & c, size_t const nextState, leaf const * l);
 private:
 	parser * owner;
-	producer_table * producer_table_ptr;	
+	std::unique_ptr<producer_table> producer_table_ptr;
 	progress_handler_t progress_handler;
 	std::atomic<size_t> progress_counter;
 

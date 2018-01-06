@@ -13,11 +13,12 @@
 namespace parlex {
 namespace detail {
 
-class grammar_base;
-typedef std::function<void(size_t /*done*/, size_t /*total*/)> progress_handler_t;
 class context;
+class grammar_base;
 class job;
 class producer;
+typedef std::function<void(size_t /*done*/, size_t /*total*/)> progress_handler_t;
+class recognizer;
 class subjob;
 
 class parser {
@@ -42,9 +43,11 @@ private:
 	std::vector<std::tuple<context const*, int>> work;
 	std::condition_variable work_cv;
 
+	static void apply_precedence_and_associativity(grammar_base const & g, abstract_syntax_semilattice & asg);
 	static void complete_progress_handler(job & j);
 	static void update_progress(context const & context);
-	static void apply_precedence_and_associativity(grammar_base const & g, abstract_syntax_semilattice & asg);
+
+	void process(std::tuple<context const *, int> const & item) const;
 	void start_workers(int threadCount);
 	abstract_syntax_semilattice single_thread_parse(grammar_base const & g, size_t const overrideRootRecognizerIndex, std::vector<post_processor> const & posts, std::u32string const & document, progress_handler_t const & progressHandler);
 	abstract_syntax_semilattice multi_thread_parse(grammar_base const & g, size_t const overrideRootRecognizerIndex, std::vector<post_processor> const & posts, std::u32string const & document, progress_handler_t const & progressHandler);

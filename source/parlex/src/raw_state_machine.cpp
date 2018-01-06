@@ -22,12 +22,12 @@ raw_state_machine::states_t const& raw_state_machine::get_states() const {
 	return states;
 }
 
-void raw_state_machine::process(context const & c, size_t const s) const {
+void raw_state_machine::process(context const & c, size_t const dfaState) const {
 	//DBG("processing '", get_id(), "' s:", s, " p:", c.current_document_position());
-	if (s >= states.size() - accept_state_count) {
+	if (dfaState >= states.size() - accept_state_count) {
 		accept(c);
 	}
-	for (auto const & kvp : states[s]) {
+	for (auto const & kvp : states[dfaState]) {
 		auto const & recognizerIndex = kvp.first;
 		int const nextState = kvp.second;
 		//DBG("'", get_id(), "' state ", s, " position ", c.current_document_position(), " subscribes to '", transition.name, "' position ", c.current_document_position());

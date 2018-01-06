@@ -12,7 +12,7 @@ void state_machine_base::start(context const & c) const {
 	process(c, get_start_state());
 }
 
-void state_machine_base::on(context const & c, size_t const recognizerIndex, int const nextDfaState, leaf const * leaf) {
+void state_machine_base::on(context const & c, size_t const recognizerIndex, size_t const nextDfaState, leaf const * leaf) {
 	c.owner.on(c, recognizerIndex, nextDfaState, leaf);
 }
 

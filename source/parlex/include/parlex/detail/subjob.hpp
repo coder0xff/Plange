@@ -32,10 +32,10 @@ public:
 
 	void start();
 	context const & construct_stepped_context(context const* const prior, match const & fromTransition, leaf const * l);
-	void on(context const & c, size_t const recognizerIndex, int nextDfaState, leaf const * l);
+	void on(context const & c, size_t const recognizerIndex, size_t const nextDfaState, leaf const * l);
 	void accept(context const & c);
 	// for special use by the parser to seed the queue
-	context const & construct_start_state_context(int documentPosition);
+	context const & construct_start_state_context(size_t const documentPosition);
 	void finish_creation();
 	void begin_work_queue_reference();
 	void end_work_queue_reference();

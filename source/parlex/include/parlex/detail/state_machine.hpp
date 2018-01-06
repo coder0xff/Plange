@@ -53,7 +53,7 @@ private:
 
 	states_t states;
 
-	void process(context const & c, size_t dfaState) const override;
+	void process(context const & c, size_t const dfaState) const override;
 	static automaton reorder(automaton const & dfa);
 
 public:

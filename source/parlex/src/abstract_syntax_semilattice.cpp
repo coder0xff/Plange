@@ -2,9 +2,9 @@
 
 #include <queue>
 
-#include "parlex/detail/recognizer.hpp"
 #include "utils.hpp"
-#include "utf.hpp"
+
+#include "parlex/detail/grammar.hpp"
 
 namespace parlex {
 namespace detail {
@@ -13,7 +13,7 @@ abstract_syntax_semilattice::abstract_syntax_semilattice(match const root) : roo
 
 bool abstract_syntax_semilattice::is_rooted() const {
 	auto const i = permutations_of_matches.find(root);
-	return i != permutations_of_matches.end() && i->second.size() > 0;
+	return i != permutations_of_matches.end() && !i->second.empty();
 }
 
 void abstract_syntax_semilattice::cut(std::set<match> const & matches) {

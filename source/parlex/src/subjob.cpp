@@ -1,10 +1,10 @@
 #include "parlex/detail/subjob.hpp"
 
-#include "parlex/detail/parser.hpp"
-#include "parlex/detail/state_machine_base.hpp"
-
 #include "parlex/detail/context.hpp"
 #include "parlex/detail/job.hpp"
+#include "parlex/detail/match_class.hpp"
+#include "parlex/detail/parser.hpp"
+#include "parlex/detail/state_machine_base.hpp"
 
 #include "utils.hpp"
 #include "logging.hpp"
@@ -17,10 +17,6 @@ subjob::subjob(job & owner,	size_t const documentPosition, size_t const recogniz
 	lifetime_counter(1), //see finish_creation
 	document_position(documentPosition)
 {
-	if (documentPosition == 3 && machine.name == "white_spaces") {
-		debugger();
-	}
-
 	//DBG("constructed subjob p:", documentPosition, " m:", machine);
 }
 
@@ -33,19 +29,19 @@ void subjob::start() {
 	finish_creation();
 }
 
-context const & subjob::construct_start_state_context(int documentPosition) {
+context const & subjob::construct_start_state_context(size_t const documentPosition) {
 	std::unique_lock<std::mutex> lock(mutex);
 	auto const i = contexts.emplace_front(*this, nullptr, documentPosition, std::optional<match>(), nullptr);
 	return *i;
 }
 
 context const & subjob::construct_stepped_context(context const* const prior, match const & fromTransition, leaf const * l) {
-	std::unique_lock<std::mutex> lock(mutex);
+	std::unique_lock<std::mutex> lock(mutex); //TODO: Don't lock
 	auto const i = contexts.emplace_front(*this, prior, prior->current_document_position + fromTransition.consumed_character_count, std::optional<match>(fromTransition), l);
 	return *i;
 }
 
-void subjob::on(context const & c, size_t const recognizerIndex, int const nextDfaState, leaf const * l) {
+void subjob::on(context const & c, size_t const recognizerIndex, size_t const nextDfaState, leaf const * l) {
 	if (c.current_document_position >= c.owner.owner.document.length()) {
 		return;
 	}
@@ -58,7 +54,6 @@ void subjob::accept(context const & c) {
 	if (len == 0) {
 		return;
 	}
-	throw_assert(&c.owner == this);
 	auto const p = c.result();
 	if (!machine.get_filter()) {
 		//DBG("Accepting r:", r.name, " p:", c.owner().document_position, " l:", c.current_document_position() - c.owner().document_position);
@@ -122,7 +117,8 @@ void subjob::flush() {
 		auto counter = 0;
 		for (auto const & permutation : queued_permutations) {
 			if (selections.count(counter) > 0) {
-				int const len = !permutation.empty() ? permutation.back().document_position + permutation.back().consumed_character_count - document_position : 0;
+				auto & lastChild = permutation.back();
+				int const len = !permutation.empty() ? lastChild.document_position + lastChild.consumed_character_count - document_position : 0;
 				enque_permutation(len, permutation);
 			}
 			counter++;
