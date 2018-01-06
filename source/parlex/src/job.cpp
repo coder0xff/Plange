@@ -140,7 +140,7 @@ bool job::handle_deadlocks() const {
 
 //Construct an ASS, and if a solution was found, prunes unreachable nodes
 abstract_syntax_semilattice job::construct_result(match const & m) {
-	//perf_timer timer("construct_result");
+	//perf_timer timer(__FUNCTION__);
 	auto result = abstract_syntax_semilattice(m);
 	for (size_t documentPosition = 0; documentPosition < producer_table_ptr->document_length; ++documentPosition) {
 		for (size_t recognizerIndex = 0; recognizerIndex < producer_table_ptr->recognizer_count; ++recognizerIndex) {

@@ -242,6 +242,7 @@ static void prune(abstract_syntax_semilattice & asg, std::map<match, node_props_
 }
 
 static void construct_nodes(abstract_syntax_semilattice & asg, std::map<match, node_props_t> & nodes, std::vector<std::set<node_props_t *>> & flattened) {
+	//perf_timer perf(__FUNCTION__);
 	for (auto const & matchAndPermutations : asg.permutations_of_matches) {
 		auto const & m = matchAndPermutations.first;
 		auto & nodeProps = nodes.emplace(std::piecewise_construct, std::forward_as_tuple(m), std::forward_as_tuple(asg, m)).first->second;
@@ -263,6 +264,7 @@ static void construct_nodes(abstract_syntax_semilattice & asg, std::map<match, n
 }
 
 static void resolve_nodes(std::map<match, node_props_t> & nodes) {
+	//perf_timer perf(__FUNCTION__);
 	//work queue for the algorithm
 	std::queue<std::tuple<node_props_t *, node_props_t *, int>> propertyResolveQueue;
 
@@ -299,7 +301,7 @@ static void resolve_nodes(std::map<match, node_props_t> & nodes) {
 
 //Algorithm for quickly getting the `matches` that are present in a range of document indices
 struct intersection_lookup {
-	explicit intersection_lookup(std::vector<std::set<node_props_t *>> const & flattened) {
+	explicit intersection_lookup(std::vector<std::set<node_props_t *>> const & flattened, std::set<size_t> const & affectedRecognizerIndices) {
 		auto const docLen = flattened.size();
 		auto const lookupDepth = sizeof(int32_t) * 8 - clz(uint32_t(docLen));
 		lookup.resize(lookupDepth);
@@ -307,7 +309,9 @@ struct intersection_lookup {
 		lowestRow.resize(docLen);
 		for (size_t i = 0; i < docLen; ++i) {
 			for (auto const & node : flattened[i]) {
-				lowestRow[i].insert(node->m);
+				if (affectedRecognizerIndices.count(node->m.recognizer_index) > 0) {
+					lowestRow[i].insert(node->m);
+				}
 			}
 		}
 		for (int depth = lookupDepth - 2; depth >= 0; --depth) {
@@ -350,17 +354,20 @@ private:
 	std::vector<std::vector<collections::coherent_set<match>>> lookup;	
 };
 
-static void compute_intersections(std::map<match, node_props_t> & nodes, std::vector<std::set<node_props_t *>> const & flattened) {
-	intersection_lookup lookup(flattened);
+static void compute_intersections(std::map<match, node_props_t> & nodes, std::vector<std::set<node_props_t *>> const & flattened, std::set<size_t> const & affectedRecognizerIndices) {
+	//perf_timer perf(__FUNCTION__);
+	intersection_lookup lookup(flattened, affectedRecognizerIndices);
 	for (auto & matchAndProps : nodes) {		
 		auto const & m = matchAndProps.first;
-		auto & props = matchAndProps.second;
-		auto const first = m.document_position;
-		auto const last = first + m.consumed_character_count - 1;
-		lookup.query(first, last, props.all_unrelated_intersections);
-		props.all_unrelated_intersections.erase(m);
-		auto const & remove = props.all_descendents_and_ancestors;
-		props.all_unrelated_intersections.erase_many(remove.begin(), remove.end());
+		if (affectedRecognizerIndices.count(m.recognizer_index) > 0) {
+			auto & props = matchAndProps.second;
+			auto const first = m.document_position;
+			auto const last = first + m.consumed_character_count - 1;
+			lookup.query(first, last, props.all_unrelated_intersections);
+			props.all_unrelated_intersections.erase(m);
+			auto const & remove = props.all_descendents_and_ancestors;
+			props.all_unrelated_intersections.erase_many(remove.begin(), remove.end());
+		}
 	}
 }
 
@@ -447,6 +454,7 @@ static void select_match(abstract_syntax_semilattice & asg, grammar_base const &
 }
 
 static void select_trees(abstract_syntax_semilattice & asg, grammar_base const & g, std::map<match, node_props_t> & nodes, std::vector<std::set<match>> const orderedMatchesByHeight) {
+	//perf_timer perf(__FUNCTION__);
 	for (const auto & matches : orderedMatchesByHeight) {
 		for (auto const & m : matches) {
 			select_match(asg, g, nodes, m);
@@ -455,17 +463,34 @@ static void select_trees(abstract_syntax_semilattice & asg, grammar_base const &
 }
 
 void parser::apply_precedence_and_associativity(grammar_base const & g, abstract_syntax_semilattice & asg) {
+	//perf_timer perf(__FUNCTION__);
 	throw_assert(asg.is_rooted());
-	auto anyAssociativities = false;
-	for (auto const & stateMachineBase : g.get_state_machines()) {
-		anyAssociativities = stateMachineBase->get_assoc() != associativity::NONE;
-		if (anyAssociativities) {
-			break;
+
+	std::set<size_t> affectedRecognizerIndices;
+
+	for (size_t i = 0; i < g.get_recognizer_count(); ++i) {
+		auto const * recognizerPtr = &g.get_recognizer(i);
+		auto const * asStateMachineBasePtr = dynamic_cast<state_machine_base const *>(recognizerPtr);
+		if (asStateMachineBasePtr != nullptr) {
+			auto const & stateMachineBase = *asStateMachineBasePtr;
+			if (stateMachineBase.get_assoc() != associativity::NONE) {
+				affectedRecognizerIndices.insert(i);
+			}
+		}
+	}
+	auto const precedences = g.get_precedences();
+	for (size_t i = 0; i < precedences.size(); ++i) {
+		auto const & precedenceSet = precedences[i];
+		if (!precedenceSet.empty()) {
+			affectedRecognizerIndices.insert(i);
+			for (auto other : precedenceSet) {
+				affectedRecognizerIndices.insert(other);
+			}
 		}
 	}
 
 	//short circuit if no rules are given
-	if (!g.get_precedences().empty() || anyAssociativities) {
+	if (!affectedRecognizerIndices.empty()) {
 
 		std::map<match, node_props_t> nodes;
 		//a per-character table of matches
@@ -474,7 +499,7 @@ void parser::apply_precedence_and_associativity(grammar_base const & g, abstract
 
 		construct_nodes(asg, nodes, flattened);
 		resolve_nodes(nodes);
-		compute_intersections(nodes, flattened);
+		compute_intersections(nodes, flattened, affectedRecognizerIndices);
 		auto const matchesByHeight = ordered_matches_by_height(nodes);
 		select_trees(asg, g, nodes, matchesByHeight);
 	}
