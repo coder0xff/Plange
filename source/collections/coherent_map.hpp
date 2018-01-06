@@ -343,8 +343,9 @@ public:
 				detail::mover(storage + writeIndex++, storage + readIndex++);
 			}
 		}
-		size_ = writeIndex;
-		return readIndex - writeIndex;
+		auto const erasedCount = readIndex - writeIndex;
+		size_ -= erasedCount;
+		return erasedCount;
 	}
 
 	const_iterator find(TKey const & key) const {

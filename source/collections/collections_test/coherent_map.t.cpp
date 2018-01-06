@@ -274,3 +274,11 @@ TEST(CoherentMap, test_end_iterator) {
 	EXPECT_EQ(x.end(), x.find(0));
 	EXPECT_EQ(x.end(), x.lower_bound(0));
 }
+
+TEST(CoherentMap, zero_erase_many) {
+	collections::coherent_map<int, int> x;
+	x[1] = 1;
+	std::vector<int> toErase{0, 2};
+	EXPECT_EQ(0, x.erase_many(toErase.begin(), toErase.end()));
+	EXPECT_EQ(1, x.size());
+}
