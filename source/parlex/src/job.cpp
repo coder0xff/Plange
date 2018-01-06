@@ -143,7 +143,7 @@ void job::update_progress(size_t const completed)
 }
 
 bool job::handle_deadlocks() const {
-	perf_timer perf(__func__);
+	//perf_timer perf(__func__);
 	using iterator_t = std::atomic<producer *> const *;
 
 	struct transition_function {
@@ -221,7 +221,7 @@ abstract_syntax_semilattice job::construct_result(match const & m) {
 
 
 abstract_syntax_semilattice job::construct_result_and_postprocess(size_t const overrideRootRecognizerIndex, std::vector<post_processor> const & posts, std::u32string const & document) {
-	perf_timer perf(__func__);
+	//perf_timer perf(__func__);
 	auto result = construct_result(match(0, overrideRootRecognizerIndex, document.size()));
 	if (!posts.empty()) {
 		for (auto const & post : posts) {

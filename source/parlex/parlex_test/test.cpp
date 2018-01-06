@@ -74,6 +74,31 @@ TEST(ParlexTest, medium_test_1) {
 	auto result = p.parse(smallGrammar, U"AAAAAAAAAAA           =           BBBBBBBBBBBBB.");
 }
 
+
+TEST(ParlexTest, longest_filter_regression_test) {
+	builder const b("production", {
+		production("identifier",
+			reference("letter"),
+			associativity::NONE, longest()
+		),
+
+		production("production",
+			sequence({
+				reference("identifier"),
+				literal(U"="),
+				reference("identifier"),
+			})
+		)
+	});
+	grammar const g(b);
+	parser p(1);
+	auto result = p.parse(g, U"A=B");
+	//auto debugTest = result.to_dot(wirth());
+	if (!result.is_rooted()) {
+		throw std::logic_error("Test failed");
+	}
+}
+
 std::string wirth_in_itself = "\
 SYNTAX     = {white_space} { PRODUCTION {white_space} } . \
 PRODUCTION = IDENTIFIER {white_space} \"=\" {white_space} EXPRESSION {white_space} \".\" . \
@@ -89,7 +114,8 @@ IDENTIFIER = letter { letter } .";
 
 TEST(ParlexTest, wirth_test_1) {
 	parser p(1);
-	auto result = p.parse(wirth(), U"a=x.");
+	auto result = p.parse(wirth(), U"A=B.");
+	//auto debugTest = result.to_dot(wirth());
 	if (!result.is_rooted()) {
 		throw std::logic_error("Test failed");
 	}
@@ -217,7 +243,49 @@ TEST(ParlexTest, LeadingTagRegression) {
 	wirth().compile_expression(t);
 }
 
-TEST(ParlexTest, behavior_1) {
+TEST(ParlexTest, behavior_literal_wo_builtins) {
+	builder const gBuilder("EXPR", {production("EXPR", literal(U"+"))});
+
+	parser p(1);
+	grammar const g(gBuilder);
+
+	std::u32string const document = U"+";
+	auto result = p.parse(g, document);
+	if (!result.is_rooted()) {
+		throw std::logic_error("Test failed");
+	}
+	//auto concreteDot = result.to_concrete_dot(document);
+}
+
+TEST(ParlexTest, behavior_literal_w_builtins) {
+	builder const gBuilder("EXPR", {production("EXPR", literal(U"+"))});
+
+	parser p(1);
+	grammar const g(gBuilder);
+
+	std::u32string const document = U"+";
+	auto result = p.parse(g, document);
+	if (!result.is_rooted()) {
+		throw std::logic_error("Test failed");
+	}
+	//auto concreteDot = result.to_concrete_dot(document);
+}
+
+TEST(ParlexTest, behavior_sequence) {
+	builder const gBuilder("EXPR", { production("EXPR", sequence({literal(U"+")})) });
+
+	parser p(1);
+	grammar const g(gBuilder);
+
+	std::u32string const document = U"+";
+	auto result = p.parse(g, document);
+	if (!result.is_rooted()) {
+		throw std::logic_error("Test failed");
+	}
+	//auto concreteDot = result.to_concrete_dot(document);
+}
+
+TEST(ParlexTest, behavior_2) {
 	builder const gBuilder("EXPR", {
 		                           production("ADD", sequence({reference("EXPR"), literal(U"+"), reference("EXPR")})),
 		                           production("MUL", sequence({reference("EXPR"), literal(U"*"), reference("EXPR")})),
@@ -233,11 +301,12 @@ TEST(ParlexTest, behavior_1) {
 		                           ),
 	                           });
 
-	parser p;
+	parser p(1);
 	grammar const g(gBuilder);
 
 	std::u32string const document = U"5+3*2";
 	auto result = p.parse(g, document);
+	//auto const debugTest = result.to_dot(g); // TODO: Remove debug code
 	if (!result.is_rooted()) {
 		throw std::logic_error("Test failed");
 	}
@@ -245,7 +314,7 @@ TEST(ParlexTest, behavior_1) {
 
 }
 
-TEST(ParlexTest, behavior_2) {
+TEST(ParlexTest, behavior_3) {
 	builder const gBuilder("A", {
 								   production("A", sequence({
 												  optional(reference("white_space")),

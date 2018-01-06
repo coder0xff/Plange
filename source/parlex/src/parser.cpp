@@ -71,11 +71,11 @@ void parser::update_progress(context const & context) {
 }
 
 abstract_syntax_semilattice parser::single_thread_parse(grammar_base const & g, size_t const overrideRootRecognizerIndex, std::vector<post_processor> const & posts, std::u32string const & document, progress_handler_t const & progressHandler) {
-	perf_timer perf(__func__);
+	//perf_timer perf(__func__);
 	job j(*this, document, g, overrideRootRecognizerIndex, progressHandler);
 	throw_assert(active_count > 0);
 	{
-		perf_timer perf("Recognizer work queue processing");
+		//perf_timer perf("Recognizer work queue processing");
 		while (true) {
 			while (!work.empty()) {
 				auto item = work.back();
@@ -106,7 +106,7 @@ abstract_syntax_semilattice parser::multi_thread_parse(grammar_base const & g, s
 	job j(*this, document, g, overrideRootRecognizerIndex, progressHandler);
 	throw_assert(active_count > 0);
 	{
-		perf_timer recognizeTimer("Recognizer work queue processing");
+		//perf_timer recognizeTimer("Recognizer work queue processing");
 		while (true) {
 			halt_cv.wait(lock, [this]() { return active_count == 0; });
 			//DBG("parser is idle; checking for deadlocks");
