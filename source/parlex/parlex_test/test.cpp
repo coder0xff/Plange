@@ -327,3 +327,36 @@ TEST(ParlexTest, behavior_3) {
 
 }
 
+TEST(ParlexTest, precedence_1) {
+	builder const b("A", {
+		production("A", 
+			choice({
+				reference("B"),
+				reference("C")
+			})
+		),
+		production("B", literal(U"x"), associativity::NONE, filter_function(), {"C"}),
+		production("C", literal(U"x"))
+	});
+	grammar const g(b);
+	parser p(1);
+	auto result = p.parse(g, U"x").tree();	
+}
+
+TEST(ParlexTest, precedence_2) {
+	builder const b("A", {
+		production("A",
+			sequence({
+				literal(U"x"),
+				optional(choice({
+					sequence({ reference("A"), reference("A"),}),
+					reference("B")
+				}))
+			})			
+		),
+		production("B", sequence({ literal(U"x"), reference("A")}), associativity::NONE, filter_function(),{"A"}),
+	});
+	grammar const g(b);
+	parser p(1);
+	auto result = p.parse(g, U"xxx").tree();
+}
