@@ -14,6 +14,7 @@
 #include "utils.hpp"
 #include "bits.hpp"
 #include "perf_timer.hpp"
+#include "tarjan.hpp"
 
 namespace parlex {
 namespace detail {
@@ -265,37 +266,64 @@ static void construct_nodes(abstract_syntax_semilattice & asg, std::map<match, n
 
 static void resolve_nodes(std::map<match, node_props_t> & nodes) {
 	//perf_timer perf(__FUNCTION__);
-	//work queue for the algorithm
-	std::queue<std::tuple<node_props_t *, node_props_t *, int>> propertyResolveQueue;
 
+	std::vector<node_props_t *> vertices;
+	typedef std::vector<node_props_t *>::iterator vert_iterator;
+	std::map<node_props_t *, vert_iterator> lookup;
+	vertices.reserve(nodes.size());
 	for (auto & entry : nodes) {
-		auto & props = entry.second;
-		//seed algorithm with "match A has all of match A's permutation's matches as descendants"
-		propertyResolveQueue.push(std::make_tuple(&props, &props, 0));
+		vertices.push_back(&entry.second);
+		lookup[&entry.second] = vertices.begin() + (vertices.size() - 1);
 	}
 
-	//containment algorithm
-	//match A contains all of match B's permutation's matches
-	while (!propertyResolveQueue.empty()) {
-		auto entry = propertyResolveQueue.front();
-		propertyResolveQueue.pop();
-		auto & left = *std::get<0>(entry);
-		auto & right = *std::get<1>(entry);
-		size_t const leftsHeightMinusRightsHeight = std::get<2>(entry);
-		if (right.height == 0) { //if right is a leaf
-			left.height = std::max(leftsHeightMinusRightsHeight, left.height);
-		}
-		for (auto const & perm : right.permutations) {
-			for (match const & containedMatch : perm) {
-				auto & childProps = nodes.find(containedMatch)->second;
-				if (left.all_descendents.insert(childProps.m).second) {
-					propertyResolveQueue.push(std::make_tuple(&left, &nodes.find(containedMatch)->second, leftsHeightMinusRightsHeight + 1));
-				}
-				childProps.all_ancestors.insert(left.m);
-				childProps.all_descendents_and_ancestors.insert(left.m);
-				left.all_descendents_and_ancestors.insert(childProps.m);
+	std::function<std::vector<vert_iterator> (vert_iterator)> const transitionFunc = [&nodes, &lookup](vert_iterator const & vert) {
+		std::vector<vert_iterator> results;
+		for (auto const & permutation : (*vert)->permutations) {
+			for (auto const & m : permutation) {
+				auto i = nodes.find(m);
+				throw_assert(i != nodes.end());
+				results.push_back(lookup[&(i->second)]);
 			}
 		}
+		return results;
+	};
+
+	std::vector<std::vector<vert_iterator>> orderedNodes = tarjan(vertices.begin(), vertices.end(), transitionFunc);
+
+	for (std::vector<vert_iterator> const & subgraph : orderedNodes) {
+		for (vert_iterator const & vertI : subgraph) {
+			node_props_t & node = **vertI;
+			for (auto const & permutation : node.permutations) {
+				for (auto const & m : permutation) {
+					auto i = nodes.find(m);
+					throw_assert(i != nodes.end());
+					node_props_t & otherNode = i->second;
+					node.height = std::max(node.height, otherNode.height + 1);
+					node.all_descendents.insert(otherNode.m);
+					node.all_descendents.insert(otherNode.all_descendents.begin(), otherNode.all_descendents.end());
+				}
+			}
+		}
+	}
+
+	std::reverse(orderedNodes.begin(), orderedNodes.end());
+	for (std::vector<vert_iterator> const & subgraph : orderedNodes) {
+		for (vert_iterator const & vertI : subgraph) {
+			node_props_t & node = **vertI;
+			for (auto const & entry : node.parent_permutations_by_match) {
+				auto const parentMatch = entry.first;
+				auto const i = nodes.find(parentMatch);
+				throw_assert(i != nodes.end());
+				auto const & parentNode = i->second;
+				node.all_ancestors.insert(parentNode.m);
+				node.all_ancestors.insert(parentNode.all_ancestors.begin(), parentNode.all_ancestors.end());
+			}
+		}
+	}
+	
+	for (auto & entry : nodes) {
+		entry.second.all_descendents_and_ancestors = entry.second.all_descendents;
+		entry.second.all_descendents_and_ancestors.insert(entry.second.all_ancestors.begin(), entry.second.all_ancestors.end());
 	}
 }
 
