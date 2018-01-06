@@ -37,7 +37,7 @@ public:
 		void set_behavior(grammar const & g, erased<node> const & behavior);
 	};
 
-	explicit grammar(builder const & grammarDefinition);
+	explicit grammar(builder const & grammarDefinition, bool const noBuiltIns = false);
 	grammar(grammar const & copy) = delete;
 	virtual ~grammar() = default;
 

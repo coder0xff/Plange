@@ -247,7 +247,7 @@ TEST(ParlexTest, behavior_literal_wo_builtins) {
 	builder const gBuilder("EXPR", {production("EXPR", literal(U"+"))});
 
 	parser p(1);
-	grammar const g(gBuilder);
+	grammar const g(gBuilder, true);
 
 	std::u32string const document = U"+";
 	auto result = p.parse(g, document);

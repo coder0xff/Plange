@@ -85,19 +85,23 @@ void grammar::link_sub_builder(sub_builder const & grammarDefinition) {
 	}
 }
 
-grammar::grammar(builder const & grammarDefinition) {
+grammar::grammar(builder const & grammarDefinition, bool noBuiltIns) {
 	std::map<std::string, recognizer const *> nameToRecognizerPtr;
 	
-	// assign integer to every builtin
-	for (auto const & builtin : builtin_terminals().recognizer_table) {
-		add_table_data(nameToRecognizerPtr, builtin.second);
+	if (!noBuiltIns) {
+		// assign integer to every builtin
+		for (auto const & builtin : builtin_terminals().recognizer_table) {
+			add_table_data(nameToRecognizerPtr, builtin.second);
+		}
 	}
 
 	auto const cStringSubgrammar = c_string();
 
 	std::set<std::u32string> allStringLiterals;
 	{
-		allStringLiterals = std::move(cStringSubgrammar.extract_string_literals());
+		if (!noBuiltIns) {
+			allStringLiterals = std::move(cStringSubgrammar.extract_string_literals());
+		}
 		auto grammerStringLiterals = grammarDefinition.extract_string_literals();
 		allStringLiterals.insert(grammerStringLiterals.begin(), grammerStringLiterals.end());
 	}
@@ -117,11 +121,17 @@ grammar::grammar(builder const & grammarDefinition) {
 		}
 	}
 	
-	local_productions.reserve(cStringSubgrammar.productions.size() + grammarDefinition.productions.size());
-	compile_sub_builder(nameToRecognizerPtr, cStringSubgrammar);
-	compile_sub_builder(nameToRecognizerPtr, grammarDefinition);
-	link_sub_builder(cStringSubgrammar);
-	link_sub_builder(grammarDefinition);
+	if (noBuiltIns) {
+		local_productions.reserve(grammarDefinition.productions.size());
+		compile_sub_builder(nameToRecognizerPtr, grammarDefinition);
+		link_sub_builder(grammarDefinition);
+	} else {
+		local_productions.reserve(cStringSubgrammar.productions.size() + grammarDefinition.productions.size());
+		compile_sub_builder(nameToRecognizerPtr, cStringSubgrammar);
+		compile_sub_builder(nameToRecognizerPtr, grammarDefinition);
+		link_sub_builder(cStringSubgrammar);
+		link_sub_builder(grammarDefinition);
+	}
 
 	// Now that all the state_machines are created we can setup precedences
 	precedences.resize(recognizers.size());
