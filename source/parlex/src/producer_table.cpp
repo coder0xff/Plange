@@ -38,6 +38,9 @@ producer_table::~producer_table()
 
 producer_table::producer_table(size_t const documentLength, size_t const recognizerCount) : document_length(documentLength), recognizer_count(recognizerCount), storage(static_cast<t *>(malloc(sizeof(t) * documentLength * recognizerCount)))
 {
+	if (storage == nullptr) {
+		throw "Unable to allocate";
+	}
 	auto const elementCount = document_length * recognizer_count;
 	for (size_t i = 0; i < elementCount; ++i) {
 		new (storage + i) t();
