@@ -83,7 +83,7 @@ int main(int const argc, const char* argv[]) {
 	parlex::detail::parser p;
 	std::map<std::string, parlex::detail::wirth_t::production> defs;
 	for (auto const & elem : spec) {
-		std::string name = elem.first.as<std::string>();
+		auto name = elem.first.as<std::string>();
 		auto data = elem.second;
 		std::cout << "parsing " << name << "\n";
 		std::string const syntax = trim(data["syntax"].as<std::string>());
@@ -113,7 +113,7 @@ int main(int const argc, const char* argv[]) {
 		}
 		std::set<std::string> precedences;
 		if (data["precedes"]) {
-			for (auto element : data["precedes"]) {
+			for (const auto & element : data["precedes"]) {
 				precedences.insert(element.as<std::string>());
 			}
 		}
