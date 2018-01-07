@@ -32,9 +32,7 @@ TEST(CoherentMap, test_erase_one) {
 
 TEST(CoherentMap, test_iterate_zero) {
 	collections::coherent_map<int, int> x;
-	for (auto const & entry : x) {
-		FAIL();
-	}
+	EXPECT_EQ(x.begin(), x.end());
 }
 
 TEST(CoherentMap, test_iterate_one) {
@@ -133,7 +131,7 @@ TEST(CoherentMap, test_random_insert_many_many) {
 	std::vector<std::pair<int, std::string>> data;
 	for (auto i = 0; i < 1000000; ++i) {
 		auto j = numbers[i];
-		data.push_back(make_pair(j, std::to_string(j)));
+		data.emplace_back(j, std::to_string(j));
 	}
 
 	collections::coherent_map<int, std::string> x;
@@ -157,12 +155,12 @@ TEST(CoherentMap, test_random_assign_many_then_insert_many_then_find) {
 	std::vector<std::pair<int, std::string>> data;
 	for (auto i = 0; i < 1000000; ++i) {
 		auto j = numbers[i];
-		data.push_back(make_pair(j, std::to_string(j)));
+		data.emplace_back(j, std::to_string(j));
 	}
 
 	collections::coherent_map<int, std::string> x;
 	for (auto i = 0; i < 500; ++i) {
-		auto j = data[i];
+		auto const j = data[i];
 		x[j.first] = j.second;
 	}
 
@@ -186,7 +184,7 @@ TEST(CoherentMap, test_random_insert_many_then_iterate) {
 	std::vector<std::pair<int, std::string>> data;
 	for (auto i = 0; i < 1000000; ++i) {
 		auto j = numbers[i];
-		data.push_back(make_pair(j, std::to_string(j)));
+		data.emplace_back(j, std::to_string(j));
 	}
 
 	collections::coherent_map<int, std::string> x;
