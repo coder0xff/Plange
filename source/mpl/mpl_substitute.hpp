@@ -18,7 +18,7 @@ namespace mpl {
 	}
 
 	template<typename TSearch, typename TReplace, typename TList>
-	using substitute = map<detail::substitute::impl<TSearch, TReplace>::result, TList>;
+	using substitute = map<detail::substitute::impl<TSearch, TReplace>::template result, TList>;
 
 }
 
