@@ -123,3 +123,11 @@ TEST(PlcCompiler, ParseEmbeddedCommentExample) {
 TEST(PlcCompiler, LoadEmbeddedCommentExample) {
 	load_example("embeddedComment.pge");
 }
+
+TEST(PlcCompiler, ParseEmbeddedCommentExample2) {
+	parse_example("embeddedComment2.pge");
+}
+
+TEST(PlcCompiler, LoadEmbeddedCommentExample2) {
+	load_example("embeddedComment2.pge");
+}

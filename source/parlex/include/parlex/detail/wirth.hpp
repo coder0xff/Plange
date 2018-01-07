@@ -41,7 +41,7 @@ FACTOR        = ["$"] IDENTIFIER
 class wirth_t final : public grammar {
 public:
 	struct production {
-		production(std::u32string const & source, associativity assoc, filter_function filter, std::set<std::string> const & precedences);
+		production(std::u32string const & source, associativity assoc, filter_function const & filter, std::set<std::string> const & precedences);
 		std::u32string const source;
 		associativity const assoc;
 		filter_function const filter;
@@ -51,7 +51,7 @@ public:
 	wirth_t();
 
 	builder load_grammar(std::string const & rootId, std::map<std::string, production> const & definitions) const;
-	builder load_grammar(std::string const & rootId, std::u32string const & document, std::map<std::string, associativity> const & associativities, std::set<std::string> const & longestNames) const;
+	builder load_grammar(std::string const & rootId, std::u32string const & document, std::map<std::string, associativity> const & associativities, std::set<std::string> const & longestNames, std::set<std::string> const & shortestNames) const;
 
 	erased<node> compile_expression(std::u32string const & source) const;
 

@@ -40,6 +40,31 @@ filter_function const & longest() {
 	return result;
 }
 
+static std::set<int> shortest_f(std::u32string const & /*document*/, std::list<detail::permutation> const & permutations) {
+	auto selectedSize = INTMAX_MAX;
+	for (auto const & p : permutations) {
+		int const len = !p.empty() ? p.back().document_position + p.back().consumed_character_count - p.front().document_position : 0;
+		if (len < selectedSize) {
+			selectedSize = len;
+		}
+	}
+	std::set<int> result;
+	auto counter = 0;
+	for (auto const & p : permutations) {
+		int const len = !p.empty() ? p.back().document_position + p.back().consumed_character_count - p.front().document_position : 0;
+		if (len == selectedSize) {
+			result.insert(counter);
+		}
+		counter++;
+	}
+	return result;
+}
+
+filter_function const & shortest() {
+	static filter_function result(new std::function<std::set<int>(std::u32string const & /*document*/, std::list<detail::permutation> const &)>(shortest_f));
+	return result;
+}
+
 namespace detail {
 
 any_character_t::any_character_t() : terminal("any_character", 1) {}

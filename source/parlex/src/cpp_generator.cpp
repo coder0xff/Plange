@@ -349,6 +349,8 @@ static std::string generate_production_builder_initializer(production const & p)
 		ss << ", ";
 		if (p.filter == longest()) {
 			ss << "parlex::longest()";
+		} else if (p.filter == shortest()) {
+			ss << "parlex::shortest()";
 		} else if (!p.filter) {
 			ss << "parlex::filter_function()";
 		} else {

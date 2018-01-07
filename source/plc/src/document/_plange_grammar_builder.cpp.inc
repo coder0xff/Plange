@@ -745,7 +745,7 @@ static parlex::builder const & builder() {
 			parlex::reference("EMBEDDED_COMMENT_INTERIOR"),
 			parlex::literal("***/", U"***/")
 		}),
-		parlex::associativity::NONE, parlex::filter_function(), {"COMMENT", }),
+		parlex::associativity::NONE, parlex::shortest(), {"COMMENT", }),
 		parlex::production("EMBEDDED_COMMENT_INTERIOR",
 		parlex::choice ("EMBEDDED_COMMENT_INTERIOR", {
 			parlex::reference("payload", "PAYLOAD"),
@@ -762,7 +762,7 @@ static parlex::builder const & builder() {
 			parlex::reference("EMBEDDED_NEWLINE_STRING_INTERIOR"),
 			parlex::literal("\"\"\"", U"\"\"\"")
 		}),
-		parlex::associativity::NONE, parlex::filter_function(), {"EMBEDDED_STRING", }),
+		parlex::associativity::NONE, parlex::shortest(), {"EMBEDDED_STRING", }),
 		parlex::production("EMBEDDED_NEWLINE_STRING_INTERIOR",
 		parlex::choice ("EMBEDDED_NEWLINE_STRING_INTERIOR", {
 			parlex::sequence({
@@ -782,7 +782,8 @@ static parlex::builder const & builder() {
 			parlex::literal("\"\"\"", U"\"\"\""),
 			parlex::reference("EMBEDDED_STRING_INTERIOR"),
 			parlex::literal("\"\"\"", U"\"\"\"")
-		})),
+		}),
+		parlex::associativity::NONE, parlex::shortest()),
 		parlex::production("EMBEDDED_STRING_INTERIOR",
 		parlex::choice ("EMBEDDED_STRING_INTERIOR", {
 			parlex::reference("payload", "PAYLOAD"),

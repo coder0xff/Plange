@@ -486,6 +486,7 @@ DOWNCASTS:
 EMBEDDED_COMMENT:
     syntax: >
         "/***" EMBEDDED_COMMENT_INTERIOR "***/"
+    filter: shortest
     precedes: [COMMENT]
     doc: >
         a comment bounded by arbirtrarily-sized delimiters
@@ -507,6 +508,7 @@ EMBEDDED_COMMENT_INTERIOR:
 EMBEDDED_NEWLINE_STRING:
     syntax: >
         "\"\"\"" EMBEDDED_NEWLINE_STRING_INTERIOR "\"\"\""
+    filter: shortest
     precedes: [EMBEDDED_STRING]
 
 EMBEDDED_NEWLINE_STRING_INTERIOR:
@@ -517,6 +519,7 @@ EMBEDDED_NEWLINE_STRING_INTERIOR:
 EMBEDDED_STRING:
     syntax: >
          "\"\"\"" EMBEDDED_STRING_INTERIOR "\"\"\""
+    filter: shortest
     doc: >
         a string bounded by arbirtrarily-sized delimiters
     example: |

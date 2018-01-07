@@ -133,7 +133,7 @@ builder wirth_t::load_grammar(std::string const & rootId, std::map<std::string, 
 }
 
 
-builder wirth_t::load_grammar(std::string const & rootId, std::u32string const & document, std::map<std::string, associativity> const & associativities, std::set<std::string> const & longestNames) const {
+builder wirth_t::load_grammar(std::string const & rootId, std::u32string const & document, std::map<std::string, associativity> const & associativities, std::set<std::string> const & longestNames, std::set<std::string> const & shortestNames) const {
 	parser p;
 	auto assl = p.parse(*this, document);
 	auto const ast = assl.tree();
@@ -157,14 +157,19 @@ builder wirth_t::load_grammar(std::string const & rootId, std::u32string const &
 				}
 			}
 			auto assoc = associativities.count(name) > 0 ? associativities.find(name)->second : associativity::NONE;
-			auto filter = longestNames.count(name) > 0 ? longest() : filter_function();
+			auto filter = filter_function();
+			if (longestNames.count(name) > 0) {
+				filter = longest();
+			} else if (shortestNames.count(name) > 0) {
+				filter = shortest();
+			}
 			definitions.emplace(std::piecewise_construct, forward_as_tuple(name), forward_as_tuple(source, assoc, filter, std::set<std::string>()));
 		}
 	}
 	return load_grammar(rootId, definitions);
 }
 
-wirth_t::production::production(std::u32string const & source, associativity const assoc, filter_function const filter, std::set<std::string> const & precedences) : source(source), assoc(assoc), filter(filter), precedences(precedences) {
+wirth_t::production::production(std::u32string const & source, associativity const assoc, filter_function const & filter, std::set<std::string> const & precedences) : source(source), assoc(assoc), filter(filter), precedences(precedences) {
 }
 
 builder generate_wirth() {
