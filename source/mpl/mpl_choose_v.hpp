@@ -5,7 +5,7 @@
 #include <tuple>
 #include "mpl_utils.hpp"
 
-// given a index_sequence and a tuple, create a new tuple with only the chosen elements
+// given an index_sequence and a tuple, create a new tuple with only the chosen elements
 
 namespace mpl {
 	

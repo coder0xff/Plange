@@ -18,7 +18,7 @@ namespace mpl {
 		return impl(
 			std::forward<THead>(element),
 			std::forward<std::tuple<TTailElements...>>(list),
-			detail::sequence(std::forward<std::tuple<TTailElements...>>(list))
+			detail::push_v::impl(std::forward<std::tuple<TTailElements...>>(list))
 		);
 	}
 

@@ -2,13 +2,18 @@
 #define INCLUDED_MPL_UTILS_HPP
 
 #define STATIC_PRINT_TYPE(x) using mpl_print_as_error = typename mpl::print_as_error<x>::print
-#define STATIC_PRINT_SIZE_T(x) using mpl_print_as_error = typename mpl::print_as_error<std::integral_constant<size_t, x>>::print
+#define STATIC_PRINT_SIZE_T(x) using mpl_print_as_error = typename mpl::print_as_error<std::integral_constant<size_t, (x)>>::print
 
 namespace mpl {
 
+	template<typename T>
+	using decay = typename std::decay<T>::type;
+
 	namespace detail::variadic_size {
 		template<typename TList>
-		struct impl {};
+		struct impl {
+			static_assert(sizeof(TList) == -1, "template instantion failed");
+		};
 
 		template<template<typename...> typename TContainer, typename... Ts>
 		struct impl<TContainer<Ts...>> {
@@ -17,14 +22,12 @@ namespace mpl {
 	}
 
 	template<typename TList>
-	constexpr size_t VARIADIC_SIZE = detail::variadic_size::impl<TList>::result;
+	constexpr size_t VARIADIC_SIZE = detail::variadic_size::impl<decay<TList>>::result;
 
 	template<typename T>
 	struct print_as_error {
 	};
 
-	template<typename T>
-	using decay = typename std::decay<T>::type;
 }
 
 namespace std {

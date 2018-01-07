@@ -2,7 +2,6 @@
 #define INCLUDING_MPL_INDICES_HPP
 
 #include <type_traits>
-#include <tuple>
 
 #include "mpl_sfinae.hpp"
 
