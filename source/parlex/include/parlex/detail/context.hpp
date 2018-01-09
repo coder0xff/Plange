@@ -16,11 +16,11 @@ class subjob;
 class context {
 public:
 	context const* const prior;
-	size_t const current_document_position;
+	uint32_t const current_document_position;
 	std::optional<match> const from_transition;
 	leaf const * const l;
 
-	context(context const * const prior, int documentPosition, std::optional<match> const & fromTransition, leaf const * l);
+	context(context const * const prior, uint32_t documentPosition, std::optional<match> const & fromTransition, leaf const * l);
 	context(context const & other) = delete;
 	context(context && move) = delete;
 	~context();

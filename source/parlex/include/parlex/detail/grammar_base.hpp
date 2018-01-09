@@ -15,10 +15,10 @@ class grammar_base {
 public:
 	virtual state_machine_base const& get_root_state_machine() const = 0;
 	virtual std::vector<state_machine_base const *> get_state_machines() const = 0;
-	virtual size_t get_recognizer_count() const = 0;
-	virtual recognizer const& get_recognizer(size_t const index) const = 0;
-	virtual bool does_precede(size_t const lhs, size_t const rhs) const = 0;
-	virtual size_t lookup_recognizer_index(recognizer const & recognizer) const = 0;
+	virtual uint16_t get_recognizer_count() const = 0;
+	virtual recognizer const& get_recognizer(uint16_t const index) const = 0;
+	virtual bool does_precede(uint16_t const lhs, uint16_t const rhs) const = 0;
+	virtual uint16_t lookup_recognizer_index(recognizer const & recognizer) const = 0;
 	virtual precedence_collection get_precedences() const = 0;
 protected:
 	virtual ~grammar_base() = default;

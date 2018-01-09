@@ -15,36 +15,30 @@ namespace detail {
 class parser;
 class job;
 
-struct producer_id_t {
-	explicit producer_id_t(size_t const id);
-
-	size_t const id;
-};
-
 class producer {
 public:
 	virtual ~producer() = default;
 
 	struct subscription {
-		size_t next_transmit_index;
-		producer_id_t id;
-		context const& c;
-		size_t next_dfa_state;
+		context const & c;
 		leaf const * const l;
-		subscription(producer_id_t const producerId, context const & c, size_t const nextDfaState, leaf const * const l);
+		uint32_t id;
+		uint16_t next_transmit_index;
+		uint8_t next_dfa_state;
+		subscription(uint32_t const producerId, context const & c, uint8_t const nextDfaState, leaf const * const l);
 	};
 
 	void do_events(job & j, match_class const & myInfo);
 
 	std::vector<subscription> consumers;
-	std::vector<size_t> match_lengths;
-	std::map<size_t, std::set<permutation>> match_length_to_permutations;
+	std::vector<uint32_t> match_lengths;
+	std::map<uint32_t, std::set<permutation>> match_length_to_permutations;
 	std::mutex mutex;
 	bool completed;
 
 	producer();
-	void add_subscription(job & j, match_class const & myInfo, producer_id_t const subscriberId, context const & c, size_t nextDfaState, leaf const * l);
-	void enque_permutation(job & j, match_class const & myInfo, size_t const consumedCharacterCount, permutation const & p);
+	void add_subscription(job & j, match_class const & myInfo, uint32_t const subscriberId, context const & c, uint8_t nextDfaState, leaf const * l);
+	void enque_permutation(job & j, match_class const & myInfo, uint32_t const consumedCharacterCount, permutation const & p);
 	void terminate(job & j, match_class const & myInfo);
 };
 

@@ -28,19 +28,19 @@ public:
 	grammar_base const & g;
 	std::atomic<int> progress;
 
-	job(parser & owner, std::u32string const & document, grammar_base const & g, size_t const rootRecognizerIndex, progress_handler_t const & progressHandler);
+	job(parser & owner, std::u32string const & document, grammar_base const & g, uint16_t const rootRecognizerIndex, progress_handler_t const & progressHandler);
 
-	void connect(match_class const & matchClass, producer_id_t const subscriber, context const & c, size_t const nextState, leaf const * l);
-	match_class get_match_class(producer_id_t const id) const; 
+	void connect(match_class const & matchClass, uint32_t const subscriber, context const & c, uint8_t const nextState, leaf const * l);
+	match_class get_match_class(uint32_t const id) const;
 private:
 	parser * owner;
 	std::unique_ptr<producer_table> producer_table_ptr;
 	progress_handler_t progress_handler;
 	std::atomic<size_t> progress_counter;
 
-	producer & optimized_get_producer(producer_id_t const & id, match_class const & matchClass);
+	producer & optimized_get_producer(uint32_t const & id, match_class const & matchClass);
 	producer & get_producer(match_class const & matchClass);
-	producer & get_producer(producer_id_t const & id);
+	producer & get_producer(uint32_t const & id);
 	void update_progress(size_t completed);
 
 	//returns true if the job is complete
@@ -54,7 +54,7 @@ private:
 	//no more work to be done. The job is finished.
 	bool handle_deadlocks();
 	abstract_syntax_semilattice construct_result(match const & m);
-	abstract_syntax_semilattice construct_result_and_postprocess(size_t const overrideRootRecognizerIndex, std::vector<post_processor> const & posts, std::u32string const & document);
+	abstract_syntax_semilattice construct_result_and_postprocess(uint16_t const overrideRootRecognizerIndex, std::vector<post_processor> const & posts, std::u32string const & document);
 
 	friend class parser;
 	friend class producer;

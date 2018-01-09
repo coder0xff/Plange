@@ -8,7 +8,7 @@ namespace parlex::detail {
 class basic_escape_sequence_t : public terminal {
 public:
 	basic_escape_sequence_t();
-	bool test(std::u32string const & document, size_t documentPosition) const override final;
+	bool test(std::u32string const & document, uint32_t documentPosition) const override final;
 };
 
 } // namespace parlex

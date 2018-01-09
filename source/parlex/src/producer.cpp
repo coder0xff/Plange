@@ -12,7 +12,7 @@ namespace detail {
 producer::producer() : completed(false) { }
 
 
-void producer::add_subscription(job & j, match_class const & myInfo, producer_id_t const subscriberId, context const & c, size_t nextDfaState, leaf const * l) {
+void producer::add_subscription(job & j, match_class const & myInfo, uint32_t const subscriberId, context const & c, uint8_t nextDfaState, leaf const * l) {
 	{
 		std::unique_lock<std::mutex> lock(mutex);
 		consumers.emplace_back(subscriberId, c, nextDfaState, l);
@@ -49,7 +49,7 @@ void producer::do_events(job & j, match_class const & myInfo) {
 	}
 }
 
-void producer::enque_permutation(job & j, match_class const & myInfo, size_t const consumedCharacterCount, permutation const & p) {
+void producer::enque_permutation(job & j, match_class const & myInfo, uint32_t const consumedCharacterCount, permutation const & p) {
 	auto newMatch = false; {
 		std::unique_lock<std::mutex> lock(mutex);
 		throw_assert(!completed);
@@ -71,14 +71,12 @@ void producer::terminate(job & j, match_class const & myInfo) {
 }
 
 
-producer_id_t::producer_id_t(size_t const id): id(id) {}
-
-producer::subscription::subscription(producer_id_t const producerId, context const & c, size_t const nextDfaState, leaf const * l) :
-	next_transmit_index(0),
-	id(producerId),
-	c(c), 
-	next_dfa_state(nextDfaState), 
-	l(l)
+producer::subscription::subscription(uint32_t const producerId, context const & c, uint8_t const nextDfaState, leaf const * l) :
+	c(c),
+	l(l),
+	id(producerId), 
+	next_transmit_index(0), 
+	next_dfa_state(nextDfaState)
 {}
 
 } // namespace detail

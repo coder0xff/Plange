@@ -22,7 +22,7 @@ struct node {
 	using children_t = std::vector<erased<node>>;
 	std::string tag;
 	children_t children;
-	node * parent;
+	node * parent = nullptr;
 	// a table from all descendant leafs keys, to the child node containing the key
 	collections::coherent_map<leaf const *, node const *> leaf_paths;
 
@@ -40,7 +40,7 @@ protected:
 };
 
 struct leaf : node {
-	size_t recognizer_index;
+	uint16_t recognizer_index;
 	bool is_leaf() const override;
 protected:
 	explicit leaf(std::string const & tag);

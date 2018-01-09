@@ -10,7 +10,7 @@ class not_double_quote_t : public terminal {
 public:
 	not_double_quote_t();
 	~not_double_quote_t() override = default;
-	bool test(std::u32string const & document, size_t documentPosition) const override final;
+	bool test(std::u32string const & document, uint32_t documentPosition) const override final;
 };
 
 } // namespace detail

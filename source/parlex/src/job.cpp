@@ -19,12 +19,12 @@
 namespace parlex {
 namespace detail {
 
-job::job(parser & owner, std::u32string const & document, grammar_base const & g, size_t const rootRecognizerIndex, progress_handler_t const & progressHandler) :
+job::job(parser & owner, std::u32string const & document, grammar_base const & g, uint16_t const rootRecognizerIndex, progress_handler_t const & progressHandler) :
 	document(document),
 	g(g),
 	progress(0),
 	owner(&owner),
-	producer_table_ptr(new producer_table(document.size(), g.get_recognizer_count())),
+	producer_table_ptr(new producer_table(uint32_t(document.size()), g.get_recognizer_count())),
 	progress_handler(progressHandler),
 	progress_counter(0) {
 	//DBG("starting job using recognizer '", main, "'");
@@ -52,15 +52,15 @@ job::job(parser & owner, std::u32string const & document, grammar_base const & g
 	}
 }
 
-void job::connect(match_class const & matchClass, producer_id_t const subscriber, context const & c, size_t const nextState, leaf const * l) {
+void job::connect(match_class const & matchClass, uint32_t const subscriber, context const & c, uint8_t const nextState, leaf const * l) {
 	get_producer(matchClass).add_subscription(*this, matchClass, subscriber, c, nextState, l);
 }
 
-match_class job::get_match_class(producer_id_t const id) const {
+match_class job::get_match_class(uint32_t const id) const {
 	return producer_table_ptr->get_match_class(id);
 }
 
-producer & job::optimized_get_producer(producer_id_t const & id, match_class const & matchClass) {
+producer & job::optimized_get_producer(uint32_t const & id, match_class const & matchClass) {
 	auto & storage = (*producer_table_ptr)(id);
 	auto resultPtr = static_cast<producer *>(storage);
 	if (resultPtr != nullptr) {
@@ -90,7 +90,7 @@ producer & job::get_producer(match_class const & matchClass) {
 	return optimized_get_producer(producer_table_ptr->compute_id(matchClass), matchClass);
 }
 
-producer & job::get_producer(producer_id_t const & id) {
+producer & job::get_producer(uint32_t const & id) {
 	auto & storage = (*producer_table_ptr)(id);
 	auto const resultPtr = static_cast<producer *>(storage);
 	if (resultPtr != nullptr) {
@@ -147,7 +147,7 @@ bool job::handle_deadlocks() {
 	for (auto const & stronglyConnectedComponent : stronglyConnectedComponents) {
 		for (std::atomic<producer *> const * ptr : stronglyConnectedComponent) {
 			size_t const producerIdId = ptr - producer_table_ptr->cbegin(); // pointer arithmetic
-			producer_id_t const producerId(producerIdId);
+			auto const producerId(producerIdId);
 			ptr->load()->terminate(*this, get_match_class(producerId));
 			anyHalted = true;
 		}
@@ -160,8 +160,8 @@ bool job::handle_deadlocks() {
 abstract_syntax_semilattice job::construct_result(match const & m) {
 	//perf_timer timer(__FUNCTION__);
 	auto result = abstract_syntax_semilattice(m);
-	for (size_t documentPosition = 0; documentPosition < producer_table_ptr->document_length; ++documentPosition) {
-		for (size_t recognizerIndex = 0; recognizerIndex < producer_table_ptr->recognizer_count; ++recognizerIndex) {
+	for (uint32_t documentPosition = 0; documentPosition < producer_table_ptr->document_length; ++documentPosition) {
+		for (uint16_t recognizerIndex = 0; recognizerIndex < producer_table_ptr->recognizer_count; ++recognizerIndex) {
 			match_class const matchClass(documentPosition, recognizerIndex);
 			auto const & storage = (*producer_table_ptr)(matchClass);
 			if (!storage) {
@@ -188,7 +188,7 @@ abstract_syntax_semilattice job::construct_result(match const & m) {
 }
 
 
-abstract_syntax_semilattice job::construct_result_and_postprocess(size_t const overrideRootRecognizerIndex, std::vector<post_processor> const & posts, std::u32string const & document) {
+abstract_syntax_semilattice job::construct_result_and_postprocess(uint16_t const overrideRootRecognizerIndex, std::vector<post_processor> const & posts, std::u32string const & document) {
 	//perf_timer perf(__func__);
 	auto result = construct_result(match(0, overrideRootRecognizerIndex, document.size()));
 	if (!posts.empty()) {

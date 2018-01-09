@@ -56,17 +56,17 @@ public:
 	erased<node> compile_expression(std::u32string const & source) const;
 
 private:
-	size_t const open_square;
-	size_t const open_paren;
-	size_t const open_curly;
-	size_t const dollar_sign;
-	size_t const production_dfa;
-	size_t const expression_dfa;
-	size_t const term_dfa;
-	size_t const parenthetical_dfa;
-	size_t const tag_dfa;
-	size_t const factor_dfa;
-	size_t const identifier_dfa;
+	uint16_t const open_square;
+	uint16_t const open_paren;
+	uint16_t const open_curly;
+	uint16_t const dollar_sign;
+	uint16_t const production_dfa;
+	uint16_t const expression_dfa;
+	uint16_t const term_dfa;
+	uint16_t const parenthetical_dfa;
+	uint16_t const tag_dfa;
+	uint16_t const factor_dfa;
+	uint16_t const identifier_dfa;
 
 	size_t c_string_recognizer_index;
 

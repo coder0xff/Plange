@@ -49,7 +49,7 @@ void grammar::production::set_behavior(grammar const & g, erased<node> const & b
 		}
 	}
 
-	machine.set_behavior(g.recognizer_ptr_to_recognizer_index, *this->behavior);
+	machine.set_behavior(*this->behavior);
 }
 
 size_t grammar::add_table_data(std::map<std::string, recognizer const *> & nameToRecognizerPtr, recognizer const * recognizerPtr) {
@@ -73,7 +73,7 @@ size_t grammar::add_table_data(std::map<std::string, recognizer const *> & nameT
 void grammar::compile_sub_builder(std::map<std::string, recognizer const *> & nameToRecognizerPtr, sub_builder const & grammarDefinition) {
 	for (auto const & definition : grammarDefinition.productions) {
 		local_productions.emplace_back(definition.name, definition.filter, definition.assoc);
-		name_to_local_production_index[definition.name] = local_productions.size() - 1;
+		name_to_local_production_index[definition.name] = uint16_t(local_productions.size() - 1);
 		auto const ptr = &local_productions.back().get_state_machine();
 		add_table_data(nameToRecognizerPtr, ptr);
 	}
@@ -194,16 +194,16 @@ std::vector<recognizer const *> const & grammar::get_recognizers() const {
 	return recognizers;
 }
 
-size_t grammar::get_recognizer_count() const {
-	return recognizers.size();
+uint16_t grammar::get_recognizer_count() const {
+	return uint16_t(recognizers.size());
 }
 
-bool grammar::does_precede(size_t const lhs, size_t const rhs) const {
+bool grammar::does_precede(uint16_t const lhs, uint16_t const rhs) const {
 	return precedences[lhs].count(rhs) > 0;
 }
 
 
-size_t grammar::lookup_recognizer_index(recognizer const & recognizer) const
+uint16_t grammar::lookup_recognizer_index(recognizer const & recognizer) const
 {
 	auto i = recognizer_ptr_to_recognizer_index.find(&recognizer);
 	throw_assert(i != recognizer_ptr_to_recognizer_index.end());
@@ -215,19 +215,19 @@ precedence_collection grammar::get_precedences() const
 	return precedences;
 }
 
-size_t grammar::lookup_production_local_index(std::string const & name) const {
+uint16_t grammar::lookup_production_local_index(std::string const & name) const {
 	auto const i = name_to_local_production_index.find(name);
 	throw_assert(i != name_to_local_production_index.end());
 	return i->second;
 }
 
-size_t grammar::lookup_literal_recognizer_index(std::u32string const & content) const {
+uint16_t grammar::lookup_literal_recognizer_index(std::u32string const & content) const {
 	auto const i = content_to_recognizer_index.find(content);
 	throw_assert(i != content_to_recognizer_index.end());
 	return i->second;
 }
 
-size_t grammar::lookup_recognizer_index(std::string const & name) const {
+uint16_t grammar::lookup_recognizer_index(std::string const & name) const {
 	auto const i = name_to_recognizer_index.find(name);
 	throw_assert(i != name_to_recognizer_index.end());
 	return i->second;
@@ -245,7 +245,7 @@ size_t grammar::lookup_recognizer_index(std::string const & name) const {
 //	return i->second;
 //}
 
-recognizer const & grammar::get_recognizer(size_t const index) const {
+recognizer const & grammar::get_recognizer(uint16_t const index) const {
 	return *recognizers[index];
 }
 

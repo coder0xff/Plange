@@ -1,8 +1,6 @@
 #ifndef CORRELATED_STATE_MACHINE_HPP
 #define CORRELATED_STATE_MACHINE_HPP
 
-#include <map>
-
 #include "parlex/associativity.hpp"
 #include "parlex/filter_function.hpp"
 
@@ -16,7 +14,6 @@ namespace detail {
 
 struct leaf;
 struct node;
-using automaton = nfa<leaf const *, size_t>;
 
 class parser;
 class subjob;
@@ -28,14 +25,14 @@ class state_machine : public state_machine_base {
 public:
 	struct transition_info_t {
 		leaf const * l;
-		size_t recognizer_index;
+		uint16_t recognizer_index;
 
 		bool operator<(transition_info_t const & rhs) const {
 			return l < rhs.l;
 		}
 	};
 
-	typedef std::vector<collections::coherent_map<transition_info_t, size_t>> states_t;
+	typedef std::vector<collections::coherent_map<transition_info_t, uint8_t>> states_t;
 
 	state_machine(std::string const & name, filter_function const & filter, associativity assoc);
 	virtual ~state_machine() = default;
@@ -43,9 +40,9 @@ public:
 	filter_function const filter;
 	associativity const assoc;
 	node const * behavior;
-	int start_state;
-	size_t accept_state_count; //must be greater than 0
-	void set_behavior(std::map<recognizer const *, size_t> const & recognizerLookup, node & behavior);
+	uint8_t start_state;
+	uint8_t accept_state_count; //must be greater than 0
+	void set_behavior(node & behavior);
 	std::string to_dot(std::vector<recognizer const *> const & recognizers) const;
 private:
 	friend class parser;
@@ -53,7 +50,7 @@ private:
 
 	states_t states;
 
-	void process(job & j, producer_id_t subjobId, subjob & sj, context const & c, size_t const dfaState) const override;
+	void process(job & j, uint32_t subjobId, subjob & sj, context const & c, uint8_t const dfaState) const override;
 	static automaton reorder(automaton const & dfa);
 
 public:

@@ -75,7 +75,7 @@ void parser::update_progress(context const & context) const {
 	current_job->update_progress(context.current_document_position);
 }
 
-abstract_syntax_semilattice parser::single_thread_parse(grammar_base const & g, size_t const overrideRootRecognizerIndex, std::vector<post_processor> const & posts, std::u32string const & document, progress_handler_t const & progressHandler) {
+abstract_syntax_semilattice parser::single_thread_parse(grammar_base const & g, uint16_t const overrideRootRecognizerIndex, std::vector<post_processor> const & posts, std::u32string const & document, progress_handler_t const & progressHandler) {
 	//perf_timer perf1(__func__);
 	job j(*this, document, g, overrideRootRecognizerIndex, progressHandler);
 	current_job = &j;
@@ -102,7 +102,7 @@ abstract_syntax_semilattice parser::single_thread_parse(grammar_base const & g, 
 	return j.construct_result_and_postprocess(overrideRootRecognizerIndex, posts, document);
 }
 
-abstract_syntax_semilattice parser::multi_thread_parse(grammar_base const & g, size_t const overrideRootRecognizerIndex, std::vector<post_processor> const & posts, std::u32string const & document, progress_handler_t const & progressHandler) {
+abstract_syntax_semilattice parser::multi_thread_parse(grammar_base const & g, uint16_t const overrideRootRecognizerIndex, std::vector<post_processor> const & posts, std::u32string const & document, progress_handler_t const & progressHandler) {
 	//perf_timer timer("parse");
 	std::unique_lock<std::mutex> lock(mutex); //use the lock to make sure we see activeCount != 0
 	job j(*this, document, g, overrideRootRecognizerIndex, progressHandler);
@@ -145,7 +145,7 @@ abstract_syntax_semilattice parser::parse(grammar_base const & g, std::u32string
 	return parse(g, g.get_root_state_machine(), document, progressHandler);
 }
 
-void parser::schedule(producer_id_t const producerId, context const & c, int nextDfaState) {
+void parser::schedule(uint32_t const producerId, context const & c, int nextDfaState) {
 	//DBG("scheduling m: ", c.owner().machine.name, " b:", c.owner().documentPosition, " s:", nextDfaState, " p:", c.current_document_position());
 	auto & p = current_job->get_producer(producerId);
 	auto & sj = *static_cast<subjob *>(&p);  // NOLINT
@@ -501,7 +501,7 @@ void parser::apply_precedence_and_associativity(grammar_base const & g, abstract
 
 	std::set<size_t> affectedRecognizerIndices;
 
-	for (size_t i = 0; i < g.get_recognizer_count(); ++i) {
+	for (uint16_t i = 0; i < g.get_recognizer_count(); ++i) {
 		auto const * recognizerPtr = &g.get_recognizer(i);
 		auto const * asStateMachineBasePtr = dynamic_cast<state_machine_base const *>(recognizerPtr);
 		if (asStateMachineBasePtr != nullptr) {

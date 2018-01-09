@@ -7,10 +7,10 @@ namespace parlex {
 namespace detail {
 
 struct match : match_class {
-	size_t const consumed_character_count;
+	uint32_t const consumed_character_count;
 
 	match() = delete;
-	match(size_t const documentPosition, size_t const recognizerIndex, size_t const consumedCharacterCount);
+	match(uint32_t const documentPosition, uint16_t const recognizerIndex, uint32_t const consumedCharacterCount);
 	match(match_class const & matchClass, size_t const consumedCharacterCount);
 	match(match const & other) = default;
 	match(match && move) = default;

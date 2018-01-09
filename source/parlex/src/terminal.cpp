@@ -5,7 +5,7 @@
 namespace parlex {
 namespace detail {
 
-terminal::terminal(std::string const id, size_t const length) : recognizer(id), length(length) { if (!length) { throw std::invalid_argument("length"); } }
+terminal::terminal(std::string const & id, uint32_t const length) : recognizer(id), length(length) { if (!length) { throw std::invalid_argument("length"); } }
 
 } // namespace detail
 } // namespace parlex

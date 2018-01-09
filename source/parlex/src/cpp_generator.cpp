@@ -387,7 +387,7 @@ static std::string generate_x_builder_cpp_inc(builder const & b) {
 static std::string generate_production_member_declarations(builder const & b) {
 	std::stringstream result;
 	for (auto const & p : b.productions) {
-		result << "\t" << "size_t const " << p.name << ";\n";
+		result << "\t" << "uint16_t const " << p.name << ";\n";
 	}
 	return result.str();
 }

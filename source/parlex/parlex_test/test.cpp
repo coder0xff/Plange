@@ -6,7 +6,6 @@
 #include "utf.hpp"
 
 #include "parlex/builder.hpp"
-#include "parlex/detail/raw_grammar.hpp"
 #include "parlex/detail/grammar.hpp"
 #include "parlex/detail/parser.hpp"
 

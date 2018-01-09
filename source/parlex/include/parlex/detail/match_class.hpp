@@ -2,6 +2,7 @@
 #define MATCH_CLASS_HPP
 
 #include <cstddef>
+#include <cstdint>
 
 namespace parlex {
 namespace detail {
@@ -9,10 +10,10 @@ namespace detail {
 class recognizer;
 
 struct match_class {
-	size_t document_position;
-	size_t const recognizer_index;
+	uint32_t document_position;
+	uint16_t const recognizer_index;
 
-	match_class(size_t const documentPosition, size_t const recognizerIndex);
+	match_class(uint32_t const documentPosition, uint16_t const recognizerIndex);
 	match_class(match_class const & other) = default;
 
 	bool operator <(match_class const & rhs) const;

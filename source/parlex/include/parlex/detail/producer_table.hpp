@@ -14,22 +14,22 @@ class producer_table {
 public:
 	typedef std::atomic<producer *> t;
 
-	size_t const document_length;
-	size_t const recognizer_count;
+	uint32_t const document_length;
+	uint16_t const recognizer_count;
 
 private:
 	t * const storage;
 
 public:
-	producer_table(size_t const documentLength, size_t const recognizerCount);
+	producer_table(uint32_t const documentLength, uint16_t const recognizerCount);
 	~producer_table();
-	producer_id_t compute_id(size_t const documentPosition, size_t const recognizerIndex) const;
-	producer_id_t compute_id(match_class const & matchClass) const;
-	match_class get_match_class(producer_id_t const p) const;
+	uint32_t compute_id(uint32_t const documentPosition, uint16_t const recognizerIndex) const;
+	uint32_t compute_id(match_class const & matchClass) const;
+	match_class get_match_class(uint32_t const id) const;
 
-	t & operator()(size_t const documentPosition, size_t const recognizerIndex) const;
+	t & operator()(uint32_t const documentPosition, uint16_t const recognizerIndex) const;
 	t & operator()(match_class const matchClass) const;
-	t & operator()(producer_id_t const id) const;
+	t & operator()(uint32_t const id) const;
 	t const * cbegin() const;
 	t const * cend() const;
 };

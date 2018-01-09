@@ -10,7 +10,7 @@ namespace detail {
 		class name##_t : public terminal { \
 		public: \
 			inline name##_t() : terminal(#name, 1) {} \
-			bool test(std::u32string const& document, size_t documentPosition) const override final; \
+			bool test(std::u32string const& document, uint32_t documentPosition) const override final; \
 		};
 
 #include "parlex/detail/unicode.inc"

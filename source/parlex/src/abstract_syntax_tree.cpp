@@ -12,7 +12,7 @@ std::string parlex::detail::ast_node::to_dot(grammar_base const & g) const
 	auto const nameFunc = [&](ast_node const * n)
 	{
 		std::stringstream result;
-		result << g.get_recognizer(n->l->recognizer_index).name << " (" << n << ")";
+		result << g.get_recognizer(uint16_t(n->l->recognizer_index)).name << " (" << n << ")";
 		return result.str();
 	};
 	auto const edgeFunc = [&](ast_node const * n) {

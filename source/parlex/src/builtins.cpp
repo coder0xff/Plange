@@ -69,13 +69,13 @@ namespace detail {
 
 any_character_t::any_character_t() : terminal("any_character", 1) {}
 
-bool any_character_t::test(std::u32string const & document, size_t documentPosition) const {
+bool any_character_t::test(std::u32string const & document, uint32_t const documentPosition) const {
 	return true;
 }
 
 basic_escape_sequence_t::basic_escape_sequence_t() : terminal ("basic_escape_sequence", 2) {}
 
-bool basic_escape_sequence_t::test(std::u32string const & document, size_t const documentPosition) const {
+bool basic_escape_sequence_t::test(std::u32string const & document, uint32_t const documentPosition) const {
 	if (documentPosition + 1 >= document.length()) return false;
 	auto const c = document[documentPosition + 1];
 	return document[documentPosition] == '\\' && (c == '\"' || c == '\'' || c == '?' || c == '\\' || c == 'a' || c == 'b' || c == 'f' || c == 'n' || c == 'r' || c == 't' || c == 'v');
@@ -84,21 +84,21 @@ bool basic_escape_sequence_t::test(std::u32string const & document, size_t const
 content_t::content_t() : terminal("content", 1) {
 }
 
-bool content_t::test(std::u32string const & document, size_t const documentPosition) const {
+bool content_t::test(std::u32string const & document, uint32_t const documentPosition) const {
 	return document[documentPosition] != '\"' && document[documentPosition] != '\\';
 }
 
 not_double_quote_t::not_double_quote_t() : terminal("not_double_quote", 1) {
 }
 
-bool not_double_quote_t::test(std::u32string const & document, size_t const documentPosition) const {
+bool not_double_quote_t::test(std::u32string const & document, uint32_t const documentPosition) const {
 	return document[documentPosition] == U'"';
 }
 
 not_newline_t::not_newline_t() : terminal("not_newline", 1) {
 }
 
-bool not_newline_t::test(std::u32string const & document, size_t const documentPosition) const {
+bool not_newline_t::test(std::u32string const & document, uint32_t const documentPosition) const {
 	return document[documentPosition] != U'\n';
 }
 
@@ -180,7 +180,7 @@ std::map<std::string, recognizer const *> builtin_terminals_t::generate_lookup_t
 string_terminal::string_terminal(std::u32string const & s) : terminal("string_terminal_" + to_utf8(s), s.length()), s(s) {
 }
 
-bool string_terminal::test(std::u32string const & document, size_t const documentPosition) const {
+bool string_terminal::test(std::u32string const & document, uint32_t const documentPosition) const {
 	return document.compare(documentPosition, length, s) == 0;
 }
 
