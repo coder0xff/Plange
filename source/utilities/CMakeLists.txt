@@ -6,6 +6,7 @@ set (SOURCES
 	"logging.cpp"
 	"one_shot.cpp"
 	"perf_timer.cpp"
+	"thread_pool.cpp"
 	"utils.cpp"
 	"utf.cpp")
 	
@@ -18,6 +19,7 @@ set (HEADERS
 	"one_shot.hpp"
 	"perf_timer.hpp"
 	"tarjan.hpp"
+	"thread_pool.hpp"
 	"utils.hpp"
 	"utf.hpp")
 	
