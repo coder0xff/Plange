@@ -21,7 +21,8 @@ set (HEADERS
 	"tarjan.hpp"
 	"thread_pool.hpp"
 	"utils.hpp"
-	"utf.hpp")
+	"utf.hpp"
+	"wait_flag.hpp")
 	
 add_library(utilities ${HEADERS} ${SOURCES})
 source_group("src" FILES ${SOURCES})
