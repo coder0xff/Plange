@@ -49,7 +49,7 @@ node const * node::follow_or_nullptr(leaf const * l) const {
 	return i->second;
 }
 
-leaf::leaf(std::string const & tag) : node(tag, {}), recognizer_index(std::numeric_limits<size_t>::max()) {}
+leaf::leaf(std::string const & tag) : node(tag, {}), recognizer_index(std::numeric_limits<uint16_t>::max()) {}
 
 bool leaf::is_leaf() const { return true; }
 
