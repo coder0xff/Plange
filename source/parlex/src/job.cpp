@@ -111,7 +111,7 @@ void job::update_progress(size_t const completed)
 }
 
 bool job::handle_deadlocks() {
-	//perf_timer perf(__func__);
+	perf_timer perf(__func__);
 	using iterator_t = std::atomic<producer *> const *;
 
 	struct transition_function {
@@ -160,19 +160,22 @@ bool job::handle_deadlocks() {
 abstract_syntax_semilattice job::construct_result(match const & m) {
 	//perf_timer timer(__FUNCTION__);
 	auto result = abstract_syntax_semilattice(m);
-	for (uint32_t documentPosition = 0; documentPosition < producer_table_ptr->document_length; ++documentPosition) {
-		for (uint16_t recognizerIndex = 0; recognizerIndex < producer_table_ptr->recognizer_count; ++recognizerIndex) {
-			match_class const matchClass(documentPosition, recognizerIndex);
-			auto const & storage = (*producer_table_ptr)(matchClass);
-			if (!storage) {
-				continue;
-			}
-			auto const & producer = *storage;
-			for (auto const & pair2 : producer.match_length_to_permutations) {
-				auto const matchLength = pair2.first;
-				match const n(documentPosition, recognizerIndex, matchLength);
-				auto const & permutations = pair2.second;
-				result.permutations_of_matches[n] = permutations;
+	{
+		perf_timer timer2("consruct_result:subjobs to assl");
+		for (uint32_t documentPosition = 0; documentPosition < producer_table_ptr->document_length; ++documentPosition) {
+			for (uint16_t recognizerIndex = 0; recognizerIndex < producer_table_ptr->recognizer_count; ++recognizerIndex) {
+				match_class const matchClass(documentPosition, recognizerIndex);
+				auto const & storage = (*producer_table_ptr)(matchClass);
+				if (!storage) {
+					continue;
+				}
+				auto const & producer = *storage;
+				for (auto const & pair2 : producer.match_length_to_permutations) {
+					auto const matchLength = pair2.first;
+					match const n(documentPosition, recognizerIndex, matchLength);
+					auto const & permutations = pair2.second;
+					result.permutations_of_matches[n] = permutations;
+				}
 			}
 		}
 	}
