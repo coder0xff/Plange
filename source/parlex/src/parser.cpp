@@ -170,25 +170,6 @@ struct node_props_t {
 	}
 };
 
-static bool can_prune(abstract_syntax_semilattice & asg, std::map<match, node_props_t> const & nodes, node_props_t const & props) {
-	if (!(props.m < asg.root || asg.root < props.m)) {
-		return false;
-	}
-	for (auto const & parentMatchAndPermutations : props.parent_permutations_by_match) {
-		auto const & parentMatch = parentMatchAndPermutations.first;
-		auto const i = nodes.find(parentMatch);
-		throw_assert(i != nodes.end());
-		auto const & parentProps = i->second;
-		auto const & parentPermutations = parentMatchAndPermutations.second;
-		if (parentProps.permutations.size() == parentPermutations.size()) { //if all parent permutations depend on this, then we can only prune if the parent can be pruned
-			if (!can_prune(asg, nodes, parentProps)) {
-				return false;
-			}
-		}
-	}
-	return true;
-}
-
 static void prune(abstract_syntax_semilattice & asg, std::map<match, node_props_t> & nodes, node_props_t & props) {
 	std::queue<match> toPrune;
 	std::set<match> completed;
@@ -468,21 +449,7 @@ static void select_match(abstract_syntax_semilattice & asg, grammar const & g, s
 		}
 		auto & b = pair->second;
 		if (does_precede(g, *a, b) || associativity_test(g, *a, b)) {
-			//if it must be selected, then precedence and associativity must remove preempted intersections
-			//if (can_prune(asg, nodes, b)) {
-				prune(asg, nodes, b);
-			//} else {
-			//	if (does_precede(g, *a, b)) {
-			//		static auto stringify = [&g](node_props_t & np) {
-			//			auto const & r = g.get_recognizer(np.m.recognizer_index);
-			//			return r.name + " from " + std::to_string(np.m.document_position) + " for " + std::to_string(np.m.consumed_character_count) + " characters at height " + std::to_string(np.height);
-			//		};
-			//		asg.warnings.push_back(stringify(*a) + " preempted " + stringify(b) + " by precedence, but was not applied because it would cause a degenerate parse tree.");
-			//	}
-			//	else {
-			//		throw std::exception(); //degenerate parse caused by associativity?
-			//	}
-			//}
+			prune(asg, nodes, b);
 		}
 	}
 }
