@@ -30,13 +30,11 @@ void subjob::start(job & j, uint32_t const myId, uint32_t documentPosition) {
 }
 
 context const & subjob::construct_start_state_context(uint32_t const documentPosition) {
-	std::unique_lock<std::mutex> lock(mutex);
 	auto const i = contexts.emplace_front(nullptr, documentPosition, std::optional<match>(), nullptr);
 	return *i;
 }
 
 context const & subjob::construct_stepped_context(context const* const prior, match const & fromTransition, leaf const * l) {
-	std::unique_lock<std::mutex> lock(mutex); //TODO: Don't lock
 	auto const i = contexts.emplace_front(prior, prior->current_document_position + fromTransition.consumed_character_count, std::optional<match>(fromTransition), l);
 	return *i;
 }
