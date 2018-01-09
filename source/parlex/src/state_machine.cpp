@@ -26,16 +26,16 @@ void state_machine::set_behavior(std::map<recognizer const *, size_t> const & re
 	accept_state_count = dfa.accept_states.size();
 }
 
-void state_machine::process(context const & c, size_t const dfaState) const {
+void state_machine::process(job & j, producer_id_t subjobId, subjob & sj, context const & c, size_t const dfaState) const {
 	//DBG("processing '", get_id(), "' dfaState:", dfaState, " p:", c.current_document_position());
 	if (dfaState >= states.size() - accept_state_count) {
-		accept(c);
+		accept(j, sj, subjobId, c);
 	}
 	for (auto const & kvp : states[dfaState]) {
 		auto const & transitionInfo = kvp.first;
 		int const nextState = kvp.second;
 		//DBG("'", get_id(), "' state ", dfaState, " position ", c.current_document_position(), " subscribes to '", transition.name, "' position ", c.current_document_position());
-		on(c, transitionInfo.recognizer_index, nextState, transitionInfo.l);
+		on(j, transitionInfo.recognizer_index, subjobId, sj, c, nextState, transitionInfo.l);
 	}
 }
 

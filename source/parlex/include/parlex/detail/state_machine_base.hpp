@@ -5,11 +5,13 @@
 #include "parlex/filter_function.hpp"
 
 #include "parlex/detail/recognizer.hpp"
+#include "parlex/detail/producer.hpp"
 
 namespace parlex {
 namespace detail {
 
 class context;
+class job;
 class parser;
 class subjob;
 
@@ -27,10 +29,10 @@ protected:
 	friend class subjob;
 
 	explicit state_machine_base(std::string const & name);
-	void start(context const & c) const;
-	virtual void process(context const & c, size_t const dfaState) const = 0;
-	static void on(context const & c, size_t const recognizerIndex, size_t const nextDfaState, leaf const * leaf);
-	static void accept(context const & c);
+	void start(job & j, producer_id_t subjobId, subjob & sj, context const & c) const;
+	virtual void process(job & j, producer_id_t subjobId, subjob & sj, context const & c, size_t const dfaState) const = 0;
+	static void on(job & j, size_t const recognizerIndex, producer_id_t const subscriber, subjob & sj, context const & c, size_t const nextDfaState, leaf const * leaf);
+	static void accept(job & j, subjob & sj, producer_id_t const subjobId, context const & c);
 };
 
 } // namespace detail

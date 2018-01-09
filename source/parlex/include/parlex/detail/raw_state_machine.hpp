@@ -39,7 +39,7 @@ private:
 
 	states_t states;
 
-	void process(context const & c, size_t dfaState) const override;
+	void process(job & j, producer_id_t subjobId, subjob & sj, context const & c, size_t dfaState) const override;
 
 public:
 	bool is_terminal() const override;

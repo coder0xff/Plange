@@ -30,14 +30,17 @@ public:
 
 	job(parser & owner, std::u32string const & document, grammar_base const & g, size_t const rootRecognizerIndex, progress_handler_t const & progressHandler);
 
-	void connect(match_class const & matchClass, context const & c, size_t const nextState, leaf const * l);
+	void connect(match_class const & matchClass, producer_id_t const subscriber, context const & c, size_t const nextState, leaf const * l);
+	match_class get_match_class(producer_id_t const id) const; 
 private:
 	parser * owner;
 	std::unique_ptr<producer_table> producer_table_ptr;
 	progress_handler_t progress_handler;
 	std::atomic<size_t> progress_counter;
 
+	producer & optimized_get_producer(producer_id_t const & id, match_class const & matchClass);
 	producer & get_producer(match_class const & matchClass);
+	producer & get_producer(producer_id_t const & id);
 	void update_progress(size_t completed);
 
 	//returns true if the job is complete
@@ -49,7 +52,7 @@ private:
 	//halt the subjobs, and then resume. If stalling occurs and there
 	//are no deadlocks in the dependency digraph (implying that it is also disconnected) then there is
 	//no more work to be done. The job is finished.
-	bool handle_deadlocks() const;
+	bool handle_deadlocks();
 	abstract_syntax_semilattice construct_result(match const & m);
 	abstract_syntax_semilattice construct_result_and_postprocess(size_t const overrideRootRecognizerIndex, std::vector<post_processor> const & posts, std::u32string const & document);
 

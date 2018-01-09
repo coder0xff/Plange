@@ -17,6 +17,16 @@
 using namespace parlex;
 using namespace parlex::detail;
 
+TEST(ParlexTest, smallest_test_0) {
+	grammar const g(builder{
+		"root", {
+			production("root", literal(U"."))
+		}
+	});
+	parser p(1);
+	p.parse(g, U".").tree();
+}
+
 builder small_grammar_builder(
 	"root",
 	{
@@ -147,27 +157,27 @@ TEST(ParlexTest, wirth_test_3) {
 
 TEST(ParlexTest, wirth_test_3_1) {
 	parser p;
-	auto grammar = wirth().load_grammar("SYNTAX", U"EXPRESSION = {white_space} .", {}, {});
+	auto grammar = wirth().load_grammar("SYNTAX", U"EXPRESSION = {white_space} .", {}, {}, {});
 }
 
 TEST(ParlexTest, wirth_test_3_2) {
 	parser p;
-	auto grammar = wirth().load_grammar("SYNTAX", U"EXPRESSION = { {white_space} } .", {}, {});
+	auto grammar = wirth().load_grammar("SYNTAX", U"EXPRESSION = { {white_space} } .", {}, {}, {});
 }
 
 TEST(ParlexTest, wirth_test_3_5) {
 	parser p;
-	auto grammar = wirth().load_grammar("SYNTAX", U"EXPRESSION = { {white_space} \"|\" {white_space} } .", {}, {});
+	auto grammar = wirth().load_grammar("SYNTAX", U"EXPRESSION = { {white_space} \"|\" {white_space} } .", {}, {}, {});
 }
 
 TEST(ParlexTest, wirth_test_4) {
 	parser p;
-	auto grammar = wirth().load_grammar("SYNTAX", to_utf32(wirth_in_itself), {}, {});
+	auto grammar = wirth().load_grammar("SYNTAX", to_utf32(wirth_in_itself), {}, {}, {});
 }
 
 TEST(ParlexTest, wirth_test_5) {
 	parser p;
-	grammar const grammar(wirth().load_grammar("SYNTAX", U"SYNTAX = \"a\".", {}, {}));
+	grammar const grammar(wirth().load_grammar("SYNTAX", U"SYNTAX = \"a\".", {}, {}, {}));
 	auto result = p.parse(grammar, U"b");
 	if (result.is_rooted()) {
 		throw std::logic_error("Test failed");
@@ -176,7 +186,7 @@ TEST(ParlexTest, wirth_test_5) {
 
 TEST(ParlexTest, wirth_test_6) {
 	parser p;
-	grammar const grammar(wirth().load_grammar("SYNTAX", U"SYNTAX = letter number.", {}, {}));
+	grammar const grammar(wirth().load_grammar("SYNTAX", U"SYNTAX = letter number.", {}, {}, {}));
 	auto result = p.parse(grammar, U"a1");
 	if (!result.is_rooted()) {
 		throw std::logic_error("Test failed");
@@ -185,14 +195,14 @@ TEST(ParlexTest, wirth_test_6) {
 
 TEST(ParlexTest, wirth_test_7) {
 	parser p;
-	grammar const grammar(wirth().load_grammar("SYNTAX", U"SYNTAX = letter { number }.", {}, {}));
+	grammar const grammar(wirth().load_grammar("SYNTAX", U"SYNTAX = letter { number }.", {}, {}, {}));
 	auto result = p.parse(grammar, U"a1234");
 	EXPECT_TRUE(result.is_rooted());
 }
 
 TEST(ParlexTest, wirth_test_8) {
 	parser p;
-	grammar const grammar(wirth().load_grammar("SYNTAX", U"SYNTAX = letter [ number ].", {}, {}));
+	grammar const grammar(wirth().load_grammar("SYNTAX", U"SYNTAX = letter [ number ].", {}, {}, {}));
 	auto result1 = p.parse(grammar, U"a");
 	EXPECT_TRUE(result1.is_rooted());
 	auto result2 = p.parse(grammar, U"a1");
@@ -201,7 +211,7 @@ TEST(ParlexTest, wirth_test_8) {
 
 TEST(ParlexTest, wirth_test_9) {
 	parser p;
-	grammar const grammar(wirth().load_grammar("SYNTAX", U"SYNTAX = letter ( number | c_string ).", {}, {}));
+	grammar const grammar(wirth().load_grammar("SYNTAX", U"SYNTAX = letter ( number | c_string ).", {}, {}, {}));
 	auto result1 = p.parse(grammar, U"a1");
 	if (!result1.is_rooted()) {
 		throw std::logic_error("Test failed");
@@ -216,7 +226,7 @@ TEST(ParlexTest, wirth_test_10) {
 	parser p;
 	grammar const grammar(wirth().load_grammar("ARRAY", U"\
 ARRAY = \"[\" [EXPRESSION { \", \" EXPRESSION} ] \"]\".\
-EXPRESSION = \"EXPRESSION\".", {}, {}));
+EXPRESSION = \"EXPRESSION\".", {}, {}, {}));
 	auto result = p.parse(grammar, U"[]");
 	if (!result.is_rooted()) {
 		throw std::logic_error("Test failed");
@@ -228,7 +238,7 @@ TEST(ParlexTest, wirth_test_11) {
 	grammar grammar(wirth().load_grammar("STATEMENT_SCOPE", U"\
 STATEMENT_SCOPE = {IC | STATEMENT}. \
 IC = \"IC\".\
-STATEMENT = \"STATEMENT\".", {}, {}));
+STATEMENT = \"STATEMENT\".", {}, {}, {}));
 }
 
 TEST(ParlexTest, wirth_test_12) {

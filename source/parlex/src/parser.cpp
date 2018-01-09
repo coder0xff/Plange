@@ -19,14 +19,13 @@
 namespace parlex {
 namespace detail {
 
-void parser::process(std::tuple<context const*, int> const & item) const {
-	auto const & c = *std::get<0>(item);
-	auto const nextDfaState = std::get<1>(item);
-	update_progress(c);
-	auto & sj = c.owner;
+void parser::process(work_item const & item) const {
+	update_progress(*item.dfa_context);
+	auto & p = current_job->get_producer(item.producer_id);
+	auto & sj = *dynamic_cast<subjob *>(&p);
 	//INF("thread ", threadCount, " executing DFA state");
-	sj.machine.process(c, nextDfaState);
-	sj.end_work_queue_reference();
+	sj.machine.process(*current_job, item.producer_id, sj, *item.dfa_context, item.dfa_state);
+	sj.end_work_queue_reference(*current_job, item.producer_id);
 }
 
 void parser::start_workers(int threadCount) {
@@ -54,7 +53,7 @@ void parser::start_workers(int threadCount) {
 	}
 }
 
-parser::parser(unsigned const threadCount) : single_thread_mode(threadCount == 1), active_count(0), terminating(false) {
+parser::parser(unsigned const threadCount) : single_thread_mode(threadCount == 1), active_count(0), terminating(false), current_job(nullptr) {
 	if (!single_thread_mode) {
 		start_workers(threadCount);
 	}
@@ -72,13 +71,14 @@ void parser::complete_progress_handler(job & j) {
 	j.update_progress(j.document.length());
 }
 
-void parser::update_progress(context const & context) {
-	context.owner.owner.update_progress(context.current_document_position);
+void parser::update_progress(context const & context) const {
+	current_job->update_progress(context.current_document_position);
 }
 
 abstract_syntax_semilattice parser::single_thread_parse(grammar_base const & g, size_t const overrideRootRecognizerIndex, std::vector<post_processor> const & posts, std::u32string const & document, progress_handler_t const & progressHandler) {
 	//perf_timer perf1(__func__);
 	job j(*this, document, g, overrideRootRecognizerIndex, progressHandler);
+	current_job = &j;
 	throw_assert(active_count > 0);
 	{
 		//perf_timer perf2("Recognizer work queue processing");
@@ -97,6 +97,7 @@ abstract_syntax_semilattice parser::single_thread_parse(grammar_base const & g, 
 		}
 	}
 	throw_assert(active_count == 0);
+	current_job = nullptr;
 	complete_progress_handler(j);
 	return j.construct_result_and_postprocess(overrideRootRecognizerIndex, posts, document);
 }
@@ -105,6 +106,7 @@ abstract_syntax_semilattice parser::multi_thread_parse(grammar_base const & g, s
 	//perf_timer timer("parse");
 	std::unique_lock<std::mutex> lock(mutex); //use the lock to make sure we see activeCount != 0
 	job j(*this, document, g, overrideRootRecognizerIndex, progressHandler);
+	current_job = &j;
 	throw_assert(active_count > 0);
 	{
 		//perf_timer recognizeTimer("Recognizer work queue processing");
@@ -118,6 +120,7 @@ abstract_syntax_semilattice parser::multi_thread_parse(grammar_base const & g, s
 		}
 	}
 	throw_assert(active_count == 0);
+	current_job = nullptr;
 	complete_progress_handler(j);
 	return j.construct_result_and_postprocess(overrideRootRecognizerIndex, posts, document);
 }
@@ -142,12 +145,14 @@ abstract_syntax_semilattice parser::parse(grammar_base const & g, std::u32string
 	return parse(g, g.get_root_state_machine(), document, progressHandler);
 }
 
-void parser::schedule(context const & c, int nextDfaState) {
+void parser::schedule(producer_id_t const producerId, context const & c, int nextDfaState) {
 	//DBG("scheduling m: ", c.owner().machine.name, " b:", c.owner().documentPosition, " s:", nextDfaState, " p:", c.current_document_position());
-	c.owner.begin_work_queue_reference();
+	auto & p = current_job->get_producer(producerId);
+	auto & sj = *static_cast<subjob *>(&p);  // NOLINT
+	sj.begin_work_queue_reference();
 	++active_count;
 	std::unique_lock<std::mutex> lock(mutex);
-	work.emplace_back(&c, nextDfaState);
+	work.emplace_back(producerId, &c, nextDfaState);
 	work_cv.notify_one();
 }
 
@@ -288,16 +293,16 @@ static void resolve_nodes(std::map<match, node_props_t> & nodes) {
 		return results;
 	};
 
-	std::vector<std::vector<vert_iterator>> orderedNodes = tarjan(vertices.begin(), vertices.end(), transitionFunc);
+	auto orderedNodes = tarjan(vertices.begin(), vertices.end(), transitionFunc);
 
-	for (std::vector<vert_iterator> const & subgraph : orderedNodes) {
-		for (vert_iterator const & vertI : subgraph) {
-			node_props_t & node = **vertI;
+	for (auto const & subgraph : orderedNodes) {
+		for (auto const & vertI : subgraph) {
+			auto & node = **vertI;
 			for (auto const & permutation : node.permutations) {
 				for (auto const & m : permutation) {
 					auto i = nodes.find(m);
 					throw_assert(i != nodes.end());
-					node_props_t & otherNode = i->second;
+					auto & otherNode = i->second;
 					node.height = std::max(node.height, otherNode.height + 1);
 					node.all_descendents.insert(otherNode.m);
 					node.all_descendents.insert(otherNode.all_descendents.begin(), otherNode.all_descendents.end());
@@ -307,9 +312,9 @@ static void resolve_nodes(std::map<match, node_props_t> & nodes) {
 	}
 
 	std::reverse(orderedNodes.begin(), orderedNodes.end());
-	for (std::vector<vert_iterator> const & subgraph : orderedNodes) {
-		for (vert_iterator const & vertI : subgraph) {
-			node_props_t & node = **vertI;
+	for (auto const & subgraph : orderedNodes) {
+		for (auto const & vertI : subgraph) {
+			auto & node = **vertI;
 			for (auto const & entry : node.parent_permutations_by_match) {
 				auto const parentMatch = entry.first;
 				auto const i = nodes.find(parentMatch);

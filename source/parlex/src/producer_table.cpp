@@ -19,9 +19,13 @@ producer_table::t & producer_table::operator()(match_class const matchClass) con
 	return operator()(matchClass.document_position, matchClass.recognizer_index);
 }
 
+producer_table::t & producer_table::operator()(producer_id_t const id) const {
+	return storage[id.id];
+}
+
 producer_table::t & producer_table::operator()(size_t const documentPosition, size_t const recognizerIndex) const
 {
-	return storage[compute_offset(documentPosition, recognizerIndex)];
+	return storage[compute_id(documentPosition, recognizerIndex).id];
 }
 
 producer_table::~producer_table()
@@ -47,11 +51,20 @@ producer_table::producer_table(size_t const documentLength, size_t const recogni
 	}
 }
 
-size_t producer_table::compute_offset(size_t const documentPosition, size_t const recognizerIndex) const
+producer_id_t producer_table::compute_id(size_t const documentPosition, size_t const recognizerIndex) const
 {
 	throw_assert(documentPosition < document_length);
 	throw_assert(recognizerIndex < recognizer_count);
-	return documentPosition * recognizer_count + recognizerIndex;
+	return producer_id_t(documentPosition * recognizer_count + recognizerIndex);
+}
+
+producer_id_t producer_table::compute_id(match_class const & matchClass) const {
+	return compute_id(matchClass.document_position, matchClass.recognizer_index);
+}
+
+match_class producer_table::get_match_class(producer_id_t const p) const {
+	auto const divResult = std::div(intmax_t(p.id), intmax_t(recognizer_count));
+	return {size_t(divResult.quot), size_t(divResult.rem)};
 }
 
 }

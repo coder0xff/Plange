@@ -5,8 +5,7 @@
 namespace parlex {
 namespace detail {
 
-context::context(subjob & owner, context const* const prior, int const documentPosition, std::optional<match> const & fromTransition, leaf const * l) :
-	owner(owner),
+context::context(context const* const prior, int const documentPosition, std::optional<match> const & fromTransition, leaf const * l) :
 	prior(prior),
 	current_document_position(documentPosition),
 	from_transition(fromTransition),
