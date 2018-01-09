@@ -87,6 +87,11 @@ TEST(PlcCompiler, ParsePrintHelloWorld) {
 	plc::source_code("", source);
 }
 
+TEST(PlcCompiler, ParseType2) {
+	auto const source = U"<Type> Div_t := type { <CInt> quot; <CInt> rem; };";
+	plc::source_code("", source);
+}
+
 TEST(PlcCompiler, ParseCStdLibGenerated) {
 	auto const filePathname = stdlibs_dir() + "Plange.CStdLib.Generated._pg";
 	static parlex::detail::parser p;
@@ -99,6 +104,11 @@ TEST(PlcCompiler, ParseCStdLibGenerated) {
 
 TEST(PlcCompiler, LoadCStdLibGenerated) {
 	auto const filePathname = stdlibs_dir() + "Plange.CStdLib.Generated._pg";
+	auto result = plc::source_code(filePathname);
+}
+
+TEST(PlcCompiler, LoadCStdLib) {
+	auto const filePathname = stdlibs_dir() + "Plange.CStdLib._pg";
 	auto result = plc::source_code(filePathname);
 }
 
