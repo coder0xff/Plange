@@ -177,12 +177,12 @@ grammar::grammar(builder const & grammarDefinition, bool noBuiltIns) {
 	root_production_index = name_to_local_production_index[grammarDefinition.root_name];
 }
 
-state_machine_base const& grammar::get_root_state_machine() const {
+state_machine const& grammar::get_root_state_machine() const {
 	return local_productions[root_production_index].get_state_machine();
 }
 
-std::vector<state_machine_base const *> grammar::get_state_machines() const {
-	std::vector<state_machine_base const *> results;
+std::vector<state_machine const *> grammar::get_state_machines() const {
+	std::vector<state_machine const *> results;
 	results.reserve(local_productions.size());
 	for (auto const & production : local_productions) {
 		results.push_back(&production.machine);

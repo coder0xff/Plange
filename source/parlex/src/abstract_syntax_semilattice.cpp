@@ -82,7 +82,7 @@ void abstract_syntax_semilattice::prune_detached() {
 	}
 }
 
-std::string abstract_syntax_semilattice::to_dot(grammar_base const & g) const {
+std::string abstract_syntax_semilattice::to_dot(grammar const & g) const {
 	std::string result = "digraph {\n";
 	std::set<match> completed;
 	for (auto const & entry : permutations_of_matches) {

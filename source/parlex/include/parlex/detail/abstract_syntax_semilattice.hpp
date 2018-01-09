@@ -21,7 +21,7 @@ struct abstract_syntax_semilattice {
 	bool is_rooted() const;
 	void cut(std::set<match> const & matches);
 	void prune_detached();
-	std::string to_dot(grammar_base const & g) const;
+	std::string to_dot(grammar const & g) const;
 	//std::string to_concrete_dot(std::u32string const & document);
 	std::list<std::string> warnings;
 	uint64_t variation_count() const;

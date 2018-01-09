@@ -4,7 +4,7 @@
 #include "parlex/detail/job.hpp"
 #include "parlex/detail/match_class.hpp"
 #include "parlex/detail/parser.hpp"
-#include "parlex/detail/state_machine_base.hpp"
+#include "parlex/detail/state_machine.hpp"
 
 #include "utils.hpp"
 // ReSharper disable once CppUnusedIncludeDirective
@@ -13,7 +13,7 @@
 namespace parlex {
 namespace detail {
 
-subjob::subjob(state_machine_base const & machine) :
+subjob::subjob(state_machine const & machine) :
 	machine(machine),
 	lifetime_counter(1) //see finish_creation
 {

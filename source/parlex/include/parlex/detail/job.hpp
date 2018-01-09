@@ -13,7 +13,7 @@ namespace parlex {
 namespace detail {
 
 class correlated_grammar;
-class grammar_base;
+class grammar;
 struct match_class;
 class parser;
 typedef std::function<void(size_t /*done*/, size_t /*total*/)> progress_handler_t;
@@ -25,10 +25,10 @@ class raw_state_machine;
 class job {
 public:
 	std::u32string const document;
-	grammar_base const & g;
+	grammar const & g;
 	std::atomic<int> progress;
 
-	job(parser & owner, std::u32string const & document, grammar_base const & g, uint16_t const rootRecognizerIndex, progress_handler_t const & progressHandler);
+	job(parser & owner, std::u32string const & document, grammar const & g, uint16_t const rootRecognizerIndex, progress_handler_t const & progressHandler);
 
 	void connect(match_class const & matchClass, uint32_t const subscriber, context const & c, uint8_t const nextState, leaf const * l);
 	match_class get_match_class(uint32_t const id) const;

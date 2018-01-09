@@ -5,11 +5,11 @@
 #include "tarjan.hpp"
 
 #include "parlex/detail/context.hpp"
-#include "parlex/detail/grammar_base.hpp"
+#include "parlex/detail/grammar.hpp"
 #include "parlex/detail/match_class.hpp"
 #include "parlex/detail/parser.hpp"
 #include "parlex/detail/producer_table.hpp"
-#include "parlex/detail/state_machine_base.hpp"
+#include "parlex/detail/state_machine.hpp"
 #include "parlex/detail/subjob.hpp"
 #include "parlex/detail/terminal.hpp"
 #include "parlex/detail/token.hpp"
@@ -19,7 +19,7 @@
 namespace parlex {
 namespace detail {
 
-job::job(parser & owner, std::u32string const & document, grammar_base const & g, uint16_t const rootRecognizerIndex, progress_handler_t const & progressHandler) :
+job::job(parser & owner, std::u32string const & document, grammar const & g, uint16_t const rootRecognizerIndex, progress_handler_t const & progressHandler) :
 	document(document),
 	g(g),
 	progress(0),
@@ -39,7 +39,7 @@ job::job(parser & owner, std::u32string const & document, grammar_base const & g
 		auto const t = static_cast<terminal const *>(&root);  // NOLINT
 		storage = new token(*this, matchClass, *t);
 	} else {
-		auto const machine = static_cast<state_machine_base const *>(&root);  // NOLINT
+		auto const machine = static_cast<state_machine const *>(&root);  // NOLINT
 		auto result = new subjob(*machine);
 		storage = result;
 		//seed the parser with the root state
@@ -76,7 +76,7 @@ producer & job::optimized_get_producer(uint32_t const & id, match_class const & 
 		delete newTokenPtr;
 		return *resultPtr;
 	}
-	auto const machine = static_cast<state_machine_base const *>(&r);  // NOLINT
+	auto const machine = static_cast<state_machine const *>(&r);  // NOLINT
 	auto newSubjobPtr = new subjob(*machine);
 	if (storage.compare_exchange_strong(resultPtr, newSubjobPtr)) {
 		newSubjobPtr->start(*this, id, matchClass.document_position);

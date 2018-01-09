@@ -8,7 +8,7 @@ namespace detail {
 
 
 
-//base class for terminal and state_machine_base
+//base class for terminal and state_machine
 class recognizer {
 public:
 	explicit recognizer(std::string const & name);

@@ -2,11 +2,13 @@
 
 #include "parlex/associativity.hpp"
 #include "parlex/builder.hpp"
+#include "parlex/detail/job.hpp"
+#include "parlex/detail/subjob.hpp"
 
 namespace parlex {
 namespace detail {
 
-state_machine::state_machine(std::string const & name, filter_function const & filter, associativity const assoc) : state_machine_base(name), filter(filter), assoc(assoc), behavior(nullptr), start_state(-1), accept_state_count(-1) {
+state_machine::state_machine(std::string const & name, filter_function const & filter, associativity const assoc) : recognizer(name), filter(filter), assoc(assoc), behavior(nullptr), start_state(-1), accept_state_count(-1) {
 }
 
 void state_machine::set_behavior(node & behavior) {
@@ -37,6 +39,18 @@ void state_machine::process(job & j, uint32_t subjobId, subjob & sj, context con
 		//DBG("'", get_id(), "' state ", dfaState, " position ", c.current_document_position(), " subscribes to '", transition.name, "' position ", c.current_document_position());
 		on(j, transitionInfo.recognizer_index, subjobId, sj, c, nextState, transitionInfo.l);
 	}
+}
+
+void state_machine::start(job & j, uint32_t const subjobId, subjob & sj, context const & c) const {
+	process(j, subjobId, sj, c, get_start_state());
+}
+
+void state_machine::on(job & j, uint16_t const recognizerIndex, uint32_t const subscriber, subjob & sj, context const & c, uint8_t const nextDfaState, leaf const * leaf) {
+	sj.on(j, recognizerIndex, c, subscriber, nextDfaState, leaf);
+}
+
+void state_machine::accept(job & j, subjob & sj, uint32_t const subjobId, context const & c) {
+	sj.accept(j, j.get_match_class(subjobId), c);
 }
 
 automaton state_machine::reorder(automaton const & dfa) {

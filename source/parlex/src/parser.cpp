@@ -5,7 +5,7 @@
 #include "parlex/post_processor.hpp"
 
 #include "parlex/detail/context.hpp"
-#include "parlex/detail/grammar_base.hpp"
+#include "parlex/detail/grammar.hpp"
 #include "parlex/detail/job.hpp"
 #include "parlex/detail/permutation.hpp"
 #include "parlex/detail/producer.hpp"
@@ -75,7 +75,7 @@ void parser::update_progress(context const & context) const {
 	current_job->update_progress(context.current_document_position);
 }
 
-abstract_syntax_semilattice parser::single_thread_parse(grammar_base const & g, uint16_t const overrideRootRecognizerIndex, std::vector<post_processor> const & posts, std::u32string const & document, progress_handler_t const & progressHandler) {
+abstract_syntax_semilattice parser::single_thread_parse(grammar const & g, uint16_t const overrideRootRecognizerIndex, std::vector<post_processor> const & posts, std::u32string const & document, progress_handler_t const & progressHandler) {
 	//perf_timer perf1(__func__);
 	job j(*this, document, g, overrideRootRecognizerIndex, progressHandler);
 	current_job = &j;
@@ -102,7 +102,7 @@ abstract_syntax_semilattice parser::single_thread_parse(grammar_base const & g, 
 	return j.construct_result_and_postprocess(overrideRootRecognizerIndex, posts, document);
 }
 
-abstract_syntax_semilattice parser::multi_thread_parse(grammar_base const & g, uint16_t const overrideRootRecognizerIndex, std::vector<post_processor> const & posts, std::u32string const & document, progress_handler_t const & progressHandler) {
+abstract_syntax_semilattice parser::multi_thread_parse(grammar const & g, uint16_t const overrideRootRecognizerIndex, std::vector<post_processor> const & posts, std::u32string const & document, progress_handler_t const & progressHandler) {
 	//perf_timer timer("parse");
 	std::unique_lock<std::mutex> lock(mutex); //use the lock to make sure we see activeCount != 0
 	job j(*this, document, g, overrideRootRecognizerIndex, progressHandler);
@@ -125,7 +125,7 @@ abstract_syntax_semilattice parser::multi_thread_parse(grammar_base const & g, u
 	return j.construct_result_and_postprocess(overrideRootRecognizerIndex, posts, document);
 }
 
-abstract_syntax_semilattice parser::parse(grammar_base const & g, recognizer const & overrideMain, std::vector<post_processor> const & posts, std::u32string const & document, progress_handler_t const & progressHandler) {
+abstract_syntax_semilattice parser::parse(grammar const & g, recognizer const & overrideMain, std::vector<post_processor> const & posts, std::u32string const & document, progress_handler_t const & progressHandler) {
 	auto const overrideRootRecognizerIndex = g.lookup_recognizer_index(overrideMain);
 	if (single_thread_mode) {
 		return single_thread_parse(g, overrideRootRecognizerIndex, posts, document, progressHandler);
@@ -133,15 +133,15 @@ abstract_syntax_semilattice parser::parse(grammar_base const & g, recognizer con
 	return multi_thread_parse(g, overrideRootRecognizerIndex, posts, document, progressHandler);
 }
 
-abstract_syntax_semilattice parser::parse(grammar_base const & g, recognizer const & overrideMain, std::u32string const & document, progress_handler_t const & progressHandler) {
+abstract_syntax_semilattice parser::parse(grammar const & g, recognizer const & overrideMain, std::u32string const & document, progress_handler_t const & progressHandler) {
 	return parse(g, overrideMain, std::vector<post_processor>(), document, progressHandler);
 }
 
-abstract_syntax_semilattice parser::parse(grammar_base const & g, std::vector<post_processor> const & posts, std::u32string const & document, progress_handler_t const & progressHandler) {
+abstract_syntax_semilattice parser::parse(grammar const & g, std::vector<post_processor> const & posts, std::u32string const & document, progress_handler_t const & progressHandler) {
 	return parse(g, g.get_root_state_machine(), posts, document, progressHandler);
 }
 
-abstract_syntax_semilattice parser::parse(grammar_base const & g, std::u32string const & document, progress_handler_t const & progressHandler) {
+abstract_syntax_semilattice parser::parse(grammar const & g, std::u32string const & document, progress_handler_t const & progressHandler) {
 	return parse(g, g.get_root_state_machine(), document, progressHandler);
 }
 
@@ -416,18 +416,18 @@ static std::vector<std::set<match>> ordered_matches_by_height(std::map<match, no
 	return orderedMatchesByHeight;
 }
 
-static bool does_precede(grammar_base const & g, node_props_t & a, node_props_t & b) {
+static bool does_precede(grammar const & g, node_props_t & a, node_props_t & b) {
 	if (a.m.recognizer_index == b.m.recognizer_index) {
 		return false;
 	}
 	return g.does_precede(a.m.recognizer_index, b.m.recognizer_index);
 }
 
-static bool associativity_test(grammar_base const & g, node_props_t & a, node_props_t & b) {
+static bool associativity_test(grammar const & g, node_props_t & a, node_props_t & b) {
 	if (a.m.recognizer_index != b.m.recognizer_index) {
 		return false;
 	}
-	auto const assoc = dynamic_cast<state_machine_base const *>(&g.get_recognizer(a.m.recognizer_index))->get_assoc();
+	auto const assoc = dynamic_cast<state_machine const *>(&g.get_recognizer(a.m.recognizer_index))->get_assoc();
 	switch (assoc) {
 		case associativity::LEFT:
 		case associativity::ANY:
@@ -440,7 +440,7 @@ static bool associativity_test(grammar_base const & g, node_props_t & a, node_pr
 	throw std::domain_error("Invalid associativity value");
 }
 
-static void select_match(abstract_syntax_semilattice & asg, grammar_base const & g, std::map<match, node_props_t> & nodes, match const & m) {
+static void select_match(abstract_syntax_semilattice & asg, grammar const & g, std::map<match, node_props_t> & nodes, match const & m) {
 	auto const & i = nodes.find(m);
 	if (i == nodes.end()) {
 		return; //continue
@@ -486,7 +486,7 @@ static void select_match(abstract_syntax_semilattice & asg, grammar_base const &
 	}
 }
 
-static void select_trees(abstract_syntax_semilattice & asg, grammar_base const & g, std::map<match, node_props_t> & nodes, std::vector<std::set<match>> const orderedMatchesByHeight) {
+static void select_trees(abstract_syntax_semilattice & asg, grammar const & g, std::map<match, node_props_t> & nodes, std::vector<std::set<match>> const orderedMatchesByHeight) {
 	//perf_timer perf(__FUNCTION__);
 	for (const auto & matches : orderedMatchesByHeight) {
 		for (auto const & m : matches) {
@@ -495,7 +495,7 @@ static void select_trees(abstract_syntax_semilattice & asg, grammar_base const &
 	}
 }
 
-void parser::apply_precedence_and_associativity(grammar_base const & g, abstract_syntax_semilattice & asg) {
+void parser::apply_precedence_and_associativity(grammar const & g, abstract_syntax_semilattice & asg) {
 	//perf_timer perf(__FUNCTION__);
 	throw_assert(asg.is_rooted());
 
@@ -503,7 +503,7 @@ void parser::apply_precedence_and_associativity(grammar_base const & g, abstract
 
 	for (uint16_t i = 0; i < g.get_recognizer_count(); ++i) {
 		auto const * recognizerPtr = &g.get_recognizer(i);
-		auto const * asStateMachineBasePtr = dynamic_cast<state_machine_base const *>(recognizerPtr);
+		auto const * asStateMachineBasePtr = dynamic_cast<state_machine const *>(recognizerPtr);
 		if (asStateMachineBasePtr != nullptr) {
 			auto const & stateMachineBase = *asStateMachineBasePtr;
 			if (stateMachineBase.get_assoc() != associativity::NONE) {

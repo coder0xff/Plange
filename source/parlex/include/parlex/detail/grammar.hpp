@@ -7,7 +7,7 @@
 
 #include "parlex/precedence_collection.hpp"
 
-#include "parlex/detail/grammar_base.hpp"
+#include "parlex/detail/grammar.hpp"
 #include "parlex/detail/state_machine.hpp"
 #include "parlex/detail/string_terminal.hpp"
 
@@ -24,7 +24,7 @@ class builtin_terminals_t;
 // you must first create all the productions objects
 // then create the behaviors
 // then call set_behavior on each reference
-class grammar : public grammar_base {
+class grammar {
 public:
 	struct production {
 		production(std::string const & name, filter_function const & filter, associativity assoc);
@@ -41,18 +41,18 @@ public:
 	grammar(grammar const & copy) = delete;
 	virtual ~grammar() = default;
 
-	state_machine_base const& get_root_state_machine() const override;
-	std::vector<state_machine_base const *> get_state_machines() const override;
+	state_machine const& get_root_state_machine() const;
+	std::vector<state_machine const *> get_state_machines() const;
 	std::vector<recognizer const *> const & get_recognizers() const;
-	uint16_t get_recognizer_count() const override;
-	recognizer const& get_recognizer(uint16_t const index) const override;
-	bool does_precede(uint16_t const lhs, uint16_t const rhs) const override;
-	precedence_collection get_precedences() const override;
+	uint16_t get_recognizer_count() const;
+	recognizer const& get_recognizer(uint16_t const index) const;
+	bool does_precede(uint16_t const lhs, uint16_t const rhs) const;
+	precedence_collection get_precedences() const;
 
 	uint16_t lookup_production_local_index(std::string const & name) const;
 	uint16_t lookup_literal_recognizer_index(std::u32string const & content) const;
 	uint16_t lookup_recognizer_index(std::string const & name) const;
-	uint16_t lookup_recognizer_index(recognizer const & recognizer) const override;
+	uint16_t lookup_recognizer_index(recognizer const & recognizer) const;
 private:
 	std::vector<production> local_productions;
 	std::vector<string_terminal> local_literals;

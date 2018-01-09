@@ -3,11 +3,11 @@
 #include "graphviz_dot.hpp"
 
 #include "parlex/builder.hpp"
-#include "parlex/detail/grammar_base.hpp"
+#include "parlex/detail/grammar.hpp"
 
 parlex::detail::ast_node::ast_node(match const & m, std::vector<ast_node> const & children, leaf const * l) : match(m), children(children), l(l) {}
 
-std::string parlex::detail::ast_node::to_dot(grammar_base const & g) const
+std::string parlex::detail::ast_node::to_dot(grammar const & g) const
 {
 	auto const nameFunc = [&](ast_node const * n)
 	{

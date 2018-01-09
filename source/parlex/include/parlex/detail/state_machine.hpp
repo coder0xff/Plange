@@ -1,16 +1,20 @@
 #ifndef CORRELATED_STATE_MACHINE_HPP
 #define CORRELATED_STATE_MACHINE_HPP
 
-#include "parlex/associativity.hpp"
-#include "parlex/filter_function.hpp"
-
-#include "parlex/detail/nfa.hpp"
-#include "parlex/detail/state_machine_base.hpp"
 #include "coherent_map.hpp"
+
+#include "parlex/associativity.hpp"
+#include "parlex/builder.hpp"
+#include "parlex/filter_function.hpp"
+#include "parlex/detail/nfa.hpp"
+#include "parlex/detail/recognizer.hpp"
+#include "parlex/detail/state_machine.hpp"
 
 
 namespace parlex {
 namespace detail {
+class context;
+class job;
 
 struct leaf;
 struct node;
@@ -21,7 +25,7 @@ class subjob;
 //simulates a dfa
 //State 0 is the start state
 //States from N-a to N-1 are the accept states, where N is states.size() and a is accept_state_count
-class state_machine : public state_machine_base {
+class state_machine : public recognizer {
 public:
 	struct transition_info_t {
 		leaf const * l;
@@ -50,14 +54,17 @@ private:
 
 	states_t states;
 
-	void process(job & j, uint32_t subjobId, subjob & sj, context const & c, uint8_t const dfaState) const override;
+	void process(job & j, uint32_t subjobId, subjob & sj, context const & c, uint8_t const dfaState) const;
+	void start(job & j, uint32_t subjobId, subjob & sj, context const & c) const;
+	static void on(job & j, uint16_t const recognizerIndex, uint32_t const subscriber, subjob & sj, context const & c, uint8_t const nextDfaState, leaf const * leaf);
+	static void accept(job & j, subjob & sj, uint32_t const subjobId, context const & c);
 	static automaton reorder(automaton const & dfa);
 
 public:
 	bool is_terminal() const override;
-	int get_start_state() const override;
-	filter_function get_filter() const override;
-	associativity get_assoc() const override;
+	int get_start_state() const;
+	filter_function get_filter() const;
+	associativity get_assoc() const;
 };
 
 } // namespace detail
