@@ -1,4 +1,4 @@
-// This file was generated using Parlex's cpp_generator
+﻿// This file was generated using Parlex's cpp_generator
 
 #ifndef INCLUDED_TYPE_CONSTRAINT_CHAIN_HPP
 #define INCLUDED_TYPE_CONSTRAINT_CHAIN_HPP

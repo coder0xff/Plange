@@ -1,4 +1,4 @@
-static parlex::builder const & builder() {
+﻿static parlex::builder const & builder() {
 	static parlex::builder const result("STATEMENT_SCOPE", {
 		parlex::production("ADDITION",
 		parlex::sequence("ADDITION", {

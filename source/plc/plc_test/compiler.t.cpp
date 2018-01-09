@@ -1,4 +1,4 @@
-#include "compiler.hpp"
+﻿#include "compiler.hpp"
 
 #include <experimental/filesystem>
 
@@ -92,6 +92,20 @@ TEST(PlcCompiler, ParseType2) {
 	plc::source_code("", source);
 }
 
+TEST(PlcCompiler, ParseAddAssign) {
+	auto const source = U"x<-a+b;";
+	plc::source_code("", source);
+}
+
+TEST(PlcCompiler, ParseAddAssign2) {
+	auto const source = U"x←a+b;";
+	parlex::detail::parser p(1);
+	auto assl = p.parse(plc::plange_grammar::get(), source);
+	ASSERT_TRUE(assl.is_rooted());
+	ASSERT_TRUE(assl.variation_count() == 1);
+	auto ast = assl.tree();
+}
+
 TEST(PlcCompiler, ParseCStdLibGenerated) {
 	auto const filePathname = stdlibs_dir() + "Plange.CStdLib.Generated._pg";
 	static parlex::detail::parser p;
@@ -140,4 +154,8 @@ TEST(PlcCompiler, ParseEmbeddedCommentExample2) {
 
 TEST(PlcCompiler, LoadEmbeddedCommentExample2) {
 	load_example("embeddedComment2.pge");
+}
+
+TEST(PlcCompiler, LoadIntToStringExample) {
+	load_example("intToString.pge");
 }

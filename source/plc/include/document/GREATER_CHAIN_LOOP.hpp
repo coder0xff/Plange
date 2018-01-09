@@ -1,4 +1,4 @@
-// This file was generated using Parlex's cpp_generator
+﻿// This file was generated using Parlex's cpp_generator
 
 #ifndef INCLUDED_GREATER_CHAIN_LOOP_HPP
 #define INCLUDED_GREATER_CHAIN_LOOP_HPP

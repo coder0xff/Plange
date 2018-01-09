@@ -48,8 +48,9 @@ std::optional<std::string> read_file(std::string const & pathname)
 
 void write_file(std::string const & pathname, std::string const & text)
 {
+	auto const bomText = "\xEF\xBB\xBF" + text;
 	auto currentText = read_file(pathname);
-	if (currentText.has_value() && currentText.value() == text)
+	if (currentText.has_value() && currentText.value() == bomText)
 	{
 		return;
 	}
@@ -58,7 +59,7 @@ void write_file(std::string const & pathname, std::string const & text)
 		throw std::runtime_error("couldn't open file for writing");
 	}
 	std::cout << "Writing " << pathname << '\n';
-	file << text;
+	file << bomText;
 }
 
 void write_files(std::string const & plcDir, parlex::cpp_generator::file_dictionary const & filesToWrite)

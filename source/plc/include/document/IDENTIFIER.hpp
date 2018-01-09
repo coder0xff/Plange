@@ -1,4 +1,4 @@
-// This file was generated using Parlex's cpp_generator
+﻿// This file was generated using Parlex's cpp_generator
 
 #ifndef INCLUDED_IDENTIFIER_HPP
 #define INCLUDED_IDENTIFIER_HPP

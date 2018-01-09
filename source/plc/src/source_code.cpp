@@ -150,7 +150,7 @@ parlex::detail::abstract_syntax_tree plc::source_code::construct_ast(std::u32str
 			}
 		}
 		if (lastValidStatement == nullptr) {
-			ERROR(CouldNotParse, pathname + " syntax semilattice: " /*+ assl.to_dot()*/);
+			ERROR(CouldNotParse, pathname);
 		} else {
 			auto const description = pathname + " last valid statement: " + describe_code_span(*lastValidStatement, lineNumberByFirstCharacter, pathname);
 			ERROR(CouldNotParse, description);

@@ -1,4 +1,4 @@
-#include "_plange_grammar.hpp.inc"
+﻿#include "_plange_grammar.hpp.inc"
 #include "_plange_grammar_builder.cpp.inc"
 
 plange_grammar::plange_grammar() : grammar(builder()),
