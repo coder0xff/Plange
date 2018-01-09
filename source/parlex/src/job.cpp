@@ -145,7 +145,7 @@ bool job::handle_deadlocks() {
 	auto anyHalted = false;
 	//halt subjobs that are subscribed to themselves (in)directly
 	for (auto const & stronglyConnectedComponent : stronglyConnectedComponents) {
-		for (std::atomic<producer *> const * ptr : stronglyConnectedComponent) {
+		for (auto ptr : stronglyConnectedComponent) {
 			size_t const producerIdId = ptr - producer_table_ptr->cbegin(); // pointer arithmetic
 			auto const producerId(producerIdId);
 			ptr->load()->terminate(*this, get_match_class(producerId));

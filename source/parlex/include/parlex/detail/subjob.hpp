@@ -32,15 +32,15 @@ public:
 	void start(job & j, uint32_t const myId, uint32_t documentPosition);
 	context const & construct_stepped_context(context const* const prior, match const & fromTransition, leaf const * l);
 	void on(job & j, uint16_t const recognizerIndex, context const & c, uint32_t const myId, uint8_t const nextDfaState, leaf const * l);
-	void accept(job & j, match_class const & subjobInfo, context const & c);
+	void accept(job & j, match_class const & myInfo, context const & c);
 	// for special use by the parser to seed the queue
 	context const & construct_start_state_context(uint32_t const documentPosition);
-	void finish_creation(job & j, uint32_t const myId);
+	void finish_creation(job & j, uint32_t const myInfo);
 	void begin_work_queue_reference();
-	void end_work_queue_reference(job & j, uint32_t const myId);
+	void end_work_queue_reference(job & j, uint32_t const myInfo);
 	void flush(job & j, match_class const & myInfo);
 	void begin_subscription_reference();
-	void end_subscription_reference(job & j, uint32_t const myId);
+	void end_subscription_reference(job & j, uint32_t const myInfo);
 private:
 	void increment_lifetime();
 	void decrement_lifetime(job & j, uint32_t const myId);

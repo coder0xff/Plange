@@ -1,6 +1,8 @@
 #ifndef MATCH_HPP
 #define MATCH_HPP
 
+#include <cstdlib>
+
 #include "parlex/detail/match_class.hpp"
 
 namespace parlex {

@@ -11,11 +11,11 @@
 namespace parlex {
 namespace detail {
 
-node::node(std::initializer_list<erased<node>> const & children) : children(move(children)), parent(nullptr) {}
+node::node(std::initializer_list<erased<node>> const & children) : children(children) {}
 
-node::node(std::string const & tag, std::initializer_list<erased<node>> const & children) : tag(move(tag)), children(move(children)), parent(nullptr) {}
+node::node(std::string const & tag, std::initializer_list<erased<node>> const & children) : tag(tag), children(children) {}
 
-void node::add_child(erased<node> const child) {
+void node::add_child(erased<node> const & child) {
 	children.push_back(child);
 	children.back()->parent = this;
 }
@@ -28,7 +28,7 @@ void node::compute_leaf_paths() {
 			leaf_paths[childLeafPath.first] = childPtr;
 		}
 		if (child->is_leaf()) {
-			leaf_paths[static_cast<leaf const *>(childPtr)] = childPtr;
+			leaf_paths[static_cast<leaf const *>(childPtr)] = childPtr;  // NOLINT
 		}
 	}
 }
@@ -55,9 +55,9 @@ bool leaf::is_leaf() const { return true; }
 
 } // namespace detail
 
-literal::literal(std::u32string const & content) : leaf(to_utf8(content)), content(move(content)) {}
+literal::literal(std::u32string const & content) : leaf(to_utf8(content)), content(content) {}
 
-literal::literal(std::string const & tag, std::u32string const & content) : leaf(tag), content(move(content)) {}
+literal::literal(std::string const & tag, std::u32string const & content) : leaf(tag), content(content) {}
 
 reference::reference(std::string const & target) : leaf(""), target(target) {}
 
@@ -73,7 +73,7 @@ namespace detail {
 static std::string node_to_name(node const * n) {
 	std::stringstream result;
 
-#define DO_AS(name) [](name const & v) { return #name + (v.tag != "" ? " " + v.tag : ""); }
+#define DO_AS(name) [](name const & v) { return #name + (!v.tag.empty() ? " " + v.tag : ""); }
 
 	result << covariant_invoke<std::string>(*n,
 		[](literal const & v) { return to_utf8(v.content); },
@@ -117,24 +117,24 @@ std::string production::to_dot() const {
 			for (size_t childIndex = 0; childIndex < n->children.size(); ++childIndex) {
 				auto const & erasedChild = n->children[childIndex];
 				auto edgeName = asSequence != nullptr ? "label=" + std::to_string(childIndex) : "";
-				edges.push_back(make_pair(edgeName, &*erasedChild));
+				edges.emplace_back(edgeName, &*erasedChild);
 			}
 			return edges;
 		}
 	);
 }
 
-sub_builder::sub_builder(std::vector<production> const & productions) : productions(std::move(productions)) { }
+sub_builder::sub_builder(std::vector<production> const & productions) : productions(productions) { }
 
 std::set<std::u32string> sub_builder::extract_string_literals() const {
 	std::set<std::u32string> results;
-	for (auto production : productions) {
+	for (const auto & production : productions) {
 		production.extract_string_literals(results);
 	}
 	return results;
 }
 
-builder::builder(std::string const rootName, std::vector<production> const & productions) : sub_builder(move(productions)), root_name(rootName) {
+builder::builder(std::string const & rootName, std::vector<production> const & productions) : sub_builder(productions), root_name(rootName) {
 }
 
 detail::automaton detail::leaf::to_nfa() const {

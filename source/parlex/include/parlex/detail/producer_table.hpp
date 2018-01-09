@@ -2,7 +2,6 @@
 #define PRODUCER_TABLE_HPP
 
 #include <atomic>
-#include <cstdlib>
 
 #include "parlex/detail/producer.hpp"
 

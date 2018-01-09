@@ -28,12 +28,12 @@ struct type : detail::node {
 void cpp_generator::output_files::add(output_files const & other)
 {
 	for (auto const & header : other.headers) {
-		if (headers.emplace(header.first, header.second).second == false) {
+		if (!headers.emplace(header.first, header.second).second) {
 			throw std::runtime_error("duplicated file name: " + header.first);
 		}
 	}
 	for (auto const & source : other.sources) {
-		if (sources.emplace(source.first, source.second).second == false) {
+		if (!sources.emplace(source.first, source.second).second) {
 			throw std::runtime_error("duplicated file name: " + source.first);
 		}
 	}
@@ -69,7 +69,7 @@ static std::string include_guard_end(std::string const & name) {
 
 }
 
-static std::string string_to_c_name(std::string const prefix, std::string const & s) {
+static std::string string_to_c_name(std::string const & prefix, std::string const & s) {
 	auto s1 = prefix + s;
 	auto test = [](size_t pos, char c)
 	{

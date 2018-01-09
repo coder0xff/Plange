@@ -36,7 +36,7 @@ erased<node> wirth_t::process_factor(std::u32string const & document, ast_node c
 	}
 
 	std::unique_ptr<erased<node>> result;
-	auto set = [&result](erased<node> const & node) { result.reset(new erased<detail::node>(node)); };
+	auto const set = [&result](erased<node> const & node) { result.reset(new erased<detail::node>(node)); };
 	if (i->recognizer_index == identifier_dfa) {
 		auto const name = to_utf8(document.substr(i->document_position, i->consumed_character_count));
 		set(reference(name));
@@ -63,7 +63,7 @@ erased<node> wirth_t::process_factor(std::u32string const & document, ast_node c
 		throw;
 	}
 
-	if (tag != "") {
+	if (!tag.empty()) {
 		(*result)->tag = tag;
 	}
 	return *result;

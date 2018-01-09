@@ -6,8 +6,6 @@
 #include <atomic>
 #include <queue>
 
-#include "coherent_queue.hpp"
-
 #include "parlex/post_processor.hpp"
 #include "parlex/detail/abstract_syntax_semilattice.hpp"
 #include "parlex/detail/producer.hpp"

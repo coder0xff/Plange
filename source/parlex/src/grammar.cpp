@@ -54,18 +54,18 @@ void grammar::production::set_behavior(grammar const & g, erased<node> const & b
 
 size_t grammar::add_table_data(std::map<std::string, recognizer const *> & nameToRecognizerPtr, recognizer const * recognizerPtr) {
 	if (recognizer_ptr_to_recognizer_index.count(recognizerPtr) > 0) {
-		throw "key already present";
+		throw std::runtime_error("key already present");
 	}
 	auto const recognizerIndex = recognizers.size();
 	recognizers.push_back(recognizerPtr);
 	if (!recognizer_ptr_to_recognizer_index.insert(std::make_pair(recognizerPtr, recognizerIndex)).second) {
-		throw "key already present";
+		throw std::runtime_error("key already present");
 	}
 	if (!name_to_recognizer_index.insert(std::make_pair(recognizerPtr->name, recognizerIndex)).second) {
-		throw "key already present";
+		throw std::runtime_error("key already present");
 	}
 	if (!nameToRecognizerPtr.insert(std::make_pair(recognizerPtr->name, recognizerPtr)).second) {
-		throw "key already present";
+		throw std::runtime_error("key already present");
 	}
 	return recognizerIndex;
 }
@@ -142,12 +142,12 @@ grammar::grammar(builder const & grammarDefinition, bool noBuiltIns) {
 		auto const literalIndex = local_literals.size();
 		local_literals.emplace_back(literal);
 		if (!content_to_local_literal_index.insert(std::make_pair(literal, literalIndex)).second) {
-			throw "key already present";
+			throw std::runtime_error("key already present");
 		};
 		string_terminal const * ptr = &local_literals[literalIndex];
 		auto const recognizerIndex = add_table_data(nameToRecognizerPtr, ptr);
 		if (!content_to_recognizer_index.insert(std::make_pair(literal, recognizerIndex)).second) {
-			throw "key already present";
+			throw std::runtime_error("key already present");
 		}
 	}
 	
@@ -169,7 +169,7 @@ grammar::grammar(builder const & grammarDefinition, bool noBuiltIns) {
 		auto const fromRecognizerIndex = recognizer_ptr_to_recognizer_index[nameToRecognizerPtr[definition.name]];
 		auto & precedenceSet = precedences[fromRecognizerIndex];
 		for (auto const & precedence : definition.precedences) {
-			auto toRecognizerIndex = recognizer_ptr_to_recognizer_index[nameToRecognizerPtr[precedence]];
+			auto const toRecognizerIndex = recognizer_ptr_to_recognizer_index[nameToRecognizerPtr[precedence]];
 			precedenceSet.insert(toRecognizerIndex);
 		}
 	}
@@ -205,7 +205,7 @@ bool grammar::does_precede(uint16_t const lhs, uint16_t const rhs) const {
 
 uint16_t grammar::lookup_recognizer_index(recognizer const & recognizer) const
 {
-	auto i = recognizer_ptr_to_recognizer_index.find(&recognizer);
+	auto const i = recognizer_ptr_to_recognizer_index.find(&recognizer);
 	throw_assert(i != recognizer_ptr_to_recognizer_index.end());
 	return i->second;
 }

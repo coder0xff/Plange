@@ -57,15 +57,15 @@ static erased<node> reduce(erased<node> const & n) {
 		[&](optional const & v) { return v; },
 		[&](repetition const & v) { return v; },
 		[&](sequence const & v) {
-			node::children_t children = getChildren([&](erased<node> const & child) {
+			auto children = getChildren([&](erased<node> const & child) {
 				std::optional<erased<node>> result;
 				auto const * asUnitPtr = dynamic_cast<unit const *>(&*child);
-				if (asUnitPtr == nullptr || asUnitPtr->tag != "") {
+				if (asUnitPtr == nullptr || !asUnitPtr->tag.empty()) {
 					result = child;
 				}
 				return result;
 			});
-			if (std::all_of(children.begin(), children.end(), [](erased<node> const & child) { return child->tag != ""; })) {
+			if (std::all_of(children.begin(), children.end(), [](erased<node> const & child) { return !child->tag.empty(); })) {
 				aggregate result;
 				auto childIndex = 0;
 				for (auto const & child : children) {
