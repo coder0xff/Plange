@@ -201,11 +201,11 @@ static void prune(abstract_syntax_semilattice & asg, std::map<match, node_props_
 			throw_assert(i != nodes.end());
 			auto & descendent = i->second;
 			descendent.all_ancestors.erase(thisMatch);
-			if (descendent.all_ancestors.empty()) {
-				add(descendentMatch);
-			}
 			descendent.all_descendents_and_ancestors.erase(thisMatch);
 			descendent.parent_permutations_by_match.erase(thisMatch);
+			if (descendent.parent_permutations_by_match.empty()) {
+				add(descendentMatch);				
+			}
 		}
 		for (auto const & ancestorMatch : thisNode.all_ancestors) {
 			auto const i = nodes.find(ancestorMatch);
@@ -449,6 +449,7 @@ static void select_match(abstract_syntax_semilattice & asg, grammar const & g, s
 		}
 		auto & b = pair->second;
 		if (does_precede(g, *a, b) || associativity_test(g, *a, b)) {
+			//if it must be selected, then precedence and associativity must remove preempted intersections
 			prune(asg, nodes, b);
 		}
 	}
