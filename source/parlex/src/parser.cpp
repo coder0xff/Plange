@@ -109,7 +109,7 @@ abstract_syntax_semilattice parser::multi_thread_parse(grammar const & g, uint16
 	current_job = &j;
 	throw_assert(active_count > 0);
 	{
-		perf_timer recognizeTimer("Recognizer work queue processing");
+		//perf_timer recognizeTimer("Recognizer work queue processing");
 		while (true) {
 			halt_cv.wait(lock, [this]() { return active_count == 0; });
 			//DBG("parser is idle; checking for deadlocks");
@@ -229,7 +229,7 @@ static void prune(abstract_syntax_semilattice & asg, std::map<match, node_props_
 }
 
 static void construct_nodes(abstract_syntax_semilattice & asg, std::map<match, node_props_t> & nodes, std::vector<std::set<node_props_t *>> & flattened) {
-	perf_timer perf(__FUNCTION__);
+	//perf_timer perf(__FUNCTION__);
 	for (auto const & matchAndPermutations : asg.permutations_of_matches) {
 		auto const & m = matchAndPermutations.first;
 		auto & nodeProps = nodes.emplace(std::piecewise_construct, std::forward_as_tuple(m), std::forward_as_tuple(asg, m)).first->second;
@@ -251,7 +251,7 @@ static void construct_nodes(abstract_syntax_semilattice & asg, std::map<match, n
 }
 
 static void resolve_nodes(std::map<match, node_props_t> & nodes) {
-	perf_timer perf(__FUNCTION__);
+	//perf_timer perf(__FUNCTION__);
 
 	std::vector<node_props_t *> vertices;
 	typedef std::vector<node_props_t *>::iterator vert_iterator;
@@ -316,7 +316,7 @@ static void resolve_nodes(std::map<match, node_props_t> & nodes) {
 //Algorithm for quickly getting the `matches` that are present in a range of document indices
 struct intersection_lookup {
 	explicit intersection_lookup(std::vector<std::set<node_props_t *>> const & flattened, std::set<size_t> const & affectedRecognizerIndices) {
-		perf_timer perf(__FUNCTION__);
+		//perf_timer perf(__FUNCTION__);
 		auto const docLen = flattened.size();
 		auto const lookupDepth = sizeof(int32_t) * 8 - clz(uint32_t(docLen));
 		lookup.resize(lookupDepth);
@@ -370,7 +370,7 @@ private:
 };
 
 static void compute_intersections(std::map<match, node_props_t> & nodes, std::vector<std::set<node_props_t *>> const & flattened, std::set<size_t> const & affectedRecognizerIndices) {
-	perf_timer perf(__FUNCTION__);
+	//perf_timer perf(__FUNCTION__);
 	intersection_lookup lookup(flattened, affectedRecognizerIndices);
 	for (auto & matchAndProps : nodes) {		
 		auto const & m = matchAndProps.first;
@@ -387,7 +387,7 @@ static void compute_intersections(std::map<match, node_props_t> & nodes, std::ve
 }
 
 static std::vector<std::set<match>> ordered_matches_by_height(std::map<match, node_props_t> & nodes) {
-	perf_timer perf(__FUNCTION__);
+	//perf_timer perf(__FUNCTION__);
 	std::vector<std::set<match>> orderedMatchesByHeight;
 	for (auto & entry : nodes) {
 		auto & node = entry.second;
@@ -455,7 +455,7 @@ static void select_match(abstract_syntax_semilattice & asg, grammar const & g, s
 }
 
 static void select_trees(abstract_syntax_semilattice & asg, grammar const & g, std::map<match, node_props_t> & nodes, std::vector<std::set<match>> const orderedMatchesByHeight) {
-	perf_timer perf(__FUNCTION__);
+	//perf_timer perf(__FUNCTION__);
 	for (const auto & matches : orderedMatchesByHeight) {
 		for (auto const & m : matches) {
 			select_match(asg, g, nodes, m);
@@ -464,7 +464,7 @@ static void select_trees(abstract_syntax_semilattice & asg, grammar const & g, s
 }
 
 void parser::apply_precedence_and_associativity(grammar const & g, abstract_syntax_semilattice & asg) {
-	perf_timer perf(__FUNCTION__);
+	//perf_timer perf(__FUNCTION__);
 	throw_assert(asg.is_rooted());
 
 	std::set<size_t> affectedRecognizerIndices;

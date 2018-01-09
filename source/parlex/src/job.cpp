@@ -111,7 +111,7 @@ void job::update_progress(size_t const completed)
 }
 
 bool job::handle_deadlocks() {
-	perf_timer perf(__func__);
+	//perf_timer perf(__func__);
 	using iterator_t = std::atomic<producer *> const *;
 
 	struct transition_function {
@@ -161,7 +161,7 @@ abstract_syntax_semilattice job::construct_result(match const & m) {
 	//perf_timer timer(__FUNCTION__);
 	auto result = abstract_syntax_semilattice(m);
 	{
-		perf_timer timer2("consruct_result:subjobs to assl");
+		//perf_timer timer2("consruct_result:subjobs to assl");
 		for (uint32_t documentPosition = 0; documentPosition < producer_table_ptr->document_length; ++documentPosition) {
 			for (uint16_t recognizerIndex = 0; recognizerIndex < producer_table_ptr->recognizer_count; ++recognizerIndex) {
 				match_class const matchClass(documentPosition, recognizerIndex);
