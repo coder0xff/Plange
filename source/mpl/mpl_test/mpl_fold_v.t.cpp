@@ -5,7 +5,6 @@
 
 #include "../mpl_equals.hpp"
 #include "../mpl_list.hpp"
-#include "../mpl_utils.hpp"
 
 namespace test1 {
 	struct functor {
@@ -32,14 +31,14 @@ namespace test2 {
 	struct functor {
 		template<typename TAccumulator, typename THead>
 		auto operator()(TAccumulator const & acc) {
-			return make_tuple((THead)sizeof(THead), acc);
+			return make_tuple(THead(sizeof(THead)), acc);
 		}
 	};
 
 	void invoke() {
 		functor f;
 		auto result = mpl::fold_v<mpl::list<int, char>>::invoke(f, std::tuple<>());
-		static_assert(mpl::equals<decltype(result), std::tuple<char, std::tuple<int, std::tuple<>>>>, "");
+		static_assert(mpl::EQUALS<decltype(result), std::tuple<char, std::tuple<int, std::tuple<>>>>, "");
 		ASSERT_EQ(std::make_tuple(char(1), std::make_tuple(int(4), std::make_tuple())), result);
 	}
 }

@@ -1,48 +1,52 @@
-#include "parlex/details/c_string.hpp"
+#include "parlex/detail/c_string.hpp"
 
-#include "parlex/details/abstract_syntax_semilattice.hpp"
-#include "parlex/details/builtins.hpp"
-
-#include "parlex/details/terminal.hpp"
+#include "parlex/builder.hpp"
+#include "parlex/detail/abstract_syntax_semilattice.hpp"
+#include "parlex/detail/builtins.hpp"
 
 #include "utils.hpp"
-#include "utf.hpp"
-#include "parlex/details/behavior.hpp"
+#include "../../plc/include/plange_grammar.hpp"
 
 namespace parlex {
-namespace details {
+namespace detail {
 
-c_string_t::c_string_t(builtins_t const & builtins) :
-	raw_state_machine("c_string", 0, 1, builtins.longest, associativity::none),
-	backslash(to_utf32("\\")),
-	double_quote(to_utf32("\"")),
-	x(to_utf32("x")),
-	octal_escape_sequence("octal_escape_sequence", 0, 3, builtins.longest),
-	hex_escape_sequence("hex_escape_sequence", 0, 1, builtins.longest) {
-
-	octal_escape_sequence.add_transition(0, &backslash, 1);
-	octal_escape_sequence.add_transition(1, &builtins.octal_digit, 2);
-	octal_escape_sequence.add_transition(2, &builtins.octal_digit, 3);
-	octal_escape_sequence.add_transition(3, &builtins.octal_digit, 4);
-
-	hex_escape_sequence.add_transition(0, &backslash, 1);
-	hex_escape_sequence.add_transition(1, &x, 2);
-	hex_escape_sequence.add_transition(2, &builtins.hexadecimal_digit, 3);
-	hex_escape_sequence.add_transition(3, &builtins.hexadecimal_digit, 3);
-
-	add_transition(0, &double_quote, 1);
-	add_transition(1, &content, 1);
-	add_transition(1, &basic_escape_sequence, 1);
-	add_transition(1, &octal_escape_sequence, 1);
-	add_transition(1, &hex_escape_sequence, 1);
-	add_transition(1, &double_quote, 2);
+c_string_t const & c_string() {
+	static c_string_t result;
+	return result;
 }
 
-void c_string_t::extract_step(std::u32string const & document, std::u32string * result, recognizer const * r, size_t document_position, size_t consumed_character_count) const {
-	if (r == &content) {
-		result->append(1, document[document_position]);
-	} else if (r == &basic_escape_sequence) {
-		char32_t const c = document[document_position + 1];
+c_string_t::c_string_t() : sub_builder({
+	production("c_string", sequence {
+		literal(U"\""),
+		repetition(
+			choice{
+				reference("content"),
+				reference("basic_escape_sequence"),
+				reference("octal_escape_sequence"),
+				reference("hex_escape_sequence")
+			}
+		),
+		literal(U"\"")
+	}),
+	production("octal_escape_sequence", sequence {
+		literal(U"\\"),
+		reference("octal_digit"),
+		reference("octal_digit"),
+		reference("octal_digit")
+	}),
+	production("hex_escape_sequence", sequence {
+		literal(U"\\x"),
+		reference("hexadecimal_digit"),
+		repetition(reference("hexadecimal_digit"))
+	}, associativity::NONE, longest())
+})
+{}
+
+void c_string_t::extract_step(std::u32string const & document, std::u32string * result, grammar const & g, size_t const recognizerIndex, size_t const documentPosition, size_t const consumedCharacterCount) {
+	if (recognizerIndex == g.lookup_recognizer_index("content")) {
+		result->append(1, document[documentPosition]);
+	} else if (recognizerIndex == g.lookup_recognizer_index("basic_escape_sequence")) {
+		auto const c = document[documentPosition + 1];
 		switch (c) {
 		case '"':
 		case '\'':
@@ -74,26 +78,26 @@ void c_string_t::extract_step(std::u32string const & document, std::u32string * 
 		default: 
 			throw;
 		}
-	} else if (r == &octal_escape_sequence) {
+	} else if (recognizerIndex == g.lookup_recognizer_index("octal_escape_sequence")) {
 		char32_t c = 0;
-		for (size_t j = 1; j < consumed_character_count; ++j) {
+		for (size_t j = 1; j < consumedCharacterCount; ++j) {
 			c = c << 3;
-			c += document[document_position + j] - '0';
+			c += document[documentPosition + j] - '0';
 		}
 		result->append(1, c);
-	} else if (r == &hex_escape_sequence) {
+	} else if (recognizerIndex == g.lookup_recognizer_index("hex_escape_sequence")) {
 		char32_t c = 0;
-		for (size_t j = 1; j < consumed_character_count; ++j) {
+		for (size_t j = 1; j < consumedCharacterCount; ++j) {
 			c = c << 4;
-			char32_t const d = document[document_position + j];
+			auto const d = document[documentPosition + j];
 			c += d < 'A' ? d - '0' : (d < 'a' ? d - 'A' : d - 'a'); //48 = '0'
 		}
 		result->append(1, c);
 	}
 }
 
-std::u32string c_string_t::extract(std::u32string const & document, ast_node const & n) const {
-	throw_assert(&n.r == this);
+std::u32string c_string_t::extract(grammar const & g, std::u32string const & document, ast_node const & n) {
+	throw_assert(n.recognizer_index == g.lookup_recognizer_index("c_string"));
 	std::u32string result;
 	result.reserve(n.children.size());
 	auto i = n.children.begin();
@@ -101,18 +105,18 @@ std::u32string c_string_t::extract(std::u32string const & document, ast_node con
 	auto end = n.children.end();
 	--end; //most to closing double quote
 	for (; i != end; ++i) {
-		extract_step(document, &result, &i->r, i->document_position, i->consumed_character_count);
+		extract_step(document, &result, g, i->l->recognizer_index, i->document_position, i->consumed_character_count);
 	}
 	return result;
 }
 
-std::u32string c_string_t::extract(std::u32string const & document, match const & m, abstract_syntax_semilattice const & asg) const {
-	throw_assert(&m.r == this);
-	auto const & asgTableIterator = asg.permutations.find(m);
-	throw_assert(asgTableIterator != asg.permutations.end());
-	std::set<permutation> const & permutations = asgTableIterator->second;
-	throw_assert(permutations.size() != 0);
-	permutation const & p = *permutations.begin();
+std::u32string c_string_t::extract(grammar const & g, std::u32string const & document, match const & m, abstract_syntax_semilattice const & asg) {
+	throw_assert(m.recognizer_index == g.lookup_recognizer_index("c_string"));
+	auto const & asgTableIterator = asg.permutations_of_matches.find(m);
+	throw_assert(asgTableIterator != asg.permutations_of_matches.end());
+	auto const & permutations = asgTableIterator->second;
+	throw_assert(!permutations.empty());
+	auto const & p = *permutations.begin();
 	std::u32string result;
 	result.reserve(p.size());
 	auto i = p.begin();
@@ -120,28 +124,10 @@ std::u32string c_string_t::extract(std::u32string const & document, match const 
 	auto end = p.end();
 	--end;
 	for (; i != end; ++i) {
-		extract_step(document, &result, &i->r, i->document_position, i->consumed_character_count);
+		extract_step(document, &result, g, i->recognizer_index, i->document_position, i->consumed_character_count);
 	}
 	return result;
 }
 
-
-c_string_t::content_t::content_t() : terminal("content", 1) {
-}
-
-bool c_string_t::content_t::test(std::u32string const & document, size_t documentPosition) const {
-	return document[documentPosition] != '\"' && document[documentPosition] != '\\';
-}
-
-c_string_t::basic_escape_sequence_t::basic_escape_sequence_t() : terminal("basic_escape_sequence", 2) {
-
-}
-
-bool c_string_t::basic_escape_sequence_t::test(std::u32string const & document, size_t documentPosition) const {
-	if (documentPosition + 1 >= document.length()) return false;
-	auto const c = document[documentPosition + 1];
-	return document[documentPosition] == '\\' && (c == '\"' || c == '\'' || c == '?' || c == '\\' || c == 'a' || c == 'b' || c == 'f' || c == 'n' || c == 'r' || c == 't' || c == 'v');
-}
-
-} //namespace details
+} //namespace detail
 } //namespace parlex

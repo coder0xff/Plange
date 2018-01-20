@@ -3,14 +3,19 @@
 #include <optional>
 
 namespace parlex {
-namespace details {
+namespace detail {
 
 unit::unit(node const & n) : original_leaf(n) {
 	tag = n.tag;
 }
 
+automaton unit::to_nfa() const
+{
+	throw std::logic_error("This operation is invalid");
+}
+
 static erased<node> copy_with_conversions(erased<node> const & n) {
-	node const & nPtr = *n;
+	auto const & nPtr = *n;
 
 #define DO_AS(name) \
 	[&](name const & v) { \
@@ -23,17 +28,17 @@ static erased<node> copy_with_conversions(erased<node> const & n) {
 	}
 
 	return covariant_invoke<erased<node>> (nPtr, 
-		[&](literal_t const & v) { return v; },
-		[&](reference_t const & v) { return v; },
-		DO_AS(choice_t),
-		DO_AS(optional_t),
-		DO_AS(repetition_t),
-		DO_AS(sequence_t)
+		[&](literal const & v) { return v; },
+		[&](reference const & v) { return v; },
+		DO_AS(choice),
+		DO_AS(optional),
+		DO_AS(repetition),
+		DO_AS(sequence)
 	);
 }
 
 static erased<node> reduce(erased<node> const & n) {
-	auto get_children = [&](std::function<std::optional<erased<node>> (erased<node> const &)> selector)
+	auto getChildren = [&](std::function<std::optional<erased<node>> (erased<node> const &)> selector)
 	{
 		node::children_t newChildren;
 		for (auto & child : n->children) {
@@ -48,30 +53,30 @@ static erased<node> reduce(erased<node> const & n) {
 	return covariant_invoke<erased<node>>(*n,
 		[&](unit const & v) { return v; },
 		[&](aggregate const & v) { return v; },
-		[&](choice_t const & v) { return v; },
-		[&](optional_t const & v) { return v; },
-		[&](repetition_t const & v) { return v; },
-		[&](sequence_t const & v) {
-			node::children_t children = get_children([&](erased<node> const & child) {
+		[&](choice const & v) { return v; },
+		[&](optional const & v) { return v; },
+		[&](repetition const & v) { return v; },
+		[&](sequence const & v) {
+			auto children = getChildren([&](erased<node> const & child) {
 				std::optional<erased<node>> result;
 				auto const * asUnitPtr = dynamic_cast<unit const *>(&*child);
-				if (asUnitPtr == nullptr || asUnitPtr->tag != "") {
+				if (asUnitPtr == nullptr || !asUnitPtr->tag.empty()) {
 					result = child;
 				}
 				return result;
 			});
-			if (std::all_of(children.begin(), children.end(), [](erased<node> const & child) { return child->tag != ""; })) {
+			if (std::all_of(children.begin(), children.end(), [](erased<node> const & child) { return !child->tag.empty(); })) {
 				aggregate result;
-				int childIndex = 0;
+				auto childIndex = 0;
 				for (auto const & child : children) {
-					erased<node> childCopy = child;
+					auto childCopy = child;
 					childCopy->tag = "";
 					result.add_member(child->tag, childCopy);
 					++childIndex;
 				}
 				return erased<node>(result);
 			}
-			sequence_t result;
+			sequence result;
 			result.children = children;
 			return erased<node>(result);
 		}
@@ -87,10 +92,16 @@ void aggregate::add_member(std::string const & name, erased<node> const & type) 
 	data_members.emplace_back(name, type);
 }
 
+
+automaton aggregate::to_nfa() const
+{
+	throw std::logic_error("This operation is invalid");
+}
+
 erased<node> compute_document_representation(erased<node> const & root) {
 	return copy_with_conversions(root);
 }
 
 
-} // namespace details
+} // namespace detail
 } // namespace parlex

@@ -1,30 +1,28 @@
-#include "parlex/details/match.hpp"
-
-#include "parlex/details/recognizer.hpp"
+#include "parlex/detail/match.hpp"
 
 #include "utils.hpp"
 
 namespace parlex {
-namespace details {
+namespace detail {
 
-bool match::operator<(match const & rhs) const {
-	if (document_position < rhs.document_position) {
-		return true;
-	}
-	if (document_position == rhs.document_position) {
-		if (consumed_character_count < rhs.consumed_character_count) {
-			return true;
-		}
-		if (consumed_character_count == rhs.consumed_character_count) {
-			return r.id < rhs.r.id;
-		}
-	}
+match::match(uint32_t documentPosition, uint16_t recognizerIndex, uint32_t const consumedCharacterCount) : match_class(documentPosition, recognizerIndex), consumed_character_count(consumedCharacterCount) {}
+match::match(struct match_class const & matchClass, size_t const consumedCharacterCount) : match_class(matchClass), consumed_character_count(consumedCharacterCount) { }
 
-	return false;
-
+match & match::operator=(match && move) noexcept {
+	this->~match();
+	new (this) match(std::move(move));
+	return *this;
 }
 
-match::match(struct match_class const & matchClass, int consumedCharacterCount) : match_class(matchClass), consumed_character_count(consumedCharacterCount) { throw_assert(consumedCharacterCount >= 0); }
+bool match::operator<(match const & rhs) const {
+	if (this->match_class::operator<(rhs)) {
+		return true;
+	}
+	if (rhs.match_class::operator<(*this)) {
+		return false;
+	}
+	return consumed_character_count < rhs.consumed_character_count;
+}
 
-} // namespace details
+} // namespace detail
 } // namespace parlex

@@ -1,12 +1,10 @@
-// This file was generated using Parlex's cpp_generator
+﻿// This file was generated using Parlex's cpp_generator
 
 #include "DIMENSION.hpp"
 
 #include "plange_grammar.hpp"
 
-#include "parlex/details/document.hpp"
-#include "parlex/details/behavior.hpp"
-
+#include "parlex/detail/document.hpp"
 #include "DIMENSIONAL_ANALYSIS_OP.hpp"
 #include "IDENTIFIER.hpp"
 
@@ -14,14 +12,15 @@
 
 namespace plc {
 
-DIMENSION DIMENSION::build(parlex::details::ast_node const & n) {
-	static auto const * b = &plange_grammar::get().DIMENSION.get_behavior();
-	parlex::details::document::walk w{ n.children.cbegin(), n.children.cend() };
-	return DIMENSION(parlex::details::document::element<DIMENSION_base>::build(b, w));
+DIMENSION DIMENSION::build(parlex::detail::ast_node const & n) {
+	static auto const * b = state_machine().behavior;
+	parlex::detail::document::walk w{ n.children.cbegin(), n.children.cend() };
+	return DIMENSION(parlex::detail::document::element<DIMENSION_base>::build(b, w));
 }
 
 } // namespace plc
 
-parlex::details::recognizer const & plc::DIMENSION::recognizer() {
-	return plange_grammar::get().DIMENSION.get_recognizer();
+parlex::detail::state_machine const & plc::DIMENSION::state_machine() {
+	static auto const & result = *static_cast<parlex::detail::state_machine const *>(&plange_grammar::get().get_recognizer(plange_grammar::get().DIMENSION));
+	return result;
 }

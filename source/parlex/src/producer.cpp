@@ -1,82 +1,83 @@
-#include "parlex/details/producer.hpp"
+#include "parlex/detail/producer.hpp"
 
 #include <mutex>
 
-#include "parlex/details/behavior.hpp"
-#include "parlex/details/job.hpp"
-#include "parlex/details/parser.hpp"
-#include "parlex/details/subjob.hpp"
+#include "parlex/detail/job.hpp"
+#include "parlex/detail/parser.hpp"
+#include "parlex/detail/subjob.hpp"
 
 namespace parlex {
-namespace details {
+namespace detail {
 
-producer::producer(job & owner, recognizer const & r, size_t const documentPosition) :
-	owner(owner),
-	r(r),
-	document_position(documentPosition),
-	completed(false) {
-}
+producer::producer() : completed(false) { }
 
 
-void producer::add_subscription(context const & c, size_t nextDfaState, behavior::leaf const * leaf) { {
+void producer::add_subscription(job & j, match_class const & myInfo, uint32_t const subscriberId, context const & c, uint8_t nextDfaState, leaf const * l) {
+	{
 		std::unique_lock<std::mutex> lock(mutex);
-		consumers.emplace_back(c, nextDfaState, leaf);
+		consumers.emplace_back(subscriberId, c, nextDfaState, l);
 	} //release the lock
-	do_events();
+	do_events(j, myInfo);
 }
 
-void producer::do_events() {
-	auto & parser = owner.owner;
+void producer::do_events(job & j, match_class const & myInfo) {
 	std::unique_lock<std::mutex> lock(mutex);
-	for (subscription & subscription : consumers) {
-		subjob & targetSubjob = subscription.c.owner;
-		while (subscription.next_index < match_to_permutations.size()) {
-			auto & match = matches[subscription.next_index];
-			subscription.next_index++;
-			context const & next = targetSubjob.construct_stepped_context(&subscription.c, match, subscription.l);
-			parser.schedule(next, subscription.next_dfa_state);
+	for (auto & subscription : consumers) {
+		auto & targetProducer = j.get_producer(subscription.id);
+		auto & targetSubjob = *static_cast<subjob *>(&targetProducer);  // NOLINT will always be a subjob
+		while (subscription.next_transmit_index < match_length_to_permutations.size()) {
+			auto const matchLength = match_lengths[subscription.next_transmit_index];
+			subscription.next_transmit_index++;
+			auto const & next = targetSubjob.construct_stepped_context(&subscription.c, match(myInfo, matchLength), subscription.l);
+			j.owner->schedule(subscription.id, next, subscription.next_dfa_state);
 		}
 	}
 	if (completed) {
-		std::list<subscription> temp;
+		std::vector<subscription> temp;
 		swap(temp, consumers);
 		lock.unlock();
-		for (subscription & subscription : temp) {
-			subjob & targetSubjob = subscription.c.owner;
-			targetSubjob.end_subscription_reference();
+		for (auto & subscription : temp) {
+			auto & targetProducer = j.get_producer(subscription.id);
+			auto & targetSubjob = *static_cast<subjob *>(&targetProducer);  // NOLINT will always be a subjob
+			targetSubjob.end_subscription_reference(j, subscription.id);
+		}
+		lock.lock();
+		if (!consumers.empty()) {
+			lock.unlock();
+			do_events(j, myInfo);
 		}
 	}
 }
 
-void producer::enque_permutation(size_t consumedCharacterCount, permutation const & p) {
-	bool newMatch = false; {
+void producer::enque_permutation(job & j, match_class const & myInfo, uint32_t const consumedCharacterCount, permutation const & p) {
+	auto newMatch = false; {
 		std::unique_lock<std::mutex> lock(mutex);
 		throw_assert(!completed);
-		match m(match_class(r, document_position), consumedCharacterCount);
-		if (!match_to_permutations.count(m)) {
-			match_to_permutations[m] = std::set<permutation>();
-			matches.push_back(m);
+		if (!match_length_to_permutations.count(consumedCharacterCount)) {
+			match_length_to_permutations[consumedCharacterCount] = std::set<permutation>();
+			match_lengths.push_back(consumedCharacterCount);
 			newMatch = true;
 		}
-		match_to_permutations[m].insert(p);
+		match_length_to_permutations[consumedCharacterCount].insert(p);
 	}
 	if (newMatch) {
-		do_events();
+		do_events(j, myInfo);
 	}
 }
 
-void producer::terminate() {
+void producer::terminate(job & j, match_class const & myInfo) {
 	completed = true;
-	do_events();
+	do_events(j, myInfo);
 }
 
 
-producer::subscription::subscription(context const & c, size_t const nextDfaState, behavior::leaf const * l) :
-	next_index(0), 
-	c(c), 
-	next_dfa_state(nextDfaState), 
-	l(l)
+producer::subscription::subscription(uint32_t const producerId, context const & c, uint8_t const nextDfaState, leaf const * l) :
+	c(c),
+	l(l),
+	id(producerId), 
+	next_transmit_index(0), 
+	next_dfa_state(nextDfaState)
 {}
 
-} // namespace details
+} // namespace detail
 } // namespace parlex

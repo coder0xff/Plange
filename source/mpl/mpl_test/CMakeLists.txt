@@ -31,11 +31,12 @@ set (SOURCES
 	"mpl_map.t.cpp"
 	"mpl_map_i.t.cpp"
 	"mpl_map_v.t.cpp"
+	"mpl_map_vv.t.cpp"
 	"mpl_none.t.cpp"
 	"mpl_ordered_piecewise_invoke.t.cpp"
 	"mpl_pop_value.t.cpp"
 	"mpl_push.t.cpp"
-	"mpl_push_value.t.cpp"
+	"mpl_push_v.t.cpp"
 	"mpl_sfinae.t.cpp"
 	"mpl_some.t.cpp"
 	"mpl_substitute.t.cpp"
@@ -47,3 +48,12 @@ find_package (Threads)
 target_link_libraries(mpl_test gtest gtest_main ${CMAKE_THREAD_LIBS_INIT})
 set_property(TARGET mpl_test PROPERTY CXX_STANDARD 17)
 set_property(TARGET mpl_test PROPERTY CXX_STANDARD_REQUIRED ON)
+
+add_test(NAME mpl_test COMMAND "$<TARGET_FILE:mpl_test>")
+
+# copy utilities_test to artifacts folder
+add_custom_command(
+	TARGET mpl_test
+	POST_BUILD
+	COMMAND ${CMAKE_COMMAND} -E copy "$<TARGET_FILE:mpl_test>" "${ARTIFACTS_PREFIX}/bin/$<TARGET_FILE_NAME:mpl_test>"
+)

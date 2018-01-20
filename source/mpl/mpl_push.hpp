@@ -4,7 +4,7 @@
 #include "mpl_list.hpp"
 
 namespace mpl {
-	namespace details_push {
+	namespace detail_push {
 
 		template<typename TElement, typename TList>
 		struct impl {};
@@ -17,7 +17,7 @@ namespace mpl {
 	}
 
 template<typename TElement, typename TList>
-using push = typename details_push::impl<TElement, TList>::result;
+using push = typename detail_push::impl<TElement, TList>::result;
 
 }
 

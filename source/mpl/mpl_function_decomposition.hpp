@@ -5,7 +5,7 @@
 
 namespace mpl {
 
-	namespace details::function_decomposition {
+	namespace detail::function_decomposition {
 
 		template<typename TFunc>
 		struct impl {};
@@ -36,10 +36,10 @@ namespace mpl {
 	}
 
 	template<typename T>
-	using function_return = typename details::function_decomposition::impl<T>::return_type;
+	using function_return = typename detail::function_decomposition::impl<T>::return_type;
 
 	template<typename T>
-	using function_arguments = typename details::function_decomposition::impl<T>::argument_types;
+	using function_arguments = typename detail::function_decomposition::impl<T>::argument_types;
 }
 
 #define INCLUDED_MPL_FUNCTION_DECOMPOSITION_HPP

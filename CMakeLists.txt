@@ -1,8 +1,7 @@
 cmake_minimum_required (VERSION 3.8)
 project(plange_superbuild)
+enable_testing()
 include(ExternalProject)
-
-set(CMAKE_MODULE_PATH "${CMAKE_MODULE_PATH}" "${CMAKE_SOURCE_DIR}/cmake/Modules/")
 
 find_package(YAML-CPP QUIET)
 if (NOT YAML-CPP_FOUND)
@@ -54,13 +53,18 @@ ExternalProject_Add(googletest
 		"-Dgtest_force_shared_crt=ON"
 )
 
+set(ARTIFACTS_PREFIX "${CMAKE_BINARY_DIR}/artifacts" CACHE PATH "Location to copy useful build outputs")
+
 ExternalProject_Add(plange
 	DEPENDS ${YAML-CPP_INSTALL_TARGET} ${LLVM_INSTALL_TARGET} googletest
 	PREFIX "${CMAKE_BINARY_DIR}/prefix"
 	SOURCE_DIR "${PROJECT_SOURCE_DIR}/source"
 	CMAKE_ARGS
 		"-DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}"
-		"-DCMAKE_INSTALL_PREFIX=${CMAKE_BINARY_DIR}"
+		"-DCMAKE_INSTALL_PREFIX=${CMAKE_INSTALL_PREFIX}"
 		"-DCMAKE_CXX_COMPILER=${CMAKE_CXX_COMPILER}"
+		"-DARTIFACTS_PREFIX=${ARTIFACTS_PREFIX}"
 	INSTALL_COMMAND ""
 )
+
+add_test(NAME plange_test COMMAND "${ARTIFACTS_PREFIX}/bin/plc${CMAKE_EXECUTABLE_SUFFIX}" --test)

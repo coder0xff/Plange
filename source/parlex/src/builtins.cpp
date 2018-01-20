@@ -1,46 +1,32 @@
 #include <iostream>
 #include <mutex>
 
-#include "parlex/details/builtins.hpp"
+#include "parlex/detail/builtins.hpp"
 
 #include "utf.hpp"
+#include "parlex/detail/string_terminal.hpp"
 
 namespace parlex {
-namespace details {
 
-any_character_t::any_character_t() : terminal("any_character", 1) {
+void progress_bar(int const done, int const outOf) {
+	static std::mutex m;
+	std::unique_lock<std::mutex> lock(m);
+	auto const ticks = done * 25 / outOf;
+	std::cout << "\r[" << std::string(ticks, '*') << std::string(25 - ticks, ' ') << "]";
 }
 
-bool any_character_t::test(std::u32string const & document, size_t documentPosition) const {
-	return true;
-}
-
-not_double_quote_t::not_double_quote_t() : terminal("not_double_quote", 1) {
-}
-
-bool not_double_quote_t::test(std::u32string const & document, size_t documentPosition) const {
-	return document[documentPosition] == U'"';
-}
-
-not_newline_t::not_newline_t() : terminal("not_newline", 1) {
-}
-
-bool not_newline_t::test(std::u32string const & document, size_t documentPosition) const {
-	return document[documentPosition] != U'\n';
-}
-
-std::set<int> builtins_t::longest_f(std::u32string document, std::list<permutation> const & permutations) {
-	int selectedSize = 0;
-	for (permutation const & p : permutations) {
-		int len = p.size() > 0 ? p.back().document_position + p.back().consumed_character_count - p.front().document_position : 0;
+static std::set<int> longest_f(std::u32string const & /*document*/, std::list<detail::permutation> const & permutations) {
+	auto selectedSize = 0;
+	for (auto const & p : permutations) {
+		int const len = !p.empty() ? p.back().document_position + p.back().consumed_character_count - p.front().document_position : 0;
 		if (len > selectedSize) {
 			selectedSize = len;
 		}
 	}
 	std::set<int> result;
-	int counter = 0;
-	for (permutation const & p : permutations) {
-		int len = p.size() > 0 ? p.back().document_position + p.back().consumed_character_count - p.front().document_position : 0;
+	auto counter = 0;
+	for (auto const & p : permutations) {
+		int const len = !p.empty() ? p.back().document_position + p.back().consumed_character_count - p.front().document_position : 0;
 		if (len == selectedSize) {
 			result.insert(counter);
 		}
@@ -49,29 +35,101 @@ std::set<int> builtins_t::longest_f(std::u32string document, std::list<permutati
 	return result;
 }
 
-builtins_t const& builtins() {
-	static builtins_t value;
-	return value;
+filter_function const & longest() {
+	static filter_function result(new std::function<std::set<int>(std::u32string const & /*document*/, std::list<detail::permutation> const &)>(longest_f));
+	return result;
 }
 
-bool builtins_t::resolve_builtin(std::string const & name, recognizer const *& ptr) const {
-	auto i = recognizer_table.find(name);
-	if (i == recognizer_table.end()) {
-		return false;
+static std::set<int> shortest_f(std::u32string const & /*document*/, std::list<detail::permutation> const & permutations) {
+	auto selectedSize = INTMAX_MAX;
+	for (auto const & p : permutations) {
+		int const len = !p.empty() ? p.back().document_position + p.back().consumed_character_count - p.front().document_position : 0;
+		if (len < selectedSize) {
+			selectedSize = len;
+		}
 	}
-	ptr = i->second;
+	std::set<int> result;
+	auto counter = 0;
+	for (auto const & p : permutations) {
+		int const len = !p.empty() ? p.back().document_position + p.back().consumed_character_count - p.front().document_position : 0;
+		if (len == selectedSize) {
+			result.insert(counter);
+		}
+		counter++;
+	}
+	return result;
+}
+
+filter_function const & shortest() {
+	static filter_function result(new std::function<std::set<int>(std::u32string const & /*document*/, std::list<detail::permutation> const &)>(shortest_f));
+	return result;
+}
+
+namespace detail {
+
+any_character_t::any_character_t() : terminal("any_character", 1) {}
+
+bool any_character_t::test(std::u32string const & document, uint32_t const documentPosition) const {
 	return true;
 }
 
-std::map<std::string, recognizer const *> builtins_t::generate_lookup_table() const {
+basic_escape_sequence_t::basic_escape_sequence_t() : terminal ("basic_escape_sequence", 2) {}
+
+bool basic_escape_sequence_t::test(std::u32string const & document, uint32_t const documentPosition) const {
+	if (documentPosition + 1 >= document.length()) return false;
+	auto const c = document[documentPosition + 1];
+	return document[documentPosition] == '\\' && (c == '\"' || c == '\'' || c == '?' || c == '\\' || c == 'a' || c == 'b' || c == 'f' || c == 'n' || c == 'r' || c == 't' || c == 'v');
+}
+
+content_t::content_t() : terminal("content", 1) {
+}
+
+bool content_t::test(std::u32string const & document, uint32_t const documentPosition) const {
+	return document[documentPosition] != '\"' && document[documentPosition] != '\\';
+}
+
+not_double_quote_t::not_double_quote_t() : terminal("not_double_quote", 1) {
+}
+
+bool not_double_quote_t::test(std::u32string const & document, uint32_t const documentPosition) const {
+	return document[documentPosition] == U'"';
+}
+
+not_newline_t::not_newline_t() : terminal("not_newline", 1) {
+}
+
+bool not_newline_t::test(std::u32string const & document, uint32_t const documentPosition) const {
+	return document[documentPosition] != U'\n';
+}
+
+builtin_terminals_t const& builtin_terminals() {
+	static builtin_terminals_t value;
+	return value;
+}
+
+builtin_terminals_t::builtin_terminals_t() : recognizer_table(generate_lookup_table()) {
+	
+}
+
+bool builtin_terminals_t::resolve_builtin_terminal(std::string const & name, terminal const *& ptr) const {
+	auto const i = recognizer_table.find(name);
+	if (i == recognizer_table.end()) {
+		return false;
+	}
+	ptr = static_cast<terminal const *>(i->second); // NOLINT // it is always a terminal
+	return true;
+}
+
+std::map<std::string, recognizer const *> builtin_terminals_t::generate_lookup_table() const {
 	std::map<std::string, recognizer const *> result;
-	recognizer const * table_initializer[] = {
+	terminal const * tableInitializer[] = {
 		&all,
 		&any_character,
 		&alphanumeric,
-		&c_string,
+		&basic_escape_sequence,
 		&close_punctuation,
 		&connector_punctuation,
+		&content,
 		&control,
 		&currency_symbol,
 		&dash_punctuation,
@@ -111,32 +169,18 @@ std::map<std::string, recognizer const *> builtins_t::generate_lookup_table() co
 		&white_space_control
 	};
 
-	unsigned int count = sizeof table_initializer / sizeof *table_initializer;
-	for (unsigned int i = 0; i < count; ++i) {
-		recognizer const * item = table_initializer[i];
-		std::string const name = item->id;
+	for (auto item : tableInitializer) {
+		auto const name = item->name;
 		result[name] = item;
 	}
 
 	return result;
 }
 
-
-builtins_t::builtins_t() : longest(new std::function<std::set<int>(std::u32string const & /*document*/, std::list<permutation> const &)>(longest_f)), c_string(*this), recognizer_table(generate_lookup_table()) {
-
+string_terminal::string_terminal(std::u32string const & s) : terminal("string_terminal_" + to_utf8(s), s.length()), s(s) {
 }
 
-void builtins_t::progress_bar(int done, int outOf) {
-	static std::mutex m;
-	std::unique_lock<std::mutex> lock(m);
-	int ticks = done * 25 / outOf;
-	std::cout << "\r[" << std::string(ticks, '*') << std::string(25 - ticks, ' ') << "]";
-}
-
-string_terminal::string_terminal(std::u32string const & s) : terminal(to_utf8(s), s.length()), s(s) {
-}
-
-bool string_terminal::test(std::u32string const & document, size_t documentPosition) const {
+bool string_terminal::test(std::u32string const & document, uint32_t const documentPosition) const {
 	return document.compare(documentPosition, length, s) == 0;
 }
 
@@ -144,6 +188,6 @@ std::u32string string_terminal::get_content() const {
 	return s;
 }
 
+}
 
-} //namespace details
 } // namespace parlex

@@ -5,7 +5,7 @@
 
 namespace mpl {
 
-	namespace details::any {
+	namespace detail::any {
 		template<template<typename> typename TMetaPredicate, typename TList>
 		struct impl {};
 
@@ -22,11 +22,11 @@ namespace mpl {
 	}
 
 	template<template<typename> typename TMetaPredicate, typename TList>
-	constexpr bool any = details::any::impl<TMetaPredicate, TList>::result;
+	constexpr bool ANY = detail::any::impl<TMetaPredicate, TList>::result;
 
 	template<template<typename> typename TMetaPredicate, typename TList>
 	struct any_f {
-		static constexpr bool result = any<TMetaPredicate, TList>;
+		static constexpr bool result = ANY<TMetaPredicate, TList>;
 	};
 }
 

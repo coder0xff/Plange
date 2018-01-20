@@ -4,10 +4,11 @@
 #define INCLUDING_MPL_MAP_V_HPP
 
 #include "mpl_apply.hpp"
+#include <tuple>
 
 namespace mpl {
 
-	namespace details_map_v {
+	namespace detail_map_v {
 		template<typename... Ts>
 		struct impl {
 			template<typename TFunctor>
@@ -18,7 +19,7 @@ namespace mpl {
 	}
 
 	template<typename TList>
-	using map_v = apply<details_map_v::impl, TList>;
+	using map_v = apply<detail_map_v::impl, TList>;
 
 }
 

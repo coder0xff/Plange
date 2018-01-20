@@ -3,12 +3,14 @@
 
 #include <functional>
 #include <type_traits>
+#include "mpl_apply.hpp"
+#include "mpl_push.hpp"
 
 #if false //defined(_MSC_VER) && _MSC_VER <= 1911
 // std::is_invocable et al are not available in this version of MSVC++
 namespace std {
 	
-	namespace details::is_nothrow_invocable_r {
+	namespace detail::is_nothrow_invocable_r {
 		template<typename R, typename Fn, typename... ArgTypes>
 		static true_type impl(
 			typename enable_if<
@@ -21,14 +23,14 @@ namespace std {
 	}
 
 	template <typename R, typename Fn, typename... ArgTypes>
-	using is_nothrow_invocable_r = decltype(details::is_nothrow_invocable_r::impl<R, Fn, ArgTypes...>(nullptr));
+	using is_nothrow_invocable_r = decltype(detail::is_nothrow_invocable_r::impl<R, Fn, ArgTypes...>(nullptr));
 
 	template <typename R, typename Fn, typename... ArgTypes>
 	constexpr bool is_nothrow_invocable_r_v = is_nothrow_invocable_r<R, Fn, ArgTypes...>::value;
 	
 
 
-	namespace details::is_nothrow_invocable {
+	namespace detail::is_nothrow_invocable {
 		template<typename Fn, typename... ArgTypes>
 		static true_type impl(
 			typename enable_if<
@@ -41,14 +43,14 @@ namespace std {
 	}
 
 	template <typename Fn, typename... ArgTypes>
-	using is_nothrow_invocable = decltype(details::is_nothrow_invocable::impl<Fn, ArgTypes...>(nullptr));
+	using is_nothrow_invocable = decltype(detail::is_nothrow_invocable::impl<Fn, ArgTypes...>(nullptr));
 
 	template <typename Fn, typename... ArgTypes>
 	constexpr bool is_nothrow_invocable_v = is_nothrow_invocable<Fn, ArgTypes...>::value;
 
 
 
-	namespace details::is_invocable_r {
+	namespace detail::is_invocable_r {
 		template<typename R, typename Fn, typename... ArgTypes>
 		static true_type impl(decltype((R)((Fn*)nullptr)->operator()(*(ArgTypes*)nullptr...)) *);
 
@@ -57,14 +59,14 @@ namespace std {
 	}
 
 	template <typename R, typename Fn, typename... ArgTypes>
-	using is_invocable_r = decltype(details::is_invocable_r::impl<R, Fn, ArgTypes...>(nullptr));
+	using is_invocable_r = decltype(detail::is_invocable_r::impl<R, Fn, ArgTypes...>(nullptr));
 
 	template <typename R, typename Fn, typename... ArgTypes>
 	constexpr bool is_invocable_r_v = is_invocable_r<R, Fn, ArgTypes...>::value;
 
 
 
-	namespace details::is_invocable {
+	namespace detail::is_invocable {
 		template<typename Fn, typename... ArgTypes>
 		static true_type impl(decltype(((Fn*)nullptr)->operator()(*(ArgTypes*)nullptr...)) *);
 
@@ -73,7 +75,7 @@ namespace std {
 	}
 
 	template <typename Fn, typename... ArgTypes>
-	using is_invocable = decltype(details::is_invocable::impl<Fn, ArgTypes...>(nullptr));
+	using is_invocable = decltype(detail::is_invocable::impl<Fn, ArgTypes...>(nullptr));
 
 	template <typename Fn, typename... ArgTypes>
 	constexpr bool is_invocable_v = is_invocable<Fn, ArgTypes...>::value;
@@ -85,16 +87,16 @@ namespace std {
 namespace mpl {
 
 	template <typename TFunctor, typename TList>
-	constexpr bool is_invocable = apply<std::is_invocable, push<TFunctor, TList>>::value;
+	constexpr bool IS_INVOCABLE = apply<std::is_invocable, push<TFunctor, TList>>::value;
 
 	template <typename R, typename TFunctor, typename TList>
-	constexpr bool is_invocable_r = apply<std::is_invocable_r, push<R, push<TFunctor, TList>>>::value;
+	constexpr bool IS_INVOCABLE_R = apply<std::is_invocable_r, push<R, push<TFunctor, TList>>>::value;
 
 	template <typename TFunctor, typename TList>
-	constexpr bool is_nothrow_invocable = apply<std::is_nothrow_invocable, push<TFunctor, TList>>::value;
+	constexpr bool IS_NOTHROW_INVOCABLE = apply<std::is_nothrow_invocable, push<TFunctor, TList>>::value;
 
 	template <typename R, typename TFunctor, typename TList>
-	constexpr bool is_nothrow_invocable_r = apply<std::is_nothrow_invocable_r, push<R, push<TFunctor, TList>>>::value;
+	constexpr bool IS_NOTHROW_INVOCABLE_R = apply<std::is_nothrow_invocable_r, push<R, push<TFunctor, TList>>>::value;
 
 }
 

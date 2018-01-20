@@ -1,20 +1,20 @@
-#include "parlex/details/token.hpp"
+#include "parlex/detail/token.hpp"
 
-#include "parlex/details/job.hpp"
-#include "parlex/details/terminal.hpp"
+#include "parlex/detail/job.hpp"
+#include "parlex/detail/terminal.hpp"
 
 namespace parlex {
-namespace details {
+namespace detail {
 
-token::token(job & owner, terminal const & t, size_t documentPosition) : producer(owner, t, documentPosition) {
-	if (t.test(owner.document, documentPosition)) {
-		//DBG("found a '", t.id, "' at ", documentPosition);
-		enque_permutation(t.length, permutation());
+token::token(job & j, match_class const & matchClass, terminal const & t) {
+	if (t.test(j.document, matchClass.document_position)) {
+		//DBG("found a '", t.name, "' at ", documentPosition);
+		enque_permutation(j, matchClass, t.length, permutation());
 	} else {
-		//DBG("no '", t.id, "' at ", documentPosition);
+		//DBG("no '", t.name, "' at ", documentPosition);
 	}
-	terminate();
+	terminate(j, matchClass);
 }
 
-} // namespace details
+} // namespace detail
 } // namespace parlex

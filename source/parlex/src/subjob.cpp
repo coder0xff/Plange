@@ -1,132 +1,130 @@
-#include "parlex/details/subjob.hpp"
+#include "parlex/detail/subjob.hpp"
 
-#include "parlex/details/parser.hpp"
-#include "parlex/details/recognizer.hpp"
-#include "parlex/details/state_machine_base.hpp"
-
-#include "parlex/details/context.hpp"
-#include "parlex/details/job.hpp"
+#include "parlex/detail/context.hpp"
+#include "parlex/detail/job.hpp"
+#include "parlex/detail/match_class.hpp"
+#include "parlex/detail/parser.hpp"
+#include "parlex/detail/state_machine.hpp"
 
 #include "utils.hpp"
+// ReSharper disable once CppUnusedIncludeDirective
+#include "logging.hpp"
 
 namespace parlex {
-namespace details {
+namespace detail {
 
-subjob::subjob(
-	job & owner,
-	state_machine_base const & machine,
-	int documentPosition
-):
-	producer(owner, machine, documentPosition),
+subjob::subjob(state_machine const & machine) :
 	machine(machine),
-	lifetimeCounter(1) //see finish_creation
+	lifetime_counter(1) //see finish_creation
 {
-	//DBG("constructed subjob b:", documentPosition, " m:", machine);
+	//DBG("constructed subjob p:", documentPosition, " m:", machine);
 }
 
 subjob::~subjob() {
-	//DBG("destructing subjob b:", documentPosition, " m:", machine);
+	//DBG("destructing subjob p:", document_position, " m:", machine);
 }
 
-void subjob::start() {
-	machine.start(construct_start_state_context(document_position));
-	finish_creation();
+void subjob::start(job & j, uint32_t const myId, uint32_t documentPosition) {
+	machine.start(j, myId, *this, construct_start_state_context(documentPosition));
+	finish_creation(j, myId);
 }
 
-context const & subjob::construct_start_state_context(int documentPosition) {
-	std::unique_lock<std::mutex> lock(mutex);
-	auto i = contexts.emplace_front(*this, nullptr, documentPosition, std::optional<match>(), nullptr);
+context const & subjob::construct_start_state_context(uint32_t const documentPosition) {
+	auto const i = contexts.emplace_front(nullptr, documentPosition, std::optional<match>(), nullptr);
 	return *i;
 }
 
-context const & subjob::construct_stepped_context(context const* const prior, match const & fromTransition, behavior::leaf const * leaf) {
-	std::unique_lock<std::mutex> lock(mutex);
-	auto i = contexts.emplace_front(*this, prior, prior->currentDocumentPosition + fromTransition.consumed_character_count, std::optional<match>(fromTransition), leaf);
+context const & subjob::construct_stepped_context(context const* const prior, match const & fromTransition, leaf const * l) {
+	auto const i = contexts.emplace_front(prior, prior->current_document_position + fromTransition.consumed_character_count, std::optional<match>(fromTransition), l);
 	return *i;
 }
 
-void subjob::on(context const & c, recognizer const & r, int nextDfaState, behavior::leaf const * leaf) {
-	if (c.currentDocumentPosition >= c.owner.owner.document.length()) {
+void subjob::on(job & j, uint16_t const recognizerIndex, context const & c, uint32_t const myId, uint8_t const nextDfaState, leaf const * l) {
+	if (c.current_document_position >= j.document.length()) {
 		return;
 	}
 	begin_subscription_reference();
-	owner.connect(match_class(r, c.currentDocumentPosition), c, nextDfaState, leaf);
+	j.connect(match_class(c.current_document_position, recognizerIndex), myId, c, nextDfaState, l);
 }
 
-void subjob::accept(context const & c) {
-	int len = c.currentDocumentPosition - c.owner.document_position;
+void subjob::accept(job & j, match_class const & myInfo, context const & c) {
+	int const len = c.current_document_position - myInfo.document_position;
 	if (len == 0) {
 		return;
 	}
-	throw_assert(&c.owner == this);
-	permutation p = c.result();
+	auto const p = c.result();
 	if (!machine.get_filter()) {
-		//DBG("Accepting r:", r.id, " p:", c.owner().document_position, " l:", c.current_document_position() - c.owner().document_position);
-		enque_permutation(len, p);
+		//DBG("Accepting r:", r.name, " p:", c.owner().document_position, " l:", c.current_document_position() - c.owner().document_position);
+		enque_permutation(j, myInfo, len, p);
 	} else {
-		//DBG("Candidate r:", r.id, " p:", c.owner().document_position, " l:", c.current_document_position() - c.owner().document_position);
+		//DBG("Candidate r:", r.name, " p:", c.owner().document_position, " l:", c.current_document_position() - c.owner().document_position);
 		std::unique_lock<std::mutex> lock(mutex);
-		queuedPermutations.push_back(p);
+		queued_permutations.push_back(p);
 	}
 }
 
 void subjob::increment_lifetime() {
-	int temp = ++lifetimeCounter;
+	auto const temp = ++lifetime_counter;
 	throw_assert(temp > 1);
 	//DBG("increment_lifetime m:", machine, " b:", documentPosition, " r:", temp);
 }
 
-void subjob::decrement_lifetime() {
-	int temp = --lifetimeCounter;
+void subjob::decrement_lifetime(job & j, uint32_t const myId) {
+	auto const temp = --lifetime_counter;
 	//DBG("decrement_lifetime m:", machine, " b:", documentPosition, " r:", temp);
 	if (temp > 0) {
 		return;
 	}
-	flush();
-	terminate();
+	auto const myInfo = j.get_match_class(myId);
+	flush(j, myInfo);
+	contexts.clear();
+	queued_permutations.clear();
+	terminate(j, myInfo);
 }
 
-void subjob::finish_creation() {
+void subjob::finish_creation(job & j, uint32_t const myInfo) {
 	//corresponds with the constructor's setting of lifetimeCounter to 1
 	//DBG("finish_creation m:", machine, " b:", documentPosition);
-	decrement_lifetime();
+	decrement_lifetime(j, myInfo);
 }
 
 void subjob::begin_work_queue_reference() {
 	increment_lifetime();
 }
 
-void subjob::end_work_queue_reference() {
-	decrement_lifetime();
+void subjob::end_work_queue_reference(job & j, uint32_t const myInfo) {
+	decrement_lifetime(j, myInfo);
 }
 
 void subjob::begin_subscription_reference() {
 	increment_lifetime();
 }
 
-void subjob::end_subscription_reference() {
-	decrement_lifetime();
+void subjob::end_subscription_reference(job & j, uint32_t const myInfo) {
+	decrement_lifetime(j, myInfo);
 }
 
-void subjob::flush() {
+void subjob::flush(job & j, match_class const & myInfo) {
 	///DBG("flush m:", machine, " b:", documentPosition);
-	filter_function const & filter = machine.get_filter();
+	auto const & filter = machine.get_filter();
 	if (filter != nullptr) {
 		std::unique_lock<std::mutex> lock(mutex);
-		if (queuedPermutations.size() == 0) {
+		if (queued_permutations.empty()) {
 			return;
 		}
-		std::set<int> selections = (*filter)(owner.document, queuedPermutations);
-		int counter = 0;
-		for (auto const & permutation : queuedPermutations) {
+		auto selections = (*filter)(j.document, queued_permutations);
+		auto counter = 0;
+		for (auto const & permutation : queued_permutations) {
 			if (selections.count(counter) > 0) {
-				int len = permutation.size() > 0 ? permutation.back().document_position + permutation.back().consumed_character_count - document_position : 0;
-				enque_permutation(len, permutation);
+				auto & lastChild = permutation.back();
+				int const len = !permutation.empty() ? lastChild.document_position + lastChild.consumed_character_count - myInfo.document_position : 0;
+				enque_permutation(j, myInfo, len, permutation);
 			}
 			counter++;
 		}
 	}
+	queued_permutations.clear();
 }
 
-} // namespace details
+} // namespace detail
 } // namespace parlex

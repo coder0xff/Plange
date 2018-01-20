@@ -1,4 +1,4 @@
-// This file was generated using Parlex's cpp_generator
+﻿// This file was generated using Parlex's cpp_generator
 
 #ifndef INCLUDED_FOR_HPP
 #define INCLUDED_FOR_HPP
@@ -6,9 +6,12 @@
 #include <optional>
 #include <variant>
 #include <vector>
+
 #include "erased.hpp"
-#include "parlex/details/abstract_syntax_tree.hpp"
-#include "parlex/details/document.hpp"
+
+#include "parlex/detail/abstract_syntax_tree.hpp"
+#include "parlex/detail/builtins.hpp"
+#include "parlex/detail/document.hpp"
 
 #include "plange_grammar.hpp"
 
@@ -33,14 +36,14 @@ struct FOR {
 		initializer_t_1_t(initializer_t_1_t const & other) = default;
 		initializer_t_1_t(initializer_t_1_t && move) = default;
 	
-		static initializer_t_1_t build(parlex::details::behavior::node const * b, parlex::details::document::walk & w);
+		static initializer_t_1_t build(parlex::detail::node const * b, parlex::detail::document::walk & w);
 	};
 
 	struct step_t_1_t {
 		struct field_2_t_1_t {
 			std::vector<erased<IC>> field_1;
 			
-			parlex::details::document::text<literal_0x2C_t> dontCare1;
+			parlex::detail::document::text<literal_0x2C_t> dontCare1;
 			
 			std::vector<erased<IC>> field_2;
 			
@@ -49,12 +52,12 @@ struct FOR {
 		
 		
 			explicit field_2_t_1_t(
-				std::vector<erased<IC>> && field_1, parlex::details::document::text<literal_0x2C_t> && dontCare1, std::vector<erased<IC>> && field_2, erased<ASSIGNMENT_CHAIN> && field_3) : field_1(std::move(field_1)), dontCare1(std::move(dontCare1)), field_2(std::move(field_2)), field_3(std::move(field_3)) {}
+				std::vector<erased<IC>> && field_1, parlex::detail::document::text<literal_0x2C_t> && dontCare1, std::vector<erased<IC>> && field_2, erased<ASSIGNMENT_CHAIN> && field_3) : field_1(std::move(field_1)), dontCare1(std::move(dontCare1)), field_2(std::move(field_2)), field_3(std::move(field_3)) {}
 		
 			field_2_t_1_t(field_2_t_1_t const & other) = default;
 			field_2_t_1_t(field_2_t_1_t && move) = default;
 		
-			static field_2_t_1_t build(parlex::details::behavior::node const * b, parlex::details::document::walk & w);
+			static field_2_t_1_t build(parlex::detail::node const * b, parlex::detail::document::walk & w);
 		};
 	
 		erased<ASSIGNMENT_CHAIN> field_1;
@@ -71,14 +74,14 @@ struct FOR {
 		step_t_1_t(step_t_1_t const & other) = default;
 		step_t_1_t(step_t_1_t && move) = default;
 	
-		static step_t_1_t build(parlex::details::behavior::node const * b, parlex::details::document::walk & w);
+		static step_t_1_t build(parlex::detail::node const * b, parlex::detail::document::walk & w);
 	};
 
-	parlex::details::document::text<literal_for_t> dontCare0;
+	parlex::detail::document::text<literal_for_t> dontCare0;
 	
 	std::vector<erased<IC>> field_01;
 	
-	parlex::details::document::text<literal_0x28_t> dontCare2;
+	parlex::detail::document::text<literal_0x28_t> dontCare2;
 	
 	std::vector<erased<IC>> field_02;
 	
@@ -88,13 +91,13 @@ struct FOR {
 	
 	std::vector<erased<IC>> field_03;
 	
-	parlex::details::document::text<literal_0x3B_t> dontCare7;
+	parlex::detail::document::text<literal_0x3B_t> dontCare7;
 	
 	std::vector<erased<IC>> field_04;
 	
 	std::optional<step_t_1_t> step;
 	
-	parlex::details::document::text<literal_0x29_t> dontCare10;
+	parlex::detail::document::text<literal_0x29_t> dontCare10;
 	
 	std::vector<erased<IC>> field_05;
 	
@@ -103,13 +106,13 @@ struct FOR {
 
 
 	explicit FOR(
-		parlex::details::document::text<literal_for_t> && dontCare0, std::vector<erased<IC>> && field_01, parlex::details::document::text<literal_0x28_t> && dontCare2, std::vector<erased<IC>> && field_02, std::optional<initializer_t_1_t> && initializer, erased<EXPRESSION> && condition, std::vector<erased<IC>> && field_03, parlex::details::document::text<literal_0x3B_t> && dontCare7, std::vector<erased<IC>> && field_04, std::optional<step_t_1_t> && step, parlex::details::document::text<literal_0x29_t> && dontCare10, std::vector<erased<IC>> && field_05, erased<EXPRESSION> && field_06) : dontCare0(std::move(dontCare0)), field_01(std::move(field_01)), dontCare2(std::move(dontCare2)), field_02(std::move(field_02)), initializer(std::move(initializer)), condition(std::move(condition)), field_03(std::move(field_03)), dontCare7(std::move(dontCare7)), field_04(std::move(field_04)), step(std::move(step)), dontCare10(std::move(dontCare10)), field_05(std::move(field_05)), field_06(std::move(field_06)) {}
+		parlex::detail::document::text<literal_for_t> && dontCare0, std::vector<erased<IC>> && field_01, parlex::detail::document::text<literal_0x28_t> && dontCare2, std::vector<erased<IC>> && field_02, std::optional<initializer_t_1_t> && initializer, erased<EXPRESSION> && condition, std::vector<erased<IC>> && field_03, parlex::detail::document::text<literal_0x3B_t> && dontCare7, std::vector<erased<IC>> && field_04, std::optional<step_t_1_t> && step, parlex::detail::document::text<literal_0x29_t> && dontCare10, std::vector<erased<IC>> && field_05, erased<EXPRESSION> && field_06) : dontCare0(std::move(dontCare0)), field_01(std::move(field_01)), dontCare2(std::move(dontCare2)), field_02(std::move(field_02)), initializer(std::move(initializer)), condition(std::move(condition)), field_03(std::move(field_03)), dontCare7(std::move(dontCare7)), field_04(std::move(field_04)), step(std::move(step)), dontCare10(std::move(dontCare10)), field_05(std::move(field_05)), field_06(std::move(field_06)) {}
 
 	FOR(FOR const & other) = default;
 	FOR(FOR && move) = default;
 
-	static FOR build(parlex::details::ast_node const & n);
-	static parlex::details::recognizer const & recognizer();
+	static FOR build(parlex::detail::ast_node const & n);
+	static parlex::detail::state_machine const & state_machine();
 
 };
 

@@ -5,11 +5,11 @@
 #include <tuple>
 #include "mpl_utils.hpp"
 
-// given a index_sequence and a tuple, create a new tuple with only the chosen elements
+// given an index_sequence and a tuple, create a new tuple with only the chosen elements
 
 namespace mpl {
 	
-	namespace details::choose_v {
+	namespace detail::choose_v {
 		template<typename IndexSequenceT>
 		struct impl {};
 
@@ -29,7 +29,7 @@ namespace mpl {
 
 	template<typename IndexSequenceT, typename T>
 	constexpr auto choose_v(T const & data) {
-		return details::choose_v::impl<IndexSequenceT>::f(data);
+		return detail::choose_v::impl<IndexSequenceT>::f(data);
 	}
 }
 

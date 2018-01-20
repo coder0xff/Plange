@@ -7,18 +7,18 @@
 
 namespace mpl {
 	
-	namespace details::substitute {
+	namespace detail::substitute {
 
 		template<typename TSearch, typename TReplace>
 		struct impl {
 			template<typename T>
-			using result = _if<equals<T, TSearch>, TReplace, T>;
-		}
+			using result = _if<EQUALS<T, TSearch>, TReplace, T>;
+		};
 
 	}
 
 	template<typename TSearch, typename TReplace, typename TList>
-	using substitute = map<details::substitute::impl<TSearch, TReplace>::result, TList>;
+	using substitute = map<detail::substitute::impl<TSearch, TReplace>::template result, TList>;
 
 }
 

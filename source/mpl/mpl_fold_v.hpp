@@ -5,7 +5,7 @@
 
 namespace mpl {
 
-	namespace details::fold_v {
+	namespace detail::fold_v {
 
 		template<typename TFunctor, typename TAccumulator, typename TList>
 		struct impl {	};
@@ -20,8 +20,8 @@ namespace mpl {
 		template<typename TFunctor, typename TAccumulator, template <typename...> typename TContainer, typename THead, typename... TTail>
 		struct impl<TFunctor, TAccumulator, TContainer<THead, TTail...>> {
 			static auto impl_f(TFunctor & functor, TAccumulator accumulator) {
-				auto next_accumulator = functor.template operator()<TAccumulator, THead>(accumulator);
-				return impl<TFunctor, decltype(next_accumulator), std::tuple<TTail...>>::impl_f(functor, next_accumulator);
+				auto nextAccumulator = functor.template operator()<TAccumulator, THead>(accumulator);
+				return impl<TFunctor, decltype(nextAccumulator), std::tuple<TTail...>>::impl_f(functor, nextAccumulator);
 			}
 		};
 
@@ -33,7 +33,7 @@ namespace mpl {
 		//Note that TResult may not be the same as TInitial, because we are also folding over types.
 		template<typename TFunctor, typename TInitial>
 		static auto invoke(TFunctor && functor, TInitial && initial) {
-			return details::fold_v::impl<TFunctor, TInitial, TList>::impl_f(std::forward<TFunctor>(functor), std::forward<TInitial>(initial));
+			return detail::fold_v::impl<TFunctor, TInitial, TList>::impl_f(std::forward<TFunctor>(functor), std::forward<TInitial>(initial));
 		}
 	};
 

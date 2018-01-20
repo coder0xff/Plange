@@ -1,0 +1,1 @@
+// So CMake configure works

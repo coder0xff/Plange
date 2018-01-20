@@ -5,7 +5,7 @@
 
 namespace mpl {
 	template<typename T>
-	constexpr bool is_const = std::is_const<T>::value;
+	constexpr bool IS_CONST = std::is_const<T>::value;
 }
 
 #define INCLUDED_MPL_IS_CONST_HPP

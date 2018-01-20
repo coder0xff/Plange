@@ -3,7 +3,7 @@
 	<CInt> rem;
 };
 Div_t.Layout = cStdlib.Layout;
-<Type> LDiv_t = type {
+<Type> LDiv_t := type {
 	<CLongInt> quot;
 	<CLongInt> rem;
 };
@@ -15,25 +15,25 @@ LDiv_t.Layout = cStdlib.Layout;
 LLDiv_t.Layout = cStdlib.Layout;
 CSigval := CInt | Pointer<Void>;
 <Type> RandomData := type {
-	<Int32> *fptr;
-	<Int32> *rptr;
-	<Int32> *state;
-	<CInt> rand_type;
-	<CInt> rand_deg;
-	<CInt> rand_sep;
-	<Int32> *end_ptr;
+	<Pointer<Int32>> fptr;
+	<Pointer<Int32>> rptr;
+	<Pointer<Int32>> state;
+	<Pointer<CInt>> rand_type;
+	<Pointer<CInt>> rand_deg;
+	<Pointer<CInt>> rand_sep;
+	<Pointer<Int32>> end_ptr;
 };
 RandomData.Layout = cStdlib.Layout;
 <Type> Drand48Data := type {
-	Array<CUnsignedShort> __x(3);
-	Array<CUnsignedShort> __old_x(3);
+	<Array<CUnsignedShort>> __x(3);
+	<Array<CUnsignedShort>> __old_x(3);
 	<CUnsignedShort> __c;
 	<CUnsignedShort> __init;
 	<CUnsignedLongLong> __a;
 };
 Drand48Data.Layout = cStdlib.Layout;
 
-import Plange.CStdLib.Generated._pg
+import Plange.CStdLib.Generated._pg;
 
 extern <CUnsignedInt -> Pointer<Void>> malloc;
 extern <CUnsignedInt * CUnsignedInt -> Pointer<Void>> calloc;

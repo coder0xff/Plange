@@ -1,4 +1,3 @@
-#include "stdafx.hpp"
 #include "compiler.hpp"
 
 #pragma warning(push, 0)
@@ -6,7 +5,6 @@
 #include <llvm/IR/IRBuilder.h>
 #pragma warning(pop)
 
-#include <parlex/details/parser.hpp>
 #include <utf.hpp>
 #include <utils.hpp>
 
@@ -18,6 +16,7 @@
 
 #include "XML_DOC_STRING.hpp"
 #include "XML_DOC_STRING_INTERIOR.hpp"
+#include "errors.hpp"
 
 
 using namespace std::experimental::filesystem;
@@ -32,9 +31,9 @@ std::shared_ptr<analytic_value> do_concrete_invoke(llvm::Function * function, st
 	return result;*/
 }
 
-std::shared_ptr<analytic_value> eval_expression(source_code const& source, std::vector<parlex::details::match> const& parts, scope& parent, llvm::BasicBlock & unwindDest, llvm::IRBuilder<> & builder);
+std::shared_ptr<analytic_value> eval_expression(source_code const& source, std::vector<parlex::detail::match> const& parts, scope& parent, llvm::BasicBlock & unwindDest, llvm::IRBuilder<> & builder);
 
-std::shared_ptr<analytic_value> eval_parenthetical_invocation(source_code const& source, std::vector<parlex::details::match> const& parts, scope& parent, llvm::BasicBlock & unwindDest, llvm::IRBuilder<> & builder) {
+std::shared_ptr<analytic_value> eval_parenthetical_invocation(source_code const& source, std::vector<parlex::detail::match> const& parts, scope& parent, llvm::BasicBlock & unwindDest, llvm::IRBuilder<> & builder) {
 	ERROR(NotImplemented, "");
 	/*
 	std::vector<llvm::Value *> arguments;
@@ -48,7 +47,7 @@ std::shared_ptr<analytic_value> eval_parenthetical_invocation(source_code const&
 	}
 
 	for (size_t i = 1; i < parts.size(); ++i) { //0 is the function to invoke
-	if (parts[i].r.id == "EXPRESSION") {
+	if (parts[i].r.name == "EXPRESSION") {
 	auto argument = eval_expression(source, source.get_parts(parts[i]), parent, unwindDest, builder)->collapse();
 	if (!argument) {
 	ERROR(UnsupportedBootstrapFunctionality, "non-concrete function arguments are not available");
@@ -59,7 +58,7 @@ std::shared_ptr<analytic_value> eval_parenthetical_invocation(source_code const&
 	return do_concrete_invoke(llvmFunc, arguments, parent, &unwindDest, builder);*/
 }
 
-// std::shared_ptr<analytic_value> eval_invocation(source_code const& source, std::vector<parlex::details::match> const& parts, scope& parent, llvm::BasicBlock & unwindDest, llvm::IRBuilder<> & builder) {
+// std::shared_ptr<analytic_value> eval_invocation(source_code const& source, std::vector<parlex::detail::match> const& parts, scope& parent, llvm::BasicBlock & unwindDest, llvm::IRBuilder<> & builder) {
 // 	auto expressionType = &parts[0].r;
 // 	if (expressionType == &PARENTHETICAL_INVOCATION) {
 // 		return eval_parenthetical_invocation(source, source.get_parts(parts[0]), parent, unwindDest, builder);
@@ -75,7 +74,7 @@ std::shared_ptr<analytic_value> eval_parenthetical_invocation(source_code const&
 // 	return i->second.value;
 // }
 // 
-// std::shared_ptr<analytic_value> eval_expression(source_code const& source, std::vector<parlex::details::match> const& parts, scope& parent, llvm::BasicBlock & unwindDest, llvm::IRBuilder<> & builder) {
+// std::shared_ptr<analytic_value> eval_expression(source_code const& source, std::vector<parlex::detail::match> const& parts, scope& parent, llvm::BasicBlock & unwindDest, llvm::IRBuilder<> & builder) {
 // 	auto expressionType = &parts[0].r;
 // 
 // 	if (expressionType == &ALLOCATION) {
@@ -156,20 +155,20 @@ std::shared_ptr<analytic_value> eval_parenthetical_invocation(source_code const&
 // 		ERROR(NotImplemented, "expression not implemented");
 // 	} else if (expressionType == &VECTOR_NORM) {
 // 		ERROR(NotImplemented, "expression not implemented");
-// 	} else if (parts[0].r.id == "null") {
+// 	} else if (parts[0].r.name == "null") {
 // 		ERROR(NotImplemented, "expression not implemented");
-// 	} else if (parts[0].r.id == "this") {
+// 	} else if (parts[0].r.name == "this") {
 // 		ERROR(NotImplemented, "expression not implemented");
-// 	} else if (parts[0].r.id == "this_func") {
+// 	} else if (parts[0].r.name == "this_func") {
 // 		ERROR(NotImplemented, "expression not implemented");
-// 	} else if (parts[0].r.id == "this_type") {
+// 	} else if (parts[0].r.name == "this_type") {
 // 		ERROR(NotImplemented, "expression not implemented");
 // 	} else {
-// 		ERROR(Unknown, "invalid expression type " + expressionType->id);
+// 		ERROR(Unknown, "invalid expression type " + expressionType->name);
 // 	}
 // }
 // 
-// void eval_statement(source_code const& source, std::vector<parlex::details::match> const& parts, scope& parent, llvm::BasicBlock & unwindDest, llvm::IRBuilder<> & builder) {
+// void eval_statement(source_code const& source, std::vector<parlex::detail::match> const& parts, scope& parent, llvm::BasicBlock & unwindDest, llvm::IRBuilder<> & builder) {
 // 	ERROR(NotImplemented, "");
 // /*
 // 	auto p = parts[0];
@@ -211,12 +210,12 @@ std::shared_ptr<analytic_value> eval_parenthetical_invocation(source_code const&
 // 		ERROR(NotImplemented, "statement not implemented");
 // 	} else if (&p.r == &TYPE_CONSTRAINT) {
 // 		ERROR(NotImplemented, "statement not implemented");
-// 	} else if (p.r.id == "break") {
+// 	} else if (p.r.name == "break") {
 // 		ERROR(NotImplemented, "statement not implemented");
-// 	} else if (p.r.id == "continue") {
+// 	} else if (p.r.name == "continue") {
 // 		ERROR(NotImplemented, "statement not implemented");
 // 	} else {
-// 		ERROR(Unknown, "invalid statement type " + p.r.id);
+// 		ERROR(Unknown, "invalid statement type " + p.r.name);
 // 	}
 // */
 // }
@@ -224,15 +223,15 @@ std::shared_ptr<analytic_value> eval_parenthetical_invocation(source_code const&
 symbol_table flatten_symbol_tables(symbol_table const & parent, symbol_table const & child) {
 	symbol_table results;
 	for (auto const & i : parent) {
-		auto emplaceResult = results.emplace(i.first, std::move(i.second.delocalize())).second;
+		auto const emplaceResult = results.emplace(i.first, std::move(i.second.delocalize())).second;
 		throw_assert(emplaceResult);
 	}
 	for (auto symbol : child) {
-		auto i = results.find(symbol.first);
+		auto const i = results.find(symbol.first);
 		if (i == results.end()) {
 			results.emplace(symbol.first, symbol.second);
 		} else {
-			if (!!i->second.value && symbol.second.isVariable) {
+			if (!!i->second.value && symbol.second.is_variable) {
 				ERROR(CannotAssignToConstant, to_utf8(symbol.first));
 			}
 			if (!!symbol.second.value) {
@@ -243,7 +242,7 @@ symbol_table flatten_symbol_tables(symbol_table const & parent, symbol_table con
 	return results;
 }
 
-// symbol_table compute_assignment_chain_symbol_table(source_code const& source, std::vector<parlex::details::match> const& parts) {
+// symbol_table compute_assignment_chain_symbol_table(source_code const& source, std::vector<parlex::detail::match> const& parts) {
 // 	symbol_table results;
 // 	for (auto const & part : parts) {
 // 		if (&part.r == &IDENTIFIER) {
@@ -255,7 +254,7 @@ symbol_table flatten_symbol_tables(symbol_table const & parent, symbol_table con
 // 	return results;
 // }
 //
-// symbol compute_definition_symbol(source_code const& source, std::vector<parlex::details::match> const& parts, scope & parent, llvm::BasicBlock & unwindBlock, llvm::IRBuilder<> & builder) {
+// symbol compute_definition_symbol(source_code const& source, std::vector<parlex::detail::match> const& parts, scope & parent, llvm::BasicBlock & unwindBlock, llvm::IRBuilder<> & builder) {
 // 	std::u32string name;
 // 	std::shared_ptr<analytic_value> value;
 // 	for (auto const & part : parts) {
@@ -268,7 +267,7 @@ symbol_table flatten_symbol_tables(symbol_table const & parent, symbol_table con
 // 	ERROR(NotImplemented, "");
 // }
 // 
-// symbol_table compute_statement_symbol_table(source_code const& source, std::vector<parlex::details::match> const& parts, scope & parent, llvm::BasicBlock & unwindBlock, llvm::IRBuilder<> & builder) {
+// symbol_table compute_statement_symbol_table(source_code const& source, std::vector<parlex::detail::match> const& parts, scope & parent, llvm::BasicBlock & unwindBlock, llvm::IRBuilder<> & builder) {
 // 	auto p = parts[0];
 // 	if (&p.r == &ASSIGNMENT_CHAIN) {
 // 		return compute_assignment_chain_symbol_table(source, source.get_parts(p));
@@ -312,16 +311,16 @@ symbol_table flatten_symbol_tables(symbol_table const & parent, symbol_table con
 // 	if (&p.r == &TYPE_CONSTRAINT) {
 // 		ERROR(NotImplemented, "statement not implemented");
 // 	}
-// 	if (p.r.id == "break") {
+// 	if (p.r.name == "break") {
 // 		ERROR(NotImplemented, "statement not implemented");
 // 	}
-// 	if (p.r.id == "continue") {
+// 	if (p.r.name == "continue") {
 // 		ERROR(NotImplemented, "statement not implemented");
 // 	}
-// 	ERROR(Unknown, "invalid statement type " + p.r.id);
+// 	ERROR(Unknown, "invalid statement type " + p.r.name);
 // }
 // 
-// symbol_table compute_scope_symbol_table(source_code const& source, std::vector<parlex::details::match> const& parts, scope& parent, llvm::BasicBlock & unwindBlock, llvm::IRBuilder<> & builder) {
+// symbol_table compute_scope_symbol_table(source_code const& source, std::vector<parlex::detail::match> const& parts, scope& parent, llvm::BasicBlock & unwindBlock, llvm::IRBuilder<> & builder) {
 // 	symbol_table results;
 // 	for (auto part : parts) {
 // 		if (&part.r == &STATEMENT) {
@@ -331,7 +330,7 @@ symbol_table flatten_symbol_tables(symbol_table const & parent, symbol_table con
 // 	return flatten_symbol_tables(parent.symbols, results);
 // }
 
-std::shared_ptr<analytic_value> eval_statement_scope(source_code const & source, std::vector<parlex::details::match> const& parts, scope& parent, llvm::BasicBlock & unwindBlock) {
+std::shared_ptr<analytic_value> eval_statement_scope(source_code const & source, std::vector<parlex::detail::match> const& parts, scope& parent, llvm::BasicBlock & unwindBlock) {
 	ERROR(NotImplemented, "");
 	/*
 	auto result = std::make_shared<scope>(source, parent);
@@ -380,7 +379,7 @@ STATEMENT_SCOPE compiler::parse(std::u32string const & source) {
 	return source_code::parse(source);
 }
 
-static std::u32string extract_payload(std::u32string const & document, std::vector<parlex::details::document::text<parlex::details::all_t>> const & characters) {
+static std::u32string extract_payload(std::u32string const & document, std::vector<parlex::detail::document::text<parlex::detail::all_t>> const & characters) {
 	std::basic_stringstream<char32_t> buffer;
 	for (auto const & character : characters) {
 		buffer << document[character.document_position];
@@ -395,7 +394,7 @@ static std::u32string extract_xml_doc_string_payload(std::u32string const & docu
 			xmlDocStringInterior = &*x.field_1;
 			continue;
 		}
-		typedef std::vector<parlex::details::document::text<parlex::details::all_t>> characters_t;
+		typedef std::vector<parlex::detail::document::text<parlex::detail::all_t>> characters_t;
 		// 		if (std::holds_alternative<characters_t>(*xmlDocStringInterior)) {
 		// 			return extract_payload(document, std::get<characters_t>(*xmlDocStringInterior));
 		// 		}
@@ -404,15 +403,15 @@ static std::u32string extract_xml_doc_string_payload(std::u32string const & docu
 }
 
 std::u32string compiler::extract_xml_doc_string(std::u32string const & document, XML_DOC_STRING const & xmlDocString) {
-	XML_DOC_STRING_INTERIOR const & interior = *xmlDocString.field_1;
+	auto const & interior = *xmlDocString.field_1;
 	return extract_xml_doc_string_payload(document, &interior);
 }
 
 // The ._pg extension ensures that parent namespaces are alphabetically sorted before their children
 std::set<std::string> enumerate_std_lib_sources() {
 	std::set<std::string> results;
-	auto rootPath = canonical(path(__FILE__).remove_filename().append("/../../stdlib"));
-	for (directory_entry const & entry : recursive_directory_iterator(rootPath)) {
+	auto const rootPath = canonical(path(__FILE__).remove_filename().append("/../../stdlib"));
+	for (auto const & entry : recursive_directory_iterator(rootPath)) {
 		if (is_regular_file(entry)) {
 			path entryPath(entry);
 			// todo: remove this filter to load the whole standard library
@@ -424,7 +423,7 @@ std::set<std::string> enumerate_std_lib_sources() {
 	return results;
 }
 
-static std::list<std::u32string> namespaceStringToNamespaces(std::u32string namespaceString) {
+static std::list<std::u32string> namespace_string_to_namespaces(std::u32string namespaceString) {
 	replace(namespaceString.begin(), namespaceString.end(), '.', '\n');  // replace '.' by ' '
 	std::list<std::u32string> result;
 	std::basic_istringstream<char32_t> in(namespaceString);
@@ -436,23 +435,23 @@ static std::list<std::u32string> namespaceStringToNamespaces(std::u32string name
 }
 
 void compiler::inject_std_lib(module & m) {
-	for (std::string const & filename : enumerate_std_lib_sources()) {
-		auto ext = path(filename).extension().string();
+	for (auto const & filename : enumerate_std_lib_sources()) {
+		auto const ext = path(filename).extension().string();
 		if (ext == "._pg") { // file is a namespace
 			source_code sourceCode(filename);
-			auto namespaceNames(namespaceStringToNamespaces(to_utf32(path(filename).stem().string())));
+			auto namespaceNames(namespace_string_to_namespaces(to_utf32(path(filename).stem().string())));
 			throw_assert(namespaceNames.front() == U"Plange");
 			namespaceNames.pop_front();
-			scope * currentScope = &m.plange;
+			auto currentScope = &m.plange;
 			scope * parentScope = nullptr;
 			for (auto i = namespaceNames.begin(); i != namespaceNames.end(); ++i) {
 				auto namespaceName = *i;
 				auto k = i;
 				++k;
-				bool isNamespaceOfFile = k == namespaceNames.end();
+				auto const isNamespaceOfFile = k == namespaceNames.end();
 				auto j = currentScope->symbols.find(*i);
 				if (j == currentScope->symbols.end()) { // is namespace not yet created?
-					scope * newScope = new scope(m, isNamespaceOfFile ? &sourceCode : nullptr, parentScope, sourceCode.representation);
+					auto const newScope = new scope(m, isNamespaceOfFile ? &sourceCode : nullptr, parentScope, sourceCode.representation);
 					std::shared_ptr<analytic_value> namespace_(newScope);
 					currentScope->symbols.emplace(std::piecewise_construct, make_tuple(namespaceName), make_tuple(namespaceName, namespace_, false));
 					parentScope = currentScope;
@@ -460,7 +459,7 @@ void compiler::inject_std_lib(module & m) {
 				}
 				else { // symbol already exists
 					throw_assert(isNamespaceOfFile == false); // This filename represents this scope. Make sure the scope has not already created.
-					auto asScopePtr = dynamic_cast<scope *>(j->second.value->collapse());
+					auto const asScopePtr = dynamic_cast<scope *>(j->second.value->collapse());
 					throw_assert(asScopePtr != nullptr);
 					parentScope = currentScope;
 					currentScope = asScopePtr;

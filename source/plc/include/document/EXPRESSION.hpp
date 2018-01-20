@@ -1,4 +1,4 @@
-// This file was generated using Parlex's cpp_generator
+﻿// This file was generated using Parlex's cpp_generator
 
 #ifndef INCLUDED_EXPRESSION_HPP
 #define INCLUDED_EXPRESSION_HPP
@@ -6,9 +6,12 @@
 #include <optional>
 #include <variant>
 #include <vector>
+
 #include "erased.hpp"
-#include "parlex/details/abstract_syntax_tree.hpp"
-#include "parlex/details/document.hpp"
+
+#include "parlex/detail/abstract_syntax_tree.hpp"
+#include "parlex/detail/builtins.hpp"
+#include "parlex/detail/document.hpp"
 
 #include "plange_grammar.hpp"
 
@@ -106,15 +109,15 @@ typedef std::variant<
 	erased<TYPE>,
 	erased<UNARY_OP>,
 	erased<VECTOR_NORM>,
-	parlex::details::document::text<literal_context_t>,
-	parlex::details::document::text<literal_null_t>,
-	parlex::details::document::text<void>
+	parlex::detail::document::text<literal_context_t>,
+	parlex::detail::document::text<literal_null_t>,
+	parlex::detail::document::text<void>
 > EXPRESSION_base;
 
 struct EXPRESSION: EXPRESSION_base {
-	static EXPRESSION build(parlex::details::ast_node const & n);
+	static EXPRESSION build(parlex::detail::ast_node const & n);
 	explicit EXPRESSION(EXPRESSION_base const & value) : EXPRESSION_base(value) {}
-	static parlex::details::recognizer const & recognizer();
+	static parlex::detail::state_machine const & state_machine();
 };
 } // namespace plc
 

@@ -18,7 +18,7 @@ void debugger() {
 std::string enquote(std::string s) {
 	std::ostringstream result;
 	result << "\"";
-	for (char c : s) {
+	for (auto c : s) {
 		switch (c) {
 			case '\'':
 				result << "\\'";
@@ -96,13 +96,13 @@ std::string realpath(std::string fileName) {
 }
 
 std::string toupper(std::string const & in) {
-	std::string result = in;
+	auto result = in;
 	for (auto & c : result) c = toupper(c);
 	return result;
 }
 
 std::string tolower(std::string const & in) {
-	std::string result = in;
+	auto result = in;
 	for (auto & c : result) c = tolower(c);
 	return result;
 }

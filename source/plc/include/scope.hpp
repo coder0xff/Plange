@@ -13,7 +13,6 @@
 #include "symbol.hpp"
 
 namespace plc {
-struct EXPRESSION;
 
 class module;
 

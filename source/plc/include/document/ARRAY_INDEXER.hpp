@@ -1,4 +1,4 @@
-// This file was generated using Parlex's cpp_generator
+﻿// This file was generated using Parlex's cpp_generator
 
 #ifndef INCLUDED_ARRAY_INDEXER_HPP
 #define INCLUDED_ARRAY_INDEXER_HPP
@@ -6,9 +6,12 @@
 #include <optional>
 #include <variant>
 #include <vector>
+
 #include "erased.hpp"
-#include "parlex/details/abstract_syntax_tree.hpp"
-#include "parlex/details/document.hpp"
+
+#include "parlex/detail/abstract_syntax_tree.hpp"
+#include "parlex/detail/builtins.hpp"
+#include "parlex/detail/document.hpp"
 
 #include "plange_grammar.hpp"
 
@@ -40,8 +43,8 @@ struct ARRAY_INDEXER {
 	ARRAY_INDEXER(ARRAY_INDEXER const & other) = default;
 	ARRAY_INDEXER(ARRAY_INDEXER && move) = default;
 
-	static ARRAY_INDEXER build(parlex::details::ast_node const & n);
-	static parlex::details::recognizer const & recognizer();
+	static ARRAY_INDEXER build(parlex::detail::ast_node const & n);
+	static parlex::detail::state_machine const & state_machine();
 
 };
 

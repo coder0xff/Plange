@@ -32,11 +32,14 @@ set (HEADERS
 	"mpl_function_decomposition.hpp"
 	"mpl_functor.hpp"
 	"mpl_has_instance_member.hpp"
+	"mpl_has_move_assignment.hpp"
 	"mpl_has_type_member.hpp"
 	"mpl_head.hpp"
 	"mpl_indices.hpp" # operations on template<size_t...> lists
 	"mpl_is_const.hpp"
+	"mpl_is_copyable.hpp"
 	"mpl_is_invocable.hpp"
+	"mpl_is_movable.hpp"
 	"mpl_list.hpp"
 
 	"mpl_map.hpp" # f: Type -> Type
@@ -60,6 +63,6 @@ set (HEADERS
 add_library(mpl ${HEADERS} ${SOURCES})
 source_group("src" FILES ${SOURCES})
 source_group("include" FILES ${HEADERS})
-set_property(TARGET utilities PROPERTY CXX_STANDARD 17)
-set_property(TARGET utilities PROPERTY CXX_STANDARD_REQUIRED ON)
+set_property(TARGET mpl PROPERTY CXX_STANDARD 17)
+set_property(TARGET mpl PROPERTY CXX_STANDARD_REQUIRED ON)
 add_definitions(-DCMAKE_BUILD_TYPE="${CMAKE_BUILD_TYPE}")

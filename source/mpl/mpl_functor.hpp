@@ -5,7 +5,7 @@
 
 namespace mpl {
 
-	namespace details::functor {
+	namespace detail::functor {
 
 		template<template <typename...> typename TFunctor, typename TFunctorTemplateArguments, typename... TFunctorInvokeArgs>
 		struct impl {
@@ -13,7 +13,7 @@ namespace mpl {
 			using concrete_type = apply<TFunctor, TFunctorTemplateArguments>;
 			using return_type = decltype(
 				concrete_type().operator()(
-					(*(TFunctorInvokeArgs*)nullptr)...
+					(*reinterpret_cast<TFunctorInvokeArgs*>(nullptr))...
 				)
 			);
 		};
@@ -21,7 +21,7 @@ namespace mpl {
 	}
 
 	template<template <typename...> typename TFunctor, typename TFunctorTemplateArgs, typename... TFunctorInvokeArguments>
-	using functor_return = typename details::functor::impl<TFunctor, TFunctorTemplateArgs, TFunctorInvokeArguments...>::return_type;
+	using functor_return = typename detail::functor::impl<TFunctor, TFunctorTemplateArgs, TFunctorInvokeArguments...>::return_type;
 
 }
 

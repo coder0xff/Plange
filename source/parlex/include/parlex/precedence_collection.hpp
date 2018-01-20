@@ -1,14 +1,12 @@
 #ifndef PRECEDENCE_COLLECTION_HPP
 #define PRECEDENCE_COLLECTION_HPP
 
-#include <map>
-
-#include "parlex/details/state_machine_base.hpp"
+#include <coherent_set.hpp>
 
 namespace parlex {
-namespace details {
+namespace detail {
 
-typedef std::map<recognizer const *, std::set<recognizer const *>> precedence_collection;
+typedef std::vector<collections::coherent_set<size_t>> precedence_collection;
 
 }
 } // namespace parlex

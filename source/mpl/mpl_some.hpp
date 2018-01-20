@@ -1,10 +1,6 @@
 #ifndef INCLUDING_MPL_SOME_HPP
 #define INCLUDING_MPL_SOME_HPP
 
-#include "mpl__if.hpp"
-#include "mpl_equals.hpp"
-#include "mpl_push.hpp"
-
 namespace mpl {
 
 

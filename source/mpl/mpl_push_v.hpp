@@ -3,10 +3,8 @@
 
 #include <tuple>
 
-#include "mpl_utils.hpp"
-
 namespace mpl {
-	namespace details::push_v {
+	namespace detail::push_v {
 
 		template<typename TListHead, typename TListTail, size_t... Indices>
 		auto impl(TListHead && element, TListTail list, std::index_sequence<Indices...>) {
@@ -20,7 +18,7 @@ namespace mpl {
 		return impl(
 			std::forward<THead>(element),
 			std::forward<std::tuple<TTailElements...>>(list),
-			details::sequence(std::forward<std::tuple<TTailElements...>>(list))
+			detail::push_v::impl(std::forward<std::tuple<TTailElements...>>(list))
 		);
 	}
 

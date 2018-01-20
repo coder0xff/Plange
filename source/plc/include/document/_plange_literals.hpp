@@ -1,7 +1,7 @@
-#ifndef INCLUDED_PLANGE_LITERALS_HPP
+﻿#ifndef INCLUDED_PLANGE_LITERALS_HPP
 #define INCLUDED_PLANGE_LITERALS_HPP
 
-#include "parlex/details/document.hpp"
+#include "parlex/detail/document.hpp"
 
 namespace plc {
 

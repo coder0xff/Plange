@@ -1,12 +1,10 @@
-// This file was generated using Parlex's cpp_generator
+﻿// This file was generated using Parlex's cpp_generator
 
 #include "IC.hpp"
 
 #include "plange_grammar.hpp"
 
-#include "parlex/details/document.hpp"
-#include "parlex/details/behavior.hpp"
-
+#include "parlex/detail/document.hpp"
 #include "COMMENT.hpp"
 #include "EMBEDDED_COMMENT.hpp"
 #include "END_OF_LINE_COMMENT.hpp"
@@ -16,14 +14,15 @@
 
 namespace plc {
 
-IC IC::build(parlex::details::ast_node const & n) {
-	static auto const * b = &plange_grammar::get().IC.get_behavior();
-	parlex::details::document::walk w{ n.children.cbegin(), n.children.cend() };
-	return IC(parlex::details::document::element<IC_base>::build(b, w));
+IC IC::build(parlex::detail::ast_node const & n) {
+	static auto const * b = state_machine().behavior;
+	parlex::detail::document::walk w{ n.children.cbegin(), n.children.cend() };
+	return IC(parlex::detail::document::element<IC_base>::build(b, w));
 }
 
 } // namespace plc
 
-parlex::details::recognizer const & plc::IC::recognizer() {
-	return plange_grammar::get().IC.get_recognizer();
+parlex::detail::state_machine const & plc::IC::state_machine() {
+	static auto const & result = *static_cast<parlex::detail::state_machine const *>(&plange_grammar::get().get_recognizer(plange_grammar::get().IC));
+	return result;
 }

@@ -3,7 +3,7 @@
 
 namespace mpl {
 
-	namespace details::apply {
+	namespace detail::apply {
 
 		template<template<typename...> typename TTarget, typename TList>
 		struct impl {};
@@ -16,7 +16,7 @@ namespace mpl {
 	}
 
 	template<template<typename...> typename TTarget, typename TList>
-	using apply = typename details::apply::impl<TTarget, TList>::result;
+	using apply = typename detail::apply::impl<TTarget, TList>::result;
 
 }
 

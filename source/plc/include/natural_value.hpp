@@ -18,7 +18,7 @@ class natural_value : public analytic_value {
 	};
 
 public:
-	explicit natural_value(llvm::Value * llvm_value);
+	explicit natural_value(llvm::Value * llvmValue);
 
 	// this value is statically known if llvm_value is non-null 
 	std::unique_ptr<llvm::Value, value_deleter> const llvm_value;

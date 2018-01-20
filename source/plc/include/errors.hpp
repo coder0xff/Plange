@@ -3,13 +3,13 @@
 
 #include <string>
 
-#define MAKE_ERROR(NAME, DESCRIPTION, KEYWORDS) inline void emit_##NAME(std::string file, int line, std::string info) { emit_error(__LINE__ + firstErrorOffset, DESCRIPTION, file, line, info); }
+#define MAKE_ERROR(NAME, DESCRIPTION, KEYWORDS) inline void emit_##NAME(std::string file, int line, std::string info) { emit_error(__LINE__ + FIRST_ERROR_OFFSET, DESCRIPTION, file, line, info); }
 
 namespace plc {
 
 void emit_error(int errNumber, std::string const& description, std::string const& file, int const line, std::string const& info);
 
-constexpr int firstErrorOffset = -__LINE__;
+constexpr int FIRST_ERROR_OFFSET = -__LINE__;
 MAKE_ERROR(NotImplemented, "INTERNAL ERROR: The requested functionality is not implemented yet.", INTERNAL)
 MAKE_ERROR(UnsupportedBootstrapFunctionality, "INTERNAL ERROR: the requested functionality is not available in the C++-based bootstrap compiler", INTERNAL)
 MAKE_ERROR(Unknown, "INTERNAL ERROR: No error description is available.", INTERNAL)

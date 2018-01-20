@@ -15,7 +15,7 @@ struct has_type_member##name_impl { \
 	template<typename T> static std::true_type impl(typename T::name*); \
 	template<typename> static std::false_type impl(...); \
 }; \
-template<typename T> constexpr bool has_type_member##name = decltype(has_type_member##name_impl::impl<T>(nullptr))::value;
+template<typename T> constexpr bool HAS_TYPE_MEMBER##name = decltype(has_type_member##name_impl::impl<T>(nullptr))::value;
 
 #define INCLUDED_MPL_HAS_TYPE_MEMBER_HPP
 #elif !defined(INCLUDED_MPL_HAS_TYPE_MEMBER_HPP)

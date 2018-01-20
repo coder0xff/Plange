@@ -1,4 +1,4 @@
-// This file was generated using Parlex's cpp_generator
+﻿// This file was generated using Parlex's cpp_generator
 
 #ifndef INCLUDED_TYPE_SCOPE_ASSIGNMENT_CHAIN_HPP
 #define INCLUDED_TYPE_SCOPE_ASSIGNMENT_CHAIN_HPP
@@ -6,9 +6,12 @@
 #include <optional>
 #include <variant>
 #include <vector>
+
 #include "erased.hpp"
-#include "parlex/details/abstract_syntax_tree.hpp"
-#include "parlex/details/document.hpp"
+
+#include "parlex/detail/abstract_syntax_tree.hpp"
+#include "parlex/detail/builtins.hpp"
+#include "parlex/detail/document.hpp"
 
 #include "plange_grammar.hpp"
 
@@ -35,7 +38,7 @@ struct TYPE_SCOPE_ASSIGNMENT_CHAIN {
 		field_1_t_1_t(field_1_t_1_t const & other) = default;
 		field_1_t_1_t(field_1_t_1_t && move) = default;
 	
-		static field_1_t_1_t build(parlex::details::behavior::node const * b, parlex::details::document::walk & w);
+		static field_1_t_1_t build(parlex::detail::node const * b, parlex::detail::document::walk & w);
 	};
 
 	struct field_3_t_1_t {
@@ -51,7 +54,7 @@ struct TYPE_SCOPE_ASSIGNMENT_CHAIN {
 		field_3_t_1_t(field_3_t_1_t const & other) = default;
 		field_3_t_1_t(field_3_t_1_t && move) = default;
 	
-		static field_3_t_1_t build(parlex::details::behavior::node const * b, parlex::details::document::walk & w);
+		static field_3_t_1_t build(parlex::detail::node const * b, parlex::detail::document::walk & w);
 	};
 
 	std::optional<field_1_t_1_t> field_1;
@@ -63,8 +66,8 @@ struct TYPE_SCOPE_ASSIGNMENT_CHAIN {
 	std::vector<erased<IC>> field_4;
 	
 	std::variant<
-		parlex::details::document::text<literal_0xE20x860x90_t>,
-		parlex::details::document::text<literal_0x3C0x2D_t>
+		parlex::detail::document::text<literal_0xE20x860x90_t>,
+		parlex::detail::document::text<literal_0x3C0x2D_t>
 	> field_5;
 	
 	std::vector<erased<IC>> field_6;
@@ -78,8 +81,8 @@ struct TYPE_SCOPE_ASSIGNMENT_CHAIN {
 
 	explicit TYPE_SCOPE_ASSIGNMENT_CHAIN(
 		std::optional<field_1_t_1_t> && field_1, erased<IDENTIFIER> && field_2, std::optional<field_3_t_1_t> && field_3, std::vector<erased<IC>> && field_4, std::variant<
-			parlex::details::document::text<literal_0xE20x860x90_t>,
-			parlex::details::document::text<literal_0x3C0x2D_t>
+			parlex::detail::document::text<literal_0xE20x860x90_t>,
+			parlex::detail::document::text<literal_0x3C0x2D_t>
 		> && field_5, std::vector<erased<IC>> && field_6, std::variant<
 			erased<EXPRESSION>,
 			erased<ASSIGNMENT_CHAIN>
@@ -88,8 +91,8 @@ struct TYPE_SCOPE_ASSIGNMENT_CHAIN {
 	TYPE_SCOPE_ASSIGNMENT_CHAIN(TYPE_SCOPE_ASSIGNMENT_CHAIN const & other) = default;
 	TYPE_SCOPE_ASSIGNMENT_CHAIN(TYPE_SCOPE_ASSIGNMENT_CHAIN && move) = default;
 
-	static TYPE_SCOPE_ASSIGNMENT_CHAIN build(parlex::details::ast_node const & n);
-	static parlex::details::recognizer const & recognizer();
+	static TYPE_SCOPE_ASSIGNMENT_CHAIN build(parlex::detail::ast_node const & n);
+	static parlex::detail::state_machine const & state_machine();
 
 };
 

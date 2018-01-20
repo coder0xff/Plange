@@ -1,4 +1,4 @@
-// This file was generated using Parlex's cpp_generator
+﻿// This file was generated using Parlex's cpp_generator
 
 #ifndef INCLUDED_TYPE_INVOCATION_HPP
 #define INCLUDED_TYPE_INVOCATION_HPP
@@ -6,9 +6,12 @@
 #include <optional>
 #include <variant>
 #include <vector>
+
 #include "erased.hpp"
-#include "parlex/details/abstract_syntax_tree.hpp"
-#include "parlex/details/document.hpp"
+
+#include "parlex/detail/abstract_syntax_tree.hpp"
+#include "parlex/detail/builtins.hpp"
+#include "parlex/detail/document.hpp"
 
 #include "plange_grammar.hpp"
 
@@ -40,7 +43,7 @@ struct TYPE_INVOCATION {
 			argsHead_t_1_t(argsHead_t_1_t const & other) = default;
 			argsHead_t_1_t(argsHead_t_1_t && move) = default;
 		
-			static argsHead_t_1_t build(parlex::details::behavior::node const * b, parlex::details::document::walk & w);
+			static argsHead_t_1_t build(parlex::detail::node const * b, parlex::detail::document::walk & w);
 		};
 	
 		struct argsTail_t_1_t {
@@ -63,27 +66,27 @@ struct TYPE_INVOCATION {
 				field_2_t_1_t(field_2_t_1_t const & other) = default;
 				field_2_t_1_t(field_2_t_1_t && move) = default;
 			
-				static field_2_t_1_t build(parlex::details::behavior::node const * b, parlex::details::document::walk & w);
+				static field_2_t_1_t build(parlex::detail::node const * b, parlex::detail::document::walk & w);
 			};
 		
 			std::vector<erased<IC>> field_1;
 			
-			parlex::details::document::text<literal_0x2C_t> dontCare1;
+			parlex::detail::document::text<literal_0x2C_t> dontCare1;
 			
 			std::optional<field_2_t_1_t> field_2;
 			
 		
 		
 			explicit argsTail_t_1_t(
-				std::vector<erased<IC>> && field_1, parlex::details::document::text<literal_0x2C_t> && dontCare1, std::optional<field_2_t_1_t> && field_2) : field_1(std::move(field_1)), dontCare1(std::move(dontCare1)), field_2(std::move(field_2)) {}
+				std::vector<erased<IC>> && field_1, parlex::detail::document::text<literal_0x2C_t> && dontCare1, std::optional<field_2_t_1_t> && field_2) : field_1(std::move(field_1)), dontCare1(std::move(dontCare1)), field_2(std::move(field_2)) {}
 		
 			argsTail_t_1_t(argsTail_t_1_t const & other) = default;
 			argsTail_t_1_t(argsTail_t_1_t && move) = default;
 		
-			static argsTail_t_1_t build(parlex::details::behavior::node const * b, parlex::details::document::walk & w);
+			static argsTail_t_1_t build(parlex::detail::node const * b, parlex::detail::document::walk & w);
 		};
 	
-		parlex::details::document::text<literal_0x3C_t> dontCare0;
+		parlex::detail::document::text<literal_0x3C_t> dontCare0;
 		
 		std::optional<argsHead_t_1_t> argsHead;
 		
@@ -91,17 +94,17 @@ struct TYPE_INVOCATION {
 		
 		std::vector<erased<IC>> field_1;
 		
-		parlex::details::document::text<literal_0x3E_t> dontCare4;
+		parlex::detail::document::text<literal_0x3E_t> dontCare4;
 		
 	
 	
 		explicit field_1_t(
-			parlex::details::document::text<literal_0x3C_t> && dontCare0, std::optional<argsHead_t_1_t> && argsHead, std::vector<argsTail_t_1_t> && argsTail, std::vector<erased<IC>> && field_1, parlex::details::document::text<literal_0x3E_t> && dontCare4) : dontCare0(std::move(dontCare0)), argsHead(std::move(argsHead)), argsTail(std::move(argsTail)), field_1(std::move(field_1)), dontCare4(std::move(dontCare4)) {}
+			parlex::detail::document::text<literal_0x3C_t> && dontCare0, std::optional<argsHead_t_1_t> && argsHead, std::vector<argsTail_t_1_t> && argsTail, std::vector<erased<IC>> && field_1, parlex::detail::document::text<literal_0x3E_t> && dontCare4) : dontCare0(std::move(dontCare0)), argsHead(std::move(argsHead)), argsTail(std::move(argsTail)), field_1(std::move(field_1)), dontCare4(std::move(dontCare4)) {}
 	
 		field_1_t(field_1_t const & other) = default;
 		field_1_t(field_1_t && move) = default;
 	
-		static field_1_t build(parlex::details::behavior::node const * b, parlex::details::document::walk & w);
+		static field_1_t build(parlex::detail::node const * b, parlex::detail::document::walk & w);
 	};
 
 	erased<EXPRESSION> target;
@@ -116,8 +119,8 @@ struct TYPE_INVOCATION {
 	TYPE_INVOCATION(TYPE_INVOCATION const & other) = default;
 	TYPE_INVOCATION(TYPE_INVOCATION && move) = default;
 
-	static TYPE_INVOCATION build(parlex::details::ast_node const & n);
-	static parlex::details::recognizer const & recognizer();
+	static TYPE_INVOCATION build(parlex::detail::ast_node const & n);
+	static parlex::detail::state_machine const & state_machine();
 
 };
 

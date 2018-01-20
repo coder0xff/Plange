@@ -9,18 +9,19 @@
 
 #include <fstream>
 #include <iostream>
+#include <optional>
 
 #include <yaml-cpp/yaml.h>
 
 #include "utf.hpp"
 #include "utils.hpp"
 
-#include "parlex/details/parser.hpp"
-#include "parlex/details/grammar.hpp"
-#include "parlex/details/builtins.hpp"
+#include "parlex/detail/parser.hpp"
+#include "parlex/detail/grammar.hpp"
+#include "parlex/detail/builtins.hpp"
 #include "parlex/builder.hpp"
 #include "parlex/cpp_generator.hpp"
-#include "parlex/details/wirth.hpp"
+#include "parlex/detail/wirth.hpp"
 
 inline std::string trim(std::string str)
 {
@@ -34,21 +35,22 @@ std::optional<std::string> read_file(std::string const & pathname)
 	std::ifstream file(pathname);
 	if (file) {
 		std::string str;
-		std::string file_contents;
-		while (std::getline(file, str))
+		std::string fileContents;
+		while (getline(file, str))
 		{
-			file_contents += str;
-			file_contents.push_back('\n');
+			fileContents += str;
+			fileContents.push_back('\n');
 		}
-		return file_contents;
+		return fileContents;
 	}
 	return std::optional<std::string>();
 }
 
 void write_file(std::string const & pathname, std::string const & text)
 {
+	auto const bomText = "\xEF\xBB\xBF" + text;
 	auto currentText = read_file(pathname);
-	if (currentText.has_value() && currentText.value() == text)
+	if (currentText.has_value() && currentText.value() == bomText)
 	{
 		return;
 	}
@@ -57,69 +59,71 @@ void write_file(std::string const & pathname, std::string const & text)
 		throw std::runtime_error("couldn't open file for writing");
 	}
 	std::cout << "Writing " << pathname << '\n';
-	file << text;
+	file << bomText;
 }
 
 void write_files(std::string const & plcDir, parlex::cpp_generator::file_dictionary const & filesToWrite)
 {
 	for (auto const & file : filesToWrite) {
-		std::string pathname = plcDir + "/" + file.first;
-		std::string const & text = file.second;
+		auto const pathname = plcDir + "/" + file.first;
+		auto const & text = file.second;
 		write_file(pathname, text);
 	}
 }
 
 // takes one argument pointing to the directory containing syntax.yml
-int main(int argc, const char* argv[]) {
+int main(int const argc, const char* argv[]) {
 	throw_assert(argc == 2);
-	std::string workingDir = argv[1];
-	std::string filename = workingDir + "/syntax.yml";
+	std::string const workingDir = argv[1];
+	auto const filename = workingDir + "/syntax.yml";
 	std::ifstream ifs(filename, std::ios::binary);
 	throw_assert(bool(ifs));
-	std::u32string syntaxYaml = read_with_bom(move(ifs));
-	YAML::Node spec = YAML::Load(to_utf8(syntaxYaml));
+	auto const syntaxYaml = read_with_bom(move(ifs));
+	auto spec = YAML::Load(to_utf8(syntaxYaml));
 
-	parlex::details::parser p;
-	std::map<std::string, parlex::details::wirth_t::production> defs;
+	parlex::detail::parser p;
+	std::map<std::string, parlex::detail::wirth_t::production> defs;
 	for (auto const & elem : spec) {
-		std::string name = elem.first.as<std::string>();
+		auto name = elem.first.as<std::string>();
 		auto data = elem.second;
 		std::cout << "parsing " << name << "\n";
-		std::string syntax = trim(data["syntax"].as<std::string>());
+		std::string const syntax = trim(data["syntax"].as<std::string>());
 		std::cout << "syntax " << syntax << "\n";
-		std::u32string source = to_utf32(syntax);
-		auto assoc = parlex::associativity::none;
+		auto source = to_utf32(syntax);
+		auto assoc = parlex::associativity::NONE;
 		if (data["assoc"]) {
-			std::string assocName = data["assoc"].as<std::string>();
+			std::string const assocName = data["assoc"].as<std::string>();
 			if (assocName == "either") {
-				assoc = parlex::associativity::any;
+				assoc = parlex::associativity::ANY;
 			} else if (assocName == "left") {
-				assoc = parlex::associativity::left;
+				assoc = parlex::associativity::LEFT;
 			} else if (assocName == "right") {
-				assoc = parlex::associativity::right;
+				assoc = parlex::associativity::RIGHT;
 			} else {
 				throw std::logic_error(("invalid assoc value " + assocName).c_str());
 			}
 		}
 		parlex::filter_function filter;
 		if (data["filter"]) {
-			std::string filterName = data["filter"].as<std::string>();
+			std::string const filterName = data["filter"].as<std::string>();
 			if (filterName == "longest") {
-				filter = parlex::details::builtins().longest;
+				filter = parlex::longest();
+			} else if (filterName == "shortest") {
+				filter = parlex::shortest();
 			} else {
 				throw std::logic_error(("unrecognized filter " + filterName).c_str());
 			}
 		}
 		std::set<std::string> precedences;
 		if (data["precedes"]) {
-			for (auto element : data["precedes"]) {
+			for (const auto & element : data["precedes"]) {
 				precedences.insert(element.as<std::string>());
 			}
 		}
 		defs.emplace(std::piecewise_construct, forward_as_tuple(name), forward_as_tuple(source, assoc, filter, precedences));
 	}
-	parlex::builder g = parlex::wirth().load_grammar("STATEMENT_SCOPE", defs);
-	auto files = parlex::cpp_generator::generate("plange", { "plc" }, g);
+	auto const g = parlex::wirth().load_grammar("STATEMENT_SCOPE", defs);
+	auto const files = parlex::cpp_generator::generate("plange", { "plc" }, g);
 
 	write_files(workingDir + "/plc/include/document", files.headers);
 	write_files(workingDir + "/plc/src/document", files.sources);

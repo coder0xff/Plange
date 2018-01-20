@@ -1,18 +1,18 @@
-#include "parlex/details/recognizer.hpp"
+#include "parlex/detail/recognizer.hpp"
 
 #include <functional>
 
 #include "utils.hpp"
 
 namespace parlex {
-namespace details {
+namespace detail {
 
-recognizer::recognizer(std::string const & id) : id(id) {
+recognizer::recognizer(std::string const & name) : name(name) {
 }
 
 bool recognizer::is_terminal() const { return false; }
 
-std::ostream& operator<<(std::ostream & os, const recognizer & r) { return os << r.id; }
+std::ostream& operator<<(std::ostream & os, const recognizer & r) { return os << r.name; }
 
-} // namespace details
+} // namespace detail
 } // namespace parlex

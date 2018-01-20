@@ -8,16 +8,16 @@ namespace mpl {
 
 	template<size_t Count, typename... Ts>
 	constexpr auto drop_v(std::tuple<Ts...> data) {
-		using allIndices = indices_of<std::tuple<Ts...>>;
-		using selectedIndices = drop_indices<Count, allIndices>;
-		return mpl::choose_v<selectedIndices>(data);
+		using all_indices = indices_of<std::tuple<Ts...>>;
+		using selected_indices = drop_indices<Count, all_indices>;
+		return mpl::choose_v<selected_indices>(data);
 	}
 
 	template<size_t Count, typename TElement, size_t ElementCount>
 	constexpr auto drop_v(std::array<TElement, ElementCount> data) {
-		using allIndices = std::make_index_sequence<ElementCount>;
-		using selectedIndices = drop_indices<Count, allIndices>;
-		return mpl::choose_v<selectedIndices>(data);
+		using all_indices = std::make_index_sequence<ElementCount>;
+		using selected_indices = drop_indices<Count, all_indices>;
+		return mpl::choose_v<selected_indices>(data);
 	}
 }
 

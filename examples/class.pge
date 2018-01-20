@@ -1,3 +1,0 @@
-myClass := type  {
-    public <Int> aVariable;
-};

@@ -6,20 +6,23 @@ set (SOURCES
 	"logging.cpp"
 	"one_shot.cpp"
 	"perf_timer.cpp"
+	"thread_pool.cpp"
 	"utils.cpp"
 	"utf.cpp")
 	
 set (HEADERS
-	"auto_map_c.hpp"
-	"concurrent_forward_list.hpp"
+	"bits.hpp"
 	"covariant_invoke.hpp"
+	"erased.hpp"
 	"graphviz_dot.hpp"
 	"logging.hpp"
 	"one_shot.hpp"
 	"perf_timer.hpp"
-	"erased.hpp"
+	"tarjan.hpp"
+	"thread_pool.hpp"
 	"utils.hpp"
-	"utf.hpp")
+	"utf.hpp"
+	"wait_flag.hpp")
 	
 add_library(utilities ${HEADERS} ${SOURCES})
 source_group("src" FILES ${SOURCES})

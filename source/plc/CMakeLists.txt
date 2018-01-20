@@ -8,9 +8,10 @@ include_directories("${DEP_DIR}/googletest/include")
 link_directories("${DEP_DIR}/googletest/lib")
 
 include_directories("${CMAKE_CURRENT_SOURCE_DIR}") #for tclap
-include_directories("${CMAKE_CURRENT_SOURCE_DIR}/../parlex/include")
-include_directories("${CMAKE_CURRENT_SOURCE_DIR}/../mpl")
-include_directories("${CMAKE_CURRENT_SOURCE_DIR}/../utilities")
+include_directories("${PROJECT_SOURCE_DIR}/utilities")
+include_directories("${PROJECT_SOURCE_DIR}/mpl")
+include_directories("${PROJECT_SOURCE_DIR}/collections")
+include_directories("${PROJECT_SOURCE_DIR}/parlex/include")
 
 set(SOURCES
 	"src/analytic_value.cpp"
@@ -24,7 +25,8 @@ set(SOURCES
 	"src/source_code.cpp"
 	"src/stdafx.cpp"
 	"src/symbol.cpp"
-	"src/warnings.cpp")
+	"src/warnings.cpp"
+	"src/plc_utils.cpp")
 
 set(HEADERS
 	"include/analytic_value.hpp"
@@ -38,7 +40,8 @@ set(HEADERS
 	"include/source_code.hpp"
 	"include/stdafx.hpp"
 	"include/symbol.hpp"
-	"include/warnings.hpp")
+	"include/warnings.hpp"
+	"include/plc_utils.hpp")
 
 FILE(GLOB DOCUMENT_SOURCES "src/document/*.cpp*")
 FILE(GLOB DOCUMENT_HEADERS "include/document/*.hpp*")
@@ -64,4 +67,14 @@ else()
 endif()
 #add_precompiled_header(plc "include/stdafx.hpp" FORCEINCLUDE SOURCE_CXX "src/stdafx.cpp")
 target_link_libraries(plc parlex utilities LLVMCore LLVMSupport gtest gtest_main)
-#
+
+add_test(NAME plc_test COMMAND "$<TARGET_FILE:plc>" --test)
+
+# copy plc to artifacts folder
+add_custom_command(
+	TARGET plc
+	POST_BUILD
+	COMMAND ${CMAKE_COMMAND} -E copy "$<TARGET_FILE:plc>" "${ARTIFACTS_PREFIX}/bin/$<TARGET_FILE_NAME:plc>"
+)
+
+

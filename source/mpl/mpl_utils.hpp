@@ -1,15 +1,19 @@
 #ifndef INCLUDED_MPL_UTILS_HPP
 #define INCLUDED_MPL_UTILS_HPP
-#include <tuple>
 
 #define STATIC_PRINT_TYPE(x) using mpl_print_as_error = typename mpl::print_as_error<x>::print
-#define STATIC_PRINT_SIZE_T(x) using mpl_print_as_error = typename mpl::print_as_error<std::integral_constant<size_t, x>>::print
+#define STATIC_PRINT_SIZE_T(x) using mpl_print_as_error = typename mpl::print_as_error<std::integral_constant<size_t, (x)>>::print
 
 namespace mpl {
 
-	namespace details::variadic_size {
+	template<typename T>
+	using decay = typename std::decay<T>::type;
+
+	namespace detail::variadic_size {
 		template<typename TList>
-		struct impl {};
+		struct impl {
+			static_assert(sizeof(TList) == -1, "template instantion failed");
+		};
 
 		template<template<typename...> typename TContainer, typename... Ts>
 		struct impl<TContainer<Ts...>> {
@@ -18,38 +22,36 @@ namespace mpl {
 	}
 
 	template<typename TList>
-	constexpr size_t variadic_size = details::variadic_size::impl<TList>::result;
+	constexpr size_t VARIADIC_SIZE = detail::variadic_size::impl<decay<TList>>::result;
 
 	template<typename T>
 	struct print_as_error {
 	};
 
-	template<typename T>
-	using decay = typename std::decay<T>::type;
 }
 
 namespace std {
-	namespace details {
-		template<class> struct is_ref_wrapper : std::false_type {};
-		template<class T> struct is_ref_wrapper<std::reference_wrapper<T>> : std::true_type {};
+	namespace detail {
+		template<class> struct is_ref_wrapper : false_type {};
+		template<class T> struct is_ref_wrapper<reference_wrapper<T>> : true_type {};
 
 		template<class T>
-		using not_ref_wrapper = std::negation<is_ref_wrapper<std::decay_t<T>>>;
+		using not_ref_wrapper = negation<is_ref_wrapper<decay_t<T>>>;
 
 		template <class D, class...> struct return_type_helper { using type = D; };
 		template <class... Types>
-		struct return_type_helper<void, Types...> : std::common_type<Types...> {
+		struct return_type_helper<void, Types...> : common_type<Types...> {
 			static_assert(conjunction_v<not_ref_wrapper<Types>...>,
 				"Types cannot contain reference_wrappers when D is void");
 		};
 
 		template <class D, class... Types>
-		using return_type = std::array<typename return_type_helper<D, Types...>::type,
+		using return_type = array<typename return_type_helper<D, Types...>::type,
 			sizeof...(Types)>;
 	}
 
 	template < class D = void, class... Types>
-	constexpr details::return_type<D, Types...> make_array(Types&&... t) {
+	constexpr detail::return_type<D, Types...> make_array(Types&&... t) {
 		return { std::forward<Types>(t)... };
 	}
 }

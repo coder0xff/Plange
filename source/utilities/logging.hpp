@@ -36,7 +36,7 @@ template<>
 void stringify(std::stringstream & ss);
 
 template<typename... Ts>
-void log_impl(char const * const cat, char const * const file, int line, Ts const & ...args) {
+void log_impl(char const * const cat, char const * const file, int const line, Ts const & ...args) {
 	std::stringstream ss;
 	ss << cat << " t:" << std::this_thread::get_id() << " (" << file << ":" << line << "): ";
 	stringify(ss, args...);

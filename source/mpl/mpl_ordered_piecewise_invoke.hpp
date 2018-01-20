@@ -10,7 +10,7 @@ namespace mpl {
 
 	template<typename... TArgs, typename... TSignatures>
 	auto ordered_piecewise_invoke(std::tuple<TArgs...> const & args, TSignatures const & functions...) {
-		first<bind<is_invokable, std::list<
+		
 	}
 }
 

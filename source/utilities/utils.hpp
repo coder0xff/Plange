@@ -3,7 +3,7 @@
 
 #include <string>
 
-inline void throw_assert(bool pass) {
+inline void throw_assert(bool const pass) {
 #if defined(DEBUG) || _DEBUG==1
 	if (!pass) {
 		throw std::runtime_error("failed assert");
@@ -24,7 +24,7 @@ inline size_t hash_combine(T const & v) {
 template <typename T, typename... Rest>
 inline size_t hash_combine(T const & v, Rest... rest) {
 	std::hash<T> hasher;
-	size_t seed = hash_combine(rest...);
+	size_t const seed = hash_combine(rest...);
 	return hasher(v) + 0x9e3779b9 + (seed << 6) + (seed >> 2);
 }
 

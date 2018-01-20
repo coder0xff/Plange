@@ -1,37 +1,28 @@
-#include "parlex/details/context.hpp"
+#include "parlex/detail/context.hpp"
 
-#include <csignal>
-#include <iostream>
-
-#include "parlex/details/subjob.hpp"
-
-#include "logging.hpp"
 #include "utils.hpp"
 
-std::atomic<int> refIDCounter(0);
-std::atomic<int> contextIDCounter(0);
-
 namespace parlex {
-namespace details {
+namespace detail {
 
-context::context(subjob & owner, context const* const prior, int documentPosition, std::optional<match> const & fromTransition, behavior::leaf const * leaf) :
-	id(++contextIDCounter), owner(owner), prior(prior),
-	currentDocumentPosition(documentPosition),
-	fromTransition(fromTransition),
-	leaf(leaf) {
+context::context(context const* const prior, uint32_t const documentPosition, std::optional<match> const & fromTransition, leaf const * l) :
+	prior(prior),
+	current_document_position(documentPosition),
+	from_transition(fromTransition),
+	l(l) {
 	throw_assert((prior != nullptr) == fromTransition.has_value());
-	//DBG("constructed context ", id);
+	//DBG("constructed context ", target);
 }
 
 context::~context() {
-	//DBG("destructed context ", id);
+	//DBG("destructed context ", name);
 }
 
 permutation context::result() const {
 	permutation result;
-	context const* current = this;
+	auto current = this;
 	while (current->prior) {
-		result.emplace_back(match(*current->fromTransition), current->leaf);
+		result.emplace_back(match(*current->from_transition), current->l);
 		current = current->prior;
 	}
 	// std::reverse would require a swap function to be defined for match

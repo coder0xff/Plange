@@ -12,9 +12,9 @@ class symbol {
 public:
 	std::u32string const name;
 	std::shared_ptr<analytic_value> const value;
-	bool const isVariable;
-	bool const isLocal;
-	bool const isExtern;
+	bool const is_variable;
+	bool const is_local;
+	bool const is_extern;
 	//is unbound if isVariable && value.get() == nullptr
 
 	symbol(std::u32string const & name, std::shared_ptr<analytic_value> const & value, bool isVariable, bool isLocal = true, bool isExtern = false);

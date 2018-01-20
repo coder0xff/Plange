@@ -3,7 +3,7 @@
 
 namespace mpl {
 
-	namespace details::map {
+	namespace detail::map {
 
 		template<template <typename> typename TMetaFunction, typename TList>
 		struct impl {
@@ -18,7 +18,7 @@ namespace mpl {
 	}
 
 	template<template <typename> typename TMetaFunction, typename TList>
-	using map = typename details::map::impl<TMetaFunction, TList>::result;
+	using map = typename detail::map::impl<TMetaFunction, TList>::result;
 
 }
 

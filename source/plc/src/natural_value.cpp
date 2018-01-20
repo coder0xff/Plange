@@ -22,6 +22,6 @@ void natural_value::value_deleter::operator()(llvm::Value* ptr) const
 	ptr->deleteValue();
 }
 
-natural_value::natural_value(llvm::Value* llvm_value) : llvm_value(llvm_value, value_deleter()) {}
+natural_value::natural_value(llvm::Value* llvmValue) : llvm_value(llvmValue, value_deleter()) {}
 
 }

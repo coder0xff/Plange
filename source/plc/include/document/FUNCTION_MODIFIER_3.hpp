@@ -1,4 +1,4 @@
-// This file was generated using Parlex's cpp_generator
+﻿// This file was generated using Parlex's cpp_generator
 
 #ifndef INCLUDED_FUNCTION_MODIFIER_3_HPP
 #define INCLUDED_FUNCTION_MODIFIER_3_HPP
@@ -6,9 +6,12 @@
 #include <optional>
 #include <variant>
 #include <vector>
+
 #include "erased.hpp"
-#include "parlex/details/abstract_syntax_tree.hpp"
-#include "parlex/details/document.hpp"
+
+#include "parlex/detail/abstract_syntax_tree.hpp"
+#include "parlex/detail/builtins.hpp"
+#include "parlex/detail/document.hpp"
 
 #include "plange_grammar.hpp"
 
@@ -23,9 +26,9 @@ typedef std::variant<
 > FUNCTION_MODIFIER_3_base;
 
 struct FUNCTION_MODIFIER_3: FUNCTION_MODIFIER_3_base {
-	static FUNCTION_MODIFIER_3 build(parlex::details::ast_node const & n);
+	static FUNCTION_MODIFIER_3 build(parlex::detail::ast_node const & n);
 	explicit FUNCTION_MODIFIER_3(FUNCTION_MODIFIER_3_base const & value) : FUNCTION_MODIFIER_3_base(value) {}
-	static parlex::details::recognizer const & recognizer();
+	static parlex::detail::state_machine const & state_machine();
 };
 } // namespace plc
 

@@ -12,8 +12,8 @@
 //}
 
 TEST(UtfTest, banana_test2) {
-	std::u32string banana32(U"\U0001F34C");
-	std::string banana8 = to_utf8(banana32);
+	std::u32string const banana32(U"\U0001F34C");
+	auto banana8 = to_utf8(banana32);
 	EXPECT_EQ("\xF0\x9F\x8D\x8C", banana8);
 }
 

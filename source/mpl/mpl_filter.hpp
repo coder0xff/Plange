@@ -6,7 +6,7 @@
 
 namespace mpl {
 	
-	namespace details::filter {
+	namespace detail::filter {
 		template<template<typename> typename TMetaPredicate, typename TList>
 		struct impl {};
 
@@ -23,7 +23,7 @@ namespace mpl {
 	}
 
 	template<template<typename> typename TMetaPredicate, typename TList>
-	using filter = typename details::filter::impl<TMetaPredicate, TList>::result;
+	using filter = typename detail::filter::impl<TMetaPredicate, TList>::result;
 
 }
 
