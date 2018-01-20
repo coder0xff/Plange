@@ -166,6 +166,8 @@
 				<tr><td>Containers</td></tr>
 				<tr><td>Graphics</td></tr>
 				<tr><td>Gtk</td></tr>
+				<tr><td>IDE</td></tr>
+				<tr><td>IDE.Debugger</td></tr>
 				<tr><td>IO</td></tr>
 				<tr><td><a href="/documentation/standard-library/LinearMath.php">LinearMath</a></td></tr>
 				<tr><td>OpenGLv45</td></tr>

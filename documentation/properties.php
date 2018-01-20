@@ -41,7 +41,7 @@ rint(right.radians); //prints 1.5707963268
 			</pre>
 		</div>
 		
-		<p>Each time a value is read from or written to a property additional processing occurs. Under-constrained properties are read only:</p>
+		<p>Each time a value is read from or written to a property additional processing occurs. Under-constrained properties (more than one free variable) are read only:</p>
 		
 		<div class="code2">
 			<p>Example</p>
@@ -57,17 +57,21 @@ Rectangle := type {
 			</pre>
 		</div>
 		
-		
 		<p>The examples above represent the first class of properties, pure properties, which are modeled as relations. The second class, imperative properties, are built from get and set accessors, which resemble functions:</p>
 		<div class="code2">
 			<p>Example</p>
 			<pre>
-&lt;String&gt; saved_username := { 
-	get := { return File.read_text("username.txt"); }, 
-	set := { File.write_text("username.txt", value); }
+Rectangle := type {
+	&lt;Real&gt; left;
+	&lt;Real&gt; top;
+	&lt;Real&gt; width;
+	&lt;Real&gt; height;
+	right := { get := { return left + width; }; set := (&lt;Real&gt; v){ width ← v - left; }};
+	bottom := { get := { return top + height; }; set := (&lt;Real&gt; v){ height ← v - top; }};
 };
 			</pre>
 		</div>
+		
 		<p>Each time an imperative property is accessed (read from or written to) control passes to the get or set accessor functions (respectively) rather than accessing a memory location. Access is transparent to the calling program.<sup>†</sup> Get and set accessors execute within their defining execution context. The space within the outermost curly braces { } also permits the definition of additional symbols, such as hidden value storage or helper functions which are not accessible from outside the property's scope. The presence of the get or set keywords in a statement scope causes that scope to be interpreted as a property.</p>
 		<div class="code2">
 			<p>Example</p>
