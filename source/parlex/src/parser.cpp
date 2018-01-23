@@ -22,7 +22,7 @@ namespace detail {
 void parser::process(work_item const & item) const {
 	update_progress(*item.dfa_context);
 	auto & p = current_job->get_producer(item.producer_id);
-	auto & sj = *dynamic_cast<subjob *>(&p);
+	auto & sj = *static_cast<subjob *>(&p);
 	//INF("thread ", threadCount, " executing DFA state");
 	sj.machine.process(*current_job, item.producer_id, sj, *item.dfa_context, item.dfa_state);
 	sj.end_work_queue_reference(*current_job, item.producer_id);
