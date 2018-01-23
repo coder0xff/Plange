@@ -98,7 +98,7 @@
 				<tr><td>π</td><td>pi</td><td>(<a href="http://www.fileformat.info/info/unicode/char/03c0/index.htm">GREEK SMALL LETTER PI U+03CO</a>)</td><td>pi mathematical constant</td></tr>
 				<tr><td>ℂ</td><td>CC</td><td>(<a href="http://www.fileformat.info/info/unicode/char/2102/index.htm">DOUBLE-STRUCK CAPITAL C U+2102</a>)</td><td>complex numbers</td></tr>
 				<tr><td>ℍ</td><td>HH</td><td>(<a href="http://www.fileformat.info/info/unicode/char/210d/index.htm">DOUBLE-STRUCK CAPITAL H U+210D</a>)</td><td>quaternions</td></tr>
-				<tr><td>ℕ</td><td>NN</td><td>(<a href="http://www.fileformat.info/info/unicode/char/2115/index.htm">DOUBLE-STRUCK CAPITAL N U+2115</a>)</td><td>natural numbers (non-negative integers)</td></tr>
+				<tr><td>ℕ</td><td>NN</td><td>(<a href="http://www.fileformat.info/info/unicode/char/2115/index.htm">DOUBLE-STRUCK CAPITAL N U+2115</a>)</td><td>natural numbers (positive integers)</td></tr>
 				<tr><td>ℚ</td><td>QQ</td><td>(<a href="http://www.fileformat.info/info/unicode/char/211a/index.htm">DOUBLE-STRUCK CAPITAL Q U+211A</a>)</td><td>rational numbers</td></tr>
 				<tr><td>ℝ</td><td>RR</td><td>(<a href="http://www.fileformat.info/info/unicode/char/211d/index.htm">DOUBLE-STRUCK CAPITAL R U+211D</a>)</td><td>real numbers</td></tr>
 				<tr><td>ℤ</td><td>ZZ</td><td>(<a href="http://www.fileformat.info/info/unicode/char/2124/index.htm">DOUBLE-STRUCK CAPITAL Z U+2124</a>)</td><td>integers</td></tr>
@@ -110,7 +110,7 @@
 				<tr><td>𝕀</td><td>II</td><td>(<a href="http://www.fileformat.info/info/unicode/char/1d540/index.htm">MATHEMATICAL DOUBLE-STRUCK CAPITAL I U+1D540</a>)</td><td>imaginary numbers</td></tr>
 				<tr><td>𝕄(m, n)</td><td>MM(m, n)</td><td>(<a href="http://www.fileformat.info/info/unicode/char/1d544/index.htm">MATHEMATICAL DOUBLE-STRUCK CAPITAL M U+1D544</a>)</td><td>m x n matrices of reals</td></tr>
 				<tr><td>𝕆</td><td>OO</td><td>(<a href="http://www.fileformat.info/info/unicode/char/1d546/index.htm">MATHEMATICAL DOUBLE-STRUCK CAPITAL O U+1D546</a>)</td><td>octonions</td></tr>
-				<tr><td>𝕎</td><td>WW</td><td>(<a href="http://www.fileformat.info/info/unicode/char/1d54e/index.htm">MATHEMATICAL DOUBLE-STRUCK CAPITAL W U+1D54E</a>)</td><td>whole numbers (positive integers)</td></tr>
+				<tr><td>𝕎</td><td>WW</td><td>(<a href="http://www.fileformat.info/info/unicode/char/1d54e/index.htm">MATHEMATICAL DOUBLE-STRUCK CAPITAL W U+1D54E</a>)</td><td>whole numbers (non-negative integers)</td></tr>
 			</table>
 		</code>
 		<h2>Type Functions</h2>
