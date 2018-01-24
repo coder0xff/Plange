@@ -4,18 +4,20 @@
 𝕎, the whole numbers, the positive integers
 𝔹, the booleans, { true, false }
 𝒫, the power set
-ʊ: X → {ε} ∪ X, the function adding the "empty" element to a set
+E: X → {ε} ∪ X, the function adding the "empty" element to a set
 ⊕: ℕ → 𝒫(ℕ), the sequence function x ↦ { y : y ∈ ℕ ∧ y < x }
 	e.g.	⊕(0) = {}
 	e.g.	⊕(3) = {0, 1, 2}
-U*, the union across sets
-max*, the maximum value across values
+#(X), the cardinality of X
+U*(x) ... x ∈ X, the union across sets
+max*(x) ... x ∈ X, the maximum value
+Σ*(x) ...  x ∈ X, summation of elements in X
 
 -------------------------------------------------------------------------------------------------
 
 n ∈ ℕ, the length of the input document
 P := ⊕(n), the set of positions within the input document
-
+P' := {1, 2, ... n}, the set of possible substring lengths
 -------------------------------------------------------------------------------------------------
 
 X, the set of arbitrary constants
@@ -23,14 +25,13 @@ X, the set of arbitrary constants
 	
 Σ, the set of "recognizers"
 	∀σ ∈ Σ
-		σ: P → 𝒫(𝕎), a function taking a document position as input, and returning the matched substring lengths
+		σ: P → 𝒫(P'), a function taking a document position as input, and returning the matched substring lengths
 		
 T, the set of "terminals", a specialization of recognizers
 	∀t ∈ T
 		t.Δ ∈ ℕ, the length in characters
 		t.f: P → 𝔹, the test function	
-		t(p) = f(p) ? { Δ } : ∅
-			To satisfy P → 𝒫(𝕎)
+		t(p) = f(p) ? { Δ } : ∅ (To satisfy P → 𝒫(P') as required by recognizers)
 	i.e.:
 		string literals
 		character classes where t.Δ = 1
@@ -38,49 +39,44 @@ T, the set of "terminals", a specialization of recognizers
 A, the set of "state machines", a specialization of recognizers
 	∀α ∈ A
 		α.k ∈ 𝕎, the number of states
-		α.δ : ⊕(α.k)×(Σ×X) → ⊕(α.k), the transition function
+		α.δ : ⊕(α.k) × (Σ × X) → ⊕(α.k), the transition function
 		α.w0 ∈ ⊕(α.k), the start state
 		α.f ∈ ⊕(α.k) ∧ 0 < f, the number of accept states such that states {α.k-1, α.k-2, ... α.k-f} are accept states
-		***the definition of α(p) is deferred***
+		α(p) ???
 
 -------------------------------------------------------------------------------------------------
 
 Σ = T ∪ A
 β ∈ Σ, the "root" recognizer of the grammar
-σ := |Σ|, the number of recognizers used by the grammar
+σ := #(Σ), the number of recognizers used by the grammar
 
-We assign an arbitrary sequential ordering to the alphabet to achieve constant-time lookups.
+We assign an arbitrary sequential ordering to the recognizers for constant-time lookups.
 	L := ⊕(σ), L ↔ Σ, the set of unique identifiers of elements of Σ
 	L' : L → Σ, the function mapping an unique integer to an element of Σ
 
 -------------------------------------------------------------------------------------------------
 
-Each "producer" is uniquely identified by P×L, and is retrieved using this identifier achieving constant time lookup.
-Z := P×L, the set of possile producer identifiers
-|Z| = n×σ, the worst-case space complexity of producers
-M': Z → ʊ(R), a two dimensional array sparsly populated by the elements of R.
-M: Z → R, an imperative function populating M' as needed.
-β' := M((0, β)), the root producer, i.e. the root recognizer at document position 0
-H := Z×𝕎, the set of possible "matches", each indicating a substring that was successfully parsed
-
 R, the set of possible "producers"
 	∀r ∈ R
 		r.p ∈ P, the document position to try to find matches for r.l
 		r.l ∈ L, the recognizer id to find a match for
-		r.o ∈ 𝒫(𝕎), the matched substring lengths, which is constructed one element at a time during execution
+		r.o ∈ 𝒫(P), the matched substring lengths, which is constructed one element at a time during execution
 		r.Y, the set of subcriptions
 			∀y ∈ Y
-				y.z ∈ Z, the subscribed consumer
+				y.z ∈ P×L, the subscribed consumer
 				y.c, a context (defined later)
-				y.x ∈ X, a leaf
-				
-				
+				y.x ∈ X, a leaf				
+
+M': P × L → E(R), a two dimensional array sparsly populated by the elements of R for constant-time lookups.
+M: P × L → R, an imperative function populating M' as needed.
+β' := M((0, β)), the root producer, i.e. the root recognizer at document position 0
+H := P × L × P', the set of possible "matches", each indicating a substring that was successfully parsed
 
 K, the set of possible "tokens", a specialization of producers
 	∀k ∈ K
 		k.l ∈ L, the recognizer id, referencing a terminal, to find a match for
 		k.p ∈ P, the document position to try to find a match for k.l		
-		k.o ∈ 𝒫(𝕎) ∧ 0 <= |k.o| <= 1, the matched substring lengths
+		k.o ∈ 𝒫(P) ∧ 0 <= #(k.o) <= 1, the matched substring lengths
 
 S, the set of possible "subjobs", a specialization of producers (subjobs are also "consumers")
 	∀s ∈ S
@@ -99,32 +95,35 @@ r0 ∈ R, the "root" recognizer, which the entire document will be parsed on
 
 -------------------------------------------------------------------------------------------------
 
-A recognizer M((p, l)) is instantiated iff either
-	M((p, l)) = β', or		
-	∃α ∈ A, ∃w ∈ ⊕(α.k), ∃s ∈ S, ∃c ∈ s.C, c.ψ = p ∧ α.δ(s, w) ∈ ⊕(α.k) 
+A recognizer M(p, l) is instantiated iff either
+	M(p, l) = β', or		
+	∃α ∈ A, ∃w ∈ ⊕(α.k), ∃x ∈ X, ∃s ∈ S, ∃c ∈ s.C, c.ψ = p ∧ α.δ(s, (w, x)) ∈ ⊕(α.k) 
 		A recognizer is only created if a state machine "asks" for it as a transition symbol.
 
-M((p, l)) is always instantiated and "seeds" the parsing algorithm.
+M(0, β) = β' is always instantiated and seeds the parsing algorithm.
 
 -------------------------------------------------------------------------------------------------
 
-D, the set of work items, which are only applicable to subjob processing (implemented as a concurrent queue though)
+δ' : A×ℕ → 𝒫(Σ×X), the function returning the possible transitions of a given DFA at a given state
+	δ'(α, s) = { (q, x) : ∀q ∈ Σ, ∀x ∈ X, α.δ(s, (q, x)) ∈ ⊕(α.k) }
+
+-------------------------------------------------------------------------------------------------
+
+D, the set of work items (actually implemented as a concurrent queue) which are only applicable to subjob processing
 	∀d ∈ D
 		d.z ∈ Z, the producer identifier, which references a subjob
-		(p, l) = d.z (for convenience of notation)
 		d.c ∈ M(d.z).C, the context
+		(p, l) = d.z (unpack the identifier)
 		d.s ∈ ⊕(L'(M(d.z).l).k), the state in the state-machine
 		
 		When a work item is processed, the domain of the transition function Q, of the specified state-machine is enumerated.
 			α = L'(M(d.z).l), the referenced state machine
-			( Recall the definition of A where α.δ : ⊕(α.k)×(Σ×X) → ⊕(α.k) )
-			Q := { (q, x) : q ∈ Σ, x ∈ X, α.δ(d.s, (q, x)) ∈ ⊕(a.k) }, the symbols and metadata of out edges from the state
-				∀(q, x) ∈ Q
-					r = M((p, q)) ∈ R (the producer at document position p, and recognizer q)
-					y ∈ r.Y, add a subscription element into the target producer
-						y.z = d.z
-						y.c = d.c
-						y.x = x
+			∀(q, x) ∈ δ'(α, d.s)
+				r = M((p, q)) (the producer at document position p, and recognizer q)
+				y ∈ r.Y, add a subscription element into the target producer
+					y.z = d.z
+					y.c = d.c
+					y.x = x
 							
 ∀r ∈ R, for each producer
 	Upon matching some substring of length l, create new work items from subscriptions
@@ -136,27 +135,70 @@ D, the set of work items, which are only applicable to subjob processing (implem
 			d.c.t = ((r.p, r.l), n)
 			d.c.x = y.x
 			
-The above describes a producer-consumer system wherein matching a substring creates new work items depending on said substring, and the work items in turn yield additional match substrings. This affect propogates from the leaf nodes of the document syntax to the root node (assuming the document satisfies the grammar). Notably, the dependency graph is generated top down resembling an LL parser, but the events bubble up from the bottom like an LR parser. The work queue lends itself to asymptotic analysis. That is, an upper bound on the work items that will be submitted is an upper bound of the execution time. By recursively expanding the terms within a work item, we produce a description of the items in D.
+The above describes a producer-consumer system wherein matching a substring creates new work items depending on said substring, and the work items in turn yield additional match substrings. This affect propogates from the leaf nodes to the root node of the document syntax (assuming the document satisfies the grammar). Notably, the dependency graph is generated top down resembling an LL parser, but the events bubble up from the bottom like an LR parser. The work queue lends itself to asymptotic analysis. That is, an upper bound on the work items that will be submitted is an upper bound of the execution time. By recursively expanding the terms within a work item, we produce a description of the items in D.
 
-The items in D are dependent on the individual elements wihtin A. To simplify analysis we substitute a fictitious "worst" state machine , ω, for each of those elements.
+-------------------------------------------------------------------------------------------------
+work item: Z 
+	
+	M(d.z).C
+	
+	
+	
+	
+	
+	
+	
+	
+	
+∀s ∈ S
+	from the definition of "context"
+		#(s.C) <= n × #(E(s.C)) × #(E(P×L×P)) × E(X)
+		#(s.C) <= n x #(E(s.C)) × (n × σ ×
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+The items in D are dependent on the individual elements within A. To simplify analysis we substitute a fictitious "worst" state machine, ω.
 	
 	ω.k = max(α.k), ∀α ∈ A
-	ω.δ, 
+	#(δ'(ω, s)) = σ × #(X) (s is irrelevant)
 	
-	
+This state machine, being at least as large in state and transition count as all other real state machines, produces a generous estimation of #(D). One considers that this might worsen the result of the asymptotic analysis. However, we will see that such constants fall out of the big O notation.
+
+∀s ∈ S
+	from the definition of "context"
+		#(s.C) <= n × #(E(s.C)) × #(E(P×L×P)) × E(X)
+		#(s.C) <= n x #(E(s.C)) × (n × σ ×
+		
+Again, we would like to eliminate discreet collections from consideration in describing the set of all contexts, C.
+
+	#(C) <= n × #(E(C)) × #(E(P×L×P')) × #(E(X))
 
 
 
 
 
+
+For each subscription there may be n values consumed
 
 
 
 
 total subscription count <= n*|A|*max(size of domain of δ)
 
-Total work item count <= n*|A|*(total subscription count)
+Total work item count <= n*(total subscription count)
 Total terminal match count <= n*|T|
 
 An array of atomic RMW pointers of dimensions stores
