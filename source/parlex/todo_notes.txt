@@ -1,32 +1,102 @@
-A context is a snapshot of a DFA execution
-A subjob is an invocation of a given DFA at a given document position, and holds a set of configurations of such DFA
+∅, the empty set
+𝕀, the integers
+ℕ, the natural numbers, the non-negative integers
+𝕎, the whole numbers, the positive integers
+𝔹, the booleans, { true, false }
+𝒫, the power set
+ʊ: X → {ε} ∪ X, the function adding the "empty" element to a set
+⊕: ℕ → 𝒫(ℕ), the sequence function ⊕(x) ↦ { y : y ∈ ℕ ∧ y < x }
+	e.g.	⊕(0) = {}
+	e.g.	⊕(3) = {0, 1, 2}
 
-k is the number of DFAs
-P is the set of DFAs { p(0), p(1), ... p(k - 1) }
-n is the length of the input document.
 
 
-∀p ∈ P
-	the DFA p is the tuple (Q(p), Σ(p), δ(p), q0(p), F(p))
-		Q(p) is the set of states in p
-		Σ(p) is the alphabet of p
-		δ(p) : Q(p) * Σ(p) -> Q(p) is the transition function of p
-		q0(p) is the start state of p
-		F(p) is the set of accept states of p
+n ∈ ℕ, the length of the input document
+P := ⊕(n), the set of positions within the input document
 
-:: is the ordered set builder
-I is the set of integers such that i ∈ I, 0 <= i < n
-Z = { z(i,p) : i ∈ I ∧ p ∈ P } is the set of possible subjobs
-|Z| = n * k, the worst-case space complexity for subjobs
 
-a DFA context:
-	x ∈ I the position of the state machine read head
-	i ∈ I the document position of the subjob (where the DFA was invoked)
-	p ∈ P the state machine used by the subjob
-	z ∈ Z = z(i, p) the subjob
-	l ∈ Q(p) the active state in the DFA
-	h ∈ H(x,p)* the history
-	c(x,z,h,l) ∈ D(x,z)^2
+
+X, the set of arbitrary constants
+	This metadata is used in algorithms adjacent to the algorithm evaluated here
+Σ, the set of "recognizers"
+	∀σ ∈ Σ
+		σ: P → 𝒫(𝕎), a function taking a document position as input, and returning the matched substring lengths
+T, the set of "terminals", a specialization of recognizers
+	∀t ∈ T
+		t.Δ ∈ ℕ, the length in characters
+		t.f: P → 𝔹, the test function	
+		t(p) ↦ f(p) ? { Δ } : ∅
+			To satisfy P → 𝒫(𝕎)
+	i.e.:
+		string literals
+		character classes where t.Δ = 1
+A, the set of "state machines", a specialization of recognizers
+	∀a ∈ A
+		a.k ∈ 𝕎, the number of states
+		a.δ : ⊕(a.k)×(Σ×X) → ⊕(a.k), the transition function
+		a.w0 ∈ ⊕(a.k), the start state
+		a.f ∈ ⊕(a.k) ∧ 0 < f, the number of accept states such that states {a.k-1, a.k-2, ... a.k-f} are accept states
+		***the definition of a(p) is deferred***
+
+
+
+Σ = T ∪ A
+σ := |Σ|, the number of recognizers used by the grammar
+We assign an arbitrary sequential ordering to the alphabet to achieve constant-time lookups.
+L := ⊕(σ), L ↔ Σ, the set of unique identifiers of elements of Σ
+L' : L → Σ, the function mapping an unique integer to an element of Σ
+
+K, the set of "tokens"
+	∀k ∈ K
+		k.l ∈ L, the recognizer id, referencing a terminal, to find a match for
+		k.p ∈ P, the document position to try to find a match for k.l
+		k.r ∈ 𝔹, whether the terminal was matched
+		
+S, the set of "subjobs"
+	∀s ∈ S
+		s.l ∈ L, the recognizer id, referencing a state machine, to find matches for
+		s.p ∈ P, the document position to try to find matches for s.l
+		s.C, the set of contexts for this subjob
+			∀c ∈ s.C
+				c.ψ ∈ P, the document read head
+				c.φ ∈ E(s.Θ), the prior context if any	
+				c.t ∈ E(P×Σ×ℕ), the match that produced this DFA configuration
+				c.x ∈ X, the leaf that corresponds to the transition that produced this DFA configuration
+				
+
+Subjobs and tokens are created and inserted into S and K on demand, respectively. Each subjob is uniquely identified by P×L, and is retrieved using this identifier.
+
+R = K ∪ S
+M: P×L → ʊ(R), a two dimensional array sparsly populated with the elements of R.
+M': P×L → R, an imperative function populating M as needed.
+	
+
+Z := P×A, the set of possile subjob identifiers
+|Z| = n×|A|, the worst-case space complexity of subjobs
+
+	
+
+Z' ⊆ Z, the subjobs actually instantiated
+S : P
+A subjob (p, l) is instantiated iff either:
+	1. l is the root DFA of the grammar and p = 0, or
+	2. a DFA (k, δ, q0, f) and 
+
+A subjob may produce multiple matches of the form P×L×ℕ, representing the recognition of a given symbol, at a given document position, and consuming a finite number of characters within the document.
+
+total subscription count <= n*|A|*max(size of domain of δ)
+
+Total work item count <= n*|A|*(total subscription count)
+Total terminal match count <= n*|T|
+
+An array of atomic RMW pointers of dimensions stores
+
+M := Z×𝕎, The set of possible "matches" indicating the document position, the recognizer that matched, and the number of consumed characters
+C: E(C)×P×M×(
+
+C: L → 
+
+C : P*L →   is the set of DFA contexts of a subjob z ∈ Z
 
 The possible children of context c(x,z,h,l), D(x,z,h,l) = { c(y,z,i,m) | ∀y ∈ I ∧ ∀m ∈ Q(p) ∧ x < y ∧ i = c(x,z,h,l)::h }
 
