@@ -26,6 +26,7 @@ X, the set of arbitrary constants
 Σ, the set of "recognizers"
 	∀σ ∈ Σ
 		σ: P → 𝒫(P'), a function taking a document position as input, and returning the matched substring lengths
+	Here, P' is an important distinction from P. It permits only matched substrings of length greater than zero, which means any match must make progress through the document, advancing the read head.
 		
 T, the set of "terminals", a specialization of recognizers
 	∀t ∈ T
@@ -135,12 +136,32 @@ D, the set of work items (actually implemented as a concurrent queue) which are 
 			d.c.t = ((r.p, r.l), n)
 			d.c.x = y.x
 			
-The above describes a producer-consumer system wherein matching a substring creates new work items depending on said substring, and the work items in turn yield additional match substrings. This affect propogates from the leaf nodes to the root node of the document syntax (assuming the document satisfies the grammar). Notably, the dependency graph is generated top down resembling an LL parser, but the events bubble up from the bottom like an LR parser. The work queue lends itself to asymptotic analysis. That is, an upper bound on the work items that will be submitted is an upper bound of the execution time. By recursively expanding the terms within a work item, we produce a description of the items in D.
+The above describes a producer-consumer system wherein matching a substring creates new work items depending on said substring, and the work items in turn yield additional match substrings. This affect propogates from the leaf nodes to the root node of the document syntax (assuming the document satisfies the grammar). Notably, the dependency graph is generated top down resembling an LL parser, but the events bubble up from the bottom like an LR parser. The work queue lends itself to asymptotic analysis. That is, an upper bound on the work items that will be submitted is an upper bound of the execution time processing state-machines. By recursively expanding the terms within a work item, we produce a description of the items in D. Trivially, we also find an execution time bounds on the processing of terminals. The sum of these is the bounds on total execution time.
+
+First we determine the number of contexts a subjob s may have.
+	Each context stores the read head position, giving the first factor, n.
+	
+	α = L'(s.l), the state machine referenced by s
+	Considered alone, the set of possible paths through α is unbounded because it may have cyclical portions. However, each transition within the state machine is driven by a match to which it subscribed. Since a match must advance the read head, each transition does as well. Thus, the set of possible paths through α is bounded by α.k^n.
+
+	Each context has a nullable pointer to another context. This pointer has properties useful in analysis.
+		1. If not null, the pointer must reference a context within the the same subjob.
+		2. This linked list is bounded by n, because each match, and therefore transition, must advance the read head.
+		3. The last element of the linked list (which is the earliest context)
+	
+Each context is created from some 
 
 -------------------------------------------------------------------------------------------------
-work item: Z 
+∀d ∈ D
+	d.z: P×L
+	d.c:
+		d.c.ψ: P
+		d.c.φ: 
+			d.c.φ.φ (because each match must advance the read head, the context chain may be no longer that n)
+work item:
 	
-	M(d.z).C
+	document_position, recognizer, context.prior, context.current_document_position, E(from_transition), E(leaf), dfa_state
+	
 	
 	
 	
