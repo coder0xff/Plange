@@ -4,7 +4,7 @@ enable_testing()
 
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
-if(NOT MSVC) # Remove condition once CMAKE supports this with Visual Studio
+if(NOT MSVC) # Remove condition once CMAKE supports this with Visual Studio 2017
 	set(CMAKE_INTERPROCEDURAL_OPTIMIZATION_RELEASE TRUE)
 endif()
 
