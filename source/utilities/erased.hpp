@@ -11,6 +11,8 @@ class erased {
 public:
 	typedef T type;
 
+	erased(type const & v) : op_ptr(&op<T>), downcast_offset(0), value(new type(v)) {}
+
 	// construct from type U that inherits T
 	template <typename U>
 	// ReSharper disable once CppNonExplicitConvertingConstructor
@@ -81,7 +83,7 @@ public:
 
 private:
 	template <typename U>
-	static constexpr intptr_t compute_downcast_offset() {
+	static intptr_t compute_downcast_offset() {
 		return reinterpret_cast<intptr_t>(static_cast<U*>(reinterpret_cast<T*>(1))) - 1; // strange behavior with nullptr, perhaps undefined behavior?
 	}
 
