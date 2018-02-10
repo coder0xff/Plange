@@ -4,6 +4,11 @@ set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${PROJECT_SOURCE_DIR}/cmake/Modules/
 find_package(LLVM 6.0 REQUIRED HINTS "${DEP_DIR}/llvm/lib/cmake/llvm")
 include_directories("${LLVM_INCLUDE_DIRS}")
 
+set(LLD_INCLUDE_DIRS "${DEP_DIR}/lld/include")
+set(LLD_LIB_DIR "${DEP_DIR}/lld/lib")
+find_library(LLDCore lldCore "${LLD_LIB_DIR}")
+find_library(LLDCommon lldCommon "${LLD_LIB_DIR}")
+
 include_directories("${DEP_DIR}/googletest/include")
 link_directories("${DEP_DIR}/googletest/lib")
 
@@ -66,7 +71,73 @@ else()
 	target_link_libraries(plc stdc++fs)	
 endif()
 #add_precompiled_header(plc "include/stdafx.hpp" FORCEINCLUDE SOURCE_CXX "src/stdafx.cpp")
-target_link_libraries(plc parlex utilities LLVMCore LLVMSupport gtest gtest_main)
+target_link_libraries(
+	plc
+	parlex
+	utilities
+	LLVMAnalysis
+	LLVMAsmParser
+	LLVMAsmPrinter
+	LLVMBinaryFormat
+	LLVMBitReader
+	LLVMBitWriter
+	LLVMCodeGen
+	LLVMCore
+	LLVMCoroutines
+	LLVMCoverage
+	LLVMDebugInfoCodeView
+	LLVMDebugInfoDWARF
+	LLVMDebugInfoMSF
+	LLVMDebugInfoPDB
+	LLVMDemangle
+	LLVMDlltoolDriver
+	LLVMExecutionEngine
+	LLVMFuzzMutate
+	LLVMGlobalISel
+	LLVMInstCombine
+	LLVMInstrumentation
+	LLVMInterpreter
+	LLVMipo
+	LLVMIRReader
+	LLVMLibDriver
+	LLVMLineEditor
+	LLVMLinker
+	LLVMLTO
+	LLVMMC
+	LLVMMCDisassembler
+	LLVMMCJIT
+	LLVMMCParser
+	LLVMMIRParser
+	LLVMObjCARCOpts
+	LLVMObject
+	LLVMObjectYAML
+	LLVMOption
+	LLVMOrcJIT
+	LLVMPasses
+	LLVMProfileData
+	LLVMRuntimeDyld
+	LLVMScalarOpts
+	LLVMSelectionDAG
+	LLVMSupport
+	LLVMSymbolize
+	LLVMTableGen
+	LLVMTarget
+	LLVMTransformUtils
+	LLVMVectorize
+	LLVMWindowsManifest
+	LLVMX86AsmParser
+	LLVMX86AsmPrinter
+	LLVMX86CodeGen
+	LLVMX86Desc
+	LLVMX86Disassembler
+	LLVMX86Info
+	LLVMX86Utils
+	LLVMXRay
+	${LLDCore}
+	${LLDCommon}
+	gtest
+	gtest_main
+)
 
 add_test(NAME plc_test COMMAND "$<TARGET_FILE:plc>" --test)
 
