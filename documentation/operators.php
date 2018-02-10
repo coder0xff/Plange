@@ -11,7 +11,7 @@
 		    require '../header.php';
 		?>
 
-		<p>The following properties may be used to categorize operators</p>
+		<p>Operators</p>
 		<ul>
 			<li><a href="https://en.wikipedia.org/wiki/Arity">arity</a></li>
 			<li><a href="https://en.wikipedia.org/wiki/Operator_associativity">associativity</a></li>
@@ -21,7 +21,7 @@
 			<li>transitive, commutative, distributive, etc properties</li>
 		</ul>
 		<p>A categorical hierarchy is constructed for interpretation as <a href="/documentation/syntax.php">grammar rules</a>. Note that select symbols appear multiple times. These are interpreted in multiple possible ways. For example, - is both "negation" and "subtraction".</p>
-        <p>NOTICE: This page is generated from the <a href="http://plange.tech/source/syntax.yml">syntax specification</a>.</p>
+        <p>NOTICE: This page is generated from the <a href="http://plange.tech/source/syntax.yml">syntax specification</a>. There are also operator-like elements that are not included here because of specialized syntax, such as <a href="http://plange.tech/documentation/syntax/DEFINITION.php">DEFINITION</a>.</p>
         
         <?php
             ini_set('display_errors', 1);
@@ -30,7 +30,7 @@
             
             $syntax_spec = yaml_parse_file('../source/syntax.yml');
 
-            // Operator groups end with the '_OP'.
+            // Operator groups end with an '_OP' suffix.
             // Return true if the given name is an operator group
             function isOP($name) {
                 $haystack = $name;
