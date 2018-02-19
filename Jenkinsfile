@@ -14,6 +14,7 @@ pipeline {
 				sh '''
 				      cd Plange.build &&
 				      rm -rf * && 
+							cmake --version &&
 							cmake .. &&
 							make
 					 '''
