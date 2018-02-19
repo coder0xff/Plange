@@ -1,4 +1,4 @@
-// This file was generated using Parlex's cpp_generator
+﻿// This file was generated using Parlex's cpp_generator
 
 #ifndef INCLUDED_XML_DOC_STRING_INTERIOR_HPP
 #define INCLUDED_XML_DOC_STRING_INTERIOR_HPP
@@ -17,6 +17,7 @@
 
 namespace plc {
 
+struct PAYLOAD;
 struct XML_DOC_STRING_INTERIOR;
 
 struct XML_DOC_STRING_INTERIOR_1_t {
@@ -38,7 +39,7 @@ struct XML_DOC_STRING_INTERIOR_1_t {
 };
 
 typedef std::variant<
-	std::vector<parlex::detail::document::text<parlex::detail::all_t>>,
+	erased<PAYLOAD>,
 	XML_DOC_STRING_INTERIOR_1_t
 > XML_DOC_STRING_INTERIOR_base;
 

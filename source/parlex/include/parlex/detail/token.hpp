@@ -10,7 +10,7 @@ class terminal;
 
 class token : public producer {
 public:
-	token(job & owner, size_t const documentPosition, size_t const recognizerIndex, terminal const & t);
+	token(job & j, match_class const & matchClass, terminal const & t);
 };
 
 } // namespace detail

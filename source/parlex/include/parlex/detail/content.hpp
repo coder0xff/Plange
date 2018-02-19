@@ -8,7 +8,7 @@ namespace parlex::detail {
 class content_t : public terminal {
 public:
 	content_t();
-	bool test(std::u32string const & document, size_t documentPosition) const override final;
+	bool test(std::u32string const & document, uint32_t documentPosition) const override final;
 };
 
 }

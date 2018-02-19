@@ -1,4 +1,4 @@
-// This file was generated using Parlex's cpp_generator
+﻿// This file was generated using Parlex's cpp_generator
 
 #ifndef INCLUDED_FUNCTION_MODIFIER_THROWING_HPP
 #define INCLUDED_FUNCTION_MODIFIER_THROWING_HPP

@@ -1,4 +1,4 @@
-// This file was generated using Parlex's cpp_generator
+﻿// This file was generated using Parlex's cpp_generator
 
 #ifndef INCLUDED_EMBEDDED_NEWLINE_STRING_HPP
 #define INCLUDED_EMBEDDED_NEWLINE_STRING_HPP

@@ -5,17 +5,28 @@
 #include "parlex/post_processor.hpp"
 
 #include "parlex/detail/context.hpp"
-#include "parlex/detail/grammar_base.hpp"
+#include "parlex/detail/grammar.hpp"
 #include "parlex/detail/job.hpp"
 #include "parlex/detail/permutation.hpp"
 #include "parlex/detail/producer.hpp"
 #include "parlex/detail/subjob.hpp"
 
 #include "utils.hpp"
-#include <iterator>
+#include "bits.hpp"
+#include "perf_timer.hpp"
+#include "tarjan.hpp"
 
 namespace parlex {
 namespace detail {
+
+void parser::process(work_item const & item) const {
+	update_progress(*item.dfa_context);
+	auto & p = current_job->get_producer(item.producer_id);
+	auto & sj = *static_cast<subjob *>(&p);
+	//INF("thread ", threadCount, " executing DFA state");
+	sj.machine.process(*current_job, item.producer_id, sj, *item.dfa_context, item.dfa_state);
+	sj.end_work_queue_reference(*current_job, item.producer_id);
+}
 
 void parser::start_workers(int threadCount) {
 	for (; threadCount > 0; --threadCount) {
@@ -29,25 +40,20 @@ void parser::start_workers(int threadCount) {
 					auto item = work.back();
 					work.pop_back();
 					lock.unlock();
-					auto const & c = *std::get<0>(item);
-					auto const nextDfaState = std::get<1>(item);
-					update_progress(c);
-					//INF("thread ", threadCount, " executing DFA state");	
-					c.owner.machine.process(c, nextDfaState);
-					c.owner.end_work_queue_reference();
+					process(item);
 					if (--active_count == 0) {
 						halt_cv.notify_one();
 					}
 					lock.lock();
 				}
 			wait:
-				work_cv.wait(lock, [this]() { return work.size() > 0 || terminating; });
+				work_cv.wait(lock, [this]() { return !work.empty() || terminating; });
 			}
 		});
 	}
 }
 
-parser::parser(unsigned const threadCount) : single_thread_mode(threadCount == 1), active_count(0), terminating(false) {
+parser::parser(unsigned const threadCount) : single_thread_mode(threadCount == 1), active_count(0), terminating(false), current_job(nullptr) {
 	if (!single_thread_mode) {
 		start_workers(threadCount);
 	}
@@ -61,72 +67,65 @@ parser::~parser() {
 	}
 }
 
-abstract_syntax_semilattice parser::construct_result_and_postprocess(size_t const overrideRootRecognizerIndex, std::vector<post_processor> const & posts, std::u32string const & document, job & j) {
-	auto result = construct_result(j, match(match_class(0, overrideRootRecognizerIndex, 0), document.size()));
-	if (!posts.empty()) {
-		for (auto const & post : posts) {
-			post(result);
-		}
-		if (result.is_rooted()) {
-			result.prune_detached();
-		}
-	}
-	return result;
-}
-
 void parser::complete_progress_handler(job & j) {
 	j.update_progress(j.document.length());
 }
 
-void parser::update_progress(context const & context) {
-	context.owner.owner.update_progress(context.current_document_position);
+void parser::update_progress(context const & context) const {
+	current_job->update_progress(context.current_document_position);
 }
 
-abstract_syntax_semilattice parser::single_thread_parse(grammar_base const & g, size_t const overrideRootRecognizerIndex, std::vector<post_processor> const & posts, std::u32string const & document, progress_handler_t const progressHandler) {
-	//perf_timer timer("parse");
+abstract_syntax_semilattice parser::single_thread_parse(grammar const & g, uint16_t const overrideRootRecognizerIndex, std::vector<post_processor> const & posts, std::u32string const & document, progress_handler_t const & progressHandler) {
+	//perf_timer perf1(__func__);
 	job j(*this, document, g, overrideRootRecognizerIndex, progressHandler);
+	current_job = &j;
 	throw_assert(active_count > 0);
-	while (true) {
-		while (work.size() > 0) {
-			auto item = work.back();
-			work.pop_back();
-			auto const & c = *std::get<0>(item);
-			auto const nextDfaState = std::get<1>(item);
-			update_progress(c);	
-			//INF("thread ", threadCount, " executing DFA state");
-			c.owner.machine.process(c, nextDfaState);
-			c.owner.end_work_queue_reference();
-			--active_count;
-		}
-		throw_assert(active_count == 0);
-		//DBG("parser is idle; checking for deadlocks");
-		if (handle_deadlocks(j)) {
-			break;
+	{
+		//perf_timer perf2("Recognizer work queue processing");
+		while (true) {
+			while (!work.empty()) {
+				auto const item = work.back();
+				work.pop_back();
+				process(item);
+				--active_count;
+			}
+			throw_assert(active_count == 0);
+			//DBG("parser is idle; checking for deadlocks");			
+			if (j.handle_deadlocks()) {
+				break;
+			}
 		}
 	}
 	throw_assert(active_count == 0);
+	current_job = nullptr;
 	complete_progress_handler(j);
-	return construct_result_and_postprocess(overrideRootRecognizerIndex, posts, document, j);
+	return j.construct_result_and_postprocess(overrideRootRecognizerIndex, posts, document);
 }
 
-abstract_syntax_semilattice parser::multi_thread_parse(grammar_base const & g, size_t const overrideRootRecognizerIndex, std::vector<post_processor> const & posts, std::u32string const & document, progress_handler_t const progressHandler) {
+abstract_syntax_semilattice parser::multi_thread_parse(grammar const & g, uint16_t const overrideRootRecognizerIndex, std::vector<post_processor> const & posts, std::u32string const & document, progress_handler_t const & progressHandler) {
 	//perf_timer timer("parse");
 	std::unique_lock<std::mutex> lock(mutex); //use the lock to make sure we see activeCount != 0
 	job j(*this, document, g, overrideRootRecognizerIndex, progressHandler);
+	current_job = &j;
 	throw_assert(active_count > 0);
-	while (true) {
-		halt_cv.wait(lock, [this]() { return active_count == 0; });
-		//DBG("parser is idle; checking for deadlocks");
-		if (handle_deadlocks(j)) {
-			break;
+	{
+		//perf_timer recognizeTimer("Recognizer work queue processing");
+		while (true) {
+			halt_cv.wait(lock, [this]() { return active_count == 0; });
+			//DBG("parser is idle; checking for deadlocks");
+			throw_assert(active_count == 0);
+			if (j.handle_deadlocks()) {
+				break;
+			}
 		}
 	}
 	throw_assert(active_count == 0);
+	current_job = nullptr;
 	complete_progress_handler(j);
-	return construct_result_and_postprocess(overrideRootRecognizerIndex, posts, document, j);
+	return j.construct_result_and_postprocess(overrideRootRecognizerIndex, posts, document);
 }
 
-abstract_syntax_semilattice parser::parse(grammar_base const & g, recognizer const & overrideMain, std::vector<post_processor> const & posts, std::u32string const & document, progress_handler_t const & progressHandler) {
+abstract_syntax_semilattice parser::parse(grammar const & g, recognizer const & overrideMain, std::vector<post_processor> const & posts, std::u32string const & document, progress_handler_t const & progressHandler) {
 	auto const overrideRootRecognizerIndex = g.lookup_recognizer_index(overrideMain);
 	if (single_thread_mode) {
 		return single_thread_parse(g, overrideRootRecognizerIndex, posts, document, progressHandler);
@@ -134,84 +133,27 @@ abstract_syntax_semilattice parser::parse(grammar_base const & g, recognizer con
 	return multi_thread_parse(g, overrideRootRecognizerIndex, posts, document, progressHandler);
 }
 
-abstract_syntax_semilattice parser::parse(grammar_base const & g, recognizer const & overrideMain, std::u32string const & document, progress_handler_t const & progressHandler) {
+abstract_syntax_semilattice parser::parse(grammar const & g, recognizer const & overrideMain, std::u32string const & document, progress_handler_t const & progressHandler) {
 	return parse(g, overrideMain, std::vector<post_processor>(), document, progressHandler);
 }
 
-abstract_syntax_semilattice parser::parse(grammar_base const & g, std::vector<post_processor> const & posts, std::u32string const & document, progress_handler_t const & progressHandler) {
+abstract_syntax_semilattice parser::parse(grammar const & g, std::vector<post_processor> const & posts, std::u32string const & document, progress_handler_t const & progressHandler) {
 	return parse(g, g.get_root_state_machine(), posts, document, progressHandler);
 }
 
-abstract_syntax_semilattice parser::parse(grammar_base const & g, std::u32string const & document, progress_handler_t const & progressHandler) {
+abstract_syntax_semilattice parser::parse(grammar const & g, std::u32string const & document, progress_handler_t const & progressHandler) {
 	return parse(g, g.get_root_state_machine(), document, progressHandler);
 }
 
-void parser::schedule(context const & c, int nextDfaState) {
+void parser::schedule(uint32_t const producerId, context const & c, int nextDfaState) {
 	//DBG("scheduling m: ", c.owner().machine.name, " b:", c.owner().documentPosition, " s:", nextDfaState, " p:", c.current_document_position());
-	c.owner.begin_work_queue_reference();
+	auto & p = current_job->get_producer(producerId);
+	auto & sj = *static_cast<subjob *>(&p);  // NOLINT
+	sj.begin_work_queue_reference();
 	++active_count;
 	std::unique_lock<std::mutex> lock(mutex);
-	work.emplace_back(&c, nextDfaState);
+	work.emplace_back(producerId, &c, nextDfaState);
 	work_cv.notify_one();
-}
-
-bool parser::handle_deadlocks(job const & j) const {
-	throw_assert(active_count == 0);
-	//perf_timer timer("handle_deadlocks");
-
-	//build a dependency graph and detect cyclical portions that should be halted
-	//if no subjobs remain, return true
-	//otherwise return false (still work to be done)
-
-	std::stack<std::pair<match_class, match_class>> s;
-
-	//Examine subscriptions from one subjob to another to construct the graph
-	std::map<match_class, std::set<match_class>> directSubscriptions;
-	std::map<match_class, std::set<match_class>> allSubscriptions;
-	for (size_t documentPosition = 0; documentPosition < j.producers->document_length; ++documentPosition) {
-		for (size_t recognizerIndex = 0; recognizerIndex < j.producers->recognizer_count; ++recognizerIndex) {
-			match_class const matchClass(documentPosition, recognizerIndex, 0);
-			auto const & storage = (*j.producers)(matchClass);
-			if (!storage) {
-				continue;
-			}
-			auto const & producer = *storage;
-			auto const & recognizer = j.g.get_recognizer(producer.recognizer_index);
-			if (recognizer.is_terminal() || producer.completed) {
-				continue;
-			}
-			for (auto const & subscription : producer.consumers) {
-				auto const & c = subscription.c;
-				match_class temp(c.owner.document_position, c.owner.recognizer_index, 0);
-				allSubscriptions[matchClass].insert(temp);
-				directSubscriptions[matchClass].insert(temp);
-				s.push(std::pair<match_class, match_class>(matchClass, temp));
-			}
-		}
-	}
-
-	//Apply transitivity to the graph
-	while (s.size() > 0) {
-		auto entry = s.top();
-		s.pop();
-		for (auto const & next : directSubscriptions[entry.first]) {
-			if (allSubscriptions[entry.first].insert(next).second) {
-				s.push(std::pair<match_class, match_class>(entry.first, next));
-			}
-		}
-	}
-
-	auto anyHalted = false;
-	//halt subjobs that are subscribed to themselves (in)directly
-	for (auto const & i : allSubscriptions) {
-		auto const & matchClass = i.first;
-		auto & p = *(*j.producers)(matchClass);
-		if (i.second.count(matchClass) > 0) {
-			p.terminate();
-			anyHalted = true;
-		}
-	}
-	return !anyHalted;
 }
 
 struct node_props_t {
@@ -222,30 +164,11 @@ struct node_props_t {
 	std::set<match> all_descendents;
 	std::set<match> all_ancestors;
 	std::set<match> all_descendents_and_ancestors;
-	std::set<match> all_unrelated_intersections;
+	collections::coherent_set<match> all_unrelated_intersections;
 
 	node_props_t(abstract_syntax_semilattice & asg, match const & m) : m(m), permutations(asg.permutations_of_matches[m]), height(0) {
 	}
 };
-
-static bool can_prune(abstract_syntax_semilattice & asg, std::map<match, node_props_t> const & nodes, node_props_t const & props) {
-	if (!(props.m < asg.root || asg.root < props.m)) {
-		return false;
-	}
-	for (auto const & parentMatchAndPermutations : props.parent_permutations_by_match) {
-		auto const & parentMatch = parentMatchAndPermutations.first;
-		auto const i = nodes.find(parentMatch);
-		throw_assert(i != nodes.end());
-		auto const & parentProps = i->second;
-		auto const & parentPermutations = parentMatchAndPermutations.second;
-		if (parentProps.permutations.size() == parentPermutations.size()) { //if all parent permutations depend on this, then we can only prune if the parent can be pruned
-			if (!can_prune(asg, nodes, parentProps)) {
-				return false;
-			}
-		}
-	}
-	return true;
-}
 
 static void prune(abstract_syntax_semilattice & asg, std::map<match, node_props_t> & nodes, node_props_t & props) {
 	std::queue<match> toPrune;
@@ -269,7 +192,7 @@ static void prune(abstract_syntax_semilattice & asg, std::map<match, node_props_
 			for (auto const & perm : parentPermutations) {
 				parentProps.permutations.erase(perm);
 			}
-			if (parentProps.permutations.size() == 0) {
+			if (parentProps.permutations.empty()) {
 				add(parentMatch);
 			}
 		}
@@ -278,11 +201,11 @@ static void prune(abstract_syntax_semilattice & asg, std::map<match, node_props_
 			throw_assert(i != nodes.end());
 			auto & descendent = i->second;
 			descendent.all_ancestors.erase(thisMatch);
-			if (descendent.all_ancestors.empty()) {
-				add(descendentMatch);
-			}
 			descendent.all_descendents_and_ancestors.erase(thisMatch);
 			descendent.parent_permutations_by_match.erase(thisMatch);
+			if (descendent.parent_permutations_by_match.empty()) {
+				add(descendentMatch);				
+			}
 		}
 		for (auto const & ancestorMatch : thisNode.all_ancestors) {
 			auto const i = nodes.find(ancestorMatch);
@@ -306,6 +229,7 @@ static void prune(abstract_syntax_semilattice & asg, std::map<match, node_props_
 }
 
 static void construct_nodes(abstract_syntax_semilattice & asg, std::map<match, node_props_t> & nodes, std::vector<std::set<node_props_t *>> & flattened) {
+	//perf_timer perf(__FUNCTION__);
 	for (auto const & matchAndPermutations : asg.permutations_of_matches) {
 		auto const & m = matchAndPermutations.first;
 		auto & nodeProps = nodes.emplace(std::piecewise_construct, std::forward_as_tuple(m), std::forward_as_tuple(asg, m)).first->second;
@@ -327,59 +251,143 @@ static void construct_nodes(abstract_syntax_semilattice & asg, std::map<match, n
 }
 
 static void resolve_nodes(std::map<match, node_props_t> & nodes) {
-	//work queue for the algorithm
-	std::queue<std::tuple<node_props_t *, node_props_t *, int>> propertyResolveQueue;
+	//perf_timer perf(__FUNCTION__);
 
+	std::vector<node_props_t *> vertices;
+	typedef std::vector<node_props_t *>::iterator vert_iterator;
+	std::map<node_props_t *, vert_iterator> lookup;
+	vertices.reserve(nodes.size());
 	for (auto & entry : nodes) {
-		auto & props = entry.second;
-		//seed algorithm with "match A has all of match A's permutation's matches as descendants"
-		propertyResolveQueue.push(std::make_tuple(&props, &props, 0));
+		vertices.push_back(&entry.second);
+		lookup[&entry.second] = vertices.begin() + (vertices.size() - 1);
 	}
 
-	//containment algorithm
-	//match A contains all of match B's permutation's matches
-	while (!propertyResolveQueue.empty()) {
-		auto entry = propertyResolveQueue.front();
-		propertyResolveQueue.pop();
-		auto & left = *std::get<0>(entry);
-		auto & right = *std::get<1>(entry);
-		size_t const leftsHeightMinusRightsHeight = std::get<2>(entry);
-		if (right.height == 0) { //if right is a leaf
-			left.height = std::max(leftsHeightMinusRightsHeight, left.height);
+	std::function<std::vector<vert_iterator> (vert_iterator)> const transitionFunc = [&nodes, &lookup](vert_iterator const & vert) {
+		std::vector<vert_iterator> results;
+		for (auto const & permutation : (*vert)->permutations) {
+			for (auto const & m : permutation) {
+				auto i = nodes.find(m);
+				throw_assert(i != nodes.end());
+				results.push_back(lookup[&(i->second)]);
+			}
 		}
-		for (auto const & perm : right.permutations) {
-			for (match const & containedMatch : perm) {
-				auto & childProps = nodes.find(containedMatch)->second;
-				if (left.all_descendents.insert(childProps.m).second) {
-					propertyResolveQueue.push(std::make_tuple(&left, &nodes.find(containedMatch)->second, leftsHeightMinusRightsHeight + 1));
+		return results;
+	};
+
+	auto orderedNodes = tarjan(vertices.begin(), vertices.end(), transitionFunc);
+
+	for (auto const & subgraph : orderedNodes) {
+		for (auto const & vertI : subgraph) {
+			auto & node = **vertI;
+			for (auto const & permutation : node.permutations) {
+				for (auto const & m : permutation) {
+					auto i = nodes.find(m);
+					throw_assert(i != nodes.end());
+					auto & otherNode = i->second;
+					node.height = std::max(node.height, otherNode.height + 1);
+					node.all_descendents.insert(otherNode.m);
+					node.all_descendents.insert(otherNode.all_descendents.begin(), otherNode.all_descendents.end());
 				}
-				childProps.all_ancestors.insert(left.m);
-				childProps.all_descendents_and_ancestors.insert(left.m);
-				left.all_descendents_and_ancestors.insert(childProps.m);
 			}
 		}
 	}
+
+	std::reverse(orderedNodes.begin(), orderedNodes.end());
+	for (auto const & subgraph : orderedNodes) {
+		for (auto const & vertI : subgraph) {
+			auto & node = **vertI;
+			for (auto const & entry : node.parent_permutations_by_match) {
+				auto const parentMatch = entry.first;
+				auto const i = nodes.find(parentMatch);
+				throw_assert(i != nodes.end());
+				auto const & parentNode = i->second;
+				node.all_ancestors.insert(parentNode.m);
+				node.all_ancestors.insert(parentNode.all_ancestors.begin(), parentNode.all_ancestors.end());
+			}
+		}
+	}
+	
+	for (auto & entry : nodes) {
+		entry.second.all_descendents_and_ancestors = entry.second.all_descendents;
+		entry.second.all_descendents_and_ancestors.insert(entry.second.all_ancestors.begin(), entry.second.all_ancestors.end());
+	}
 }
 
-static void compute_intersections(std::vector<std::set<node_props_t *>> const & flattened) {
-	for (size_t column = 0; column < flattened.size(); ++column) {
-		std::set<match> columnMatches;
-		for (auto const & nodeProp : flattened[column]) {
-			columnMatches.insert(nodeProp->m);
+//Algorithm for quickly getting the `matches` that are present in a range of document indices
+struct intersection_lookup {
+	explicit intersection_lookup(std::vector<std::set<node_props_t *>> const & flattened, std::set<size_t> const & affectedRecognizerIndices) {
+		//perf_timer perf(__FUNCTION__);
+		auto const docLen = flattened.size();
+		auto const lookupDepth = sizeof(int32_t) * 8 - clz(uint32_t(docLen));
+		lookup.resize(lookupDepth);
+		auto & lowestRow = lookup[lookupDepth - 1];
+		lowestRow.resize(docLen);
+		for (size_t i = 0; i < docLen; ++i) {
+			for (auto const & node : flattened[i]) {
+				if (affectedRecognizerIndices.count(node->m.recognizer_index) > 0) {
+					lowestRow[i].insert(node->m);
+				}
+			}
 		}
-		for (auto & nodeProp : flattened[column]) {
-			std::set<match> unrelatedIntersection;
-			set_difference(
-				columnMatches.begin(), columnMatches.end(),
-				nodeProp->all_descendents_and_ancestors.begin(), nodeProp->all_descendents_and_ancestors.end(),
-				inserter(nodeProp->all_unrelated_intersections, nodeProp->all_unrelated_intersections.end())
-			);
-			nodeProp->all_unrelated_intersections.erase(nodeProp->m);
+		for (int depth = lookupDepth - 2; depth >= 0; --depth) {
+			auto const antiDepth = (lookupDepth - 1) - depth;
+			auto const rowWidth = docLen >> antiDepth;
+			auto & row = lookup[depth];
+			row.resize(rowWidth);
+			auto & lowerRow = lookup[depth + 1];
+			for (size_t i = 0; i + 1 < lowerRow.size(); i += 2) {
+				auto const column = i / 2;
+				auto & cell = row[column];
+				cell.insert_many(lowerRow[i].begin(), lowerRow[i].end());
+				cell.insert_many(lowerRow[i + 1].begin(), lowerRow[i + 1].end());
+			}
+		}
+	}
+
+	void query(int const first, int const last, collections::coherent_set<match> & results) {
+		int const lookupDepth = lookup.size();
+		// common higher-order bits identify the row and column fully containing the span
+		auto const containmentAntiRow = sizeof(int32_t) * 8 - clz(first ^ last);
+		int const containmentBreadth = 1 << containmentAntiRow;
+		int const containmentColumn = first >> containmentAntiRow;
+		int const containmentFirst = containmentColumn << containmentAntiRow;
+		auto const containmentLast = containmentFirst + containmentBreadth - 1;
+		int const containmentRow = int(lookupDepth - 1) - containmentAntiRow;
+		if (containmentRow >= 0 && int(lookup[containmentRow].size()) > containmentColumn && first == containmentFirst && last == containmentLast) {
+			auto resolved = lookup[containmentRow][containmentColumn];
+			results.insert_many(resolved.begin(), resolved.end());
+		} else {
+			int const divisionAntiRow = containmentAntiRow - 1;
+			auto const divisionColumn = (containmentColumn << 1) + 1;
+			auto const divisionIndex = divisionColumn << divisionAntiRow;
+			query(first, divisionIndex - 1, results);
+			query(divisionIndex, last, results);
+		}
+	}
+
+private:
+	std::vector<std::vector<collections::coherent_set<match>>> lookup;	
+};
+
+static void compute_intersections(std::map<match, node_props_t> & nodes, std::vector<std::set<node_props_t *>> const & flattened, std::set<size_t> const & affectedRecognizerIndices) {
+	//perf_timer perf(__FUNCTION__);
+	intersection_lookup lookup(flattened, affectedRecognizerIndices);
+	for (auto & matchAndProps : nodes) {		
+		auto const & m = matchAndProps.first;
+		if (affectedRecognizerIndices.count(m.recognizer_index) > 0) {
+			auto & props = matchAndProps.second;
+			auto const first = m.document_position;
+			auto const last = first + m.consumed_character_count - 1;
+			lookup.query(first, last, props.all_unrelated_intersections);
+			props.all_unrelated_intersections.erase(m);
+			auto const & remove = props.all_descendents_and_ancestors;
+			props.all_unrelated_intersections.erase_many(remove.begin(), remove.end());
 		}
 	}
 }
 
 static std::vector<std::set<match>> ordered_matches_by_height(std::map<match, node_props_t> & nodes) {
+	//perf_timer perf(__FUNCTION__);
 	std::vector<std::set<match>> orderedMatchesByHeight;
 	for (auto & entry : nodes) {
 		auto & node = entry.second;
@@ -391,18 +399,18 @@ static std::vector<std::set<match>> ordered_matches_by_height(std::map<match, no
 	return orderedMatchesByHeight;
 }
 
-static bool does_precede(grammar_base const & g, node_props_t & a, node_props_t & b) {
+static bool does_precede(grammar const & g, node_props_t & a, node_props_t & b) {
 	if (a.m.recognizer_index == b.m.recognizer_index) {
 		return false;
 	}
 	return g.does_precede(a.m.recognizer_index, b.m.recognizer_index);
 }
 
-static bool associativity_test(grammar_base const & g, node_props_t & a, node_props_t & b) {
+static bool associativity_test(grammar const & g, node_props_t & a, node_props_t & b) {
 	if (a.m.recognizer_index != b.m.recognizer_index) {
 		return false;
 	}
-	auto const assoc = dynamic_cast<state_machine_base const *>(&g.get_recognizer(a.m.recognizer_index))->get_assoc();
+	auto const assoc = dynamic_cast<state_machine const *>(&g.get_recognizer(a.m.recognizer_index))->get_assoc();
 	switch (assoc) {
 		case associativity::LEFT:
 		case associativity::ANY:
@@ -415,7 +423,7 @@ static bool associativity_test(grammar_base const & g, node_props_t & a, node_pr
 	throw std::domain_error("Invalid associativity value");
 }
 
-static void select_match(abstract_syntax_semilattice & asg, grammar_base const & g, std::map<match, node_props_t> & nodes, match const & m) {
+static void select_match(abstract_syntax_semilattice & asg, grammar const & g, std::map<match, node_props_t> & nodes, match const & m) {
 	auto const & i = nodes.find(m);
 	if (i == nodes.end()) {
 		return; //continue
@@ -442,46 +450,49 @@ static void select_match(abstract_syntax_semilattice & asg, grammar_base const &
 		auto & b = pair->second;
 		if (does_precede(g, *a, b) || associativity_test(g, *a, b)) {
 			//if it must be selected, then precedence and associativity must remove preempted intersections
-			if (can_prune(asg, nodes, b)) {
-				prune(asg, nodes, b);
-			}
-			else {
-				if (does_precede(g, *a, b)) {
-					static auto stringify = [&g](node_props_t & np) {
-						auto const & r = g.get_recognizer(np.m.recognizer_index);
-						return r.name + " from " + std::to_string(np.m.document_position) + " for " + std::to_string(np.m.consumed_character_count) + " characters at height " + std::to_string(np.height);
-					};
-					asg.warnings.push_back(stringify(*a) + " preempted " + stringify(b) + " by precedence, but was not applied because it would cause a degenerate parse tree.");
-				}
-				else {
-					throw std::exception(); //degenerate parse caused by associativity?
-				}
-			}
+			prune(asg, nodes, b);
 		}
 	}
 }
 
-static void select_trees(abstract_syntax_semilattice & asg, grammar_base const & g, std::map<match, node_props_t> & nodes, std::vector<std::set<match>> const orderedMatchesByHeight) {
-	for (size_t height = 0; height < orderedMatchesByHeight.size(); ++height) {
-		auto const & matches = orderedMatchesByHeight[height];
+static void select_trees(abstract_syntax_semilattice & asg, grammar const & g, std::map<match, node_props_t> & nodes, std::vector<std::set<match>> const orderedMatchesByHeight) {
+	//perf_timer perf(__FUNCTION__);
+	for (const auto & matches : orderedMatchesByHeight) {
 		for (auto const & m : matches) {
 			select_match(asg, g, nodes, m);
 		}
 	}
 }
 
-static void apply_precedence_and_associativity(grammar_base const & g, abstract_syntax_semilattice & asg) {
+void parser::apply_precedence_and_associativity(grammar const & g, abstract_syntax_semilattice & asg) {
+	//perf_timer perf(__FUNCTION__);
 	throw_assert(asg.is_rooted());
-	auto anyAssociativities = false;
-	for (auto const & stateMachineBase : g.get_state_machines()) {
-		anyAssociativities = stateMachineBase->get_assoc() != associativity::NONE;
-		if (anyAssociativities) {
-			break;
+
+	std::set<size_t> affectedRecognizerIndices;
+
+	for (uint16_t i = 0; i < g.get_recognizer_count(); ++i) {
+		auto const * recognizerPtr = &g.get_recognizer(i);
+		auto const * asStateMachineBasePtr = dynamic_cast<state_machine const *>(recognizerPtr);
+		if (asStateMachineBasePtr != nullptr) {
+			auto const & stateMachineBase = *asStateMachineBasePtr;
+			if (stateMachineBase.get_assoc() != associativity::NONE) {
+				affectedRecognizerIndices.insert(i);
+			}
+		}
+	}
+	auto const precedences = g.get_precedences();
+	for (size_t i = 0; i < precedences.size(); ++i) {
+		auto const & precedenceSet = precedences[i];
+		if (!precedenceSet.empty()) {
+			affectedRecognizerIndices.insert(i);
+			for (auto other : precedenceSet) {
+				affectedRecognizerIndices.insert(other);
+			}
 		}
 	}
 
 	//short circuit if no rules are given
-	if (!g.get_precedences().empty() || anyAssociativities) {
+	if (!affectedRecognizerIndices.empty()) {
 
 		std::map<match, node_props_t> nodes;
 		//a per-character table of matches
@@ -490,7 +501,7 @@ static void apply_precedence_and_associativity(grammar_base const & g, abstract_
 
 		construct_nodes(asg, nodes, flattened);
 		resolve_nodes(nodes);
-		compute_intersections(flattened);
+		compute_intersections(nodes, flattened, affectedRecognizerIndices);
 		auto const matchesByHeight = ordered_matches_by_height(nodes);
 		select_trees(asg, g, nodes, matchesByHeight);
 	}
@@ -498,34 +509,6 @@ static void apply_precedence_and_associativity(grammar_base const & g, abstract_
 }
 
 
-//Construct an ASS, and if a solution was found, prunes unreachable nodes
-abstract_syntax_semilattice parser::construct_result(job & j, match const & m) {
-	//perf_timer timer("construct_result");
-	auto result = abstract_syntax_semilattice(transition(match(m), nullptr));
-	for (size_t documentPosition = 0; documentPosition < j.producers->document_length; ++documentPosition) {
-		for (size_t recognizerIndex = 0; recognizerIndex < j.producers->recognizer_count; ++recognizerIndex) {
-			match_class const matchClass(documentPosition, recognizerIndex, 0);
-			auto const & storage = (*j.producers)(matchClass);
-			if (!storage) {
-				continue;
-			}
-			auto const & producer = *storage;
-			for (auto const & pair2 : producer.match_to_permutations) {
-				auto const & n = match(pair2.first);
-				auto const & permutations = pair2.second;
-				result.permutations_of_matches[n] = permutations;
-			}
-		}
-	}
-
-	j.producers.reset();
-	if (result.is_rooted()) {
-		result.prune_detached();
-		apply_precedence_and_associativity(j.g, result);
-		result.prune_detached();
-	}
-	return result;
-}
 
 } // namespace detail
 } // namespace parlex

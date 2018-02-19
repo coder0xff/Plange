@@ -25,7 +25,8 @@ set(SOURCES
 	"src/source_code.cpp"
 	"src/stdafx.cpp"
 	"src/symbol.cpp"
-	"src/warnings.cpp")
+	"src/warnings.cpp"
+	"src/plc_utils.cpp")
 
 set(HEADERS
 	"include/analytic_value.hpp"
@@ -39,7 +40,8 @@ set(HEADERS
 	"include/source_code.hpp"
 	"include/stdafx.hpp"
 	"include/symbol.hpp"
-	"include/warnings.hpp")
+	"include/warnings.hpp"
+	"include/plc_utils.hpp")
 
 FILE(GLOB DOCUMENT_SOURCES "src/document/*.cpp*")
 FILE(GLOB DOCUMENT_HEADERS "include/document/*.hpp*")

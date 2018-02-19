@@ -8,7 +8,8 @@ namespace mpl {
 	namespace detail::drop {
 		template<size_t Count, typename TList, SFINAE_TYPE_PARAM>
 		struct impl {
-			static_assert(Count != Count, "template specialization failed");
+			// This template should never be instantiated, so we have a static_assert that always fails
+			static_assert(Count == -1, "template specialization failed");
 		};
 
 		template<template <typename...> typename TContainer, typename... Ts>

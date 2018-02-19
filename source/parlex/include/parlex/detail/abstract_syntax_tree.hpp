@@ -5,7 +5,7 @@
 
 
 namespace parlex::detail {
-class grammar_base;
+class grammar;
 
 struct ast_node : match {
 		typedef std::vector<ast_node> sequence;
@@ -16,8 +16,8 @@ struct ast_node : match {
 		// The grammar leaf that this ast_node satisfies
 		leaf const * l;
 
-		ast_node(match const &, std::vector<ast_node> const & children, leaf const * l);
-		std::string to_dot(grammar_base const & g) const;
+		ast_node(match const & m, std::vector<ast_node> const & children, leaf const * l);
+		std::string to_dot(grammar const & g) const;
 	};
 
 	typedef ast_node abstract_syntax_tree;

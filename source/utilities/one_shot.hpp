@@ -7,7 +7,7 @@
 class one_shot {
 public:
 	one_shot();
-	void go(std::function<void ()> func);
+	void go(std::function<void ()> const & func);
 private:
 	bool state;
 	std::mutex m;

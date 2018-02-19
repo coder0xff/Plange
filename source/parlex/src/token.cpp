@@ -6,14 +6,14 @@
 namespace parlex {
 namespace detail {
 
-token::token(job & owner, size_t const documentPosition, size_t const recognizerIndex, terminal const & t) : producer(owner, documentPosition, recognizerIndex, 0) {
-	if (t.test(owner.document, documentPosition)) {
+token::token(job & j, match_class const & matchClass, terminal const & t) {
+	if (t.test(j.document, matchClass.document_position)) {
 		//DBG("found a '", t.name, "' at ", documentPosition);
-		enque_permutation(t.length, permutation());
+		enque_permutation(j, matchClass, t.length, permutation());
 	} else {
 		//DBG("no '", t.name, "' at ", documentPosition);
 	}
-	terminate();
+	terminate(j, matchClass);
 }
 
 } // namespace detail

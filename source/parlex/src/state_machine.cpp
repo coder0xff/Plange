@@ -2,14 +2,16 @@
 
 #include "parlex/associativity.hpp"
 #include "parlex/builder.hpp"
+#include "parlex/detail/job.hpp"
+#include "parlex/detail/subjob.hpp"
 
 namespace parlex {
 namespace detail {
 
-state_machine::state_machine(std::string const & name, filter_function const & filter, associativity const assoc) : state_machine_base(name), filter(filter), assoc(assoc), behavior(nullptr), start_state(-1), accept_state_count(-1) {
+state_machine::state_machine(std::string const & name, filter_function const & filter, associativity const assoc) : recognizer(name), filter(filter), assoc(assoc), behavior(nullptr), start_state(-1), accept_state_count(-1) {
 }
 
-void state_machine::set_behavior(std::map<recognizer const *, size_t> const & recognizerLookup, node & behavior) {
+void state_machine::set_behavior(node & behavior) {
 	this->behavior = &behavior;
 	auto dfa = reorder(behavior.compile());
 	auto transitions = dfa.get_transitions();
@@ -17,26 +19,38 @@ void state_machine::set_behavior(std::map<recognizer const *, size_t> const & re
 		while (states.size() <= t.to || states.size() <= t.from) {
 			states.emplace_back();
 		}
-		transition_info_t transitionInfo;
+		transition_info_t transitionInfo{};
 		transitionInfo.l = t.symbol;
 		transitionInfo.recognizer_index = t.symbol->recognizer_index;
-		states[t.from][transitionInfo] = t.to;
+		states[t.from][transitionInfo] = uint8_t(t.to);
 	}
-	start_state = *dfa.start_states.begin();
-	accept_state_count = dfa.accept_states.size();
+	start_state = uint8_t(*dfa.start_states.begin());
+	accept_state_count = uint8_t(dfa.accept_states.size());
 }
 
-void state_machine::process(context const & c, size_t const s) const {
-	//DBG("processing '", get_id(), "' s:", s, " p:", c.current_document_position());
-	if (s >= states.size() - accept_state_count) {
-		accept(c);
+void state_machine::process(job & j, uint32_t subjobId, subjob & sj, context const & c, uint8_t const dfaState) const {
+	//DBG("processing '", get_id(), "' dfaState:", dfaState, " p:", c.current_document_position());
+	if (dfaState >= states.size() - accept_state_count) {
+		accept(j, sj, subjobId, c);
 	}
-	for (auto const & kvp : states[s]) {
+	for (auto const & kvp : states[dfaState]) {
 		auto const & transitionInfo = kvp.first;
 		int const nextState = kvp.second;
-		//DBG("'", get_id(), "' state ", s, " position ", c.current_document_position(), " subscribes to '", transition.name, "' position ", c.current_document_position());
-		on(c, transitionInfo.recognizer_index, nextState, transitionInfo.l);
+		//DBG("'", get_id(), "' state ", dfaState, " position ", c.current_document_position(), " subscribes to '", transition.name, "' position ", c.current_document_position());
+		on(j, transitionInfo.recognizer_index, subjobId, sj, c, nextState, transitionInfo.l);
 	}
+}
+
+void state_machine::start(job & j, uint32_t const subjobId, subjob & sj, context const & c) const {
+	process(j, subjobId, sj, c, get_start_state());
+}
+
+void state_machine::on(job & j, uint16_t const recognizerIndex, uint32_t const subscriber, subjob & sj, context const & c, uint8_t const nextDfaState, leaf const * leaf) {
+	sj.on(j, recognizerIndex, c, subscriber, nextDfaState, leaf);
+}
+
+void state_machine::accept(job & j, subjob & sj, uint32_t const subjobId, context const & c) {
+	sj.accept(j, j.get_match_class(subjobId), c);
 }
 
 automaton state_machine::reorder(automaton const & dfa) {
@@ -101,27 +115,27 @@ associativity state_machine::get_assoc() const {
 }
 
 std::string state_machine::to_dot(std::vector<recognizer const *> const & recognizers) const {
-	std::vector<size_t> stateInts;
-	for (size_t i = 0; i < states.size(); ++i) {
+	std::vector<uint8_t> stateInts;
+	for (uint8_t i = 0; i < states.size(); ++i) {
 		stateInts.push_back(i);
 	}
 
-	auto getName = [&](size_t const & i) { return std::to_string(i); };
+	auto const getName = [&](uint8_t const & i) { return std::to_string(i); };
 
-	auto getEdges = [&](size_t const & i) {
-		std::vector<std::pair<std::string, size_t>> edges;
+	auto const getEdges = [&](uint8_t const & i) {
+		std::vector<std::pair<std::string, uint8_t>> edges;
 		for (auto const & edge : states[i]) {
 			auto transitionInfo = edge.first;
-			int toState = edge.second;
+			auto toState = edge.second;
 			auto const & recognizer = *recognizers[transitionInfo.recognizer_index];
 			std::stringstream ss;
 			ss << transitionInfo.l;
-			edges.push_back(make_pair("label=" + enquote(recognizer.name + " (" + ss.str() + ")"), toState));
+			edges.emplace_back("label=" + enquote(recognizer.name + " (" + ss.str() + ")"), toState);
 		}
 		return edges;
 	};
 
-	auto getProperties = [&](size_t const & i) {
+	auto const getProperties = [&](uint8_t const & i) {
 		std::string nodeProperties;
 		if (i == start_state) {
 			nodeProperties = "color=red";
@@ -135,7 +149,7 @@ std::string state_machine::to_dot(std::vector<recognizer const *> const & recogn
 		return nodeProperties;
 	};
 
-	return directed_graph<size_t>(stateInts, getName, getEdges, getProperties);
+	return directed_graph<uint8_t>(stateInts, getName, getEdges, getProperties);
 
 }
 

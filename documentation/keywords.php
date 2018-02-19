@@ -7,8 +7,20 @@
 	</head>
 	<body>
 		<?php require('../header.php') ?>
-		<p>The keywords listing is provided for reference. Here, "keyword" is used loosely. For example, the "abstract" keyword is implemented as a function in the standard library and has no special meaning. Nonetheless, it is listed as a keyword because it represents a language feature. On the other hand, keywords like "do" have definitions that are present in the syntax of the language but again represent a language feature. This is the guiding rule for selection of keywords.
+		<p>The keywords listing is provided for reference. Here, "keyword" is used loosely. For example, the "abstract" keyword is implemented as a function in the standard library and has no special meaning. Nonetheless, it is listed as a keyword because it represents a language feature. On the other hand, keywords like "do" have definitions that are present in the syntax of the language but again represent a language feature. This is the guiding rule for selection of keywords.</p>
 
+		<h2>Reserved Keywords</h2>
+		<p>Syntactically, there are no reserved keywords. For instance, "if" can be used like a variable.</p>
+		<div class="code2">
+			<p>Example</p>
+			<pre>
+if := (&lt;Bool&gt; condition, &lt;Void -&gt; T&gt; t, &lt;Void -&gt; T&gt; f) {
+	return (condition ? t : f)();
+};
+			</pre>
+		</div>
+
+		<p>The <code>if</code> keyword only has special meaning in the correct syntactic context.</p>
 		<h2>Subpage Listing</h2>
 		<ul>
 			<li><a href="/documentation/keywords/dont_care.php">_ (dont_care)</a></li>

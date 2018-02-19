@@ -8,8 +8,8 @@ if (NOT YAML-CPP_FOUND)
 	set(YAML-CPP_INSTALL_TARGET "yaml-cpp")
 	ExternalProject_Add(yaml-cpp
 		PREFIX "${CMAKE_BINARY_DIR}/Downloads/yaml-cpp" 
-		GIT_REPOSITORY "https://github.com/jbeder/yaml-cpp.git"
-		GIT_TAG 519d33fea3fbcbe7e1f89f97ee0fa539cec33eb7
+		GIT_REPOSITORY "https://github.com/coder0xff/yaml-cpp.git"
+		GIT_TAG vs_15_5_5
 		BINARY_DIR "${CMAKE_BINARY_DIR}/Downloads/yaml-cpp/build"
 		CMAKE_ARGS
 			"-DCMAKE_CXX_COMPILER=${CMAKE_CXX_COMPILER}"
@@ -44,7 +44,7 @@ endif()
 ExternalProject_Add(googletest
 	PREFIX "${CMAKE_BINARY_DIR}/Downloads/googletest"
 	GIT_REPOSITORY "https://github.com/google/googletest.git"
-	GIT_TAG d175c8bf823e709d570772b038757fadf63bc632 
+	GIT_TAG 718fd88d8f145c63b8cc134cf8fed92743cc112f 
 	BINARY_DIR "${CMAKE_BINARY_DIR}/Downloads/googletest/${CMAKE_CFG_INTDIR}/build"
 	CMAKE_ARGS
 		"-DCMAKE_INSTALL_PREFIX=${CMAKE_BINARY_DIR}/Dependencies/googletest"

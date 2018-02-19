@@ -22,11 +22,11 @@ struct node {
 	using children_t = std::vector<erased<node>>;
 	std::string tag;
 	children_t children;
-	node * parent;
+	node * parent = nullptr;
 	// a table from all descendant leafs keys, to the child node containing the key
 	collections::coherent_map<leaf const *, node const *> leaf_paths;
 
-	void add_child(erased<node> child);
+	void add_child(const erased<node>& child);
 	virtual bool is_leaf() const;
 	void compute_leaf_paths();
 	virtual automaton to_nfa() const = 0;
@@ -40,7 +40,7 @@ protected:
 };
 
 struct leaf : node {
-	size_t recognizer_index;
+	uint16_t recognizer_index;
 	bool is_leaf() const override;
 protected:
 	explicit leaf(std::string const & tag);
@@ -68,18 +68,18 @@ struct reference final : detail::leaf {
 };
 
 struct sequence final : detail::node {
-	sequence() {}
-	sequence(std::initializer_list<erased<node>>&& children) : node(move(children)) {}
-	sequence(std::string const & tag, std::initializer_list<erased<node>>&& children) : node(move(tag), move(children)) {}
+	sequence() = default;
+	sequence(std::initializer_list<erased<node>>&& children) : node(children) {}
+	sequence(std::string const & tag, std::initializer_list<erased<node>>&& children) : node(tag, children) {}
 	sequence(sequence const & copy) = default;
 	bool is_leaf() const override { return false; }
 	detail::automaton to_nfa() const override;
 };
 
 struct choice final : detail::node {
-	choice() {}
-	choice(std::initializer_list<erased<node>>&& children) : node(move(children)) {}
-	choice(std::string const & tag, std::initializer_list<erased<node>>&& children) : node(move(tag), move(children)) {}
+	choice() = default;
+	choice(std::initializer_list<erased<node>>&& children) : node(children) {}
+	choice(std::string const & tag, std::initializer_list<erased<node>>&& children) : node(tag, children) {}
 	choice(choice const & copy) = default;
 	bool is_leaf() const override { return false; }
 	detail::automaton to_nfa() const override;
@@ -87,7 +87,7 @@ struct choice final : detail::node {
 
 
 struct optional final : detail::node {
-	optional() {}
+	optional() = default;
 	explicit optional(erased<node> const & child) : node({ child }) {}
 	optional(std::string const & tag, erased<node> const & child) : node(tag, { child }) {}
 	optional(optional const & copy) = default;
@@ -95,7 +95,7 @@ struct optional final : detail::node {
 };
 
 struct repetition final : detail::node {
-	repetition() {}
+	repetition() = default;
 	explicit repetition(erased<node> const & child) : node({child}) {}
 	repetition(std::string const & tag, erased<node> const & child) : node(tag, {child}) {}
 	repetition(repetition const & copy) = default;
@@ -132,7 +132,7 @@ struct builder : sub_builder {
 	std::string root_name;
 
 	builder() = default;
-	builder(std::string rootName, std::vector<production> const & productions);
+	builder(std::string const & rootName, std::vector<production> const & productions);
 };
 
 } // namespace parlex

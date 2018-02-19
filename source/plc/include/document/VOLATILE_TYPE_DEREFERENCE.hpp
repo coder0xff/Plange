@@ -1,4 +1,4 @@
-// This file was generated using Parlex's cpp_generator
+﻿// This file was generated using Parlex's cpp_generator
 
 #ifndef INCLUDED_VOLATILE_TYPE_DEREFERENCE_HPP
 #define INCLUDED_VOLATILE_TYPE_DEREFERENCE_HPP

@@ -1,14 +1,12 @@
 #include "parlex/detail/context.hpp"
 
-#include "parlex/detail/subjob.hpp"
-
 #include "utils.hpp"
 
 namespace parlex {
 namespace detail {
 
-context::context(subjob & owner, context const* const prior, int const documentPosition, std::optional<match> const & fromTransition, leaf const * l) :
-	owner(owner), prior(prior),
+context::context(context const* const prior, uint32_t const documentPosition, std::optional<match> const & fromTransition, leaf const * l) :
+	prior(prior),
 	current_document_position(documentPosition),
 	from_transition(fromTransition),
 	l(l) {

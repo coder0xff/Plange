@@ -6,7 +6,8 @@ namespace mpl {
 	namespace detail::head {
 		template<typename TList>
 		struct impl {
-			static_assert(!std::is_same_v<TList, TList>, "template instantiation failed");
+			// This template should never be instantiated, so we have a static_assert that always fails
+			static_assert(sizeof(TList) == -1, "template instantiation failed");
 		};
 
 		template<template<typename...> typename TContainer, typename T0, typename... Ts>

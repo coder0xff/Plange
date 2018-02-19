@@ -12,7 +12,7 @@ class any_character_t : public terminal {
 public:
 	any_character_t();
 	~any_character_t() override = default;
-	bool test(std::u32string const & document, size_t documentPosition) const override final;
+	bool test(std::u32string const & document, uint32_t const documentPosition) const override final;
 };
 
 } // namespace detail

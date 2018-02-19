@@ -13,7 +13,6 @@ class source_code {
 public:
 	source_code(std::string const & pathname, std::u32string const & document);
 	explicit source_code(std::string const & pathname);
-	~source_code();
 	std::string const pathname;
 	std::u32string const document;
 

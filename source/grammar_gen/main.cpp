@@ -48,8 +48,9 @@ std::optional<std::string> read_file(std::string const & pathname)
 
 void write_file(std::string const & pathname, std::string const & text)
 {
+	auto const bomText = "\xEF\xBB\xBF" + text;
 	auto currentText = read_file(pathname);
-	if (currentText.has_value() && currentText.value() == text)
+	if (currentText.has_value() && currentText.value() == bomText)
 	{
 		return;
 	}
@@ -58,7 +59,7 @@ void write_file(std::string const & pathname, std::string const & text)
 		throw std::runtime_error("couldn't open file for writing");
 	}
 	std::cout << "Writing " << pathname << '\n';
-	file << text;
+	file << bomText;
 }
 
 void write_files(std::string const & plcDir, parlex::cpp_generator::file_dictionary const & filesToWrite)
@@ -83,7 +84,7 @@ int main(int const argc, const char* argv[]) {
 	parlex::detail::parser p;
 	std::map<std::string, parlex::detail::wirth_t::production> defs;
 	for (auto const & elem : spec) {
-		std::string name = elem.first.as<std::string>();
+		auto name = elem.first.as<std::string>();
 		auto data = elem.second;
 		std::cout << "parsing " << name << "\n";
 		std::string const syntax = trim(data["syntax"].as<std::string>());
@@ -107,13 +108,15 @@ int main(int const argc, const char* argv[]) {
 			std::string const filterName = data["filter"].as<std::string>();
 			if (filterName == "longest") {
 				filter = parlex::longest();
+			} else if (filterName == "shortest") {
+				filter = parlex::shortest();
 			} else {
 				throw std::logic_error(("unrecognized filter " + filterName).c_str());
 			}
 		}
 		std::set<std::string> precedences;
 		if (data["precedes"]) {
-			for (auto element : data["precedes"]) {
+			for (const auto & element : data["precedes"]) {
 				precedences.insert(element.as<std::string>());
 			}
 		}

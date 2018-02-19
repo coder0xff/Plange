@@ -1,4 +1,4 @@
-// This file was generated using Parlex's cpp_generator
+﻿// This file was generated using Parlex's cpp_generator
 
 #include "EMBEDDED_NEWLINE_STRING_INTERIOR.hpp"
 
@@ -6,6 +6,7 @@
 
 #include "parlex/detail/document.hpp"
 #include "EMBEDDED_NEWLINE_STRING_INTERIOR.hpp"
+#include "PAYLOAD.hpp"
 
 #include "EMBEDDED_NEWLINE_STRING_INTERIOR.hpp"
 
@@ -21,7 +22,7 @@ EMBEDDED_NEWLINE_STRING_INTERIOR EMBEDDED_NEWLINE_STRING_INTERIOR::build(parlex:
 plc::EMBEDDED_NEWLINE_STRING_INTERIOR_1_t plc::EMBEDDED_NEWLINE_STRING_INTERIOR_1_t::build(parlex::detail::node const * b, parlex::detail::document::walk & w) {
 	auto const & children = b->children;
 	auto v0 = parlex::detail::document::element<parlex::detail::document::text<literal_0x0A_t>>::build(&*children[0], w);
-	auto v1 = parlex::detail::document::element<std::vector<parlex::detail::document::text<parlex::detail::all_t>>>::build(&*children[1], w);
+	auto v1 = parlex::detail::document::element<erased<PAYLOAD>>::build(&*children[1], w);
 	auto v2 = parlex::detail::document::element<parlex::detail::document::text<literal_0x0A_t>>::build(&*children[2], w);
 	return EMBEDDED_NEWLINE_STRING_INTERIOR_1_t(std::move(v0), std::move(v1), std::move(v2));
 }

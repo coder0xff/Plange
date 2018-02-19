@@ -15,36 +15,35 @@ namespace parlex {
 namespace detail {
 
 class job;
-class state_machine_base;
+class state_machine;
 
 class subjob : public producer {
 public:
-	state_machine_base const & machine;
+	state_machine const & machine;
 	concurrent_forward_list<context> contexts;
 	std::list<permutation> queued_permutations;
 	std::mutex mutex;
-	std::atomic<int> lifetime_counter;
-	size_t const document_position;
+	std::atomic<uint16_t> lifetime_counter;
 
-	subjob(job & owner, size_t const documentPosition, size_t const recognizerIndex, state_machine_base const & machine);
+	explicit subjob(state_machine const & machine);
 	subjob(subjob const & other) = delete;
 	virtual ~subjob();
 
-	void start();
+	void start(job & j, uint32_t const myId, uint32_t documentPosition);
 	context const & construct_stepped_context(context const* const prior, match const & fromTransition, leaf const * l);
-	void on(context const & c, size_t const recognizerIndex, int nextDfaState, leaf const * l);
-	void accept(context const & c);
+	void on(job & j, uint16_t const recognizerIndex, context const & c, uint32_t const myId, uint8_t const nextDfaState, leaf const * l);
+	void accept(job & j, match_class const & myInfo, context const & c);
 	// for special use by the parser to seed the queue
-	context const & construct_start_state_context(int documentPosition);
-	void finish_creation();
+	context const & construct_start_state_context(uint32_t const documentPosition);
+	void finish_creation(job & j, uint32_t const myInfo);
 	void begin_work_queue_reference();
-	void end_work_queue_reference();
-	void flush();
+	void end_work_queue_reference(job & j, uint32_t const myInfo);
+	void flush(job & j, match_class const & myInfo);
 	void begin_subscription_reference();
-	void end_subscription_reference();
+	void end_subscription_reference(job & j, uint32_t const myInfo);
 private:
 	void increment_lifetime();
-	void decrement_lifetime();
+	void decrement_lifetime(job & j, uint32_t const myId);
 };
 
 } // namespace detail

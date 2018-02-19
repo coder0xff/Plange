@@ -1,4 +1,4 @@
-// This file was generated using Parlex's cpp_generator
+﻿// This file was generated using Parlex's cpp_generator
 
 #ifndef INCLUDED_NON_ZERO_DECIMAL_DIGIT_HPP
 #define INCLUDED_NON_ZERO_DECIMAL_DIGIT_HPP

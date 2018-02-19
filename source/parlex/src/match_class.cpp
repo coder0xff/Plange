@@ -3,12 +3,12 @@
 namespace parlex {
 namespace detail {
 
-match_class::match_class(size_t const documentPosition, size_t const recognizerIndex, size_t dummy) : document_position(documentPosition), recognizer_index(recognizerIndex) {
+match_class::match_class(uint32_t const documentPosition, uint16_t const recognizerIndex) : document_position(documentPosition), recognizer_index(recognizerIndex) {
 }
 
 bool match_class::operator <(match_class const & rhs) const {
 	return document_position < rhs.document_position ||
-		document_position == rhs.document_position && recognizer_index < rhs.recognizer_index;
+		(document_position == rhs.document_position && recognizer_index < rhs.recognizer_index);
 }
 
 } // namespace detail

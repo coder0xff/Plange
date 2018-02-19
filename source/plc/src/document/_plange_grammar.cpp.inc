@@ -1,4 +1,4 @@
-#include "_plange_grammar.hpp.inc"
+﻿#include "_plange_grammar.hpp.inc"
 #include "_plange_grammar_builder.cpp.inc"
 
 plange_grammar::plange_grammar() : grammar(builder()),
@@ -154,6 +154,7 @@ plange_grammar::plange_grammar() : grammar(builder()),
 			PARAMETER_NATURAL(this->lookup_recognizer_index("PARAMETER_NATURAL")),
 			PARENTHETICAL(this->lookup_recognizer_index("PARENTHETICAL")),
 			PARENTHETICAL_INVOCATION(this->lookup_recognizer_index("PARENTHETICAL_INVOCATION")),
+			PAYLOAD(this->lookup_recognizer_index("PAYLOAD")),
 			PLATFORM(this->lookup_recognizer_index("PLATFORM")),
 			POST_DEC(this->lookup_recognizer_index("POST_DEC")),
 			POST_INC(this->lookup_recognizer_index("POST_INC")),

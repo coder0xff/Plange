@@ -36,7 +36,7 @@ erased<node> wirth_t::process_factor(std::u32string const & document, ast_node c
 	}
 
 	std::unique_ptr<erased<node>> result;
-	auto set = [&result](erased<node> const & node) { result.reset(new erased<detail::node>(node)); };
+	auto const set = [&result](erased<node> const & node) { result.reset(new erased<detail::node>(node)); };
 	if (i->recognizer_index == identifier_dfa) {
 		auto const name = to_utf8(document.substr(i->document_position, i->consumed_character_count));
 		set(reference(name));
@@ -63,7 +63,7 @@ erased<node> wirth_t::process_factor(std::u32string const & document, ast_node c
 		throw;
 	}
 
-	if (tag != "") {
+	if (!tag.empty()) {
 		(*result)->tag = tag;
 	}
 	return *result;
@@ -133,7 +133,7 @@ builder wirth_t::load_grammar(std::string const & rootId, std::map<std::string, 
 }
 
 
-builder wirth_t::load_grammar(std::string const & rootId, std::u32string const & document, std::map<std::string, associativity> const & associativities, std::set<std::string> const & longestNames) const {
+builder wirth_t::load_grammar(std::string const & rootId, std::u32string const & document, std::map<std::string, associativity> const & associativities, std::set<std::string> const & longestNames, std::set<std::string> const & shortestNames) const {
 	parser p;
 	auto assl = p.parse(*this, document);
 	auto const ast = assl.tree();
@@ -157,90 +157,154 @@ builder wirth_t::load_grammar(std::string const & rootId, std::u32string const &
 				}
 			}
 			auto assoc = associativities.count(name) > 0 ? associativities.find(name)->second : associativity::NONE;
-			auto filter = longestNames.count(name) > 0 ? longest() : filter_function();
+			auto filter = filter_function();
+			if (longestNames.count(name) > 0) {
+				filter = longest();
+			} else if (shortestNames.count(name) > 0) {
+				filter = shortest();
+			}
 			definitions.emplace(std::piecewise_construct, forward_as_tuple(name), forward_as_tuple(source, assoc, filter, std::set<std::string>()));
 		}
 	}
 	return load_grammar(rootId, definitions);
 }
 
-wirth_t::production::production(std::u32string const & source, associativity const assoc, filter_function const filter, std::set<std::string> const & precedences) : source(source), assoc(assoc), filter(filter), precedences(precedences) {
+wirth_t::production::production(std::u32string const & source, associativity const assoc, filter_function const & filter, std::set<std::string> const & precedences) : source(source), assoc(assoc), filter(filter), precedences(precedences) {
 }
 
 builder generate_wirth() {
 	return builder("root", {
-		               production("whiteSpace", sequence({
-			                          reference("white_space"),
-			                          repetition(reference("white_space"))}),
-		                          associativity::NONE, longest()
-		               ),
+		production("whiteSpace",
+			sequence({
+				reference("white_space"),
+				repetition(reference("white_space"))
+			}),
+			associativity::NONE, longest()
+		),
 
-		               production("comment", sequence({
-			                          literal(U"#"),
-			                          repetition(reference("not_newline")),
-			                          literal(U"\n")
-		                          })),
+		production("comment",
+			sequence({
+				literal(U"#"),
+				repetition(reference("not_newline")),
+				literal(U"\n")
+			})
+		),
 
-		               production("identifier", sequence({
-			                          choice({reference("letter"), literal(U"_")}),
-			                          repetition(choice({reference("letter"), literal(U"_"), reference("decimal_digit")}))
-		                          }),
-		                          associativity::NONE, longest()),
+		production("identifier",
+			sequence({
+				choice({
+					reference("letter"),
+					literal(U"_")
+				}),
+				repetition(
+					choice({
+						reference("letter"),
+						literal(U"_"),
+						reference("decimal_digit")
+					})
+				)
+			}),
+			associativity::NONE, longest()
+		),
 
-		               production("production", sequence({
-			                          reference("identifier"),
-			                          optional(reference("whiteSpace")),
-			                          literal(U"="),
-			                          optional(reference("whiteSpace")),
-			                          reference("expression"),
-			                          optional(reference("whiteSpace")),
-			                          literal(U".")
-		                          })),
+		production("production", 
+			sequence({
+				reference("identifier"),
+				optional(reference("whiteSpace")),
+				literal(U"="),
+				optional(reference("whiteSpace")),
+				reference("expression"),
+				optional(reference("whiteSpace")),
+				literal(U".")
+			})
+		),
 
-		               production("expression", sequence({
-			                          reference("term"),
-			                          repetition(sequence({
-				                          optional(reference("whiteSpace")),
-				                          literal(U"|"),
-				                          optional(reference("whiteSpace")),
-				                          reference("term")
-			                          }))
-		                          })),
+		production("expression", 
+			sequence({
+				reference("term"),
+				repetition(
+					sequence({
+						optional(reference("whiteSpace")),
+						literal(U"|"),
+						optional(reference("whiteSpace")),
+						reference("term")
+					})
+				)
+			})
+		),
 
-		               production("term", sequence({
-			                          reference("factor"),
-			                          repetition(sequence({
-				                          optional(reference("whiteSpace")),
-				                          reference("factor")
-			                          }))
-		                          })),
+		production("term", 
+			sequence({
+				reference("factor"),
+				repetition(
+					sequence({
+						optional(reference("whiteSpace")),
+						reference("factor")
+					})
+				)
+			})
+		),
 
-		               production("parenthetical", choice({
-			                          sequence({
-				                          literal(U"["), optional(reference("whiteSpace")), reference("expression"), optional(reference("whiteSpace")), literal(U"]")
-			                          }),
-			                          sequence({
-				                          literal(U"("), optional(reference("whiteSpace")), reference("expression"), optional(reference("whiteSpace")), literal(U")")
-			                          }),
-			                          sequence({
-				                          literal(U"{"), optional(reference("whiteSpace")), reference("expression"), optional(reference("whiteSpace")), literal(U"}")
-			                          })
-		                          })),
+		production("parenthetical",
+			choice({
+				sequence({
+					literal(U"["),
+					optional(reference("whiteSpace")),
+					reference("expression"),
+					optional(reference("whiteSpace")),
+					literal(U"]")
+				}),
+				sequence({
+					literal(U"("),
+					optional(reference("whiteSpace")),
+					reference("expression"),
+					optional(reference("whiteSpace")),
+					literal(U")")
+				}),
+				sequence({
+					literal(U"{"),
+					optional(reference("whiteSpace")),
+					reference("expression"),
+					optional(reference("whiteSpace")),
+					literal(U"}")
+				})
+			})
+		),
 
-		               production("tag", sequence({literal(U"%"), reference("identifier")})),
+		production("tag",
+			sequence({
+				literal(U"%"),
+				reference("identifier")
+			})
+		),
 
-		               production("factor", choice({
-			                          sequence({optional(literal(U"$")), reference("identifier")}),
-			                          sequence({optional(literal(U"$")), reference("c_string")}),
-			                          sequence({optional(reference("tag")), reference("parenthetical")})
-		                          }), associativity::NONE, filter_function(), {"factor"}),
+		production("factor", 
+			choice({
+				sequence({
+					optional(literal(U"$")),
+					reference("identifier")
+				}),
+				sequence({
+					optional(literal(U"$")),
+					reference("c_string")
+				}),
+				sequence({
+					optional(reference("tag")),
+					reference("parenthetical")
+				})
+			}),
+			associativity::NONE, filter_function(), {"factor"}
+		),
 
-		               production("root", repetition(choice({
-			                          reference("production"),
-			                          reference("comment"),
-			                          reference("whiteSpace")
-		                          })))
-	               });
+		production("root", 
+			repetition(choice({
+				reference("production"),
+				reference("comment"),
+				reference("whiteSpace")
+			}))
+		)
+	}
+);
 
 }
 

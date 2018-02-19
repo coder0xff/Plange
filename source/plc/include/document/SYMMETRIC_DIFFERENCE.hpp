@@ -1,4 +1,4 @@
-// This file was generated using Parlex's cpp_generator
+﻿// This file was generated using Parlex's cpp_generator
 
 #ifndef INCLUDED_SYMMETRIC_DIFFERENCE_HPP
 #define INCLUDED_SYMMETRIC_DIFFERENCE_HPP

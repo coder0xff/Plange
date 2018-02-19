@@ -2,9 +2,9 @@
 
 #include <queue>
 
-#include "parlex/detail/recognizer.hpp"
 #include "utils.hpp"
-#include "utf.hpp"
+
+#include "parlex/detail/grammar.hpp"
 
 namespace parlex {
 namespace detail {
@@ -13,7 +13,7 @@ abstract_syntax_semilattice::abstract_syntax_semilattice(match const root) : roo
 
 bool abstract_syntax_semilattice::is_rooted() const {
 	auto const i = permutations_of_matches.find(root);
-	return i != permutations_of_matches.end() && i->second.size() > 0;
+	return i != permutations_of_matches.end() && !i->second.empty();
 }
 
 void abstract_syntax_semilattice::cut(std::set<match> const & matches) {
@@ -82,23 +82,25 @@ void abstract_syntax_semilattice::prune_detached() {
 	}
 }
 
-//std::string abstract_syntax_semilattice::to_dot() const {
-//	std::string result = "digraph {\n";
-//	std::set<match> completed;
-//	for (auto const & entry : permutations_of_matches) {
-//		auto const i = entry.first;
-//		completed.insert(i);
-//		auto const fromName = i.r.name + ":" + std::to_string(i.document_position + 1) + ":" + std::to_string(i.consumed_character_count);
-//		for (auto const & j : entry.second) {
-//			for (match const & k : j) {
-//				auto const toName = k.r.name + ":" + std::to_string(k.document_position + 1) + ":" + std::to_string(k.consumed_character_count);
-//				result += "\t" + enquote(fromName) + " -> " + enquote(toName) + "\n";
-//			}
-//		}
-//	}
-//	result += "}";
-//	return result;
-//}
+std::string abstract_syntax_semilattice::to_dot(grammar const & g) const {
+	std::string result = "digraph {\n";
+	std::set<match> completed;
+	for (auto const & entry : permutations_of_matches) {
+		auto const i = entry.first;
+		completed.insert(i);
+		auto const & iRecognizer = g.get_recognizer(i.recognizer_index);
+		auto const fromName = iRecognizer.name + ":" + std::to_string(i.document_position + 1) + ":" + std::to_string(i.consumed_character_count);
+		for (auto const & j : entry.second) {
+			for (match const & k : j) {
+				auto const & kRecognizer = g.get_recognizer(k.recognizer_index);
+				auto const toName = kRecognizer.name + ":" + std::to_string(k.document_position + 1) + ":" + std::to_string(k.consumed_character_count);
+				result += "\t" + enquote(fromName) + " -> " + enquote(toName) + "\n";
+			}
+		}
+	}
+	result += "}";
+	return result;
+}
 
 //std::string abstract_syntax_semilattice::to_concrete_dot(std::u32string const & document) {
 //	std::string result = "digraph {\n";
@@ -138,7 +140,9 @@ std::set<permutation> const & abstract_syntax_semilattice::lookup(match const & 
 
 std::vector<ast_node> abstract_syntax_semilattice::build_tree(match const & m) const {
 	std::vector<ast_node> results;
-	auto const & ps = permutations_of_matches.find(m)->second;
+	auto const i = permutations_of_matches.find(m);
+	throw_assert(i != permutations_of_matches.end());
+	auto const & ps = i->second;
 	if (!ps.empty()) {
 		auto const & p = *ps.begin();
 		for (auto const & t : p) {

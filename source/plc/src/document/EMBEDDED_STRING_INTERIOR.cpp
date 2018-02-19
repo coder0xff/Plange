@@ -1,4 +1,4 @@
-// This file was generated using Parlex's cpp_generator
+﻿// This file was generated using Parlex's cpp_generator
 
 #include "EMBEDDED_STRING_INTERIOR.hpp"
 
@@ -6,6 +6,7 @@
 
 #include "parlex/detail/document.hpp"
 #include "EMBEDDED_STRING_INTERIOR.hpp"
+#include "PAYLOAD.hpp"
 
 #include "EMBEDDED_STRING_INTERIOR.hpp"
 

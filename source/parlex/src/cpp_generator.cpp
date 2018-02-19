@@ -28,12 +28,12 @@ struct type : detail::node {
 void cpp_generator::output_files::add(output_files const & other)
 {
 	for (auto const & header : other.headers) {
-		if (headers.emplace(header.first, header.second).second == false) {
+		if (!headers.emplace(header.first, header.second).second) {
 			throw std::runtime_error("duplicated file name: " + header.first);
 		}
 	}
 	for (auto const & source : other.sources) {
-		if (sources.emplace(source.first, source.second).second == false) {
+		if (!sources.emplace(source.first, source.second).second) {
 			throw std::runtime_error("duplicated file name: " + source.first);
 		}
 	}
@@ -69,7 +69,7 @@ static std::string include_guard_end(std::string const & name) {
 
 }
 
-static std::string string_to_c_name(std::string const prefix, std::string const & s) {
+static std::string string_to_c_name(std::string const & prefix, std::string const & s) {
 	auto s1 = prefix + s;
 	auto test = [](size_t pos, char c)
 	{
@@ -147,9 +147,6 @@ static std::string generate_enumeration(bool const isProduction, std::string con
 	ss << "parlex::detail::ast_node const & n) {\n";
 	ss << "\t\tstatic ::std::unordered_map<parlex::detail::recognizer const *, type> const table {\n";
 	for (auto const & element : elements) {
-		if (element.substr(0, 8) != "literal_") {
-			debugger();
-		}
 		ss << "\t\t\t{ &" << grammarName << "_grammar::get().get_literal(\"" << element << "\"), " << element << " },\n";
 	}
 	ss << "\t\t};\n";
@@ -352,6 +349,8 @@ static std::string generate_production_builder_initializer(production const & p)
 		ss << ", ";
 		if (p.filter == longest()) {
 			ss << "parlex::longest()";
+		} else if (p.filter == shortest()) {
+			ss << "parlex::shortest()";
 		} else if (!p.filter) {
 			ss << "parlex::filter_function()";
 		} else {
@@ -388,7 +387,7 @@ static std::string generate_x_builder_cpp_inc(builder const & b) {
 static std::string generate_production_member_declarations(builder const & b) {
 	std::stringstream result;
 	for (auto const & p : b.productions) {
-		result << "\t" << "size_t const " << p.name << ";\n";
+		result << "\t" << "uint16_t const " << p.name << ";\n";
 	}
 	return result.str();
 }
@@ -963,7 +962,6 @@ cpp_generator::output_files cpp_generator::generate(std::string const & name, st
 	output_files results;
 
 	for (auto const & production : b.productions) {
-		// if (production.name == "PAYLOAD") debugger();
 		results.add(generate_production_struct(name, namespaces, production));
 	}
 	std::map<std::u32string, std::string> literalMap;

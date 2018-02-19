@@ -7,7 +7,7 @@
 
 #include "parlex/precedence_collection.hpp"
 
-#include "parlex/detail/grammar_base.hpp"
+#include "parlex/detail/grammar.hpp"
 #include "parlex/detail/state_machine.hpp"
 #include "parlex/detail/string_terminal.hpp"
 
@@ -24,7 +24,7 @@ class builtin_terminals_t;
 // you must first create all the productions objects
 // then create the behaviors
 // then call set_behavior on each reference
-class grammar : public grammar_base {
+class grammar {
 public:
 	struct production {
 		production(std::string const & name, filter_function const & filter, associativity assoc);
@@ -37,32 +37,32 @@ public:
 		void set_behavior(grammar const & g, erased<node> const & behavior);
 	};
 
-	explicit grammar(builder const & grammarDefinition);
+	explicit grammar(builder const & grammarDefinition, bool const noBuiltIns = false);
 	grammar(grammar const & copy) = delete;
 	virtual ~grammar() = default;
 
-	state_machine_base const& get_root_state_machine() const override;
-	std::vector<state_machine_base const *> get_state_machines() const override;
+	state_machine const& get_root_state_machine() const;
+	std::vector<state_machine const *> get_state_machines() const;
 	std::vector<recognizer const *> const & get_recognizers() const;
-	size_t get_recognizer_count() const override;
-	recognizer const& get_recognizer(size_t const index) const override;
-	bool does_precede(size_t const lhs, size_t const rhs) const override;
-	precedence_collection get_precedences() const override;
+	uint16_t get_recognizer_count() const;
+	recognizer const& get_recognizer(uint16_t const index) const;
+	bool does_precede(uint16_t const lhs, uint16_t const rhs) const;
+	precedence_collection get_precedences() const;
 
-	size_t lookup_production_local_index(std::string const & name) const;
-	size_t lookup_literal_recognizer_index(std::u32string const & content) const;
-	size_t lookup_recognizer_index(std::string const & name) const;
-	size_t lookup_recognizer_index(recognizer const & recognizer) const override;
+	uint16_t lookup_production_local_index(std::string const & name) const;
+	uint16_t lookup_literal_recognizer_index(std::u32string const & content) const;
+	uint16_t lookup_recognizer_index(std::string const & name) const;
+	uint16_t lookup_recognizer_index(recognizer const & recognizer) const;
 private:
 	std::vector<production> local_productions;
 	std::vector<string_terminal> local_literals;
 	std::vector<recognizer const *> recognizers; // pointers into builtin_terminals, local production, and local literals. The index is used to uniquely identify the corresponding recognizer throughtout the parsing algorithms
-	std::map<recognizer const *, size_t> recognizer_ptr_to_recognizer_index;
-	std::map<std::u32string, size_t> content_to_recognizer_index;
-	std::map<std::u32string, size_t> content_to_local_literal_index;
-	std::map<std::string, size_t> name_to_recognizer_index;
-	std::map<std::string, size_t> name_to_local_production_index;
-	size_t root_production_index;
+	std::map<recognizer const *, uint16_t> recognizer_ptr_to_recognizer_index;
+	std::map<std::u32string, uint16_t> content_to_recognizer_index;
+	std::map<std::u32string, uint16_t> content_to_local_literal_index;
+	std::map<std::string, uint16_t> name_to_recognizer_index;
+	std::map<std::string, uint16_t> name_to_local_production_index;
+	uint16_t root_production_index;
 	precedence_collection precedences;
 
 	size_t add_table_data(std::map<std::string, recognizer const *> & nameToRecognizerPtr, recognizer const * recognizerPtr);

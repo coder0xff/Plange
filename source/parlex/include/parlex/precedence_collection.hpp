@@ -3,8 +3,6 @@
 
 #include <coherent_set.hpp>
 
-#include "parlex/detail/state_machine_base.hpp"
-
 namespace parlex {
 namespace detail {
 

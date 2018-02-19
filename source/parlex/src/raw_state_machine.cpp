@@ -1,14 +1,15 @@
 #include "parlex/detail/raw_state_machine.hpp"
 
 #include "parlex/associativity.hpp"
+#include "parlex/detail/job.hpp"
 
 namespace parlex {
 namespace detail {
 
-raw_state_machine::raw_state_machine(std::string const & id, int const startState, int const acceptStateCount, filter_function const & filter, associativity const assoc) : state_machine_base(id), filter(filter), assoc(assoc), start_state(startState), accept_state_count(acceptStateCount) {
+raw_state_machine::raw_state_machine(std::string const & id, uint8_t const startState, uint8_t const acceptStateCount, filter_function const & filter, associativity const assoc) : state_machine_base(id), filter(filter), assoc(assoc), start_state(startState), accept_state_count(acceptStateCount) {
 }
 
-void raw_state_machine::add_transition(size_t const from, size_t const recognizerIndex, size_t const to) {
+void raw_state_machine::add_transition(uint8_t const from, uint16_t const recognizerIndex, uint8_t const to) {
 	while (states.size() <= from || states.size() <= to) {
 		states.emplace_back();
 	}
@@ -22,16 +23,16 @@ raw_state_machine::states_t const& raw_state_machine::get_states() const {
 	return states;
 }
 
-void raw_state_machine::process(context const & c, size_t const s) const {
+void raw_state_machine::process(job & j, producer_id_t const subjobId, subjob & sj, context const & c, uint8_t dfaState) const {
 	//DBG("processing '", get_id(), "' s:", s, " p:", c.current_document_position());
-	if (s >= states.size() - accept_state_count) {
-		accept(c);
+	if (dfaState >= states.size() - accept_state_count) {		
+		accept(j, sj, subjobId, c);
 	}
-	for (auto const & kvp : states[s]) {
+	for (auto const & kvp : states[dfaState]) {
 		auto const & recognizerIndex = kvp.first;
 		int const nextState = kvp.second;
 		//DBG("'", get_id(), "' state ", s, " position ", c.current_document_position(), " subscribes to '", transition.name, "' position ", c.current_document_position());
-		on(c, recognizerIndex, nextState, nullptr);
+		on(j, recognizerIndex, subjobId, sj, c, nextState, nullptr);
 	}
 }
 

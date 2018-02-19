@@ -18,6 +18,8 @@ namespace parlex {
 
 // filter out all but the longest matches
 filter_function const & longest();
+// filter out all but the shortest matches
+filter_function const & shortest();
 
 // when passed to parser::parse as a progress handler, prints a text-based 
 void progress_bar(int done, int outOf);

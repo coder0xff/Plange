@@ -1,4 +1,4 @@
-#ifndef INCLUDED_PLANGE_LITERALS_HPP
+﻿#ifndef INCLUDED_PLANGE_LITERALS_HPP
 #define INCLUDED_PLANGE_LITERALS_HPP
 
 #include "parlex/detail/document.hpp"
