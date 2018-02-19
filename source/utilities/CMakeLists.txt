@@ -6,6 +6,7 @@ set (SOURCES
 	"logging.cpp"
 	"one_shot.cpp"
 	"perf_timer.cpp"
+	"tarjan.cpp"
 	"thread_pool.cpp"
 	"utils.cpp"
 	"utf.cpp")
