@@ -21,11 +21,11 @@ namespace detail {
 
 void parser::process(work_item const & item) const {
 	update_progress(*item.dfa_context);
-	auto & p = current_job->get_producer(item.producer_id);
+	auto & p = current_job->get_producer(item.subjob_id);
 	auto & sj = *static_cast<subjob *>(&p);
 	//INF("thread ", threadCount, " executing DFA state");
-	sj.machine.process(*current_job, item.producer_id, sj, *item.dfa_context, item.dfa_state);
-	sj.end_work_queue_reference(*current_job, item.producer_id);
+	sj.machine.process(*current_job, sj, item.subjob_id, *item.dfa_context, item.dfa_state);
+	sj.end_work_queue_reference(*current_job, item.subjob_id);
 }
 
 void parser::start_workers(int threadCount) {
@@ -145,14 +145,14 @@ abstract_syntax_semilattice parser::parse(grammar const & g, std::u32string cons
 	return parse(g, g.get_root_state_machine(), document, progressHandler);
 }
 
-void parser::schedule(uint32_t const producerId, context const & c, int nextDfaState) {
+void parser::schedule(match_class const & subjobId, context const & c, int nextDfaState) {
 	//DBG("scheduling m: ", c.owner().machine.name, " b:", c.owner().documentPosition, " s:", nextDfaState, " p:", c.current_document_position());
-	auto & p = current_job->get_producer(producerId);
+	auto & p = current_job->get_producer(subjobId);
 	auto & sj = *static_cast<subjob *>(&p);  // NOLINT
 	sj.begin_work_queue_reference();
 	++active_count;
 	std::unique_lock<std::mutex> lock(mutex);
-	work.emplace_back(producerId, &c, nextDfaState);
+	work.emplace_back(subjobId, &c, nextDfaState);
 	work_cv.notify_one();
 }
 
@@ -254,17 +254,17 @@ static void resolve_nodes(std::map<match, node_props_t> & nodes) {
 	//perf_timer perf(__FUNCTION__);
 
 	std::vector<node_props_t *> vertices;
-	typedef std::vector<node_props_t *>::iterator vert_iterator;
-	std::map<node_props_t *, vert_iterator> lookup;
+	std::map<node_props_t *, size_t> lookup;
 	vertices.reserve(nodes.size());
 	for (auto & entry : nodes) {
+		lookup[&entry.second] = vertices.size();
 		vertices.push_back(&entry.second);
-		lookup[&entry.second] = vertices.begin() + (vertices.size() - 1);
 	}
 
-	std::function<std::vector<vert_iterator> (vert_iterator)> const transitionFunc = [&nodes, &lookup](vert_iterator const & vert) {
-		std::vector<vert_iterator> results;
-		for (auto const & permutation : (*vert)->permutations) {
+	std::function<std::vector<size_t> (size_t)> const transitionFunc = [&](size_t const & vertexIndex) {
+		auto & props = *vertices[vertexIndex];
+		std::vector<size_t> results;
+		for (auto const & permutation : props.permutations) {
 			for (auto const & m : permutation) {
 				auto i = nodes.find(m);
 				throw_assert(i != nodes.end());
@@ -274,11 +274,11 @@ static void resolve_nodes(std::map<match, node_props_t> & nodes) {
 		return results;
 	};
 
-	auto orderedNodes = tarjan(vertices.begin(), vertices.end(), transitionFunc);
+	auto orderedNodes = tarjan(vertices.size(), transitionFunc);
 
 	for (auto const & subgraph : orderedNodes) {
-		for (auto const & vertI : subgraph) {
-			auto & node = **vertI;
+		for (auto const & vertexIndex : subgraph) {
+			auto & node = *vertices[vertexIndex];
 			for (auto const & permutation : node.permutations) {
 				for (auto const & m : permutation) {
 					auto i = nodes.find(m);
@@ -294,8 +294,8 @@ static void resolve_nodes(std::map<match, node_props_t> & nodes) {
 
 	std::reverse(orderedNodes.begin(), orderedNodes.end());
 	for (auto const & subgraph : orderedNodes) {
-		for (auto const & vertI : subgraph) {
-			auto & node = **vertI;
+		for (auto const & vertexIndex : subgraph) {
+			auto & node = *vertices[vertexIndex];
 			for (auto const & entry : node.parent_permutations_by_match) {
 				auto const parentMatch = entry.first;
 				auto const i = nodes.find(parentMatch);

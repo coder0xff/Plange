@@ -17,7 +17,6 @@ class grammar;
 struct match_class;
 class parser;
 typedef std::function<void(size_t /*done*/, size_t /*total*/)> progress_handler_t;
-class raw_state_machine;
 
 
 //holds the state of the parser during a parse
@@ -30,17 +29,15 @@ public:
 
 	job(parser & owner, std::u32string const & document, grammar const & g, uint16_t const rootRecognizerIndex, progress_handler_t const & progressHandler);
 
-	void connect(match_class const & matchClass, uint32_t const subscriber, context const & c, uint8_t const nextState, leaf const * l);
-	match_class get_match_class(uint32_t const id) const;
+	void connect(match_class const & requestedMatchClass, subjob & subscriber, match_class const & subscriberId, context const & c, uint8_t const nextState, leaf const * l);
 private:
 	parser * owner;
-	std::unique_ptr<producer_table> producer_table_ptr;
+	producer_collection producers;
+	std::mutex producers_mutex;
 	progress_handler_t progress_handler;
 	std::atomic<size_t> progress_counter;
 
-	producer & optimized_get_producer(uint32_t const & id, match_class const & matchClass);
 	producer & get_producer(match_class const & matchClass);
-	producer & get_producer(uint32_t const & id);
 	void update_progress(size_t completed);
 
 	//returns true if the job is complete

@@ -36,7 +36,7 @@ builder small_grammar_builder(
 
 TEST(ParlexTest, small_test_0) {
 	grammar const smallGrammar(small_grammar_builder);
-	auto debugCheck = static_cast<state_machine const *>(&smallGrammar.get_recognizer(smallGrammar.lookup_recognizer_index("root")))->to_dot(smallGrammar.get_recognizers());
+	auto debugCheck = dynamic_cast<state_machine const *>(&smallGrammar.get_recognizer(smallGrammar.lookup_recognizer_index("root")))->to_dot(smallGrammar.get_recognizers());
 	parser p(1);
 	auto result = p.parse(smallGrammar, U"A.");
 }

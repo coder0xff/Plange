@@ -54,15 +54,15 @@ private:
 
 	states_t states;
 
-	void process(job & j, uint32_t subjobId, subjob & sj, context const & c, uint8_t const dfaState) const;
-	void start(job & j, uint32_t subjobId, subjob & sj, context const & c) const;
-	static void on(job & j, uint16_t const recognizerIndex, uint32_t const subscriber, subjob & sj, context const & c, uint8_t const nextDfaState, leaf const * leaf);
-	static void accept(job & j, subjob & sj, uint32_t const subjobId, context const & c);
+	void process(job & j, subjob & mySubjob, match_class const & mySubjobId, context const & c, uint8_t const dfaState) const;
+	void start(job & j, subjob & mySubjob, match_class const & mySubjobId, context const & c) const;
+	static void on(job & j, subjob & mySubjob, match_class const & mySubjobId, uint16_t const requestedRecognizerIndex, context const & c, uint8_t const nextDfaState, leaf const * leaf);
+	static void accept(job & j, subjob & mySubjob, match_class const & mySubjobId, context const & c);
 	static automaton reorder(automaton const & dfa);
 
 public:
 	bool is_terminal() const override;
-	int get_start_state() const;
+	uint8_t get_start_state() const;
 	filter_function get_filter() const;
 	associativity get_assoc() const;
 };
