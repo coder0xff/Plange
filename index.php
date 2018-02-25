@@ -309,7 +309,7 @@ print(get_age());
 		
 		
 		<h2>Constraint solving</h2>
-		<p>Many interesting problems may be constructed as one or more constraints, using operators (arithmetic, set theoric, quantifiers, etc), and invocations such as calling the sin() function.</p>
+		<p>Many interesting problems may be constructed as one or more constraints, using operators (arithmetic, set theoric, quantifiers, etc), and invocations such as calling the sin() function. Constant folding and satisfiability solving yield equality constraints upon termination. Symbolic manipulation is very limited, unfortunately. Even attempts at numeric methods are intractible in general. Instead, an algebra is a component that operates given an expression in the canonical form, which is again in general left to the programmer. A computer algebra system such as Risch integration is a pass on the source code, which has a bounded running time. Generally, there's no guaranteed completion.</p>
 
 		<div class="code2">
 			<p>Example</p>
@@ -337,18 +337,18 @@ sue = 6;
 			</pre>
 		</div>
 
-		<p>One well studied domain is <a href="https://en.wikipedia.org/wiki/Initial_value_problem">initial value problems</a>.</p>
+		<p>One well studied domain is <a href="https://en.wikipedia.org/wiki/Initial_value_problem">initial value problems</a>. An ordinary differential equation is given with boundary conditions on free variables:</p>
 
 		<div class="code2">
-			<p>Example</p>
+			<p>Example: Aerodynamic Drag On A Projectile</p>
 			<pre>
-advanceProjectilePosition := (
+projectilePosition := (
 		&lt;Vector3D&gt; initialPos,
 		&lt;Vector3D&gt; initialVel,
 		&lt;Real&gt; mass,
 		&lt;Real&gt; drag,
 		&lt;Vector3D&gt; gravity,
-		&lt;Real&gt; delta_t
+		&lt;Real&gt; t
 ) {
 	// declare the position function, x
 	&lt;Real → Vector3&gt; x;
@@ -366,25 +366,24 @@ advanceProjectilePosition := (
 			</pre>
 		</div>
 
-		<p>A closed form solution for x is determined symbolically, such that the following program is functionally equivalent.</p>
+		<p>ODE solving gives a symbolic solution for x such that the following program is functionally equivalent. This constant folding is performed and cached at compile time. This result was computed manually for demonstrative purposes.</p>
 		<div class="code2">
 			<p>Example (continued)</p>
 			<pre>
-advanceProjectilePosition := (
+projectilePosition := (
 		&lt;Vector3D&gt; initialPos,
 		&lt;Vector3D&gt; initialVel,
 		&lt;Real&gt; mass,
 		&lt;Real&gt; drag,
 		&lt;Vector3D&gt; gravity,
-		&lt;Real&gt; delta_t
+		&lt;Real&gt; t
 ) {
-	//closed form solution computed at compile time
 	a := 𝑒^(drag*t/mass);
 	return (
-		gravity * (mass-(mass*a + drag*delta_t)) + 
-		initialPos*a*drag^2 + 
-		drag*mass*initialVel*(a-1)
-	) / (a*drag^2);
+			gravity * (mass-(mass*a + drag*t)) + 
+			initialPos*a*drag^2 + 
+			drag*mass*initialVel*(a-1)
+		) / (a*drag^2);
 };
 			</pre>
 		</div>
