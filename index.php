@@ -309,7 +309,7 @@ print(get_age());
 		
 		
 		<h2>Constraint solving</h2>
-		<p>Many interesting problems may be constructed as one or more constraints, using operators (arithmetic, set theoric, quantifiers, etc), and invocations such as calling the sin() function. Constant folding and satisfiability solving yield equality constraints upon termination. Symbolic manipulation is very limited, unfortunately. Even attempts at numeric methods are intractible in general. Instead, an algebra is a component that operates given an expression in the canonical form, which is again in general left to the programmer. A computer algebra system such as Risch integration is a pass on the source code, which has a bounded running time. Generally, there's no guaranteed completion.</p>
+		<p>Many interesting problems may be constructed as one or more constraints using operators and functions. Constant folding, satisfiability solving, and symbolic manipulation yield equality constraints upon termination. Solvers are very limited, unfortunately. Numeric methods also require domain knowledge. Each algebra operates when presented with an expression within its required normal form. Normalization is left to the programmer. Some algebra have bounded execution times, such as Risch integration. In general, some algebra may offer no such guarantees.</p>
 
 		<div class="code2">
 			<p>Example</p>
@@ -322,18 +322,23 @@ abe > dan; //abe is older than dan
 sue < mary; //sue is younger than mary
 sue = dan + 3; //sue's age is dan's age plus 3 years
 mary > abe; //mary is older than abe
+
+print(abe);
+print(dan);
+print(mary);
+print(sue);
 			</pre>
 		</div>
 
-		<p>This code is semantically equivalent to the following:</p>
+		<p>The output when ran:</p>
 
 		<div class="code2">
-			<p>Example (continued)</p>
+			<p>Output</p>
 			<pre>
-abe = 5;
-dan = 3;
-mary = 9;
-sue = 6;
+5
+3
+9
+6
 			</pre>
 		</div>
 
