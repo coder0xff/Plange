@@ -1,3 +1,5 @@
+cmake_dir = /usr/local/bin
+
 pipeline {
 	agent any
 
@@ -14,7 +16,7 @@ pipeline {
 				sh '''
 				      cd Plange.build &&
 				      rm -rf * && 
-							cmake .. &&
+							${cmake_dir}/cmake .. &&
 							make
 					 '''
 			}
