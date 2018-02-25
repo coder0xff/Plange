@@ -1,7 +1,9 @@
-cmake_dir = /usr/local/bin
-
 pipeline {
 	agent any
+
+  environment {
+		CMAKE_DIR = '/usr/local/bin'
+	}
 
 	stages {
 		stage('Clone') {
@@ -16,7 +18,7 @@ pipeline {
 				sh '''
 				      cd Plange.build &&
 				      rm -rf * && 
-							${cmake_dir}/cmake .. &&
+							${CMAKE_DIR}/cmake .. &&
 							make
 					 '''
 			}
