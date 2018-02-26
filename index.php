@@ -309,7 +309,7 @@ print(get_age());
 		
 		
 		<h2>Constraint solving</h2>
-		<p>Many interesting problems may be constructed as one or more constraints, using operators (arithmetic, set theoric, quantifiers, etc), and invocations such as calling the sin() function.</p>
+		<p>Many interesting problems may be constructed as one or more constraints using operators and functions. Constant folding, satisfiability solving, and symbolic manipulation yield equality constraints upon termination. Solvers are very limited, unfortunately. Numeric methods also require domain knowledge. Each algebra operates when presented with an expression within its required normal form. Normalization is left to the programmer. Some algebra have bounded execution times, such as Risch integration. In general, some algebra may offer no such guarantees.</p>
 
 		<div class="code2">
 			<p>Example</p>
@@ -322,33 +322,38 @@ abe > dan; //abe is older than dan
 sue < mary; //sue is younger than mary
 sue = dan + 3; //sue's age is dan's age plus 3 years
 mary > abe; //mary is older than abe
+
+print(abe);
+print(dan);
+print(mary);
+print(sue);
 			</pre>
 		</div>
 
-		<p>This code is semantically equivalent to the following:</p>
+		<p>The output when ran:</p>
 
 		<div class="code2">
-			<p>Example (continued)</p>
+			<p>Output</p>
 			<pre>
-abe = 5;
-dan = 3;
-mary = 9;
-sue = 6;
+5
+3
+9
+6
 			</pre>
 		</div>
 
-		<p>One well studied domain is <a href="https://en.wikipedia.org/wiki/Initial_value_problem">initial value problems</a>.</p>
+		<p>One well studied domain is <a href="https://en.wikipedia.org/wiki/Initial_value_problem">initial value problems</a>. An ordinary differential equation is given with boundary conditions on free variables:</p>
 
 		<div class="code2">
-			<p>Example</p>
+			<p>Example: Aerodynamic Drag On A Projectile</p>
 			<pre>
-advanceProjectilePosition := (
+projectilePosition := (
 		&lt;Vector3D&gt; initialPos,
 		&lt;Vector3D&gt; initialVel,
 		&lt;Real&gt; mass,
 		&lt;Real&gt; drag,
 		&lt;Vector3D&gt; gravity,
-		&lt;Real&gt; delta_t
+		&lt;Real&gt; t
 ) {
 	// declare the position function, x
 	&lt;Real → Vector3&gt; x;
@@ -366,25 +371,24 @@ advanceProjectilePosition := (
 			</pre>
 		</div>
 
-		<p>A closed form solution for x is determined symbolically, such that the following program is functionally equivalent.</p>
+		<p>ODE solving gives a symbolic solution for x such that the following program is functionally equivalent. This constant folding is performed and cached at compile time. This result was computed manually for demonstrative purposes.</p>
 		<div class="code2">
 			<p>Example (continued)</p>
 			<pre>
-advanceProjectilePosition := (
+projectilePosition := (
 		&lt;Vector3D&gt; initialPos,
 		&lt;Vector3D&gt; initialVel,
 		&lt;Real&gt; mass,
 		&lt;Real&gt; drag,
 		&lt;Vector3D&gt; gravity,
-		&lt;Real&gt; delta_t
+		&lt;Real&gt; t
 ) {
-	//closed form solution computed at compile time
 	a := 𝑒^(drag*t/mass);
 	return (
-		gravity * (mass-(mass*a + drag*delta_t)) + 
-		initialPos*a*drag^2 + 
-		drag*mass*initialVel*(a-1)
-	) / (a*drag^2);
+			gravity * (mass-(mass*a + drag*t)) + 
+			initialPos*a*drag^2 + 
+			drag*mass*initialVel*(a-1)
+		) / (a*drag^2);
 };
 			</pre>
 		</div>
