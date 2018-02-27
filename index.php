@@ -309,7 +309,7 @@ print(get_age());
 		
 		
 		<h2>Constraint solving</h2>
-		<p>Many interesting problems may be constructed as one or more constraints using operators and functions. Constant folding, satisfiability solving, and symbolic manipulation yield equality constraints upon termination. Solvers are very limited, unfortunately. Numeric methods also require domain knowledge. Each algebra operates when presented with an expression within its required normal form. Normalization is left to the programmer. Some algebra have bounded execution times, such as Risch integration. In general, some algebra may offer no such guarantees.</p>
+		<p>Many interesting problems may be constructed as one or more constraints using operators and functions. Constant folding, satisfiability solving, and symbolic manipulation yield equality constraints upon termination. See <a href="documentation/computer-algebra-systems.php">the computer algebra systems page</a>.</p>
 
 		<div class="code2">
 			<p>Example</p>
@@ -342,58 +342,6 @@ print(sue);
 			</pre>
 		</div>
 
-		<p>One well studied domain is <a href="https://en.wikipedia.org/wiki/Initial_value_problem">initial value problems</a>. An ordinary differential equation is given with boundary conditions on free variables:</p>
-
-		<div class="code2">
-			<p>Example: Aerodynamic Drag On A Projectile</p>
-			<pre>
-projectilePosition := (
-		&lt;Vector3D&gt; initialPos,
-		&lt;Vector3D&gt; initialVel,
-		&lt;Real&gt; mass,
-		&lt;Real&gt; drag,
-		&lt;Vector3D&gt; gravity,
-		&lt;Real&gt; t
-) {
-	// declare the position function, x
-	&lt;Real → Vector3&gt; x;
-	
-	// model x as a differential equation
-	mass * Δ^2x(t)/Δt^2 = -drag * Δx(t)/Δt + mass * gravity;
-	
-	// with boundary conditions
-	x(0) = initialPos;
-	Δx(0)/Δt = initialVel;
-	
-	// solve, substitute, evaluate
-	return x(delta_t);
-};
-			</pre>
-		</div>
-
-		<p>ODE solving gives a symbolic solution for x such that the following program is functionally equivalent. This constant folding is performed and cached at compile time. This result was computed manually for demonstrative purposes.</p>
-		<div class="code2">
-			<p>Example (continued)</p>
-			<pre>
-projectilePosition := (
-		&lt;Vector3D&gt; initialPos,
-		&lt;Vector3D&gt; initialVel,
-		&lt;Real&gt; mass,
-		&lt;Real&gt; drag,
-		&lt;Vector3D&gt; gravity,
-		&lt;Real&gt; t
-) {
-	a := 𝑒^(drag*t/mass);
-	return (
-			gravity * (mass-(mass*a + drag*t)) + 
-			initialPos*a*drag^2 + 
-			drag*mass*initialVel*(a-1)
-		) / (a*drag^2);
-};
-			</pre>
-		</div>
-
-		<a name="property_based_testing" />
 		<div class="code2">
 			<p>Example</p>
 			<pre>
@@ -425,24 +373,7 @@ assert(x = inverted_linear_interpolation(y, z, linear_interpolation(y, z, x));
 		</div>
 		<p>The above function, sort, is functionaly equivalent to the sorting functions. However, this constraint based problem is not yet solvable using available techniques.</p>
 
-		<h2>Type Constraints</h2><a name="Type_Constraints" />
-		<p>Since types are values, and values can be constrained, type constraints are realised.</p>
 
-		<div class="code2">
-			<p>Example</p>
-			<pre>
-all := (Collection&lt;X&gt; items) {
-	Bool casts typeof(X); //values of type X must be castable to type Bool
-	
-	for (item ∈ items) {
-		if (¬(Bool)item) {
-			return false;
-		};
-	};
-	return true;
-};
-			</pre>
-		</div>
 
 		</div>
 		<h2>Further reading</h2>
