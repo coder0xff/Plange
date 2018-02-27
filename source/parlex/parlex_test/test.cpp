@@ -252,20 +252,6 @@ TEST(ParlexTest, LeadingTagRegression) {
 	wirth().compile_expression(t);
 }
 
-TEST(ParlexTest, behavior_literal_wo_builtins) {
-	builder const gBuilder("EXPR", {production("EXPR", literal(U"+"))});
-
-	parser p(1);
-	grammar const g(gBuilder, true);
-
-	std::u32string const document = U"+";
-	auto result = p.parse(g, document);
-	if (!result.is_rooted()) {
-		throw std::logic_error("Test failed");
-	}
-	//auto concreteDot = result.to_concrete_dot(document);
-}
-
 TEST(ParlexTest, behavior_literal_w_builtins) {
 	builder const gBuilder("EXPR", {production("EXPR", literal(U"+"))});
 
