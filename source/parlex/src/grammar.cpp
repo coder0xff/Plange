@@ -87,7 +87,7 @@ void grammar::link_sub_builder(sub_builder const & grammarDefinition) {
 	}
 }
 
-grammar::grammar(builder const & grammarDefinition, bool noBuiltIns) {
+grammar::grammar(builder const & grammarDefinition) {
 	std::set<std::string> referencedRecognizers;
 	auto cStringWasReferenced = false;
 	for (auto const & production : grammarDefinition.productions) {

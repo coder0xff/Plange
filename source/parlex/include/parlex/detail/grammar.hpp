@@ -37,7 +37,7 @@ public:
 		void set_behavior(grammar const & g, erased<node> const & behavior);
 	};
 
-	explicit grammar(builder const & grammarDefinition, bool const noBuiltIns = false);
+	explicit grammar(builder const & grammarDefinition);
 	grammar(grammar const & copy) = delete;
 	virtual ~grammar() = default;
 
@@ -64,6 +64,7 @@ private:
 	std::map<std::string, uint16_t> name_to_local_production_index;
 	uint16_t root_production_index;
 	precedence_collection precedences;
+	std::set<uint16_t> left_recursive_recognizers;
 
 	size_t add_table_data(std::map<std::string, recognizer const *> & nameToRecognizerPtr, recognizer const * recognizerPtr);
 	void compile_sub_builder(std::map<std::string, recognizer const *> & nameToRecognizerPtr, sub_builder const & grammarDefinition);
