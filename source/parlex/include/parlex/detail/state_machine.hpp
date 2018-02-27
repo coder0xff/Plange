@@ -48,6 +48,7 @@ public:
 	uint8_t accept_state_count; //must be greater than 0
 	void set_behavior(node & behavior);
 	std::string to_dot(std::vector<recognizer const *> const & recognizers) const;
+	collections::coherent_map<transition_info_t, uint8_t> const & get_transitions(size_t stateIndex) const;
 private:
 	friend class parser;
 	friend class subjob;

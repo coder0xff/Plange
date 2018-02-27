@@ -7,6 +7,7 @@
 #include "parlex/builder.hpp"
 #include "parlex/detail/builtins.hpp"
 #include "parlex/detail/c_string.hpp"
+#include "tarjan.hpp"
 
 namespace parlex {
 namespace detail {
@@ -58,10 +59,10 @@ size_t grammar::add_table_data(std::map<std::string, recognizer const *> & nameT
 	}
 	auto const recognizerIndex = recognizers.size();
 	recognizers.push_back(recognizerPtr);
-	if (!recognizer_ptr_to_recognizer_index.insert(std::make_pair(recognizerPtr, recognizerIndex)).second) {
+	if (!recognizer_ptr_to_recognizer_index.insert(std::make_pair(recognizerPtr, uint16_t(recognizerIndex))).second) {
 		throw std::runtime_error("key already present");
 	}
-	if (!name_to_recognizer_index.insert(std::make_pair(recognizerPtr->name, recognizerIndex)).second) {
+	if (!name_to_recognizer_index.insert(std::make_pair(recognizerPtr->name, uint16_t(recognizerIndex))).second) {
 		throw std::runtime_error("key already present");
 	}
 	if (!nameToRecognizerPtr.insert(std::make_pair(recognizerPtr->name, recognizerPtr)).second) {
@@ -84,6 +85,29 @@ void grammar::link_sub_builder(sub_builder const & grammarDefinition) {
 		auto const & name = definition.name;
 		production & production = local_productions[name_to_local_production_index[name]];
 		production.set_behavior(*this, definition.behavior);
+	}
+}
+
+void grammar::compute_left_recursive_recognizers() {
+	auto components = tarjan(recognizers.size(), [&](size_t vertex)
+	{
+		std::vector<size_t> results;
+		recognizer const * recognizer = recognizers[vertex];
+		if (!recognizer->is_terminal()) {
+			auto stateMachine = static_cast<state_machine const *>(recognizer);
+			auto const & startStatetransitions = stateMachine->get_transitions(stateMachine->get_start_state());
+			for (auto const & transitionInfo : startStatetransitions) {
+				results.push_back(transitionInfo.first.recognizer_index);
+			}
+		}
+
+		return results;
+	}, true);
+
+	for (auto const & component : components) {
+		for (auto recognizer : component) {
+			left_recursive_recognizers.insert((uint16_t)recognizer);
+		}
 	}
 }
 
@@ -141,12 +165,12 @@ grammar::grammar(builder const & grammarDefinition) {
 	for (auto const & literal : allStringLiterals) {
 		auto const literalIndex = local_literals.size();
 		local_literals.emplace_back(literal);
-		if (!content_to_local_literal_index.insert(std::make_pair(literal, literalIndex)).second) {
+		if (!content_to_local_literal_index.insert(std::make_pair(literal, uint16_t(literalIndex))).second) {
 			throw std::runtime_error("key already present");
 		};
 		string_terminal const * ptr = &local_literals[literalIndex];
 		auto const recognizerIndex = add_table_data(nameToRecognizerPtr, ptr);
-		if (!content_to_recognizer_index.insert(std::make_pair(literal, recognizerIndex)).second) {
+		if (!content_to_recognizer_index.insert(std::make_pair(literal, uint16_t(recognizerIndex))).second) {
 			throw std::runtime_error("key already present");
 		}
 	}
@@ -175,6 +199,8 @@ grammar::grammar(builder const & grammarDefinition) {
 	}
 
 	root_production_index = name_to_local_production_index[grammarDefinition.root_name];
+
+	compute_left_recursive_recognizers();
 }
 
 state_machine const& grammar::get_root_state_machine() const {
@@ -208,6 +234,10 @@ uint16_t grammar::lookup_recognizer_index(recognizer const & recognizer) const
 	auto const i = recognizer_ptr_to_recognizer_index.find(&recognizer);
 	throw_assert(i != recognizer_ptr_to_recognizer_index.end());
 	return i->second;
+}
+
+bool grammar::is_recognizer_left_recursive(uint16_t recognizerIndex) const {
+	return left_recursive_recognizers.count(recognizerIndex) > 0;
 }
 
 precedence_collection grammar::get_precedences() const

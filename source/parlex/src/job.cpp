@@ -86,9 +86,17 @@ void job::update_progress(size_t const completed)
 	}
 }
 
-bool job::handle_deadlocks() {
-	//perf_timer perf(__func__);
+void job::fast_breakout() {
+	for (auto & pair : producers) {
+		auto const & matchClass = pair.first;
+		auto & producer = *pair.second;
+		if (g.is_recognizer_left_recursive(matchClass.recognizer_index)) {
+			producer.terminate(*this, matchClass);
+		}
+	}
+}
 
+bool job::full_breakout() {
 	std::vector<match_class> vertices;
 	std::map<match_class, int> lookup;
 	for (auto const & pair : producers) {
@@ -127,6 +135,19 @@ bool job::handle_deadlocks() {
 	}
 
 	return !anyHalted;
+}
+
+bool job::handle_deadlocks() {
+	//perf_timer perf(__func__);
+
+	fast_breakout();
+
+	// Did fast_breakout free up any nodes to do some work?
+	if (!owner->work.empty()) {
+		return false;
+	}
+
+	return full_breakout();
 }
 
 //Construct an ASS, and if a solution was found, prunes unreachable nodes

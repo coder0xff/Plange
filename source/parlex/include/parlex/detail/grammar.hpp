@@ -53,10 +53,11 @@ public:
 	uint16_t lookup_literal_recognizer_index(std::u32string const & content) const;
 	uint16_t lookup_recognizer_index(std::string const & name) const;
 	uint16_t lookup_recognizer_index(recognizer const & recognizer) const;
+	bool is_recognizer_left_recursive(uint16_t recognizerIndex) const;
 private:
 	std::vector<production> local_productions;
 	std::vector<string_terminal> local_literals;
-	std::vector<recognizer const *> recognizers; // pointers into builtin_terminals, local production, and local literals. The index is used to uniquely identify the corresponding recognizer throughtout the parsing algorithms
+	std::vector<recognizer const *> recognizers; // pointers into builtin_terminals, local production, and local literals. The index is used to uniquely identify the corresponding recognizer throughout the parsing algorithms
 	std::map<recognizer const *, uint16_t> recognizer_ptr_to_recognizer_index;
 	std::map<std::u32string, uint16_t> content_to_recognizer_index;
 	std::map<std::u32string, uint16_t> content_to_local_literal_index;
@@ -69,6 +70,7 @@ private:
 	size_t add_table_data(std::map<std::string, recognizer const *> & nameToRecognizerPtr, recognizer const * recognizerPtr);
 	void compile_sub_builder(std::map<std::string, recognizer const *> & nameToRecognizerPtr, sub_builder const & grammarDefinition);
 	void link_sub_builder(sub_builder const & grammarDefinition);
+	void compute_left_recursive_recognizers();
 };
 
 } // namespace detail

@@ -39,6 +39,8 @@ private:
 
 	producer & get_producer(match_class const & matchClass);
 	void update_progress(size_t completed);
+	void fast_breakout();
+	bool full_breakout();
 
 	//returns true if the job is complete
 	//"Deadlock" has a negative connotation, which is not appropriate here.

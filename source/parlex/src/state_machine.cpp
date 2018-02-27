@@ -153,5 +153,10 @@ std::string state_machine::to_dot(std::vector<recognizer const *> const & recogn
 
 }
 
+collections::coherent_map<state_machine::transition_info_t, uint8_t> const & state_machine::get_transitions(size_t stateIndex) const
+{
+	return states[stateIndex];
+}
+
 } // namespace detail
 } // namespace parlex
