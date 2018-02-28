@@ -157,7 +157,7 @@ detail::automaton choice::to_nfa() const {
 
 detail::automaton optional::to_nfa() const {
 	auto result = children[0]->to_nfa();
-	for (int startStateIndex : result.start_states) {
+	for (auto startStateIndex : result.start_states) {
 		result.accept_states.insert(startStateIndex);
 	}
 	return result;
@@ -168,10 +168,10 @@ detail::automaton repetition::to_nfa() const {
 	auto originalTransitions = result.get_transitions();
 
 	//copy transitions (start_state, symbol, to_state) to (accept_state, symbol, to_state)
-	for (int startStateIndex : result.start_states) {
+	for (auto startStateIndex : result.start_states) {
 		for (auto & symbolAndToStates : result.states[startStateIndex].out_transitions) {
-			for (int toState : symbolAndToStates.second) {
-				for (int acceptState : result.accept_states) {
+			for (auto toState : symbolAndToStates.second) {
+				for (auto acceptState : result.accept_states) {
 					result.states[acceptState].out_transitions[symbolAndToStates.first].insert(toState);
 				}
 			}
@@ -211,7 +211,7 @@ detail::automaton sequence::to_nfa() const {
 			result.states.emplace_back(fromStateOfPart.label + newStateIndexOffset);
 			auto & newState = result.states.back();
 			for (auto & symbolAndToStateIndicesOfPart : fromStateOfPart.out_transitions) {
-				for (int toStateOfPart : symbolAndToStateIndicesOfPart.second) {
+				for (auto toStateOfPart : symbolAndToStateIndicesOfPart.second) {
 					newState.out_transitions[symbolAndToStateIndicesOfPart.first].insert(toStateOfPart + newStateIndexOffset);
 				}
 			}
@@ -231,7 +231,7 @@ detail::automaton sequence::to_nfa() const {
 			}
 		}
 
-		for (int partAcceptStateIndex : part.accept_states) {
+		for (auto partAcceptStateIndex : part.accept_states) {
 			result.accept_states.insert(partAcceptStateIndex + newStateIndexOffset);
 		}
 	}

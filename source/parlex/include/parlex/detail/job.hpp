@@ -16,7 +16,7 @@ class correlated_grammar;
 class grammar;
 struct match_class;
 class parser;
-typedef std::function<void(size_t /*done*/, size_t /*total*/)> progress_handler_t;
+typedef std::function<void(uint32_t /*done*/, uint32_t /*total*/)> progress_handler_t;
 
 
 //holds the state of the parser during a parse
@@ -35,10 +35,10 @@ private:
 	producer_collection producers;
 	std::mutex producers_mutex;
 	progress_handler_t progress_handler;
-	std::atomic<size_t> progress_counter;
+	std::atomic<uint32_t> progress_counter;
 
 	producer & get_producer(match_class const & matchClass);
-	void update_progress(size_t completed);
+	void update_progress(uint32_t completed);
 	void fast_breakout();
 	bool full_breakout();
 

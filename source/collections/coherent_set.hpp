@@ -78,17 +78,17 @@ namespace collections {
 				return result;
 			}
 
-			iterator_template operator+(int const rhs) const {
+			iterator_template operator+(intmax_t const rhs) const {
 				iterator_template result;
 				result.underlying = underlying + rhs;
 				return result;
 			}
 
-			iterator_template operator-(int const rhs) const {
+			iterator_template operator-(intmax_t const rhs) const {
 				return *this + (-rhs);
 			}
 
-			int operator-(iterator_template const & rhs) const {
+			intmax_t operator-(iterator_template const & rhs) const {
 				return underlying - rhs.underlying;
 			}
 

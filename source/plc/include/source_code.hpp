@@ -17,7 +17,7 @@ public:
 	std::u32string const document;
 
 private: // we need a certain initialization order for these const fields
-	std::map<int, int> const line_number_by_first_character;
+	std::map<uint32_t, uint32_t> const line_number_by_first_character;
 
 public:
 	template <typename T = STATEMENT_SCOPE>
@@ -26,16 +26,16 @@ public:
 		return T::build(ast);
 	}
 
-	static std::pair<int, int> get_line_number_and_column(std::map<int, int> const & lineNumberByFirstCharacter, int charIndex);
+	static std::pair<uint32_t, uint32_t> get_line_number_and_column(std::map<uint32_t, uint32_t> const & lineNumberByFirstCharacter, uint32_t charIndex);
 	// For initialization of `line_number_by_first_character` data member, requires document already constructed
-	static std::map<int, int> construct_line_number_by_first_character(std::u32string const & document);
-	static std::string describe_code_span(parlex::detail::match const & m, std::map<int, int> const & lineNumberByFirstCharacter, std::string const & pathname = "");
+	static std::map<uint32_t, uint32_t> construct_line_number_by_first_character(std::u32string const & document);
+	static std::string describe_code_span(parlex::detail::match const & m, std::map<uint32_t, uint32_t> const & lineNumberByFirstCharacter, std::string const & pathname = "");
 	static parlex::detail::abstract_syntax_tree construct_ast(std::u32string const & document, parlex::detail::recognizer const & production, std::string const & pathname);
 
 	parlex::detail::abstract_syntax_tree const ast;
 	STATEMENT_SCOPE const representation;
 
-	std::pair<int, int> get_line_number_and_column(int charIndex) const;
+	std::pair<uint32_t, uint32_t> get_line_number_and_column(uint32_t charIndex) const;
 	std::string describe_code_span(parlex::detail::match const & m) const;
 
 };

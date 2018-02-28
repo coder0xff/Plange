@@ -17,7 +17,7 @@ class context;
 class grammar;
 class job;
 class producer;
-typedef std::function<void(size_t /*done*/, size_t /*total*/)> progress_handler_t;
+typedef std::function<void(uint32_t /*done*/, uint32_t /*total*/)> progress_handler_t;
 class recognizer;
 class subjob;
 

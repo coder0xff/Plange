@@ -75,13 +75,13 @@ producer & job::get_producer(match_class const & matchClass) {
 	return *storage;
 }
 
-void job::update_progress(size_t const completed)
+void job::update_progress(uint32_t const completed)
 {
 	if (progress_handler) {
-		size_t oldProgress = progress.load();
+		uint32_t oldProgress = progress.load();
 		while (!progress_counter.compare_exchange_weak(oldProgress, completed) && oldProgress < completed) {}
 		if (oldProgress < completed) {
-			progress_handler(completed, document.length());
+			progress_handler(completed, uint32_t(document.length()));
 		}
 	}
 }
@@ -98,7 +98,7 @@ void job::fast_breakout() {
 
 bool job::full_breakout() {
 	std::vector<match_class> vertices;
-	std::map<match_class, int> lookup;
+	std::map<match_class, size_t> lookup;
 	for (auto const & pair : producers) {
 		auto const & matchClass = pair.first;
 		auto const & producer = *pair.second;
@@ -178,7 +178,7 @@ abstract_syntax_semilattice job::construct_result(match const & m) {
 
 abstract_syntax_semilattice job::construct_result_and_postprocess(uint16_t const overrideRootRecognizerIndex, std::vector<post_processor> const & posts, std::u32string const & document) {
 	//perf_timer perf(__func__);
-	auto result = construct_result(match(0, overrideRootRecognizerIndex, document.size()));
+	auto result = construct_result(match(0, overrideRootRecognizerIndex, uint32_t(document.size())));
 	if (!posts.empty()) {
 		for (auto const & post : posts) {
 			post(result);

@@ -8,7 +8,7 @@
 
 namespace parlex {
 
-void progress_bar(int const done, int const outOf) {
+void progress_bar(uint32_t const done, uint32_t const outOf) {
 	static std::mutex m;
 	std::unique_lock<std::mutex> lock(m);
 	auto const ticks = done * 25 / outOf;
@@ -177,7 +177,7 @@ std::map<std::string, recognizer const *> builtin_terminals_t::generate_lookup_t
 	return result;
 }
 
-string_terminal::string_terminal(std::u32string const & s) : terminal("string_terminal_" + to_utf8(s), s.length()), s(s) {
+string_terminal::string_terminal(std::u32string const & s) : terminal("string_terminal_" + to_utf8(s), uint32_t(s.length())), s(s) {
 }
 
 bool string_terminal::test(std::u32string const & document, uint32_t const documentPosition) const {

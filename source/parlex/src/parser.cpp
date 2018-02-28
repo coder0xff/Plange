@@ -68,7 +68,7 @@ parser::~parser() {
 }
 
 void parser::complete_progress_handler(job & j) {
-	j.update_progress(j.document.length());
+	j.update_progress(uint32_t(j.document.length()));
 }
 
 void parser::update_progress(context const & context) const {
@@ -126,6 +126,9 @@ abstract_syntax_semilattice parser::multi_thread_parse(grammar const & g, uint16
 }
 
 abstract_syntax_semilattice parser::parse(grammar const & g, recognizer const & overrideMain, std::vector<post_processor> const & posts, std::u32string const & document, progress_handler_t const & progressHandler) {
+	if (document.length() > UINT32_MAX) {
+		throw std::runtime_error("Documents longer that 4294967295 characters are unsupported.");
+	}
 	auto const overrideRootRecognizerIndex = g.lookup_recognizer_index(overrideMain);
 	if (single_thread_mode) {
 		return single_thread_parse(g, overrideRootRecognizerIndex, posts, document, progressHandler);
@@ -329,7 +332,7 @@ struct intersection_lookup {
 				}
 			}
 		}
-		for (int depth = lookupDepth - 2; depth >= 0; --depth) {
+		for (intmax_t depth = lookupDepth - 2; depth >= 0; --depth) {
 			auto const antiDepth = (lookupDepth - 1) - depth;
 			auto const rowWidth = docLen >> antiDepth;
 			auto & row = lookup[depth];
@@ -344,20 +347,20 @@ struct intersection_lookup {
 		}
 	}
 
-	void query(int const first, int const last, collections::coherent_set<match> & results) {
-		int const lookupDepth = lookup.size();
+	void query(uint32_t const first, uint32_t const last, collections::coherent_set<match> & results) {
+		auto const lookupDepth = lookup.size();
 		// common higher-order bits identify the row and column fully containing the span
 		auto const containmentAntiRow = sizeof(int32_t) * 8 - clz(first ^ last);
 		int const containmentBreadth = 1 << containmentAntiRow;
 		int const containmentColumn = first >> containmentAntiRow;
 		int const containmentFirst = containmentColumn << containmentAntiRow;
 		auto const containmentLast = containmentFirst + containmentBreadth - 1;
-		int const containmentRow = int(lookupDepth - 1) - containmentAntiRow;
+		intmax_t const containmentRow = intmax_t(lookupDepth - 1) - containmentAntiRow;
 		if (containmentRow >= 0 && int(lookup[containmentRow].size()) > containmentColumn && first == containmentFirst && last == containmentLast) {
 			auto resolved = lookup[containmentRow][containmentColumn];
 			results.insert_many(resolved.begin(), resolved.end());
 		} else {
-			int const divisionAntiRow = containmentAntiRow - 1;
+			auto const divisionAntiRow = containmentAntiRow - 1;
 			auto const divisionColumn = (containmentColumn << 1) + 1;
 			auto const divisionIndex = divisionColumn << divisionAntiRow;
 			query(first, divisionIndex - 1, results);
