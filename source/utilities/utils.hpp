@@ -11,8 +11,6 @@ inline void throw_assert(bool const pass) {
 #endif
 }
 
-void throw_assert(bool pass);
-
 void debugger();
 
 template <typename T>
