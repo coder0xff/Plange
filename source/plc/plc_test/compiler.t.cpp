@@ -161,8 +161,9 @@ TEST(PlcCompiler, LoadIntToStringExample) {
 	load_example("intToString.pge");
 }
 
-TEST(PlcCompiler, ParseIntToStringStressTestExample) {
-	perf_timer perf(__func__);
-
-	parse_example("intToStringStressTest.pge");
-}
+// This test is excessive, and takes a long time to complete. Only turn it on when you want that.
+//TEST(PlcCompiler, ParseIntToStringStressTestExample) {
+//	perf_timer perf(__func__);
+//
+//	parse_example("intToStringStressTest.pge");
+//}
