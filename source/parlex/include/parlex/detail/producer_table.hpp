@@ -8,7 +8,7 @@
 
 namespace parlex::detail {
 
-	using producer_collection = std::map<match_class, std::unique_ptr<producer>>;
+	using producer_collection = std::map<match_class, producer *>;
 
 }
 

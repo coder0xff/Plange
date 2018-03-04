@@ -35,11 +35,11 @@ job::job(parser & owner, std::u32string const & document, grammar const & g, uin
 	auto const & root = g.get_recognizer(rootRecognizerIndex);
 	if (root.is_terminal()) {
 		auto const t = static_cast<terminal const *>(&root);  // NOLINT
-		storage.reset(new token(*this, matchClass, *t));
+		storage = new token(*this, matchClass, *t);
 	} else {
 		auto const machine = static_cast<state_machine const *>(&root);  // NOLINT
 		auto result = new subjob(*machine);
-		storage.reset(result);
+		storage = result;
 		//seed the parser with the root state
 		result->begin_work_queue_reference();
 		context const * context = &result->construct_start_state_context(0);
@@ -63,11 +63,11 @@ producer & job::get_producer(match_class const & matchClass) {
 		auto const & r = g.get_recognizer(matchClass.recognizer_index);
 		if (r.is_terminal()) {
 			auto const & t = *static_cast<terminal const *>(&r);  // NOLINT
-			storage.reset(new token(*this, matchClass, t));
+			storage = new token(*this, matchClass, t);
 		} else {
 			auto const machine = static_cast<state_machine const *>(&r);  // NOLINT
 			auto newSubjobPtr = new subjob(*machine);
-			storage.reset(newSubjobPtr);
+			storage = newSubjobPtr;
 			lock.unlock();
 			newSubjobPtr->start(*this, matchClass);
 		}
@@ -165,6 +165,9 @@ abstract_syntax_semilattice job::construct_result(match const & m) {
 		}
 	}
 
+	for (auto entry : producers) {
+		delete entry.second;
+	}
 	producers.clear();
 
 	if (result.is_rooted()) {

@@ -36,6 +36,7 @@ private:
 	std::mutex producers_mutex;
 	progress_handler_t progress_handler;
 	std::atomic<uint32_t> progress_counter;
+	std::vector<int8_t> token_dummies;
 
 	producer & get_producer(match_class const & matchClass);
 	void update_progress(uint32_t completed);
