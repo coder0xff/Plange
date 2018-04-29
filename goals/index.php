@@ -13,8 +13,7 @@
             <big>
                 <big>
                     <big>
-                        Create a development environment that permits
-                the developer to do whatever they conceive.
+                       Enable developers to do whatever they conceive.
                     </big>
                 </big>
             </big>
@@ -22,16 +21,15 @@
 
         <p>Plange may not accomplish a developers goals for them, but it strives to stay out of the way while maintaining its usefulness. In other words: do not obstruct any use case, and anticipate many of them. As the developer explores the languages capabilities, they discover new potential domains rather than boundaries. A small number of specific goals stem from this notion, and provide an outline for the project.</p>
 
-        <h2>Strongly-Connected Model of Computation</h2>
-        <p>A key concept for maximizing power and flexibility, and proof that
-        plange does not obstruct any use case. See the
+        <h2>Strongly-Connected Model Of Computation</h2>
+        <p>Plange must provide all the same functionality at run time as it does at compile time, including mutability. The theoretical result is that all computation, including compilation, is a form of constant folding. As much is done in advance as possible, but compiling and optimizing can be done at runtime as well. Features can be culled from executable modules to reduce their size. Given that internet access is provided, executables may even download missing Plange modules as required.
         <a href="strongly-connected-model-of-computation.php">main page</a>.</p>
 
         <h2>Metaobjects</h2>
-        <p>An approach to meta programming (see <a href="https://en.wikipedia.org/wiki/Metaobject">metaobject</a> on Wikipedia). See the <a href="metaobjects.php">main page</a>.</p>
+        <p>Introspection and meta programming turn code into data, and facilitate extensibility.(see <a href="https://en.wikipedia.org/wiki/Metaobject">metaobject</a> on Wikipedia). See the <a href="metaobjects.php">main page</a>. Combined with the strongly-connected model of computation, even metaobjects have metaobjects. Programs and entire logical or physical systems can become dynamic objects.</p>
 
         <h2>Multi-Paradigm</h2>
-        <p>Support semantics from each <a href="https://en.wikipedia.org/wiki/Programming_language_generations">generation of programming language</a>.</p>
+        <p>Semantic features are included from each <a href="https://en.wikipedia.org/wiki/Programming_language_generations">generation of programming language, and multiple type-system styles are featured</a>.</p>
         <ul>
             <li>
                 Memory models
@@ -54,35 +52,25 @@
                 Typing
                 <ul>
                     <li>
-                        static, dynamic
+                        static type checking, dynamic objects with duck typing
                     </li>
                     <li>
-                        strong, weak
+                        strong, none
                     </li>
                     <li>
-                        <span>
-                            late binding/duck typing
-                        </span>
+                            static binding, late binding
                     </li>
                     <li>
-                        <span>
                             object-oriented
-                        </span>
                     </li>
                     <li>
-                        <span>
                             polymorphic
-                        </span>
                     </li>
                     <li>
-                        <span>
                             parametric (with covariance and contravariance)
-                        </span>
                     </li>
                     <li>
-                        <span>
                             algebraic (with pattern matching)
-                        </span>
                     </li>
                 </ul>
             </li>

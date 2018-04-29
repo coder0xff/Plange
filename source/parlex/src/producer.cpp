@@ -11,25 +11,22 @@ namespace detail {
 
 producer::producer() : completed(false) { }
 
-
-void producer::add_subscription(job & j, match_class const & myInfo, uint32_t const subscriberId, context const & c, uint8_t nextDfaState, leaf const * l) {
+void producer::add_subscription(job & j, match_class const & myId, subjob & subscriber, match_class const & subscriberId, context const & c, uint8_t nextDfaState, leaf const * l) {
 	{
 		std::unique_lock<std::mutex> lock(mutex);
-		consumers.emplace_back(subscriberId, c, nextDfaState, l);
+		consumers.emplace_back(subscriber, subscriberId, c, nextDfaState, l);
 	} //release the lock
-	do_events(j, myInfo);
+	do_events(j, myId);
 }
 
 void producer::do_events(job & j, match_class const & myInfo) {
 	std::unique_lock<std::mutex> lock(mutex);
 	for (auto & subscription : consumers) {
-		auto & targetProducer = j.get_producer(subscription.id);
-		auto & targetSubjob = *static_cast<subjob *>(&targetProducer);  // NOLINT will always be a subjob
 		while (subscription.next_transmit_index < match_length_to_permutations.size()) {
 			auto const matchLength = match_lengths[subscription.next_transmit_index];
 			subscription.next_transmit_index++;
-			auto const & next = targetSubjob.construct_stepped_context(&subscription.c, match(myInfo, matchLength), subscription.l);
-			j.owner->schedule(subscription.id, next, subscription.next_dfa_state);
+			auto const & next = subscription.subscriber.construct_stepped_context(&subscription.c, match(myInfo, matchLength), subscription.l);
+			j.owner->schedule(subscription.subscriber_id, next, subscription.next_dfa_state);
 		}
 	}
 	if (completed) {
@@ -37,9 +34,7 @@ void producer::do_events(job & j, match_class const & myInfo) {
 		swap(temp, consumers);
 		lock.unlock();
 		for (auto & subscription : temp) {
-			auto & targetProducer = j.get_producer(subscription.id);
-			auto & targetSubjob = *static_cast<subjob *>(&targetProducer);  // NOLINT will always be a subjob
-			targetSubjob.end_subscription_reference(j, subscription.id);
+			subscription.subscriber.end_subscription_reference(j, subscription.subscriber_id);
 		}
 		lock.lock();
 		if (!consumers.empty()) {
@@ -49,7 +44,7 @@ void producer::do_events(job & j, match_class const & myInfo) {
 	}
 }
 
-void producer::enque_permutation(job & j, match_class const & myInfo, uint32_t const consumedCharacterCount, permutation const & p) {
+void producer::enque_permutation(job & j, match_class const & myId, uint32_t const consumedCharacterCount, permutation const & p) {
 	auto newMatch = false; {
 		std::unique_lock<std::mutex> lock(mutex);
 		throw_assert(!completed);
@@ -61,7 +56,7 @@ void producer::enque_permutation(job & j, match_class const & myInfo, uint32_t c
 		match_length_to_permutations[consumedCharacterCount].insert(p);
 	}
 	if (newMatch) {
-		do_events(j, myInfo);
+		do_events(j, myId);
 	}
 }
 
@@ -71,10 +66,11 @@ void producer::terminate(job & j, match_class const & myInfo) {
 }
 
 
-producer::subscription::subscription(uint32_t const producerId, context const & c, uint8_t const nextDfaState, leaf const * l) :
+producer::subscription::subscription(subjob & subscriber, match_class const & subscriberId, context const & c, uint8_t const nextDfaState, leaf const * l) :
 	c(c),
 	l(l),
-	id(producerId), 
+	subscriber(subscriber),
+	subscriber_id(subscriberId), 
 	next_transmit_index(0), 
 	next_dfa_state(nextDfaState)
 {}

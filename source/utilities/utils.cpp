@@ -9,7 +9,11 @@
 
 void debugger() {
 #ifdef _MSC_VER
+#   ifdef _WIN64
+	throw std::runtime_error("inline asm in unsupported on this platform");
+#   else
 	__asm int 3
+#   endif
 #else
 	raise(SIGTRAP);
 #endif

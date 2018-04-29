@@ -16,8 +16,21 @@
 using namespace parlex;
 using namespace parlex::detail;
 
+// Expose typically protected members of grammar for testing purposes
+class test_grammar : public grammar {
+public:
+	explicit test_grammar(builder const & grammarDefinition)
+		: grammar(grammarDefinition) {}
+
+	using grammar::get_recognizer;
+	using grammar::get_recognizers;
+	using grammar::lookup_literal_recognizer_index;
+	using grammar::lookup_recognizer_index;
+
+};
+
 TEST(ParlexTest, smallest_test_0) {
-	grammar const g(builder{
+	test_grammar const g(builder{
 		"root", {
 			production("root", literal(U"."))
 		}
@@ -35,15 +48,15 @@ builder small_grammar_builder(
 );
 
 TEST(ParlexTest, small_test_0) {
-	grammar const smallGrammar(small_grammar_builder);
-	auto debugCheck = static_cast<state_machine const *>(&smallGrammar.get_recognizer(smallGrammar.lookup_recognizer_index("root")))->to_dot(smallGrammar.get_recognizers());
+	test_grammar const smallGrammar(small_grammar_builder);
+	auto debugCheck = dynamic_cast<state_machine const *>(&smallGrammar.get_recognizer(smallGrammar.lookup_recognizer_index("root")))->to_dot(smallGrammar.get_recognizers());
 	parser p(1);
 	auto result = p.parse(smallGrammar, U"A.");
 }
 
 
 TEST(ParlexTest, small_test_1) {
-	grammar const smallGrammar(small_grammar_builder);
+	test_grammar const smallGrammar(small_grammar_builder);
 	parser p(1);
 	auto result = p.parse(smallGrammar, U"AAAAAAAAAAAAAAAAAA.");
 }
@@ -77,7 +90,7 @@ TEST(ParlexTest, medium_test_0) {
 }
 
 TEST(ParlexTest, medium_test_1) {
-	grammar const smallGrammar(medium_grammar_builder);
+	test_grammar const smallGrammar(medium_grammar_builder);
 	auto debugCheck = static_cast<state_machine const *>(&smallGrammar.get_recognizer(smallGrammar.lookup_recognizer_index("root")))->to_dot(smallGrammar.get_recognizers());
 	parser p(1);
 	auto result = p.parse(smallGrammar, U"AAAAAAAAAAA           =           BBBBBBBBBBBBB.");
@@ -124,7 +137,7 @@ IDENTIFIER = letter { letter } .";
 TEST(ParlexTest, wirth_test_1) {
 	parser p(1);
 	auto result = p.parse(wirth(), U"A=B.");
-	//auto debugTest = result.to_dot(wirth());
+	auto debugTest = result.to_dot(wirth());
 	if (!result.is_rooted()) {
 		throw std::logic_error("Test failed");
 	}
@@ -252,20 +265,6 @@ TEST(ParlexTest, LeadingTagRegression) {
 	wirth().compile_expression(t);
 }
 
-TEST(ParlexTest, behavior_literal_wo_builtins) {
-	builder const gBuilder("EXPR", {production("EXPR", literal(U"+"))});
-
-	parser p(1);
-	grammar const g(gBuilder, true);
-
-	std::u32string const document = U"+";
-	auto result = p.parse(g, document);
-	if (!result.is_rooted()) {
-		throw std::logic_error("Test failed");
-	}
-	//auto concreteDot = result.to_concrete_dot(document);
-}
-
 TEST(ParlexTest, behavior_literal_w_builtins) {
 	builder const gBuilder("EXPR", {production("EXPR", literal(U"+"))});
 
@@ -296,17 +295,43 @@ TEST(ParlexTest, behavior_sequence) {
 
 TEST(ParlexTest, behavior_2) {
 	builder const gBuilder("EXPR", {
-		                           production("ADD", sequence({reference("EXPR"), literal(U"+"), reference("EXPR")})),
-		                           production("MUL", sequence({reference("EXPR"), literal(U"*"), reference("EXPR")})),
+		                           production("ADD", sequence {reference("EXPR"), literal(U"+"), reference("EXPR")}),
 		                           production("EXPR",
-		                                      choice({
+		                                      choice{
+			                                      reference("ADD"),
+			                                      sequence{
+				                                      reference("number"),
+			                                      }
+		                                      }
+		                           ),
+	                           });
+
+	parser p(1);
+	grammar const g(gBuilder);
+
+	std::u32string const document = U"5+3+2";
+	auto result = p.parse(g, document);
+	//auto const debugTest = result.to_dot(g); // TODO: Remove debug code
+	if (!result.is_rooted()) {
+		throw std::logic_error("Test failed");
+	}
+	//auto concreteDot = result.to_concrete_dot(document);
+
+}
+
+TEST(ParlexTest, behavior_3) {
+	builder const gBuilder("EXPR", {
+		                           production("ADD", sequence {reference("EXPR"), literal(U"+"), reference("EXPR")}),
+		                           production("MUL", sequence {reference("EXPR"), literal(U"*"), reference("EXPR")}),
+		                           production("EXPR",
+		                                      choice{
 			                                      reference("ADD"),
 			                                      reference("MUL"),
-			                                      sequence({
+			                                      sequence{
 				                                      reference("number"),
 				                                      repetition(reference("number"))
-			                                      })
-		                                      })
+			                                      }
+		                                      }
 		                           ),
 	                           });
 
@@ -323,7 +348,7 @@ TEST(ParlexTest, behavior_2) {
 
 }
 
-TEST(ParlexTest, behavior_3) {
+TEST(ParlexTest, behavior_4) {
 	builder const gBuilder("A", {
 								   production("A", sequence({
 												  optional(reference("white_space")),

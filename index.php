@@ -12,7 +12,7 @@
 
 
 		<div style="padding:1em;font-size:1.6em">
-			Plange is an open-source project to create a development environment including a programming language, standard library, and runtime.
+			Plange is an open-source project to create a development suite including a programming language, standard library, and runtime.
 		</div>
 		<ul>
 			<li>license: <a href="https://tldrlegal.com/license/bsd-3-clause-license-(revised)#fulltext">New BSD</a></li>
@@ -29,7 +29,7 @@
 		
 		
 		<h1>Introduction</h1>
-		<p>Plange is an algebra of constraints on data, functions, variables, types, and other objects. It is traditional to start with the <u>Hello World</u> program.</p>
+		<p>Plange is a mixed imperative, functional, and algebraic system of constraints on data, functions, variables, types, and other objects. See the goals page for our motivation. It is traditional to start with the <u>Hello World</u> program.</p>
 		
 		<div class="code2">
 			<pre>
@@ -56,11 +56,11 @@ getRandomNumber := { return 4; <span style="color: red">/*choosen by fair dice r
 		
 		
 		<h2>Special Characters</h2>
-		<p>Several Unicode characters are included for completeness, but cannot be typed using a keyboard. These characters have typable equivalents for convenience. For example <code>⇒</code> may be typed <code>=></code>. Unicode characters will be used in documentation. A partial list can be find on the <a href="/documentation/operators.php">Operators</a> page.</p>
+		<p>Several Unicode characters are included for completeness, but cannot be typed using a keyboard. These characters have typable equivalents for convenience. For example <code>⇒</code> may be typed <code>=></code>. Unicode characters will be used in documentation. A partial list can be found on the <a href="/documentation/operators.php">Operators</a> page.</p>
 		
 		
 		<h2>Variables</h2>
-		<p>A variable is a symbol that may take place in a constraint system, be free or bound, and may have memory allocated to it. Constraints on variables define a problem space for which solutions are desired. A variable can also contain data and be changed at will by the programmer.</p>
+		<p>A variable is a symbol that may take place in a constraint system, be free or bound, and may have memory allocated to it. In specific algebras, constraints on variables define a problem space for which solutions are desired. A variable can also contain data and be changed at will by the programmer.</p>
 		<div class="code2">
 			<p>Assign a value to a variable</p>
 			<pre>
@@ -86,7 +86,7 @@ color ← "Red";
 			</pre>
 		</div>
 
-		<p>Unbound variables can be targets for symbolic or numerical solutions.</p>
+		<p>Unbound variables can be targets for symbolic or numerical solutions. The capabilities are limited by availability and applicability of known processes, such as those upon convergent power series or linear systems.</p>
 
 		<div class="code2">
 			<p>Symbolic manipulation</p>
@@ -109,7 +109,7 @@ print(π); //print pi
 			</pre>
 		</div>
 
-		<p>The symbol <code>π</code> is an identifier for the pi constant. It can be substituted in places where pi is needed, and provides arbitrarily high precision. It may be typed <code>pi</code>.</p>
+		<p>The symbol <code>π</code> is a predefined identifier for the pi constant. It can be substituted in places where pi is needed, and provides arbitrarily high precision in symbolic manipulation. It may also be typed <code>pi</code> for convenience. </p>
 		
 		<p>Constants are created using the definition operator <code>:=</code></p>
 		<div class="code2">
@@ -309,7 +309,7 @@ print(get_age());
 		
 		
 		<h2>Constraint solving</h2>
-		<p>Many interesting problems may be constructed as one or more constraints using operators and functions. Constant folding, satisfiability solving, and symbolic manipulation yield equality constraints upon termination. Solvers are very limited, unfortunately. Numeric methods also require domain knowledge. Each algebra operates when presented with an expression within its required normal form. Normalization is left to the programmer. Some algebra have bounded execution times, such as Risch integration. In general, some algebra may offer no such guarantees.</p>
+		<p>Many interesting problems may be constructed as one or more constraints using operators and functions. Constant folding, satisfiability solving, and symbolic manipulation yield equality constraints upon termination. See <a href="documentation/computer-algebra-systems.php">the computer algebra systems page</a>.</p>
 
 		<div class="code2">
 			<p>Example</p>
@@ -342,58 +342,6 @@ print(sue);
 			</pre>
 		</div>
 
-		<p>One well studied domain is <a href="https://en.wikipedia.org/wiki/Initial_value_problem">initial value problems</a>. An ordinary differential equation is given with boundary conditions on free variables:</p>
-
-		<div class="code2">
-			<p>Example: Aerodynamic Drag On A Projectile</p>
-			<pre>
-projectilePosition := (
-		&lt;Vector3D&gt; initialPos,
-		&lt;Vector3D&gt; initialVel,
-		&lt;Real&gt; mass,
-		&lt;Real&gt; drag,
-		&lt;Vector3D&gt; gravity,
-		&lt;Real&gt; t
-) {
-	// declare the position function, x
-	&lt;Real → Vector3&gt; x;
-	
-	// model x as a differential equation
-	mass * Δ^2x(t)/Δt^2 = -drag * Δx(t)/Δt + mass * gravity;
-	
-	// with boundary conditions
-	x(0) = initialPos;
-	Δx(0)/Δt = initialVel;
-	
-	// solve, substitute, evaluate
-	return x(delta_t);
-};
-			</pre>
-		</div>
-
-		<p>ODE solving gives a symbolic solution for x such that the following program is functionally equivalent. This constant folding is performed and cached at compile time. This result was computed manually for demonstrative purposes.</p>
-		<div class="code2">
-			<p>Example (continued)</p>
-			<pre>
-projectilePosition := (
-		&lt;Vector3D&gt; initialPos,
-		&lt;Vector3D&gt; initialVel,
-		&lt;Real&gt; mass,
-		&lt;Real&gt; drag,
-		&lt;Vector3D&gt; gravity,
-		&lt;Real&gt; t
-) {
-	a := 𝑒^(drag*t/mass);
-	return (
-			gravity * (mass-(mass*a + drag*t)) + 
-			initialPos*a*drag^2 + 
-			drag*mass*initialVel*(a-1)
-		) / (a*drag^2);
-};
-			</pre>
-		</div>
-
-		<a name="property_based_testing" />
 		<div class="code2">
 			<p>Example</p>
 			<pre>
@@ -425,24 +373,7 @@ assert(x = inverted_linear_interpolation(y, z, linear_interpolation(y, z, x));
 		</div>
 		<p>The above function, sort, is functionaly equivalent to the sorting functions. However, this constraint based problem is not yet solvable using available techniques.</p>
 
-		<h2>Type Constraints</h2><a name="Type_Constraints" />
-		<p>Since types are values, and values can be constrained, type constraints are realised.</p>
 
-		<div class="code2">
-			<p>Example</p>
-			<pre>
-all := (Collection&lt;X&gt; items) {
-	Bool casts typeof(X); //values of type X must be castable to type Bool
-	
-	for (item ∈ items) {
-		if (¬(Bool)item) {
-			return false;
-		};
-	};
-	return true;
-};
-			</pre>
-		</div>
 
 		</div>
 		<h2>Further reading</h2>

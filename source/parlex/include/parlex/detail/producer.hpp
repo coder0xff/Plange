@@ -22,10 +22,11 @@ public:
 	struct subscription {
 		context const & c;
 		leaf const * const l;
-		uint32_t id;
+		subjob & subscriber;
+		match_class subscriber_id;
 		uint16_t next_transmit_index;
 		uint8_t next_dfa_state;
-		subscription(uint32_t const producerId, context const & c, uint8_t const nextDfaState, leaf const * const l);
+		subscription(subjob & subscriber, match_class const & subscriberId, context const & c, uint8_t const nextDfaState, leaf const * const l);
 	};
 
 	void do_events(job & j, match_class const & myInfo);
@@ -37,8 +38,8 @@ public:
 	bool completed;
 
 	producer();
-	void add_subscription(job & j, match_class const & myInfo, uint32_t const subscriberId, context const & c, uint8_t nextDfaState, leaf const * l);
-	void enque_permutation(job & j, match_class const & myInfo, uint32_t const consumedCharacterCount, permutation const & p);
+	void add_subscription(job & j, match_class const & myId, subjob & subscriber, match_class const & subscriberId, context const & c, uint8_t nextDfaState, leaf const * l);
+	void enque_permutation(job & j, match_class const & myId, uint32_t const consumedCharacterCount, permutation const & p);
 	void terminate(job & j, match_class const & myInfo);
 };
 

@@ -20,10 +20,11 @@ endif()
 find_package(LLVM 6.0 QUIET)
 if (NOT LLVM_FOUND)
 	set(LLVM_INSTALL_TARGET "llvm")
-	ExternalProject_Add(llvm
+	ExternalProject_Add(
+		llvm
 		PREFIX "${CMAKE_BINARY_DIR}/Downloads/llvm"
-		GIT_REPOSITORY "https://github.com/llvm-mirror/llvm.git"
-		GIT_TAG c80a0ef3c0cda8ed483d0291170aefb30fe65381
+		GIT_REPOSITORY "https://git.llvm.org/git/llvm"
+		GIT_TAG "release_60"
 		BINARY_DIR "${CMAKE_BINARY_DIR}/Downloads/llvm/${CMAKE_CFG_INTDIR}/build"
 		CMAKE_ARGS
 			"-DCMAKE_INSTALL_PREFIX=${CMAKE_BINARY_DIR}/Dependencies/llvm"
@@ -38,6 +39,23 @@ else()
 		# TODO: Maybe this wont be needed in 5.0 release
 #		find_package(ZLIB 1 REQUIRED)
 	endif()
+endif()
+
+find_package(LLD 6.0 QUIET)
+if (NOT LLD_FOUND)
+	set(LLD_INSTALL_TARGET "lld")
+	ExternalProject_Add(
+		lld
+		DEPENDS llvm
+		PREFIX "${CMAKE_BINARY_DIR}/Downloads/lld"
+		GIT_REPOSITORY "https://git.llvm.org/git/lld"
+		GIT_TAG "release_60"
+		BINARY_DIR "${CMAKE_BINARY_DIR}/Downloads/lld/${CMAKE_CFG_INTDIR}/build"
+		CMAKE_ARGS
+			"-DCMAKE_INSTALL_PREFIX=${CMAKE_BINARY_DIR}/Dependencies/lld"
+			"-DCMAKE_CXX_COMPILER=${CMAKE_CXX_COMPILER}"
+			"-DLLVM_CONFIG_PATH=${CMAKE_BINARY_DIR}/Dependencies/llvm/bin/llvm-config${CMAKE_EXECUTABLE_SUFFIX}"
+	)
 endif()
 
 # don't bother with find_package, because it does not include the libraries https://askubuntu.com/questions/145887/why-no-library-files-installed-for-google-test
@@ -56,7 +74,7 @@ ExternalProject_Add(googletest
 set(ARTIFACTS_PREFIX "${CMAKE_BINARY_DIR}/artifacts" CACHE PATH "Location to copy useful build outputs")
 
 ExternalProject_Add(plange
-	DEPENDS ${YAML-CPP_INSTALL_TARGET} ${LLVM_INSTALL_TARGET} googletest
+	DEPENDS ${YAML-CPP_INSTALL_TARGET} googletest ${LLVM_INSTALL_TARGET} ${LLD_INSTALL_TARGET}
 	PREFIX "${CMAKE_BINARY_DIR}/prefix"
 	SOURCE_DIR "${PROJECT_SOURCE_DIR}/source"
 	CMAKE_ARGS

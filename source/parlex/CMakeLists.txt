@@ -15,7 +15,6 @@ set (SOURCES
 	"src/match_class.cpp"
 	"src/parser.cpp"
 	"src/producer.cpp"
-	"src/producer_table.cpp"
 	"src/recognizer.cpp"
 	"src/state_machine.cpp"
 	"src/subjob.cpp"

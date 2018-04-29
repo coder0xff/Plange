@@ -4,36 +4,38 @@
 #include <sstream>
 #include <thread>
 
+// When RELEASE_LOGGING is defined, INF and DBG, macros will produce logging output code
 //#define RELEASE_LOGGING
 
 #ifdef RELEASE_LOGGING
-#	define DBG(...) logging::log_impl("DBG", __FILE__, __LINE__, __VA_ARGS__)
+#   define LOGGING_AVAILABLE 1
 #else
 #	ifndef NDEBUG
-#		define DBG(...) logging::log_impl("DBG", __FILE__, __LINE__, __VA_ARGS__)
-#	else
-#		define DBG(...)
+#       define LOGGING_AVAILABLE 1
 #	endif
 #endif
 
-#define INF(...) logging::log_impl("INF", __FILE__, __LINE__, __VA_ARGS__)
+#ifdef LOGGING_AVAILABLE
+#	define INF(...) logging::log_impl("INF", __FILE__, __LINE__, __VA_ARGS__)
+#	define DBG(...) logging::log_impl("DBG", __FILE__, __LINE__, __VA_ARGS__)
+#else
+#	define INF(...)
+#	define DBG(...)
+#endif
+
 
 namespace logging {
 
 extern void log_enque(std::string const * const item);
 
-//variadic stringify function
-template<typename... Ts>
-void stringify(std::stringstream & ss, Ts const & ...parameters);
+void stringify(std::stringstream & ss);
 
+//variadic stringify function
 template<typename T, typename... Us>
 void stringify(std::stringstream & ss, const T & head, const Us & ...tail) {
 	ss << head;
 	stringify(ss, tail...);
 }
-
-template<>
-void stringify(std::stringstream & ss);
 
 template<typename... Ts>
 void log_impl(char const * const cat, char const * const file, int const line, Ts const & ...args) {

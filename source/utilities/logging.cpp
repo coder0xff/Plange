@@ -7,7 +7,7 @@
 
 #include "logging.hpp"
 
-#define IMMEDIATE_MODE
+//#define IMMEDIATE_MODE
 
 struct worker_t {
 	std::mutex mutex;
@@ -19,15 +19,15 @@ struct worker_t {
 	  thread([&]() {
 	  	std::unique_lock<std::mutex> lock(mutex);
 	  	while (!exit) {
-	  		while (deque.size() > 0) {
-	  			std::string const * const item = deque.front();
+	  		while (!deque.empty()) {
+				auto const item = deque.front();
 	  			deque.pop_front();
 	  			lock.unlock();
 	  			std::cout << *item;
 	  			delete item;
 	  			lock.lock();
 	  		}
-	  		cv.wait(lock, [this](){ return deque.size() > 0 || this->exit; }); //"this->" desired by MSVC
+	  		cv.wait(lock, [this](){ return !deque.empty() || this->exit; }); //"this->" desired by MSVC
 	  	}
 	  })
 	{
@@ -49,7 +49,6 @@ private:
 worker_t worker;
 #endif // IMMEDIATE_MODE
 
-template<>
 void logging::stringify(std::stringstream &) {}
 
 //the thread safe entry point

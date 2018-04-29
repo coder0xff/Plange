@@ -22,7 +22,7 @@ filter_function const & longest();
 filter_function const & shortest();
 
 // when passed to parser::parse as a progress handler, prints a text-based 
-void progress_bar(int done, int outOf);
+void progress_bar(uint32_t const done, uint32_t const outOf);
 
 namespace detail {
 

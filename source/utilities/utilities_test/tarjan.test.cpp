@@ -2,19 +2,10 @@
 
 #include "../tarjan.hpp"
 
-TEST(Tarjan, instantiate_template) {
-	typedef std::vector<std::string>::iterator iterator_t;
-	struct functor {
-		std::vector<iterator_t> operator()(iterator_t const & i) const { return {}; }
-	};
-	(void)&tarjan<iterator_t, functor>;
-}
-
 TEST(Tarjan, verts_0_edges_0) {
 	std::vector<std::string> vertices;
-	typedef std::vector<std::string>::iterator iterator;
-	std::vector<std::vector<iterator>> expected{};
-	auto const actual = tarjan<iterator>(vertices.begin(), vertices.end(), [](iterator const &) { return std::vector<iterator>(); });
+	std::vector<std::vector<size_t>> expected{};
+	auto const actual = tarjan(0, [](size_t const &) { return std::vector<size_t>(); });
 	ASSERT_EQ(expected, actual);
 }
 
@@ -22,14 +13,13 @@ TEST(Tarjan, verts_2_edges_1) {
 	std::vector<std::string> vertices;
 	vertices.emplace_back("0");
 	vertices.emplace_back("1");
-	typedef std::vector<std::string>::iterator iterator;
-	std::vector<std::vector<iterator>> expected{{vertices.begin() + 1}, {vertices.begin() + 0}};
-	auto const actual = tarjan<iterator>(vertices.begin(), vertices.end(), [&](iterator const & i)
+	std::vector<std::vector<size_t>> expected{{1}, {0}};
+	auto const actual = tarjan(vertices.size(), [&](size_t i)
 	{
-		if (i == vertices.begin()) {
-			return std::vector<iterator>{vertices.begin() + 1};
+		if (i == 0) {
+			return std::vector<size_t>{1};
 		}
-		return std::vector<iterator>{};
+		return std::vector<size_t>{};
 	});
 	ASSERT_EQ(expected.size(), actual.size());
 	for (size_t i = 0; i < expected.size(); ++i) {
@@ -47,16 +37,15 @@ TEST(Tarjan, strongly_connected_verts_2_edges_2) {
 	std::vector<std::string> vertices;
 	vertices.emplace_back("0");
 	vertices.emplace_back("1");
-	typedef std::vector<std::string>::iterator iterator;
-	std::vector<std::vector<iterator>> expected{{vertices.begin() + 1, vertices.begin() + 0}};
-	auto const actual = tarjan<iterator>(vertices.begin(), vertices.end(), [&](iterator const & i)
+	std::vector<std::vector<size_t>> expected{{1, 0}};
+	auto const actual = tarjan(vertices.size(), [&](size_t i)
 		{
-			if (i == vertices.begin()) {
-				return std::vector<iterator>{vertices.begin() + 1};
+			if (i == 0) {
+				return std::vector<size_t>{1};
 			} else {
-				return std::vector<iterator>{vertices.begin() + 0};
+				return std::vector<size_t>{0};
 			}
-			return std::vector<iterator>{};
+			return std::vector<size_t>{};
 		});
 	ASSERT_EQ(expected.size(), actual.size());
 	for (size_t i = 0; i < expected.size(); ++i) {
@@ -70,12 +59,3 @@ TEST(Tarjan, strongly_connected_verts_2_edges_2) {
 	EXPECT_EQ(expected, actual);
 }
 
-TEST(Tarjan, ptr_verts) {
-	std::string vertices[2];
-	vertices[0] = "0";
-	vertices[1] = "1";
-	struct functor {
-		std::vector<std::string *> operator()(std::string * const & i) const { return {}; }
-	};
-	(void)tarjan<std::string *, functor>(vertices + 0, vertices + 1, functor());
-}

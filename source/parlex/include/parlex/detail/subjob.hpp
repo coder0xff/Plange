@@ -29,21 +29,21 @@ public:
 	subjob(subjob const & other) = delete;
 	virtual ~subjob();
 
-	void start(job & j, uint32_t const myId, uint32_t documentPosition);
+	void start(job & j, match_class const & myId);
 	context const & construct_stepped_context(context const* const prior, match const & fromTransition, leaf const * l);
-	void on(job & j, uint16_t const recognizerIndex, context const & c, uint32_t const myId, uint8_t const nextDfaState, leaf const * l);
+	void on(job & j, match_class const & myId, uint16_t const recognizerIndex, context const & c, uint8_t const nextDfaState, leaf const * l);
 	void accept(job & j, match_class const & myInfo, context const & c);
 	// for special use by the parser to seed the queue
 	context const & construct_start_state_context(uint32_t const documentPosition);
-	void finish_creation(job & j, uint32_t const myInfo);
+	void finish_creation(job & j, match_class const & myId);
 	void begin_work_queue_reference();
-	void end_work_queue_reference(job & j, uint32_t const myInfo);
-	void flush(job & j, match_class const & myInfo);
+	void end_work_queue_reference(job & j, match_class const & myId);
+	void flush(job & j, match_class const & myId);
 	void begin_subscription_reference();
-	void end_subscription_reference(job & j, uint32_t const myInfo);
+	void end_subscription_reference(job & j, match_class const & myId);
 private:
 	void increment_lifetime();
-	void decrement_lifetime(job & j, uint32_t const myId);
+	void decrement_lifetime(job & j, match_class const & myId);
 };
 
 } // namespace detail

@@ -17,6 +17,7 @@
 #include "plc_utils.hpp"
 
 #include "parlex/detail/parser.hpp"
+#include "perf_timer.hpp"
 
 static std::string const & stdlibs_dir() {
 	static auto result = to_utf8(canonical(std::experimental::filesystem::path(__FILE__).remove_filename().append("/../../stdlib/"))) + std::string("/");
@@ -158,4 +159,10 @@ TEST(PlcCompiler, LoadEmbeddedCommentExample2) {
 
 TEST(PlcCompiler, LoadIntToStringExample) {
 	load_example("intToString.pge");
+}
+
+TEST(PlcCompiler, ParseIntToStringStressTestExample) {
+	perf_timer perf(__func__);
+
+	parse_example("intToStringStressTest.pge");
 }

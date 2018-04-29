@@ -85,7 +85,7 @@ plc::source_code::source_code(std::string const & pathname, std::u32string const
 plc::source_code::source_code(std::string const & pathname) : source_code(pathname, plc::read_utf_file(pathname)) {
 }
 
-std::pair<int, int> plc::source_code::get_line_number_and_column(std::map<int, int> const & lineNumberByFirstCharacter, int const charIndex)
+std::pair<uint32_t, uint32_t> plc::source_code::get_line_number_and_column(std::map<uint32_t, uint32_t> const & lineNumberByFirstCharacter, uint32_t const charIndex)
 {
 	auto i = lineNumberByFirstCharacter.lower_bound(charIndex);
 	if (i != lineNumberByFirstCharacter.cend() && i->first == charIndex) {
@@ -97,7 +97,7 @@ std::pair<int, int> plc::source_code::get_line_number_and_column(std::map<int, i
 
 }
 
-std::pair<int, int> plc::source_code::get_line_number_and_column(int const charIndex) const {
+std::pair<uint32_t, uint32_t> plc::source_code::get_line_number_and_column(uint32_t const charIndex) const {
 	return get_line_number_and_column(line_number_by_first_character, charIndex);
 }
 
@@ -106,19 +106,19 @@ std::string plc::source_code::describe_code_span(parlex::detail::match const & m
 	return describe_code_span(m, line_number_by_first_character, pathname);
 }
 
-std::map<int, int> plc::source_code::construct_line_number_by_first_character(std::u32string const & document) {
+std::map<uint32_t, uint32_t> plc::source_code::construct_line_number_by_first_character(std::u32string const & document) {
 	//compute line number lookup table
-	std::map<int, int> result;
-	size_t pos = 0;
-	auto line = 0;
+	std::map<uint32_t, uint32_t> result;
+	intmax_t pos = 0;
+	uint32_t line = 0;
 	while (pos != std::u32string::npos) {
-		result[pos++] = line++;
+		result[uint32_t(pos++)] = uint32_t(line++);
 		pos = document.find(U'\n', pos);
 	}
 	return result;
 }
 
-std::string plc::source_code::describe_code_span(parlex::detail::match const & m, std::map<int, int> const & lineNumberByFirstCharacter, std::string const & pathname)
+std::string plc::source_code::describe_code_span(parlex::detail::match const & m, std::map<uint32_t, uint32_t> const & lineNumberByFirstCharacter, std::string const & pathname)
 {
 	auto result = pathname.empty() ? "[generated]" : pathname;
 	result += ":";

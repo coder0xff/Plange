@@ -21,11 +21,11 @@ namespace detail {
 
 void parser::process(work_item const & item) const {
 	update_progress(*item.dfa_context);
-	auto & p = current_job->get_producer(item.producer_id);
+	auto & p = current_job->get_producer(item.subjob_id);
 	auto & sj = *static_cast<subjob *>(&p);
 	//INF("thread ", threadCount, " executing DFA state");
-	sj.machine.process(*current_job, item.producer_id, sj, *item.dfa_context, item.dfa_state);
-	sj.end_work_queue_reference(*current_job, item.producer_id);
+	sj.machine.process(*current_job, sj, item.subjob_id, *item.dfa_context, item.dfa_state);
+	sj.end_work_queue_reference(*current_job, item.subjob_id);
 }
 
 void parser::start_workers(int threadCount) {
@@ -68,7 +68,7 @@ parser::~parser() {
 }
 
 void parser::complete_progress_handler(job & j) {
-	j.update_progress(j.document.length());
+	j.update_progress(uint32_t(j.document.length()));
 }
 
 void parser::update_progress(context const & context) const {
@@ -126,6 +126,9 @@ abstract_syntax_semilattice parser::multi_thread_parse(grammar const & g, uint16
 }
 
 abstract_syntax_semilattice parser::parse(grammar const & g, recognizer const & overrideMain, std::vector<post_processor> const & posts, std::u32string const & document, progress_handler_t const & progressHandler) {
+	if (document.length() > UINT32_MAX) {
+		throw std::runtime_error("Documents longer that 4294967295 characters are unsupported.");
+	}
 	auto const overrideRootRecognizerIndex = g.lookup_recognizer_index(overrideMain);
 	if (single_thread_mode) {
 		return single_thread_parse(g, overrideRootRecognizerIndex, posts, document, progressHandler);
@@ -145,14 +148,14 @@ abstract_syntax_semilattice parser::parse(grammar const & g, std::u32string cons
 	return parse(g, g.get_root_state_machine(), document, progressHandler);
 }
 
-void parser::schedule(uint32_t const producerId, context const & c, int nextDfaState) {
+void parser::schedule(match_class const & subjobId, context const & c, int nextDfaState) {
 	//DBG("scheduling m: ", c.owner().machine.name, " b:", c.owner().documentPosition, " s:", nextDfaState, " p:", c.current_document_position());
-	auto & p = current_job->get_producer(producerId);
+	auto & p = current_job->get_producer(subjobId);
 	auto & sj = *static_cast<subjob *>(&p);  // NOLINT
 	sj.begin_work_queue_reference();
 	++active_count;
 	std::unique_lock<std::mutex> lock(mutex);
-	work.emplace_back(producerId, &c, nextDfaState);
+	work.emplace_back(subjobId, &c, nextDfaState);
 	work_cv.notify_one();
 }
 
@@ -254,17 +257,17 @@ static void resolve_nodes(std::map<match, node_props_t> & nodes) {
 	//perf_timer perf(__FUNCTION__);
 
 	std::vector<node_props_t *> vertices;
-	typedef std::vector<node_props_t *>::iterator vert_iterator;
-	std::map<node_props_t *, vert_iterator> lookup;
+	std::map<node_props_t *, size_t> lookup;
 	vertices.reserve(nodes.size());
 	for (auto & entry : nodes) {
+		lookup[&entry.second] = vertices.size();
 		vertices.push_back(&entry.second);
-		lookup[&entry.second] = vertices.begin() + (vertices.size() - 1);
 	}
 
-	std::function<std::vector<vert_iterator> (vert_iterator)> const transitionFunc = [&nodes, &lookup](vert_iterator const & vert) {
-		std::vector<vert_iterator> results;
-		for (auto const & permutation : (*vert)->permutations) {
+	std::function<std::vector<size_t> (size_t)> const transitionFunc = [&](size_t const & vertexIndex) {
+		auto & props = *vertices[vertexIndex];
+		std::vector<size_t> results;
+		for (auto const & permutation : props.permutations) {
 			for (auto const & m : permutation) {
 				auto i = nodes.find(m);
 				throw_assert(i != nodes.end());
@@ -274,11 +277,11 @@ static void resolve_nodes(std::map<match, node_props_t> & nodes) {
 		return results;
 	};
 
-	auto orderedNodes = tarjan(vertices.begin(), vertices.end(), transitionFunc);
+	auto orderedNodes = tarjan(vertices.size(), transitionFunc);
 
 	for (auto const & subgraph : orderedNodes) {
-		for (auto const & vertI : subgraph) {
-			auto & node = **vertI;
+		for (auto const & vertexIndex : subgraph) {
+			auto & node = *vertices[vertexIndex];
 			for (auto const & permutation : node.permutations) {
 				for (auto const & m : permutation) {
 					auto i = nodes.find(m);
@@ -294,8 +297,8 @@ static void resolve_nodes(std::map<match, node_props_t> & nodes) {
 
 	std::reverse(orderedNodes.begin(), orderedNodes.end());
 	for (auto const & subgraph : orderedNodes) {
-		for (auto const & vertI : subgraph) {
-			auto & node = **vertI;
+		for (auto const & vertexIndex : subgraph) {
+			auto & node = *vertices[vertexIndex];
 			for (auto const & entry : node.parent_permutations_by_match) {
 				auto const parentMatch = entry.first;
 				auto const i = nodes.find(parentMatch);
@@ -329,7 +332,7 @@ struct intersection_lookup {
 				}
 			}
 		}
-		for (int depth = lookupDepth - 2; depth >= 0; --depth) {
+		for (intmax_t depth = lookupDepth - 2; depth >= 0; --depth) {
 			auto const antiDepth = (lookupDepth - 1) - depth;
 			auto const rowWidth = docLen >> antiDepth;
 			auto & row = lookup[depth];
@@ -344,20 +347,20 @@ struct intersection_lookup {
 		}
 	}
 
-	void query(int const first, int const last, collections::coherent_set<match> & results) {
-		int const lookupDepth = lookup.size();
+	void query(uint32_t const first, uint32_t const last, collections::coherent_set<match> & results) {
+		auto const lookupDepth = lookup.size();
 		// common higher-order bits identify the row and column fully containing the span
 		auto const containmentAntiRow = sizeof(int32_t) * 8 - clz(first ^ last);
 		int const containmentBreadth = 1 << containmentAntiRow;
 		int const containmentColumn = first >> containmentAntiRow;
 		int const containmentFirst = containmentColumn << containmentAntiRow;
 		auto const containmentLast = containmentFirst + containmentBreadth - 1;
-		int const containmentRow = int(lookupDepth - 1) - containmentAntiRow;
+		intmax_t const containmentRow = intmax_t(lookupDepth - 1) - containmentAntiRow;
 		if (containmentRow >= 0 && int(lookup[containmentRow].size()) > containmentColumn && first == containmentFirst && last == containmentLast) {
 			auto resolved = lookup[containmentRow][containmentColumn];
 			results.insert_many(resolved.begin(), resolved.end());
 		} else {
-			int const divisionAntiRow = containmentAntiRow - 1;
+			auto const divisionAntiRow = containmentAntiRow - 1;
 			auto const divisionColumn = (containmentColumn << 1) + 1;
 			auto const divisionIndex = divisionColumn << divisionAntiRow;
 			query(first, divisionIndex - 1, results);

@@ -24,8 +24,8 @@ subjob::~subjob() {
 	//DBG("destructing subjob p:", document_position, " m:", machine);
 }
 
-void subjob::start(job & j, uint32_t const myId, uint32_t documentPosition) {
-	machine.start(j, myId, *this, construct_start_state_context(documentPosition));
+void subjob::start(job & j, match_class const & myId) {
+	machine.start(j, *this, myId, construct_start_state_context(myId.document_position));
 	finish_creation(j, myId);
 }
 
@@ -39,12 +39,12 @@ context const & subjob::construct_stepped_context(context const* const prior, ma
 	return *i;
 }
 
-void subjob::on(job & j, uint16_t const recognizerIndex, context const & c, uint32_t const myId, uint8_t const nextDfaState, leaf const * l) {
+void subjob::on(job & j, match_class const & myId, uint16_t const recognizerIndex, context const & c, uint8_t const nextDfaState, leaf const * l) {
 	if (c.current_document_position >= j.document.length()) {
 		return;
 	}
 	begin_subscription_reference();
-	j.connect(match_class(c.current_document_position, recognizerIndex), myId, c, nextDfaState, l);
+	j.connect(match_class(c.current_document_position, recognizerIndex), *this, myId, c, nextDfaState, l);
 }
 
 void subjob::accept(job & j, match_class const & myInfo, context const & c) {
@@ -69,39 +69,38 @@ void subjob::increment_lifetime() {
 	//DBG("increment_lifetime m:", machine, " b:", documentPosition, " r:", temp);
 }
 
-void subjob::decrement_lifetime(job & j, uint32_t const myId) {
+void subjob::decrement_lifetime(job & j, match_class const & myId) {
 	auto const temp = --lifetime_counter;
 	//DBG("decrement_lifetime m:", machine, " b:", documentPosition, " r:", temp);
 	if (temp > 0) {
 		return;
 	}
-	auto const myInfo = j.get_match_class(myId);
-	flush(j, myInfo);
+	flush(j, myId);
 	contexts.clear();
 	queued_permutations.clear();
-	terminate(j, myInfo);
+	terminate(j, myId);
 }
 
-void subjob::finish_creation(job & j, uint32_t const myInfo) {
+void subjob::finish_creation(job & j, match_class const & myId) {
 	//corresponds with the constructor's setting of lifetimeCounter to 1
 	//DBG("finish_creation m:", machine, " b:", documentPosition);
-	decrement_lifetime(j, myInfo);
+	decrement_lifetime(j, myId);
 }
 
 void subjob::begin_work_queue_reference() {
 	increment_lifetime();
 }
 
-void subjob::end_work_queue_reference(job & j, uint32_t const myInfo) {
-	decrement_lifetime(j, myInfo);
+void subjob::end_work_queue_reference(job & j, match_class const & myId) {
+	decrement_lifetime(j, myId);
 }
 
 void subjob::begin_subscription_reference() {
 	increment_lifetime();
 }
 
-void subjob::end_subscription_reference(job & j, uint32_t const myInfo) {
-	decrement_lifetime(j, myInfo);
+void subjob::end_subscription_reference(job & j, match_class const & myId) {
+	decrement_lifetime(j, myId);
 }
 
 void subjob::flush(job & j, match_class const & myInfo) {

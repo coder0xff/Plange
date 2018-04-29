@@ -13,7 +13,7 @@ struct match : match_class {
 
 	match() = delete;
 	match(uint32_t const documentPosition, uint16_t const recognizerIndex, uint32_t const consumedCharacterCount);
-	match(match_class const & matchClass, size_t const consumedCharacterCount);
+	match(match_class const & matchClass, uint32_t const consumedCharacterCount);
 	match(match const & other) = default;
 	match(match && move) = default;
 	match & operator =(match && move) noexcept;

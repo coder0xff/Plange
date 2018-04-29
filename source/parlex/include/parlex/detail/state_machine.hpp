@@ -48,21 +48,22 @@ public:
 	uint8_t accept_state_count; //must be greater than 0
 	void set_behavior(node & behavior);
 	std::string to_dot(std::vector<recognizer const *> const & recognizers) const;
+	collections::coherent_map<transition_info_t, uint8_t> const & get_transitions(size_t stateIndex) const;
 private:
 	friend class parser;
 	friend class subjob;
 
 	states_t states;
 
-	void process(job & j, uint32_t subjobId, subjob & sj, context const & c, uint8_t const dfaState) const;
-	void start(job & j, uint32_t subjobId, subjob & sj, context const & c) const;
-	static void on(job & j, uint16_t const recognizerIndex, uint32_t const subscriber, subjob & sj, context const & c, uint8_t const nextDfaState, leaf const * leaf);
-	static void accept(job & j, subjob & sj, uint32_t const subjobId, context const & c);
+	void process(job & j, subjob & mySubjob, match_class const & mySubjobId, context const & c, uint8_t const dfaState) const;
+	void start(job & j, subjob & mySubjob, match_class const & mySubjobId, context const & c) const;
+	static void on(job & j, subjob & mySubjob, match_class const & mySubjobId, uint16_t const requestedRecognizerIndex, context const & c, uint8_t const nextDfaState, leaf const * leaf);
+	static void accept(job & j, subjob & mySubjob, match_class const & mySubjobId, context const & c);
 	static automaton reorder(automaton const & dfa);
 
 public:
 	bool is_terminal() const override;
-	int get_start_state() const;
+	uint8_t get_start_state() const;
 	filter_function get_filter() const;
 	associativity get_assoc() const;
 };
