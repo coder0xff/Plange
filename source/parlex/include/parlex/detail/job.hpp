@@ -29,7 +29,7 @@ public:
 
 	job(parser & owner, std::u32string const & document, grammar const & g, uint16_t const rootRecognizerIndex, progress_handler_t const & progressHandler);
 
-	void connect(match_class const & requestedMatchClass, subjob & subscriber, match_class const & subscriberId, context const & c, uint8_t const nextState, leaf const * l);
+	void connect(match_class const & requestedMatchClass, subjob & subscriber, match_class const & subscriberId, configuration const & c, uint8_t const nextState, leaf const * l);
 private:
 	parser * owner;
 	producer_collection producers;

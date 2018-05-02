@@ -28,7 +28,7 @@ void state_machine::set_behavior(node & behavior) {
 	accept_state_count = uint8_t(dfa.accept_states.size());
 }
 
-void state_machine::process(job & j, subjob & mySubjob, match_class const & mySubjobId, context const & c, uint8_t const dfaState) const {
+void state_machine::process(job & j, subjob & mySubjob, match_class const & mySubjobId, configuration const & c, uint8_t const dfaState) const {
 	//DBG("processing '", get_id(), "' dfaState:", dfaState, " p:", c.current_document_position());
 	if (dfaState >= states.size() - accept_state_count) {
 		accept(j, mySubjob, mySubjobId, c);
@@ -41,15 +41,15 @@ void state_machine::process(job & j, subjob & mySubjob, match_class const & mySu
 	}
 }
 
-void state_machine::start(job & j, subjob & mySubjob, match_class const & mySubjobId, context const & c) const {
+void state_machine::start(job & j, subjob & mySubjob, match_class const & mySubjobId, configuration const & c) const {
 	process(j, mySubjob, mySubjobId, c, get_start_state());
 }
 
-void state_machine::on(job & j, subjob & mySubjob, match_class const & mySubjobId, uint16_t const requestedRecognizerIndex, context const & c, uint8_t const nextDfaState, leaf const * leaf) {
+void state_machine::on(job & j, subjob & mySubjob, match_class const & mySubjobId, uint16_t const requestedRecognizerIndex, configuration const & c, uint8_t const nextDfaState, leaf const * leaf) {
 	mySubjob.on(j, mySubjobId, requestedRecognizerIndex, c, nextDfaState, leaf);
 }
 
-void state_machine::accept(job & j, subjob & mySubjob, match_class const & mySubjobId, context const & c) {
+void state_machine::accept(job & j, subjob & mySubjob, match_class const & mySubjobId, configuration const & c) {
 	mySubjob.accept(j, mySubjobId, c);
 }
 

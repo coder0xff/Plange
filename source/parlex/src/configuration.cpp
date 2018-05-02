@@ -1,24 +1,24 @@
-#include "parlex/detail/context.hpp"
+#include "parlex/detail/configuration.hpp"
 
 #include "utils.hpp"
 
 namespace parlex {
 namespace detail {
 
-context::context(context const* const prior, uint32_t const documentPosition, std::optional<match> const & fromTransition, leaf const * l) :
+configuration::configuration(configuration const* const prior, uint32_t const documentPosition, std::optional<match> const & fromTransition, leaf const * l) :
 	prior(prior),
 	current_document_position(documentPosition),
 	from_transition(fromTransition),
 	l(l) {
 	throw_assert((prior != nullptr) == fromTransition.has_value());
-	//DBG("constructed context ", target);
+	//DBG("constructed configuration ", target);
 }
 
-context::~context() {
-	//DBG("destructed context ", name);
+configuration::~configuration() {
+	//DBG("destructed configuration ", name);
 }
 
-permutation context::result() const {
+permutation configuration::result() const {
 	permutation result;
 	auto current = this;
 	while (current->prior) {

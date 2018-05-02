@@ -13,7 +13,7 @@
 namespace parlex {
 namespace detail {
 
-class context;
+class configuration;
 class grammar;
 class job;
 class producer;
@@ -31,13 +31,13 @@ public:
 	abstract_syntax_semilattice parse(grammar const & g, std::u32string const & document, progress_handler_t const & progressHandler = progress_handler_t());
 private:
 	struct work_item {
-		work_item(match_class const subjobId, context const * const dfaContext, uint8_t const dfaState)
+		work_item(match_class const subjobId, configuration const * const c, uint8_t const dfaState)
 			: subjob_id(subjobId),
-			dfa_context(dfaContext),
+			dfa_configuration(c),
 			dfa_state(dfaState) {}
 
 		match_class const subjob_id;
-		context const * const dfa_context;
+		configuration const * const dfa_configuration;
 		uint8_t const dfa_state;
 	};
 	
@@ -62,8 +62,8 @@ private:
 	void start_workers(int threadCount);
 	abstract_syntax_semilattice single_thread_parse(grammar const & g, uint16_t const overrideRootRecognizerIndex, std::vector<post_processor> const & posts, std::u32string const & document, progress_handler_t const & progressHandler);
 	abstract_syntax_semilattice multi_thread_parse(grammar const & g, uint16_t const overrideRootRecognizerIndex, std::vector<post_processor> const & posts, std::u32string const & document, progress_handler_t const & progressHandler);
-	void schedule(match_class const & subjobId, context const & c, int nextDfaState);
-	void update_progress(context const & context) const;
+	void schedule(match_class const & subjobId, configuration const & c, int nextDfaState);
+	void update_progress(configuration const & c) const;
 };
 
 } // namespace detail

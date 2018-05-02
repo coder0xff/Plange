@@ -4,7 +4,7 @@
 
 #include "parlex/post_processor.hpp"
 
-#include "parlex/detail/context.hpp"
+#include "parlex/detail/configuration.hpp"
 #include "parlex/detail/grammar.hpp"
 #include "parlex/detail/job.hpp"
 #include "parlex/detail/permutation.hpp"
@@ -20,11 +20,11 @@ namespace parlex {
 namespace detail {
 
 void parser::process(work_item const & item) const {
-	update_progress(*item.dfa_context);
+	update_progress(*item.dfa_configuration);
 	auto & p = current_job->get_producer(item.subjob_id);
 	auto & sj = *static_cast<subjob *>(&p);
 	//INF("thread ", threadCount, " executing DFA state");
-	sj.machine.process(*current_job, sj, item.subjob_id, *item.dfa_context, item.dfa_state);
+	sj.machine.process(*current_job, sj, item.subjob_id, *item.dfa_configuration, item.dfa_state);
 	sj.end_work_queue_reference(*current_job, item.subjob_id);
 }
 
@@ -71,8 +71,8 @@ void parser::complete_progress_handler(job & j) {
 	j.update_progress(uint32_t(j.document.length()));
 }
 
-void parser::update_progress(context const & context) const {
-	current_job->update_progress(context.current_document_position);
+void parser::update_progress(configuration const & c) const {
+	current_job->update_progress(c.current_document_position);
 }
 
 abstract_syntax_semilattice parser::single_thread_parse(grammar const & g, uint16_t const overrideRootRecognizerIndex, std::vector<post_processor> const & posts, std::u32string const & document, progress_handler_t const & progressHandler) {
@@ -148,7 +148,7 @@ abstract_syntax_semilattice parser::parse(grammar const & g, std::u32string cons
 	return parse(g, g.get_root_state_machine(), document, progressHandler);
 }
 
-void parser::schedule(match_class const & subjobId, context const & c, int nextDfaState) {
+void parser::schedule(match_class const & subjobId, configuration const & c, int nextDfaState) {
 	//DBG("scheduling m: ", c.owner().machine.name, " b:", c.owner().documentPosition, " s:", nextDfaState, " p:", c.current_document_position());
 	auto & p = current_job->get_producer(subjobId);
 	auto & sj = *static_cast<subjob *>(&p);  // NOLINT

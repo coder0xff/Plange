@@ -1,6 +1,6 @@
 #include "parlex/detail/subjob.hpp"
 
-#include "parlex/detail/context.hpp"
+#include "parlex/detail/configuration.hpp"
 #include "parlex/detail/job.hpp"
 #include "parlex/detail/match_class.hpp"
 #include "parlex/detail/parser.hpp"
@@ -25,21 +25,21 @@ subjob::~subjob() {
 }
 
 void subjob::start(job & j, match_class const & myId) {
-	machine.start(j, *this, myId, construct_start_state_context(myId.document_position));
+	machine.start(j, *this, myId, construct_start_state_configuration(myId.document_position));
 	finish_creation(j, myId);
 }
 
-context const & subjob::construct_start_state_context(uint32_t const documentPosition) {
-	auto const i = contexts.emplace_front(nullptr, documentPosition, std::optional<match>(), nullptr);
+configuration const & subjob::construct_start_state_configuration(uint32_t const documentPosition) {
+	auto const i = configurations.emplace_front(nullptr, documentPosition, std::optional<match>(), nullptr);
 	return *i;
 }
 
-context const & subjob::construct_stepped_context(context const* const prior, match const & fromTransition, leaf const * l) {
-	auto const i = contexts.emplace_front(prior, prior->current_document_position + fromTransition.consumed_character_count, std::optional<match>(fromTransition), l);
+configuration const & subjob::construct_stepped_configuration(configuration const* const prior, match const & fromTransition, leaf const * l) {
+	auto const i = configurations.emplace_front(prior, prior->current_document_position + fromTransition.consumed_character_count, std::optional<match>(fromTransition), l);
 	return *i;
 }
 
-void subjob::on(job & j, match_class const & myId, uint16_t const recognizerIndex, context const & c, uint8_t const nextDfaState, leaf const * l) {
+void subjob::on(job & j, match_class const & myId, uint16_t const recognizerIndex, configuration const & c, uint8_t const nextDfaState, leaf const * l) {
 	if (c.current_document_position >= j.document.length()) {
 		return;
 	}
@@ -47,7 +47,7 @@ void subjob::on(job & j, match_class const & myId, uint16_t const recognizerInde
 	j.connect(match_class(c.current_document_position, recognizerIndex), *this, myId, c, nextDfaState, l);
 }
 
-void subjob::accept(job & j, match_class const & myInfo, context const & c) {
+void subjob::accept(job & j, match_class const & myInfo, configuration const & c) {
 	int const len = c.current_document_position - myInfo.document_position;
 	if (len == 0) {
 		return;
@@ -76,7 +76,7 @@ void subjob::decrement_lifetime(job & j, match_class const & myId) {
 		return;
 	}
 	flush(j, myId);
-	contexts.clear();
+	configurations.clear();
 	queued_permutations.clear();
 	terminate(j, myId);
 }
