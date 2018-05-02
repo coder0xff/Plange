@@ -46,7 +46,7 @@ struct MAPS_TO {
 	MAPS_TO(MAPS_TO && move) = default;
 
 	static MAPS_TO build(parlex::detail::ast_node const & n);
-	static parlex::detail::state_machine const & state_machine();
+	static parlex::detail::acceptor const & acceptor();
 
 };
 

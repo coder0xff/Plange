@@ -10,7 +10,7 @@
 #include "PARENTHETICAL.hpp"
 
 plc::CAST plc::CAST::build(parlex::detail::ast_node const & n) {
-	static auto const * b = state_machine().behavior;
+	static auto const * b = acceptor().behavior;
 	parlex::detail::document::walk w{ n.children.cbegin(), n.children.cend() };
 	auto const & children = b->children;
 	auto v0 = parlex::detail::document::element<erased<PARENTHETICAL>>::build(&*children[0], w);
@@ -20,7 +20,7 @@ plc::CAST plc::CAST::build(parlex::detail::ast_node const & n) {
 }
 
 
-parlex::detail::state_machine const & plc::CAST::state_machine() {
-	static auto const & result = *static_cast<parlex::detail::state_machine const *>(&plange_grammar::get().get_recognizer(plange_grammar::get().CAST));
+parlex::detail::acceptor const & plc::CAST::acceptor() {
+	static auto const & result = *static_cast<parlex::detail::acceptor const *>(&plange_grammar::get().get_recognizer(plange_grammar::get().CAST));
 	return result;
 }

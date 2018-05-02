@@ -39,7 +39,7 @@ struct VOLATILE_IMPLICIT_TYPE_DEREFERENCE {
 	VOLATILE_IMPLICIT_TYPE_DEREFERENCE(VOLATILE_IMPLICIT_TYPE_DEREFERENCE && move) = default;
 
 	static VOLATILE_IMPLICIT_TYPE_DEREFERENCE build(parlex::detail::ast_node const & n);
-	static parlex::detail::state_machine const & state_machine();
+	static parlex::detail::acceptor const & acceptor();
 
 };
 

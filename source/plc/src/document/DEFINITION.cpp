@@ -18,7 +18,7 @@ plc::DEFINITION::field_1_t_1_t plc::DEFINITION::field_1_t_1_t::build(parlex::det
 }
 
 plc::DEFINITION plc::DEFINITION::build(parlex::detail::ast_node const & n) {
-	static auto const * b = state_machine().behavior;
+	static auto const * b = acceptor().behavior;
 	parlex::detail::document::walk w{ n.children.cbegin(), n.children.cend() };
 	auto const & children = b->children;
 	auto v0 = parlex::detail::document::element<std::optional<field_1_t_1_t>>::build(&*children[0], w);
@@ -31,7 +31,7 @@ plc::DEFINITION plc::DEFINITION::build(parlex::detail::ast_node const & n) {
 }
 
 
-parlex::detail::state_machine const & plc::DEFINITION::state_machine() {
-	static auto const & result = *static_cast<parlex::detail::state_machine const *>(&plange_grammar::get().get_recognizer(plange_grammar::get().DEFINITION));
+parlex::detail::acceptor const & plc::DEFINITION::acceptor() {
+	static auto const & result = *static_cast<parlex::detail::acceptor const *>(&plange_grammar::get().get_recognizer(plange_grammar::get().DEFINITION));
 	return result;
 }

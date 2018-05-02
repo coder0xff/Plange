@@ -115,7 +115,7 @@ typedef std::variant<
 struct PARAMETER_NATURAL: PARAMETER_NATURAL_base {
 	static PARAMETER_NATURAL build(parlex::detail::ast_node const & n);
 	explicit PARAMETER_NATURAL(PARAMETER_NATURAL_base const & value) : PARAMETER_NATURAL_base(value) {}
-	static parlex::detail::state_machine const & state_machine();
+	static parlex::detail::acceptor const & acceptor();
 };
 } // namespace plc
 

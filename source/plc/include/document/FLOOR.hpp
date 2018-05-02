@@ -72,7 +72,7 @@ typedef std::variant<
 struct FLOOR: FLOOR_base {
 	static FLOOR build(parlex::detail::ast_node const & n);
 	explicit FLOOR(FLOOR_base const & value) : FLOOR_base(value) {}
-	static parlex::detail::state_machine const & state_machine();
+	static parlex::detail::acceptor const & acceptor();
 };
 } // namespace plc
 

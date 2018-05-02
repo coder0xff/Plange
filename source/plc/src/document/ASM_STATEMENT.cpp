@@ -34,7 +34,7 @@ plc::ASM_STATEMENT::field_2_t_1_t plc::ASM_STATEMENT::field_2_t_1_t::build(parle
 }
 
 plc::ASM_STATEMENT plc::ASM_STATEMENT::build(parlex::detail::ast_node const & n) {
-	static auto const * b = state_machine().behavior;
+	static auto const * b = acceptor().behavior;
 	parlex::detail::document::walk w{ n.children.cbegin(), n.children.cend() };
 	auto const & children = b->children;
 	auto v0 = parlex::detail::document::element<erased<ASM_OP>>::build(&*children[0], w);
@@ -45,7 +45,7 @@ plc::ASM_STATEMENT plc::ASM_STATEMENT::build(parlex::detail::ast_node const & n)
 }
 
 
-parlex::detail::state_machine const & plc::ASM_STATEMENT::state_machine() {
-	static auto const & result = *static_cast<parlex::detail::state_machine const *>(&plange_grammar::get().get_recognizer(plange_grammar::get().ASM_STATEMENT));
+parlex::detail::acceptor const & plc::ASM_STATEMENT::acceptor() {
+	static auto const & result = *static_cast<parlex::detail::acceptor const *>(&plange_grammar::get().get_recognizer(plange_grammar::get().ASM_STATEMENT));
 	return result;
 }

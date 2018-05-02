@@ -35,7 +35,7 @@ struct EMBEDDED_STRING {
 	EMBEDDED_STRING(EMBEDDED_STRING && move) = default;
 
 	static EMBEDDED_STRING build(parlex::detail::ast_node const & n);
-	static parlex::detail::state_machine const & state_machine();
+	static parlex::detail::acceptor const & acceptor();
 
 };
 

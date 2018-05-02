@@ -8,7 +8,7 @@
 #include "DIMENSION.hpp"
 
 plc::UNIT_MULTIPLICATION plc::UNIT_MULTIPLICATION::build(parlex::detail::ast_node const & n) {
-	static auto const * b = state_machine().behavior;
+	static auto const * b = acceptor().behavior;
 	parlex::detail::document::walk w{ n.children.cbegin(), n.children.cend() };
 	auto const & children = b->children;
 	auto v0 = parlex::detail::document::element<erased<DIMENSION>>::build(&*children[0], w);
@@ -18,7 +18,7 @@ plc::UNIT_MULTIPLICATION plc::UNIT_MULTIPLICATION::build(parlex::detail::ast_nod
 }
 
 
-parlex::detail::state_machine const & plc::UNIT_MULTIPLICATION::state_machine() {
-	static auto const & result = *static_cast<parlex::detail::state_machine const *>(&plange_grammar::get().get_recognizer(plange_grammar::get().UNIT_MULTIPLICATION));
+parlex::detail::acceptor const & plc::UNIT_MULTIPLICATION::acceptor() {
+	static auto const & result = *static_cast<parlex::detail::acceptor const *>(&plange_grammar::get().get_recognizer(plange_grammar::get().UNIT_MULTIPLICATION));
 	return result;
 }

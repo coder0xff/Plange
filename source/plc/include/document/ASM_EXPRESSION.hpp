@@ -32,7 +32,7 @@ typedef std::variant<
 struct ASM_EXPRESSION: ASM_EXPRESSION_base {
 	static ASM_EXPRESSION build(parlex::detail::ast_node const & n);
 	explicit ASM_EXPRESSION(ASM_EXPRESSION_base const & value) : ASM_EXPRESSION_base(value) {}
-	static parlex::detail::state_machine const & state_machine();
+	static parlex::detail::acceptor const & acceptor();
 };
 } // namespace plc
 

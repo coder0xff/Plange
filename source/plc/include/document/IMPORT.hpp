@@ -36,7 +36,7 @@ struct IMPORT {
 	IMPORT(IMPORT && move) = default;
 
 	static IMPORT build(parlex::detail::ast_node const & n);
-	static parlex::detail::state_machine const & state_machine();
+	static parlex::detail::acceptor const & acceptor();
 
 };
 

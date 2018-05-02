@@ -72,7 +72,7 @@ typedef std::variant<
 struct NEAREST_INTEGER: NEAREST_INTEGER_base {
 	static NEAREST_INTEGER build(parlex::detail::ast_node const & n);
 	explicit NEAREST_INTEGER(NEAREST_INTEGER_base const & value) : NEAREST_INTEGER_base(value) {}
-	static parlex::detail::state_machine const & state_machine();
+	static parlex::detail::acceptor const & acceptor();
 };
 } // namespace plc
 

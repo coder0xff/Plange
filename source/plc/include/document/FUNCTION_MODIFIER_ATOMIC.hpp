@@ -50,7 +50,7 @@ struct FUNCTION_MODIFIER_ATOMIC {
 	FUNCTION_MODIFIER_ATOMIC(FUNCTION_MODIFIER_ATOMIC && move) = default;
 
 	static FUNCTION_MODIFIER_ATOMIC build(parlex::detail::ast_node const & n);
-	static parlex::detail::state_machine const & state_machine();
+	static parlex::detail::acceptor const & acceptor();
 
 };
 

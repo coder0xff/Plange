@@ -37,7 +37,7 @@ struct LESSER_CHAIN {
 	LESSER_CHAIN(LESSER_CHAIN && move) = default;
 
 	static LESSER_CHAIN build(parlex::detail::ast_node const & n);
-	static parlex::detail::state_machine const & state_machine();
+	static parlex::detail::acceptor const & acceptor();
 
 };
 

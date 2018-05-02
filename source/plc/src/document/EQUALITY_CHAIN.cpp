@@ -10,7 +10,7 @@
 #include "IC.hpp"
 
 plc::EQUALITY_CHAIN plc::EQUALITY_CHAIN::build(parlex::detail::ast_node const & n) {
-	static auto const * b = state_machine().behavior;
+	static auto const * b = acceptor().behavior;
 	parlex::detail::document::walk w{ n.children.cbegin(), n.children.cend() };
 	auto const & children = b->children;
 	auto v0 = parlex::detail::document::element<erased<EXPRESSION>>::build(&*children[0], w);
@@ -20,7 +20,7 @@ plc::EQUALITY_CHAIN plc::EQUALITY_CHAIN::build(parlex::detail::ast_node const & 
 }
 
 
-parlex::detail::state_machine const & plc::EQUALITY_CHAIN::state_machine() {
-	static auto const & result = *static_cast<parlex::detail::state_machine const *>(&plange_grammar::get().get_recognizer(plange_grammar::get().EQUALITY_CHAIN));
+parlex::detail::acceptor const & plc::EQUALITY_CHAIN::acceptor() {
+	static auto const & result = *static_cast<parlex::detail::acceptor const *>(&plange_grammar::get().get_recognizer(plange_grammar::get().EQUALITY_CHAIN));
 	return result;
 }

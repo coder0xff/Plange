@@ -49,7 +49,7 @@ typedef std::variant<
 struct TYPE_STATEMENT: TYPE_STATEMENT_base {
 	static TYPE_STATEMENT build(parlex::detail::ast_node const & n);
 	explicit TYPE_STATEMENT(TYPE_STATEMENT_base const & value) : TYPE_STATEMENT_base(value) {}
-	static parlex::detail::state_machine const & state_machine();
+	static parlex::detail::acceptor const & acceptor();
 };
 } // namespace plc
 

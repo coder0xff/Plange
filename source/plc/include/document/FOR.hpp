@@ -112,7 +112,7 @@ struct FOR {
 	FOR(FOR && move) = default;
 
 	static FOR build(parlex::detail::ast_node const & n);
-	static parlex::detail::state_machine const & state_machine();
+	static parlex::detail::acceptor const & acceptor();
 
 };
 

@@ -31,7 +31,7 @@ struct ASM_OP {
 	ASM_OP(ASM_OP && move) = default;
 
 	static ASM_OP build(parlex::detail::ast_node const & n);
-	static parlex::detail::state_machine const & state_machine();
+	static parlex::detail::acceptor const & acceptor();
 
 };
 

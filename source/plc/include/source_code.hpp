@@ -22,7 +22,7 @@ private: // we need a certain initialization order for these const fields
 public:
 	template <typename T = STATEMENT_SCOPE>
 	static T parse(std::u32string const & source) {
-		parlex::detail::abstract_syntax_tree ast = construct_ast(source, T::state_machine(), "");
+		parlex::detail::abstract_syntax_tree ast = construct_ast(source, T::acceptor(), "");
 		return T::build(ast);
 	}
 

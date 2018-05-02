@@ -46,7 +46,7 @@ struct DIVISION {
 	DIVISION(DIVISION && move) = default;
 
 	static DIVISION build(parlex::detail::ast_node const & n);
-	static parlex::detail::state_machine const & state_machine();
+	static parlex::detail::acceptor const & acceptor();
 
 };
 

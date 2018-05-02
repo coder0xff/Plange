@@ -6,7 +6,7 @@
 
 #include "parlex/detail/document.hpp"
 plc::DATE_YEAR_MONTH_DAY plc::DATE_YEAR_MONTH_DAY::build(parlex::detail::ast_node const & n) {
-	static auto const * b = state_machine().behavior;
+	static auto const * b = acceptor().behavior;
 	parlex::detail::document::walk w{ n.children.cbegin(), n.children.cend() };
 	auto const & children = b->children;
 	auto v0 = parlex::detail::document::element<parlex::detail::document::text<parlex::detail::decimal_digit_t>>::build(&*children[0], w);
@@ -23,7 +23,7 @@ plc::DATE_YEAR_MONTH_DAY plc::DATE_YEAR_MONTH_DAY::build(parlex::detail::ast_nod
 }
 
 
-parlex::detail::state_machine const & plc::DATE_YEAR_MONTH_DAY::state_machine() {
-	static auto const & result = *static_cast<parlex::detail::state_machine const *>(&plange_grammar::get().get_recognizer(plange_grammar::get().DATE_YEAR_MONTH_DAY));
+parlex::detail::acceptor const & plc::DATE_YEAR_MONTH_DAY::acceptor() {
+	static auto const & result = *static_cast<parlex::detail::acceptor const *>(&plange_grammar::get().get_recognizer(plange_grammar::get().DATE_YEAR_MONTH_DAY));
 	return result;
 }

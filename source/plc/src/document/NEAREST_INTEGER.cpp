@@ -13,7 +13,7 @@
 namespace plc {
 
 NEAREST_INTEGER NEAREST_INTEGER::build(parlex::detail::ast_node const & n) {
-	static auto const * b = state_machine().behavior;
+	static auto const * b = acceptor().behavior;
 	parlex::detail::document::walk w{ n.children.cbegin(), n.children.cend() };
 	return NEAREST_INTEGER(parlex::detail::document::element<NEAREST_INTEGER_base>::build(b, w));
 }
@@ -40,7 +40,7 @@ plc::NEAREST_INTEGER_2_t plc::NEAREST_INTEGER_2_t::build(parlex::detail::node co
 }
 
 
-parlex::detail::state_machine const & plc::NEAREST_INTEGER::state_machine() {
-	static auto const & result = *static_cast<parlex::detail::state_machine const *>(&plange_grammar::get().get_recognizer(plange_grammar::get().NEAREST_INTEGER));
+parlex::detail::acceptor const & plc::NEAREST_INTEGER::acceptor() {
+	static auto const & result = *static_cast<parlex::detail::acceptor const *>(&plange_grammar::get().get_recognizer(plange_grammar::get().NEAREST_INTEGER));
 	return result;
 }

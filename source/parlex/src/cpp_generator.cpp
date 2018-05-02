@@ -470,7 +470,7 @@ static std::string generate_struct_declaration(bool const isProduction, std::str
 	declaration << generate_struct_build_parameters(isProduction);
 	declaration << ");\n";
 	if (isProduction) {
-		declaration << "\tstatic parlex::detail::state_machine const & state_machine();\n\n";
+		declaration << "\tstatic parlex::detail::acceptor const & acceptor();\n\n";
 	}
 	declaration << "};";
 	return declaration.str();
@@ -498,7 +498,7 @@ static erased<detail::node> flatten_aggregate(bool const isProduction, std::stri
 	fullyQualifiedName = fullyQualifiedName.substr(0, fullyQualifiedName.size() - 2);
 	builderDefinition << fullyQualifiedName << " " << fullyQualifiedName << "::build(" << generate_struct_build_parameters(isProduction) << ") {\n";
 	if (isProduction) {
-		builderDefinition << "\tstatic auto const * b = state_machine().behavior;\n";
+		builderDefinition << "\tstatic auto const * b = acceptor().behavior;\n";
 		builderDefinition << "\tparlex::detail::document::walk w{ n.children.cbegin(), n.children.cend() };\n";
 	}
 	builderDefinition << "\tauto const & children = b->children;\n";
@@ -866,13 +866,13 @@ static cpp_generator::output_files generate_production_struct(std::string const 
 				header << "struct " << p.name << ": " << baseName << " {\n";
 				header << "\tstatic " << p.name << " build(parlex::detail::ast_node const & n);\n";
 				header << "\texplicit " << p.name << "(" << baseName << " const & value) : " << baseName << "(value) {}\n";
-				header << "\tstatic parlex::detail::state_machine const & state_machine();\n";
+				header << "\tstatic parlex::detail::acceptor const & acceptor();\n";
 				header << "};";
 
 				source << "#include \"" << headerName << "\"\n\n";
 				source << namespaces_start(namespaces) << "\n";
 				source << p.name << " " << p.name << "::build(parlex::detail::ast_node const & n) {\n";
-				source << "\tstatic auto const * b = state_machine().behavior;\n";
+				source << "\tstatic auto const * b = acceptor().behavior;\n";
 				source << "\tparlex::detail::document::walk w{ n.children.cbegin(), n.children.cend() };\n";
 				source << "\treturn " << p.name << "(parlex::detail::document::element<" << baseName << ">::build(b, w));\n";
 				source << "}\n\n";
@@ -882,15 +882,15 @@ static cpp_generator::output_files generate_production_struct(std::string const 
 				source << builderDefinition << "\n";
 			}
 			source << "\n";
-			source << "parlex::detail::state_machine const & plc::" << p.name << "::state_machine() {\n";
-			source << "\tstatic auto const & result = *static_cast<parlex::detail::state_machine const *>(&" << grammarName << "_grammar::get().get_recognizer(" << grammarName << "_grammar::get()." << p.name << "));\n";
+			source << "parlex::detail::acceptor const & plc::" << p.name << "::acceptor() {\n";
+			source << "\tstatic auto const & result = *static_cast<parlex::detail::acceptor const *>(&" << grammarName << "_grammar::get().get_recognizer(" << grammarName << "_grammar::get()." << p.name << "));\n";
 			source << "\treturn result;\n";
 			source << "}\n";
 		},
 		[&](detail::unit const & value) {
 			header << "struct " << p.name << " {\n";
 			header << "\tstatic " << p.name << " build(parlex::detail::ast_node const & n) { return " << p.name << "(); }\n";
-			header << "\tstatic parlex::detail::state_machine const & state_machine();\n";
+			header << "\tstatic parlex::detail::acceptor const & acceptor();\n";
 			header << "};";
 		}
 	);

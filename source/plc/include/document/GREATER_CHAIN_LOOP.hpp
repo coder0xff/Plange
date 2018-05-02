@@ -65,7 +65,7 @@ struct GREATER_CHAIN_LOOP {
 	GREATER_CHAIN_LOOP(GREATER_CHAIN_LOOP && move) = default;
 
 	static GREATER_CHAIN_LOOP build(parlex::detail::ast_node const & n);
-	static parlex::detail::state_machine const & state_machine();
+	static parlex::detail::acceptor const & acceptor();
 
 };
 

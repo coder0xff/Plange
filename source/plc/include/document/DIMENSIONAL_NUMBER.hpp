@@ -34,7 +34,7 @@ struct DIMENSIONAL_NUMBER {
 	DIMENSIONAL_NUMBER(DIMENSIONAL_NUMBER && move) = default;
 
 	static DIMENSIONAL_NUMBER build(parlex::detail::ast_node const & n);
-	static parlex::detail::state_machine const & state_machine();
+	static parlex::detail::acceptor const & acceptor();
 
 };
 

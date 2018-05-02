@@ -16,7 +16,7 @@ plc::DELTA::field_2_t_1_t plc::DELTA::field_2_t_1_t::build(parlex::detail::node 
 }
 
 plc::DELTA plc::DELTA::build(parlex::detail::ast_node const & n) {
-	static auto const * b = state_machine().behavior;
+	static auto const * b = acceptor().behavior;
 	parlex::detail::document::walk w{ n.children.cbegin(), n.children.cend() };
 	auto const & children = b->children;
 	auto v0 = parlex::detail::document::element<std::variant<
@@ -29,7 +29,7 @@ plc::DELTA plc::DELTA::build(parlex::detail::ast_node const & n) {
 }
 
 
-parlex::detail::state_machine const & plc::DELTA::state_machine() {
-	static auto const & result = *static_cast<parlex::detail::state_machine const *>(&plange_grammar::get().get_recognizer(plange_grammar::get().DELTA));
+parlex::detail::acceptor const & plc::DELTA::acceptor() {
+	static auto const & result = *static_cast<parlex::detail::acceptor const *>(&plange_grammar::get().get_recognizer(plange_grammar::get().DELTA));
 	return result;
 }

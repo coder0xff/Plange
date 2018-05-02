@@ -46,7 +46,7 @@ struct DOT_PRODUCT {
 	DOT_PRODUCT(DOT_PRODUCT && move) = default;
 
 	static DOT_PRODUCT build(parlex::detail::ast_node const & n);
-	static parlex::detail::state_machine const & state_machine();
+	static parlex::detail::acceptor const & acceptor();
 
 };
 

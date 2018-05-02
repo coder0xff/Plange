@@ -15,14 +15,14 @@
 namespace plc {
 
 BINARY_COLLECTION_OP BINARY_COLLECTION_OP::build(parlex::detail::ast_node const & n) {
-	static auto const * b = state_machine().behavior;
+	static auto const * b = acceptor().behavior;
 	parlex::detail::document::walk w{ n.children.cbegin(), n.children.cend() };
 	return BINARY_COLLECTION_OP(parlex::detail::document::element<BINARY_COLLECTION_OP_base>::build(b, w));
 }
 
 } // namespace plc
 
-parlex::detail::state_machine const & plc::BINARY_COLLECTION_OP::state_machine() {
-	static auto const & result = *static_cast<parlex::detail::state_machine const *>(&plange_grammar::get().get_recognizer(plange_grammar::get().BINARY_COLLECTION_OP));
+parlex::detail::acceptor const & plc::BINARY_COLLECTION_OP::acceptor() {
+	static auto const & result = *static_cast<parlex::detail::acceptor const *>(&plange_grammar::get().get_recognizer(plange_grammar::get().BINARY_COLLECTION_OP));
 	return result;
 }

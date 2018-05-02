@@ -47,7 +47,7 @@ struct DATE_YEAR_MONTH_DAY {
 	DATE_YEAR_MONTH_DAY(DATE_YEAR_MONTH_DAY && move) = default;
 
 	static DATE_YEAR_MONTH_DAY build(parlex::detail::ast_node const & n);
-	static parlex::detail::state_machine const & state_machine();
+	static parlex::detail::acceptor const & acceptor();
 
 };
 

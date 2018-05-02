@@ -40,7 +40,7 @@ struct DOWNCASTS {
 	DOWNCASTS(DOWNCASTS && move) = default;
 
 	static DOWNCASTS build(parlex::detail::ast_node const & n);
-	static parlex::detail::state_machine const & state_machine();
+	static parlex::detail::acceptor const & acceptor();
 
 };
 

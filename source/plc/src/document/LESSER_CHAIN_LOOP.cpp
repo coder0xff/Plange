@@ -17,7 +17,7 @@ plc::LESSER_CHAIN_LOOP::field_4_t_1_t plc::LESSER_CHAIN_LOOP::field_4_t_1_t::bui
 }
 
 plc::LESSER_CHAIN_LOOP plc::LESSER_CHAIN_LOOP::build(parlex::detail::ast_node const & n) {
-	static auto const * b = state_machine().behavior;
+	static auto const * b = acceptor().behavior;
 	parlex::detail::document::walk w{ n.children.cbegin(), n.children.cend() };
 	auto const & children = b->children;
 	auto v0 = parlex::detail::document::element<std::variant<
@@ -33,7 +33,7 @@ plc::LESSER_CHAIN_LOOP plc::LESSER_CHAIN_LOOP::build(parlex::detail::ast_node co
 }
 
 
-parlex::detail::state_machine const & plc::LESSER_CHAIN_LOOP::state_machine() {
-	static auto const & result = *static_cast<parlex::detail::state_machine const *>(&plange_grammar::get().get_recognizer(plange_grammar::get().LESSER_CHAIN_LOOP));
+parlex::detail::acceptor const & plc::LESSER_CHAIN_LOOP::acceptor() {
+	static auto const & result = *static_cast<parlex::detail::acceptor const *>(&plange_grammar::get().get_recognizer(plange_grammar::get().LESSER_CHAIN_LOOP));
 	return result;
 }

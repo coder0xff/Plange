@@ -36,7 +36,7 @@ struct MEMBER_OFFSET {
 	MEMBER_OFFSET(MEMBER_OFFSET && move) = default;
 
 	static MEMBER_OFFSET build(parlex::detail::ast_node const & n);
-	static parlex::detail::state_machine const & state_machine();
+	static parlex::detail::acceptor const & acceptor();
 
 };
 

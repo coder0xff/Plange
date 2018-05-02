@@ -22,7 +22,7 @@ typedef parlex::detail::document::text<literal_static_t> STATIC_base;
 struct STATIC: STATIC_base {
 	static STATIC build(parlex::detail::ast_node const & n);
 	explicit STATIC(STATIC_base const & value) : STATIC_base(value) {}
-	static parlex::detail::state_machine const & state_machine();
+	static parlex::detail::acceptor const & acceptor();
 };
 } // namespace plc
 

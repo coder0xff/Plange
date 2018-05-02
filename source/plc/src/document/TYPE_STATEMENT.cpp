@@ -15,7 +15,7 @@
 namespace plc {
 
 TYPE_STATEMENT TYPE_STATEMENT::build(parlex::detail::ast_node const & n) {
-	static auto const * b = state_machine().behavior;
+	static auto const * b = acceptor().behavior;
 	parlex::detail::document::walk w{ n.children.cbegin(), n.children.cend() };
 	return TYPE_STATEMENT(parlex::detail::document::element<TYPE_STATEMENT_base>::build(b, w));
 }
@@ -30,7 +30,7 @@ plc::TYPE_STATEMENT_1_t plc::TYPE_STATEMENT_1_t::build(parlex::detail::node cons
 }
 
 
-parlex::detail::state_machine const & plc::TYPE_STATEMENT::state_machine() {
-	static auto const & result = *static_cast<parlex::detail::state_machine const *>(&plange_grammar::get().get_recognizer(plange_grammar::get().TYPE_STATEMENT));
+parlex::detail::acceptor const & plc::TYPE_STATEMENT::acceptor() {
+	static auto const & result = *static_cast<parlex::detail::acceptor const *>(&plange_grammar::get().get_recognizer(plange_grammar::get().TYPE_STATEMENT));
 	return result;
 }

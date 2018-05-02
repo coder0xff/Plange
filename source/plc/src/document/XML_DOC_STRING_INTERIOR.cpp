@@ -13,7 +13,7 @@
 namespace plc {
 
 XML_DOC_STRING_INTERIOR XML_DOC_STRING_INTERIOR::build(parlex::detail::ast_node const & n) {
-	static auto const * b = state_machine().behavior;
+	static auto const * b = acceptor().behavior;
 	parlex::detail::document::walk w{ n.children.cbegin(), n.children.cend() };
 	return XML_DOC_STRING_INTERIOR(parlex::detail::document::element<XML_DOC_STRING_INTERIOR_base>::build(b, w));
 }
@@ -28,7 +28,7 @@ plc::XML_DOC_STRING_INTERIOR_1_t plc::XML_DOC_STRING_INTERIOR_1_t::build(parlex:
 }
 
 
-parlex::detail::state_machine const & plc::XML_DOC_STRING_INTERIOR::state_machine() {
-	static auto const & result = *static_cast<parlex::detail::state_machine const *>(&plange_grammar::get().get_recognizer(plange_grammar::get().XML_DOC_STRING_INTERIOR));
+parlex::detail::acceptor const & plc::XML_DOC_STRING_INTERIOR::acceptor() {
+	static auto const & result = *static_cast<parlex::detail::acceptor const *>(&plange_grammar::get().get_recognizer(plange_grammar::get().XML_DOC_STRING_INTERIOR));
 	return result;
 }

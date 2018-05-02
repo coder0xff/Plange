@@ -72,7 +72,7 @@ typedef std::variant<
 struct CEILING: CEILING_base {
 	static CEILING build(parlex::detail::ast_node const & n);
 	explicit CEILING(CEILING_base const & value) : CEILING_base(value) {}
-	static parlex::detail::state_machine const & state_machine();
+	static parlex::detail::acceptor const & acceptor();
 };
 } // namespace plc
 

@@ -25,7 +25,7 @@ typedef std::variant<
 struct BOOL: BOOL_base {
 	static BOOL build(parlex::detail::ast_node const & n);
 	explicit BOOL(BOOL_base const & value) : BOOL_base(value) {}
-	static parlex::detail::state_machine const & state_machine();
+	static parlex::detail::acceptor const & acceptor();
 };
 } // namespace plc
 

@@ -70,7 +70,7 @@ struct FUNCTION_MODIFIER_THROWING {
 	FUNCTION_MODIFIER_THROWING(FUNCTION_MODIFIER_THROWING && move) = default;
 
 	static FUNCTION_MODIFIER_THROWING build(parlex::detail::ast_node const & n);
-	static parlex::detail::state_machine const & state_machine();
+	static parlex::detail::acceptor const & acceptor();
 
 };
 

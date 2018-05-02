@@ -18,7 +18,7 @@ plc::ARRAY_INVOCATION::argsTail_t_1_t plc::ARRAY_INVOCATION::argsTail_t_1_t::bui
 }
 
 plc::ARRAY_INVOCATION plc::ARRAY_INVOCATION::build(parlex::detail::ast_node const & n) {
-	static auto const * b = state_machine().behavior;
+	static auto const * b = acceptor().behavior;
 	parlex::detail::document::walk w{ n.children.cbegin(), n.children.cend() };
 	auto const & children = b->children;
 	auto v0 = parlex::detail::document::element<erased<EXPRESSION>>::build(&*children[0], w);
@@ -31,7 +31,7 @@ plc::ARRAY_INVOCATION plc::ARRAY_INVOCATION::build(parlex::detail::ast_node cons
 }
 
 
-parlex::detail::state_machine const & plc::ARRAY_INVOCATION::state_machine() {
-	static auto const & result = *static_cast<parlex::detail::state_machine const *>(&plange_grammar::get().get_recognizer(plange_grammar::get().ARRAY_INVOCATION));
+parlex::detail::acceptor const & plc::ARRAY_INVOCATION::acceptor() {
+	static auto const & result = *static_cast<parlex::detail::acceptor const *>(&plange_grammar::get().get_recognizer(plange_grammar::get().ARRAY_INVOCATION));
 	return result;
 }

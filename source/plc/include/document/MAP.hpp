@@ -92,7 +92,7 @@ struct MAP {
 	MAP(MAP && move) = default;
 
 	static MAP build(parlex::detail::ast_node const & n);
-	static parlex::detail::state_machine const & state_machine();
+	static parlex::detail::acceptor const & acceptor();
 
 };
 

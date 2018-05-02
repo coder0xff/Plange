@@ -40,7 +40,7 @@ struct SYMMETRIC_DIFFERENCE {
 	SYMMETRIC_DIFFERENCE(SYMMETRIC_DIFFERENCE && move) = default;
 
 	static SYMMETRIC_DIFFERENCE build(parlex::detail::ast_node const & n);
-	static parlex::detail::state_machine const & state_machine();
+	static parlex::detail::acceptor const & acceptor();
 
 };
 

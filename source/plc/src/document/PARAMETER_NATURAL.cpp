@@ -16,7 +16,7 @@
 namespace plc {
 
 PARAMETER_NATURAL PARAMETER_NATURAL::build(parlex::detail::ast_node const & n) {
-	static auto const * b = state_machine().behavior;
+	static auto const * b = acceptor().behavior;
 	parlex::detail::document::walk w{ n.children.cbegin(), n.children.cend() };
 	return PARAMETER_NATURAL(parlex::detail::document::element<PARAMETER_NATURAL_base>::build(b, w));
 }
@@ -61,7 +61,7 @@ plc::PARAMETER_NATURAL_2_t plc::PARAMETER_NATURAL_2_t::build(parlex::detail::nod
 }
 
 
-parlex::detail::state_machine const & plc::PARAMETER_NATURAL::state_machine() {
-	static auto const & result = *static_cast<parlex::detail::state_machine const *>(&plange_grammar::get().get_recognizer(plange_grammar::get().PARAMETER_NATURAL));
+parlex::detail::acceptor const & plc::PARAMETER_NATURAL::acceptor() {
+	static auto const & result = *static_cast<parlex::detail::acceptor const *>(&plange_grammar::get().get_recognizer(plange_grammar::get().PARAMETER_NATURAL));
 	return result;
 }

@@ -8,7 +8,7 @@
 #include "EMBEDDED_COMMENT_INTERIOR.hpp"
 
 plc::EMBEDDED_COMMENT plc::EMBEDDED_COMMENT::build(parlex::detail::ast_node const & n) {
-	static auto const * b = state_machine().behavior;
+	static auto const * b = acceptor().behavior;
 	parlex::detail::document::walk w{ n.children.cbegin(), n.children.cend() };
 	auto const & children = b->children;
 	auto v0 = parlex::detail::document::element<parlex::detail::document::text<literal_0x2F0x2A0x2A0x2A_t>>::build(&*children[0], w);
@@ -18,7 +18,7 @@ plc::EMBEDDED_COMMENT plc::EMBEDDED_COMMENT::build(parlex::detail::ast_node cons
 }
 
 
-parlex::detail::state_machine const & plc::EMBEDDED_COMMENT::state_machine() {
-	static auto const & result = *static_cast<parlex::detail::state_machine const *>(&plange_grammar::get().get_recognizer(plange_grammar::get().EMBEDDED_COMMENT));
+parlex::detail::acceptor const & plc::EMBEDDED_COMMENT::acceptor() {
+	static auto const & result = *static_cast<parlex::detail::acceptor const *>(&plange_grammar::get().get_recognizer(plange_grammar::get().EMBEDDED_COMMENT));
 	return result;
 }

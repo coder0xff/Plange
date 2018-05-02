@@ -30,7 +30,7 @@ typedef std::variant<
 struct MULTIPLICATIVE_OP: MULTIPLICATIVE_OP_base {
 	static MULTIPLICATIVE_OP build(parlex::detail::ast_node const & n);
 	explicit MULTIPLICATIVE_OP(MULTIPLICATIVE_OP_base const & value) : MULTIPLICATIVE_OP_base(value) {}
-	static parlex::detail::state_machine const & state_machine();
+	static parlex::detail::acceptor const & acceptor();
 };
 } // namespace plc
 

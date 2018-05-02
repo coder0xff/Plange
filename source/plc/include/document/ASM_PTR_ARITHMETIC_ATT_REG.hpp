@@ -72,7 +72,7 @@ struct ASM_PTR_ARITHMETIC_ATT_REG {
 	ASM_PTR_ARITHMETIC_ATT_REG(ASM_PTR_ARITHMETIC_ATT_REG && move) = default;
 
 	static ASM_PTR_ARITHMETIC_ATT_REG build(parlex::detail::ast_node const & n);
-	static parlex::detail::state_machine const & state_machine();
+	static parlex::detail::acceptor const & acceptor();
 
 };
 

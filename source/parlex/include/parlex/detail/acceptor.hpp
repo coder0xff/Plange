@@ -1,5 +1,5 @@
-#ifndef CORRELATED_STATE_MACHINE_HPP
-#define CORRELATED_STATE_MACHINE_HPP
+#ifndef ACCEPTOR_HPP
+#define ACCEPTOR_HPP
 
 #include "coherent_map.hpp"
 
@@ -8,7 +8,7 @@
 #include "parlex/filter_function.hpp"
 #include "parlex/detail/nfa.hpp"
 #include "parlex/detail/recognizer.hpp"
-#include "parlex/detail/state_machine.hpp"
+#include "parlex/detail/acceptor.hpp"
 
 
 namespace parlex {
@@ -25,7 +25,7 @@ class subjob;
 //simulates a dfa
 //State 0 is the start state
 //States from N-a to N-1 are the accept states, where N is states.size() and a is accept_state_count
-class state_machine : public recognizer {
+class acceptor : public recognizer {
 public:
 	struct transition_info_t {
 		leaf const * l;
@@ -38,8 +38,8 @@ public:
 
 	typedef std::vector<collections::coherent_map<transition_info_t, uint8_t>> states_t;
 
-	state_machine(std::string const & name, filter_function const & filter, associativity assoc);
-	virtual ~state_machine() = default;
+	acceptor(std::string const & name, filter_function const & filter, associativity assoc);
+	virtual ~acceptor() = default;
 
 	filter_function const filter;
 	associativity const assoc;
@@ -71,4 +71,4 @@ public:
 } // namespace detail
 } // namespace parlex
 
-#endif //CORRELATED_STATE_MACHINE_HPP
+#endif //ACCEPTOR_HPP

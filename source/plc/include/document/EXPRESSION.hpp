@@ -117,7 +117,7 @@ typedef std::variant<
 struct EXPRESSION: EXPRESSION_base {
 	static EXPRESSION build(parlex::detail::ast_node const & n);
 	explicit EXPRESSION(EXPRESSION_base const & value) : EXPRESSION_base(value) {}
-	static parlex::detail::state_machine const & state_machine();
+	static parlex::detail::acceptor const & acceptor();
 };
 } // namespace plc
 

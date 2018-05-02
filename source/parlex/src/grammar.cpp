@@ -20,7 +20,7 @@ node const& grammar::production::get_behavior() const
 	return *behavior;
 }
 
-state_machine const & grammar::production::get_state_machine() const {
+acceptor const & grammar::production::get_acceptor() const {
 	return machine;
 }
 
@@ -75,7 +75,7 @@ void grammar::compile_sub_builder(std::map<std::string, recognizer const *> & na
 	for (auto const & definition : grammarDefinition.productions) {
 		local_productions.emplace_back(definition.name, definition.filter, definition.assoc);
 		name_to_local_production_index[definition.name] = uint16_t(local_productions.size() - 1);
-		auto const ptr = &local_productions.back().get_state_machine();
+		auto const ptr = &local_productions.back().get_acceptor();
 		add_table_data(nameToRecognizerPtr, ptr);
 	}
 }
@@ -94,7 +94,7 @@ void grammar::compute_left_recursive_recognizers() {
 		std::vector<size_t> results;
 		recognizer const * recognizer = recognizers[vertex];
 		if (!recognizer->is_terminal()) {
-			auto stateMachine = static_cast<state_machine const *>(recognizer);
+			auto stateMachine = static_cast<acceptor const *>(recognizer);
 			auto const & startStatetransitions = stateMachine->get_transitions(stateMachine->get_start_state());
 			for (auto const & transitionInfo : startStatetransitions) {
 				results.push_back(transitionInfo.first.recognizer_index);
@@ -187,7 +187,7 @@ grammar::grammar(builder const & grammarDefinition) {
 		link_sub_builder(grammarDefinition);
 	}
 
-	// Now that all the state_machines are created we can setup precedences
+	// Now that all the acceptors are created we can setup precedences
 	precedences.resize(recognizers.size());
 	for (auto const & definition : grammarDefinition.productions) {
 		auto const fromRecognizerIndex = recognizer_ptr_to_recognizer_index[nameToRecognizerPtr[definition.name]];
@@ -203,12 +203,12 @@ grammar::grammar(builder const & grammarDefinition) {
 	compute_left_recursive_recognizers();
 }
 
-state_machine const& grammar::get_root_state_machine() const {
-	return local_productions[root_production_index].get_state_machine();
+acceptor const& grammar::get_root_acceptor() const {
+	return local_productions[root_production_index].get_acceptor();
 }
 
-std::vector<state_machine const *> grammar::get_state_machines() const {
-	std::vector<state_machine const *> results;
+std::vector<acceptor const *> grammar::get_state_acceptors() const {
+	std::vector<acceptor const *> results;
 	results.reserve(local_productions.size());
 	for (auto const & production : local_productions) {
 		results.push_back(&production.machine);
@@ -263,7 +263,7 @@ uint16_t grammar::lookup_recognizer_index(std::string const & name) const {
 	return i->second;
 }
 
-//state_machine_base const& grammar::get_state_machine(std::string const & name) const {
+//acceptor_base const& grammar::get_acceptor(std::string const & name) const {
 //	auto const i = productions.find(name);
 //	throw_assert(i != productions.end());
 //	return i->second.machine;

@@ -9,7 +9,7 @@
 #include "IC.hpp"
 
 plc::OR plc::OR::build(parlex::detail::ast_node const & n) {
-	static auto const * b = state_machine().behavior;
+	static auto const * b = acceptor().behavior;
 	parlex::detail::document::walk w{ n.children.cbegin(), n.children.cend() };
 	auto const & children = b->children;
 	auto v0 = parlex::detail::document::element<erased<EXPRESSION>>::build(&*children[0], w);
@@ -24,7 +24,7 @@ plc::OR plc::OR::build(parlex::detail::ast_node const & n) {
 }
 
 
-parlex::detail::state_machine const & plc::OR::state_machine() {
-	static auto const & result = *static_cast<parlex::detail::state_machine const *>(&plange_grammar::get().get_recognizer(plange_grammar::get().OR));
+parlex::detail::acceptor const & plc::OR::acceptor() {
+	static auto const & result = *static_cast<parlex::detail::acceptor const *>(&plange_grammar::get().get_recognizer(plange_grammar::get().OR));
 	return result;
 }

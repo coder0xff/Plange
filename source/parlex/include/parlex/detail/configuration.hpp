@@ -12,7 +12,7 @@ namespace detail {
 
 class subjob;
 
-//the parse configuration for some state_machine's state during one of its executions
+//the parse configuration for some acceptor's state during one of its executions
 class configuration {
 public:
 	configuration const* const prior;

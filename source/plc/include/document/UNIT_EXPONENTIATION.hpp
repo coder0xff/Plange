@@ -36,7 +36,7 @@ struct UNIT_EXPONENTIATION {
 	UNIT_EXPONENTIATION(UNIT_EXPONENTIATION && move) = default;
 
 	static UNIT_EXPONENTIATION build(parlex::detail::ast_node const & n);
-	static parlex::detail::state_machine const & state_machine();
+	static parlex::detail::acceptor const & acceptor();
 
 };
 

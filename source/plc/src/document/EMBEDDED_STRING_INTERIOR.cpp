@@ -13,7 +13,7 @@
 namespace plc {
 
 EMBEDDED_STRING_INTERIOR EMBEDDED_STRING_INTERIOR::build(parlex::detail::ast_node const & n) {
-	static auto const * b = state_machine().behavior;
+	static auto const * b = acceptor().behavior;
 	parlex::detail::document::walk w{ n.children.cbegin(), n.children.cend() };
 	return EMBEDDED_STRING_INTERIOR(parlex::detail::document::element<EMBEDDED_STRING_INTERIOR_base>::build(b, w));
 }
@@ -28,7 +28,7 @@ plc::EMBEDDED_STRING_INTERIOR_1_t plc::EMBEDDED_STRING_INTERIOR_1_t::build(parle
 }
 
 
-parlex::detail::state_machine const & plc::EMBEDDED_STRING_INTERIOR::state_machine() {
-	static auto const & result = *static_cast<parlex::detail::state_machine const *>(&plange_grammar::get().get_recognizer(plange_grammar::get().EMBEDDED_STRING_INTERIOR));
+parlex::detail::acceptor const & plc::EMBEDDED_STRING_INTERIOR::acceptor() {
+	static auto const & result = *static_cast<parlex::detail::acceptor const *>(&plange_grammar::get().get_recognizer(plange_grammar::get().EMBEDDED_STRING_INTERIOR));
 	return result;
 }

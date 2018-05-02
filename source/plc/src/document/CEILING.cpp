@@ -13,7 +13,7 @@
 namespace plc {
 
 CEILING CEILING::build(parlex::detail::ast_node const & n) {
-	static auto const * b = state_machine().behavior;
+	static auto const * b = acceptor().behavior;
 	parlex::detail::document::walk w{ n.children.cbegin(), n.children.cend() };
 	return CEILING(parlex::detail::document::element<CEILING_base>::build(b, w));
 }
@@ -40,7 +40,7 @@ plc::CEILING_2_t plc::CEILING_2_t::build(parlex::detail::node const * b, parlex:
 }
 
 
-parlex::detail::state_machine const & plc::CEILING::state_machine() {
-	static auto const & result = *static_cast<parlex::detail::state_machine const *>(&plange_grammar::get().get_recognizer(plange_grammar::get().CEILING));
+parlex::detail::acceptor const & plc::CEILING::acceptor() {
+	static auto const & result = *static_cast<parlex::detail::acceptor const *>(&plange_grammar::get().get_recognizer(plange_grammar::get().CEILING));
 	return result;
 }

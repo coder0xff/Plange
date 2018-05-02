@@ -46,7 +46,7 @@ struct BIJECTION {
 	BIJECTION(BIJECTION && move) = default;
 
 	static BIJECTION build(parlex::detail::ast_node const & n);
-	static parlex::detail::state_machine const & state_machine();
+	static parlex::detail::acceptor const & acceptor();
 
 };
 

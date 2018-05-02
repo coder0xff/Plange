@@ -32,7 +32,7 @@ typedef std::variant<
 struct IC: IC_base {
 	static IC build(parlex::detail::ast_node const & n);
 	explicit IC(IC_base const & value) : IC_base(value) {}
-	static parlex::detail::state_machine const & state_machine();
+	static parlex::detail::acceptor const & acceptor();
 };
 } // namespace plc
 

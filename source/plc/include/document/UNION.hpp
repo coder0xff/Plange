@@ -40,7 +40,7 @@ struct UNION {
 	UNION(UNION && move) = default;
 
 	static UNION build(parlex::detail::ast_node const & n);
-	static parlex::detail::state_machine const & state_machine();
+	static parlex::detail::acceptor const & acceptor();
 
 };
 

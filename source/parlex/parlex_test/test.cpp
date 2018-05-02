@@ -49,7 +49,7 @@ builder small_grammar_builder(
 
 TEST(ParlexTest, small_test_0) {
 	test_grammar const smallGrammar(small_grammar_builder);
-	auto debugCheck = dynamic_cast<state_machine const *>(&smallGrammar.get_recognizer(smallGrammar.lookup_recognizer_index("root")))->to_dot(smallGrammar.get_recognizers());
+	auto debugCheck = dynamic_cast<acceptor const *>(&smallGrammar.get_recognizer(smallGrammar.lookup_recognizer_index("root")))->to_dot(smallGrammar.get_recognizers());
 	parser p(1);
 	auto result = p.parse(smallGrammar, U"A.");
 }
@@ -91,7 +91,7 @@ TEST(ParlexTest, medium_test_0) {
 
 TEST(ParlexTest, medium_test_1) {
 	test_grammar const smallGrammar(medium_grammar_builder);
-	auto debugCheck = static_cast<state_machine const *>(&smallGrammar.get_recognizer(smallGrammar.lookup_recognizer_index("root")))->to_dot(smallGrammar.get_recognizers());
+	auto debugCheck = static_cast<acceptor const *>(&smallGrammar.get_recognizer(smallGrammar.lookup_recognizer_index("root")))->to_dot(smallGrammar.get_recognizers());
 	parser p(1);
 	auto result = p.parse(smallGrammar, U"AAAAAAAAAAA           =           BBBBBBBBBBBBB.");
 }

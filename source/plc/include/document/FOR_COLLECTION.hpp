@@ -109,7 +109,7 @@ struct FOR_COLLECTION {
 	FOR_COLLECTION(FOR_COLLECTION && move) = default;
 
 	static FOR_COLLECTION build(parlex::detail::ast_node const & n);
-	static parlex::detail::state_machine const & state_machine();
+	static parlex::detail::acceptor const & acceptor();
 
 };
 

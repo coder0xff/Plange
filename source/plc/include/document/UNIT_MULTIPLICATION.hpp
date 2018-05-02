@@ -35,7 +35,7 @@ struct UNIT_MULTIPLICATION {
 	UNIT_MULTIPLICATION(UNIT_MULTIPLICATION && move) = default;
 
 	static UNIT_MULTIPLICATION build(parlex::detail::ast_node const & n);
-	static parlex::detail::state_machine const & state_machine();
+	static parlex::detail::acceptor const & acceptor();
 
 };
 

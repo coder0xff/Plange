@@ -67,7 +67,7 @@ struct SUBSET_CHAIN_LOOP {
 	SUBSET_CHAIN_LOOP(SUBSET_CHAIN_LOOP && move) = default;
 
 	static SUBSET_CHAIN_LOOP build(parlex::detail::ast_node const & n);
-	static parlex::detail::state_machine const & state_machine();
+	static parlex::detail::acceptor const & acceptor();
 
 };
 

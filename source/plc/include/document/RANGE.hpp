@@ -135,7 +135,7 @@ typedef std::variant<
 struct RANGE: RANGE_base {
 	static RANGE build(parlex::detail::ast_node const & n);
 	explicit RANGE(RANGE_base const & value) : RANGE_base(value) {}
-	static parlex::detail::state_machine const & state_machine();
+	static parlex::detail::acceptor const & acceptor();
 };
 } // namespace plc
 

@@ -39,7 +39,7 @@ plc::PARENTHETICAL_INVOCATION::argsTail_t_1_t plc::PARENTHETICAL_INVOCATION::arg
 }
 
 plc::PARENTHETICAL_INVOCATION plc::PARENTHETICAL_INVOCATION::build(parlex::detail::ast_node const & n) {
-	static auto const * b = state_machine().behavior;
+	static auto const * b = acceptor().behavior;
 	parlex::detail::document::walk w{ n.children.cbegin(), n.children.cend() };
 	auto const & children = b->children;
 	auto v0 = parlex::detail::document::element<erased<EXPRESSION>>::build(&*children[0], w);
@@ -53,7 +53,7 @@ plc::PARENTHETICAL_INVOCATION plc::PARENTHETICAL_INVOCATION::build(parlex::detai
 }
 
 
-parlex::detail::state_machine const & plc::PARENTHETICAL_INVOCATION::state_machine() {
-	static auto const & result = *static_cast<parlex::detail::state_machine const *>(&plange_grammar::get().get_recognizer(plange_grammar::get().PARENTHETICAL_INVOCATION));
+parlex::detail::acceptor const & plc::PARENTHETICAL_INVOCATION::acceptor() {
+	static auto const & result = *static_cast<parlex::detail::acceptor const *>(&plange_grammar::get().get_recognizer(plange_grammar::get().PARENTHETICAL_INVOCATION));
 	return result;
 }

@@ -9,7 +9,7 @@
 #include "IC.hpp"
 
 plc::EXISTS_ONE plc::EXISTS_ONE::build(parlex::detail::ast_node const & n) {
-	static auto const * b = state_machine().behavior;
+	static auto const * b = acceptor().behavior;
 	parlex::detail::document::walk w{ n.children.cbegin(), n.children.cend() };
 	auto const & children = b->children;
 	auto v0 = parlex::detail::document::element<std::variant<
@@ -22,7 +22,7 @@ plc::EXISTS_ONE plc::EXISTS_ONE::build(parlex::detail::ast_node const & n) {
 }
 
 
-parlex::detail::state_machine const & plc::EXISTS_ONE::state_machine() {
-	static auto const & result = *static_cast<parlex::detail::state_machine const *>(&plange_grammar::get().get_recognizer(plange_grammar::get().EXISTS_ONE));
+parlex::detail::acceptor const & plc::EXISTS_ONE::acceptor() {
+	static auto const & result = *static_cast<parlex::detail::acceptor const *>(&plange_grammar::get().get_recognizer(plange_grammar::get().EXISTS_ONE));
 	return result;
 }

@@ -9,7 +9,7 @@
 #include "IC.hpp"
 
 plc::MAPS_TO plc::MAPS_TO::build(parlex::detail::ast_node const & n) {
-	static auto const * b = state_machine().behavior;
+	static auto const * b = acceptor().behavior;
 	parlex::detail::document::walk w{ n.children.cbegin(), n.children.cend() };
 	auto const & children = b->children;
 	auto v0 = parlex::detail::document::element<erased<EXPRESSION>>::build(&*children[0], w);
@@ -24,7 +24,7 @@ plc::MAPS_TO plc::MAPS_TO::build(parlex::detail::ast_node const & n) {
 }
 
 
-parlex::detail::state_machine const & plc::MAPS_TO::state_machine() {
-	static auto const & result = *static_cast<parlex::detail::state_machine const *>(&plange_grammar::get().get_recognizer(plange_grammar::get().MAPS_TO));
+parlex::detail::acceptor const & plc::MAPS_TO::acceptor() {
+	static auto const & result = *static_cast<parlex::detail::acceptor const *>(&plange_grammar::get().get_recognizer(plange_grammar::get().MAPS_TO));
 	return result;
 }

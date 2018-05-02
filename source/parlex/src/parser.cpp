@@ -141,11 +141,11 @@ abstract_syntax_semilattice parser::parse(grammar const & g, recognizer const & 
 }
 
 abstract_syntax_semilattice parser::parse(grammar const & g, std::vector<post_processor> const & posts, std::u32string const & document, progress_handler_t const & progressHandler) {
-	return parse(g, g.get_root_state_machine(), posts, document, progressHandler);
+	return parse(g, g.get_root_acceptor(), posts, document, progressHandler);
 }
 
 abstract_syntax_semilattice parser::parse(grammar const & g, std::u32string const & document, progress_handler_t const & progressHandler) {
-	return parse(g, g.get_root_state_machine(), document, progressHandler);
+	return parse(g, g.get_root_acceptor(), document, progressHandler);
 }
 
 void parser::schedule(match_class const & subjobId, configuration const & c, int nextDfaState) {
@@ -413,7 +413,7 @@ static bool associativity_test(grammar const & g, node_props_t & a, node_props_t
 	if (a.m.recognizer_index != b.m.recognizer_index) {
 		return false;
 	}
-	auto const assoc = dynamic_cast<state_machine const *>(&g.get_recognizer(a.m.recognizer_index))->get_assoc();
+	auto const assoc = dynamic_cast<acceptor const *>(&g.get_recognizer(a.m.recognizer_index))->get_assoc();
 	switch (assoc) {
 		case associativity::LEFT:
 		case associativity::ANY:
@@ -475,7 +475,7 @@ void parser::apply_precedence_and_associativity(grammar const & g, abstract_synt
 
 	for (uint16_t i = 0; i < g.get_recognizer_count(); ++i) {
 		auto const * recognizerPtr = &g.get_recognizer(i);
-		auto const * asStateMachineBasePtr = dynamic_cast<state_machine const *>(recognizerPtr);
+		auto const * asStateMachineBasePtr = dynamic_cast<acceptor const *>(recognizerPtr);
 		if (asStateMachineBasePtr != nullptr) {
 			auto const & stateMachineBase = *asStateMachineBasePtr;
 			if (stateMachineBase.get_assoc() != associativity::NONE) {

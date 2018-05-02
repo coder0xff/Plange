@@ -56,14 +56,14 @@
 namespace plc {
 
 EXPRESSION EXPRESSION::build(parlex::detail::ast_node const & n) {
-	static auto const * b = state_machine().behavior;
+	static auto const * b = acceptor().behavior;
 	parlex::detail::document::walk w{ n.children.cbegin(), n.children.cend() };
 	return EXPRESSION(parlex::detail::document::element<EXPRESSION_base>::build(b, w));
 }
 
 } // namespace plc
 
-parlex::detail::state_machine const & plc::EXPRESSION::state_machine() {
-	static auto const & result = *static_cast<parlex::detail::state_machine const *>(&plange_grammar::get().get_recognizer(plange_grammar::get().EXPRESSION));
+parlex::detail::acceptor const & plc::EXPRESSION::acceptor() {
+	static auto const & result = *static_cast<parlex::detail::acceptor const *>(&plange_grammar::get().get_recognizer(plange_grammar::get().EXPRESSION));
 	return result;
 }

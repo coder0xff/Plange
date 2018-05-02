@@ -35,7 +35,7 @@ struct UNIT_DIVISION {
 	UNIT_DIVISION(UNIT_DIVISION && move) = default;
 
 	static UNIT_DIVISION build(parlex::detail::ast_node const & n);
-	static parlex::detail::state_machine const & state_machine();
+	static parlex::detail::acceptor const & acceptor();
 
 };
 

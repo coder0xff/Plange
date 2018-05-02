@@ -28,7 +28,7 @@ typedef std::variant<
 struct PARAMETER: PARAMETER_base {
 	static PARAMETER build(parlex::detail::ast_node const & n);
 	explicit PARAMETER(PARAMETER_base const & value) : PARAMETER_base(value) {}
-	static parlex::detail::state_machine const & state_machine();
+	static parlex::detail::acceptor const & acceptor();
 };
 } // namespace plc
 

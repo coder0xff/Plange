@@ -28,7 +28,7 @@ typedef std::variant<
 struct NON_NEG_NUMBER: NON_NEG_NUMBER_base {
 	static NON_NEG_NUMBER build(parlex::detail::ast_node const & n);
 	explicit NON_NEG_NUMBER(NON_NEG_NUMBER_base const & value) : NON_NEG_NUMBER_base(value) {}
-	static parlex::detail::state_machine const & state_machine();
+	static parlex::detail::acceptor const & acceptor();
 };
 } // namespace plc
 

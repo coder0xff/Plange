@@ -73,7 +73,7 @@ struct WHOLE_NUMBER {
 	WHOLE_NUMBER(WHOLE_NUMBER && move) = default;
 
 	static WHOLE_NUMBER build(parlex::detail::ast_node const & n);
-	static parlex::detail::state_machine const & state_machine();
+	static parlex::detail::acceptor const & acceptor();
 
 };
 

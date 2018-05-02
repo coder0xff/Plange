@@ -1,4 +1,4 @@
-#include "parlex/detail/state_machine.hpp"
+#include "parlex/detail/acceptor.hpp"
 
 #include "parlex/associativity.hpp"
 #include "parlex/builder.hpp"
@@ -8,10 +8,10 @@
 namespace parlex {
 namespace detail {
 
-state_machine::state_machine(std::string const & name, filter_function const & filter, associativity const assoc) : recognizer(name), filter(filter), assoc(assoc), behavior(nullptr), start_state(-1), accept_state_count(-1) {
+acceptor::acceptor(std::string const & name, filter_function const & filter, associativity const assoc) : recognizer(name), filter(filter), assoc(assoc), behavior(nullptr), start_state(-1), accept_state_count(-1) {
 }
 
-void state_machine::set_behavior(node & behavior) {
+void acceptor::set_behavior(node & behavior) {
 	this->behavior = &behavior;
 	auto dfa = reorder(behavior.compile());
 	auto transitions = dfa.get_transitions();
@@ -28,7 +28,7 @@ void state_machine::set_behavior(node & behavior) {
 	accept_state_count = uint8_t(dfa.accept_states.size());
 }
 
-void state_machine::process(job & j, subjob & mySubjob, match_class const & mySubjobId, configuration const & c, uint8_t const dfaState) const {
+void acceptor::process(job & j, subjob & mySubjob, match_class const & mySubjobId, configuration const & c, uint8_t const dfaState) const {
 	//DBG("processing '", get_id(), "' dfaState:", dfaState, " p:", c.current_document_position());
 	if (dfaState >= states.size() - accept_state_count) {
 		accept(j, mySubjob, mySubjobId, c);
@@ -41,19 +41,19 @@ void state_machine::process(job & j, subjob & mySubjob, match_class const & mySu
 	}
 }
 
-void state_machine::start(job & j, subjob & mySubjob, match_class const & mySubjobId, configuration const & c) const {
+void acceptor::start(job & j, subjob & mySubjob, match_class const & mySubjobId, configuration const & c) const {
 	process(j, mySubjob, mySubjobId, c, get_start_state());
 }
 
-void state_machine::on(job & j, subjob & mySubjob, match_class const & mySubjobId, uint16_t const requestedRecognizerIndex, configuration const & c, uint8_t const nextDfaState, leaf const * leaf) {
+void acceptor::on(job & j, subjob & mySubjob, match_class const & mySubjobId, uint16_t const requestedRecognizerIndex, configuration const & c, uint8_t const nextDfaState, leaf const * leaf) {
 	mySubjob.on(j, mySubjobId, requestedRecognizerIndex, c, nextDfaState, leaf);
 }
 
-void state_machine::accept(job & j, subjob & mySubjob, match_class const & mySubjobId, configuration const & c) {
+void acceptor::accept(job & j, subjob & mySubjob, match_class const & mySubjobId, configuration const & c) {
 	mySubjob.accept(j, mySubjobId, c);
 }
 
-automaton state_machine::reorder(automaton const & dfa) {
+automaton acceptor::reorder(automaton const & dfa) {
 	//construct a map from dfa states to reordered states
 	std::map<size_t, size_t> stateMap;
 	auto const startState = *dfa.start_states.begin();
@@ -98,23 +98,23 @@ automaton state_machine::reorder(automaton const & dfa) {
 	return reordered;
 }
 
-bool state_machine::is_terminal() const {
+bool acceptor::is_terminal() const {
 	return false;
 }
 
-uint8_t state_machine::get_start_state() const {
+uint8_t acceptor::get_start_state() const {
 	return start_state;
 }
 
-filter_function state_machine::get_filter() const {
+filter_function acceptor::get_filter() const {
 	return filter;
 }
 
-associativity state_machine::get_assoc() const {
+associativity acceptor::get_assoc() const {
 	return assoc;
 }
 
-std::string state_machine::to_dot(std::vector<recognizer const *> const & recognizers) const {
+std::string acceptor::to_dot(std::vector<recognizer const *> const & recognizers) const {
 	std::vector<uint8_t> stateInts;
 	for (uint8_t i = 0; i < states.size(); ++i) {
 		stateInts.push_back(i);
@@ -153,7 +153,7 @@ std::string state_machine::to_dot(std::vector<recognizer const *> const & recogn
 
 }
 
-collections::coherent_map<state_machine::transition_info_t, uint8_t> const & state_machine::get_transitions(size_t stateIndex) const
+collections::coherent_map<acceptor::transition_info_t, uint8_t> const & acceptor::get_transitions(size_t stateIndex) const
 {
 	return states[stateIndex];
 }

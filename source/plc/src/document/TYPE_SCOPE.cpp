@@ -16,7 +16,7 @@ plc::TYPE_SCOPE::field_2_t_1_t plc::TYPE_SCOPE::field_2_t_1_t::build(parlex::det
 }
 
 plc::TYPE_SCOPE plc::TYPE_SCOPE::build(parlex::detail::ast_node const & n) {
-	static auto const * b = state_machine().behavior;
+	static auto const * b = acceptor().behavior;
 	parlex::detail::document::walk w{ n.children.cbegin(), n.children.cend() };
 	auto const & children = b->children;
 	auto v0 = parlex::detail::document::element<std::vector<erased<IC>>>::build(&*children[0], w);
@@ -25,7 +25,7 @@ plc::TYPE_SCOPE plc::TYPE_SCOPE::build(parlex::detail::ast_node const & n) {
 }
 
 
-parlex::detail::state_machine const & plc::TYPE_SCOPE::state_machine() {
-	static auto const & result = *static_cast<parlex::detail::state_machine const *>(&plange_grammar::get().get_recognizer(plange_grammar::get().TYPE_SCOPE));
+parlex::detail::acceptor const & plc::TYPE_SCOPE::acceptor() {
+	static auto const & result = *static_cast<parlex::detail::acceptor const *>(&plange_grammar::get().get_recognizer(plange_grammar::get().TYPE_SCOPE));
 	return result;
 }

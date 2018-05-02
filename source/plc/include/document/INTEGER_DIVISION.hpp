@@ -40,7 +40,7 @@ struct INTEGER_DIVISION {
 	INTEGER_DIVISION(INTEGER_DIVISION && move) = default;
 
 	static INTEGER_DIVISION build(parlex::detail::ast_node const & n);
-	static parlex::detail::state_machine const & state_machine();
+	static parlex::detail::acceptor const & acceptor();
 
 };
 

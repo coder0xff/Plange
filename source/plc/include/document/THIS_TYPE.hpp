@@ -58,7 +58,7 @@ struct THIS_TYPE {
 	THIS_TYPE(THIS_TYPE && move) = default;
 
 	static THIS_TYPE build(parlex::detail::ast_node const & n);
-	static parlex::detail::state_machine const & state_machine();
+	static parlex::detail::acceptor const & acceptor();
 
 };
 

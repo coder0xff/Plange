@@ -20,7 +20,7 @@ plc::INHERITANCE_LIST::field_2_t_1_t plc::INHERITANCE_LIST::field_2_t_1_t::build
 }
 
 plc::INHERITANCE_LIST plc::INHERITANCE_LIST::build(parlex::detail::ast_node const & n) {
-	static auto const * b = state_machine().behavior;
+	static auto const * b = acceptor().behavior;
 	parlex::detail::document::walk w{ n.children.cbegin(), n.children.cend() };
 	auto const & children = b->children;
 	auto v0 = parlex::detail::document::element<std::optional<erased<INHERITANCE_ITEM_PREFIX>>>::build(&*children[0], w);
@@ -30,7 +30,7 @@ plc::INHERITANCE_LIST plc::INHERITANCE_LIST::build(parlex::detail::ast_node cons
 }
 
 
-parlex::detail::state_machine const & plc::INHERITANCE_LIST::state_machine() {
-	static auto const & result = *static_cast<parlex::detail::state_machine const *>(&plange_grammar::get().get_recognizer(plange_grammar::get().INHERITANCE_LIST));
+parlex::detail::acceptor const & plc::INHERITANCE_LIST::acceptor() {
+	static auto const & result = *static_cast<parlex::detail::acceptor const *>(&plange_grammar::get().get_recognizer(plange_grammar::get().INHERITANCE_LIST));
 	return result;
 }

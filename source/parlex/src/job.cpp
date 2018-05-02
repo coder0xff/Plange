@@ -9,7 +9,7 @@
 #include "parlex/detail/match_class.hpp"
 #include "parlex/detail/parser.hpp"
 #include "parlex/detail/producer_table.hpp"
-#include "parlex/detail/state_machine.hpp"
+#include "parlex/detail/acceptor.hpp"
 #include "parlex/detail/subjob.hpp"
 #include "parlex/detail/terminal.hpp"
 #include "parlex/detail/token.hpp"
@@ -37,7 +37,7 @@ job::job(parser & owner, std::u32string const & document, grammar const & g, uin
 		auto const t = static_cast<terminal const *>(&root);  // NOLINT
 		storage = new token(*this, matchClass, *t);
 	} else {
-		auto const machine = static_cast<state_machine const *>(&root);  // NOLINT
+		auto const machine = static_cast<acceptor const *>(&root);  // NOLINT
 		auto result = new subjob(*machine);
 		storage = result;
 		//seed the parser with the root state
@@ -65,7 +65,7 @@ producer & job::get_producer(match_class const & matchClass) {
 			auto const & t = *static_cast<terminal const *>(&r);  // NOLINT
 			storage = new token(*this, matchClass, t);
 		} else {
-			auto const machine = static_cast<state_machine const *>(&r);  // NOLINT
+			auto const machine = static_cast<acceptor const *>(&r);  // NOLINT
 			auto newSubjobPtr = new subjob(*machine);
 			storage = newSubjobPtr;
 			lock.unlock();

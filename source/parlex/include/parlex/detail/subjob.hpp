@@ -15,17 +15,17 @@ namespace parlex {
 namespace detail {
 
 class job;
-class state_machine;
+class acceptor;
 
 class subjob : public producer {
 public:
-	state_machine const & machine;
+	acceptor const & machine;
 	concurrent_forward_list<configuration> configurations;
 	std::list<permutation> queued_permutations;
 	std::mutex mutex;
 	std::atomic<uint16_t> lifetime_counter;
 
-	explicit subjob(state_machine const & machine);
+	explicit subjob(acceptor const & machine);
 	subjob(subjob const & other) = delete;
 	virtual ~subjob();
 

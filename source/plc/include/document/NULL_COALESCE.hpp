@@ -40,7 +40,7 @@ struct NULL_COALESCE {
 	NULL_COALESCE(NULL_COALESCE && move) = default;
 
 	static NULL_COALESCE build(parlex::detail::ast_node const & n);
-	static parlex::detail::state_machine const & state_machine();
+	static parlex::detail::acceptor const & acceptor();
 
 };
 

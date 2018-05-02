@@ -37,7 +37,7 @@ struct TYPE_CONSTRAINT {
 	TYPE_CONSTRAINT(TYPE_CONSTRAINT && move) = default;
 
 	static TYPE_CONSTRAINT build(parlex::detail::ast_node const & n);
-	static parlex::detail::state_machine const & state_machine();
+	static parlex::detail::acceptor const & acceptor();
 
 };
 

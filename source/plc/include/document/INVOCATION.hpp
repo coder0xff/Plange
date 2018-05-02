@@ -30,7 +30,7 @@ typedef std::variant<
 struct INVOCATION: INVOCATION_base {
 	static INVOCATION build(parlex::detail::ast_node const & n);
 	explicit INVOCATION(INVOCATION_base const & value) : INVOCATION_base(value) {}
-	static parlex::detail::state_machine const & state_machine();
+	static parlex::detail::acceptor const & acceptor();
 };
 } // namespace plc
 

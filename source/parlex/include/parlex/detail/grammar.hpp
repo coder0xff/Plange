@@ -8,7 +8,7 @@
 #include "parlex/precedence_collection.hpp"
 
 #include "parlex/detail/grammar.hpp"
-#include "parlex/detail/state_machine.hpp"
+#include "parlex/detail/acceptor.hpp"
 #include "parlex/detail/string_terminal.hpp"
 
 
@@ -29,10 +29,10 @@ public:
 	struct production {
 		production(std::string const & name, filter_function const & filter, associativity assoc);
 		node const & get_behavior() const;
-		state_machine const & get_state_machine() const;
+		acceptor const & get_acceptor() const;
 	private:
 		friend class grammar;
-		state_machine machine;
+		acceptor machine;
 		std::unique_ptr<node> behavior;
 		void set_behavior(grammar const & g, erased<node> const & behavior);
 	};
@@ -41,8 +41,8 @@ public:
 	grammar(grammar const & copy) = delete;
 	virtual ~grammar() = default;
 
-	state_machine const& get_root_state_machine() const;
-	std::vector<state_machine const *> get_state_machines() const;
+	acceptor const& get_root_acceptor() const;
+	std::vector<acceptor const *> get_state_acceptors() const;
 	std::vector<recognizer const *> const & get_recognizers() const;
 	uint16_t get_recognizer_count() const;
 	recognizer const& get_recognizer(uint16_t const index) const;

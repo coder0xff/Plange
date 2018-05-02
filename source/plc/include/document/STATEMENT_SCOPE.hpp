@@ -28,7 +28,7 @@ typedef std::vector<std::variant<
 struct STATEMENT_SCOPE: STATEMENT_SCOPE_base {
 	static STATEMENT_SCOPE build(parlex::detail::ast_node const & n);
 	explicit STATEMENT_SCOPE(STATEMENT_SCOPE_base const & value) : STATEMENT_SCOPE_base(value) {}
-	static parlex::detail::state_machine const & state_machine();
+	static parlex::detail::acceptor const & acceptor();
 };
 } // namespace plc
 

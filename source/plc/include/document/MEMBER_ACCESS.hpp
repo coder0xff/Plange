@@ -41,7 +41,7 @@ struct MEMBER_ACCESS {
 	MEMBER_ACCESS(MEMBER_ACCESS && move) = default;
 
 	static MEMBER_ACCESS build(parlex::detail::ast_node const & n);
-	static parlex::detail::state_machine const & state_machine();
+	static parlex::detail::acceptor const & acceptor();
 
 };
 

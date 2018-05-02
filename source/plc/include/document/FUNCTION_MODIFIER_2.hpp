@@ -28,7 +28,7 @@ typedef std::variant<
 struct FUNCTION_MODIFIER_2: FUNCTION_MODIFIER_2_base {
 	static FUNCTION_MODIFIER_2 build(parlex::detail::ast_node const & n);
 	explicit FUNCTION_MODIFIER_2(FUNCTION_MODIFIER_2_base const & value) : FUNCTION_MODIFIER_2_base(value) {}
-	static parlex::detail::state_machine const & state_machine();
+	static parlex::detail::acceptor const & acceptor();
 };
 } // namespace plc
 

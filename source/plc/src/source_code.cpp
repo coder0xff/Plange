@@ -78,7 +78,7 @@ plc::source_code::source_code(std::string const & pathname, std::u32string const
 	pathname(pathname),
 	document(document),
 	line_number_by_first_character(construct_line_number_by_first_character(document)),
-    ast(construct_ast(document, STATEMENT_SCOPE::state_machine(), pathname)),
+    ast(construct_ast(document, STATEMENT_SCOPE::acceptor(), pathname)),
 	representation(STATEMENT_SCOPE::build(ast)) {
 }
 

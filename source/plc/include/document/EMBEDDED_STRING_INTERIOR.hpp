@@ -46,7 +46,7 @@ typedef std::variant<
 struct EMBEDDED_STRING_INTERIOR: EMBEDDED_STRING_INTERIOR_base {
 	static EMBEDDED_STRING_INTERIOR build(parlex::detail::ast_node const & n);
 	explicit EMBEDDED_STRING_INTERIOR(EMBEDDED_STRING_INTERIOR_base const & value) : EMBEDDED_STRING_INTERIOR_base(value) {}
-	static parlex::detail::state_machine const & state_machine();
+	static parlex::detail::acceptor const & acceptor();
 };
 } // namespace plc
 

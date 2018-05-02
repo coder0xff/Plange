@@ -12,7 +12,7 @@
 namespace plc {
 
 NON_NEG_INTEGER NON_NEG_INTEGER::build(parlex::detail::ast_node const & n) {
-	static auto const * b = state_machine().behavior;
+	static auto const * b = acceptor().behavior;
 	parlex::detail::document::walk w{ n.children.cbegin(), n.children.cend() };
 	return NON_NEG_INTEGER(parlex::detail::document::element<NON_NEG_INTEGER_base>::build(b, w));
 }
@@ -26,7 +26,7 @@ plc::NON_NEG_INTEGER_1_t plc::NON_NEG_INTEGER_1_t::build(parlex::detail::node co
 }
 
 
-parlex::detail::state_machine const & plc::NON_NEG_INTEGER::state_machine() {
-	static auto const & result = *static_cast<parlex::detail::state_machine const *>(&plange_grammar::get().get_recognizer(plange_grammar::get().NON_NEG_INTEGER));
+parlex::detail::acceptor const & plc::NON_NEG_INTEGER::acceptor() {
+	static auto const & result = *static_cast<parlex::detail::acceptor const *>(&plange_grammar::get().get_recognizer(plange_grammar::get().NON_NEG_INTEGER));
 	return result;
 }

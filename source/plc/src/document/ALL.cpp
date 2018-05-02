@@ -9,7 +9,7 @@
 #include "IC.hpp"
 
 plc::ALL plc::ALL::build(parlex::detail::ast_node const & n) {
-	static auto const * b = state_machine().behavior;
+	static auto const * b = acceptor().behavior;
 	parlex::detail::document::walk w{ n.children.cbegin(), n.children.cend() };
 	auto const & children = b->children;
 	auto v0 = parlex::detail::document::element<std::variant<
@@ -22,7 +22,7 @@ plc::ALL plc::ALL::build(parlex::detail::ast_node const & n) {
 }
 
 
-parlex::detail::state_machine const & plc::ALL::state_machine() {
-	static auto const & result = *static_cast<parlex::detail::state_machine const *>(&plange_grammar::get().get_recognizer(plange_grammar::get().ALL));
+parlex::detail::acceptor const & plc::ALL::acceptor() {
+	static auto const & result = *static_cast<parlex::detail::acceptor const *>(&plange_grammar::get().get_recognizer(plange_grammar::get().ALL));
 	return result;
 }

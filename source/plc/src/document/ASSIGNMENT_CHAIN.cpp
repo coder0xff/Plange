@@ -19,7 +19,7 @@ plc::ASSIGNMENT_CHAIN::field_1_t_1_t plc::ASSIGNMENT_CHAIN::field_1_t_1_t::build
 }
 
 plc::ASSIGNMENT_CHAIN plc::ASSIGNMENT_CHAIN::build(parlex::detail::ast_node const & n) {
-	static auto const * b = state_machine().behavior;
+	static auto const * b = acceptor().behavior;
 	parlex::detail::document::walk w{ n.children.cbegin(), n.children.cend() };
 	auto const & children = b->children;
 	auto v0 = parlex::detail::document::element<std::optional<field_1_t_1_t>>::build(&*children[0], w);
@@ -38,7 +38,7 @@ plc::ASSIGNMENT_CHAIN plc::ASSIGNMENT_CHAIN::build(parlex::detail::ast_node cons
 }
 
 
-parlex::detail::state_machine const & plc::ASSIGNMENT_CHAIN::state_machine() {
-	static auto const & result = *static_cast<parlex::detail::state_machine const *>(&plange_grammar::get().get_recognizer(plange_grammar::get().ASSIGNMENT_CHAIN));
+parlex::detail::acceptor const & plc::ASSIGNMENT_CHAIN::acceptor() {
+	static auto const & result = *static_cast<parlex::detail::acceptor const *>(&plange_grammar::get().get_recognizer(plange_grammar::get().ASSIGNMENT_CHAIN));
 	return result;
 }

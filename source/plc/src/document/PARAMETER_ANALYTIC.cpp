@@ -18,7 +18,7 @@ plc::PARAMETER_ANALYTIC::field_2_t_1_t plc::PARAMETER_ANALYTIC::field_2_t_1_t::b
 }
 
 plc::PARAMETER_ANALYTIC plc::PARAMETER_ANALYTIC::build(parlex::detail::ast_node const & n) {
-	static auto const * b = state_machine().behavior;
+	static auto const * b = acceptor().behavior;
 	parlex::detail::document::walk w{ n.children.cbegin(), n.children.cend() };
 	auto const & children = b->children;
 	auto v0 = parlex::detail::document::element<erased<EXPRESSION>>::build(&*children[0], w);
@@ -27,7 +27,7 @@ plc::PARAMETER_ANALYTIC plc::PARAMETER_ANALYTIC::build(parlex::detail::ast_node 
 }
 
 
-parlex::detail::state_machine const & plc::PARAMETER_ANALYTIC::state_machine() {
-	static auto const & result = *static_cast<parlex::detail::state_machine const *>(&plange_grammar::get().get_recognizer(plange_grammar::get().PARAMETER_ANALYTIC));
+parlex::detail::acceptor const & plc::PARAMETER_ANALYTIC::acceptor() {
+	static auto const & result = *static_cast<parlex::detail::acceptor const *>(&plange_grammar::get().get_recognizer(plange_grammar::get().PARAMETER_ANALYTIC));
 	return result;
 }
