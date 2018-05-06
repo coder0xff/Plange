@@ -7,7 +7,7 @@
 #include <mutex>
 
 #include "parlex/detail/configuration.hpp"
-#include "parlex/detail/permutation.hpp"
+#include "parlex/detail/derivation.hpp"
 
 namespace parlex {
 namespace detail {
@@ -33,13 +33,13 @@ public:
 
 	std::vector<subscription> consumers;
 	std::vector<uint32_t> match_lengths;
-	std::map<uint32_t, std::set<permutation>> match_length_to_permutations;
+	std::map<uint32_t, std::set<derivation>> match_length_to_derivations;
 	std::mutex mutex;
 	bool completed;
 
 	producer();
 	void add_subscription(job & j, match_class const & myId, subjob & subscriber, match_class const & subscriberId, configuration const & c, uint8_t nextDfaState, leaf const * l);
-	void enque_permutation(job & j, match_class const & myId, uint32_t const consumedCharacterCount, permutation const & p);
+	void enque_derivation(job & j, match_class const & myId, uint32_t const consumedCharacterCount, derivation const & p);
 	void terminate(job & j, match_class const & myInfo);
 };
 

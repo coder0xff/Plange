@@ -5,7 +5,7 @@
 #include <vector>
 
 #include "parlex/builder.hpp"
-#include "parlex/detail/permutation.hpp"
+#include "parlex/detail/derivation.hpp"
 
 namespace parlex {
 namespace detail {
@@ -25,7 +25,7 @@ public:
 	configuration(configuration && move) = delete;
 	~configuration();
 
-	permutation result() const;
+	derivation result() const;
 };
 
 }

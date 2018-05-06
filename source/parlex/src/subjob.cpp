@@ -55,11 +55,11 @@ void subjob::accept(job & j, match_class const & myInfo, configuration const & c
 	auto const p = c.result();
 	if (!machine.get_filter()) {
 		//DBG("Accepting r:", r.name, " p:", c.owner().document_position, " l:", c.current_document_position() - c.owner().document_position);
-		enque_permutation(j, myInfo, len, p);
+		enque_derivation(j, myInfo, len, p);
 	} else {
 		//DBG("Candidate r:", r.name, " p:", c.owner().document_position, " l:", c.current_document_position() - c.owner().document_position);
 		std::unique_lock<std::mutex> lock(mutex);
-		queued_permutations.push_back(p);
+		queued_derivations.push_back(p);
 	}
 }
 
@@ -77,7 +77,7 @@ void subjob::decrement_lifetime(job & j, match_class const & myId) {
 	}
 	flush(j, myId);
 	configurations.clear();
-	queued_permutations.clear();
+	queued_derivations.clear();
 	terminate(j, myId);
 }
 
@@ -108,21 +108,21 @@ void subjob::flush(job & j, match_class const & myInfo) {
 	auto const & filter = machine.get_filter();
 	if (filter != nullptr) {
 		std::unique_lock<std::mutex> lock(mutex);
-		if (queued_permutations.empty()) {
+		if (queued_derivations.empty()) {
 			return;
 		}
-		auto selections = (*filter)(j.document, queued_permutations);
+		auto selections = (*filter)(j.document, queued_derivations);
 		auto counter = 0;
-		for (auto const & permutation : queued_permutations) {
+		for (auto const & derivation : queued_derivations) {
 			if (selections.count(counter) > 0) {
-				auto & lastChild = permutation.back();
-				int const len = !permutation.empty() ? lastChild.document_position + lastChild.consumed_character_count - myInfo.document_position : 0;
-				enque_permutation(j, myInfo, len, permutation);
+				auto & lastChild = derivation.back();
+				int const len = !derivation.empty() ? lastChild.document_position + lastChild.consumed_character_count - myInfo.document_position : 0;
+				enque_derivation(j, myInfo, len, derivation);
 			}
 			counter++;
 		}
 	}
-	queued_permutations.clear();
+	queued_derivations.clear();
 }
 
 } // namespace detail

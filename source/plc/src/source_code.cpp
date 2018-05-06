@@ -14,7 +14,7 @@
 //Any PAYLOAD that fully contains another PAYLOAD is not a PAYLOAD
 //static void payload_postprocess(parlex::detail::abstract_syntax_semilattice & asg) {
 //	std::set<parlex::detail::match> payloadMatches;
-//	for (auto const & entry : asg.permutations_of_matches) {
+//	for (auto const & entry : asg.derivations_of_matches) {
 //		if (entry.first.recognizer_index == plc::plange_grammar::get().PAYLOAD) {
 //			payloadMatches.insert(entry.first);
 //		}
@@ -42,7 +42,7 @@ static std::vector<std::set<parlex::detail::match>> matches_by_height(parlex::de
 	std::map<parlex::detail::match, std::set<parlex::detail::match>> reversedDependencies;
 	std::set<parlex::detail::match> pending;
 	std::map<parlex::detail::match, size_t> reversedResults;
-	for (auto const & entry : asg.permutations_of_matches) {
+	for (auto const & entry : asg.derivations_of_matches) {
 		pending.insert(entry.first);
 		reversedResults[entry.first] = 0;
 		for (auto const & p : entry.second) {
@@ -141,7 +141,7 @@ parlex::detail::abstract_syntax_tree plc::source_code::construct_ast(std::u32str
 	// Was parsing successful?
 	if (!assl.is_rooted()) {
 		parlex::detail::match const * lastValidStatement =  nullptr;
-		for (auto const & tableEntry : assl.permutations_of_matches) {
+		for (auto const & tableEntry : assl.derivations_of_matches) {
 			auto const & m = tableEntry.first;
 			if (plc::plange_grammar::get().get_recognizer(m.recognizer_index).name == "STATEMENT") {
 				if (lastValidStatement == nullptr || m.document_position + m.consumed_character_count > lastValidStatement->document_position + lastValidStatement->consumed_character_count) {
@@ -163,8 +163,8 @@ parlex::detail::abstract_syntax_tree plc::source_code::construct_ast(std::u32str
 		auto matchesByHeight = matches_by_height(assl);
 		for (const auto & matches : matchesByHeight) {
 			for (auto const & m : matches) {
-				auto const & permutations = assl.permutations_of_matches.find(m)->second;
-				if (permutations.size() > 1) {
+				auto const & derivations = assl.derivations_of_matches.find(m)->second;
+				if (derivations.size() > 1) {
 					auto const posStart = get_line_number_and_column(lineNumberByFirstCharacter, m.document_position);
 					auto const posEnd = get_line_number_and_column(lineNumberByFirstCharacter, m.document_position + m.consumed_character_count - 1);
 					std::string message;
@@ -174,10 +174,10 @@ parlex::detail::abstract_syntax_tree plc::source_code::construct_ast(std::u32str
 					else {
 						message = pathname + ":" + plc::plange_grammar::get().get_recognizer(m.recognizer_index).name + " at " + std::to_string(posStart.first + 1) + ":" + std::to_string(posStart.second + 1) + "-" + std::to_string(posEnd.first + 1) + ":" + std::to_string(posEnd.second + 1);
 					}
-					for (auto const & permutation : permutations) {
+					for (auto const & derivation : derivations) {
 						message += "\n";
-						message += "permutation: ";
-						for (auto const & childMatch : permutation) {
+						message += "derivation: ";
+						for (auto const & childMatch : derivation) {
 							message += plc::plange_grammar::get().get_recognizer(childMatch.recognizer_index).name + " ";
 						}
 						message = message.substr(0, message.length() - 1);

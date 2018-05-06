@@ -1,5 +1,5 @@
-#ifndef PERMUTATION_HPP
-#define PERMUTATION_HPP
+#ifndef DERIVATION_HPP
+#define DERIVATION_HPP
 
 #include <vector>
 
@@ -9,9 +9,9 @@
 namespace parlex {
 namespace detail {
 
-typedef std::vector<transition> permutation;
+typedef std::vector<transition> derivation;
 
 }
 } // namespace parlex
 
-#endif //PERMUTATION_HPP
+#endif //DERIVATION_HPP

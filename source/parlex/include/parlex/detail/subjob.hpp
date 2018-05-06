@@ -7,7 +7,7 @@
 
 #include "concurrent_forward_list.hpp"
 
-#include "parlex/detail/permutation.hpp"
+#include "parlex/detail/derivation.hpp"
 #include "parlex/detail/configuration.hpp"
 #include "parlex/detail/producer.hpp"
 
@@ -21,7 +21,7 @@ class subjob : public producer {
 public:
 	acceptor const & machine;
 	concurrent_forward_list<configuration> configurations;
-	std::list<permutation> queued_permutations;
+	std::list<derivation> queued_derivations;
 	std::mutex mutex;
 	std::atomic<uint16_t> lifetime_counter;
 

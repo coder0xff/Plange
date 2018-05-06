@@ -18,15 +18,15 @@ configuration::~configuration() {
 	//DBG("destructed configuration ", name);
 }
 
-permutation configuration::result() const {
-	permutation result;
+derivation configuration::result() const {
+	derivation result;
 	auto current = this;
 	while (current->prior) {
 		result.emplace_back(match(*current->from_transition), current->l);
 		current = current->prior;
 	}
 	// std::reverse would require a swap function to be defined for match
-	return permutation(result.rbegin(), result.rend());
+	return derivation(result.rbegin(), result.rend());
 }
 
 }

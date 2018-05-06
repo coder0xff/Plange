@@ -112,11 +112,11 @@ std::u32string c_string_t::extract(grammar const & g, std::u32string const & doc
 
 std::u32string c_string_t::extract(grammar const & g, std::u32string const & document, match const & m, abstract_syntax_semilattice const & asg) {
 	throw_assert(m.recognizer_index == g.lookup_recognizer_index("c_string"));
-	auto const & asgTableIterator = asg.permutations_of_matches.find(m);
-	throw_assert(asgTableIterator != asg.permutations_of_matches.end());
-	auto const & permutations = asgTableIterator->second;
-	throw_assert(!permutations.empty());
-	auto const & p = *permutations.begin();
+	auto const & asgTableIterator = asg.derivations_of_matches.find(m);
+	throw_assert(asgTableIterator != asg.derivations_of_matches.end());
+	auto const & derivations = asgTableIterator->second;
+	throw_assert(!derivations.empty());
+	auto const & p = *derivations.begin();
 	std::u32string result;
 	result.reserve(p.size());
 	auto i = p.begin();

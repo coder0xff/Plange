@@ -51,7 +51,7 @@ set (DETAIL_HEADERS
 	"include/parlex/detail/nfa.hpp"
 	"include/parlex/detail/not_double_quote.hpp"
 	"include/parlex/detail/not_newline.hpp"
-	"include/parlex/detail/permutation.hpp"
+	"include/parlex/detail/derivation.hpp"
 	"include/parlex/detail/parser.hpp"
 	"include/parlex/detail/producer.hpp"
 	"include/parlex/detail/producer_table.hpp"

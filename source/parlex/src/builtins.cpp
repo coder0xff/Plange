@@ -15,9 +15,9 @@ void progress_bar(uint32_t const done, uint32_t const outOf) {
 	std::cout << "\r[" << std::string(ticks, '*') << std::string(25 - ticks, ' ') << "]";
 }
 
-static std::set<int> longest_f(std::u32string const & /*document*/, std::list<detail::permutation> const & permutations) {
+static std::set<int> longest_f(std::u32string const & /*document*/, std::list<detail::derivation> const & derivations) {
 	auto selectedSize = 0;
-	for (auto const & p : permutations) {
+	for (auto const & p : derivations) {
 		int const len = !p.empty() ? p.back().document_position + p.back().consumed_character_count - p.front().document_position : 0;
 		if (len > selectedSize) {
 			selectedSize = len;
@@ -25,7 +25,7 @@ static std::set<int> longest_f(std::u32string const & /*document*/, std::list<de
 	}
 	std::set<int> result;
 	auto counter = 0;
-	for (auto const & p : permutations) {
+	for (auto const & p : derivations) {
 		int const len = !p.empty() ? p.back().document_position + p.back().consumed_character_count - p.front().document_position : 0;
 		if (len == selectedSize) {
 			result.insert(counter);
@@ -36,13 +36,13 @@ static std::set<int> longest_f(std::u32string const & /*document*/, std::list<de
 }
 
 filter_function const & longest() {
-	static filter_function result(new std::function<std::set<int>(std::u32string const & /*document*/, std::list<detail::permutation> const &)>(longest_f));
+	static filter_function result(new std::function<std::set<int>(std::u32string const & /*document*/, std::list<detail::derivation> const &)>(longest_f));
 	return result;
 }
 
-static std::set<int> shortest_f(std::u32string const & /*document*/, std::list<detail::permutation> const & permutations) {
+static std::set<int> shortest_f(std::u32string const & /*document*/, std::list<detail::derivation> const & derivations) {
 	auto selectedSize = INTMAX_MAX;
-	for (auto const & p : permutations) {
+	for (auto const & p : derivations) {
 		int const len = !p.empty() ? p.back().document_position + p.back().consumed_character_count - p.front().document_position : 0;
 		if (len < selectedSize) {
 			selectedSize = len;
@@ -50,7 +50,7 @@ static std::set<int> shortest_f(std::u32string const & /*document*/, std::list<d
 	}
 	std::set<int> result;
 	auto counter = 0;
-	for (auto const & p : permutations) {
+	for (auto const & p : derivations) {
 		int const len = !p.empty() ? p.back().document_position + p.back().consumed_character_count - p.front().document_position : 0;
 		if (len == selectedSize) {
 			result.insert(counter);
@@ -61,7 +61,7 @@ static std::set<int> shortest_f(std::u32string const & /*document*/, std::list<d
 }
 
 filter_function const & shortest() {
-	static filter_function result(new std::function<std::set<int>(std::u32string const & /*document*/, std::list<detail::permutation> const &)>(shortest_f));
+	static filter_function result(new std::function<std::set<int>(std::u32string const & /*document*/, std::list<detail::derivation> const &)>(shortest_f));
 	return result;
 }
 

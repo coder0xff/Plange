@@ -22,7 +22,7 @@ void producer::add_subscription(job & j, match_class const & myId, subjob & subs
 void producer::do_events(job & j, match_class const & myInfo) {
 	std::unique_lock<std::mutex> lock(mutex);
 	for (auto & subscription : consumers) {
-		while (subscription.next_transmit_index < match_length_to_permutations.size()) {
+		while (subscription.next_transmit_index < match_length_to_derivations.size()) {
 			auto const matchLength = match_lengths[subscription.next_transmit_index];
 			subscription.next_transmit_index++;
 			auto const & next = subscription.subscriber.construct_stepped_configuration(&subscription.c, match(myInfo, matchLength), subscription.l);
@@ -44,16 +44,16 @@ void producer::do_events(job & j, match_class const & myInfo) {
 	}
 }
 
-void producer::enque_permutation(job & j, match_class const & myId, uint32_t const consumedCharacterCount, permutation const & p) {
+void producer::enque_derivation(job & j, match_class const & myId, uint32_t const consumedCharacterCount, derivation const & p) {
 	auto newMatch = false; {
 		std::unique_lock<std::mutex> lock(mutex);
 		throw_assert(!completed);
-		if (!match_length_to_permutations.count(consumedCharacterCount)) {
-			match_length_to_permutations[consumedCharacterCount] = std::set<permutation>();
+		if (!match_length_to_derivations.count(consumedCharacterCount)) {
+			match_length_to_derivations[consumedCharacterCount] = std::set<derivation>();
 			match_lengths.push_back(consumedCharacterCount);
 			newMatch = true;
 		}
-		match_length_to_permutations[consumedCharacterCount].insert(p);
+		match_length_to_derivations[consumedCharacterCount].insert(p);
 	}
 	if (newMatch) {
 		do_events(j, myId);

@@ -7,7 +7,7 @@
 #include "parlex/detail/configuration.hpp"
 #include "parlex/detail/grammar.hpp"
 #include "parlex/detail/job.hpp"
-#include "parlex/detail/permutation.hpp"
+#include "parlex/detail/derivation.hpp"
 #include "parlex/detail/producer.hpp"
 #include "parlex/detail/subjob.hpp"
 
@@ -161,15 +161,15 @@ void parser::schedule(match_class const & subjobId, configuration const & c, int
 
 struct node_props_t {
 	match const m;
-	std::set<permutation> & permutations;
-	std::map<match, std::set<permutation>> parent_permutations_by_match;
+	std::set<derivation> & derivations;
+	std::map<match, std::set<derivation>> parent_derivations_by_match;
 	size_t height;
 	std::set<match> all_descendents;
 	std::set<match> all_ancestors;
 	std::set<match> all_descendents_and_ancestors;
 	collections::coherent_set<match> all_unrelated_intersections;
 
-	node_props_t(abstract_syntax_semilattice & asg, match const & m) : m(m), permutations(asg.permutations_of_matches[m]), height(0) {
+	node_props_t(abstract_syntax_semilattice & asg, match const & m) : m(m), derivations(asg.derivations_of_matches[m]), height(0) {
 	}
 };
 
@@ -186,16 +186,16 @@ static void prune(abstract_syntax_semilattice & asg, std::map<match, node_props_
 		auto const thisMatch = toPrune.front();
 		auto & thisNode = nodes.find(thisMatch)->second;
 		toPrune.pop();
-		for (auto const & parentMatchAndPermutations : thisNode.parent_permutations_by_match) {
-			auto const & parentMatch = parentMatchAndPermutations.first;
+		for (auto const & parentMatchAndDerivations : thisNode.parent_derivations_by_match) {
+			auto const & parentMatch = parentMatchAndDerivations.first;
 			auto const i = nodes.find(parentMatch);
 			throw_assert(i != nodes.end());
 			auto & parentProps = i->second;
-			auto const & parentPermutations = parentMatchAndPermutations.second;
-			for (auto const & perm : parentPermutations) {
-				parentProps.permutations.erase(perm);
+			auto const & parentDerivations = parentMatchAndDerivations.second;
+			for (auto const & perm : parentDerivations) {
+				parentProps.derivations.erase(perm);
 			}
-			if (parentProps.permutations.empty()) {
+			if (parentProps.derivations.empty()) {
 				add(parentMatch);
 			}
 		}
@@ -205,8 +205,8 @@ static void prune(abstract_syntax_semilattice & asg, std::map<match, node_props_
 			auto & descendent = i->second;
 			descendent.all_ancestors.erase(thisMatch);
 			descendent.all_descendents_and_ancestors.erase(thisMatch);
-			descendent.parent_permutations_by_match.erase(thisMatch);
-			if (descendent.parent_permutations_by_match.empty()) {
+			descendent.parent_derivations_by_match.erase(thisMatch);
+			if (descendent.parent_derivations_by_match.empty()) {
 				add(descendentMatch);				
 			}
 		}
@@ -227,23 +227,23 @@ static void prune(abstract_syntax_semilattice & asg, std::map<match, node_props_
 
 	for (auto const & i : completed) {
 		nodes.erase(i);
-		asg.permutations_of_matches.erase(i);
+		asg.derivations_of_matches.erase(i);
 	}
 }
 
 static void construct_nodes(abstract_syntax_semilattice & asg, std::map<match, node_props_t> & nodes, std::vector<std::set<node_props_t *>> & flattened) {
 	//perf_timer perf(__FUNCTION__);
-	for (auto const & matchAndPermutations : asg.permutations_of_matches) {
-		auto const & m = matchAndPermutations.first;
+	for (auto const & matchAndDerivations : asg.derivations_of_matches) {
+		auto const & m = matchAndDerivations.first;
 		auto & nodeProps = nodes.emplace(std::piecewise_construct, std::forward_as_tuple(m), std::forward_as_tuple(asg, m)).first->second;
 
-		for (auto const & perm : nodeProps.permutations) {
+		for (auto const & perm : nodeProps.derivations) {
 			for (match const & child : perm) {
 				auto & childProps = nodes.emplace(std::piecewise_construct, std::forward_as_tuple(child), std::forward_as_tuple(asg, child)).first->second;
-				if (childProps.permutations.empty()) {
+				if (childProps.derivations.empty()) {
 					childProps.height = 0;
 				}
-				childProps.parent_permutations_by_match[nodeProps.m].insert(perm);
+				childProps.parent_derivations_by_match[nodeProps.m].insert(perm);
 			}
 		}
 		auto const afterIndex = nodeProps.m.document_position + nodeProps.m.consumed_character_count;
@@ -267,8 +267,8 @@ static void resolve_nodes(std::map<match, node_props_t> & nodes) {
 	std::function<std::vector<size_t> (size_t)> const transitionFunc = [&](size_t const & vertexIndex) {
 		auto & props = *vertices[vertexIndex];
 		std::vector<size_t> results;
-		for (auto const & permutation : props.permutations) {
-			for (auto const & m : permutation) {
+		for (auto const & derivation : props.derivations) {
+			for (auto const & m : derivation) {
 				auto i = nodes.find(m);
 				throw_assert(i != nodes.end());
 				results.push_back(lookup[&(i->second)]);
@@ -282,8 +282,8 @@ static void resolve_nodes(std::map<match, node_props_t> & nodes) {
 	for (auto const & subgraph : orderedNodes) {
 		for (auto const & vertexIndex : subgraph) {
 			auto & node = *vertices[vertexIndex];
-			for (auto const & permutation : node.permutations) {
-				for (auto const & m : permutation) {
+			for (auto const & derivation : node.derivations) {
+				for (auto const & m : derivation) {
 					auto i = nodes.find(m);
 					throw_assert(i != nodes.end());
 					auto & otherNode = i->second;
@@ -299,7 +299,7 @@ static void resolve_nodes(std::map<match, node_props_t> & nodes) {
 	for (auto const & subgraph : orderedNodes) {
 		for (auto const & vertexIndex : subgraph) {
 			auto & node = *vertices[vertexIndex];
-			for (auto const & entry : node.parent_permutations_by_match) {
+			for (auto const & entry : node.parent_derivations_by_match) {
 				auto const parentMatch = entry.first;
 				auto const i = nodes.find(parentMatch);
 				throw_assert(i != nodes.end());

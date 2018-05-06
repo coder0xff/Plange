@@ -157,11 +157,11 @@ abstract_syntax_semilattice job::construct_result(match const & m) {
 	for (auto const & pair : producers) {
 		auto const & matchClass = pair.first;
 		auto const & p = *pair.second;
-		for (auto const & pair2 : p.match_length_to_permutations) {
+		for (auto const & pair2 : p.match_length_to_derivations) {
 			auto const matchLength = pair2.first;
 			match const n(matchClass, matchLength);
-			auto const & permutations = pair2.second;
-			result.permutations_of_matches[n] = permutations;
+			auto const & derivations = pair2.second;
+			result.derivations_of_matches[n] = derivations;
 		}
 	}
 

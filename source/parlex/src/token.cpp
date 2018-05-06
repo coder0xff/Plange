@@ -9,7 +9,7 @@ namespace detail {
 token::token(job & j, match_class const & matchClass, terminal const & t) {
 	if (t.test(j.document, matchClass.document_position)) {
 		//DBG("found a '", t.name, "' at ", documentPosition);
-		enque_permutation(j, matchClass, t.length, permutation());
+		enque_derivation(j, matchClass, t.length, derivation());
 	} else {
 		//DBG("no '", t.name, "' at ", documentPosition);
 	}
