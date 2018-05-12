@@ -1,7 +1,9 @@
 pipeline {
 	agent any
 
-  environment {
+	options { buildDiscarder(logRotator(numToKeepStr: '5')) }
+
+	environment {
 		CMAKE_DIR = '/usr/local/bin'
 	}
 
