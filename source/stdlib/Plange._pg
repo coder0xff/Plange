@@ -29,7 +29,7 @@ curry <- (<Function<T, GivenArgTypes ..., UnboundArgTypes ...>> func, <GivenArgT
 
 Denumerable <-
 	type {
-		<Void -> Iterator> begin();
+		<Void -> Maybe<Iterator>> begin();
 	}
 
 err_print <- (info) {
@@ -46,7 +46,7 @@ fold <- (<A * B -> B> f, <Collection<A>> collection, <B> accumulator) {
 };
 
 Function <-
-	(<Type> retT, <FiniteDenumerableCollection<Type>> argTypes...) {
+	(<Type> retT, <FiniteDenumerable<Type>> argTypes...) {
 		return type inheriting public Function<retT> {
 			invoke <- (<argTypes> args...) {
 				return this(args...);
@@ -81,6 +81,8 @@ Function <-
 		}
 	}
 ;
+
+
 
 in_place_construct <- (<Pointer<T>> address, args...) {
 	dereference(address).construct(args...);
