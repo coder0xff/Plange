@@ -1,5 +1,5 @@
-<meta charset='utf-8'/>
-<meta name="viewport" content="width=device-width, initial-scale=0.6">
+<meta charset='utf-8' />
+<meta name="viewport" content="width=device-width, initial-scale=0.6" />
 <html>
 	<head>
 		<title>Type System - Plange</title>
@@ -9,12 +9,10 @@
 		<?php require('../header.php') ?>
 		
 		
-		<p>Types are used to constrain the structure and behavior (class invariant) of the values that a variable can be assigned, or that a constant can be defined as. The type system, being based on the culmination of many feature sets, is necessarily complex. However, by simply working in a familiar paradigm - among imperative, functional, or constraint based and among static typing, late binding, or duck typing - the type system applies the appropriate constraints and compile-time analyses.</p>
+		<p>Types are used to constrain the structure and behavior (class invariant) of the values that a variable can be assigned, or that a constant can be defined as. Types may be eschewed, but benefit from static checks by the type system. Forgoing stack checks, use late binding, or duck typing. <a href="/documentation/syntax/TYPE_DEREFERENCE.php">Angle brackets</a> dereference types.</p>
 		
-		<p>Here, we declare x as a variable that can store an integer, and assign the value 10.</p>
-
 		<div class="code2">
-			<p>declare and assign a variable</p>
+			<p>Declare and assign a variable.</p>
 			<pre>
 &lt;Int&gt; x ← 10;
 			</pre>
@@ -24,43 +22,53 @@
 			<p>error caused by contradicting the invariant</p>
 			<pre>
 &lt;Int&gt; x ← 10;
-<b>x ← 1.5; //error - can't assign a fractional number to an integer</b>
+<b>x ← 1.5; //error - can't assign a fractional number to a variable of type Int</b>
 			</pre>
 		</div>
 
-		<p>To use a type in the declaration of a variable or in the definition of a constant, the type must be enclosed by angle brackets <code>&lt; &gt;</code> (see <a href="/documentation/syntax/TYPE_DEREFERENCE.php">TYPE_DEREFERENCE</a>).</p>
+		<p>Create types using the type keyword.</p>
 
 		<div class="code2">
-			<p>Example</p>
+			<pre>
+Color := type {
+	<Real> r;
+	<Real> g;
+	<Real> b;
+};</pre>
+		</div>
+
+		<div class="code2">
+			<p>Reflection.</p>
 			<pre>
 &lt;Int&gt; x;
-print(type_of(x).name);         //prints "Int"
-print(type_of(Int).name);       //prints "Type"
-print(type_of(Type).name);      //prints "Type"
+print(type_of(x).name);              //prints "Int"
+print(type_of(Int).name);            //prints "Type"
+print(type_of(Type).name);           //prints "Type"
+print(typeof(type_of(Type).members)) // prints "Array<Meta.Member>"
 			</pre>
 		</div>
 
-		<p>Types can be elided in many cases, and can be used to create unquantified generic functions.</p>
+		<p>Elide types where type constraints are undesired.</p>
 		
 		<div class="code2">
-			<p>Example</p>
+			<p>The identity function</p>
 			<pre>
 identity := (value) { return value; };
 			</pre>
 		</div>
 
 		<h2>Type Constructors</h2>
-		<p>Functions may construct and return Type objects. These functions may be <a href="/documentation/syntax/TYPE_INVOCATION.php">invoked using the angle-bracket syntax</a>. Further, any function that returns an angle-bracket invokable function may also be angle-bracket invoked.</p>
+		<p>Parametric types are functions returning Type values, and syntactically identical to functions. These functions should be <a href="/documentation/syntax/TYPE_INVOCATION.php">invoked using the angle-bracket syntax</a>, which performs type checking.</p>
 		
 		<div class="code2">
 			<p>Example</p>
 			<pre>
-&lt;Type * Int → Type&gt; Vector := (T, s) { return T^s; };  // Vector is a function that return a Type.
-Float32x3 := Vector&lt;Float32, 3&gt;;                       // type def and a function call
+&lt;Type * Int → Type&gt; Vector := (T, s) { return T^s; };  // Vector is a function that returns a Type.
+Float32x3 := Vector&lt;Float32, 3&gt;;                       // Create a concrete Type
 
-&lt;Float32x3&gt; aVectorVariable;                           // make a variable
-&lt;Vector&lt;Float32, 3&gt;&gt; anotherVectorVariable;            // same type as previous line
-&lt;type_of(aVectorVariable)&gt; yetAnotherVectorVariable;   // contrived but doable
+&lt;Float32x3&gt; x;                // a variable
+&lt;Vector&lt;Float32, 3&gt;&gt; y; // all these variables are the same type
+&lt;type_of(x)&gt; z;               // contrived but doable
 			</pre>
 		</div>
 
