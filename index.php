@@ -29,7 +29,7 @@
 		
 		
 		<h1>Introduction</h1>
-		<p>Plange is a mixed imperative, functional, and algebraic system of constraints on data, functions, variables, types, and other objects. See the goals page for our motivation. It is traditional to start with the <u>Hello World</u> program.</p>
+		<p>The Plange language is an extensible, mixed languae of proof and type systems, solvers, and functional and imperative programs on variables, functions, types, and other objects. See the <a href="goals.php">goals</a> page. It is traditional to start with the <u>Hello World</u> program.</p>
 		
 		<div class="code2">
 			<pre>
@@ -56,11 +56,11 @@ getRandomNumber := { return 4; <span style="color: red">/*choosen by fair dice r
 		
 		
 		<h2>Special Characters</h2>
-		<p>Several Unicode characters are included for completeness, but cannot be typed using a keyboard. These characters have typable equivalents for convenience. For example <code>⇒</code> may be typed <code>=></code>. Unicode characters will be used in documentation. A partial list can be found on the <a href="/documentation/operators.php">Operators</a> page.</p>
+		<p>Some Unicode characters are included for completeness. Many have typable equivalents. For example, implication can be typed as <code>⇒</code> or <code>=></code>. Unicode characters will be used in documentation. See the <a href="/documentation/operators.php">partial list</a>.</p>
 		
 		
-		<h2>Variables</h2>
-		<p>A variable is a symbol that may take place in a constraint system, be free or bound, and may have memory allocated to it. In specific algebras, constraints on variables define a problem space for which solutions are desired. A variable can also contain data and be changed at will by the programmer.</p>
+		<h2>Variables and Memory Model</h2>
+		<p>A variable may take place in a constraint system, be free or bound, and may have storage allocated to it. A variable can be assigned a value and be changed freely using the assignment operator <code>←</code>, or <code>&lt;-</code>.</p>
 		<div class="code2">
 			<p>Assign a value to a variable</p>
 			<pre>
@@ -80,13 +80,15 @@ color ← "Red";
 		<p>A variable may be constrained to a type.</p>
 
 		<div class="code2">
-			<p>Type constrain a variable</p>
+			<p>Type constraint on a variable</p>
 			<pre>
 &lt;Number&gt; x ← 1337;
 			</pre>
 		</div>
 
-		<p>Unbound variables can be targets for symbolic or numerical solutions. The capabilities are limited by availability and applicability of known processes, such as those upon convergent power series or linear systems.</p>
+		<p>Values may be stored on the stack, heap, reference counted heap, or garbage collected heap. The Pointer type provides addressing of memory.</p>
+
+		<p>Unbound variables can be targets for symbolic or numerical solutions. In specific normal and canonical forms, constraints on variables define a problem space for which solutions are desired. The capabilities are limited by availability and applicability of known processes, such as those upon convergent power series, linear systems, etc.</p>
 
 		<div class="code2">
 			<p>Symbolic manipulation</p>
@@ -100,7 +102,7 @@ print y; // arctan(1337) / 2 = { 1.570048, -1.571544 };
 
 
 		<h2>Constants</h2>
-		<p>A symbol with a value that is immutable is a constant.</p>
+		<p>A symbol with an immutable value is a constant.</p>
 
 		<div class="code2">
 			<p>Example</p>
@@ -109,7 +111,7 @@ print(π); //print pi
 			</pre>
 		</div>
 
-		<p>The symbol <code>π</code> is a predefined identifier for the pi constant. It can be substituted in places where pi is needed, and provides arbitrarily high precision in symbolic manipulation. It may also be typed <code>pi</code> for convenience. </p>
+		<p><code>π</code> or <code>pi</code> is a predefined constant, and provides arbitrarily high precision in symbolic manipulation.</p>
 		
 		<p>Constants are created using the definition operator <code>:=</code></p>
 		<div class="code2">
@@ -122,7 +124,7 @@ daysInAWeek := 7;
 
 
 		<h2>Functions</h2>
-				<p>Create function implementations using parenthesis <code>( )</code> containing the parameter list, followed by curly braces <code>{ }</code> containing the implementation.</p>
+				<p>Function are created with parenthesis <code>( )</code> containing the parameter list, and curly braces <code>{ }</code> containing the implementation. Nullary functions may elide their parameter list.</p>
 
 		<div class="code2">
 			<p>Example</p>
@@ -131,9 +133,10 @@ doubler := (x) { return x * 2; };
 			</pre>
 		</div>
 
-		<p>The parameters consist of the single constant <code>x</code>, and the implementation multiplies it by two and returns the value. Functions can have more than one parameter.</p>
+		<p>Functions have arity.</p>
+
 		<div class="code2">
-			<p>Example</p>
+			<p>A binary function</p>
 			<pre>
 geometric_mean := (x, y) { return √(x * y); };
 			</pre>
@@ -142,18 +145,16 @@ geometric_mean := (x, y) { return √(x * y); };
 
 
 		<h2>Types</h2>
-		<p>Constants and variables can be constrained to a specific type.</p>
+		<p>Constants and variables may be strongly typed implicitly or explicitly, late bound, or duck typed.</p>
 
-		
 		<div class="code2">
-			<p>Example</p>
+			<p>Explicit strong typing</p>
 			<pre>
 &lt;Int&gt; x ← 10;
-x ← 1.5; // error - can't assign a fractional Number to an integer
 			</pre>
 		</div>
 
-		<p>"Int" is shorthand for <a href="https://en.wikipedia.org/wiki/Integer">integer</a>. The first line constrains x to be an <code>Int</code>, which means it cannot be assigned a number with a decimal point. The second line demonstrates this restriction. See <a href="documentation/type-system.php">Type System</a>.</p>
+		<p><code>Int</code> or <code>ℤ</code> is shorthand for <a href="https://en.wikipedia.org/wiki/Integer">integer</a>. The first line constrains x to <code>Int</code> values. See <a href="documentation/type-system.php">Type System</a>.</p>
 
 		<h3>Functions Types</h3>
 		<p>Create function types using the <code>→</code> operator, or <code>-&gt;</code>.</p>
@@ -165,12 +166,12 @@ x ← 1.5; // error - can't assign a fractional Number to an integer
 			</pre>
 		</div>
 
-		<p>The above code constraints <code>doubler</code> to the function type <code>Int → Int</code>. Simply, doubler is a function takes an Int as an input, and returns an Int as a result. Function arguments can also be type constrained.</p>
+		<p>doubler will only accept an <code>Int</code> as input, and will only return an <code>Int</code>. Function arguments may also be given types.</p>
 
 		<div class="code2">
-			<p>Example (continued)</p>
+			<p>Semantically equivalent to the previous example</p>
 			<pre>
-&lt;Int → Int&gt; doubler := (&lt;Int&gt; x) { return x * 2; };
+doubler := (&lt;Int&gt; x) { return x * 2; };
 			</pre>
 		</div>
 
@@ -187,7 +188,7 @@ x ← { print("fubar"); };
 		</div>
 
 		<h3>Making Types</h3>
-		<p>The <a href="/documentation/keywords/type.php"><code>type</code></a> (not capitalized) keyword is used to make a new <a href="/documentation/standard-library/Type.php"><code>Type</code></a> (capitalized) object. </p>
+		<p>The <a href="/documentation/keywords/type.php"><code>type</code></a> keyword (not capitalized) is used to make a new <a href="/documentation/standard-library/Type.php"><code>Type</code></a> object (capitalized). </p>
 		<div class="code2">
 			<p>Example</p>
 			<pre>
@@ -202,10 +203,8 @@ Color := type {
 print(type_of( (| 1, 0, 0 |) ));  // output: Tuple&lt;Number, Number, Number&gt;
 print(type_of(red));          // output: Color
 print(type_of(Color));        // output: Type
-print(type_of(Type));         // output: Type
 			</pre>
 		</div>
-
 
 
 
@@ -223,9 +222,9 @@ Node := (&lt;Type&gt; valueType) {
 			</pre>
 		</div>
 
-		<p>Constant folding evaluates most invocations of type functions at compile time. Functions that return Type objects (<a href="/documentation/syntax/INVOCATION.php">or another type function</a>) can be called with the angle bracket syntax:</p>
+		<p>Constant folding evaluates some invocations of type functions at compile time. Functions that return Type objects (<a href="/documentation/syntax/INVOCATION.php">or another type function</a>) should be called with the angle bracket syntax:</p>
 		<div class="code2">
-			<p>Example</p>
+			<p>Example invoking List using angle bracket syntax</p>
 			<pre>
 &lt;List&lt;Int&gt;&gt; myList;
 			</pre>
@@ -233,12 +232,11 @@ Node := (&lt;Type&gt; valueType) {
 		
 
 
-
 		<h2>Pattern Matching</h2>
-		<p>A recursive function to print the last element of a list:</p>
+		<p>Pattern matching decomposes values into unbound symbols. Patterns are tested sequentially in the order given.</p>
 
 		<div class="code2">
-			<p>Example</p>
+			<p>Tail recursive function to print the last element of a list</p>
 			<pre>
 &lt;List&lt;_&gt; → Void&gt; printLast := 
 	(_ &amp; tail) { printLast(tail); } |
@@ -256,13 +254,25 @@ printLast(myList);
 			</pre>
 		</div>
 
-		<p>The prepend operator <code>&</code> takes a value on the left, a list on the right, and produces a new list with the left prepended to the right. In the example above, the first parameter to the function is being broken apart into two pieces.</p>
+		<p>The prepend operator <code>&</code> takes a value on the left, and a list on the right. In the examples above the first parameter to the function is being broken apart into two pieces.</p>
 
 		<p>Note the use of the underscore <code>_</code> character. It's substituted for a variable when the code doesn't care about the value. In the first line of the example above, we are unconcerned with the type of the elements the input list contains, and only need to ensure that the input is a list of something. In the second line, we don't need to know the value of the head element. The underscore keyword is called <a href="documentation/keywords/dont_care.php">dont_care</a>.</p>
 
+		<div class="code2">
+			<p>Another recursive function to filter values</p>
+			<pre>
+filter := 
+	(head & tail, predicate) {
+		return predicate(head) ?
+			head &amp; select(tail, predicate) :
+			this_func(tail, predicate);
+	} |
+	([], predicate) { return []; };
+			</pre>
+		</div>
 
-	
-	
+
+
 		<h2>Polymorphism</h2>
 		<p>The <a href="documentation/keywords/inheriting.php">inheriting</a> keyword, used in conjunction with the type keyword, makes a new Type object inheriting the members of the specified base Types. See also: <a href="documentation/keywords/implementing.php">implementing</a></p>
 		<div class="code2">
@@ -278,16 +288,15 @@ TextBox := type inheriting Widget {
 	&lt;String&gt; text ← "Hello, world!";
 
 	// override the inherited Paint method
-	Paint ← {
-		return Drawing.Render(text);
+	Paint ← (&lt;Canvas&gt; c) {
+		return c.print(text);
 	};
 };
 			</pre>
 		</div>
-		
-		
-		
-		
+
+
+
 		<h2>Algebraic Types</h2>
 		<p>Types can be combined together to make algebraic Types using the compound operator <code>|</code>.</p>
 		<div class="code2">
@@ -305,11 +314,10 @@ print(get_age());
 			</pre>
 		</div>
 
-		
-		
-		
+
+
 		<h2>Constraint solving</h2>
-		<p>Many interesting problems may be constructed as one or more constraints using operators and functions. Constant folding, satisfiability solving, and symbolic manipulation yield equality constraints upon termination. See <a href="documentation/computer-algebra-systems.php">the computer algebra systems page</a>.</p>
+		<p>Many interesting problems may be constructed as one or more constraints using operators and functions. When an appropriate normal form or canonical form is given, constant folding, satisfiability solving, and symbolic manipulation yield equality constraints upon termination. See <a href="documentation/computer-algebra-systems.php">the computer algebra systems page</a>. All the results in this section have been computed manually for demonstrative purposes.</p>
 
 		<div class="code2">
 			<p>Example</p>
@@ -343,9 +351,9 @@ print(sue);
 		</div>
 
 		<div class="code2">
-			<p>Example</p>
+			<p>Example of a linear system</p>
 			<pre>
-&lt;Number * Number * Number → Number&gt; linear_interpolation :=
+&lt;Real * Real * Real → Real&gt; linear_interpolation :=
 	(min, max, x) { min * (1 - x) + max * x }
 ;
 			
@@ -354,9 +362,67 @@ inverted_linear_interpolation := (min, max, interpolated) {
 	return x;
 }
 
+linear_map := (minIn, maxIn, v, minOut, maxOut) {
+	v = linear_interpolation(minIn, maxIn, x);
+	return linear_interpolation(minOut, maxOut, x);
+}
+
 assert(x = inverted_linear_interpolation(y, z, linear_interpolation(y, z, x));
 			</pre>
 		</div>
+
+		<p>One well studied domain is <a href="https://en.wikipedia.org/wiki/Initial_value_problem">initial value problems</a>. An ordinary differential equation is given with boundary conditions on free variables:</p>
+
+		<div class="code2">
+			<p>Example: Aerodynamic Drag On A Projectile</p>
+			<pre>
+projectilePosition := (
+		&lt;Vector3D&gt; initialPos,
+		&lt;Vector3D&gt; initialVel,
+		&lt;Real&gt; mass,
+		&lt;Real&gt; drag,
+		&lt;Vector3D&gt; gravity,
+		&lt;Real&gt; t
+) {
+	// declare the position function, x
+	&lt;Real → Vector3&gt; x;
+	
+	// model x as a differential equation
+	mass * Δ^2x(t)/Δt^2 = -drag * Δx(t)/Δt + mass * gravity;
+	
+	// with boundary conditions
+	x(0) = initialPos;
+	Δx(0)/Δt = initialVel;
+	
+	// solve, substitute, evaluate
+	return x(delta_t);
+};
+			</pre>
+		</div>
+
+		<p>ODE solving gives a symbolic solution for x such that the following program is functionally equivalent. This constant folding is performed and cached at compile time.</p>
+		<div class="code2">
+			<p>Example (continued)</p>
+			<pre>
+projectilePosition := (
+		&lt;Vector3D&gt; initialPos,
+		&lt;Vector3D&gt; initialVel,
+		&lt;Real&gt; mass,
+		&lt;Real&gt; drag,
+		&lt;Vector3D&gt; gravity,
+		&lt;Real&gt; t
+) {
+	a := 𝑒^(drag*t/mass);
+	return (
+			gravity * (mass-(mass*a + drag*t)) + 
+			initialPos*a*drag^2 + 
+			drag*mass*initialVel*(a-1)
+		) / (a*drag^2);
+};
+			</pre>
+		</div>
+
+
 
 		<h3>Limitations</h3>
 		<p>Constraint solving is intractible in the general case. Users must familiarize themselves with the capabilities of the language, which are expected to expand. A demonstration of a semantically correct but nonfunctional program is in order.</p>
