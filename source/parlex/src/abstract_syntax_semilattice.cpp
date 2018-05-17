@@ -111,6 +111,71 @@ std::string abstract_syntax_semilattice::to_dot(grammar const & g) const {
 	return result;
 }
 
+std::vector<abstract_syntax_tree> abstract_syntax_semilattice::to_asts() const {
+	std::vector<abstract_syntax_tree> results;
+
+	struct element : transition {
+
+		element(transition const & other, std::set<derivation>::iterator const & begin, std::set<derivation>::iterator const & end)
+			: transition(other),
+			  current(begin),
+			  end(end) {}
+
+		std::set<derivation>::iterator current;
+		std::set<derivation>::iterator const end;
+		std::vector<std::reference_wrapper<element>> children;
+	};
+
+	std::function<ast_node(std::reference_wrapper<element> const &)> buildAstNode = [&](std::reference_wrapper<element> const & n) {
+		std::vector<ast_node> subresults;
+		std::transform(n.get().children.begin(), n.get().children.end(), std::back_inserter(subresults), buildAstNode);
+		return ast_node(static_cast<match>(n.get()), subresults, n.get().l);  // NOLINT(cppcoreguidelines-slicing)
+	};
+
+	std::list<element> s;
+	// seed the algorithm
+	{
+		auto const i = derivations_of_matches.find(root);
+		throw_assert(i != derivations_of_matches.end());
+		s.emplace_back(transition(root, nullptr), i->second.begin(), i->second.end());
+	}
+
+	auto i = s.begin();
+	while (true) {
+		if (i == s.end()) {
+			results.push_back(buildAstNode(s.front()));
+			s.pop_back();
+			i = s.end();
+			--i;
+			++i->current;
+		} else {
+			element & e = *i;
+			if (e.current == e.end) {
+				s.pop_back();
+				i = s.end();
+				if (i == s.begin()) {
+					break;
+				}
+				--i;
+				++i->current;
+			} else {
+				e.children.clear();
+				derivation const & p = *e.current;
+				for (transition const & j : p) {
+					auto const childDerivationsI = derivations_of_matches.find(j);
+					throw_assert(childDerivationsI != derivations_of_matches.end());
+					std::set<derivation> const & childderivations = childDerivationsI->second;
+					s.emplace_back(j, childderivations.begin(), childderivations.end());
+					e.children.emplace_back(s.back());
+				}
+				++i;
+			}
+		}
+	}
+
+	return results;
+}
+
 //std::string abstract_syntax_semilattice::to_concrete_dot(std::u32string const & document) {
 //	std::string result = "digraph {\n";
 //	std::set<match> completed;
