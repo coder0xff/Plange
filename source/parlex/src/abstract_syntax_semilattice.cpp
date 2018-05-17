@@ -85,16 +85,25 @@ void abstract_syntax_semilattice::prune_detached() {
 std::string abstract_syntax_semilattice::to_dot(grammar const & g) const {
 	std::string result = "digraph {\n";
 	std::set<match> completed;
+	size_t derivationNodeCounter = 0;
 	for (auto const & entry : derivations_of_matches) {
 		auto const i = entry.first;
 		completed.insert(i);
 		auto const & iRecognizer = g.get_recognizer(i.recognizer_index);
-		auto const fromName = iRecognizer.name + ":" + std::to_string(i.document_position + 1) + ":" + std::to_string(i.consumed_character_count);
+		auto const fromName = iRecognizer.name + " (" + std::to_string(i.document_position + 1) + " - " + std::to_string(i.consumed_character_count + i.document_position) + ")";
 		for (auto const & j : entry.second) {
+			auto const derivationName = "node" + std::to_string(derivationNodeCounter++);
+			if (!j.empty()) {
+				if (!entry.second.empty()) {
+					result += "\t" + derivationName + " [label=\"\"]\n";
+					result += "\t" + enquote(fromName) + " -> " + derivationName + "\n";
+				}
+			}
+			size_t edgeIndex = 0;
 			for (match const & k : j) {
 				auto const & kRecognizer = g.get_recognizer(k.recognizer_index);
-				auto const toName = kRecognizer.name + ":" + std::to_string(k.document_position + 1) + ":" + std::to_string(k.consumed_character_count);
-				result += "\t" + enquote(fromName) + " -> " + enquote(toName) + "\n";
+				auto const toName = kRecognizer.name + " (" + std::to_string(k.document_position + 1) + " - " + std::to_string(k.consumed_character_count + k.document_position) + ")";
+				result += "\t" + derivationName + " -> " + enquote(toName) + "[label=\"" + std::to_string(++edgeIndex) + "\"]\n";
 			}
 		}
 	}
