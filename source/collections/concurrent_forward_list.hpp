@@ -168,7 +168,7 @@ public:
 	// The first node is removed before locking the other nodes.
 	// Push will not block.
 	// An iterator incremented externally may move to a value no longer in the list
-	intmax_t clear() {
+	size_t clear() {
 		node * current = terminal();
 		// detach the elements first so that blocking is minimal
 		half_exchange(first, current);

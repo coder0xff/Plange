@@ -116,8 +116,8 @@ public:
 			return *this + (-rhs);
 		}
 
-		intmax_t operator-(iterator_template const & rhs) const {
-			return current - intmax_t(rhs.current);
+		ptrdiff_t operator-(iterator_template const & rhs) const {
+			return current - ptrdiff_t(rhs.current);
 		}
 
 		explicit operator iterator_template<const value_type>() const {
