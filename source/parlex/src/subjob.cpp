@@ -25,26 +25,25 @@ subjob::~subjob() {
 }
 
 void subjob::start(job & j, match_class const & myId) {
-	machine.start(j, *this, myId, construct_start_state_configuration(myId.document_position));
+	machine.process(j, *this, myId, construct_start_state_configuration(myId.document_position));
 	finish_creation(j, myId);
 }
 
-configuration const & subjob::construct_start_state_configuration(uint32_t const documentPosition) {
-	auto const i = configurations.emplace_front(nullptr, documentPosition, std::optional<match>(), nullptr);
-	return *i;
+configuration subjob::construct_start_state_configuration(uint32_t const documentPosition) const {
+	return configuration(machine.start_state, documentPosition, nullptr);
 }
 
-configuration const & subjob::construct_stepped_configuration(configuration const* const prior, match const & fromTransition, leaf const * l) {
-	auto const i = configurations.emplace_front(prior, prior->current_document_position + fromTransition.consumed_character_count, std::optional<match>(fromTransition), l);
-	return *i;
+configuration subjob::construct_stepped_configuration(uint8_t dfaState, uint32_t documentPosition, transition_record const * history, transition const & t) {
+	auto const ptr = &*transition_records.emplace_front(t, history);
+	return configuration(dfaState, documentPosition, ptr);
 }
 
-void subjob::on(job & j, match_class const & myId, uint16_t const recognizerIndex, configuration const & c, uint8_t const nextDfaState, leaf const * l) {
-	if (c.current_document_position >= j.document.length()) {
+void subjob::on(job & j, match_class const & myId, match_class const & matchClass, uint8_t const nextDfaState, leaf const * l, transition_record const * history) {
+	if (matchClass.document_position >= j.document.length()) {
 		return;
 	}
 	begin_subscription_reference();
-	j.connect(match_class(c.current_document_position, recognizerIndex), *this, myId, c, nextDfaState, l);
+	j.connect(matchClass, *this, myId, nextDfaState, l, history);
 }
 
 void subjob::accept(job & j, match_class const & myId, configuration const & c) {
@@ -76,7 +75,7 @@ void subjob::decrement_lifetime(job & j, match_class const & myId) {
 		return;
 	}
 	flush(j, myId);
-	configurations.clear();
+	transition_records.clear();
 	queued_derivations.clear();
 	terminate(j, myId);
 }

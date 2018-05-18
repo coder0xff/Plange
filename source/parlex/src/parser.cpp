@@ -20,11 +20,11 @@ namespace parlex {
 namespace detail {
 
 void parser::process(work_item const & item) const {
-	update_progress(*item.dfa_configuration);
+	update_progress(item.dfa_configuration);
 	auto & p = current_job->get_producer(item.subjob_id);
 	auto & sj = *static_cast<subjob *>(&p);
 	//INF("thread ", threadCount, " executing DFA state");
-	sj.machine.process(*current_job, sj, item.subjob_id, *item.dfa_configuration, item.dfa_state);
+	sj.machine.process(*current_job, sj, item.subjob_id, item.dfa_configuration);
 	sj.end_work_queue_reference(*current_job, item.subjob_id);
 }
 
@@ -148,14 +148,14 @@ abstract_syntax_semilattice parser::parse(grammar const & g, std::u32string cons
 	return parse(g, g.get_root_acceptor(), document, progressHandler);
 }
 
-void parser::schedule(match_class const & subjobId, configuration const & c, int nextDfaState) {
+void parser::schedule(match_class const & subjobId, configuration const & c) {
 	//DBG("scheduling m: ", c.owner().machine.name, " b:", c.owner().documentPosition, " s:", nextDfaState, " p:", c.current_document_position());
 	auto & p = current_job->get_producer(subjobId);
 	auto & sj = *static_cast<subjob *>(&p);  // NOLINT
 	sj.begin_work_queue_reference();
 	++active_count;
 	std::unique_lock<std::mutex> lock(mutex);
-	work.emplace_back(subjobId, &c, nextDfaState);
+	work.emplace_back(subjobId, c);
 	work_cv.notify_one();
 }
 

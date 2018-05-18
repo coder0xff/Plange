@@ -9,17 +9,18 @@
 #include "parlex/detail/nfa.hpp"
 #include "parlex/detail/recognizer.hpp"
 #include "parlex/detail/acceptor.hpp"
+#include "parlex/detail/configuration.hpp"
 
 
 namespace parlex {
 namespace detail {
-class configuration;
-class job;
 
 struct leaf;
 struct node;
+struct configuration;
 
 class parser;
+class job;
 class subjob;
 
 //simulates a dfa
@@ -55,9 +56,8 @@ private:
 
 	states_t states;
 
-	void process(job & j, subjob & s, match_class const & subjobId, configuration const & c, uint8_t const dfaState) const;
-	void start(job & j, subjob & s, match_class const & subjobId, configuration const & c) const;
-	static void on(job & j, subjob & s, match_class const & subjobId, uint16_t const requestedRecognizerIndex, configuration const & c, uint8_t const nextDfaState, leaf const * leaf);
+	void process(job & j, subjob & s, match_class const & subjobId, configuration const & c) const;
+	static void on(job & j, subjob & s, match_class const & subjobId, match_class requested, uint8_t const nextDfaState, leaf const * leaf, transition_record const * history);
 	static void accept(job & j, subjob & s, match_class const & subjobId, configuration const & c);
 	static automaton reorder(automaton const & dfa);
 

@@ -42,9 +42,9 @@ job::job(parser & owner, std::u32string const & document, grammar const & g, uin
 		storage = result;
 		//seed the parser with the root state
 		result->begin_work_queue_reference();
-		configuration const * c = &result->construct_start_state_configuration(0);
+		configuration const c = result->construct_start_state_configuration(0);
 		uint8_t startState = machine->get_start_state();
-		owner.work.emplace_back(matchClass, c, startState);
+		owner.work.emplace_back(matchClass, c);
 		result->finish_creation(*this, matchClass);
 		++owner.active_count;
 		// start when parser::mutex is unlocked
@@ -52,8 +52,8 @@ job::job(parser & owner, std::u32string const & document, grammar const & g, uin
 	}
 }
 
-void job::connect(match_class const & requestedMatchClass, subjob & subscriber, match_class const & subscriberId, configuration const & c, uint8_t const nextState, leaf const * l) {
-	get_producer(requestedMatchClass).add_subscription(*this, requestedMatchClass, subscriber, subscriberId, c, nextState, l);
+void job::connect(match_class const & requestedMatchClass, subjob & subscriber, match_class const & subscriberId, uint8_t const nextState, leaf const * l, transition_record const * history) {
+	get_producer(requestedMatchClass).add_subscription(nextState, l, history, subscriber, subscriberId, requestedMatchClass, *this);
 }
 
 producer & job::get_producer(match_class const & matchClass) {

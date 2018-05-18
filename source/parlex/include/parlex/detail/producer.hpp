@@ -20,13 +20,14 @@ public:
 	virtual ~producer() = default;
 
 	struct subscription {
-		configuration const & c;
+		subscription(uint8_t nextDfaState, leaf const * l, transition_record const * history, subjob & subscriber, match_class const & subscriberId);
+
+		uint8_t const next_dfa_state;
 		leaf const * const l;
+		transition_record const * const history;
 		subjob & subscriber;
-		match_class subscriber_id;
+		match_class const subscriber_id;
 		uint16_t next_transmit_index;
-		uint8_t next_dfa_state;
-		subscription(subjob & subscriber, match_class const & subscriberId, configuration const & c, uint8_t const nextDfaState, leaf const * const l);
 	};
 
 	void do_events(job & j, match_class const & myId);
@@ -38,7 +39,7 @@ public:
 	bool completed;
 
 	producer();
-	void add_subscription(job & j, match_class const & myId, subjob & subscriber, match_class const & subscriberId, configuration const & c, uint8_t nextDfaState, leaf const * l);
+	void add_subscription(uint8_t nextDfaState, leaf const * l, transition_record const * history, subjob & subscriber, match_class const & subscriberId, match_class const & myId, job & j);
 	void enque_derivation(job & j, match_class const & myId, uint32_t const consumedCharacterCount, derivation const & p);
 	void terminate(job & j, match_class const & myId);
 };

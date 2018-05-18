@@ -28,25 +28,21 @@ void acceptor::set_behavior(node & behavior) {
 	accept_state_count = uint8_t(dfa.accept_states.size());
 }
 
-void acceptor::process(job & j, subjob & s, match_class const & subjobId, configuration const & c, uint8_t const dfaState) const {
+void acceptor::process(job & j, subjob & s, match_class const & subjobId, configuration const & c) const {
 	//DBG("processing '", get_id(), "' dfaState:", dfaState, " p:", c.current_document_position());
-	if (dfaState >= states.size() - accept_state_count) {
+	if (c.dfa_state >= states.size() - accept_state_count) {
 		accept(j, s, subjobId, c);
 	}
-	for (auto const & kvp : states[dfaState]) {
+	for (auto const & kvp : states[c.dfa_state]) {
 		auto const & transitionInfo = kvp.first;
 		int const nextState = kvp.second;
 		//DBG("'", get_id(), "' state ", dfaState, " position ", c.current_document_position(), " subscribes to '", transition.name, "' position ", c.current_document_position());
-		on(j, s, subjobId, transitionInfo.recognizer_index, c, nextState, transitionInfo.l);
+		on(j, s, subjobId, match_class(c.current_document_position, transitionInfo.recognizer_index), nextState, transitionInfo.l, c.history);
 	}
 }
 
-void acceptor::start(job & j, subjob & s, match_class const & subjobId, configuration const & c) const {
-	process(j, s, subjobId, c, get_start_state());
-}
-
-void acceptor::on(job & j, subjob & s, match_class const & subjobId, uint16_t const requestedRecognizerIndex, configuration const & c, uint8_t const nextDfaState, leaf const * leaf) {
-	s.on(j, subjobId, requestedRecognizerIndex, c, nextDfaState, leaf);
+void acceptor::on(job & j, subjob & s, match_class const & subjobId, match_class requested, uint8_t const nextDfaState, leaf const * leaf, transition_record const * history) {
+	s.on(j, subjobId, requested, nextDfaState, leaf, history);
 }
 
 void acceptor::accept(job & j, subjob & s, match_class const & subjobId, configuration const & c) {
