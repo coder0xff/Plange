@@ -55,10 +55,10 @@ private:
 
 	states_t states;
 
-	void process(job & j, subjob & mySubjob, match_class const & mySubjobId, configuration const & c, uint8_t const dfaState) const;
-	void start(job & j, subjob & mySubjob, match_class const & mySubjobId, configuration const & c) const;
-	static void on(job & j, subjob & mySubjob, match_class const & mySubjobId, uint16_t const requestedRecognizerIndex, configuration const & c, uint8_t const nextDfaState, leaf const * leaf);
-	static void accept(job & j, subjob & mySubjob, match_class const & mySubjobId, configuration const & c);
+	void process(job & j, subjob & s, match_class const & subjobId, configuration const & c, uint8_t const dfaState) const;
+	void start(job & j, subjob & s, match_class const & subjobId, configuration const & c) const;
+	static void on(job & j, subjob & s, match_class const & subjobId, uint16_t const requestedRecognizerIndex, configuration const & c, uint8_t const nextDfaState, leaf const * leaf);
+	static void accept(job & j, subjob & s, match_class const & subjobId, configuration const & c);
 	static automaton reorder(automaton const & dfa);
 
 public:

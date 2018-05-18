@@ -32,7 +32,7 @@ public:
 	void start(job & j, match_class const & myId);
 	configuration const & construct_stepped_configuration(configuration const* const prior, match const & fromTransition, leaf const * l);
 	void on(job & j, match_class const & myId, uint16_t const recognizerIndex, configuration const & c, uint8_t const nextDfaState, leaf const * l);
-	void accept(job & j, match_class const & myInfo, configuration const & c);
+	void accept(job & j, match_class const & myId, configuration const & c);
 	// for special use by the parser to seed the queue
 	configuration const & construct_start_state_configuration(uint32_t const documentPosition);
 	void finish_creation(job & j, match_class const & myId);

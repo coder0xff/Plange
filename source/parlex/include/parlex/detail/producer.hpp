@@ -29,7 +29,7 @@ public:
 		subscription(subjob & subscriber, match_class const & subscriberId, configuration const & c, uint8_t const nextDfaState, leaf const * const l);
 	};
 
-	void do_events(job & j, match_class const & myInfo);
+	void do_events(job & j, match_class const & myId);
 
 	std::vector<subscription> consumers;
 	std::vector<uint32_t> match_lengths;
@@ -40,7 +40,7 @@ public:
 	producer();
 	void add_subscription(job & j, match_class const & myId, subjob & subscriber, match_class const & subscriberId, configuration const & c, uint8_t nextDfaState, leaf const * l);
 	void enque_derivation(job & j, match_class const & myId, uint32_t const consumedCharacterCount, derivation const & p);
-	void terminate(job & j, match_class const & myInfo);
+	void terminate(job & j, match_class const & myId);
 };
 
 } // namespace detail

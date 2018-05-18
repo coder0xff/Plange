@@ -28,29 +28,29 @@ void acceptor::set_behavior(node & behavior) {
 	accept_state_count = uint8_t(dfa.accept_states.size());
 }
 
-void acceptor::process(job & j, subjob & mySubjob, match_class const & mySubjobId, configuration const & c, uint8_t const dfaState) const {
+void acceptor::process(job & j, subjob & s, match_class const & subjobId, configuration const & c, uint8_t const dfaState) const {
 	//DBG("processing '", get_id(), "' dfaState:", dfaState, " p:", c.current_document_position());
 	if (dfaState >= states.size() - accept_state_count) {
-		accept(j, mySubjob, mySubjobId, c);
+		accept(j, s, subjobId, c);
 	}
 	for (auto const & kvp : states[dfaState]) {
 		auto const & transitionInfo = kvp.first;
 		int const nextState = kvp.second;
 		//DBG("'", get_id(), "' state ", dfaState, " position ", c.current_document_position(), " subscribes to '", transition.name, "' position ", c.current_document_position());
-		on(j, mySubjob, mySubjobId, transitionInfo.recognizer_index, c, nextState, transitionInfo.l);
+		on(j, s, subjobId, transitionInfo.recognizer_index, c, nextState, transitionInfo.l);
 	}
 }
 
-void acceptor::start(job & j, subjob & mySubjob, match_class const & mySubjobId, configuration const & c) const {
-	process(j, mySubjob, mySubjobId, c, get_start_state());
+void acceptor::start(job & j, subjob & s, match_class const & subjobId, configuration const & c) const {
+	process(j, s, subjobId, c, get_start_state());
 }
 
-void acceptor::on(job & j, subjob & mySubjob, match_class const & mySubjobId, uint16_t const requestedRecognizerIndex, configuration const & c, uint8_t const nextDfaState, leaf const * leaf) {
-	mySubjob.on(j, mySubjobId, requestedRecognizerIndex, c, nextDfaState, leaf);
+void acceptor::on(job & j, subjob & s, match_class const & subjobId, uint16_t const requestedRecognizerIndex, configuration const & c, uint8_t const nextDfaState, leaf const * leaf) {
+	s.on(j, subjobId, requestedRecognizerIndex, c, nextDfaState, leaf);
 }
 
-void acceptor::accept(job & j, subjob & mySubjob, match_class const & mySubjobId, configuration const & c) {
-	mySubjob.accept(j, mySubjobId, c);
+void acceptor::accept(job & j, subjob & s, match_class const & subjobId, configuration const & c) {
+	s.accept(j, subjobId, c);
 }
 
 automaton acceptor::reorder(automaton const & dfa) {

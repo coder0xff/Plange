@@ -47,15 +47,15 @@ void subjob::on(job & j, match_class const & myId, uint16_t const recognizerInde
 	j.connect(match_class(c.current_document_position, recognizerIndex), *this, myId, c, nextDfaState, l);
 }
 
-void subjob::accept(job & j, match_class const & myInfo, configuration const & c) {
-	int const len = c.current_document_position - myInfo.document_position;
+void subjob::accept(job & j, match_class const & myId, configuration const & c) {
+	int const len = c.current_document_position - myId.document_position;
 	if (len == 0) {
 		return;
 	}
 	auto const p = c.result();
 	if (!machine.get_filter()) {
 		//DBG("Accepting r:", r.name, " p:", c.owner().document_position, " l:", c.current_document_position() - c.owner().document_position);
-		enque_derivation(j, myInfo, len, p);
+		enque_derivation(j, myId, len, p);
 	} else {
 		//DBG("Candidate r:", r.name, " p:", c.owner().document_position, " l:", c.current_document_position() - c.owner().document_position);
 		std::unique_lock<std::mutex> lock(mutex);
@@ -103,7 +103,7 @@ void subjob::end_subscription_reference(job & j, match_class const & myId) {
 	decrement_lifetime(j, myId);
 }
 
-void subjob::flush(job & j, match_class const & myInfo) {
+void subjob::flush(job & j, match_class const & myId) {
 	///DBG("flush m:", machine, " b:", documentPosition);
 	auto const & filter = machine.get_filter();
 	if (filter != nullptr) {
@@ -116,8 +116,8 @@ void subjob::flush(job & j, match_class const & myInfo) {
 		for (auto const & derivation : queued_derivations) {
 			if (selections.count(counter) > 0) {
 				auto & lastChild = derivation.back();
-				int const len = !derivation.empty() ? lastChild.document_position + lastChild.consumed_character_count - myInfo.document_position : 0;
-				enque_derivation(j, myInfo, len, derivation);
+				int const len = !derivation.empty() ? lastChild.document_position + lastChild.consumed_character_count - myId.document_position : 0;
+				enque_derivation(j, myId, len, derivation);
 			}
 			counter++;
 		}

@@ -19,13 +19,13 @@ void producer::add_subscription(job & j, match_class const & myId, subjob & subs
 	do_events(j, myId);
 }
 
-void producer::do_events(job & j, match_class const & myInfo) {
+void producer::do_events(job & j, match_class const & myId) {
 	std::unique_lock<std::mutex> lock(mutex);
 	for (auto & subscription : consumers) {
 		while (subscription.next_transmit_index < match_length_to_derivations.size()) {
 			auto const matchLength = match_lengths[subscription.next_transmit_index];
 			subscription.next_transmit_index++;
-			auto const & next = subscription.subscriber.construct_stepped_configuration(&subscription.c, match(myInfo, matchLength), subscription.l);
+			auto const & next = subscription.subscriber.construct_stepped_configuration(&subscription.c, match(myId, matchLength), subscription.l);
 			j.owner->schedule(subscription.subscriber_id, next, subscription.next_dfa_state);
 		}
 	}
@@ -39,7 +39,7 @@ void producer::do_events(job & j, match_class const & myInfo) {
 		lock.lock();
 		if (!consumers.empty()) {
 			lock.unlock();
-			do_events(j, myInfo);
+			do_events(j, myId);
 		}
 	}
 }
@@ -60,9 +60,9 @@ void producer::enque_derivation(job & j, match_class const & myId, uint32_t cons
 	}
 }
 
-void producer::terminate(job & j, match_class const & myInfo) {
+void producer::terminate(job & j, match_class const & myId) {
 	completed = true;
-	do_events(j, myInfo);
+	do_events(j, myId);
 }
 
 
