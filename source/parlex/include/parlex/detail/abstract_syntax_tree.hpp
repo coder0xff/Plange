@@ -16,7 +16,7 @@ struct ast_node : match {
 		// The grammar leaf that this ast_node satisfies
 		leaf const * l;
 
-		ast_node(match const & m, std::vector<ast_node> const & children, leaf const * l);
+		ast_node(match m, std::vector<ast_node> children, leaf const * l);
 		std::string to_dot(grammar const & g) const;
 	};
 

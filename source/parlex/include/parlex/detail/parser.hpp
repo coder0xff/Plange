@@ -31,7 +31,7 @@ public:
 	abstract_syntax_semilattice parse(grammar const & g, std::u32string const & document, progress_handler_t const & progressHandler = progress_handler_t());
 private:
 	struct work_item {
-		work_item(match_class const subjobId, configuration const * const c, uint8_t const dfaState)
+		work_item(match_class const & subjobId, configuration const * const c, uint8_t const dfaState)
 			: subjob_id(subjobId),
 			dfa_configuration(c),
 			dfa_state(dfaState) {}

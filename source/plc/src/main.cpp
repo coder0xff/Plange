@@ -45,7 +45,7 @@ int main(int argc, char * argv[]) {
 
 	auto m = std::make_unique<module>();
 
-	for (auto const pathname : realpaths) {
+	for (auto const & pathname : realpaths) {
 		m->add_source(pathname);
 // 		auto emplaceResult = parses.emplace(std::piecewise_construct, forward_as_tuple(pathname), std::forward_as_tuple(new source_code(pathname)));
 // 		throw_assert(emplaceResult.second);
