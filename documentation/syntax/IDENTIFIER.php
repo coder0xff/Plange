@@ -13,7 +13,7 @@
 
 		<div class="syntax">
 			<p>syntax</p>
-			<div>%head(letter | "_") %tail{letter | number | "_"}</div>
+			<div>(letter | "_") {letter | number | "_"}</div>
 		</div>
 		<h2>Notes</h2>
 		<p>The first character must be a letter character. Note that the character groups "letter" and "number" are inclusive of many unicode characters beyond the conventional a-z, A-Z and 0-9. Specifically, all unicode codepoints in a letter or number category may be used in an identifier.</p>

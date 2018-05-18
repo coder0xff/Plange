@@ -13,7 +13,7 @@
 
 		<div class="syntax">
 			<p>syntax (associativity: right)</p>
-			<div><a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> {<a href="/documentation/syntax/IC.php">IC</a>} "&amp;" {<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a></div>
+			<div><a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> "&amp;" <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a></div>
 		</div>
 		<div class="code2">
 			<p>Example</p>

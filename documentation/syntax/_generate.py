@@ -48,7 +48,12 @@ def loadExample(example):
 indexPageContents = "<meta charset='utf-8'/>\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=0.6\">\n<html>\n\t<head>\n\t\t<title>Syntax Listing - Plange</title>\n\t\t<link rel=StyleSheet href='../css/general.css' type='text/css' />\n\t</head>\n\t<body>\n\t\t<?php require('../header.php') ?>\n\n\n\t\t<p>This page is generated from the <a href='source/syntax.yml'>syntax specification</a>. The root production of the grammar is \"STATEMENT_SCOPE\".</p>\n\t\t<h2>Subpage Listing</h2>\n\t\t<table>\n"
 names = specs.keys()
 names.sort()
+
 regexs = {name: re.compile("\\b" + name + "\\b") for name in names}
+dollarSignRegex = re.compile("\\$")
+tagRegex = re.compile("%[_\w0-9]+")
+icRegex = re.compile("\\ {IC\\}")
+
 for name in names:
         details = specs[name]
                 
@@ -61,11 +66,14 @@ for name in names:
         syntaxString = ""
         if "syntax" in details:
                 syntaxString = cgi.escape(details["syntax"]).strip()
+                syntaxString = dollarSignRegex.sub("", syntaxString)
+                syntaxString = tagRegex.sub("", syntaxString)
+                syntaxString = icRegex.sub("", syntaxString)
                 for refName in names:
                         if refName == name:
                                 continue
                         syntaxString = regexs[refName].sub("<a href=\"/documentation/syntax/" + refName + ".php\">" + refName + "</a>", syntaxString)
-
+                
                 title = "syntax"
                 if "assoc" in details:
                         title = title + " (associativity: " + details["assoc"] + ")"

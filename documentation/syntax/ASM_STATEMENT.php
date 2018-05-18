@@ -11,7 +11,7 @@
 
 		<div class="syntax">
 			<p>syntax</p>
-			<div><a href="/documentation/syntax/ASM_OP.php">ASM_OP</a> [<a href="/documentation/syntax/ICR.php">ICR</a> <a href="/documentation/syntax/ASM_EXPRESSION.php">ASM_EXPRESSION</a> {{<a href="/documentation/syntax/IC.php">IC</a>} "," [{<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/ASM_EXPRESSION.php">ASM_EXPRESSION</a>]}] {<a href="/documentation/syntax/IC.php">IC</a>} "\n"</div>
+			<div><a href="/documentation/syntax/ASM_OP.php">ASM_OP</a> [<a href="/documentation/syntax/ICR.php">ICR</a> <a href="/documentation/syntax/ASM_EXPRESSION.php">ASM_EXPRESSION</a> {{<a href="/documentation/syntax/IC.php">IC</a>} "," [{<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/ASM_EXPRESSION.php">ASM_EXPRESSION</a>]}] "\n"</div>
 		</div>
 
 

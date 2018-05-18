@@ -13,7 +13,7 @@
 
 		<div class="syntax">
 			<p>syntax</p>
-			<div>"break" [({<a href="/documentation/syntax/IC.php">IC</a>} "[" {<a href="/documentation/syntax/IC.php">IC</a>} $<a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> {<a href="/documentation/syntax/IC.php">IC</a>} "]") | ({<a href="/documentation/syntax/ICR.php">ICR</a>} $<a href="/documentation/syntax/IDENTIFIER.php">IDENTIFIER</a>)]</div>
+			<div>"break" [({<a href="/documentation/syntax/IC.php">IC</a>} "[" <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> "]") | ({<a href="/documentation/syntax/ICR.php">ICR</a>} <a href="/documentation/syntax/IDENTIFIER.php">IDENTIFIER</a>)]</div>
 		</div>
 		<div class="code2">
 			<p>Example</p>

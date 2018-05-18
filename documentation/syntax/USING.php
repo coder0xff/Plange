@@ -13,7 +13,7 @@
 
 		<div class="syntax">
 			<p>syntax</p>
-			<div>"using" {<a href="/documentation/syntax/IC.php">IC</a>} "(" {<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> {<a href="/documentation/syntax/IC.php">IC</a>} ")" {<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/BLOCK.php">BLOCK</a></div>
+			<div>"using" "(" <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> ")" <a href="/documentation/syntax/BLOCK.php">BLOCK</a></div>
 		</div>
 
 

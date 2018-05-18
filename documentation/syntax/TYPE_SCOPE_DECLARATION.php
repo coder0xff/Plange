@@ -11,7 +11,7 @@
 
 		<div class="syntax">
 			<p>syntax</p>
-			<div>[<a href="/documentation/syntax/XML_DOC_STRING.php">XML_DOC_STRING</a> {<a href="/documentation/syntax/IC.php">IC</a>}] <a href="/documentation/syntax/IDENTIFIER.php">IDENTIFIER</a> [{<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/MEMBER_OFFSET.php">MEMBER_OFFSET</a>]</div>
+			<div>[<a href="/documentation/syntax/XML_DOC_STRING.php">XML_DOC_STRING</a>] <a href="/documentation/syntax/IDENTIFIER.php">IDENTIFIER</a> [{<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/MEMBER_OFFSET.php">MEMBER_OFFSET</a>]</div>
 		</div>
 
 

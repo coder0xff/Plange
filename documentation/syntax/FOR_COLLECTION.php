@@ -13,7 +13,7 @@
 
 		<div class="syntax">
 			<p>syntax</p>
-			<div>"for" {<a href="/documentation/syntax/IC.php">IC</a>} "(" {<a href="/documentation/syntax/IC.php">IC</a>} (%declaration([ (<a href="/documentation/syntax/TYPE_DEREFERENCE.php">TYPE_DEREFERENCE</a> | <a href="/documentation/syntax/IMPLICIT_TYPE_DEREFERENCE.php">IMPLICIT_TYPE_DEREFERENCE</a>) {<a href="/documentation/syntax/IC.php">IC</a>} ] <a href="/documentation/syntax/IDENTIFIER.php">IDENTIFIER</a> ) | $<a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> ) {<a href="/documentation/syntax/IC.php">IC</a>} ("in"|"∈") {<a href="/documentation/syntax/IC.php">IC</a>} %collection(<a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a>) {<a href="/documentation/syntax/IC.php">IC</a>} ")" {<a href="/documentation/syntax/IC.php">IC</a>} %invoke(<a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a>)</div>
+			<div>"for" "(" (([ (<a href="/documentation/syntax/TYPE_DEREFERENCE.php">TYPE_DEREFERENCE</a> | <a href="/documentation/syntax/IMPLICIT_TYPE_DEREFERENCE.php">IMPLICIT_TYPE_DEREFERENCE</a>) ] <a href="/documentation/syntax/IDENTIFIER.php">IDENTIFIER</a> ) | <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> ) ("in"|"∈") (<a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a>) ")" (<a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a>)</div>
 		</div>
 		<div class="code2">
 			<p>Example</p>

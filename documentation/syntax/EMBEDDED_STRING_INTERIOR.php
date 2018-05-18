@@ -11,7 +11,7 @@
 
 		<div class="syntax">
 			<p>syntax</p>
-			<div>$<a href="/documentation/syntax/PAYLOAD.php">PAYLOAD</a> | ("\"" EMBEDDED_STRING_INTERIOR "\"")</div>
+			<div><a href="/documentation/syntax/PAYLOAD.php">PAYLOAD</a> | ("\"" EMBEDDED_STRING_INTERIOR "\"")</div>
 		</div>
 
 

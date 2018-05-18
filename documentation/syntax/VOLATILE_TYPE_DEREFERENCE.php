@@ -11,7 +11,7 @@
 
 		<div class="syntax">
 			<p>syntax</p>
-			<div>"&lt;" {<a href="/documentation/syntax/IC.php">IC</a>} "volatile" {<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> {<a href="/documentation/syntax/IC.php">IC</a>} "&gt;"</div>
+			<div>"&lt;" "volatile" <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> "&gt;"</div>
 		</div>
 
 

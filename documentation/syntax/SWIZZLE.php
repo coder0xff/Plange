@@ -11,7 +11,7 @@
 
 		<div class="syntax">
 			<p>syntax</p>
-			<div><a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> {<a href="/documentation/syntax/IC.php">IC</a>} ("⋮" | "_swiz_") {<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a></div>
+			<div><a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> ("⋮" | "_swiz_") <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a></div>
 		</div>
 
 

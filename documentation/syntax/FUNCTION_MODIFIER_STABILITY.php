@@ -11,7 +11,7 @@
 
 		<div class="syntax">
 			<p>syntax</p>
-			<div>%stability("stable" | "unstable") [<a href="/documentation/syntax/ICR.php">ICR</a> <a href="/documentation/syntax/FUNCTION_MODIFIER_1.php">FUNCTION_MODIFIER_1</a>]</div>
+			<div>("stable" | "unstable") [<a href="/documentation/syntax/ICR.php">ICR</a> <a href="/documentation/syntax/FUNCTION_MODIFIER_1.php">FUNCTION_MODIFIER_1</a>]</div>
 		</div>
 
 

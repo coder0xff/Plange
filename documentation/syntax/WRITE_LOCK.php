@@ -11,7 +11,7 @@
 
 		<div class="syntax">
 			<p>syntax</p>
-			<div>"write_lock" {<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/PARENTHETICAL.php">PARENTHETICAL</a> {<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a></div>
+			<div>"write_lock" <a href="/documentation/syntax/PARENTHETICAL.php">PARENTHETICAL</a> <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a></div>
 		</div>
 
 

@@ -11,7 +11,7 @@
 
 		<div class="syntax">
 			<p>syntax</p>
-			<div>"@" {<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/WHOLE_NUMBER.php">WHOLE_NUMBER</a></div>
+			<div>"@" <a href="/documentation/syntax/WHOLE_NUMBER.php">WHOLE_NUMBER</a></div>
 		</div>
 
 

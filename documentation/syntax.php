@@ -15,27 +15,27 @@
 			<tr>
 				<td><a href="/documentation/syntax/ADDITION.php">ADDITION</a></td>
 				<td>no doc string</td>
-				<td><a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> {<a href="/documentation/syntax/IC.php">IC</a>} "+" {<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a></td>
+				<td><a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> "+" <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a></td>
 			</tr>
 			<tr>
 				<td><a href="/documentation/syntax/ADD_SUB.php">ADD_SUB</a></td>
 				<td>creates an analytic value storing the simultaneous results of addition and subtraction</td>
-				<td><a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> {<a href="/documentation/syntax/IC.php">IC</a>} ("±"|"+-") {<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a></td>
+				<td><a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> ("±"|"+-") <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a></td>
 			</tr>
 			<tr>
 				<td><a href="/documentation/syntax/ALL.php">ALL</a></td>
 				<td>constrain ALL elements of a Collection to be true</td>
-				<td>("∀"|"all") {<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a></td>
+				<td>("∀"|"all") <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a></td>
 			</tr>
 			<tr>
 				<td><a href="/documentation/syntax/ALLOCATION.php">ALLOCATION</a></td>
 				<td>create an object on the heap</td>
-				<td>"alloc" {<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/PARENTHETICAL_INVOCATION.php">PARENTHETICAL_INVOCATION</a></td>
+				<td>"alloc" <a href="/documentation/syntax/PARENTHETICAL_INVOCATION.php">PARENTHETICAL_INVOCATION</a></td>
 			</tr>
 			<tr>
 				<td><a href="/documentation/syntax/AND.php">AND</a></td>
 				<td>no doc string</td>
-				<td><a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> {<a href="/documentation/syntax/IC.php">IC</a>} ("∧"|"and") {<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a></td>
+				<td><a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> ("∧"|"and") <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a></td>
 			</tr>
 			<tr>
 				<td><a href="/documentation/syntax/ARGUMENT.php">ARGUMENT</a></td>
@@ -45,12 +45,12 @@
 			<tr>
 				<td><a href="/documentation/syntax/ARGUMENT_PACK.php">ARGUMENT_PACK</a></td>
 				<td>no doc string</td>
-				<td><a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> {<a href="/documentation/syntax/IC.php">IC</a>} "..."</td>
+				<td><a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> "..."</td>
 			</tr>
 			<tr>
 				<td><a href="/documentation/syntax/ARRAY.php">ARRAY</a></td>
 				<td>no doc string</td>
-				<td>"[" {<a href="/documentation/syntax/IC.php">IC</a>} [$<a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> {{<a href="/documentation/syntax/IC.php">IC</a>} "," {<a href="/documentation/syntax/IC.php">IC</a>} $<a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a>} {<a href="/documentation/syntax/IC.php">IC</a>} ] "]"</td>
+				<td>"[" [<a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> {{<a href="/documentation/syntax/IC.php">IC</a>} "," <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a>} ] "]"</td>
 			</tr>
 			<tr>
 				<td><a href="/documentation/syntax/ARRAY_INDEXER.php">ARRAY_INDEXER</a></td>
@@ -60,7 +60,7 @@
 			<tr>
 				<td><a href="/documentation/syntax/ARRAY_INVOCATION.php">ARRAY_INVOCATION</a></td>
 				<td>no doc string</td>
-				<td>%target(<a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a>) "[" %argsHead[$<a href="/documentation/syntax/ARRAY_INDEXER.php">ARRAY_INDEXER</a>] %argsTail{{<a href="/documentation/syntax/IC.php">IC</a>} "," [$<a href="/documentation/syntax/ARRAY_INDEXER.php">ARRAY_INDEXER</a>]} {<a href="/documentation/syntax/IC.php">IC</a>} "]"</td>
+				<td>(<a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a>) "[" [<a href="/documentation/syntax/ARRAY_INDEXER.php">ARRAY_INDEXER</a>] {{<a href="/documentation/syntax/IC.php">IC</a>} "," [<a href="/documentation/syntax/ARRAY_INDEXER.php">ARRAY_INDEXER</a>]} "]"</td>
 			</tr>
 			<tr>
 				<td><a href="/documentation/syntax/ASM_EXPRESSION.php">ASM_EXPRESSION</a></td>
@@ -70,7 +70,7 @@
 			<tr>
 				<td><a href="/documentation/syntax/ASM_FUNCTION.php">ASM_FUNCTION</a></td>
 				<td>no doc string</td>
-				<td>[ "(" {<a href="/documentation/syntax/IC.php">IC</a>} [ $<a href="/documentation/syntax/PARAMETER.php">PARAMETER</a> {{<a href="/documentation/syntax/IC.php">IC</a>} "," {<a href="/documentation/syntax/IC.php">IC</a>} $<a href="/documentation/syntax/PARAMETER.php">PARAMETER</a>} {<a href="/documentation/syntax/IC.php">IC</a>} ] ")" {<a href="/documentation/syntax/IC.php">IC</a>} ] [<a href="/documentation/syntax/FUNCTION_MODIFIER_0.php">FUNCTION_MODIFIER_0</a>] "asm" {<a href="/documentation/syntax/IC.php">IC</a>} "{" <a href="/documentation/syntax/ASM_SCOPE.php">ASM_SCOPE</a> "}"</td>
+				<td>[ "(" [ <a href="/documentation/syntax/PARAMETER.php">PARAMETER</a> {{<a href="/documentation/syntax/IC.php">IC</a>} "," <a href="/documentation/syntax/PARAMETER.php">PARAMETER</a>} ] ")" ] [<a href="/documentation/syntax/FUNCTION_MODIFIER_0.php">FUNCTION_MODIFIER_0</a>] "asm" "{" <a href="/documentation/syntax/ASM_SCOPE.php">ASM_SCOPE</a> "}"</td>
 			</tr>
 			<tr>
 				<td><a href="/documentation/syntax/ASM_IDENTIFIER.php">ASM_IDENTIFIER</a></td>
@@ -90,7 +90,7 @@
 			<tr>
 				<td><a href="/documentation/syntax/ASM_PTR_ARITHMETIC_ATT_REG.php">ASM_PTR_ARITHMETIC_ATT_REG</a></td>
 				<td>no doc string</td>
-				<td>"(" [$<a href="/documentation/syntax/ASM_IDENTIFIER.php">ASM_IDENTIFIER</a>] ["," $<a href="/documentation/syntax/ASM_IDENTIFIER.php">ASM_IDENTIFIER</a> ["," <a href="/documentation/syntax/NON_NEG_NON_FRACTIONAL.php">NON_NEG_NON_FRACTIONAL</a>]] ")"</td>
+				<td>"(" [<a href="/documentation/syntax/ASM_IDENTIFIER.php">ASM_IDENTIFIER</a>] ["," <a href="/documentation/syntax/ASM_IDENTIFIER.php">ASM_IDENTIFIER</a> ["," <a href="/documentation/syntax/NON_NEG_NON_FRACTIONAL.php">NON_NEG_NON_FRACTIONAL</a>]] ")"</td>
 			</tr>
 			<tr>
 				<td><a href="/documentation/syntax/ASM_PTR_ARITHMETIC_INTEL.php">ASM_PTR_ARITHMETIC_INTEL</a></td>
@@ -105,22 +105,22 @@
 			<tr>
 				<td><a href="/documentation/syntax/ASM_STATEMENT.php">ASM_STATEMENT</a></td>
 				<td>no doc string</td>
-				<td><a href="/documentation/syntax/ASM_OP.php">ASM_OP</a> [<a href="/documentation/syntax/ICR.php">ICR</a> <a href="/documentation/syntax/ASM_EXPRESSION.php">ASM_EXPRESSION</a> {{<a href="/documentation/syntax/IC.php">IC</a>} "," [{<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/ASM_EXPRESSION.php">ASM_EXPRESSION</a>]}] {<a href="/documentation/syntax/IC.php">IC</a>} "\n"</td>
+				<td><a href="/documentation/syntax/ASM_OP.php">ASM_OP</a> [<a href="/documentation/syntax/ICR.php">ICR</a> <a href="/documentation/syntax/ASM_EXPRESSION.php">ASM_EXPRESSION</a> {{<a href="/documentation/syntax/IC.php">IC</a>} "," [{<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/ASM_EXPRESSION.php">ASM_EXPRESSION</a>]}] "\n"</td>
 			</tr>
 			<tr>
 				<td><a href="/documentation/syntax/ASSIGNMENT_CHAIN.php">ASSIGNMENT_CHAIN</a></td>
 				<td>place the given value(s) into the given variable(s)</td>
-				<td>[$<a href="/documentation/syntax/XML_DOC_STRING.php">XML_DOC_STRING</a> {<a href="/documentation/syntax/IC.php">IC</a>}] $<a href="/documentation/syntax/IDENTIFIER.php">IDENTIFIER</a> {<a href="/documentation/syntax/IC.php">IC</a>} ("←"|"&lt;-") {<a href="/documentation/syntax/IC.php">IC</a>} ($<a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a>|ASSIGNMENT_CHAIN)</td>
+				<td>[<a href="/documentation/syntax/XML_DOC_STRING.php">XML_DOC_STRING</a>] <a href="/documentation/syntax/IDENTIFIER.php">IDENTIFIER</a> ("←"|"&lt;-") (<a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a>|ASSIGNMENT_CHAIN)</td>
 			</tr>
 			<tr>
 				<td><a href="/documentation/syntax/ATTRIBUTE.php">ATTRIBUTE</a></td>
 				<td>no doc string</td>
-				<td>"@" {<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> {<a href="/documentation/syntax/IC.php">IC</a>} "@"</td>
+				<td>"@" <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> "@"</td>
 			</tr>
 			<tr>
 				<td><a href="/documentation/syntax/BIJECTION.php">BIJECTION</a></td>
 				<td>a bijection exists between the left and right hand operands</td>
-				<td><a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> {<a href="/documentation/syntax/IC.php">IC</a>} ("↔"|"&lt;-&gt;") {<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a></td>
+				<td><a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> ("↔"|"&lt;-&gt;") <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a></td>
 			</tr>
 			<tr>
 				<td><a href="/documentation/syntax/BINARY_ARITHMETIC_OP.php">BINARY_ARITHMETIC_OP</a></td>
@@ -150,22 +150,22 @@
 			<tr>
 				<td><a href="/documentation/syntax/BIT_AND.php">BIT_AND</a></td>
 				<td>no doc string</td>
-				<td><a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> {<a href="/documentation/syntax/IC.php">IC</a>} "&amp;&amp;" {<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a></td>
+				<td><a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> "&amp;&amp;" <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a></td>
 			</tr>
 			<tr>
 				<td><a href="/documentation/syntax/BIT_NOT.php">BIT_NOT</a></td>
 				<td>no doc string</td>
-				<td>"~~" {<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a></td>
+				<td>"~~" <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a></td>
 			</tr>
 			<tr>
 				<td><a href="/documentation/syntax/BIT_OR.php">BIT_OR</a></td>
 				<td>no doc string</td>
-				<td><a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> {<a href="/documentation/syntax/IC.php">IC</a>} "||" {<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a></td>
+				<td><a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> "||" <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a></td>
 			</tr>
 			<tr>
 				<td><a href="/documentation/syntax/BIT_XOR.php">BIT_XOR</a></td>
 				<td>no doc string</td>
-				<td><a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> {<a href="/documentation/syntax/IC.php">IC</a>} "^^" {<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a></td>
+				<td><a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> "^^" <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a></td>
 			</tr>
 			<tr>
 				<td><a href="/documentation/syntax/BLOCK.php">BLOCK</a></td>
@@ -180,27 +180,27 @@
 			<tr>
 				<td><a href="/documentation/syntax/BREAK.php">BREAK</a></td>
 				<td>terminate the containing for, do, or while/until loop</td>
-				<td>"break" [({<a href="/documentation/syntax/IC.php">IC</a>} "[" {<a href="/documentation/syntax/IC.php">IC</a>} $<a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> {<a href="/documentation/syntax/IC.php">IC</a>} "]") | ({<a href="/documentation/syntax/ICR.php">ICR</a>} $<a href="/documentation/syntax/IDENTIFIER.php">IDENTIFIER</a>)]</td>
+				<td>"break" [({<a href="/documentation/syntax/IC.php">IC</a>} "[" <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> "]") | ({<a href="/documentation/syntax/ICR.php">ICR</a>} <a href="/documentation/syntax/IDENTIFIER.php">IDENTIFIER</a>)]</td>
 			</tr>
 			<tr>
 				<td><a href="/documentation/syntax/CARDINALITY.php">CARDINALITY</a></td>
 				<td>no doc string</td>
-				<td>"#" {<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a></td>
+				<td>"#" <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a></td>
 			</tr>
 			<tr>
 				<td><a href="/documentation/syntax/CAST.php">CAST</a></td>
 				<td>change the type of the specified expression to the parenthesized type</td>
-				<td><a href="/documentation/syntax/PARENTHETICAL.php">PARENTHETICAL</a> {<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a></td>
+				<td><a href="/documentation/syntax/PARENTHETICAL.php">PARENTHETICAL</a> <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a></td>
 			</tr>
 			<tr>
 				<td><a href="/documentation/syntax/CASTS.php">CASTS</a></td>
 				<td>no doc string</td>
-				<td><a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> {<a href="/documentation/syntax/IC.php">IC</a>} "casts" {<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a></td>
+				<td><a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> "casts" <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a></td>
 			</tr>
 			<tr>
 				<td><a href="/documentation/syntax/CEILING.php">CEILING</a></td>
 				<td>no doc string</td>
-				<td>("⌈" {<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> {<a href="/documentation/syntax/IC.php">IC</a>} "⌉") | ( "|'" {<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> {<a href="/documentation/syntax/IC.php">IC</a>} "'|" )</td>
+				<td>("⌈" <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> "⌉") | ( "|'" <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> "'|" )</td>
 			</tr>
 			<tr>
 				<td><a href="/documentation/syntax/COMMENT.php">COMMENT</a></td>
@@ -210,22 +210,22 @@
 			<tr>
 				<td><a href="/documentation/syntax/COMPLEMENT.php">COMPLEMENT</a></td>
 				<td>the universal set excluding the elements of the collection</td>
-				<td><a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> {<a href="/documentation/syntax/IC.php">IC</a>} "ᶜ"</td>
+				<td><a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> "ᶜ"</td>
 			</tr>
 			<tr>
 				<td><a href="/documentation/syntax/COMPOSITION.php">COMPOSITION</a></td>
 				<td>function composition operator</td>
-				<td><a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> {<a href="/documentation/syntax/IC.php">IC</a>} ("∘"|"_o_") {<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a></td>
+				<td><a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> ("∘"|"_o_") <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a></td>
 			</tr>
 			<tr>
 				<td><a href="/documentation/syntax/COMPOUND.php">COMPOUND</a></td>
 				<td>no doc string</td>
-				<td><a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> {<a href="/documentation/syntax/IC.php">IC</a>} "|" {<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a></td>
+				<td><a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> "|" <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a></td>
 			</tr>
 			<tr>
 				<td><a href="/documentation/syntax/CONDITIONAL.php">CONDITIONAL</a></td>
 				<td>ternary conditional</td>
-				<td>%condition(<a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a>) {<a href="/documentation/syntax/IC.php">IC</a>} "?" {<a href="/documentation/syntax/IC.php">IC</a>} %true_case(<a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a>) {<a href="/documentation/syntax/IC.php">IC</a>} ":" {<a href="/documentation/syntax/IC.php">IC</a>} %false_case(<a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a>)</td>
+				<td>(<a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a>) "?" (<a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a>) ":" (<a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a>)</td>
 			</tr>
 			<tr>
 				<td><a href="/documentation/syntax/CONSTRUCTIVE_OP.php">CONSTRUCTIVE_OP</a></td>
@@ -235,12 +235,12 @@
 			<tr>
 				<td><a href="/documentation/syntax/CONTINUE.php">CONTINUE</a></td>
 				<td>begin the next iteration in the containing for, do, or while/until loop</td>
-				<td>"continue" [({<a href="/documentation/syntax/IC.php">IC</a>} "[" {<a href="/documentation/syntax/IC.php">IC</a>} $<a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> {<a href="/documentation/syntax/IC.php">IC</a>} "]") | ({<a href="/documentation/syntax/ICR.php">ICR</a>} $<a href="/documentation/syntax/IDENTIFIER.php">IDENTIFIER</a>)]</td>
+				<td>"continue" [({<a href="/documentation/syntax/IC.php">IC</a>} "[" <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> "]") | ({<a href="/documentation/syntax/ICR.php">ICR</a>} <a href="/documentation/syntax/IDENTIFIER.php">IDENTIFIER</a>)]</td>
 			</tr>
 			<tr>
 				<td><a href="/documentation/syntax/CROSS_PRODUCT.php">CROSS_PRODUCT</a></td>
 				<td>scalar multiplication or Vector<3, N> cross product</td>
-				<td><a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> {<a href="/documentation/syntax/IC.php">IC</a>} ("×"|"_x_") {<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a></td>
+				<td><a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> ("×"|"_x_") <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a></td>
 			</tr>
 			<tr>
 				<td><a href="/documentation/syntax/DATE.php">DATE</a></td>
@@ -265,17 +265,17 @@
 			<tr>
 				<td><a href="/documentation/syntax/DECLARATION.php">DECLARATION</a></td>
 				<td>declare a variable and optionally assign a value to it</td>
-				<td>[$<a href="/documentation/syntax/XML_DOC_STRING.php">XML_DOC_STRING</a> {<a href="/documentation/syntax/IC.php">IC</a>}] $<a href="/documentation/syntax/IDENTIFIER.php">IDENTIFIER</a></td>
+				<td>[<a href="/documentation/syntax/XML_DOC_STRING.php">XML_DOC_STRING</a>] <a href="/documentation/syntax/IDENTIFIER.php">IDENTIFIER</a></td>
 			</tr>
 			<tr>
 				<td><a href="/documentation/syntax/DEFINITION.php">DEFINITION</a></td>
 				<td>define a constant, an alias for the valuation of a specified expression</td>
-				<td>[$<a href="/documentation/syntax/XML_DOC_STRING.php">XML_DOC_STRING</a> {<a href="/documentation/syntax/IC.php">IC</a>}] $<a href="/documentation/syntax/IDENTIFIER.php">IDENTIFIER</a> {<a href="/documentation/syntax/IC.php">IC</a>} ":=" {<a href="/documentation/syntax/IC.php">IC</a>} $<a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a></td>
+				<td>[<a href="/documentation/syntax/XML_DOC_STRING.php">XML_DOC_STRING</a>] <a href="/documentation/syntax/IDENTIFIER.php">IDENTIFIER</a> ":=" <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a></td>
 			</tr>
 			<tr>
 				<td><a href="/documentation/syntax/DELTA.php">DELTA</a></td>
 				<td>no doc string</td>
-				<td>("Δ"|"_delta_") ["^" $<a href="/documentation/syntax/WHOLE_NUMBER.php">WHOLE_NUMBER</a>] $<a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a></td>
+				<td>("Δ"|"_delta_") ["^" <a href="/documentation/syntax/WHOLE_NUMBER.php">WHOLE_NUMBER</a>] <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a></td>
 			</tr>
 			<tr>
 				<td><a href="/documentation/syntax/DIMENSION.php">DIMENSION</a></td>
@@ -295,22 +295,22 @@
 			<tr>
 				<td><a href="/documentation/syntax/DIVISION.php">DIVISION</a></td>
 				<td>division or splits the left hand side collection into a collection of collections each the size of the right hand side</td>
-				<td><a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> {<a href="/documentation/syntax/IC.php">IC</a>} ("÷"|"/" ) {<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a></td>
+				<td><a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> ("÷"|"/" ) <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a></td>
 			</tr>
 			<tr>
 				<td><a href="/documentation/syntax/DO.php">DO</a></td>
 				<td>invoke a specified nullary void function (expression) once and then repeatedly while or until the parenthetical evaluates to true (when coerced to bool), unless the optional portion is omitted, in which case the function is invoked indefinitely</td>
-				<td>"do" {<a href="/documentation/syntax/IC.php">IC</a>} $<a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> [ {<a href="/documentation/syntax/IC.php">IC</a>} ("while"|"until") {<a href="/documentation/syntax/IC.php">IC</a>} %condition(<a href="/documentation/syntax/PARENTHETICAL.php">PARENTHETICAL</a>) ]</td>
+				<td>"do" <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> [ ("while"|"until") (<a href="/documentation/syntax/PARENTHETICAL.php">PARENTHETICAL</a>) ]</td>
 			</tr>
 			<tr>
 				<td><a href="/documentation/syntax/DOT_PRODUCT.php">DOT_PRODUCT</a></td>
 				<td>scalar multiplication or Vector<D, N> inner product</td>
-				<td><a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> {<a href="/documentation/syntax/IC.php">IC</a>} ("⋅"|"_dot_") {<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a></td>
+				<td><a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> ("⋅"|"_dot_") <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a></td>
 			</tr>
 			<tr>
 				<td><a href="/documentation/syntax/DOWNCASTS.php">DOWNCASTS</a></td>
 				<td>no doc string</td>
-				<td><a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> {<a href="/documentation/syntax/IC.php">IC</a>} "downcasts" {<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a></td>
+				<td><a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> "downcasts" <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a></td>
 			</tr>
 			<tr>
 				<td><a href="/documentation/syntax/EMBEDDED_COMMENT.php">EMBEDDED_COMMENT</a></td>
@@ -320,7 +320,7 @@
 			<tr>
 				<td><a href="/documentation/syntax/EMBEDDED_COMMENT_INTERIOR.php">EMBEDDED_COMMENT_INTERIOR</a></td>
 				<td>no doc string</td>
-				<td>$<a href="/documentation/syntax/PAYLOAD.php">PAYLOAD</a> | "*" EMBEDDED_COMMENT_INTERIOR "*"</td>
+				<td><a href="/documentation/syntax/PAYLOAD.php">PAYLOAD</a> | "*" EMBEDDED_COMMENT_INTERIOR "*"</td>
 			</tr>
 			<tr>
 				<td><a href="/documentation/syntax/EMBEDDED_NEWLINE_STRING.php">EMBEDDED_NEWLINE_STRING</a></td>
@@ -330,7 +330,7 @@
 			<tr>
 				<td><a href="/documentation/syntax/EMBEDDED_NEWLINE_STRING_INTERIOR.php">EMBEDDED_NEWLINE_STRING_INTERIOR</a></td>
 				<td>no doc string</td>
-				<td>("\n" $<a href="/documentation/syntax/PAYLOAD.php">PAYLOAD</a> "\n") | ("\"" EMBEDDED_NEWLINE_STRING_INTERIOR "\"")</td>
+				<td>("\n" <a href="/documentation/syntax/PAYLOAD.php">PAYLOAD</a> "\n") | ("\"" EMBEDDED_NEWLINE_STRING_INTERIOR "\"")</td>
 			</tr>
 			<tr>
 				<td><a href="/documentation/syntax/EMBEDDED_STRING.php">EMBEDDED_STRING</a></td>
@@ -340,7 +340,7 @@
 			<tr>
 				<td><a href="/documentation/syntax/EMBEDDED_STRING_INTERIOR.php">EMBEDDED_STRING_INTERIOR</a></td>
 				<td>no doc string</td>
-				<td>$<a href="/documentation/syntax/PAYLOAD.php">PAYLOAD</a> | ("\"" EMBEDDED_STRING_INTERIOR "\"")</td>
+				<td><a href="/documentation/syntax/PAYLOAD.php">PAYLOAD</a> | ("\"" EMBEDDED_STRING_INTERIOR "\"")</td>
 			</tr>
 			<tr>
 				<td><a href="/documentation/syntax/END_OF_LINE_COMMENT.php">END_OF_LINE_COMMENT</a></td>
@@ -350,42 +350,42 @@
 			<tr>
 				<td><a href="/documentation/syntax/ENUM.php">ENUM</a></td>
 				<td>makes a compound type with static members for each of the elements, and each of those elements inherit/implement those specified inheritance list</td>
-				<td>"enum" {<a href="/documentation/syntax/IC.php">IC</a>} ["inheriting" {<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/INHERITANCE_LIST.php">INHERITANCE_LIST</a> {<a href="/documentation/syntax/IC.php">IC</a>}] ["implementing" {<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/INHERITANCE_LIST.php">INHERITANCE_LIST</a> {<a href="/documentation/syntax/IC.php">IC</a>}] "{" [$<a href="/documentation/syntax/ENUM_ELEMENT.php">ENUM_ELEMENT</a> {{<a href="/documentation/syntax/IC.php">IC</a>} ";" {<a href="/documentation/syntax/IC.php">IC</a>} $<a href="/documentation/syntax/ENUM_ELEMENT.php">ENUM_ELEMENT</a>}] "}"</td>
+				<td>"enum" ["inheriting" <a href="/documentation/syntax/INHERITANCE_LIST.php">INHERITANCE_LIST</a>] ["implementing" <a href="/documentation/syntax/INHERITANCE_LIST.php">INHERITANCE_LIST</a>] "{" [<a href="/documentation/syntax/ENUM_ELEMENT.php">ENUM_ELEMENT</a> {{<a href="/documentation/syntax/IC.php">IC</a>} ";" <a href="/documentation/syntax/ENUM_ELEMENT.php">ENUM_ELEMENT</a>}] "}"</td>
 			</tr>
 			<tr>
 				<td><a href="/documentation/syntax/ENUM_ELEMENT.php">ENUM_ELEMENT</a></td>
 				<td>no doc string</td>
-				<td>$<a href="/documentation/syntax/IDENTIFIER.php">IDENTIFIER</a> [{<a href="/documentation/syntax/IC.php">IC</a>} ":=" {<a href="/documentation/syntax/IC.php">IC</a>} $<a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a>]</td>
+				<td><a href="/documentation/syntax/IDENTIFIER.php">IDENTIFIER</a> [{<a href="/documentation/syntax/IC.php">IC</a>} ":=" <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a>]</td>
 			</tr>
 			<tr>
 				<td><a href="/documentation/syntax/EQUALITY_CHAIN.php">EQUALITY_CHAIN</a></td>
 				<td>one or more equality relations</td>
-				<td>$<a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> {<a href="/documentation/syntax/IC.php">IC</a>} $<a href="/documentation/syntax/EQUALITY_CHAIN_LOOP.php">EQUALITY_CHAIN_LOOP</a></td>
+				<td><a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> <a href="/documentation/syntax/EQUALITY_CHAIN_LOOP.php">EQUALITY_CHAIN_LOOP</a></td>
 			</tr>
 			<tr>
 				<td><a href="/documentation/syntax/EQUALITY_CHAIN_LOOP.php">EQUALITY_CHAIN_LOOP</a></td>
 				<td>no doc string</td>
-				<td>"=" {<a href="/documentation/syntax/IC.php">IC</a>} $<a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> [{<a href="/documentation/syntax/IC.php">IC</a>} $EQUALITY_CHAIN_LOOP]</td>
+				<td>"=" <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> [{<a href="/documentation/syntax/IC.php">IC</a>} EQUALITY_CHAIN_LOOP]</td>
 			</tr>
 			<tr>
 				<td><a href="/documentation/syntax/EXACTLY.php">EXACTLY</a></td>
 				<td>no doc string</td>
-				<td><a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> {<a href="/documentation/syntax/IC.php">IC</a>} "exactly" {<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a></td>
+				<td><a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> "exactly" <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a></td>
 			</tr>
 			<tr>
 				<td><a href="/documentation/syntax/EXISTS.php">EXISTS</a></td>
 				<td>a constraint asserting that at least one element of the specified Collection is true</td>
-				<td>("∃"|"exists") {<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a></td>
+				<td>("∃"|"exists") <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a></td>
 			</tr>
 			<tr>
 				<td><a href="/documentation/syntax/EXISTS_ONE.php">EXISTS_ONE</a></td>
 				<td>a constraint asserting that exactly one element of the specified Collection is true</td>
-				<td>("∃!"|"exists!") {<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a></td>
+				<td>("∃!"|"exists!") <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a></td>
 			</tr>
 			<tr>
 				<td><a href="/documentation/syntax/EXPONENTIATION.php">EXPONENTIATION</a></td>
 				<td>no doc string</td>
-				<td><a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> {<a href="/documentation/syntax/IC.php">IC</a>} "^" {<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a></td>
+				<td><a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> "^" <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a></td>
 			</tr>
 			<tr>
 				<td><a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a></td>
@@ -400,32 +400,32 @@
 			<tr>
 				<td><a href="/documentation/syntax/FACTORIAL.php">FACTORIAL</a></td>
 				<td>no doc string</td>
-				<td><a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> {<a href="/documentation/syntax/IC.php">IC</a>} "!"</td>
+				<td><a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> "!"</td>
 			</tr>
 			<tr>
 				<td><a href="/documentation/syntax/FLOOR.php">FLOOR</a></td>
 				<td>no doc string</td>
-				<td>( "⌊" {<a href="/documentation/syntax/IC.php">IC</a>} $<a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> {<a href="/documentation/syntax/IC.php">IC</a>} "⌋" ) | ( "|_" {<a href="/documentation/syntax/IC.php">IC</a>} $<a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> {<a href="/documentation/syntax/IC.php">IC</a>} "_|" )</td>
+				<td>( "⌊" <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> "⌋" ) | ( "|_" <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> "_|" )</td>
 			</tr>
 			<tr>
 				<td><a href="/documentation/syntax/FOR.php">FOR</a></td>
 				<td>evaluate the last expression repeatedly while the second expression is true, all after evaluating the optional STATEMENT_SCOPE</td>
-				<td>"for" {<a href="/documentation/syntax/IC.php">IC</a>} "(" {<a href="/documentation/syntax/IC.php">IC</a>} %initializer[ (<a href="/documentation/syntax/STATEMENT_SCOPE.php">STATEMENT_SCOPE</a>) {<a href="/documentation/syntax/IC.php">IC</a>} ] %condition(<a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a>) {<a href="/documentation/syntax/IC.php">IC</a>} ";" {<a href="/documentation/syntax/IC.php">IC</a>} %step[ <a href="/documentation/syntax/ASSIGNMENT_CHAIN.php">ASSIGNMENT_CHAIN</a> {{<a href="/documentation/syntax/IC.php">IC</a>} "," {<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/ASSIGNMENT_CHAIN.php">ASSIGNMENT_CHAIN</a>} {<a href="/documentation/syntax/IC.php">IC</a>} ] ")" {<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a></td>
+				<td>"for" "(" [ (<a href="/documentation/syntax/STATEMENT_SCOPE.php">STATEMENT_SCOPE</a>) ] (<a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a>) ";" [ <a href="/documentation/syntax/ASSIGNMENT_CHAIN.php">ASSIGNMENT_CHAIN</a> {{<a href="/documentation/syntax/IC.php">IC</a>} "," <a href="/documentation/syntax/ASSIGNMENT_CHAIN.php">ASSIGNMENT_CHAIN</a>} ] ")" <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a></td>
 			</tr>
 			<tr>
 				<td><a href="/documentation/syntax/FOR_COLLECTION.php">FOR_COLLECTION</a></td>
 				<td>evaluate the last expression repeatedly while iterating over the elements of the specified Collection</td>
-				<td>"for" {<a href="/documentation/syntax/IC.php">IC</a>} "(" {<a href="/documentation/syntax/IC.php">IC</a>} (%declaration([ (<a href="/documentation/syntax/TYPE_DEREFERENCE.php">TYPE_DEREFERENCE</a> | <a href="/documentation/syntax/IMPLICIT_TYPE_DEREFERENCE.php">IMPLICIT_TYPE_DEREFERENCE</a>) {<a href="/documentation/syntax/IC.php">IC</a>} ] <a href="/documentation/syntax/IDENTIFIER.php">IDENTIFIER</a> ) | $<a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> ) {<a href="/documentation/syntax/IC.php">IC</a>} ("in"|"∈") {<a href="/documentation/syntax/IC.php">IC</a>} %collection(<a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a>) {<a href="/documentation/syntax/IC.php">IC</a>} ")" {<a href="/documentation/syntax/IC.php">IC</a>} %invoke(<a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a>)</td>
+				<td>"for" "(" (([ (<a href="/documentation/syntax/TYPE_DEREFERENCE.php">TYPE_DEREFERENCE</a> | <a href="/documentation/syntax/IMPLICIT_TYPE_DEREFERENCE.php">IMPLICIT_TYPE_DEREFERENCE</a>) ] <a href="/documentation/syntax/IDENTIFIER.php">IDENTIFIER</a> ) | <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> ) ("in"|"∈") (<a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a>) ")" (<a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a>)</td>
 			</tr>
 			<tr>
 				<td><a href="/documentation/syntax/FREE.php">FREE</a></td>
 				<td>no doc string</td>
-				<td>"free" {<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a></td>
+				<td>"free" <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a></td>
 			</tr>
 			<tr>
 				<td><a href="/documentation/syntax/FUNCTION.php">FUNCTION</a></td>
 				<td>creates a function</td>
-				<td>[ "(" {<a href="/documentation/syntax/IC.php">IC</a>} [ $<a href="/documentation/syntax/PARAMETER.php">PARAMETER</a> {{<a href="/documentation/syntax/IC.php">IC</a>} "," {<a href="/documentation/syntax/IC.php">IC</a>} $<a href="/documentation/syntax/PARAMETER.php">PARAMETER</a>} {<a href="/documentation/syntax/IC.php">IC</a>} ] ")" {<a href="/documentation/syntax/IC.php">IC</a>} ] [<a href="/documentation/syntax/FUNCTION_MODIFIER_0.php">FUNCTION_MODIFIER_0</a> {<a href="/documentation/syntax/IC.php">IC</a>}] $<a href="/documentation/syntax/BLOCK.php">BLOCK</a></td>
+				<td>[ "(" [ <a href="/documentation/syntax/PARAMETER.php">PARAMETER</a> {{<a href="/documentation/syntax/IC.php">IC</a>} "," <a href="/documentation/syntax/PARAMETER.php">PARAMETER</a>} ] ")" ] [<a href="/documentation/syntax/FUNCTION_MODIFIER_0.php">FUNCTION_MODIFIER_0</a>] <a href="/documentation/syntax/BLOCK.php">BLOCK</a></td>
 			</tr>
 			<tr>
 				<td><a href="/documentation/syntax/FUNCTION_MODIFIER_0.php">FUNCTION_MODIFIER_0</a></td>
@@ -455,7 +455,7 @@
 			<tr>
 				<td><a href="/documentation/syntax/FUNCTION_MODIFIER_ATOMIC.php">FUNCTION_MODIFIER_ATOMIC</a></td>
 				<td>no doc string</td>
-				<td>$"atomic" [<a href="/documentation/syntax/ICR.php">ICR</a> <a href="/documentation/syntax/FUNCTION_MODIFIER_3.php">FUNCTION_MODIFIER_3</a>]</td>
+				<td>"atomic" [<a href="/documentation/syntax/ICR.php">ICR</a> <a href="/documentation/syntax/FUNCTION_MODIFIER_3.php">FUNCTION_MODIFIER_3</a>]</td>
 			</tr>
 			<tr>
 				<td><a href="/documentation/syntax/FUNCTION_MODIFIER_CALLING_CONVENTION.php">FUNCTION_MODIFIER_CALLING_CONVENTION</a></td>
@@ -465,7 +465,7 @@
 			<tr>
 				<td><a href="/documentation/syntax/FUNCTION_MODIFIER_MODEL.php">FUNCTION_MODIFIER_MODEL</a></td>
 				<td>no doc string</td>
-				<td>%model("pure" | "imperative" | "opaque") [<a href="/documentation/syntax/ICR.php">ICR</a> <a href="/documentation/syntax/FUNCTION_MODIFIER_CALLING_CONVENTION.php">FUNCTION_MODIFIER_CALLING_CONVENTION</a>]</td>
+				<td>("pure" | "imperative" | "opaque") [<a href="/documentation/syntax/ICR.php">ICR</a> <a href="/documentation/syntax/FUNCTION_MODIFIER_CALLING_CONVENTION.php">FUNCTION_MODIFIER_CALLING_CONVENTION</a>]</td>
 			</tr>
 			<tr>
 				<td><a href="/documentation/syntax/FUNCTION_MODIFIER_PLATFORM.php">FUNCTION_MODIFIER_PLATFORM</a></td>
@@ -475,27 +475,27 @@
 			<tr>
 				<td><a href="/documentation/syntax/FUNCTION_MODIFIER_STABILITY.php">FUNCTION_MODIFIER_STABILITY</a></td>
 				<td>no doc string</td>
-				<td>%stability("stable" | "unstable") [<a href="/documentation/syntax/ICR.php">ICR</a> <a href="/documentation/syntax/FUNCTION_MODIFIER_1.php">FUNCTION_MODIFIER_1</a>]</td>
+				<td>("stable" | "unstable") [<a href="/documentation/syntax/ICR.php">ICR</a> <a href="/documentation/syntax/FUNCTION_MODIFIER_1.php">FUNCTION_MODIFIER_1</a>]</td>
 			</tr>
 			<tr>
 				<td><a href="/documentation/syntax/FUNCTION_MODIFIER_THROWING.php">FUNCTION_MODIFIER_THROWING</a></td>
 				<td>no doc string</td>
-				<td>$"throwing" [{<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/ARRAY.php">ARRAY</a>] [<a href="/documentation/syntax/ICR.php">ICR</a> <a href="/documentation/syntax/FUNCTION_MODIFIER_2.php">FUNCTION_MODIFIER_2</a>]</td>
+				<td>"throwing" [{<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/ARRAY.php">ARRAY</a>] [<a href="/documentation/syntax/ICR.php">ICR</a> <a href="/documentation/syntax/FUNCTION_MODIFIER_2.php">FUNCTION_MODIFIER_2</a>]</td>
 			</tr>
 			<tr>
 				<td><a href="/documentation/syntax/GREATER_CHAIN.php">GREATER_CHAIN</a></td>
 				<td>one or more greater, greater or equals, or equals relations</td>
-				<td>$<a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> {<a href="/documentation/syntax/IC.php">IC</a>} $<a href="/documentation/syntax/GREATER_CHAIN_LOOP.php">GREATER_CHAIN_LOOP</a></td>
+				<td><a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> <a href="/documentation/syntax/GREATER_CHAIN_LOOP.php">GREATER_CHAIN_LOOP</a></td>
 			</tr>
 			<tr>
 				<td><a href="/documentation/syntax/GREATER_CHAIN_LOOP.php">GREATER_CHAIN_LOOP</a></td>
 				<td>no doc string</td>
-				<td>("="|"&gt;"|"=&gt;"|"≥") {<a href="/documentation/syntax/IC.php">IC</a>} $<a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> [{<a href="/documentation/syntax/IC.php">IC</a>} $GREATER_CHAIN_LOOP]</td>
+				<td>("="|"&gt;"|"=&gt;"|"≥") <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> [{<a href="/documentation/syntax/IC.php">IC</a>} GREATER_CHAIN_LOOP]</td>
 			</tr>
 			<tr>
 				<td><a href="/documentation/syntax/HAS.php">HAS</a></td>
 				<td>the in operator, backward</td>
-				<td><a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> {<a href="/documentation/syntax/IC.php">IC</a>} ("∋"|"has") {<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a></td>
+				<td><a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> ("∋"|"has") <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a></td>
 			</tr>
 			<tr>
 				<td><a href="/documentation/syntax/HEX.php">HEX</a></td>
@@ -510,77 +510,77 @@
 			<tr>
 				<td><a href="/documentation/syntax/ICR.php">ICR</a></td>
 				<td>intermediary content that is required</td>
-				<td><a href="/documentation/syntax/IC.php">IC</a> {<a href="/documentation/syntax/IC.php">IC</a>}</td>
+				<td><a href="/documentation/syntax/IC.php">IC</a></td>
 			</tr>
 			<tr>
 				<td><a href="/documentation/syntax/IDENTIFIER.php">IDENTIFIER</a></td>
 				<td>text that uniquely identifies a constant or variable within a scope</td>
-				<td>%head(letter | "_") %tail{letter | number | "_"}</td>
+				<td>(letter | "_") {letter | number | "_"}</td>
 			</tr>
 			<tr>
 				<td><a href="/documentation/syntax/IF.php">IF</a></td>
 				<td>returns the expression corresponding to the first parenthetical that evaluates to true when coerced to a boolean, or the else case if none of them evaluate to true, assuming that the else case is present, otherwise returning void</td>
-				<td>"if" {<a href="/documentation/syntax/IC.php">IC</a>} %condition(<a href="/documentation/syntax/PARENTHETICAL.php">PARENTHETICAL</a>) {<a href="/documentation/syntax/IC.php">IC</a>} %invoke(<a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a>) {{<a href="/documentation/syntax/IC.php">IC</a>} "elif" {<a href="/documentation/syntax/IC.php">IC</a>} %condition(<a href="/documentation/syntax/PARENTHETICAL.php">PARENTHETICAL</a>) {<a href="/documentation/syntax/IC.php">IC</a>} %invoke(<a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a>)} [ {<a href="/documentation/syntax/IC.php">IC</a>} "else" {<a href="/documentation/syntax/IC.php">IC</a>} %else_invoke(<a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a>) ]</td>
+				<td>"if" (<a href="/documentation/syntax/PARENTHETICAL.php">PARENTHETICAL</a>) (<a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a>) {{<a href="/documentation/syntax/IC.php">IC</a>} "elif" (<a href="/documentation/syntax/PARENTHETICAL.php">PARENTHETICAL</a>) (<a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a>)} [ "else" (<a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a>) ]</td>
 			</tr>
 			<tr>
 				<td><a href="/documentation/syntax/IFF.php">IFF</a></td>
 				<td>semantic equivalence</td>
-				<td><a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> {<a href="/documentation/syntax/IC.php">IC</a>} ("⇔"|"&lt;=&gt;") {<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a></td>
+				<td><a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> ("⇔"|"&lt;=&gt;") <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a></td>
 			</tr>
 			<tr>
 				<td><a href="/documentation/syntax/IMPLEMENTS.php">IMPLEMENTS</a></td>
 				<td>no doc string</td>
-				<td><a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> {<a href="/documentation/syntax/IC.php">IC</a>} "implements" {<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a></td>
+				<td><a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> "implements" <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a></td>
 			</tr>
 			<tr>
 				<td><a href="/documentation/syntax/IMPLICATION.php">IMPLICATION</a></td>
 				<td>implication</td>
-				<td><a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> {<a href="/documentation/syntax/IC.php">IC</a>} ("⇒"|"=&gt;") {<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a></td>
+				<td><a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> ("⇒"|"=&gt;") <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a></td>
 			</tr>
 			<tr>
 				<td><a href="/documentation/syntax/IMPLICIT_TYPE_DEREFERENCE.php">IMPLICIT_TYPE_DEREFERENCE</a></td>
 				<td>use the type inferred on the right hand side</td>
-				<td>"&lt;" {<a href="/documentation/syntax/IC.php">IC</a>} "&gt;"</td>
+				<td>"&lt;" "&gt;"</td>
 			</tr>
 			<tr>
 				<td><a href="/documentation/syntax/IMPORT.php">IMPORT</a></td>
 				<td>bring the specified</td>
-				<td>"import" {<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a></td>
+				<td>"import" <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a></td>
 			</tr>
 			<tr>
 				<td><a href="/documentation/syntax/IN.php">IN</a></td>
 				<td>Collection membership</td>
-				<td><a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> {<a href="/documentation/syntax/IC.php">IC</a>} ("∈"|"in") {<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a></td>
+				<td><a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> ("∈"|"in") <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a></td>
 			</tr>
 			<tr>
 				<td><a href="/documentation/syntax/INEQUALITY.php">INEQUALITY</a></td>
 				<td>no doc string</td>
-				<td><a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> {<a href="/documentation/syntax/IC.php">IC</a>} ("≠"|"/=") {<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a></td>
+				<td><a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> ("≠"|"/=") <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a></td>
 			</tr>
 			<tr>
 				<td><a href="/documentation/syntax/INHERITANCE_ITEM_PREFIX.php">INHERITANCE_ITEM_PREFIX</a></td>
 				<td>no doc string</td>
-				<td>(<a href="/documentation/syntax/VISIBILITY_MODIFIER.php">VISIBILITY_MODIFIER</a> | <a href="/documentation/syntax/VISIBILITY_MODIFIER.php">VISIBILITY_MODIFIER</a> <a href="/documentation/syntax/ICR.php">ICR</a> $"diamond" | $"diamond") <a href="/documentation/syntax/ICR.php">ICR</a></td>
+				<td>(<a href="/documentation/syntax/VISIBILITY_MODIFIER.php">VISIBILITY_MODIFIER</a> | <a href="/documentation/syntax/VISIBILITY_MODIFIER.php">VISIBILITY_MODIFIER</a> <a href="/documentation/syntax/ICR.php">ICR</a> "diamond" | "diamond") <a href="/documentation/syntax/ICR.php">ICR</a></td>
 			</tr>
 			<tr>
 				<td><a href="/documentation/syntax/INHERITANCE_LIST.php">INHERITANCE_LIST</a></td>
 				<td>see: type</td>
-				<td>[<a href="/documentation/syntax/INHERITANCE_ITEM_PREFIX.php">INHERITANCE_ITEM_PREFIX</a>] $<a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> {{<a href="/documentation/syntax/IC.php">IC</a>} "," {<a href="/documentation/syntax/IC.php">IC</a>} [<a href="/documentation/syntax/INHERITANCE_ITEM_PREFIX.php">INHERITANCE_ITEM_PREFIX</a>] $<a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a>}</td>
+				<td>[<a href="/documentation/syntax/INHERITANCE_ITEM_PREFIX.php">INHERITANCE_ITEM_PREFIX</a>] <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> {{<a href="/documentation/syntax/IC.php">IC</a>} "," [<a href="/documentation/syntax/INHERITANCE_ITEM_PREFIX.php">INHERITANCE_ITEM_PREFIX</a>] <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a>}</td>
 			</tr>
 			<tr>
 				<td><a href="/documentation/syntax/INHERITS.php">INHERITS</a></td>
 				<td>no doc string</td>
-				<td><a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> {<a href="/documentation/syntax/IC.php">IC</a>} "inherits" {<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a></td>
+				<td><a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> "inherits" <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a></td>
 			</tr>
 			<tr>
 				<td><a href="/documentation/syntax/INTEGER_DIVISION.php">INTEGER_DIVISION</a></td>
 				<td>same as ⌊x/y⌋ or collection difference (similar to set difference)</td>
-				<td><a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> {<a href="/documentation/syntax/IC.php">IC</a>} "\\" {<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a></td>
+				<td><a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> "\\" <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a></td>
 			</tr>
 			<tr>
 				<td><a href="/documentation/syntax/INTERSECTION.php">INTERSECTION</a></td>
 				<td>Collection intersection</td>
-				<td><a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> {<a href="/documentation/syntax/IC.php">IC</a>} "∩" {<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a></td>
+				<td><a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> "∩" <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a></td>
 			</tr>
 			<tr>
 				<td><a href="/documentation/syntax/INVOCATION.php">INVOCATION</a></td>
@@ -590,72 +590,72 @@
 			<tr>
 				<td><a href="/documentation/syntax/IS.php">IS</a></td>
 				<td>no doc string</td>
-				<td><a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> {<a href="/documentation/syntax/IC.php">IC</a>} "is" {<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a></td>
+				<td><a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> "is" <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a></td>
 			</tr>
 			<tr>
 				<td><a href="/documentation/syntax/KLEENE_STAR.php">KLEENE_STAR</a></td>
 				<td>the free monoid operator</td>
-				<td><a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> {<a href="/documentation/syntax/IC.php">IC</a>} "*"</td>
+				<td><a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> "*"</td>
 			</tr>
 			<tr>
 				<td><a href="/documentation/syntax/LESSER_CHAIN.php">LESSER_CHAIN</a></td>
 				<td>one or more lesser, lesser or equals, or equals relations</td>
-				<td><a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> {<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/LESSER_CHAIN_LOOP.php">LESSER_CHAIN_LOOP</a></td>
+				<td><a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> <a href="/documentation/syntax/LESSER_CHAIN_LOOP.php">LESSER_CHAIN_LOOP</a></td>
 			</tr>
 			<tr>
 				<td><a href="/documentation/syntax/LESSER_CHAIN_LOOP.php">LESSER_CHAIN_LOOP</a></td>
 				<td>no doc string</td>
-				<td>("="|"&lt;"|"=&lt;"|"≤") {<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> [{<a href="/documentation/syntax/IC.php">IC</a>} LESSER_CHAIN_LOOP]</td>
+				<td>("="|"&lt;"|"=&lt;"|"≤") <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> [{<a href="/documentation/syntax/IC.php">IC</a>} LESSER_CHAIN_LOOP]</td>
 			</tr>
 			<tr>
 				<td><a href="/documentation/syntax/LIST.php">LIST</a></td>
 				<td>a Collection of items</td>
-				<td>"[|" {<a href="/documentation/syntax/IC.php">IC</a>} %elements[<a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> {{<a href="/documentation/syntax/IC.php">IC</a>} ", " {<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a>} {<a href="/documentation/syntax/IC.php">IC</a>} ] "|]"</td>
+				<td>"[|" [<a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> {{<a href="/documentation/syntax/IC.php">IC</a>} ", " <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a>} ] "|]"</td>
 			</tr>
 			<tr>
 				<td><a href="/documentation/syntax/LOCK.php">LOCK</a></td>
 				<td>no doc string</td>
-				<td>"lock" {<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/PARENTHETICAL.php">PARENTHETICAL</a> {<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/BLOCK.php">BLOCK</a></td>
+				<td>"lock" <a href="/documentation/syntax/PARENTHETICAL.php">PARENTHETICAL</a> <a href="/documentation/syntax/BLOCK.php">BLOCK</a></td>
 			</tr>
 			<tr>
 				<td><a href="/documentation/syntax/LOOP.php">LOOP</a></td>
 				<td>evaluate an expression repeatedly while or until a parenthetical evaluates to true</td>
-				<td>( "while" | "until" ) {<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/PARENTHETICAL.php">PARENTHETICAL</a> {<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a></td>
+				<td>( "while" | "until" ) <a href="/documentation/syntax/PARENTHETICAL.php">PARENTHETICAL</a> <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a></td>
 			</tr>
 			<tr>
 				<td><a href="/documentation/syntax/MAGNITUDE.php">MAGNITUDE</a></td>
 				<td>absolute value, vector magnitude, cardinality</td>
-				<td>"|" {<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> {<a href="/documentation/syntax/IC.php">IC</a>} "|"</td>
+				<td>"|" <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> "|"</td>
 			</tr>
 			<tr>
 				<td><a href="/documentation/syntax/MAP.php">MAP</a></td>
 				<td>create an associative Collection implementing Map<a → b></td>
-				<td>"{" [{<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> {<a href="/documentation/syntax/IC.php">IC</a>} ":" {<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> {{<a href="/documentation/syntax/IC.php">IC</a>} "," {<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> {<a href="/documentation/syntax/IC.php">IC</a>} ":" {<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a>}] {<a href="/documentation/syntax/IC.php">IC</a>} "}"</td>
+				<td>"{" [{<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> ":" <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> {{<a href="/documentation/syntax/IC.php">IC</a>} "," <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> ":" <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a>}] "}"</td>
 			</tr>
 			<tr>
 				<td><a href="/documentation/syntax/MAPS_TO.php">MAPS_TO</a></td>
 				<td>function type builder</td>
-				<td><a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> {<a href="/documentation/syntax/IC.php">IC</a>} ("→"|"-&gt;") {<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a></td>
+				<td><a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> ("→"|"-&gt;") <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a></td>
 			</tr>
 			<tr>
 				<td><a href="/documentation/syntax/MEMBER_ACCESS.php">MEMBER_ACCESS</a></td>
 				<td>no doc string</td>
-				<td><a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> {<a href="/documentation/syntax/IC.php">IC</a>} "." {<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/IDENTIFIER.php">IDENTIFIER</a></td>
+				<td><a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> "." <a href="/documentation/syntax/IDENTIFIER.php">IDENTIFIER</a></td>
 			</tr>
 			<tr>
 				<td><a href="/documentation/syntax/MEMBER_OFFSET.php">MEMBER_OFFSET</a></td>
 				<td>no doc string</td>
-				<td>"@" {<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/WHOLE_NUMBER.php">WHOLE_NUMBER</a></td>
+				<td>"@" <a href="/documentation/syntax/WHOLE_NUMBER.php">WHOLE_NUMBER</a></td>
 			</tr>
 			<tr>
 				<td><a href="/documentation/syntax/MODULATION.php">MODULATION</a></td>
 				<td>mod operator or returns a collection containing the elements that would not be consumed from the end of the left hand side by taking the chunk of the right hand side</td>
-				<td><a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> {<a href="/documentation/syntax/IC.php">IC</a>} "%" {<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a></td>
+				<td><a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> "%" <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a></td>
 			</tr>
 			<tr>
 				<td><a href="/documentation/syntax/MULTIPLICATION.php">MULTIPLICATION</a></td>
 				<td>scalar multiplication, cartesian product</td>
-				<td><a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> {<a href="/documentation/syntax/IC.php">IC</a>} "*" {<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a></td>
+				<td><a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> "*" <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a></td>
 			</tr>
 			<tr>
 				<td><a href="/documentation/syntax/MULTIPLICATIVE_OP.php">MULTIPLICATIVE_OP</a></td>
@@ -665,17 +665,17 @@
 			<tr>
 				<td><a href="/documentation/syntax/NAND.php">NAND</a></td>
 				<td>no doc string</td>
-				<td><a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> {<a href="/documentation/syntax/IC.php">IC</a>} "↑" {<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a></td>
+				<td><a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> "↑" <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a></td>
 			</tr>
 			<tr>
 				<td><a href="/documentation/syntax/NEAREST_INTEGER.php">NEAREST_INTEGER</a></td>
 				<td>round to the nearest integer</td>
-				<td>( "⌊" {<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> {<a href="/documentation/syntax/IC.php">IC</a>} "⌉" ) | ("|_" {<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> {<a href="/documentation/syntax/IC.php">IC</a>} "'|" )</td>
+				<td>( "⌊" <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> "⌉" ) | ("|_" <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> "'|" )</td>
 			</tr>
 			<tr>
 				<td><a href="/documentation/syntax/NEGATION.php">NEGATION</a></td>
 				<td>no doc string</td>
-				<td>"-" {<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a></td>
+				<td>"-" <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a></td>
 			</tr>
 			<tr>
 				<td><a href="/documentation/syntax/NON_FRACTIONAL.php">NON_FRACTIONAL</a></td>
@@ -710,32 +710,32 @@
 			<tr>
 				<td><a href="/documentation/syntax/NOR.php">NOR</a></td>
 				<td>no doc string</td>
-				<td><a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> {<a href="/documentation/syntax/IC.php">IC</a>} ("↓") {<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a></td>
+				<td><a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> ("↓") <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a></td>
 			</tr>
 			<tr>
 				<td><a href="/documentation/syntax/NOT.php">NOT</a></td>
 				<td>boolean not</td>
-				<td>("¬"|"~") {<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a></td>
+				<td>("¬"|"~") <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a></td>
 			</tr>
 			<tr>
 				<td><a href="/documentation/syntax/NOT_HAS.php">NOT_HAS</a></td>
 				<td>not_in, backward</td>
-				<td><a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> {<a href="/documentation/syntax/IC.php">IC</a>} ("∌"|"/has") {<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a></td>
+				<td><a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> ("∌"|"/has") <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a></td>
 			</tr>
 			<tr>
 				<td><a href="/documentation/syntax/NOT_IN.php">NOT_IN</a></td>
 				<td>Collection anti-membership</td>
-				<td><a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> {<a href="/documentation/syntax/IC.php">IC</a>} ("∉"|"/in") {<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a></td>
+				<td><a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> ("∉"|"/in") <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a></td>
 			</tr>
 			<tr>
 				<td><a href="/documentation/syntax/NULL_COALESCE.php">NULL_COALESCE</a></td>
 				<td>return the first expression if non-null otherwise return the second expression</td>
-				<td><a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> {<a href="/documentation/syntax/IC.php">IC</a>} "??" {<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a></td>
+				<td><a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> "??" <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a></td>
 			</tr>
 			<tr>
 				<td><a href="/documentation/syntax/OBJECT.php">OBJECT</a></td>
 				<td>no doc string</td>
-				<td>"object" {<a href="/documentation/syntax/IC.php">IC</a>} ["inheriting" {<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/INHERITANCE_LIST.php">INHERITANCE_LIST</a> {<a href="/documentation/syntax/IC.php">IC</a>}] ["implementing" {<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/INHERITANCE_LIST.php">INHERITANCE_LIST</a> {<a href="/documentation/syntax/IC.php">IC</a>}] "{" <a href="/documentation/syntax/TYPE_SCOPE.php">TYPE_SCOPE</a> "}"</td>
+				<td>"object" ["inheriting" <a href="/documentation/syntax/INHERITANCE_LIST.php">INHERITANCE_LIST</a>] ["implementing" <a href="/documentation/syntax/INHERITANCE_LIST.php">INHERITANCE_LIST</a>] "{" <a href="/documentation/syntax/TYPE_SCOPE.php">TYPE_SCOPE</a> "}"</td>
 			</tr>
 			<tr>
 				<td><a href="/documentation/syntax/OCTAL.php">OCTAL</a></td>
@@ -745,7 +745,7 @@
 			<tr>
 				<td><a href="/documentation/syntax/OR.php">OR</a></td>
 				<td>no doc string</td>
-				<td><a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> {<a href="/documentation/syntax/IC.php">IC</a>} ("∨"|"or") {<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a></td>
+				<td><a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> ("∨"|"or") <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a></td>
 			</tr>
 			<tr>
 				<td><a href="/documentation/syntax/PARAMETER.php">PARAMETER</a></td>
@@ -755,22 +755,22 @@
 			<tr>
 				<td><a href="/documentation/syntax/PARAMETER_ANALYTIC.php">PARAMETER_ANALYTIC</a></td>
 				<td>no doc string</td>
-				<td><a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> [ {<a href="/documentation/syntax/IC.php">IC</a>} "=" {<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> ]</td>
+				<td><a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> [ "=" <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> ]</td>
 			</tr>
 			<tr>
 				<td><a href="/documentation/syntax/PARAMETER_NATURAL.php">PARAMETER_NATURAL</a></td>
 				<td>no doc string</td>
-				<td>([ <a href="/documentation/syntax/TYPE_DEREFERENCE.php">TYPE_DEREFERENCE</a> {<a href="/documentation/syntax/IC.php">IC</a>} ] <a href="/documentation/syntax/IDENTIFIER.php">IDENTIFIER</a> ["..."]) | ([ (<a href="/documentation/syntax/TYPE_DEREFERENCE.php">TYPE_DEREFERENCE</a> | <a href="/documentation/syntax/IMPLICIT_TYPE_DEREFERENCE.php">IMPLICIT_TYPE_DEREFERENCE</a>) {<a href="/documentation/syntax/IC.php">IC</a>} ] <a href="/documentation/syntax/IDENTIFIER.php">IDENTIFIER</a> ["..."] {<a href="/documentation/syntax/IC.php">IC</a>} "=" {<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> ["..."])</td>
+				<td>([ <a href="/documentation/syntax/TYPE_DEREFERENCE.php">TYPE_DEREFERENCE</a> ] <a href="/documentation/syntax/IDENTIFIER.php">IDENTIFIER</a> ["..."]) | ([ (<a href="/documentation/syntax/TYPE_DEREFERENCE.php">TYPE_DEREFERENCE</a> | <a href="/documentation/syntax/IMPLICIT_TYPE_DEREFERENCE.php">IMPLICIT_TYPE_DEREFERENCE</a>) ] <a href="/documentation/syntax/IDENTIFIER.php">IDENTIFIER</a> ["..."] "=" <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> ["..."])</td>
 			</tr>
 			<tr>
 				<td><a href="/documentation/syntax/PARENTHETICAL.php">PARENTHETICAL</a></td>
 				<td>an expression in parenthesis</td>
-				<td>"(" {<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> {<a href="/documentation/syntax/IC.php">IC</a>} ")"</td>
+				<td>"(" <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> ")"</td>
 			</tr>
 			<tr>
 				<td><a href="/documentation/syntax/PARENTHETICAL_INVOCATION.php">PARENTHETICAL_INVOCATION</a></td>
 				<td>no doc string</td>
-				<td>%target(<a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a>) {<a href="/documentation/syntax/IC.php">IC</a>} "(" %argsHead[{<a href="/documentation/syntax/IC.php">IC</a>} (<a href="/documentation/syntax/ARGUMENT.php">ARGUMENT</a>|<a href="/documentation/syntax/ARGUMENT_PACK.php">ARGUMENT_PACK</a>)] %argsTail{{<a href="/documentation/syntax/IC.php">IC</a>} "," [{<a href="/documentation/syntax/IC.php">IC</a>} (<a href="/documentation/syntax/ARGUMENT.php">ARGUMENT</a>|<a href="/documentation/syntax/ARGUMENT_PACK.php">ARGUMENT_PACK</a>)]} {<a href="/documentation/syntax/IC.php">IC</a>} ")"</td>
+				<td>(<a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a>) "(" [{<a href="/documentation/syntax/IC.php">IC</a>} (<a href="/documentation/syntax/ARGUMENT.php">ARGUMENT</a>|<a href="/documentation/syntax/ARGUMENT_PACK.php">ARGUMENT_PACK</a>)] {{<a href="/documentation/syntax/IC.php">IC</a>} "," [{<a href="/documentation/syntax/IC.php">IC</a>} (<a href="/documentation/syntax/ARGUMENT.php">ARGUMENT</a>|<a href="/documentation/syntax/ARGUMENT_PACK.php">ARGUMENT_PACK</a>)]} ")"</td>
 			</tr>
 			<tr>
 				<td><a href="/documentation/syntax/PAYLOAD.php">PAYLOAD</a></td>
@@ -785,42 +785,42 @@
 			<tr>
 				<td><a href="/documentation/syntax/POST_DEC.php">POST_DEC</a></td>
 				<td>no doc string</td>
-				<td><a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> {<a href="/documentation/syntax/IC.php">IC</a>} "--"</td>
+				<td><a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> "--"</td>
 			</tr>
 			<tr>
 				<td><a href="/documentation/syntax/POST_INC.php">POST_INC</a></td>
 				<td>no doc string</td>
-				<td><a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> {<a href="/documentation/syntax/IC.php">IC</a>} "++"</td>
+				<td><a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> "++"</td>
 			</tr>
 			<tr>
 				<td><a href="/documentation/syntax/PREPEND.php">PREPEND</a></td>
 				<td>create a new Collection starting with the left hand side followed by the elements of the right hand side Collection</td>
-				<td><a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> {<a href="/documentation/syntax/IC.php">IC</a>} "&amp;" {<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a></td>
+				<td><a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> "&amp;" <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a></td>
 			</tr>
 			<tr>
 				<td><a href="/documentation/syntax/PRE_DEC.php">PRE_DEC</a></td>
 				<td>no doc string</td>
-				<td>"--" {<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a></td>
+				<td>"--" <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a></td>
 			</tr>
 			<tr>
 				<td><a href="/documentation/syntax/PRE_INC.php">PRE_INC</a></td>
 				<td>no doc string</td>
-				<td>"++" {<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a></td>
+				<td>"++" <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a></td>
 			</tr>
 			<tr>
 				<td><a href="/documentation/syntax/RADICAL.php">RADICAL</a></td>
 				<td>no doc string</td>
-				<td>"√" {<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a></td>
+				<td>"√" <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a></td>
 			</tr>
 			<tr>
 				<td><a href="/documentation/syntax/RANGE.php">RANGE</a></td>
 				<td>create a totally-ordered open/closed/half-open discreet/continuous Collection</td>
-				<td>"(" {<a href="/documentation/syntax/IC.php">IC</a>} "..." {<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> {<a href="/documentation/syntax/IC.php">IC</a>} ( "]" | ")" ) | ( "[" | "(" ) {<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> {<a href="/documentation/syntax/IC.php">IC</a>} "..." {<a href="/documentation/syntax/IC.php">IC</a>} ")" | ( "(" | "[" ) {<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> {<a href="/documentation/syntax/IC.php">IC</a>} "..." {<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> {<a href="/documentation/syntax/IC.php">IC</a>} ( "]" | ")" )</td>
+				<td>"(" "..." <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> ( "]" | ")" ) | ( "[" | "(" ) <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> "..." ")" | ( "(" | "[" ) <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> "..." <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> ( "]" | ")" )</td>
 			</tr>
 			<tr>
 				<td><a href="/documentation/syntax/READ_LOCK.php">READ_LOCK</a></td>
 				<td>no doc string</td>
-				<td>"read_lock" {<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/PARENTHETICAL.php">PARENTHETICAL</a> {<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a></td>
+				<td>"read_lock" <a href="/documentation/syntax/PARENTHETICAL.php">PARENTHETICAL</a> <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a></td>
 			</tr>
 			<tr>
 				<td><a href="/documentation/syntax/RECORD.php">RECORD</a></td>
@@ -845,37 +845,37 @@
 			<tr>
 				<td><a href="/documentation/syntax/RETURN.php">RETURN</a></td>
 				<td>exit the current function, optionally returning a value</td>
-				<td>"return" [{<a href="/documentation/syntax/IC.php">IC</a>} "[" {<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> {<a href="/documentation/syntax/IC.php">IC</a>} "]"] [ {<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> ]</td>
+				<td>"return" [{<a href="/documentation/syntax/IC.php">IC</a>} "[" <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> "]"] [ <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> ]</td>
 			</tr>
 			<tr>
 				<td><a href="/documentation/syntax/SET.php">SET</a></td>
 				<td>no doc string</td>
-				<td>"{|" {<a href="/documentation/syntax/IC.php">IC</a>} %elements[<a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> {{<a href="/documentation/syntax/IC.php">IC</a>} "," {<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a>} {<a href="/documentation/syntax/IC.php">IC</a>}] "|}"</td>
+				<td>"{|" [<a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> {{<a href="/documentation/syntax/IC.php">IC</a>} "," <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a>}] "|}"</td>
 			</tr>
 			<tr>
 				<td><a href="/documentation/syntax/SET_COMPREHENSION.php">SET_COMPREHENSION</a></td>
 				<td>create a Collection, substituting variables bound in the right hand side into the left hand side</td>
-				<td>"{" {<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> {<a href="/documentation/syntax/IC.php">IC</a>} "|" {<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> {<a href="/documentation/syntax/IC.php">IC</a>} "}"</td>
+				<td>"{" <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> "|" <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> "}"</td>
 			</tr>
 			<tr>
 				<td><a href="/documentation/syntax/SHIFTL.php">SHIFTL</a></td>
 				<td>shift left</td>
-				<td><a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> {<a href="/documentation/syntax/IC.php">IC</a>} "&lt;&lt;" {<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a></td>
+				<td><a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> "&lt;&lt;" <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a></td>
 			</tr>
 			<tr>
 				<td><a href="/documentation/syntax/SHIFTR.php">SHIFTR</a></td>
 				<td>shift right</td>
-				<td><a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> {<a href="/documentation/syntax/IC.php">IC</a>} "&gt;&gt;" {<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a></td>
+				<td><a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> "&gt;&gt;" <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a></td>
 			</tr>
 			<tr>
 				<td><a href="/documentation/syntax/SLICE.php">SLICE</a></td>
 				<td>used in ARRAY_INVOCATION</td>
-				<td><a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> {<a href="/documentation/syntax/IC.php">IC</a>} ":" {<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a></td>
+				<td><a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> ":" <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a></td>
 			</tr>
 			<tr>
 				<td><a href="/documentation/syntax/STATEMENT.php">STATEMENT</a></td>
 				<td>top-level statement syntax</td>
-				<td>%value( <a href="/documentation/syntax/ASSIGNMENT_CHAIN.php">ASSIGNMENT_CHAIN</a> | <a href="/documentation/syntax/BREAK.php">BREAK</a> | <a href="/documentation/syntax/CONTINUE.php">CONTINUE</a> | <a href="/documentation/syntax/DEFINITION.php">DEFINITION</a> | <a href="/documentation/syntax/DO.php">DO</a> | <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> | <a href="/documentation/syntax/FOR.php">FOR</a> | <a href="/documentation/syntax/FOR_COLLECTION.php">FOR_COLLECTION</a> | <a href="/documentation/syntax/FREE.php">FREE</a> | <a href="/documentation/syntax/IMPORT.php">IMPORT</a> | <a href="/documentation/syntax/LOCK.php">LOCK</a> | <a href="/documentation/syntax/LOOP.php">LOOP</a> | <a href="/documentation/syntax/READ_LOCK.php">READ_LOCK</a> | <a href="/documentation/syntax/RETURN.php">RETURN</a> | <a href="/documentation/syntax/THROW.php">THROW</a> | <a href="/documentation/syntax/TRY.php">TRY</a> | <a href="/documentation/syntax/TYPE_CONSTRAINT.php">TYPE_CONSTRAINT</a> | <a href="/documentation/syntax/WRITE_LOCK.php">WRITE_LOCK</a> | <a href="/documentation/syntax/USING.php">USING</a> ) %ic{<a href="/documentation/syntax/IC.php">IC</a>} ";"</td>
+				<td>( <a href="/documentation/syntax/ASSIGNMENT_CHAIN.php">ASSIGNMENT_CHAIN</a> | <a href="/documentation/syntax/BREAK.php">BREAK</a> | <a href="/documentation/syntax/CONTINUE.php">CONTINUE</a> | <a href="/documentation/syntax/DEFINITION.php">DEFINITION</a> | <a href="/documentation/syntax/DO.php">DO</a> | <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> | <a href="/documentation/syntax/FOR.php">FOR</a> | <a href="/documentation/syntax/FOR_COLLECTION.php">FOR_COLLECTION</a> | <a href="/documentation/syntax/FREE.php">FREE</a> | <a href="/documentation/syntax/IMPORT.php">IMPORT</a> | <a href="/documentation/syntax/LOCK.php">LOCK</a> | <a href="/documentation/syntax/LOOP.php">LOOP</a> | <a href="/documentation/syntax/READ_LOCK.php">READ_LOCK</a> | <a href="/documentation/syntax/RETURN.php">RETURN</a> | <a href="/documentation/syntax/THROW.php">THROW</a> | <a href="/documentation/syntax/TRY.php">TRY</a> | <a href="/documentation/syntax/TYPE_CONSTRAINT.php">TYPE_CONSTRAINT</a> | <a href="/documentation/syntax/WRITE_LOCK.php">WRITE_LOCK</a> | <a href="/documentation/syntax/USING.php">USING</a> ) ";"</td>
 			</tr>
 			<tr>
 				<td><a href="/documentation/syntax/STATEMENT_SCOPE.php">STATEMENT_SCOPE</a></td>
@@ -890,57 +890,57 @@
 			<tr>
 				<td><a href="/documentation/syntax/SUBSET_CHAIN.php">SUBSET_CHAIN</a></td>
 				<td>One or more subset, proper subset, or equality relations</td>
-				<td><a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> {<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/SUBSET_CHAIN_LOOP.php">SUBSET_CHAIN_LOOP</a></td>
+				<td><a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> <a href="/documentation/syntax/SUBSET_CHAIN_LOOP.php">SUBSET_CHAIN_LOOP</a></td>
 			</tr>
 			<tr>
 				<td><a href="/documentation/syntax/SUBSET_CHAIN_LOOP.php">SUBSET_CHAIN_LOOP</a></td>
 				<td>no doc string</td>
-				<td>("="|"⊆"|"subs"|"⊂"|"psubs") {<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> [{<a href="/documentation/syntax/IC.php">IC</a>} SUBSET_CHAIN_LOOP]</td>
+				<td>("="|"⊆"|"subs"|"⊂"|"psubs") <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> [{<a href="/documentation/syntax/IC.php">IC</a>} SUBSET_CHAIN_LOOP]</td>
 			</tr>
 			<tr>
 				<td><a href="/documentation/syntax/SUBTRACTION.php">SUBTRACTION</a></td>
 				<td>no doc string</td>
-				<td><a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> {<a href="/documentation/syntax/IC.php">IC</a>} "-" {<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a></td>
+				<td><a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> "-" <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a></td>
 			</tr>
 			<tr>
 				<td><a href="/documentation/syntax/SUPERSET_CHAIN.php">SUPERSET_CHAIN</a></td>
 				<td>One or more superset, proper superset, or equality relations</td>
-				<td><a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> {<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/SUPERSET_CHAIN_LOOP.php">SUPERSET_CHAIN_LOOP</a></td>
+				<td><a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> <a href="/documentation/syntax/SUPERSET_CHAIN_LOOP.php">SUPERSET_CHAIN_LOOP</a></td>
 			</tr>
 			<tr>
 				<td><a href="/documentation/syntax/SUPERSET_CHAIN_LOOP.php">SUPERSET_CHAIN_LOOP</a></td>
 				<td>no doc string</td>
-				<td>("="|"⊇"|"sups"|"⊃"|"psups") {<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> [{<a href="/documentation/syntax/IC.php">IC</a>} SUPERSET_CHAIN_LOOP]</td>
+				<td>("="|"⊇"|"sups"|"⊃"|"psups") <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> [{<a href="/documentation/syntax/IC.php">IC</a>} SUPERSET_CHAIN_LOOP]</td>
 			</tr>
 			<tr>
 				<td><a href="/documentation/syntax/SWIZZLE.php">SWIZZLE</a></td>
 				<td>no doc string</td>
-				<td><a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> {<a href="/documentation/syntax/IC.php">IC</a>} ("⋮" | "_swiz_") {<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a></td>
+				<td><a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> ("⋮" | "_swiz_") <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a></td>
 			</tr>
 			<tr>
 				<td><a href="/documentation/syntax/SYMMETRIC_DIFFERENCE.php">SYMMETRIC_DIFFERENCE</a></td>
 				<td>the set-theoretic symmetric disjunction (Collection xor)</td>
-				<td><a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> {<a href="/documentation/syntax/IC.php">IC</a>} "⊖" {<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a></td>
+				<td><a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> "⊖" <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a></td>
 			</tr>
 			<tr>
 				<td><a href="/documentation/syntax/THIS.php">THIS</a></td>
 				<td>no doc string</td>
-				<td>"this" [{<a href="/documentation/syntax/IC.php">IC</a>} "[" {<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> {<a href="/documentation/syntax/IC.php">IC</a>} "]"]</td>
+				<td>"this" [{<a href="/documentation/syntax/IC.php">IC</a>} "[" <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> "]"]</td>
 			</tr>
 			<tr>
 				<td><a href="/documentation/syntax/THIS_FUNC.php">THIS_FUNC</a></td>
 				<td>no doc string</td>
-				<td>"this_func" [{<a href="/documentation/syntax/IC.php">IC</a>} "[" {<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> {<a href="/documentation/syntax/IC.php">IC</a>} "]"]</td>
+				<td>"this_func" [{<a href="/documentation/syntax/IC.php">IC</a>} "[" <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> "]"]</td>
 			</tr>
 			<tr>
 				<td><a href="/documentation/syntax/THIS_TYPE.php">THIS_TYPE</a></td>
 				<td>no doc string</td>
-				<td>"this_type" [{<a href="/documentation/syntax/IC.php">IC</a>} "[" {<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> {<a href="/documentation/syntax/IC.php">IC</a>} "]"]</td>
+				<td>"this_type" [{<a href="/documentation/syntax/IC.php">IC</a>} "[" <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> "]"]</td>
 			</tr>
 			<tr>
 				<td><a href="/documentation/syntax/THROW.php">THROW</a></td>
 				<td>raise an exception with an optional value which must implement Exception if specified</td>
-				<td>"throw" [{<a href="/documentation/syntax/IC.php">IC</a>} "[" {<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> {<a href="/documentation/syntax/IC.php">IC</a>} "]" ] [{<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a>]</td>
+				<td>"throw" [{<a href="/documentation/syntax/IC.php">IC</a>} "[" <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> "]" ] [{<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a>]</td>
 			</tr>
 			<tr>
 				<td><a href="/documentation/syntax/TIME.php">TIME</a></td>
@@ -950,72 +950,72 @@
 			<tr>
 				<td><a href="/documentation/syntax/TRY.php">TRY</a></td>
 				<td>executes the specified nullary void function of the first expression, catching exceptions that pattern match the function(s) of the second expression, and then executes the third expression unconditionally</td>
-				<td>"try" {<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> {<a href="/documentation/syntax/IC.php">IC</a>} "catch" {<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> {"catch" {<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a>} [{<a href="/documentation/syntax/IC.php">IC</a>} "finally" {<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a>]</td>
+				<td>"try" <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> "catch" <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> {"catch" <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a>} [{<a href="/documentation/syntax/IC.php">IC</a>} "finally" <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a>]</td>
 			</tr>
 			<tr>
 				<td><a href="/documentation/syntax/TUPLE.php">TUPLE</a></td>
 				<td>create a finite, ordered tuple of elements</td>
-				<td>"(|" {<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> {{<a href="/documentation/syntax/IC.php">IC</a>} "," {<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a>} {<a href="/documentation/syntax/IC.php">IC</a>} "|)"</td>
+				<td>"(|" <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> {{<a href="/documentation/syntax/IC.php">IC</a>} "," <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a>} "|)"</td>
 			</tr>
 			<tr>
 				<td><a href="/documentation/syntax/TYPE.php">TYPE</a></td>
 				<td>create a type</td>
-				<td>"type" {<a href="/documentation/syntax/IC.php">IC</a>} ["inheriting" {<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/INHERITANCE_LIST.php">INHERITANCE_LIST</a> {<a href="/documentation/syntax/IC.php">IC</a>}] ["implementing" {<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/INHERITANCE_LIST.php">INHERITANCE_LIST</a> {<a href="/documentation/syntax/IC.php">IC</a>}] "{" <a href="/documentation/syntax/TYPE_SCOPE.php">TYPE_SCOPE</a> "}"</td>
+				<td>"type" ["inheriting" <a href="/documentation/syntax/INHERITANCE_LIST.php">INHERITANCE_LIST</a>] ["implementing" <a href="/documentation/syntax/INHERITANCE_LIST.php">INHERITANCE_LIST</a>] "{" <a href="/documentation/syntax/TYPE_SCOPE.php">TYPE_SCOPE</a> "}"</td>
 			</tr>
 			<tr>
 				<td><a href="/documentation/syntax/TYPE_CONSTRAINT.php">TYPE_CONSTRAINT</a></td>
 				<td>no doc string</td>
-				<td><a href="/documentation/syntax/TYPE_CONSTRAINT_HEAD.php">TYPE_CONSTRAINT_HEAD</a> {<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/TYPE_CONSTRAINT_CHAIN.php">TYPE_CONSTRAINT_CHAIN</a></td>
+				<td><a href="/documentation/syntax/TYPE_CONSTRAINT_HEAD.php">TYPE_CONSTRAINT_HEAD</a> <a href="/documentation/syntax/TYPE_CONSTRAINT_CHAIN.php">TYPE_CONSTRAINT_CHAIN</a></td>
 			</tr>
 			<tr>
 				<td><a href="/documentation/syntax/TYPE_CONSTRAINT_CHAIN.php">TYPE_CONSTRAINT_CHAIN</a></td>
 				<td>no doc string</td>
-				<td>(<a href="/documentation/syntax/DECLARATION.php">DECLARATION</a>|<a href="/documentation/syntax/ASSIGNMENT_CHAIN.php">ASSIGNMENT_CHAIN</a>|<a href="/documentation/syntax/DEFINITION.php">DEFINITION</a>) [{<a href="/documentation/syntax/IC.php">IC</a>} "," {<a href="/documentation/syntax/IC.php">IC</a>} TYPE_CONSTRAINT_CHAIN]</td>
+				<td>(<a href="/documentation/syntax/DECLARATION.php">DECLARATION</a>|<a href="/documentation/syntax/ASSIGNMENT_CHAIN.php">ASSIGNMENT_CHAIN</a>|<a href="/documentation/syntax/DEFINITION.php">DEFINITION</a>) [{<a href="/documentation/syntax/IC.php">IC</a>} "," TYPE_CONSTRAINT_CHAIN]</td>
 			</tr>
 			<tr>
 				<td><a href="/documentation/syntax/TYPE_CONSTRAINT_HEAD.php">TYPE_CONSTRAINT_HEAD</a></td>
 				<td>no doc string</td>
-				<td>[$<a href="/documentation/syntax/XML_DOC_STRING.php">XML_DOC_STRING</a> {<a href="/documentation/syntax/IC.php">IC</a>}] {<a href="/documentation/syntax/ATTRIBUTE.php">ATTRIBUTE</a> {<a href="/documentation/syntax/IC.php">IC</a>}} [$<a href="/documentation/syntax/VISIBILITY_MODIFIER.php">VISIBILITY_MODIFIER</a> {<a href="/documentation/syntax/IC.php">IC</a>}] [<a href="/documentation/syntax/STATIC.php">STATIC</a> {<a href="/documentation/syntax/IC.php">IC</a>}] [<a href="/documentation/syntax/EXTERN.php">EXTERN</a> {<a href="/documentation/syntax/IC.php">IC</a>}] %type_dereference(<a href="/documentation/syntax/TYPE_DEREFERENCE.php">TYPE_DEREFERENCE</a> | <a href="/documentation/syntax/VOLATILE_TYPE_DEREFERENCE.php">VOLATILE_TYPE_DEREFERENCE</a> | <a href="/documentation/syntax/IMPLICIT_TYPE_DEREFERENCE.php">IMPLICIT_TYPE_DEREFERENCE</a> | <a href="/documentation/syntax/VOLATILE_IMPLICIT_TYPE_DEREFERENCE.php">VOLATILE_IMPLICIT_TYPE_DEREFERENCE</a>)</td>
+				<td>[<a href="/documentation/syntax/XML_DOC_STRING.php">XML_DOC_STRING</a>] {<a href="/documentation/syntax/ATTRIBUTE.php">ATTRIBUTE</a>} [<a href="/documentation/syntax/VISIBILITY_MODIFIER.php">VISIBILITY_MODIFIER</a>] [<a href="/documentation/syntax/STATIC.php">STATIC</a>] [<a href="/documentation/syntax/EXTERN.php">EXTERN</a>] (<a href="/documentation/syntax/TYPE_DEREFERENCE.php">TYPE_DEREFERENCE</a> | <a href="/documentation/syntax/VOLATILE_TYPE_DEREFERENCE.php">VOLATILE_TYPE_DEREFERENCE</a> | <a href="/documentation/syntax/IMPLICIT_TYPE_DEREFERENCE.php">IMPLICIT_TYPE_DEREFERENCE</a> | <a href="/documentation/syntax/VOLATILE_IMPLICIT_TYPE_DEREFERENCE.php">VOLATILE_IMPLICIT_TYPE_DEREFERENCE</a>)</td>
 			</tr>
 			<tr>
 				<td><a href="/documentation/syntax/TYPE_DEREFERENCE.php">TYPE_DEREFERENCE</a></td>
 				<td>use a variable/constant as a typename</td>
-				<td>"&lt;" {<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> {<a href="/documentation/syntax/IC.php">IC</a>} "&gt;"</td>
+				<td>"&lt;" <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> "&gt;"</td>
 			</tr>
 			<tr>
 				<td><a href="/documentation/syntax/TYPE_INVOCATION.php">TYPE_INVOCATION</a></td>
 				<td>no doc string</td>
-				<td>%target(<a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a>) ( "&lt;" %argsHead[{<a href="/documentation/syntax/IC.php">IC</a>} (<a href="/documentation/syntax/ARGUMENT.php">ARGUMENT</a>|<a href="/documentation/syntax/ARGUMENT_PACK.php">ARGUMENT_PACK</a>)] %argsTail{{<a href="/documentation/syntax/IC.php">IC</a>} "," [{<a href="/documentation/syntax/IC.php">IC</a>} (<a href="/documentation/syntax/ARGUMENT.php">ARGUMENT</a>|<a href="/documentation/syntax/ARGUMENT_PACK.php">ARGUMENT_PACK</a>)]} {<a href="/documentation/syntax/IC.php">IC</a>} "&gt;" )</td>
+				<td>(<a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a>) ( "&lt;" [{<a href="/documentation/syntax/IC.php">IC</a>} (<a href="/documentation/syntax/ARGUMENT.php">ARGUMENT</a>|<a href="/documentation/syntax/ARGUMENT_PACK.php">ARGUMENT_PACK</a>)] {{<a href="/documentation/syntax/IC.php">IC</a>} "," [{<a href="/documentation/syntax/IC.php">IC</a>} (<a href="/documentation/syntax/ARGUMENT.php">ARGUMENT</a>|<a href="/documentation/syntax/ARGUMENT_PACK.php">ARGUMENT_PACK</a>)]} "&gt;" )</td>
 			</tr>
 			<tr>
 				<td><a href="/documentation/syntax/TYPE_SCOPE.php">TYPE_SCOPE</a></td>
 				<td>zero or more statements or member declarations/definitions, used strictly in the TYPE syntax only</td>
-				<td>{<a href="/documentation/syntax/IC.php">IC</a>} {<a href="/documentation/syntax/TYPE_STATEMENT.php">TYPE_STATEMENT</a> {<a href="/documentation/syntax/IC.php">IC</a>}}</td>
+				<td>{<a href="/documentation/syntax/IC.php">IC</a>} {<a href="/documentation/syntax/TYPE_STATEMENT.php">TYPE_STATEMENT</a>}</td>
 			</tr>
 			<tr>
 				<td><a href="/documentation/syntax/TYPE_SCOPE_ASSIGNMENT_CHAIN.php">TYPE_SCOPE_ASSIGNMENT_CHAIN</a></td>
 				<td>no doc string</td>
-				<td>[<a href="/documentation/syntax/XML_DOC_STRING.php">XML_DOC_STRING</a> {<a href="/documentation/syntax/IC.php">IC</a>}] <a href="/documentation/syntax/IDENTIFIER.php">IDENTIFIER</a> [{<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/MEMBER_OFFSET.php">MEMBER_OFFSET</a>] {<a href="/documentation/syntax/IC.php">IC</a>} ("←"|"&lt;-") {<a href="/documentation/syntax/IC.php">IC</a>} (<a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a>|<a href="/documentation/syntax/ASSIGNMENT_CHAIN.php">ASSIGNMENT_CHAIN</a>)</td>
+				<td>[<a href="/documentation/syntax/XML_DOC_STRING.php">XML_DOC_STRING</a>] <a href="/documentation/syntax/IDENTIFIER.php">IDENTIFIER</a> [{<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/MEMBER_OFFSET.php">MEMBER_OFFSET</a>] ("←"|"&lt;-") (<a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a>|<a href="/documentation/syntax/ASSIGNMENT_CHAIN.php">ASSIGNMENT_CHAIN</a>)</td>
 			</tr>
 			<tr>
 				<td><a href="/documentation/syntax/TYPE_SCOPE_DECLARATION.php">TYPE_SCOPE_DECLARATION</a></td>
 				<td>no doc string</td>
-				<td>[<a href="/documentation/syntax/XML_DOC_STRING.php">XML_DOC_STRING</a> {<a href="/documentation/syntax/IC.php">IC</a>}] <a href="/documentation/syntax/IDENTIFIER.php">IDENTIFIER</a> [{<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/MEMBER_OFFSET.php">MEMBER_OFFSET</a>]</td>
+				<td>[<a href="/documentation/syntax/XML_DOC_STRING.php">XML_DOC_STRING</a>] <a href="/documentation/syntax/IDENTIFIER.php">IDENTIFIER</a> [{<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/MEMBER_OFFSET.php">MEMBER_OFFSET</a>]</td>
 			</tr>
 			<tr>
 				<td><a href="/documentation/syntax/TYPE_SCOPE_TYPE_CONSTRAINT.php">TYPE_SCOPE_TYPE_CONSTRAINT</a></td>
 				<td>no doc string</td>
-				<td><a href="/documentation/syntax/TYPE_CONSTRAINT_HEAD.php">TYPE_CONSTRAINT_HEAD</a> {<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/TYPE_SCOPE_TYPE_CONSTRAINT_CHAIN.php">TYPE_SCOPE_TYPE_CONSTRAINT_CHAIN</a></td>
+				<td><a href="/documentation/syntax/TYPE_CONSTRAINT_HEAD.php">TYPE_CONSTRAINT_HEAD</a> <a href="/documentation/syntax/TYPE_SCOPE_TYPE_CONSTRAINT_CHAIN.php">TYPE_SCOPE_TYPE_CONSTRAINT_CHAIN</a></td>
 			</tr>
 			<tr>
 				<td><a href="/documentation/syntax/TYPE_SCOPE_TYPE_CONSTRAINT_CHAIN.php">TYPE_SCOPE_TYPE_CONSTRAINT_CHAIN</a></td>
 				<td>no doc string</td>
-				<td>[<a href="/documentation/syntax/XML_DOC_STRING.php">XML_DOC_STRING</a> {<a href="/documentation/syntax/IC.php">IC</a>}] (<a href="/documentation/syntax/TYPE_SCOPE_DECLARATION.php">TYPE_SCOPE_DECLARATION</a>|<a href="/documentation/syntax/TYPE_SCOPE_ASSIGNMENT_CHAIN.php">TYPE_SCOPE_ASSIGNMENT_CHAIN</a>|<a href="/documentation/syntax/DEFINITION.php">DEFINITION</a>) [{<a href="/documentation/syntax/IC.php">IC</a>} "," {<a href="/documentation/syntax/IC.php">IC</a>} TYPE_SCOPE_TYPE_CONSTRAINT_CHAIN]</td>
+				<td>[<a href="/documentation/syntax/XML_DOC_STRING.php">XML_DOC_STRING</a>] (<a href="/documentation/syntax/TYPE_SCOPE_DECLARATION.php">TYPE_SCOPE_DECLARATION</a>|<a href="/documentation/syntax/TYPE_SCOPE_ASSIGNMENT_CHAIN.php">TYPE_SCOPE_ASSIGNMENT_CHAIN</a>|<a href="/documentation/syntax/DEFINITION.php">DEFINITION</a>) [{<a href="/documentation/syntax/IC.php">IC</a>} "," TYPE_SCOPE_TYPE_CONSTRAINT_CHAIN]</td>
 			</tr>
 			<tr>
 				<td><a href="/documentation/syntax/TYPE_STATEMENT.php">TYPE_STATEMENT</a></td>
 				<td>top-level type syntax</td>
-				<td>(<a href="/documentation/syntax/VISIBILITY_MODIFIER.php">VISIBILITY_MODIFIER</a> {<a href="/documentation/syntax/IC.php">IC</a>} ":") | <a href="/documentation/syntax/TYPE_SCOPE_TYPE_CONSTRAINT.php">TYPE_SCOPE_TYPE_CONSTRAINT</a> | <a href="/documentation/syntax/STATEMENT.php">STATEMENT</a></td>
+				<td>(<a href="/documentation/syntax/VISIBILITY_MODIFIER.php">VISIBILITY_MODIFIER</a> ":") | <a href="/documentation/syntax/TYPE_SCOPE_TYPE_CONSTRAINT.php">TYPE_SCOPE_TYPE_CONSTRAINT</a> | <a href="/documentation/syntax/STATEMENT.php">STATEMENT</a></td>
 			</tr>
 			<tr>
 				<td><a href="/documentation/syntax/UNARY_ARITHMETIC_OP.php">UNARY_ARITHMETIC_OP</a></td>
@@ -1035,7 +1035,7 @@
 			<tr>
 				<td><a href="/documentation/syntax/UNION.php">UNION</a></td>
 				<td>the set-theoretic union</td>
-				<td><a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> {<a href="/documentation/syntax/IC.php">IC</a>} "∪" {<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a></td>
+				<td><a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> "∪" <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a></td>
 			</tr>
 			<tr>
 				<td><a href="/documentation/syntax/UNIT_DIVISION.php">UNIT_DIVISION</a></td>
@@ -1055,17 +1055,17 @@
 			<tr>
 				<td><a href="/documentation/syntax/UPCASTS.php">UPCASTS</a></td>
 				<td>no doc string</td>
-				<td><a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> {<a href="/documentation/syntax/IC.php">IC</a>} "upcasts" {<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a></td>
+				<td><a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> "upcasts" <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a></td>
 			</tr>
 			<tr>
 				<td><a href="/documentation/syntax/USING.php">USING</a></td>
 				<td>values in the specified value are visible, and any value constructed inside the expression that is not visible from outside scopes, is destructed when the scope exits</td>
-				<td>"using" {<a href="/documentation/syntax/IC.php">IC</a>} "(" {<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> {<a href="/documentation/syntax/IC.php">IC</a>} ")" {<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/BLOCK.php">BLOCK</a></td>
+				<td>"using" "(" <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> ")" <a href="/documentation/syntax/BLOCK.php">BLOCK</a></td>
 			</tr>
 			<tr>
 				<td><a href="/documentation/syntax/VECTOR_NORM.php">VECTOR_NORM</a></td>
 				<td>create a Vector<D, N> normalized to unit length</td>
-				<td>"||" {<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> {<a href="/documentation/syntax/IC.php">IC</a>} "||"</td>
+				<td>"||" <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> "||"</td>
 			</tr>
 			<tr>
 				<td><a href="/documentation/syntax/VISIBILITY_MODIFIER.php">VISIBILITY_MODIFIER</a></td>
@@ -1075,12 +1075,12 @@
 			<tr>
 				<td><a href="/documentation/syntax/VOLATILE_IMPLICIT_TYPE_DEREFERENCE.php">VOLATILE_IMPLICIT_TYPE_DEREFERENCE</a></td>
 				<td>no doc string</td>
-				<td>"&lt;" {<a href="/documentation/syntax/IC.php">IC</a>} "volatile" {<a href="/documentation/syntax/IC.php">IC</a>} "&gt;"</td>
+				<td>"&lt;" "volatile" "&gt;"</td>
 			</tr>
 			<tr>
 				<td><a href="/documentation/syntax/VOLATILE_TYPE_DEREFERENCE.php">VOLATILE_TYPE_DEREFERENCE</a></td>
 				<td>no doc string</td>
-				<td>"&lt;" {<a href="/documentation/syntax/IC.php">IC</a>} "volatile" {<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> {<a href="/documentation/syntax/IC.php">IC</a>} "&gt;"</td>
+				<td>"&lt;" "volatile" <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> "&gt;"</td>
 			</tr>
 			<tr>
 				<td><a href="/documentation/syntax/WHOLE_NUMBER.php">WHOLE_NUMBER</a></td>
@@ -1090,7 +1090,7 @@
 			<tr>
 				<td><a href="/documentation/syntax/WRITE_LOCK.php">WRITE_LOCK</a></td>
 				<td>no doc string</td>
-				<td>"write_lock" {<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/PARENTHETICAL.php">PARENTHETICAL</a> {<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a></td>
+				<td>"write_lock" <a href="/documentation/syntax/PARENTHETICAL.php">PARENTHETICAL</a> <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a></td>
 			</tr>
 			<tr>
 				<td><a href="/documentation/syntax/WS.php">WS</a></td>
@@ -1105,12 +1105,12 @@
 			<tr>
 				<td><a href="/documentation/syntax/XML_DOC_STRING_INTERIOR.php">XML_DOC_STRING_INTERIOR</a></td>
 				<td>no doc string</td>
-				<td>$<a href="/documentation/syntax/PAYLOAD.php">PAYLOAD</a> | ("`" XML_DOC_STRING_INTERIOR "`")</td>
+				<td><a href="/documentation/syntax/PAYLOAD.php">PAYLOAD</a> | ("`" XML_DOC_STRING_INTERIOR "`")</td>
 			</tr>
 			<tr>
 				<td><a href="/documentation/syntax/XOR.php">XOR</a></td>
 				<td>no doc string</td>
-				<td><a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> {<a href="/documentation/syntax/IC.php">IC</a>} ("⊕" |"xor") {<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a></td>
+				<td><a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> ("⊕" |"xor") <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a></td>
 			</tr>
 		</table>
 

@@ -11,7 +11,7 @@
 
 		<div class="syntax">
 			<p>syntax</p>
-			<div>(<a href="/documentation/syntax/VISIBILITY_MODIFIER.php">VISIBILITY_MODIFIER</a> | <a href="/documentation/syntax/VISIBILITY_MODIFIER.php">VISIBILITY_MODIFIER</a> <a href="/documentation/syntax/ICR.php">ICR</a> $"diamond" | $"diamond") <a href="/documentation/syntax/ICR.php">ICR</a></div>
+			<div>(<a href="/documentation/syntax/VISIBILITY_MODIFIER.php">VISIBILITY_MODIFIER</a> | <a href="/documentation/syntax/VISIBILITY_MODIFIER.php">VISIBILITY_MODIFIER</a> <a href="/documentation/syntax/ICR.php">ICR</a> "diamond" | "diamond") <a href="/documentation/syntax/ICR.php">ICR</a></div>
 		</div>
 
 
