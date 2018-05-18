@@ -45,7 +45,7 @@ def loadExample(example):
         result = result + "\n</pre>\n\t\t</div>"
         return result
 
-indexPageContents = "<meta charset='utf-8'/>\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=0.6\">\n<html>\n\t<head>\n\t\t<title>Syntax Listing - Plange</title>\n\t\t<link rel=StyleSheet href='../css/general.css' type='text/css' />\n\t</head>\n\t<body>\n\t\t<?php require('../header.php') ?>\n\n\n\t\t<p>The root production of the grammar is \"STATEMENT_SCOPE\".</p>\n\t\t<h2>Subpage Listing</h2>\n\t\t<ul>\n"
+indexPageContents = "<meta charset='utf-8'/>\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=0.6\">\n<html>\n\t<head>\n\t\t<title>Syntax Listing - Plange</title>\n\t\t<link rel=StyleSheet href='../css/general.css' type='text/css' />\n\t</head>\n\t<body>\n\t\t<?php require('../header.php') ?>\n\n\n\t\t<p>This page is generated from the <a href='source/syntax.yml'>syntax specification</a>. The root production of the grammar is \"STATEMENT_SCOPE\".</p>\n\t\t<h2>Subpage Listing</h2>\n\t\t<table>\n"
 names = specs.keys()
 names.sort()
 regexs = {name: re.compile("\\b" + name + "\\b") for name in names}
@@ -58,6 +58,7 @@ for name in names:
         else:
                 content = ""
 
+        syntaxString = ""
         if "syntax" in details:
                 syntaxString = cgi.escape(details["syntax"]).strip()
                 for refName in names:
@@ -93,8 +94,19 @@ for name in names:
                 "NAME": name
         })
 
-        indexPageContents = indexPageContents + "\t\t\t<li><a href=\"/documentation/syntax/" + phpFilename + "\">" + name + "</a></li>\n"
+        indexPageContents = indexPageContents + "\t\t\t<tr>\n"
+        indexPageContents = indexPageContents + "\t\t\t\t<td><a href=\"/documentation/syntax/" + phpFilename + "\">" + name + "</a></td>\n"
+                
+        if "doc" in details:
+                indexPageContents = indexPageContents + "\t\t\t\t<td>" + details["doc"].strip() + "</td>\n"
+        else:
+                indexPageContents = indexPageContents + "\t\t\t\t<td>no doc string</td>\n"
+                
+        indexPageContents = indexPageContents + "\t\t\t\t<td>" + syntaxString + "</td>\n"
+        
+        
+        indexPageContents = indexPageContents + "\t\t\t</tr>\n"
 
-indexPageContents = indexPageContents + "\n\n\t\t<?php require('../footer.php') ?>\n\t</body>\n</html>"
+indexPageContents = indexPageContents + "\t\t</table>\n\n\t\t<?php require('../footer.php') ?>\n\t</body>\n</html>"
 with codecs.open("../syntax.php", "w", "utf-8") as indexFile:
         indexFile.write(indexPageContents)

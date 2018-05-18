@@ -2,7 +2,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=0.6">
 <html>
 	<head>
-		<title>EMBEDDED_STRING_INTERIOR - Syntax Pages - Plange</title>
+		<title>PAYLOAD - Syntax Pages - Plange</title>
 		<link rel=StyleSheet href='../../css/general.css' type='text/css' />
 	</head>
 	<body>
@@ -11,7 +11,7 @@
 
 		<div class="syntax">
 			<p>syntax</p>
-			<div>$<a href="/documentation/syntax/PAYLOAD.php">PAYLOAD</a> | ("\"" EMBEDDED_STRING_INTERIOR "\"")</div>
+			<div>all { all }</div>
 		</div>
 
 
