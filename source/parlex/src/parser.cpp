@@ -332,7 +332,7 @@ struct intersection_lookup {
 				}
 			}
 		}
-		for (intmax_t depth = lookupDepth - 2; depth >= 0; --depth) {
+		for (auto depth = static_cast<int>(lookupDepth) - 2; depth >= 0; --depth) {
 			auto const antiDepth = (lookupDepth - 1) - depth;
 			auto const rowWidth = docLen >> antiDepth;
 			auto & row = lookup[depth];
@@ -351,11 +351,11 @@ struct intersection_lookup {
 		auto const lookupDepth = lookup.size();
 		// common higher-order bits identify the row and column fully containing the span
 		auto const containmentAntiRow = sizeof(int32_t) * 8 - clz(first ^ last);
-		int const containmentBreadth = 1 << containmentAntiRow;
-		int const containmentColumn = first >> containmentAntiRow;
-		int const containmentFirst = containmentColumn << containmentAntiRow;
+		auto const containmentBreadth = 1 << containmentAntiRow;
+		auto const containmentColumn = first >> containmentAntiRow;
+		auto const containmentFirst = containmentColumn << containmentAntiRow;
 		auto const containmentLast = containmentFirst + containmentBreadth - 1;
-		intmax_t const containmentRow = intmax_t(lookupDepth - 1) - containmentAntiRow;
+		int const containmentRow = ptrdiff_t(lookupDepth - 1) - containmentAntiRow;
 		if (containmentRow >= 0 && int(lookup[containmentRow].size()) > containmentColumn && first == containmentFirst && last == containmentLast) {
 			auto resolved = lookup[containmentRow][containmentColumn];
 			results.insert_many(resolved.begin(), resolved.end());
