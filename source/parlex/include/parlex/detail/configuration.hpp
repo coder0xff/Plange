@@ -1,7 +1,6 @@
 #ifndef CONFIGURATION_HPP
 #define CONFIGURATION_HPP
 
-#include <optional>
 #include <vector>
 
 #include "parlex/builder.hpp"

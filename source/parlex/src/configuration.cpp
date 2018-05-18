@@ -1,7 +1,5 @@
 #include "parlex/detail/configuration.hpp"
 
-#include "utils.hpp"
-
 #include "parlex/detail/subjob.hpp"
 
 namespace parlex {

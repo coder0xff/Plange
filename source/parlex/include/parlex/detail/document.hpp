@@ -7,7 +7,6 @@
 
 #include "../builder.hpp"
 #include "abstract_syntax_semilattice.hpp"
-#include "match.hpp"
 
 #include "erased.hpp"
 #include "mpl_fold_vx.hpp"

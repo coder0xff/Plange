@@ -3,7 +3,6 @@
 
 #include <vector>
 
-#include "parlex/detail/match.hpp"
 #include "transition.hpp"
 
 namespace parlex {
