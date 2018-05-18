@@ -11,6 +11,7 @@
 
 #include "parlex/detail/wirth.hpp"
 #include "parlex/detail/builtins.hpp"
+#include "perf_timer.hpp"
 
 
 using namespace parlex;
@@ -28,6 +29,25 @@ public:
 	using grammar::lookup_recognizer_index;
 
 };
+
+TEST(ParlexTest, newsletter_0) {
+	auto const grammarWSN = to_utf32(
+		"NUMBER = decimal_digit {decimal_digit}."
+		"ADDITION = EXPRESSION \"+\" EXPRESSION."
+		"SUBTRACTION = EXPRESSION \"-\" EXPRESSION."
+		"PARENTHETICAL = \"(\" EXPRESSION \")\"."
+		"EXPRESSION = NUMBER | ADDITION | SUBTRACTION | PARENTHETICAL."
+	);
+	grammar const g(wirth().load_grammar("EXPRESSION", grammarWSN));
+	parser p;
+	auto asslResult = p.parse(g, to_utf32("1-2+5"));
+	EXPECT_TRUE(asslResult.is_rooted());
+	auto asslDot = asslResult.to_dot(g);
+	EXPECT_EQ(2, asslResult.variation_count());
+	auto asts = asslResult.to_asts();
+	std::vector<std::string> astDots;
+	std::transform(asts.begin(), asts.end(), std::back_inserter(astDots), [&](abstract_syntax_tree ast) { return ast.to_dot(g); });
+}
 
 TEST(ParlexTest, smallest_test_0) {
 	test_grammar const g(builder{
@@ -121,7 +141,7 @@ TEST(ParlexTest, longest_filter_regression_test) {
 	}
 }
 
-std::string wirth_in_itself = "\
+std::u32string wirth_in_itself = U"\
 SYNTAX     = {white_space} { PRODUCTION {white_space} } . \
 PRODUCTION = IDENTIFIER {white_space} \"=\" {white_space} EXPRESSION {white_space} \".\" . \
 EXPRESSION = TERM { {white_space} \"|\" {white_space} TERM } . \
@@ -153,7 +173,7 @@ TEST(ParlexTest, wirth_test_1_5) {
 
 TEST(ParlexTest, wirth_test_2) {
 	parser p(1);
-	auto result = p.parse(wirth(), to_utf32(wirth_in_itself));
+	auto result = p.parse(wirth(), wirth_in_itself);
 	if (!result.is_rooted()) {
 		throw std::logic_error("Test failed");
 	}
@@ -167,29 +187,48 @@ TEST(ParlexTest, wirth_test_3) {
 	}
 }
 
+TEST(ParlexTest, wirth_performance_test) {
+	{
+		perf_timer timer("Single threaded performance");
+		parser p(1);
+		for (int i = 0; i < 100; ++i) {
+			abstract_syntax_semilattice result = p.parse(wirth(), wirth_in_itself);
+			if (!result.is_rooted()) {
+				throw std::logic_error("Test failed");
+			}
+		}
+	}
+	{
+		perf_timer timer("Multi threaded performance");
+		parser p(1);
+		for (int i = 0; i < 100; ++i) {
+			abstract_syntax_semilattice result = p.parse(wirth(), wirth_in_itself);
+			if (!result.is_rooted()) {
+				throw std::logic_error("Test failed");
+			}
+		}
+	}
+}
+
 TEST(ParlexTest, wirth_test_3_1) {
-	parser p;
 	auto grammar = wirth().load_grammar("SYNTAX", U"EXPRESSION = {white_space} .", {}, {}, {});
 }
 
 TEST(ParlexTest, wirth_test_3_2) {
-	parser p;
 	auto grammar = wirth().load_grammar("SYNTAX", U"EXPRESSION = { {white_space} } .", {}, {}, {});
 }
 
 TEST(ParlexTest, wirth_test_3_5) {
-	parser p;
 	auto grammar = wirth().load_grammar("SYNTAX", U"EXPRESSION = { {white_space} \"|\" {white_space} } .", {}, {}, {});
 }
 
 TEST(ParlexTest, wirth_test_4) {
-	parser p;
-	auto grammar = wirth().load_grammar("SYNTAX", to_utf32(wirth_in_itself), {}, {}, {});
+	auto grammar = wirth().load_grammar("SYNTAX", wirth_in_itself, {}, {}, {});
 }
 
 TEST(ParlexTest, wirth_test_5) {
-	parser p;
 	grammar const grammar(wirth().load_grammar("SYNTAX", U"SYNTAX = \"a\".", {}, {}, {}));
+	parser p;
 	auto result = p.parse(grammar, U"b");
 	if (result.is_rooted()) {
 		throw std::logic_error("Test failed");
