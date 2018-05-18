@@ -129,7 +129,7 @@ std::vector<abstract_syntax_tree> abstract_syntax_semilattice::to_asts() const {
 	std::function<ast_node(std::reference_wrapper<element> const &)> buildAstNode = [&](std::reference_wrapper<element> const & n) {
 		std::vector<ast_node> subresults;
 		std::transform(n.get().children.begin(), n.get().children.end(), std::back_inserter(subresults), buildAstNode);
-		return ast_node(static_cast<match>(n.get()), subresults, n.get().l);  // NOLINT(cppcoreguidelines-slicing)
+		return ast_node(n.get(), subresults);
 	};
 
 	std::list<element> s;
@@ -220,7 +220,7 @@ std::vector<ast_node> abstract_syntax_semilattice::build_tree(match const & m) c
 	if (!ps.empty()) {
 		auto const & p = *ps.begin();
 		for (auto const & t : p) {
-			results.emplace_back(t, build_tree(t), t.l);
+			results.emplace_back(t, build_tree(t));
 		}
 	}
 	return results;
@@ -233,7 +233,7 @@ abstract_syntax_tree abstract_syntax_semilattice::tree() const {
 	if (variation_count() > 1) {
 		throw std::runtime_error("The document is ambiguous.");
 	}
-	return ast_node(root, build_tree(root), nullptr);
+	return ast_node(transition(root, nullptr), build_tree(root));
 }
 
 } // namespace detail

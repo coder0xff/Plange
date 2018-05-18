@@ -1,26 +1,22 @@
 #ifndef INCLUDED_PARLEX_ABSTRACT_SYNTAX_TREE_HPP
 #define INCLUDED_PARLEX_ABSTRACT_SYNTAX_TREE_HPP
-#include "derivation.hpp"
-#include <map>
 
+#include <vector>
+
+#include "transition.hpp"
 
 namespace parlex::detail {
 class grammar;
 
-struct ast_node : match {
-		typedef std::vector<ast_node> sequence;
-		typedef sequence::iterator iterator;
-		typedef sequence::const_iterator const_iterator;
-		sequence const children;
+struct ast_node : transition {
+		std::vector<ast_node> const children;
 
-		// The grammar leaf that this ast_node satisfies
-		leaf const * l;
-
-		ast_node(match m, std::vector<ast_node> children, leaf const * l);
+		ast_node(transition const & t, std::vector<ast_node> children);
 		std::string to_dot(grammar const & g) const;
-	};
+};
 
-	typedef ast_node abstract_syntax_tree;
+typedef ast_node abstract_syntax_tree;
+
 }
 
 

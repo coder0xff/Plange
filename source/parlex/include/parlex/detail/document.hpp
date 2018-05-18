@@ -14,8 +14,8 @@
 namespace parlex::detail::document {
 
 	struct walk {
-		ast_node::const_iterator pos;
-		ast_node::const_iterator const end;
+		std::vector<ast_node>::const_iterator pos;
+		std::vector<ast_node>::const_iterator const end;
 	};
 
 	template<typename T>

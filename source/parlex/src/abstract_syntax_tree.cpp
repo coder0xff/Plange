@@ -5,7 +5,7 @@
 
 #include "parlex/detail/grammar.hpp"
 
-parlex::detail::ast_node::ast_node(match m, std::vector<ast_node> children, leaf const * l) : match(std::move(m)), children(std::move(children)), l(l) {}
+parlex::detail::ast_node::ast_node(transition const & t, std::vector<ast_node> children) : transition(t), children(std::move(children)) {}
 
 std::string parlex::detail::ast_node::to_dot(grammar const & g) const
 {
