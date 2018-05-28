@@ -86,7 +86,7 @@ def simplifySyntaxStringAddLinks(syntax):
         for refName in names:
                 if refName == name:
                         continue
-                syntax = regexs[refName].sub("<a href=\"/documentation/syntax/" + refName + ".php\">" + refName + "</a>", syntax)
+                syntax = regexs[refName].sub("<a href=\"/documentation/syntax.php?name=" + refName + "\">" + refName + "</a>", syntax)
         return syntax
 
 if len(sys.argv) == 1: # output the table for the syntax listing page
