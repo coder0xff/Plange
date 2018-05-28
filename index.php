@@ -12,8 +12,9 @@
 
 
 		<div style="padding:1em;font-size:1.6em">
-			Plange is an open-source project to create a development suite including a programming language, standard library, and runtime.
+			Plange is an open-source project to create a development suite including a programming language, standard library and runtime, and a toplevel (repl).
 		</div>
+		<p>This site is for developer reference only, and may change at any time.</p>
 		<ul>
 			<li>license: <a href="https://tldrlegal.com/license/bsd-3-clause-license-(revised)#fulltext">New BSD</a></li>
 			<li>source code: <a href="https://github.com/coder0xff/Plange">git repository</a></li>
