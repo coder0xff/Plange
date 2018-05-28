@@ -6,13 +6,14 @@
 
 #include "parlex/detail/document.hpp"
 #include "FUNCTION_MODIFIER_CALLING_CONVENTION.hpp"
-#include "ICR.hpp"
+#include "IC.hpp"
 
 plc::FUNCTION_MODIFIER_MODEL::field_1_t_1_t plc::FUNCTION_MODIFIER_MODEL::field_1_t_1_t::build(parlex::detail::node const * b, parlex::detail::document::walk & w) {
 	auto const & children = b->children;
-	auto v0 = parlex::detail::document::element<erased<ICR>>::build(&*children[0], w);
-	auto v1 = parlex::detail::document::element<erased<FUNCTION_MODIFIER_CALLING_CONVENTION>>::build(&*children[1], w);
-	return field_1_t_1_t(std::move(v0), std::move(v1));
+	auto v0 = parlex::detail::document::element<erased<IC>>::build(&*children[0], w);
+	auto v1 = parlex::detail::document::element<std::vector<erased<IC>>>::build(&*children[1], w);
+	auto v2 = parlex::detail::document::element<erased<FUNCTION_MODIFIER_CALLING_CONVENTION>>::build(&*children[2], w);
+	return field_1_t_1_t(std::move(v0), std::move(v1), std::move(v2));
 }
 
 plc::FUNCTION_MODIFIER_MODEL plc::FUNCTION_MODIFIER_MODEL::build(parlex::detail::ast_node const & n) {

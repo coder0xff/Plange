@@ -30,6 +30,7 @@ struct IC;
 struct IMPORT;
 struct LOCK;
 struct LOOP;
+struct OP_ASSIGNMENT;
 struct READ_LOCK;
 struct RETURN;
 struct THROW;
@@ -52,6 +53,7 @@ struct STATEMENT {
 		erased<IMPORT>,
 		erased<LOCK>,
 		erased<LOOP>,
+		erased<OP_ASSIGNMENT>,
 		erased<READ_LOCK>,
 		erased<RETURN>,
 		erased<THROW>,
@@ -81,6 +83,7 @@ struct STATEMENT {
 			erased<IMPORT>,
 			erased<LOCK>,
 			erased<LOOP>,
+			erased<OP_ASSIGNMENT>,
 			erased<READ_LOCK>,
 			erased<RETURN>,
 			erased<THROW>,

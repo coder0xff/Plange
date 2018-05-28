@@ -43,6 +43,10 @@ struct literal_0x2B_t { };
 struct literal_0x2B0x2B_t { };
 // "+-"
 struct literal_0x2B0x2D_t { };
+// "+<-"
+struct literal_0x2B0x3C0x2D_t { };
+// "+←"
+struct literal_0x2B0xE20x860x90_t { };
 // ","
 struct literal_0x2C_t { };
 // ", "
@@ -277,6 +281,10 @@ struct literal_is_t { };
 struct literal_lock_t { };
 // "msp430_intr_call"
 struct literal_msp430_intr_call_t { };
+// "nand"
+struct literal_nand_t { };
+// "nor"
+struct literal_nor_t { };
 // "null"
 struct literal_null_t { };
 // "object"
@@ -479,6 +487,8 @@ struct literal_0xE20x8C0x89_t { };
 struct literal_0xE20x8C0x8A_t { };
 // "⌋"
 struct literal_0xE20x8C0x8B_t { };
+// "⥆"
+struct literal_0xE20xA50x86_t { };
 } // namespace plc
 
 

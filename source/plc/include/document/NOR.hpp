@@ -25,16 +25,22 @@ struct NOR {
 	
 	std::vector<erased<IC>> field_2;
 	
-	parlex::detail::document::text<literal_0xE20x860x93_t> dontCare2;
+	std::variant<
+		parlex::detail::document::text<literal_0xE20x860x93_t>,
+		parlex::detail::document::text<literal_nor_t>
+	> field_3;
 	
-	std::vector<erased<IC>> field_3;
+	std::vector<erased<IC>> field_4;
 	
-	erased<EXPRESSION> field_4;
+	erased<EXPRESSION> field_5;
 	
 
 
 	explicit NOR(
-		erased<EXPRESSION> && field_1, std::vector<erased<IC>> && field_2, parlex::detail::document::text<literal_0xE20x860x93_t> && dontCare2, std::vector<erased<IC>> && field_3, erased<EXPRESSION> && field_4) : field_1(std::move(field_1)), field_2(std::move(field_2)), dontCare2(std::move(dontCare2)), field_3(std::move(field_3)), field_4(std::move(field_4)) {}
+		erased<EXPRESSION> && field_1, std::vector<erased<IC>> && field_2, std::variant<
+			parlex::detail::document::text<literal_0xE20x860x93_t>,
+			parlex::detail::document::text<literal_nor_t>
+		> && field_3, std::vector<erased<IC>> && field_4, erased<EXPRESSION> && field_5) : field_1(std::move(field_1)), field_2(std::move(field_2)), field_3(std::move(field_3)), field_4(std::move(field_4)), field_5(std::move(field_5)) {}
 
 	NOR(NOR const & other) = default;
 	NOR(NOR && move) = default;

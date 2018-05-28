@@ -65,6 +65,7 @@ struct statement_visitor {
 	void operator()(erased<IMPORT> const & value) { throw std::logic_error("not implemented"); }
 	void operator()(erased<LOCK> const & value) { throw std::logic_error("not implemented"); }
 	void operator()(erased<LOOP> const & value) { throw std::logic_error("not implemented"); }
+	void operator()(erased<OP_ASSIGNMENT> const & value) { throw std::logic_error("not implemented"); }
 	void operator()(erased<READ_LOCK> const & value) { throw std::logic_error("not implemented"); }
 	void operator()(erased<RETURN> const & value) { throw std::logic_error("not implemented"); }
 	void operator()(erased<THROW> const & value) { throw std::logic_error("not implemented"); }

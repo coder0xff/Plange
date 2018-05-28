@@ -20,7 +20,6 @@ namespace plc {
 struct ASM_EXPRESSION;
 struct ASM_OP;
 struct IC;
-struct ICR;
 
 struct ASM_STATEMENT {
 	struct field_2_t_1_t {
@@ -58,7 +57,7 @@ struct ASM_STATEMENT {
 			static field_3_t_1_t build(parlex::detail::node const * b, parlex::detail::document::walk & w);
 		};
 	
-		erased<ICR> field_1;
+		std::vector<erased<IC>> field_1;
 		
 		erased<ASM_EXPRESSION> field_2;
 		
@@ -67,7 +66,7 @@ struct ASM_STATEMENT {
 	
 	
 		explicit field_2_t_1_t(
-			erased<ICR> && field_1, erased<ASM_EXPRESSION> && field_2, std::vector<field_3_t_1_t> && field_3) : field_1(std::move(field_1)), field_2(std::move(field_2)), field_3(std::move(field_3)) {}
+			std::vector<erased<IC>> && field_1, erased<ASM_EXPRESSION> && field_2, std::vector<field_3_t_1_t> && field_3) : field_1(std::move(field_1)), field_2(std::move(field_2)), field_3(std::move(field_3)) {}
 	
 		field_2_t_1_t(field_2_t_1_t const & other) = default;
 		field_2_t_1_t(field_2_t_1_t && move) = default;

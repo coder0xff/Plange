@@ -18,18 +18,20 @@
 namespace plc {
 
 struct FUNCTION_MODIFIER_1;
-struct ICR;
+struct IC;
 
 struct FUNCTION_MODIFIER_STABILITY {
 	struct field_1_t_1_t {
-		erased<ICR> field_1;
+		erased<IC> field_1;
 		
-		erased<FUNCTION_MODIFIER_1> field_2;
+		std::vector<erased<IC>> field_2;
+		
+		erased<FUNCTION_MODIFIER_1> field_3;
 		
 	
 	
 		explicit field_1_t_1_t(
-			erased<ICR> && field_1, erased<FUNCTION_MODIFIER_1> && field_2) : field_1(std::move(field_1)), field_2(std::move(field_2)) {}
+			erased<IC> && field_1, std::vector<erased<IC>> && field_2, erased<FUNCTION_MODIFIER_1> && field_3) : field_1(std::move(field_1)), field_2(std::move(field_2)), field_3(std::move(field_3)) {}
 	
 		field_1_t_1_t(field_1_t_1_t const & other) = default;
 		field_1_t_1_t(field_1_t_1_t && move) = default;

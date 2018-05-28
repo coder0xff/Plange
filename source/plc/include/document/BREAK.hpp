@@ -19,7 +19,6 @@ namespace plc {
 
 struct EXPRESSION;
 struct IC;
-struct ICR;
 struct IDENTIFIER;
 
 struct BREAK {
@@ -48,14 +47,16 @@ struct BREAK {
 	};
 
 	struct field_1_t_1_t_2_t {
-		std::vector<erased<ICR>> field_1;
+		erased<IC> field_1;
+		
+		std::vector<erased<IC>> field_2;
 		
 		erased<IDENTIFIER> identifier;
 		
 	
 	
 		explicit field_1_t_1_t_2_t(
-			std::vector<erased<ICR>> && field_1, erased<IDENTIFIER> && identifier) : field_1(std::move(field_1)), identifier(std::move(identifier)) {}
+			erased<IC> && field_1, std::vector<erased<IC>> && field_2, erased<IDENTIFIER> && identifier) : field_1(std::move(field_1)), field_2(std::move(field_2)), identifier(std::move(identifier)) {}
 	
 		field_1_t_1_t_2_t(field_1_t_1_t_2_t const & other) = default;
 		field_1_t_1_t_2_t(field_1_t_1_t_2_t && move) = default;

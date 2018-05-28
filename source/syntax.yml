@@ -10,12 +10,26 @@ ADD_SUB:
         EXPRESSION {IC} ("±"|"+-") {IC} EXPRESSION
     assoc: left
     doc: >
-        creates an analytic value storing the simultaneous results of addition and subtraction
+        the analytic value storing the simultaneous results of addition and subtraction
+
+ADD_SUB_ASSIGNMENT:
+    syntax: >
+        EXPRESSION {IC} ("±"|"+-") ("<-"|"←") {IC} EXPRESSION
+    doc: Assign the analytic value storing the simultaneous results of addition and subtraction of the two operands and assign the result to the first.
+    see:
+        - ADD_SUB
 
 ADDITION:
     syntax: >
         EXPRESSION {IC} "+" {IC} EXPRESSION
     assoc: either
+
+ADDITION_ASSIGNMENT:
+    syntax: >
+        EXPRESSION {IC} ("+<-"|"+←"|"⥆") {IC} EXPRESSION
+    doc: Add the two operands and assign the result to the first.
+    see:
+        - ADDITION
 
 ALL:
     syntax: >
@@ -47,6 +61,13 @@ AND:
         EXPRESSION {IC} ("∧"|"and") {IC} EXPRESSION
     assoc: either
     precedes: [OR, IMPLICATION, XOR, IFF]
+
+AND_ASSIGNMENT:
+    syntax: >
+        EXPRESSION {IC} ("∧"|"and") ("<-"|"←") {IC} EXPRESSION
+    doc: And the two operands and assign the result to the first.
+    see:
+        - AND
 
 ARGUMENT:
     syntax: >
@@ -113,7 +134,7 @@ ASSIGNMENT_CHAIN:
     example: |
         iPow2 ← -1;
     notes: |
-        <p>The left hand side may not be an lvalue (in C parlance). Rather, some algebras and solvers reduce free variables.</p>
+        <p>The left hand side may be a non lvalue (in C parlance). Rather, some algebras and solvers solve free variables.</p>
         <div class="code">
             <p>Example</p>
             <pre>x + 1 ← 0;</pre>
@@ -254,19 +275,47 @@ BIT_AND:
         EXPRESSION {IC} "&&" {IC} EXPRESSION
     assoc: either
 
+BIT_AND_ASSIGNMENT:
+    syntax:
+        EXPRESSION {IC} "&&" ("<-"|"←") {IC} EXPRESSION
+    doc: Bitwise and the two operands and assign the result to the first.
+    see:
+        - BIT_AND
+
 BIT_NOT:
     syntax: >
         "~~" {IC} EXPRESSION
+
+BIT_NOT_ASSIGNMENT:
+    syntax: >
+        EXPRESSION {IC} "~~" ("<-"|"←")
+    doc: Bitwise not the operand and assign the result to it.
+    see:
+        - BIT_NOT
 
 BIT_OR:
     syntax: >
         EXPRESSION {IC} "||" {IC} EXPRESSION
     assoc: either
 
+BIT_OR_ASSIGNMENT:
+    syntax: >
+        EXPRESSION {IC} "||" ("<-"|"←") {IC} EXPRESSION
+    doc: Bitwise or the two operands and assign the result to the first.
+    see:
+        - BIT_OR
+
 BIT_XOR:
     syntax: >
         EXPRESSION {IC} "^^" {IC} EXPRESSION
     assoc: either
+
+BIT_XOR_ASSIGNMENT:
+    syntax: >
+        EXPRESSION {IC} "^^" ("<-"|"←") {IC} EXPRESSION
+    doc: Bitwise xor the two operands and assign the result to the first.
+    see:
+        - BIT_XOR
 
 BITWISE_OP:
     syntax: >
@@ -323,6 +372,13 @@ COMPOUND:
         EXPRESSION {IC} "|" {IC} EXPRESSION
     assoc: left
 
+COMPOUND_ASSIGNMENT:
+    syntax: >
+        EXPRESSION {IC} "|" ("<-"|"←") {IC} EXPRESSION
+    doc: Compound the two operands and assign the result to the first.
+    see:
+        - COMPOUND
+
 COMMENT:
     syntax: >
         "/*" {all} "*/"
@@ -342,6 +398,13 @@ COMPOSITION:
     assoc: either
     doc: >
         function composition operator
+
+COMPOSITION_ASSIGNMENT:
+    syntax: >
+        EXPRESSION {IC} ("∘"|"_o_") ("<-"|"←") {IC} EXPRESSION
+    doc: Compose the two operands and assign the result to the first.
+    see:
+        - COMPOSITION
 
 CONDITIONAL:
     syntax: >
@@ -379,6 +442,13 @@ CROSS_PRODUCT:
     precedes: [DOT_PRODUCT]
     doc: >
         scalar multiplication or Vector<3, N> cross product
+
+CROSS_PRODUCT_ASSIGNMENT:
+    syntax: >
+        EXPRESSION {IC} ("×"|"_x_") ("<-"|"←") {IC} EXPRESSION
+    doc: Cross multiply the two operands and assign the result to the first.
+    see:
+        - CROSS_PRODUCT
 
 DATE:
     syntax: >
@@ -463,6 +533,13 @@ DIVISION:
     precedes: [INTEGER_DIVISION, MAPS_TO, MODULATION, SUBTRACTION, ADDITION, ADD_SUB]
     doc: >
         division or splits the left hand side collection into a collection of collections each the size of the right hand side
+
+DIVISION_ASSIGNMENT:
+    syntax: >
+        EXPRESSION {IC} ("÷"|"/" ) ("<-"|"←") {IC} EXPRESSION
+    doc: Add the two operands and assign the result to the first.
+    see:
+        - 
 
 DO:
     syntax: >
@@ -609,6 +686,13 @@ EXPONENTIATION:
     assoc: right
     precedes: [DIVISION, INTEGER_DIVISION, MODULATION, MULTIPLICATIVE_OP, SUBTRACTION, ADDITION, ADD_SUB]
 
+EXPONENTIATION_ASSIGNMENT:
+    syntax: >
+        EXPRESSION {IC} "^" ("<-"|"←") {IC} EXPRESSION
+    doc: Exponentiate the two operands and assign the result to the first.
+    see:
+        - EXPONENTIATION
+
 EXPRESSION:
     syntax: >
         ARRAY | ASM_FUNCTION | BINARY_OP | BOOL | CAST | CEILING | COMPLEMENT | CONDITIONAL | DATE | DATE_TIME | DELTA | DIMENSIONAL_NUMBER | EMBEDDED_STRING | ENUM | EQUALITY_CHAIN | FLOOR | FUNCTION | GREATER_CHAIN | IDENTIFIER | IF | INVOCATION | LESSER_CHAIN | LIST | MAGNITUDE | MAP | MEMBER_ACCESS | NEAREST_INTEGER | NON_NEG_NUMBER | OBJECT | PARENTHETICAL | RANGE | REGEX | SET | SET_COMPREHENSION | SUBSET_CHAIN | SUPERSET_CHAIN | SWIZZLE | THIS | THIS_FUNC | THIS_TYPE | TIME | TUPLE | TYPE | UNARY_OP | VECTOR_NORM | "context" | "null" | c_string 
@@ -626,6 +710,13 @@ FACTORIAL:
     syntax: >
         EXPRESSION {IC} "!"
     precedes: [BINARY_OP]
+
+FACTORIAL_ASSIGNMENT:
+    syntax: >
+        EXPRESSION {IC} "!" ("<-"|"←")
+    doc: Factorial the operand and assign the result to it.
+    see:
+        - FACTORIAL
 
 FLOOR:
     syntax: >
@@ -855,6 +946,13 @@ IMPLICATION:
     doc: >
         implication
 
+IMPLICATION_ASSIGNMENT:
+    syntax: >
+        EXPRESSION {IC} ("⇒"|"=>") ("<-"|"←") {IC} EXPRESSION
+    doc: Implicate the two operands and assign the result to the first.
+    see:
+        - IMPLICATION
+
 IMPLICIT_TYPE_DEREFERENCE:
     syntax: >
         "<" {IC} ">"
@@ -907,12 +1005,26 @@ INTEGER_DIVISION:
     doc: >
         same as ⌊x/y⌋ or collection difference (similar to set difference)
 
+INTEGER_DIVISION_ASSIGNMENT:
+    syntax: >
+        EXPRESSION {IC} "\\" ("<-"|"←") {IC} EXPRESSION
+    doc: Integer divide the two operands and assign the result to the first.
+    see:
+        - INTEGER_DIVISION
+
 INTERSECTION:
     syntax: >
         EXPRESSION {IC} "∩" {IC} EXPRESSION
     assoc: either
     doc: >
         Collection intersection
+
+INTERSECTION_ASSIGNMENT:
+    syntax: >
+        EXPRESSION {IC} "∩" ("<-"|"←") {IC} EXPRESSION
+    doc: Set intersect the two operands and assign the result to the first.
+    see:
+        - INTERSECTION
 
 INVOCATION:
     syntax: >
@@ -1030,6 +1142,13 @@ MODULATION:
     doc: >
         mod operator or returns a collection containing the elements that would not be consumed from the end of the left hand side by taking the chunk of the right hand side
 
+MODULATION_ASSIGNMENT:
+    syntax: >
+        EXPRESSION {IC} "%" ("<-"|"←") {IC} EXPRESSION
+    doc: Modulate the two operands and assign the result to the first.
+    see:
+        - MODULATION
+
 MULTIPLICATION:
     syntax: >
         EXPRESSION {IC} "*" {IC} EXPRESSION
@@ -1038,6 +1157,13 @@ MULTIPLICATION:
     doc: >
         scalar multiplication, cartesian product
 
+MULTIPLICATION_ASSIGNMENT:
+    syntax: >
+        EXPRESSION {IC} "*" ("<-"|"←") {IC} EXPRESSION
+    doc: Multiply the two operands and assign the result to the first.
+    see:
+        - MULTIPLICATION
+
 MULTIPLICATIVE_OP:
     syntax: >
         CROSS_PRODUCT | DOT_PRODUCT | MULTIPLICATION
@@ -1045,9 +1171,16 @@ MULTIPLICATIVE_OP:
 
 NAND:
     syntax: >
-        EXPRESSION {IC} "↑" {IC} EXPRESSION
+        EXPRESSION {IC} ("↑"|"nand") {IC} EXPRESSION
     assoc: left
     precedes: [OR, IMPLICATION, XOR, IFF]
+
+NAND_ASSIGNMENT:
+    syntax: >
+        EXPRESSION {IC} ("↑"|"nand") ("<-"|"←") {IC} EXPRESSION
+    doc: Nand the two operands and assign the result to the first.
+    see:
+        - NAND
 
 NEAREST_INTEGER:
     syntax: >
@@ -1061,6 +1194,13 @@ NEGATION:
     precedes: [BINARY_OP]
     example: |
         -5
+
+NEGATION_ASSIGNMENT:
+    syntax: >
+        EXPRESSION {IC} "-" ("<-"|"←")
+    doc: Negate the operand and assign the result to it.
+    see:
+        - NEGATION
 
 NON_FRACTIONAL:
     syntax: >
@@ -1094,9 +1234,16 @@ NON_ZERO_DECIMAL_DIGIT:
 
 NOR:
     syntax: >
-        EXPRESSION {IC} ("↓") {IC} EXPRESSION
+        EXPRESSION {IC} ("↓"|"nor") {IC} EXPRESSION
     assoc: left
     precedes: [OR, IMPLICATION, XOR, IFF]
+
+NOR_ASSIGNMENT:
+    syntax: >
+        EXPRESSION {IC} ("↓"|"nor") ("<-"|"←") {IC} EXPRESSION
+    doc: Nor the two operands and assign the result to the first.
+    see:
+        - NOR
 
 NOT:
     syntax: >
@@ -1104,6 +1251,13 @@ NOT:
     precedes: [BINARY_OP]
     doc: >
         boolean not
+
+NOT_ASSIGNMENT:
+    syntax: >
+        EXPRESSION {IC} ("¬"|"~") ("<-"|"←")
+    doc: Not the operand and assign the result to it.
+    see:
+        - NOT
 
 NOT_HAS:
     syntax: >
@@ -1128,6 +1282,13 @@ NULL_COALESCE:
     notes: >
         may be chained together
 
+NULL_COALESCE_ASSIGNMENT:
+    syntax: >
+        EXPRESSION {IC} "??" ("<-"|"←") {IC} EXPRESSION
+    doc: Null coalesce the two operands and assign the result to the first.
+    see:
+        - NULL_COALESVE
+
 OBJECT:
     syntax: >
         "object" {IC} ["inheriting" {IC} INHERITANCE_LIST {IC}] ["implementing" {IC} INHERITANCE_LIST {IC}] "{" TYPE_SCOPE "}"
@@ -1138,11 +1299,23 @@ OCTAL:
     doc: >
         octal number
 
+OP_ASSIGNMENT:
+    syntax: >
+        ADD_SUB_ASSIGNMENT | ADDITION_ASSIGNMENT | AND_ASSIGNMENT | BIT_AND_ASSIGNMENT | BIT_NOT_ASSIGNMENT | BIT_OR_ASSIGNMENT | BIT_XOR_ASSIGNMENT | COMPOUND_ASSIGNMENT | COMPOSITION_ASSIGNMENT | CROSS_PRODUCT_ASSIGNMENT | DIVISION_ASSIGNMENT | EXPONENTIATION_ASSIGNMENT | FACTORIAL_ASSIGNMENT | IMPLICATION_ASSIGNMENT | INTEGER_DIVISION_ASSIGNMENT | INTERSECTION_ASSIGNMENT | MODULATION_ASSIGNMENT | MULTIPLICATION_ASSIGNMENT | NAND_ASSIGNMENT | NEGATION_ASSIGNMENT | NOR_ASSIGNMENT | NOT_ASSIGNMENT | NULL_COALESCE_ASSIGNMENT | OR_ASSIGNMENT | PRE_DEC | PRE_INC | PREPEND_ASSIGNMENT | POST_DEC | POST_INC | RADICAL_ASSIGNMENT | SHIFTL_ASSIGNMENT | SHIFTR_ASSIGNMENT | SUBTRACTION_ASSIGNMENT | SYMMETRIC_DIFFERENCE_ASSIGNMENT | UNION_ASSIGNMENT | XOR_ASSIGNMENT
+    doc: Perform an operation on one or two operands and assign the result to the first.
+
 OR:
     syntax: >
         EXPRESSION {IC} ("∨"|"or") {IC} EXPRESSION
     assoc: either
     precedes: [IMPLICATION, XOR, IFF]
+
+OR_ASSIGNMENT:
+    syntax: >
+        EXPRESSION {IC} ("∨"|"or") ("<-"|"←") {IC} EXPRESSION
+    doc: Or the two operands and assign the result to the first.
+    see:
+        - OR
 
 PARAMETER:
     syntax: >
@@ -1217,10 +1390,24 @@ PREPEND:
         y := [1, 2, 3, 4, 5];
         x = y;
 
+PREPEND_ASSIGNMENT:
+    syntax: >
+        EXPRESSION {IC} "&" ("<-"|"←") {IC} EXPRESSION
+    doc: Prepend the second operand to the first and assign the result to the first.
+    see:
+        - PREPEND
+
 RADICAL:
     syntax: >
         "√" {IC} EXPRESSION
     precedes: [DIVISION, INTEGER_DIVISION, MODULATION, MULTIPLICATIVE_OP, SUBTRACTION, ADDITION, ADD_SUB]
+
+RADICAL_ASSIGNMENT:
+    syntax: >
+        EXPRESSION {IC} "√" ("<-"|"←")
+    doc: Square root the operand and assign the result to it.
+    see:
+        - 
 
 RANGE:
     syntax: >
@@ -1279,12 +1466,26 @@ SET_COMPREHENSION:
     example: |
         { x | x ∈ ℝ ∧ x < 3 }
 
+SHIFTL_ASSIGNMENT:
+    syntax: >
+        EXPRESSION {IC} "<<" ("<-"|"←") {IC} EXPRESSION
+    doc: Shift the first operand left by the number of bits specified in the signed second operand and assign the result to the first.
+    see:
+        - SHIFTL
+
 SHIFTL:
     syntax: >
         EXPRESSION {IC} "<<" {IC} EXPRESSION
     assoc: left
     doc: >
         shift left
+
+SHIFTR_ASSIGNMENT:
+    syntax: >
+        EXPRESSION {IC} ">>" ("<-"|"←") {IC} EXPRESSION
+    doc: Shift the first operand right by the number of bits specified in the signed second operand and assign the result to the first.
+    see:
+        - SHIFTR
 
 SHIFTR:
     syntax: >
@@ -1301,7 +1502,7 @@ SLICE:
 
 STATEMENT:
     syntax: >
-        %value( ASSIGNMENT_CHAIN | BREAK | CONTINUE | DEFINITION | DO | EXPRESSION | FOR | FOR_COLLECTION | FREE | IMPORT | LOCK | LOOP | READ_LOCK | RETURN | THROW | TRY | TYPE_CONSTRAINT | WRITE_LOCK | USING ) %ic{IC} ";"
+        %value( ASSIGNMENT_CHAIN | BREAK | CONTINUE | DEFINITION | DO | EXPRESSION | FOR | FOR_COLLECTION | FREE | IMPORT | LOCK | LOOP | OP_ASSIGNMENT | READ_LOCK | RETURN | THROW | TRY | TYPE_CONSTRAINT | WRITE_LOCK | USING ) %ic{IC} ";"
     doc: >
         top-level statement syntax
 
@@ -1334,6 +1535,13 @@ SUBSET_CHAIN_LOOP:
     see:
         - SUBSET_CHAIN
 
+SUBTRACTION_ASSIGNMENT:
+    syntax: >
+        EXPRESSION {IC} "-" ("<-"|"←") {IC} EXPRESSION
+    doc: Subtract the two operands and assign the result to the first.
+    see:
+        - SUBTRACTION
+
 SUBTRACTION:
     syntax: >
         EXPRESSION {IC} "-" {IC} EXPRESSION
@@ -1361,12 +1569,23 @@ SWIZZLE:
     syntax: >
         EXPRESSION {IC} ("⋮" | "_swiz_") {IC} EXPRESSION
 
+SYMMETRIC_DIFFERENCE_ASSIGNMENT:
+    syntax: >
+        EXPRESSION {IC} "⊖" ("<-"|"←") {IC} EXPRESSION
+    doc: Compute the unique elements in both operands and assign the result to the first.
+    notes: >
+        For cases where the subexpressions are Collections, DIVISION_ASSIGNMENT is semantically equivalent
+    see:
+        - SYMMETRIC_DIFFERENCE
+
 SYMMETRIC_DIFFERENCE:
     syntax: >
         EXPRESSION {IC} "⊖" {IC} EXPRESSION
     assoc: left
     doc: >
-        the set-theoretic symmetric disjunction (Collection xor)
+        the set-theoretic symmetric difference (Collection xor)
+    notes: >
+        For cases where the subexpressions are Collections, DIVISION is semantically equivalent
 
 THIS:
     syntax: >
@@ -1475,7 +1694,7 @@ TYPE_STATEMENT:
 
 UNARY_ARITHMETIC_OP:
     syntax: >
-        FACTORIAL | NEGATION | POST_DEC | POST_INC | PRE_DEC | PRE_INC | RADICAL
+        FACTORIAL | NEGATION | RADICAL
 
 UNARY_LOGICAL_OP:
     syntax: >
@@ -1485,6 +1704,13 @@ UNARY_LOGICAL_OP:
 UNARY_OP:
     syntax: >
         ALLOCATION | CARDINALITY | KLEENE_STAR | UNARY_ARITHMETIC_OP | UNARY_LOGICAL_OP
+
+UNION_ASSIGNMENT:
+    syntax: >
+        EXPRESSION {IC} "∪" ("<-"|"←") {IC} EXPRESSION
+    doc: Union the two operands and assign the result to the first.
+    see:
+        - UNION
 
 UNION:
     syntax: >
@@ -1577,6 +1803,12 @@ XML_DOC_STRING_INTERIOR:
         $PAYLOAD | ("`" XML_DOC_STRING_INTERIOR "`")
     precedes: [PAYLOAD]
 
+XOR_ASSIGNMENT:
+    syntax: >
+        EXPRESSION {IC} ("⊕" |"xor") ("<-"|"←") {IC} EXPRESSION
+    doc: Xor the two operands and assign the result to the first.
+    see:
+        - XOR
 XOR:
     syntax: >
         EXPRESSION {IC} ("⊕" |"xor") {IC} EXPRESSION

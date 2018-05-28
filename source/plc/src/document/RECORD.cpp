@@ -5,7 +5,7 @@
 #include "plange_grammar.hpp"
 
 #include "parlex/detail/document.hpp"
-#include "ICR.hpp"
+#include "IC.hpp"
 #include "TYPE.hpp"
 
 plc::RECORD plc::RECORD::build(parlex::detail::ast_node const & n) {
@@ -13,9 +13,10 @@ plc::RECORD plc::RECORD::build(parlex::detail::ast_node const & n) {
 	parlex::detail::document::walk w{ n.children.cbegin(), n.children.cend() };
 	auto const & children = b->children;
 	auto v0 = parlex::detail::document::element<parlex::detail::document::text<literal_record_t>>::build(&*children[0], w);
-	auto v1 = parlex::detail::document::element<std::vector<erased<ICR>>>::build(&*children[1], w);
-	auto v2 = parlex::detail::document::element<erased<TYPE>>::build(&*children[2], w);
-	return RECORD(std::move(v0), std::move(v1), std::move(v2));
+	auto v1 = parlex::detail::document::element<erased<IC>>::build(&*children[1], w);
+	auto v2 = parlex::detail::document::element<std::vector<erased<IC>>>::build(&*children[2], w);
+	auto v3 = parlex::detail::document::element<erased<TYPE>>::build(&*children[3], w);
+	return RECORD(std::move(v0), std::move(v1), std::move(v2), std::move(v3));
 }
 
 

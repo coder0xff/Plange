@@ -17,21 +17,23 @@
 
 namespace plc {
 
-struct ICR;
+struct IC;
 struct VISIBILITY_MODIFIER;
 
 struct INHERITANCE_ITEM_PREFIX {
 	struct field_1_t_2_t {
 		erased<VISIBILITY_MODIFIER> field_1;
 		
-		erased<ICR> field_2;
+		erased<IC> field_2;
 		
-		parlex::detail::document::text<literal_diamond_t> dontCare2;
+		std::vector<erased<IC>> field_3;
+		
+		parlex::detail::document::text<literal_diamond_t> dontCare3;
 		
 	
 	
 		explicit field_1_t_2_t(
-			erased<VISIBILITY_MODIFIER> && field_1, erased<ICR> && field_2, parlex::detail::document::text<literal_diamond_t> && dontCare2) : field_1(std::move(field_1)), field_2(std::move(field_2)), dontCare2(std::move(dontCare2)) {}
+			erased<VISIBILITY_MODIFIER> && field_1, erased<IC> && field_2, std::vector<erased<IC>> && field_3, parlex::detail::document::text<literal_diamond_t> && dontCare3) : field_1(std::move(field_1)), field_2(std::move(field_2)), field_3(std::move(field_3)), dontCare3(std::move(dontCare3)) {}
 	
 		field_1_t_2_t(field_1_t_2_t const & other) = default;
 		field_1_t_2_t(field_1_t_2_t && move) = default;
@@ -45,7 +47,9 @@ struct INHERITANCE_ITEM_PREFIX {
 		parlex::detail::document::text<literal_diamond_t>
 	> field_1;
 	
-	erased<ICR> field_2;
+	erased<IC> field_2;
+	
+	std::vector<erased<IC>> field_3;
 	
 
 
@@ -54,7 +58,7 @@ struct INHERITANCE_ITEM_PREFIX {
 			erased<VISIBILITY_MODIFIER>,
 			field_1_t_2_t,
 			parlex::detail::document::text<literal_diamond_t>
-		> && field_1, erased<ICR> && field_2) : field_1(std::move(field_1)), field_2(std::move(field_2)) {}
+		> && field_1, erased<IC> && field_2, std::vector<erased<IC>> && field_3) : field_1(std::move(field_1)), field_2(std::move(field_2)), field_3(std::move(field_3)) {}
 
 	INHERITANCE_ITEM_PREFIX(INHERITANCE_ITEM_PREFIX const & other) = default;
 	INHERITANCE_ITEM_PREFIX(INHERITANCE_ITEM_PREFIX && move) = default;

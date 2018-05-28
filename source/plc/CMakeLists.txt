@@ -48,7 +48,7 @@ set(HEADERS
 	"include/warnings.hpp"
 	"include/plc_utils.hpp")
 
-FILE(GLOB DOCUMENT_SOURCES "src/document/*.cpp*")
+FILE(GLOB DOCUMENT_SOURCES "src/document/*.cpp*") 
 FILE(GLOB DOCUMENT_HEADERS "include/document/*.hpp*")
 
 set (TEST_SOURCES

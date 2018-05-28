@@ -18,6 +18,7 @@
 #include "IMPORT.hpp"
 #include "LOCK.hpp"
 #include "LOOP.hpp"
+#include "OP_ASSIGNMENT.hpp"
 #include "READ_LOCK.hpp"
 #include "RETURN.hpp"
 #include "THROW.hpp"
@@ -43,6 +44,7 @@ plc::STATEMENT plc::STATEMENT::build(parlex::detail::ast_node const & n) {
 		erased<IMPORT>,
 		erased<LOCK>,
 		erased<LOOP>,
+		erased<OP_ASSIGNMENT>,
 		erased<READ_LOCK>,
 		erased<RETURN>,
 		erased<THROW>,

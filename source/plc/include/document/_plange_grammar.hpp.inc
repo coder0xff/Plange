@@ -19,10 +19,13 @@ public:
 	}
 
 	uint16_t const ADDITION;
+	uint16_t const ADDITION_ASSIGNMENT;
 	uint16_t const ADD_SUB;
+	uint16_t const ADD_SUB_ASSIGNMENT;
 	uint16_t const ALL;
 	uint16_t const ALLOCATION;
 	uint16_t const AND;
+	uint16_t const AND_ASSIGNMENT;
 	uint16_t const ARGUMENT;
 	uint16_t const ARGUMENT_PACK;
 	uint16_t const ARRAY;
@@ -46,9 +49,13 @@ public:
 	uint16_t const BINARY_OP;
 	uint16_t const BITWISE_OP;
 	uint16_t const BIT_AND;
+	uint16_t const BIT_AND_ASSIGNMENT;
 	uint16_t const BIT_NOT;
+	uint16_t const BIT_NOT_ASSIGNMENT;
 	uint16_t const BIT_OR;
+	uint16_t const BIT_OR_ASSIGNMENT;
 	uint16_t const BIT_XOR;
+	uint16_t const BIT_XOR_ASSIGNMENT;
 	uint16_t const BLOCK;
 	uint16_t const BOOL;
 	uint16_t const BREAK;
@@ -59,11 +66,14 @@ public:
 	uint16_t const COMMENT;
 	uint16_t const COMPLEMENT;
 	uint16_t const COMPOSITION;
+	uint16_t const COMPOSITION_ASSIGNMENT;
 	uint16_t const COMPOUND;
+	uint16_t const COMPOUND_ASSIGNMENT;
 	uint16_t const CONDITIONAL;
 	uint16_t const CONSTRUCTIVE_OP;
 	uint16_t const CONTINUE;
 	uint16_t const CROSS_PRODUCT;
+	uint16_t const CROSS_PRODUCT_ASSIGNMENT;
 	uint16_t const DATE;
 	uint16_t const DATE_TIME;
 	uint16_t const DATE_YEAR_DAY;
@@ -75,6 +85,7 @@ public:
 	uint16_t const DIMENSIONAL_ANALYSIS_OP;
 	uint16_t const DIMENSIONAL_NUMBER;
 	uint16_t const DIVISION;
+	uint16_t const DIVISION_ASSIGNMENT;
 	uint16_t const DO;
 	uint16_t const DOT_PRODUCT;
 	uint16_t const DOWNCASTS;
@@ -93,9 +104,11 @@ public:
 	uint16_t const EXISTS;
 	uint16_t const EXISTS_ONE;
 	uint16_t const EXPONENTIATION;
+	uint16_t const EXPONENTIATION_ASSIGNMENT;
 	uint16_t const EXPRESSION;
 	uint16_t const EXTERN;
 	uint16_t const FACTORIAL;
+	uint16_t const FACTORIAL_ASSIGNMENT;
 	uint16_t const FLOOR;
 	uint16_t const FOR;
 	uint16_t const FOR_COLLECTION;
@@ -117,12 +130,12 @@ public:
 	uint16_t const HAS;
 	uint16_t const HEX;
 	uint16_t const IC;
-	uint16_t const ICR;
 	uint16_t const IDENTIFIER;
 	uint16_t const IF;
 	uint16_t const IFF;
 	uint16_t const IMPLEMENTS;
 	uint16_t const IMPLICATION;
+	uint16_t const IMPLICATION_ASSIGNMENT;
 	uint16_t const IMPLICIT_TYPE_DEREFERENCE;
 	uint16_t const IMPORT;
 	uint16_t const IN;
@@ -131,7 +144,9 @@ public:
 	uint16_t const INHERITANCE_LIST;
 	uint16_t const INHERITS;
 	uint16_t const INTEGER_DIVISION;
+	uint16_t const INTEGER_DIVISION_ASSIGNMENT;
 	uint16_t const INTERSECTION;
+	uint16_t const INTERSECTION_ASSIGNMENT;
 	uint16_t const INVOCATION;
 	uint16_t const IS;
 	uint16_t const KLEENE_STAR;
@@ -146,11 +161,15 @@ public:
 	uint16_t const MEMBER_ACCESS;
 	uint16_t const MEMBER_OFFSET;
 	uint16_t const MODULATION;
+	uint16_t const MODULATION_ASSIGNMENT;
 	uint16_t const MULTIPLICATION;
+	uint16_t const MULTIPLICATION_ASSIGNMENT;
 	uint16_t const MULTIPLICATIVE_OP;
 	uint16_t const NAND;
+	uint16_t const NAND_ASSIGNMENT;
 	uint16_t const NEAREST_INTEGER;
 	uint16_t const NEGATION;
+	uint16_t const NEGATION_ASSIGNMENT;
 	uint16_t const NON_FRACTIONAL;
 	uint16_t const NON_NEG_FRACTIONAL;
 	uint16_t const NON_NEG_INTEGER;
@@ -158,13 +177,18 @@ public:
 	uint16_t const NON_NEG_NUMBER;
 	uint16_t const NON_ZERO_DECIMAL_DIGIT;
 	uint16_t const NOR;
+	uint16_t const NOR_ASSIGNMENT;
 	uint16_t const NOT;
+	uint16_t const NOT_ASSIGNMENT;
 	uint16_t const NOT_HAS;
 	uint16_t const NOT_IN;
 	uint16_t const NULL_COALESCE;
+	uint16_t const NULL_COALESCE_ASSIGNMENT;
 	uint16_t const OBJECT;
 	uint16_t const OCTAL;
+	uint16_t const OP_ASSIGNMENT;
 	uint16_t const OR;
+	uint16_t const OR_ASSIGNMENT;
 	uint16_t const PARAMETER;
 	uint16_t const PARAMETER_ANALYTIC;
 	uint16_t const PARAMETER_NATURAL;
@@ -175,9 +199,11 @@ public:
 	uint16_t const POST_DEC;
 	uint16_t const POST_INC;
 	uint16_t const PREPEND;
+	uint16_t const PREPEND_ASSIGNMENT;
 	uint16_t const PRE_DEC;
 	uint16_t const PRE_INC;
 	uint16_t const RADICAL;
+	uint16_t const RADICAL_ASSIGNMENT;
 	uint16_t const RANGE;
 	uint16_t const READ_LOCK;
 	uint16_t const RECORD;
@@ -188,7 +214,9 @@ public:
 	uint16_t const SET;
 	uint16_t const SET_COMPREHENSION;
 	uint16_t const SHIFTL;
+	uint16_t const SHIFTL_ASSIGNMENT;
 	uint16_t const SHIFTR;
+	uint16_t const SHIFTR_ASSIGNMENT;
 	uint16_t const SLICE;
 	uint16_t const STATEMENT;
 	uint16_t const STATEMENT_SCOPE;
@@ -196,10 +224,12 @@ public:
 	uint16_t const SUBSET_CHAIN;
 	uint16_t const SUBSET_CHAIN_LOOP;
 	uint16_t const SUBTRACTION;
+	uint16_t const SUBTRACTION_ASSIGNMENT;
 	uint16_t const SUPERSET_CHAIN;
 	uint16_t const SUPERSET_CHAIN_LOOP;
 	uint16_t const SWIZZLE;
 	uint16_t const SYMMETRIC_DIFFERENCE;
+	uint16_t const SYMMETRIC_DIFFERENCE_ASSIGNMENT;
 	uint16_t const THIS;
 	uint16_t const THIS_FUNC;
 	uint16_t const THIS_TYPE;
@@ -223,6 +253,7 @@ public:
 	uint16_t const UNARY_LOGICAL_OP;
 	uint16_t const UNARY_OP;
 	uint16_t const UNION;
+	uint16_t const UNION_ASSIGNMENT;
 	uint16_t const UNIT_DIVISION;
 	uint16_t const UNIT_EXPONENTIATION;
 	uint16_t const UNIT_MULTIPLICATION;
@@ -238,6 +269,7 @@ public:
 	uint16_t const XML_DOC_STRING;
 	uint16_t const XML_DOC_STRING_INTERIOR;
 	uint16_t const XOR;
+	uint16_t const XOR_ASSIGNMENT;
 private:
 	plange_grammar();
 

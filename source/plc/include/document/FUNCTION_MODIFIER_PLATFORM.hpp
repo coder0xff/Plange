@@ -18,19 +18,21 @@
 namespace plc {
 
 struct FUNCTION_MODIFIER_4;
-struct ICR;
+struct IC;
 struct PLATFORM;
 
 struct FUNCTION_MODIFIER_PLATFORM {
 	struct field_2_t_1_t {
-		erased<ICR> field_1;
+		erased<IC> field_1;
 		
-		erased<PLATFORM> field_2;
+		std::vector<erased<IC>> field_2;
+		
+		erased<PLATFORM> field_3;
 		
 	
 	
 		explicit field_2_t_1_t(
-			erased<ICR> && field_1, erased<PLATFORM> && field_2) : field_1(std::move(field_1)), field_2(std::move(field_2)) {}
+			erased<IC> && field_1, std::vector<erased<IC>> && field_2, erased<PLATFORM> && field_3) : field_1(std::move(field_1)), field_2(std::move(field_2)), field_3(std::move(field_3)) {}
 	
 		field_2_t_1_t(field_2_t_1_t const & other) = default;
 		field_2_t_1_t(field_2_t_1_t && move) = default;
@@ -39,14 +41,16 @@ struct FUNCTION_MODIFIER_PLATFORM {
 	};
 
 	struct field_3_t_1_t {
-		erased<ICR> field_1;
+		erased<IC> field_1;
 		
-		erased<FUNCTION_MODIFIER_4> field_2;
+		std::vector<erased<IC>> field_2;
+		
+		erased<FUNCTION_MODIFIER_4> field_3;
 		
 	
 	
 		explicit field_3_t_1_t(
-			erased<ICR> && field_1, erased<FUNCTION_MODIFIER_4> && field_2) : field_1(std::move(field_1)), field_2(std::move(field_2)) {}
+			erased<IC> && field_1, std::vector<erased<IC>> && field_2, erased<FUNCTION_MODIFIER_4> && field_3) : field_1(std::move(field_1)), field_2(std::move(field_2)), field_3(std::move(field_3)) {}
 	
 		field_3_t_1_t(field_3_t_1_t const & other) = default;
 		field_3_t_1_t(field_3_t_1_t && move) = default;

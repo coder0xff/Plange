@@ -7,10 +7,6 @@
 #include "parlex/detail/document.hpp"
 #include "FACTORIAL.hpp"
 #include "NEGATION.hpp"
-#include "POST_DEC.hpp"
-#include "POST_INC.hpp"
-#include "PRE_DEC.hpp"
-#include "PRE_INC.hpp"
 #include "RADICAL.hpp"
 
 #include "UNARY_ARITHMETIC_OP.hpp"
