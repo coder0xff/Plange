@@ -135,5 +135,5 @@ else:
         if "see" in details:
                 print "\t\t<p>See:"
                 for i in details["see"]:
-                        print " <a href=\"" + i + ".php\">" + i + "</a>"
+                        print " <a href=\"syntax.php?name=" + i + "\">" + i + "</a>"
                 print "\n\t\t</p>\n"
