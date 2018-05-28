@@ -7,16 +7,19 @@ import pdb
 import re
 import cgi
 import codecs
-execfile("../../source/python/templating.py")
+import sys
 
-specsFile = open('../../source/syntax.yml')
+import cgitb
+cgitb.enable()
+
+if (sys.stdout.encoding is None):
+        print >> sys.stderr, "please set python env PYTHONIOENCODING=UTF-8, example: export PYTHONIOENCODING=UTF-8, when write to stdout."
+        exit(1)
+
+specsFile = open('../source/syntax.yml')
 specs = yaml.safe_load(specsFile)
 specsFile.close()
 
-phpFiles = [ f for f in os.listdir(".") if f.endswith(".php")]
-for f in phpFiles:
-        os.remove(f)
-	
 htmlTest = re.compile("(?i)<\/?\w+((\s+\w+(\s*=\s*(?:\".*?\"|'.*?'|[^'\">\s]+))?)+\s*|\s*)\/?>")
 def paragraphy(text):
         if htmlTest.match(text):
@@ -86,62 +89,51 @@ def simplifySyntaxStringAddLinks(syntax):
                 syntax = regexs[refName].sub("<a href=\"/documentation/syntax/" + refName + ".php\">" + refName + "</a>", syntax)
         return syntax
 
-for name in names:
-        details = specs[name]
-                
-        phpFilename = name + ".php"
-        if "doc" in details:
-                content = "\t\t<p>" + details["doc"].strip() + "</p>\n\n"
-        else:
-                content = ""
+if len(sys.argv) == 1: # output the table for the syntax listing page
+        print "\n\t\t<table>\n"
+        for name in names:
+                details = specs[name]
 
-        syntaxString = ""
-        anchorSyntaxString = ""
+                syntaxString = simplifySyntaxStringAddAnchors(details["syntax"])
+                print "\t\t\t<tr>\n"
+                print "\t\t\t\t<td><a id=\"" + name + "\" href=\"/documentation/syntax.php?name=" + name + "\">" + name + "</a></td>\n"
+                if "doc" in details:
+                        print "\t\t\t\t<td>" + details["doc"].strip() + "</td>\n"
+                else:
+                        print "\t\t\t\t<td>no doc string</td>\n"
+                        
+                print "\t\t\t\t<td>" + syntaxString + "</td>\n"
+                print "\t\t\t</tr>\n"
+        print "\t\t</table>\n"
+else:
+        name = sys.argv[1]
+        details = specs[name]
+                        
+        if "doc" in details:
+                print "\t\t<p>" + details["doc"].strip() + "</p>\n\n"
+
         if "syntax" in details:
                 syntaxString = simplifySyntaxStringAddLinks(details["syntax"])
-                anchorSyntaxString = simplifySyntaxStringAddAnchors(details["syntax"])
                
                 title = "syntax"
                 if "assoc" in details:
                         title = title + " (associativity: " + details["assoc"] + ")"
-                content = content + "\t\t<div class=\"syntax\">\n\t\t\t<p>" + title + "</p>\n\t\t\t<div>" + syntaxString + "</div>\n\t\t</div>\n"
+                print "\t\t<div class=\"syntax\">\n\t\t\t<p>" + title + "</p>\n\t\t\t<div>" + syntaxString + "</div>\n\t\t</div>\n"
         else:
                 raise ValueError("every entry must contain a syntax element")
 
         if "example" in details:
-                content += loadExample(details["example"])
+                print loadExample(details["example"])
 
         if "examples" in details:
                 for example in details["examples"]:
-                        content += loadExample(example)
+                        print loadExample(example)
 
         if "notes" in details:
-                content = content + "\t\t<h2>Notes</h2>\n\t\t" + paragraphy(details["notes"])
+                print "\t\t<h2>Notes</h2>\n\t\t" + paragraphy(details["notes"])
 
         if "see" in details:
-                content = content + "\t\t<p>See:"
+                print "\t\t<p>See:"
                 for i in details["see"]:
-                        content = content + " <a href=\"" + i + ".php\">" + i + "</a>"
-                content = content + "\n\t\t</p>\n"
-
-        gen("_syntax_page_template", phpFilename, {
-                "CONTENT": content,
-                "NAME": name
-        })
-
-        indexPageContents = indexPageContents + "\t\t\t<tr>\n"
-        indexPageContents = indexPageContents + "\t\t\t\t<td><a id=\"" + name + "\" href=\"/documentation/syntax/" + phpFilename + "\">" + name + "</a></td>\n"
-                
-        if "doc" in details:
-                indexPageContents = indexPageContents + "\t\t\t\t<td>" + details["doc"].strip() + "</td>\n"
-        else:
-                indexPageContents = indexPageContents + "\t\t\t\t<td>no doc string</td>\n"
-                
-        indexPageContents = indexPageContents + "\t\t\t\t<td>" + anchorSyntaxString + "</td>\n"
-        
-        
-        indexPageContents = indexPageContents + "\t\t\t</tr>\n"
-
-indexPageContents = indexPageContents + "\t\t</table>\n\n\t\t<?php require('../footer.php') ?>\n\t</body>\n</html>"
-with codecs.open("../syntax.php", "w", "utf-8") as indexFile:
-        indexFile.write(indexPageContents)
+                        print " <a href=\"" + i + ".php\">" + i + "</a>"
+                print "\n\t\t</p>\n"
