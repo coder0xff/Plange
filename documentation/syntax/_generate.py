@@ -58,6 +58,34 @@ spaceCloseParenRegex = re.compile(" \\)")
 spaceCloseBraceRegex = re.compile(" \\}")
 spaceCloseBracketRegex = re.compile(" \\]")
 
+def simplifySyntaxString(syntax):
+        syntax = cgi.escape(syntax).strip()
+        syntax = stripRegex.sub("", syntax)
+        syntax = openParenSpaceRegex.sub("(", syntax)
+        syntax = openBraceSpaceRegex.sub("{", syntax)
+        syntax = openBracketSpaceREgex.sub("[", syntax)
+        syntax = spaceCloseParenRegex.sub(")", syntax)
+        syntax = spaceCloseBraceRegex.sub("}", syntax)
+        syntax = spaceCloseBracketRegex.sub("]", syntax)
+        syntax = spaceCloseBracketRegex.sub("]", syntax)
+        return syntax        
+
+def simplifySyntaxStringAddAnchors(syntax):
+        syntax = simplifySyntaxString(syntax)
+        for refName in names:
+                if refName == name:
+                        continue
+                syntax = regexs[refName].sub("<a href=\"/documentation/syntax.php#" + refName + "\">" + refName + "</a>", syntax)
+        return syntax
+
+def simplifySyntaxStringAddLinks(syntax):
+        syntax = simplifySyntaxString(syntax)
+        for refName in names:
+                if refName == name:
+                        continue
+                syntax = regexs[refName].sub("<a href=\"/documentation/syntax/" + refName + ".php\">" + refName + "</a>", syntax)
+        return syntax
+
 for name in names:
         details = specs[name]
                 
@@ -70,23 +98,9 @@ for name in names:
         syntaxString = ""
         anchorSyntaxString = ""
         if "syntax" in details:
-                syntaxString = cgi.escape(details["syntax"]).strip()
-                syntaxString = stripRegex.sub("", syntaxString)
-                syntaxString = openParenSpaceRegex.sub("(", syntaxString)
-                syntaxString = openBraceSpaceRegex.sub("{", syntaxString)
-                syntaxString = openBracketSpaceREgex.sub("[", syntaxString)
-                syntaxString = spaceCloseParenRegex.sub(")", syntaxString)
-                syntaxString = spaceCloseBraceRegex.sub("}", syntaxString)
-                syntaxString = spaceCloseBracketRegex.sub("]", syntaxString)
-                syntaxString = spaceCloseBracketRegex.sub("]", syntaxString)
-                anchorSyntaxString = syntaxString
-
-                for refName in names:
-                        if refName == name:
-                                continue
-                        syntaxString = regexs[refName].sub("<a href=\"/documentation/syntax/" + refName + ".php\">" + refName + "</a>", syntaxString)
-                        anchorSyntaxString = regexs[refName].sub("<a href=\"/documentation/syntax.php#" + refName + "\">" + refName + "</a>", anchorSyntaxString)
-                
+                syntaxString = simplifySyntaxStringAddLinks(details["syntax"])
+                anchorSyntaxString = simplifySyntaxStringAddAnchors(details["syntax"])
+               
                 title = "syntax"
                 if "assoc" in details:
                         title = title + " (associativity: " + details["assoc"] + ")"
