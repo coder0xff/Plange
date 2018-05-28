@@ -102,7 +102,7 @@ ASM_SCOPE:
 
 ASM_STATEMENT:
     syntax: >
-        ASM_OP [ICR ASM_EXPRESSION {{IC} "," [{IC} ASM_EXPRESSION]}] {IC} "\n"
+        ASM_OP [{IC} ASM_EXPRESSION {{IC} "," [{IC} ASM_EXPRESSION]}] {IC} "\n"
 
 ASSIGNMENT_CHAIN:
     syntax: >
@@ -286,7 +286,7 @@ BOOL:
 
 BREAK:
     syntax: >
-        "break" [({IC} "[" {IC} $EXPRESSION {IC} "]") | ({ICR} $IDENTIFIER)]
+        "break" [({IC} "[" {IC} $EXPRESSION {IC} "]") | (IC {IC} $IDENTIFIER)]
     doc: >
         terminate the containing for, do, or while/until loop
     notes: >
@@ -360,7 +360,7 @@ CONSTRUCTIVE_OP:
 
 CONTINUE:
     syntax: >
-        "continue" [({IC} "[" {IC} $EXPRESSION {IC} "]") | ({ICR} $IDENTIFIER)]
+        "continue" [({IC} "[" {IC} $EXPRESSION {IC} "]") | (IC {IC} $IDENTIFIER)]
     doc: >
         begin the next iteration in the containing for, do, or while/until loop
     notes: >
@@ -720,7 +720,7 @@ FUNCTION_MODIFIER_4:
 
 FUNCTION_MODIFIER_ATOMIC:
     syntax: >
-        $"atomic" [ICR FUNCTION_MODIFIER_3]
+        $"atomic" [IC {IC} FUNCTION_MODIFIER_3]
 
 FUNCTION_MODIFIER_CALLING_CONVENTION:
     syntax: >
@@ -728,19 +728,19 @@ FUNCTION_MODIFIER_CALLING_CONVENTION:
 
 FUNCTION_MODIFIER_MODEL:
     syntax: >
-        %model("pure" | "imperative" | "opaque") [ICR FUNCTION_MODIFIER_CALLING_CONVENTION]
+        %model("pure" | "imperative" | "opaque") [IC {IC} FUNCTION_MODIFIER_CALLING_CONVENTION]
 
 FUNCTION_MODIFIER_PLATFORM:
     syntax: >
-        PLATFORM {ICR PLATFORM} [ICR FUNCTION_MODIFIER_4]
+        PLATFORM {IC {IC} PLATFORM} [IC {IC} FUNCTION_MODIFIER_4]
 
 FUNCTION_MODIFIER_STABILITY:
     syntax: >
-        %stability("stable" | "unstable") [ICR FUNCTION_MODIFIER_1]
+        %stability("stable" | "unstable") [IC {IC} FUNCTION_MODIFIER_1]
 
 FUNCTION_MODIFIER_THROWING:
     syntax: >
-        $"throwing" [{IC} ARRAY] [ICR FUNCTION_MODIFIER_2]
+        $"throwing" [{IC} ARRAY] [IC {IC} FUNCTION_MODIFIER_2]
 
 FUNCTION:
     syntax: >
@@ -799,16 +799,11 @@ IC:
     doc: >
         intermediary content - regions that whitespaces and comments can go
 
-ICR:
-    syntax: >
-        IC {IC}
-    doc: >
-        intermediary content that is required
-
 IDENTIFIER:
     syntax: >
         %head(letter | "_") %tail{letter | number | "_"}
     filter: longest
+    precedes: [ALL]
     doc: >
         text that uniquely identifies a constant or variable within a scope
     notes: |
@@ -902,7 +897,7 @@ INHERITANCE_LIST:
 
 INHERITANCE_ITEM_PREFIX:
     syntax: >
-        (VISIBILITY_MODIFIER | VISIBILITY_MODIFIER ICR $"diamond" | $"diamond") ICR
+        (VISIBILITY_MODIFIER | VISIBILITY_MODIFIER IC {IC} $"diamond" | $"diamond") IC {IC}
 
 INTEGER_DIVISION:
     syntax: >
@@ -1246,7 +1241,7 @@ READ_LOCK:
 
 RECORD:
     syntax: >
-        "record" {ICR} TYPE
+        "record" IC {IC} TYPE
 
 REGEX:
     syntax: >
