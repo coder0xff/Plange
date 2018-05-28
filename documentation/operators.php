@@ -96,9 +96,46 @@
                 echo $indent . "</li>\n";
             }
             
+            function process_OP_ASSIGNMENT() {
+                echo "  <li>OP_ASSIGNMENT\n";
+                echo "    <ul>\n";
+                global $syntax_spec;
+                $syntax = trim($syntax_spec['OP_ASSIGNMENT']['syntax']);
+                $children = extract_children($syntax);
+
+                foreach ($children as $child) {
+                    echo "      <li>" . $child;
+                    $childSyntax = trim($syntax_spec[$child]['syntax']);
+                    $literals = extract_string_literals($childSyntax);                    
+                    if (array_slice($literals, -2, 2) == ["<-", "←"]) {
+                        array_splice($literals, -2);
+                        foreach ($literals as $literal) {
+                            echo " <code>";
+                            echo $literal . "<-";
+                            echo "</code> ";
+
+                            echo " <code>";
+                            echo $literal . "←";
+                            echo "</code> ";
+                        }
+                    } else {
+                        foreach ($literals as $literal) {
+                            echo " <code>";
+                            echo $literal;
+                            echo "</code> ";
+                        }
+                    }
+                    echo "</li>\n";
+                }
+                echo "    </ul>\n";
+                echo "  </li>\n";
+            }
+
+
             echo "<ul>\n";
             process("  ", "BINARY_OP");
             process("  ", "UNARY_OP");
+            process_OP_ASSIGNMENT();
             echo "</ul>\n";
         ?>
 
