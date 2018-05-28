@@ -3,9 +3,9 @@
 #include "parlex/builder.hpp"
 #include "parlex/detail/abstract_syntax_semilattice.hpp"
 #include "parlex/detail/builtins.hpp"
+#include "parlex/detail/grammar.hpp"
 
 #include "utils.hpp"
-#include "../../plc/include/plange_grammar.hpp"
 
 namespace parlex {
 namespace detail {
