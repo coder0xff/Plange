@@ -13,7 +13,7 @@
 
 		<div class="syntax">
 			<p>syntax</p>
-			<div>"try" <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> "catch" <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> {"catch" <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a>} [{<a href="/documentation/syntax/IC.php">IC</a>} "finally" <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a>]</div>
+			<div>"try"  <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a>  "catch"  <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> {"catch"  <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a>} ["finally"  <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a>]</div>
 		</div>
 
 

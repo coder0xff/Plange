@@ -11,7 +11,7 @@
 
 		<div class="syntax">
 			<p>syntax</p>
-			<div>"object" ["inheriting" <a href="/documentation/syntax/INHERITANCE_LIST.php">INHERITANCE_LIST</a>] ["implementing" <a href="/documentation/syntax/INHERITANCE_LIST.php">INHERITANCE_LIST</a>] "{" <a href="/documentation/syntax/TYPE_SCOPE.php">TYPE_SCOPE</a> "}"</div>
+			<div>"object"  ["inheriting"  <a href="/documentation/syntax/INHERITANCE_LIST.php">INHERITANCE_LIST</a>] ["implementing"  <a href="/documentation/syntax/INHERITANCE_LIST.php">INHERITANCE_LIST</a>] "{" <a href="/documentation/syntax/TYPE_SCOPE.php">TYPE_SCOPE</a> "}"</div>
 		</div>
 
 

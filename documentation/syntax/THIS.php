@@ -11,7 +11,7 @@
 
 		<div class="syntax">
 			<p>syntax</p>
-			<div>"this" [{<a href="/documentation/syntax/IC.php">IC</a>} "[" <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> "]"]</div>
+			<div>"this" ["["  <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a>  "]"]</div>
 		</div>
 
 

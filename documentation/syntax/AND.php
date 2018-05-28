@@ -11,7 +11,7 @@
 
 		<div class="syntax">
 			<p>syntax (associativity: either)</p>
-			<div><a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> ("∧"|"and") <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a></div>
+			<div><a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a>  ("∧"|"and")  <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a></div>
 		</div>
 
 

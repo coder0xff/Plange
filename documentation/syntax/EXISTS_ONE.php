@@ -13,7 +13,7 @@
 
 		<div class="syntax">
 			<p>syntax</p>
-			<div>("∃!"|"exists!") <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a></div>
+			<div>("∃!"|"exists!")  <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a></div>
 		</div>
 		<p>See: <a href="EXISTS.php">EXISTS</a> <a href="ALL.php">ALL</a>
 		</p>

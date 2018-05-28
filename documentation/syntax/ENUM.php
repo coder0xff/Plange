@@ -13,7 +13,7 @@
 
 		<div class="syntax">
 			<p>syntax</p>
-			<div>"enum" ["inheriting" <a href="/documentation/syntax/INHERITANCE_LIST.php">INHERITANCE_LIST</a>] ["implementing" <a href="/documentation/syntax/INHERITANCE_LIST.php">INHERITANCE_LIST</a>] "{" [<a href="/documentation/syntax/ENUM_ELEMENT.php">ENUM_ELEMENT</a> {{<a href="/documentation/syntax/IC.php">IC</a>} ";" <a href="/documentation/syntax/ENUM_ELEMENT.php">ENUM_ELEMENT</a>}] "}"</div>
+			<div>"enum"  ["inheriting"  <a href="/documentation/syntax/INHERITANCE_LIST.php">INHERITANCE_LIST</a>] ["implementing"  <a href="/documentation/syntax/INHERITANCE_LIST.php">INHERITANCE_LIST</a>] "{" [<a href="/documentation/syntax/ENUM_ELEMENT.php">ENUM_ELEMENT</a> {";"  <a href="/documentation/syntax/ENUM_ELEMENT.php">ENUM_ELEMENT</a>}] "}"</div>
 		</div>
 
 

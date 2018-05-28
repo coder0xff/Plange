@@ -11,7 +11,7 @@
 
 		<div class="syntax">
 			<p>syntax</p>
-			<div>all { all }</div>
+			<div>all {all}</div>
 		</div>
 
 

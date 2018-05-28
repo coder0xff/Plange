@@ -11,7 +11,7 @@
 
 		<div class="syntax">
 			<p>syntax</p>
-			<div>"-" <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a></div>
+			<div>"-"  <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a></div>
 		</div>
 		<div class="code2">
 			<p>Example</p>

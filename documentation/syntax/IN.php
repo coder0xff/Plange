@@ -13,7 +13,7 @@
 
 		<div class="syntax">
 			<p>syntax (associativity: left)</p>
-			<div><a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> ("∈"|"in") <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a></div>
+			<div><a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a>  ("∈"|"in")  <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a></div>
 		</div>
 		<p>See: <a href="FOR_COLLECTION.php">FOR_COLLECTION</a>
 		</p>

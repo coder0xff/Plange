@@ -11,7 +11,7 @@
 
 		<div class="syntax">
 			<p>syntax</p>
-			<div>"record" {<a href="/documentation/syntax/ICR.php">ICR</a>} <a href="/documentation/syntax/TYPE.php">TYPE</a></div>
+			<div>"record" <a href="/documentation/syntax/IC.php">IC</a>  <a href="/documentation/syntax/TYPE.php">TYPE</a></div>
 		</div>
 
 

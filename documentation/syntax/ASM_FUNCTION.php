@@ -11,7 +11,7 @@
 
 		<div class="syntax">
 			<p>syntax</p>
-			<div>[ "(" [ <a href="/documentation/syntax/PARAMETER.php">PARAMETER</a> {{<a href="/documentation/syntax/IC.php">IC</a>} "," <a href="/documentation/syntax/PARAMETER.php">PARAMETER</a>} ] ")" ] [<a href="/documentation/syntax/FUNCTION_MODIFIER_0.php">FUNCTION_MODIFIER_0</a>] "asm" "{" <a href="/documentation/syntax/ASM_SCOPE.php">ASM_SCOPE</a> "}"</div>
+			<div>["("  [<a href="/documentation/syntax/PARAMETER.php">PARAMETER</a> {","  <a href="/documentation/syntax/PARAMETER.php">PARAMETER</a>}] ")"] [<a href="/documentation/syntax/FUNCTION_MODIFIER_0.php">FUNCTION_MODIFIER_0</a>] "asm"  "{" <a href="/documentation/syntax/ASM_SCOPE.php">ASM_SCOPE</a> "}"</div>
 		</div>
 
 

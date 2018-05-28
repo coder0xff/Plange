@@ -11,7 +11,7 @@
 
 		<div class="syntax">
 			<p>syntax</p>
-			<div>([ <a href="/documentation/syntax/TYPE_DEREFERENCE.php">TYPE_DEREFERENCE</a> ] <a href="/documentation/syntax/IDENTIFIER.php">IDENTIFIER</a> ["..."]) | ([ (<a href="/documentation/syntax/TYPE_DEREFERENCE.php">TYPE_DEREFERENCE</a> | <a href="/documentation/syntax/IMPLICIT_TYPE_DEREFERENCE.php">IMPLICIT_TYPE_DEREFERENCE</a>) ] <a href="/documentation/syntax/IDENTIFIER.php">IDENTIFIER</a> ["..."] "=" <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> ["..."])</div>
+			<div>([<a href="/documentation/syntax/TYPE_DEREFERENCE.php">TYPE_DEREFERENCE</a>] <a href="/documentation/syntax/IDENTIFIER.php">IDENTIFIER</a> ["..."]) | ([(<a href="/documentation/syntax/TYPE_DEREFERENCE.php">TYPE_DEREFERENCE</a> | <a href="/documentation/syntax/IMPLICIT_TYPE_DEREFERENCE.php">IMPLICIT_TYPE_DEREFERENCE</a>)] <a href="/documentation/syntax/IDENTIFIER.php">IDENTIFIER</a> ["..."]  "="  <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> ["..."])</div>
 		</div>
 
 

@@ -13,7 +13,7 @@
 
 		<div class="syntax">
 			<p>syntax</p>
-			<div>"&lt;" "&gt;"</div>
+			<div>"&lt;"  "&gt;"</div>
 		</div>
 
 

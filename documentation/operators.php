@@ -35,12 +35,7 @@
             function isOP($name) {
                 $haystack = $name;
                 $needle = "_OP";
-                $length = strlen($needle);
-                if ($length == 0) {
-                    return true;
-                }
-            
-                 return (substr($haystack, -$length) === $needle) && $name !== "ASM_OP";
+                 return (substr($haystack, -strlen($needle)) === $needle) && $name !== "ASM_OP";
             }
             
             // Given an extended Wirth syntax string, return referenced entries.

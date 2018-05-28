@@ -13,7 +13,7 @@
 
 		<div class="syntax">
 			<p>syntax</p>
-			<div>"return" [{<a href="/documentation/syntax/IC.php">IC</a>} "[" <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> "]"] [ <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> ]</div>
+			<div>"return" ["["  <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a>  "]"] [ <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a>]</div>
 		</div>
 		<h2>Notes</h2>
 				<p>if a square-bracketed value is appended to a the "return" keyword, that many scope levels plus one will return. "return" is the same as "return[0]".

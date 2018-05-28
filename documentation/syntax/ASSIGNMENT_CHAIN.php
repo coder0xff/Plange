@@ -13,7 +13,7 @@
 
 		<div class="syntax">
 			<p>syntax</p>
-			<div>[<a href="/documentation/syntax/XML_DOC_STRING.php">XML_DOC_STRING</a>] <a href="/documentation/syntax/IDENTIFIER.php">IDENTIFIER</a> ("←"|"&lt;-") (<a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a>|ASSIGNMENT_CHAIN)</div>
+			<div>[<a href="/documentation/syntax/XML_DOC_STRING.php">XML_DOC_STRING</a>] <a href="/documentation/syntax/IDENTIFIER.php">IDENTIFIER</a>  ("←"|"&lt;-")  (<a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a>|ASSIGNMENT_CHAIN)</div>
 		</div>
 		<div class="code2">
 			<p>Example</p>

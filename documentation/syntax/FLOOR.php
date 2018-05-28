@@ -11,7 +11,7 @@
 
 		<div class="syntax">
 			<p>syntax</p>
-			<div>( "⌊" <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> "⌋" ) | ( "|_" <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> "_|" )</div>
+			<div>("⌊"  <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a>  "⌋") | ("|_"  <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a>  "_|")</div>
 		</div>
 
 

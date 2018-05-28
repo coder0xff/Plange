@@ -11,7 +11,7 @@
 
 		<div class="syntax">
 			<p>syntax</p>
-			<div>(<a href="/documentation/syntax/DECLARATION.php">DECLARATION</a>|<a href="/documentation/syntax/ASSIGNMENT_CHAIN.php">ASSIGNMENT_CHAIN</a>|<a href="/documentation/syntax/DEFINITION.php">DEFINITION</a>) [{<a href="/documentation/syntax/IC.php">IC</a>} "," TYPE_CONSTRAINT_CHAIN]</div>
+			<div>(<a href="/documentation/syntax/DECLARATION.php">DECLARATION</a>|<a href="/documentation/syntax/ASSIGNMENT_CHAIN.php">ASSIGNMENT_CHAIN</a>|<a href="/documentation/syntax/DEFINITION.php">DEFINITION</a>) [","  TYPE_CONSTRAINT_CHAIN]</div>
 		</div>
 
 

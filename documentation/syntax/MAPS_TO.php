@@ -13,7 +13,7 @@
 
 		<div class="syntax">
 			<p>syntax (associativity: right)</p>
-			<div><a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> ("→"|"-&gt;") <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a></div>
+			<div><a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a>  ("→"|"-&gt;")  <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a></div>
 		</div>
 
 

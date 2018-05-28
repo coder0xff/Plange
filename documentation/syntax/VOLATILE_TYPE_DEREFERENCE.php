@@ -11,7 +11,7 @@
 
 		<div class="syntax">
 			<p>syntax</p>
-			<div>"&lt;" "volatile" <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> "&gt;"</div>
+			<div>"&lt;"  "volatile"  <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a>  "&gt;"</div>
 		</div>
 
 

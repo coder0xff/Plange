@@ -13,7 +13,7 @@
 
 		<div class="syntax">
 			<p>syntax</p>
-			<div><a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> "ᶜ"</div>
+			<div><a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a>  "ᶜ"</div>
 		</div>
 
 

@@ -13,7 +13,7 @@
 
 		<div class="syntax">
 			<p>syntax</p>
-			<div>("∀"|"all") <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a></div>
+			<div>("∀"|"all")  <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a></div>
 		</div>
 		<div class="code2">
 			<p>Example</p>

@@ -11,7 +11,7 @@
 
 		<div class="syntax">
 			<p>syntax</p>
-			<div>"&lt;" "volatile" "&gt;"</div>
+			<div>"&lt;"  "volatile"  "&gt;"</div>
 		</div>
 
 

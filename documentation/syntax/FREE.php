@@ -11,7 +11,7 @@
 
 		<div class="syntax">
 			<p>syntax</p>
-			<div>"free" <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a></div>
+			<div>"free"  <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a></div>
 		</div>
 
 

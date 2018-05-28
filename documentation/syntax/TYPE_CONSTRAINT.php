@@ -11,7 +11,7 @@
 
 		<div class="syntax">
 			<p>syntax</p>
-			<div><a href="/documentation/syntax/TYPE_CONSTRAINT_HEAD.php">TYPE_CONSTRAINT_HEAD</a> <a href="/documentation/syntax/TYPE_CONSTRAINT_CHAIN.php">TYPE_CONSTRAINT_CHAIN</a></div>
+			<div><a href="/documentation/syntax/TYPE_CONSTRAINT_HEAD.php">TYPE_CONSTRAINT_HEAD</a>  <a href="/documentation/syntax/TYPE_CONSTRAINT_CHAIN.php">TYPE_CONSTRAINT_CHAIN</a></div>
 		</div>
 
 

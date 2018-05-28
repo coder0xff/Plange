@@ -11,7 +11,7 @@
 
 		<div class="syntax">
 			<p>syntax</p>
-			<div>"atomic" [<a href="/documentation/syntax/ICR.php">ICR</a> <a href="/documentation/syntax/FUNCTION_MODIFIER_3.php">FUNCTION_MODIFIER_3</a>]</div>
+			<div>"atomic" [<a href="/documentation/syntax/IC.php">IC</a>  <a href="/documentation/syntax/FUNCTION_MODIFIER_3.php">FUNCTION_MODIFIER_3</a>]</div>
 		</div>
 
 

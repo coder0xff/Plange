@@ -11,7 +11,7 @@
 
 		<div class="syntax">
 			<p>syntax</p>
-			<div>"lock" <a href="/documentation/syntax/PARENTHETICAL.php">PARENTHETICAL</a> <a href="/documentation/syntax/BLOCK.php">BLOCK</a></div>
+			<div>"lock"  <a href="/documentation/syntax/PARENTHETICAL.php">PARENTHETICAL</a>  <a href="/documentation/syntax/BLOCK.php">BLOCK</a></div>
 		</div>
 
 

@@ -11,7 +11,7 @@
 
 		<div class="syntax">
 			<p>syntax</p>
-			<div>"throwing" [{<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/ARRAY.php">ARRAY</a>] [<a href="/documentation/syntax/ICR.php">ICR</a> <a href="/documentation/syntax/FUNCTION_MODIFIER_2.php">FUNCTION_MODIFIER_2</a>]</div>
+			<div>"throwing" [<a href="/documentation/syntax/ARRAY.php">ARRAY</a>] [<a href="/documentation/syntax/IC.php">IC</a>  <a href="/documentation/syntax/FUNCTION_MODIFIER_2.php">FUNCTION_MODIFIER_2</a>]</div>
 		</div>
 
 

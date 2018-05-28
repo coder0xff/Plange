@@ -45,14 +45,18 @@ def loadExample(example):
         result = result + "\n</pre>\n\t\t</div>"
         return result
 
-indexPageContents = "<meta charset='utf-8'/>\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=0.6\">\n<html>\n\t<head>\n\t\t<title>Syntax Listing - Plange</title>\n\t\t<link rel=StyleSheet href='../css/general.css' type='text/css' />\n\t</head>\n\t<body>\n\t\t<?php require('../header.php') ?>\n\n\n\t\t<p>This page is generated from the <a href='source/syntax.yml'>syntax specification</a>. The root production of the grammar is \"STATEMENT_SCOPE\".</p>\n\t\t<h2>Subpage Listing</h2>\n\t\t<table>\n"
+indexPageContents = "<meta charset='utf-8'/>\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=0.6\">\n<html>\n\t<head>\n\t\t<title>Syntax Listing - Plange</title>\n\t\t<link rel=StyleSheet href='../css/general.css' type='text/css' />\n\t</head>\n\t<body>\n\t\t<?php require('../header.php') ?>\n\n\n\t\t<p>This page is generated from the <a href='/source/syntax.yml'>syntax specification</a>. Tags, identities, and all {IC} (optional whitespace and comment regions) are filtered from the syntax display to improve readability. See the specification for the full grammar specification. The root production of the grammar is \"STATEMENT_SCOPE\".</p>\n\t\t<h2>Subpage Listing</h2>\n\t\t<table>\n"
 names = specs.keys()
 names.sort()
 
 regexs = {name: re.compile("\\b" + name + "\\b") for name in names}
-dollarSignRegex = re.compile("\\$")
-tagRegex = re.compile("%[_\w0-9]+")
-icRegex = re.compile("\\ {IC\\}")
+stripRegex = re.compile("(\\$)|(%[_\w0-9]+)|(\\{IC\\})")
+openParenSpaceRegex = re.compile("\\( ")
+openBraceSpaceRegex = re.compile("\\{ ")
+openBracketSpaceREgex = re.compile("\\[ ")
+spaceCloseParenRegex = re.compile(" \\)")
+spaceCloseBraceRegex = re.compile(" \\}")
+spaceCloseBracketRegex = re.compile(" \\]")
 
 for name in names:
         details = specs[name]
@@ -64,15 +68,24 @@ for name in names:
                 content = ""
 
         syntaxString = ""
+        anchorSyntaxString = ""
         if "syntax" in details:
                 syntaxString = cgi.escape(details["syntax"]).strip()
-                syntaxString = dollarSignRegex.sub("", syntaxString)
-                syntaxString = tagRegex.sub("", syntaxString)
-                syntaxString = icRegex.sub("", syntaxString)
+                syntaxString = stripRegex.sub("", syntaxString)
+                syntaxString = openParenSpaceRegex.sub("(", syntaxString)
+                syntaxString = openBraceSpaceRegex.sub("{", syntaxString)
+                syntaxString = openBracketSpaceREgex.sub("[", syntaxString)
+                syntaxString = spaceCloseParenRegex.sub(")", syntaxString)
+                syntaxString = spaceCloseBraceRegex.sub("}", syntaxString)
+                syntaxString = spaceCloseBracketRegex.sub("]", syntaxString)
+                syntaxString = spaceCloseBracketRegex.sub("]", syntaxString)
+                anchorSyntaxString = syntaxString
+
                 for refName in names:
                         if refName == name:
                                 continue
                         syntaxString = regexs[refName].sub("<a href=\"/documentation/syntax/" + refName + ".php\">" + refName + "</a>", syntaxString)
+                        anchorSyntaxString = regexs[refName].sub("<a href=\"/documentation/syntax.php#" + refName + "\">" + refName + "</a>", anchorSyntaxString)
                 
                 title = "syntax"
                 if "assoc" in details:
@@ -103,14 +116,14 @@ for name in names:
         })
 
         indexPageContents = indexPageContents + "\t\t\t<tr>\n"
-        indexPageContents = indexPageContents + "\t\t\t\t<td><a href=\"/documentation/syntax/" + phpFilename + "\">" + name + "</a></td>\n"
+        indexPageContents = indexPageContents + "\t\t\t\t<td><a id=\"" + name + "\" href=\"/documentation/syntax/" + phpFilename + "\">" + name + "</a></td>\n"
                 
         if "doc" in details:
                 indexPageContents = indexPageContents + "\t\t\t\t<td>" + details["doc"].strip() + "</td>\n"
         else:
                 indexPageContents = indexPageContents + "\t\t\t\t<td>no doc string</td>\n"
                 
-        indexPageContents = indexPageContents + "\t\t\t\t<td>" + syntaxString + "</td>\n"
+        indexPageContents = indexPageContents + "\t\t\t\t<td>" + anchorSyntaxString + "</td>\n"
         
         
         indexPageContents = indexPageContents + "\t\t\t</tr>\n"

@@ -13,7 +13,7 @@
 
 		<div class="syntax">
 			<p>syntax</p>
-			<div>"throw" [{<a href="/documentation/syntax/IC.php">IC</a>} "[" <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a> "]" ] [{<a href="/documentation/syntax/IC.php">IC</a>} <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a>]</div>
+			<div>"throw" ["["  <a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a>  "]"] [<a href="/documentation/syntax/EXPRESSION.php">EXPRESSION</a>]</div>
 		</div>
 		<h2>Notes</h2>
 				<p>if throw is followed by a square-bracketed expression, that many stack frames will unwind before throwing the exception. "throw" is the same as "throw[0]".
