@@ -1,6 +1,6 @@
 <meta charset='utf-8'/>
 <meta name="viewport" content="width=device-width, initial-scale=0.6">
-<html>
+<html lang="en-us">
 	<head>
 		<meta name="google-site-verification" content="OKvej4xSIY4zxFPd7v6mor2L0hzDXUJaV2gzl5rKYJY" />
 		<title>Plange</title>
@@ -12,7 +12,7 @@
 
 
 		<div style="padding:1em;font-size:1.6em">
-			Plange is an open-source project to create a development suite including a programming language, standard library and runtime, and a toplevel (repl).
+			Plange is an open-source project to create a development suite including a programming language, standard library, runtime, and a toplevel (repl).
 		</div>
 		<p>This site is for developer reference only, and may change at any time.</p>
 		<ul>
@@ -30,7 +30,7 @@
 		
 		
 		<h1>Introduction</h1>
-		<p>The Plange language is an extensible, mixed languae of proof and type systems, solvers, and functional and imperative programs on variables, functions, types, and other objects. See the <a href="goals.php">goals</a> page. It is traditional to start with the <u>Hello World</u> program.</p>
+		<p>The Plange language is an extensible, mixed language of proof and type systems, solvers, and functional and imperative programs on variables, functions, types, and other objects. See the <a href="goals/">goals</a> page. It is traditional to start with the <u>Hello World</u> program.</p>
 		
 		<div class="code2">
 			<pre>
@@ -265,7 +265,7 @@ printLast(myList);
 filter := 
 	(head & tail, predicate) {
 		return predicate(head) ?
-			head &amp; select(tail, predicate) :
+			head &amp; this_func(tail, predicate) :
 			this_func(tail, predicate);
 	} |
 	([], predicate) { return []; };
@@ -359,12 +359,12 @@ print(sue);
 ;
 			
 inverted_linear_interpolation := (min, max, interpolated) { 
-	interpolated = linear_interpolation(min, max, x); //x is a free variable
+	interpolated = linear_interpolation(min, max, x); // solve for free variable x
 	return x;
 }
 
 linear_map := (minIn, maxIn, v, minOut, maxOut) {
-	v = linear_interpolation(minIn, maxIn, x);
+	v = linear_interpolation(minIn, maxIn, x); // solve for free variable x
 	return linear_interpolation(minOut, maxOut, x);
 }
 

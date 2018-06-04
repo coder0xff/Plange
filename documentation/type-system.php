@@ -9,7 +9,7 @@
 		<?php require('../header.php') ?>
 		
 		
-		<p>Types are used to constrain the structure and behavior (class invariant) of the values that a variable can be assigned, or that a constant can be defined as. Types may be eschewed, but benefit from static checks by the type system. Forgoing stack checks, use late binding, or duck typing. <a href="/documentation/syntax/TYPE_DEREFERENCE.php">Angle brackets</a> dereference types.</p>
+		<p>Types are used to constrain the structure and behavior (class invariant) of the values that a variable can be assigned, or that a constant can be defined as. Types may be eschewed, but benefit from static checks by the type system. Forgoing static checks, use late binding, or duck typing. <a href="/documentation/syntax/TYPE_DEREFERENCE.php">Angle brackets</a> dereference types.</p>
 		
 		<div class="code2">
 			<p>Declare and assign a variable.</p>
