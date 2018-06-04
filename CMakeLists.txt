@@ -85,4 +85,8 @@ ExternalProject_Add(plange
 	INSTALL_COMMAND ""
 )
 
-add_test(NAME plange_test COMMAND "${ARTIFACTS_PREFIX}/bin/plc${CMAKE_EXECUTABLE_SUFFIX}" --test)
+add_test(NAME collections_test COMMAND "${ARTIFACTS_PREFIX}/bin/collections_test${CMAKE_EXECUTABLE_SUFFIX}")
+add_test(NAME mpl_test COMMAND "${ARTIFACTS_PREFIX}/bin/mpl_test${CMAKE_EXECUTABLE_SUFFIX}")
+add_test(NAME parlex_test COMMAND "${ARTIFACTS_PREFIX}/bin/parlex_test${CMAKE_EXECUTABLE_SUFFIX}")
+add_test(NAME plc_test COMMAND "${ARTIFACTS_PREFIX}/bin/plc${CMAKE_EXECUTABLE_SUFFIX}" --test)
+add_test(NAME utilities_test COMMAND "${ARTIFACTS_PREFIX}/bin/utilities_test${CMAKE_EXECUTABLE_SUFFIX}")
