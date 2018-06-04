@@ -52,7 +52,7 @@ if (buffer != "") {
 			</pre>
 		</div>
 
-    	<p>Looking carefully at the <a href="/documentation/syntax/IF.php">syntax of if</a>, see that the use of expressions does not require that { } are used. Interestingly, things like this are possible:</p>
+    	<p>Looking carefully at the <a href="/documentation/syntax.php?name=IF">syntax of if</a>, see that the use of expressions does not require that { } are used. Interestingly, things like this are possible:</p>
 
     	<div class="code2">
     		<p>Pseudocode</p>
@@ -82,7 +82,7 @@ myFunction;
 			</pre>
 		</div>
 
-		<p>This provides a nice segue into a discussion on <a href="/documentation/syntax/STATEMENT_SCOPE.php">statement_scope (syntax)</a>, specifically that if a program statement is an expression that evaluates to a Void → Void function then that function is invoked as a step in evaluating the statement.</p>
+		<p>This provides a nice segue into a discussion on <a href="/documentation/syntax.php?name=STATEMENT_SCOPE">statement_scope (syntax)</a>, specifically that if a program statement is an expression that evaluates to a Void → Void function then that function is invoked as a step in evaluating the statement.</p>
 		</div>
 
 

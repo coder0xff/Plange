@@ -9,7 +9,7 @@
 		<?php require('../header.php') ?>
 		
 		
-		<p>Types are used to constrain the structure and behavior (class invariant) of the values that a variable can be assigned, or that a constant can be defined as. Types may be eschewed, but benefit from static checks by the type system. Forgoing stack checks, use late binding, or duck typing. <a href="/documentation/syntax/TYPE_DEREFERENCE.php">Angle brackets</a> dereference types.</p>
+		<p>Types are used to constrain the structure and behavior (class invariant) of the values that a variable can be assigned, or that a constant can be defined as. Types may be eschewed, but benefit from static checks by the type system. Forgoing stack checks, use late binding, or duck typing. <a href="/documentation/syntax.php?name=TYPE_DEREFERENCE">Angle brackets</a> dereference types.</p>
 		
 		<div class="code2">
 			<p>Declare and assign a variable.</p>
@@ -58,7 +58,7 @@ identity := (value) { return value; };
 		</div>
 
 		<h2>Type Constructors</h2>
-		<p>Parametric types are functions returning Type values, and syntactically identical to functions. These functions should be <a href="/documentation/syntax/TYPE_INVOCATION.php">invoked using the angle-bracket syntax</a>, which performs type checking.</p>
+		<p>Parametric types are functions returning Type values, and syntactically identical to functions. These functions should be <a href="/documentation/syntax.php?name=TYPE_INVOCATION">invoked using the angle-bracket syntax</a>, which performs type checking.</p>
 		
 		<div class="code2">
 			<p>Example</p>
@@ -75,7 +75,7 @@ Float32x3 := Vector&lt;Float32, 3&gt;;                       // Create a concret
 		<p>Despite the function-like definition, simple constructs (e.g. Vector from above) are recognized as parametric types and benefit from the generic features involving variance and deduction.</p>
 
 		<h3>Notes</h3>
-		<p>The angle-bracket syntax is not required, since parenthesis can be used also. The convention is to use the angle-bracket syntax when the intent is use as a parametric type (see <a href="/documentation/syntax/INVOCATION.php">INVOCATION</a>).</p>
+		<p>The angle-bracket syntax is not required, since parenthesis can be used also. The convention is to use the angle-bracket syntax when the intent is use as a parametric type (see <a href="/documentation/syntax.php?name=INVOCATION">INVOCATION</a>).</p>
 
 		<h2>Type inference</h2>
 		<p>Type inference, a feature of static typing, extends beyond inference of elided types in "obvious" scenarios, instead using all logical tools available (specifically constraint propogation and constant folding) for deduction. Type checking benefits from the same sophistication. Consider the following:</p>

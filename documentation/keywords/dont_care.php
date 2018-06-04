@@ -17,7 +17,7 @@
 			</pre>
 		</div>
 		<h2>Notes</h2>
-		<p>This keyword has important properties that separates it from <a href="/documentation/syntax/IDENTIFIER.php">identifiers</a>.</p>
+		<p>This keyword has important properties that separates it from <a href="/documentation/syntax.php?name=IDENTIFIER">identifiers</a>.</p>
 		<ul>
 			<li>It is not possible to retrieve a value from <code>_</code>.</li>
 			<li>Any constraints placed on <code>_</code> are discarded.</li>

@@ -27,7 +27,7 @@ do {
 } until (gameIsExiting);
 			</pre>
 		</div>
-		<p>See: <a href="../syntax/DO.php">do (syntax)</a></p>
+		<p>See: <a href="../syntax.php?name=DO">do (syntax)</a></p>
 
 
 		<?php require('../../footer.php') ?>

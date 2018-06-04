@@ -9,7 +9,7 @@
 		<?php require('../../header.php') ?>
 
 
-		<p>exit a <a href="do.php">do</a>, <a href="../syntax/LOOP.php">while, until</a>, <a href="for.php">for</a> or <a href="../syntax/FOR_COLLECTION.php">for_collection</a> loop</p>
+		<p>exit a <a href="do.php">do</a>, <a href="../syntax.php?name=LOOP">while, until</a>, <a href="for.php">for</a> or <a href="../syntax.php?name=FOR_COLLECTION">for_collection</a> loop</p>
 		<div class="code2">
 			<p>Example</p>
 			<pre>

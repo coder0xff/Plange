@@ -9,7 +9,7 @@
 		<?php require('../header.php') ?>
 
 
-		<p>The plange standard library is in the <code>Plange</code> namespace, which is the top-level (global) namespace. The top-level <a href="syntax/STATEMENT_SCOPE.php">statement_scope</a> of each source unit is within the Plange namespace. As such, the following symbols are accessible immediately in a source unit.
+		<p>The plange standard library is in the <code>Plange</code> namespace, which is the top-level (global) namespace. The top-level <a href="syntax.php?name=STATEMENT_SCOPE">statement_scope</a> of each source unit is within the Plange namespace. As such, the following symbols are accessible immediately in a source unit.
 		<h2>Functions</h2>
 		<code>
 			<table style="width:2000px;">

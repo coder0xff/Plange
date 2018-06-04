@@ -9,7 +9,7 @@
 		<?php require('../../header.php') ?>
 
 
-		<p>See <a href="/documentation/syntax/FOR.php">for (syntax)</a>.</p>
+		<p>See <a href="/documentation/syntax.php?name=FOR">for (syntax)</a>.</p>
 
 
 		<?php require('../../footer.php') ?>
