@@ -17,7 +17,7 @@
 			<li>C++ bootstrap code generation with LLVM</li>
 		<ul>
 
-		<p>View the <a href="plange.tech/documentation">documentation pages</a>, check out the code from <a href="https://github.com/coder0xff/Plange">github</a>, and start submitting pull requests. Contact me at coder0xff on the gmail domain or @coder0xff on twitter.</p>
+		<p>View the <a href="/documentation">documentation pages</a>, check out the code from <a href="https://github.com/coder0xff/Plange">github</a>, and start submitting pull requests. Contact me at coder0xff on the gmail domain or @coder0xff on twitter.</p>
 
 		<?php require('footer.php') ?>
 	</body>
