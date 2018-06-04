@@ -77,7 +77,7 @@
         
             function process($indent, $name) {
                 echo $indent . "<li>";
-                echo $indent . $name . "\n";
+                echo $indent . "<a href=\"/documentation/syntax.php?name=" . $name . "\">" . $name . "</a>\n";
                 global $syntax_spec;
                 $syntax = trim($syntax_spec[$name]['syntax']);
                 foreach (extract_string_literals($syntax) as $literal) {
@@ -97,14 +97,14 @@
             }
             
             function process_OP_ASSIGNMENT() {
-                echo "  <li>OP_ASSIGNMENT\n";
+                echo "  <li><a href=\"/documentation/syntax.php?name=OP_ASSIGNMENT\">OP_ASSIGNMENT</a>\n";
                 echo "    <ul>\n";
                 global $syntax_spec;
                 $syntax = trim($syntax_spec['OP_ASSIGNMENT']['syntax']);
                 $children = extract_children($syntax);
 
                 foreach ($children as $child) {
-                    echo "      <li>" . $child;
+                    echo "      <li><a href=\"/documentation/syntax.php?name=" . $child . "\">" . $child . "</a>";
                     $childSyntax = trim($syntax_spec[$child]['syntax']);
                     $literals = extract_string_literals($childSyntax);                    
                     if (array_slice($literals, -2, 2) == ["<-", "←"]) {
