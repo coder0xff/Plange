@@ -21,7 +21,7 @@
 			<li>transitive, commutative, distributive, etc properties</li>
 		</ul>
 		<p>A categorical hierarchy is constructed for interpretation as <a href="/documentation/syntax.php">grammar rules</a>. Note that select symbols appear multiple times. These are interpreted in multiple possible ways. For example, - is both "negation" and "subtraction".</p>
-        <p>NOTICE: This page is generated from the <a href="http://plange.tech/source/syntax.yml">syntax specification</a>. There are also operator-like elements that are not included here because of specialized syntax, such as <a href="http://plange.tech/documentation/syntax/DEFINITION.php">DEFINITION</a>.</p>
+        <p>NOTICE: This page is generated from the <a href="http://plange.tech/source/syntax.yml">syntax specification</a>. There are also operator-like elements that are not included here because of specialized syntax, such as <a href="http://plange.tech/documentation/syntax.php?name=DEFINITION">DEFINITION</a>.</p>
         
         <?php
             ini_set('display_errors', 1);

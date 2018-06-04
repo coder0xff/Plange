@@ -10,7 +10,7 @@
 
 
 used in
-    <a href="../syntax/function.php">
+    <a href="../syntax.php?name=function">
         function
     </a>
      syntax, causes the resulting function object to be stripped of introspection information

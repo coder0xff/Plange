@@ -10,7 +10,7 @@
 
 
 used in 
-    <a href="../syntax/FUNCTION.php">
+    <a href="../syntax.php?name=FUNCTION">
         function_syntax
     </a>
     , indicates to the static analyzer and callers that no exceptions will be thrown by this method

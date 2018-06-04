@@ -223,7 +223,7 @@ Node := (&lt;Type&gt; valueType) {
 			</pre>
 		</div>
 
-		<p>Constant folding evaluates some invocations of type functions at compile time. Functions that return Type objects (<a href="/documentation/syntax/INVOCATION.php">or another type function</a>) should be called with the angle bracket syntax:</p>
+		<p>Constant folding evaluates some invocations of type functions at compile time. Functions that return Type objects (<a href="/documentation/syntax.php?name=INVOCATION">or another type function</a>) should be called with the angle bracket syntax:</p>
 		<div class="code2">
 			<p>Example invoking List using angle bracket syntax</p>
 			<pre>
@@ -445,9 +445,9 @@ projectilePosition := (
 		</div>
 		<h2>Further reading</h2>
 		<ul>
-			<li><a href="/documentation/syntax/IF.php">if (syntax)</a></li>
-			<li><a href="/documentation/syntax/FOR.php">for (syntax)</a></li>
-			<li><a href="/documentation/syntax/STATEMENT_SCOPE.php">statement_scope (syntax)</a></li>
+			<li><a href="/documentation/syntax.php?name=IF">if (syntax)</a></li>
+			<li><a href="/documentation/syntax.php?name=FOR">for (syntax)</a></li>
+			<li><a href="/documentation/syntax.php?name=STATEMENT_SCOPE">statement_scope (syntax)</a></li>
 			<li><a href="/documentation/operators.php">operators</a></li>
 		</ul>
 
