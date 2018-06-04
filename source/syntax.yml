@@ -1399,12 +1399,12 @@ PREPEND_ASSIGNMENT:
 
 RADICAL:
     syntax: >
-        "√" {IC} EXPRESSION
+        ("√"|"sqrt") {IC} EXPRESSION
     precedes: [DIVISION, INTEGER_DIVISION, MODULATION, MULTIPLICATIVE_OP, SUBTRACTION, ADDITION, ADD_SUB]
 
 RADICAL_ASSIGNMENT:
     syntax: >
-        EXPRESSION {IC} "√" ("<-"|"←")
+        EXPRESSION {IC} ("√"|"sqrt") ("<-"|"←")
     doc: Square root the operand and assign the result to it.
     see:
         - 

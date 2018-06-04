@@ -325,6 +325,8 @@ struct literal_return_t { };
 struct literal_spir_func_call_t { };
 // "spir_kernel_call"
 struct literal_spir_kernel_call_t { };
+// "sqrt"
+struct literal_sqrt_t { };
 // "stable"
 struct literal_stable_t { };
 // "static"

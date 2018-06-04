@@ -25,20 +25,26 @@ struct RADICAL_ASSIGNMENT {
 	
 	std::vector<erased<IC>> field_2;
 	
-	parlex::detail::document::text<literal_0xE20x880x9A_t> dontCare2;
+	std::variant<
+		parlex::detail::document::text<literal_0xE20x880x9A_t>,
+		parlex::detail::document::text<literal_sqrt_t>
+	> field_3;
 	
 	std::variant<
 		parlex::detail::document::text<literal_0x3C0x2D_t>,
 		parlex::detail::document::text<literal_0xE20x860x90_t>
-	> field_3;
+	> field_4;
 	
 
 
 	explicit RADICAL_ASSIGNMENT(
-		erased<EXPRESSION> && field_1, std::vector<erased<IC>> && field_2, parlex::detail::document::text<literal_0xE20x880x9A_t> && dontCare2, std::variant<
+		erased<EXPRESSION> && field_1, std::vector<erased<IC>> && field_2, std::variant<
+			parlex::detail::document::text<literal_0xE20x880x9A_t>,
+			parlex::detail::document::text<literal_sqrt_t>
+		> && field_3, std::variant<
 			parlex::detail::document::text<literal_0x3C0x2D_t>,
 			parlex::detail::document::text<literal_0xE20x860x90_t>
-		> && field_3) : field_1(std::move(field_1)), field_2(std::move(field_2)), dontCare2(std::move(dontCare2)), field_3(std::move(field_3)) {}
+		> && field_4) : field_1(std::move(field_1)), field_2(std::move(field_2)), field_3(std::move(field_3)), field_4(std::move(field_4)) {}
 
 	RADICAL_ASSIGNMENT(RADICAL_ASSIGNMENT const & other) = default;
 	RADICAL_ASSIGNMENT(RADICAL_ASSIGNMENT && move) = default;

@@ -21,16 +21,22 @@ struct EXPRESSION;
 struct IC;
 
 struct RADICAL {
-	parlex::detail::document::text<literal_0xE20x880x9A_t> dontCare0;
+	std::variant<
+		parlex::detail::document::text<literal_0xE20x880x9A_t>,
+		parlex::detail::document::text<literal_sqrt_t>
+	> field_1;
 	
-	std::vector<erased<IC>> field_1;
+	std::vector<erased<IC>> field_2;
 	
-	erased<EXPRESSION> field_2;
+	erased<EXPRESSION> field_3;
 	
 
 
 	explicit RADICAL(
-		parlex::detail::document::text<literal_0xE20x880x9A_t> && dontCare0, std::vector<erased<IC>> && field_1, erased<EXPRESSION> && field_2) : dontCare0(std::move(dontCare0)), field_1(std::move(field_1)), field_2(std::move(field_2)) {}
+		std::variant<
+			parlex::detail::document::text<literal_0xE20x880x9A_t>,
+			parlex::detail::document::text<literal_sqrt_t>
+		> && field_1, std::vector<erased<IC>> && field_2, erased<EXPRESSION> && field_3) : field_1(std::move(field_1)), field_2(std::move(field_2)), field_3(std::move(field_3)) {}
 
 	RADICAL(RADICAL const & other) = default;
 	RADICAL(RADICAL && move) = default;

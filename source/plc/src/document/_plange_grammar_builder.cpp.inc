@@ -2484,7 +2484,10 @@
 		parlex::associativity::NONE, parlex::filter_function(), {"BINARY_OP", "NEGATION", }),
 		parlex::production("RADICAL",
 		parlex::sequence("RADICAL", {
-			parlex::literal("√", U"√"),
+			parlex::choice ({
+				parlex::literal("√", U"√"),
+				parlex::literal("sqrt", U"sqrt")
+			}),
 			parlex::repetition(	parlex::reference("IC")
 			),
 			parlex::reference("EXPRESSION")
@@ -2495,7 +2498,10 @@
 			parlex::reference("EXPRESSION"),
 			parlex::repetition(	parlex::reference("IC")
 			),
-			parlex::literal("√", U"√"),
+			parlex::choice ({
+				parlex::literal("√", U"√"),
+				parlex::literal("sqrt", U"sqrt")
+			}),
 			parlex::choice ({
 				parlex::literal("<-", U"<-"),
 				parlex::literal("←", U"←")
