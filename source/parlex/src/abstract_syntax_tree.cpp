@@ -1,9 +1,11 @@
+#include "parlex/detail/abstract_syntax_tree.hpp"
+#include "parlex/detail/grammar.hpp"
+
+#include <string>
 #include <utility>
-#include "../include/parlex/detail/abstract_syntax_tree.hpp"
 
 #include "graphviz_dot.hpp"
 
-#include "parlex/detail/grammar.hpp"
 
 parlex::detail::ast_node::ast_node(transition const & t, std::vector<ast_node> children) : transition(t), children(std::move(children)) {}
 
