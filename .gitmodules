@@ -1,0 +1,15 @@
+[submodule "source/googletest"]
+	path = source/googletest
+	url = https://github.com/google/googletest.git
+[submodule "source/grammar_gen/yaml-cpp"]
+	path = source/grammar_gen/yaml-cpp
+	url = https://github.com/coder0xff/yaml-cpp.git
+	branch = vs_15_5_5
+[submodule "source/plc/lld"]
+	path = source/plc/lld
+	url = https://git.llvm.org/git/lld
+	branch = release_60
+[submodule "source/plc/llvm"]
+	path = source/plc/llvm
+	url = https://github.com/coder0xff/llvm.git
+	branch = release_60

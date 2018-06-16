@@ -1,22 +1,28 @@
-set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${PROJECT_SOURCE_DIR}/cmake/Modules/")
-#include(PrecompiledHeader)
+function(add_llvm)
+	set(LLVM_BUILD_TESTS OFF CACHE BOOL "")
+	set(LLVM_BUILD_UTILS OFF CACHE BOOL "")
+	set(LLVM_ENABLE_OCAMLDOC OFF CACHE BOOL "")
+	set(LLVM_ENABLE_RTTI ON CACHE BOOL "")
+	set(LLVM_ENABLE_EH ON CACHE BOOL "")
+	set(LLVM_INCLUDE_DOCS OFF CACHE BOOL "")
+	set(LLVM_INCLUDE_EXAMPLES OFF CACHE BOOL "")
+	set(LLVM_INCLUDE_GO_TESTS OFF CACHE BOOL "")
+	set(LLVM_INCLUDE_TESTS OFF CACHE BOOL "")
+	set(LLVM_INCLUDE_UTILS OFF CACHE BOOL "")
+	set(LLVM_TARGETS_TO_BUILD "X86" CACHE STRING "")
 
-find_package(LLVM 6.0 REQUIRED HINTS "${DEP_DIR}/llvm/lib/cmake/llvm")
-include_directories("${LLVM_INCLUDE_DIRS}")
-
-set(LLD_INCLUDE_DIRS "${DEP_DIR}/lld/include")
-set(LLD_LIB_DIR "${DEP_DIR}/lld/lib")
-find_library(LLDCore lldCore "${LLD_LIB_DIR}")
-find_library(LLDCommon lldCommon "${LLD_LIB_DIR}")
-
-include_directories("${DEP_DIR}/googletest/include")
-link_directories("${DEP_DIR}/googletest/lib")
+	add_subdirectory(llvm)
+	include_directories(${LLVM_SOURCE_DIR}/include)
+	export(TARGETS gtest APPEND FILE "${CMAKE_BINARY_DIR}/source/plc/llvm/lib/cmake/llvm/LLVMBuildTreeOnlyTargets.cmake")
+endfunction(add_llvm)
+add_llvm()
 
 include_directories("${CMAKE_CURRENT_SOURCE_DIR}") #for tclap
-include_directories("${PROJECT_SOURCE_DIR}/utilities")
-include_directories("${PROJECT_SOURCE_DIR}/mpl")
-include_directories("${PROJECT_SOURCE_DIR}/collections")
-include_directories("${PROJECT_SOURCE_DIR}/parlex/include")
+include_directories("${PROJECT_SOURCE_DIR}/source/utilities")
+include_directories("${PROJECT_SOURCE_DIR}/source/mpl")
+include_directories("${PROJECT_SOURCE_DIR}/source/collections")
+include_directories("${PROJECT_SOURCE_DIR}/source/parlex/include")
+include_directories("${CMAKE_BINARY_DIR}/source/plc/llvm/include")
 
 set(SOURCES
 	"src/analytic_value.cpp"
@@ -133,19 +139,19 @@ target_link_libraries(
 	LLVMX86Info
 	LLVMX86Utils
 	LLVMXRay
-	${LLDCore}
-	${LLDCommon}
+	lldCommon
+	lldCore	
 	gtest
 	gtest_main
 )
 
 add_test(NAME plc_test COMMAND "$<TARGET_FILE:plc>" --test)
 
-# copy plc to artifacts folder
-add_custom_command(
-	TARGET plc
-	POST_BUILD
-	COMMAND ${CMAKE_COMMAND} -E copy "$<TARGET_FILE:plc>" "${ARTIFACTS_PREFIX}/bin/$<TARGET_FILE_NAME:plc>"
-)
+# # copy plc to artifacts folder
+# add_custom_command(
+# 	TARGET plc
+# 	POST_BUILD
+# 	COMMAND ${CMAKE_COMMAND} -E copy "$<TARGET_FILE:plc>" "${ARTIFACTS_PREFIX}/bin/$<TARGET_FILE_NAME:plc>"
+# )
 
 

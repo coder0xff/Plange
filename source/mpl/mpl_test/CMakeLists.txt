@@ -1,6 +1,3 @@
-include_directories("${DEP_DIR}/googletest/include")
-link_directories("${DEP_DIR}/googletest/lib")
-
 set (SOURCES
 	"mpl__if.t.cpp"
 	"mpl_any.t.cpp"
