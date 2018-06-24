@@ -48,9 +48,9 @@ set_property(TARGET mpl_test PROPERTY CXX_STANDARD_REQUIRED ON)
 
 add_test(NAME mpl_test COMMAND "$<TARGET_FILE:mpl_test>")
 
-# copy utilities_test to artifacts folder
-add_custom_command(
-	TARGET mpl_test
-	POST_BUILD
-	COMMAND ${CMAKE_COMMAND} -E copy "$<TARGET_FILE:mpl_test>" "${ARTIFACTS_PREFIX}/bin/$<TARGET_FILE_NAME:mpl_test>"
-)
+# # copy utilities_test to artifacts folder
+# add_custom_command(
+# 	TARGET mpl_test
+# 	POST_BUILD
+# 	COMMAND ${CMAKE_COMMAND} -E copy "$<TARGET_FILE:mpl_test>" "${ARTIFACTS_PREFIX}/bin/$<TARGET_FILE_NAME:mpl_test>"
+# )
