@@ -1,6 +1,7 @@
 #ifndef INCLUDED_PARLEX_ABSTRACT_SYNTAX_TREE_HPP
 #define INCLUDED_PARLEX_ABSTRACT_SYNTAX_TREE_HPP
 
+#include <string>
 #include <vector>
 
 #include "transition.hpp"
