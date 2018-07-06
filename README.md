@@ -1,3 +1,5 @@
+[![Build Status](https://jenkins.plange.tech/job/coder0xff/job/Plange/job/master/badge/icon)](https://jenkins.plange.tech/job/coder0xff/job/Plange/job/master/)
+
 For documentation, see the [plange.tech](http://plange.tech) website, which is a clone of this repository.
 
 ## Notation
