@@ -8,12 +8,15 @@ endif()
 
 find_package(Git)
 if (GIT_FOUND)
-	message(INFO "Initializing any uninitialized git submodules")
+	message(INFO Initializing any uninitialized git submodules)
+	execute_process(
+		COMMAND ${GIT_EXECUTABLE} fetch --recurse-submodules
+		WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
 	execute_process(
 		COMMAND ${GIT_EXECUTABLE} submodule update --init --recursive
 		WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
 else()
-	message(WARNING "Git was not found. Uninitialized git submodules must be initialized manually.")
+	message(WARNING Git was not found. Uninitialized git submodules must be initialized manually.)
 endif()
 
 function(add_googletest)
