@@ -1,3 +1,6 @@
+# LLVM will build LLD if put it in the right place
+file(COPY "${CMAKE_CURRENT_SOURCE_DIR}/lld" DESTINATION "${CMAKE_CURRENT_SOURCE_DIR}/llvm/tools/")
+
 function(add_llvm)
 	set(LLVM_BUILD_TESTS OFF CACHE BOOL "")
 	set(LLVM_BUILD_UTILS OFF CACHE BOOL "")
@@ -9,7 +12,7 @@ function(add_llvm)
 	set(LLVM_INCLUDE_GO_TESTS OFF CACHE BOOL "")
 	set(LLVM_INCLUDE_TESTS OFF CACHE BOOL "")
 	set(LLVM_INCLUDE_UTILS OFF CACHE BOOL "")
-	set(LLVM_TARGETS_TO_BUILD "X86" CACHE STRING "")
+	set(LLVM_TARGETS_TO_BUILD "X86" CACHE STRING "") # Disable this setting to build for all targets
 
 	add_subdirectory(llvm)
 	include_directories(${LLVM_SOURCE_DIR}/include)

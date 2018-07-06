@@ -8,12 +8,13 @@ endif()
 
 find_package(Git)
 if (GIT_FOUND)
+	message(INFO "Initializing any uninitialized git submodules")
 	execute_process(
 		COMMAND ${GIT_EXECUTABLE} submodule update --init --recursive
 		WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
+else()
+	message(WARNING "Git was not found. Uninitialized git submodules must be initialized manually.")
 endif()
-
-file(COPY "${CMAKE_CURRENT_SOURCE_DIR}/source/plc/lld" DESTINATION "${CMAKE_CURRENT_SOURCE_DIR}/source/plc/llvm/tools/")
 
 function(add_googletest)
 	set(BUILD_GMOCK OFF CACHE BOOL "")
