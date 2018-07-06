@@ -123,3 +123,16 @@ Symbol <- type inheriting Expressions.Expression {
 	<Type> type;
 	<Value> value;
 }
+
+```
+<summary>suspend all threads, excluding the current thread, and enter the Read Error Print Loop</summary>
+<notes>Other threads are suspended to prevent deadlocks.</notes>
+```
+@shell_privilege@
+@mutex@
+<Void -> Void> top_level;
+
+```attach the debugger and enter the Read Error Print Loop```
+@shell_privilege@
+@mutex@
+<Void -> Void> interrupt;
