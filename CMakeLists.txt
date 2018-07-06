@@ -8,7 +8,7 @@ endif()
 
 find_package(Git)
 if (GIT_FOUND)
-	message(INFO "Initializing git submodules...")
+	message(INFO " Initializing git submodules...")
 	execute_process(
 		COMMAND ${GIT_EXECUTABLE} submodule update --init --recursive
 		WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
