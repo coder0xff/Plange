@@ -12,5 +12,5 @@
 	branch = release_60
 [submodule "source/plc/llvm"]
 	path = source/plc/llvm
-	url = https://llvm.org/git/llvm
+	url = https://git.llvm.org/git/llvm
 	branch = release_60
