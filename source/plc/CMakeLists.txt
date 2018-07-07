@@ -147,16 +147,17 @@ set(SOURCES
 	"src/analytic_value.cpp"
 	"src/compiler.cpp"
 	"src/errors.cpp"
-	"src/main.cpp"
 	"src/module.cpp"
 	"src/natural_value.cpp"
 	"src/plange_grammar.cpp"
+	"src/plc_main.cpp"
+	"src/plc_utils.cpp"
 	"src/scope.cpp"
 	"src/source_code.cpp"
 	"src/stdafx.cpp"
 	"src/symbol.cpp"
 	"src/warnings.cpp"
-	"src/plc_utils.cpp")
+)
 
 set(HEADERS
 	"include/analytic_value.hpp"
@@ -165,13 +166,14 @@ set(HEADERS
 	"include/module.hpp"
 	"include/natural_value.hpp"
 	"include/plange_grammar.hpp"
+	"include/plc_utils.hpp"
 	"include/relation.hpp"
 	"include/scope.hpp"
 	"include/source_code.hpp"
 	"include/stdafx.hpp"
 	"include/symbol.hpp"
 	"include/warnings.hpp"
-	"include/plc_utils.hpp")
+)
 
 FILE(GLOB DOCUMENT_SOURCES "src/document/*.cpp*") 
 FILE(GLOB DOCUMENT_HEADERS "include/document/*.hpp*")
