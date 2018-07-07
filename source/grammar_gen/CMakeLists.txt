@@ -9,6 +9,17 @@ function(add_yaml_cpp)
 	set(YAML_CPP_BUILD_CONTRIB OFF CACHE BOOL "")
 	add_subdirectory(yaml-cpp)
 	include_directories(${YAML_CPP_SOURCE_DIR}/include)
+
+	mark_as_advanced(
+		FORCE
+		APPLE_UNIVERSAL_BIN
+		MSVC_SHARED_RT
+		MSVC_STHREADED_RT
+		YAML_CPP_BUILD_CONTRIB
+		YAML_CPP_BUILD_TESTS
+		YAML_CPP_BUILD_TOOLS
+	)
+
 endfunction(add_yaml_cpp)
 add_yaml_cpp()
 

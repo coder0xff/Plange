@@ -8,6 +8,10 @@ endif()
 
 find_package(Git)
 if (GIT_FOUND)
+	mark_as_advanced(
+		FORCE
+		git_executable
+	)
 	message(INFO " Initializing git submodules...")
 	execute_process(
 		COMMAND ${GIT_EXECUTABLE} submodule update --init --recursive
@@ -42,3 +46,15 @@ add_subdirectory(source/grammar_gen)
 
 set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT plc)
 
+mark_as_advanced(
+	FORCE
+	BUILD_GMOCK
+	BUILD_GTEST
+	BUILD_SHARED_LIBS
+	INSTALL_GTEST
+	gtest_build_samples
+	gtest_build_tests
+	gtest_disable_pthreads
+	gtest_force_shared_crt
+	gtest_hide_internal_symbols
+)
