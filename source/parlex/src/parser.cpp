@@ -355,8 +355,8 @@ struct intersection_lookup {
 		auto const containmentColumn = first >> containmentAntiRow;
 		auto const containmentFirst = containmentColumn << containmentAntiRow;
 		auto const containmentLast = containmentFirst + containmentBreadth - 1;
-		int const containmentRow = ptrdiff_t(lookupDepth - 1) - containmentAntiRow;
-		if (containmentRow >= 0 && int(lookup[containmentRow].size()) > containmentColumn && first == containmentFirst && last == containmentLast) {
+		auto const containmentRow = ptrdiff_t(lookupDepth) - 1 - ptrdiff_t(containmentAntiRow);
+		if (containmentRow >= 0 && lookup[containmentRow].size() > containmentColumn && first == containmentFirst && last == containmentLast) {
 			auto resolved = lookup[containmentRow][containmentColumn];
 			results.insert_many(resolved.begin(), resolved.end());
 		} else {
