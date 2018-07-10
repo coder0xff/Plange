@@ -17,6 +17,7 @@ set (HEADERS
 	"graphviz_dot.hpp"
 	"logging.hpp"
 	"perf_timer.hpp"
+	"pointer.hpp"
 	"tarjan.hpp"
 	"thread_pool.hpp"
 	"utf.hpp"
