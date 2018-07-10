@@ -1,5 +1,5 @@
-﻿#ifndef NFA_H
-#define NFA_H
+﻿#ifndef INCLUDED_PARLEX_NFA_H
+#define INCLUDED_PARLEX_NFA_H
 
 #include <map>
 #include <set>
@@ -9,7 +9,6 @@
 #include "concurrent_auto_map.hpp"
 #include "graphviz_dot.hpp"
 #include "utils.hpp"
-
 
 namespace parlex {
 namespace detail {
@@ -256,4 +255,4 @@ struct nfa {
 } // namespace detail
 } // namespace parlex
 
-#endif //NFA_H
+#endif // INCLUDED_PARLEX_NFA_H

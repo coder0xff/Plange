@@ -1,6 +1,7 @@
 #include "../mpl_fold_vv.hpp"
 
 #include <cassert>
+
 #include "gtest/gtest.h"
 
 namespace {

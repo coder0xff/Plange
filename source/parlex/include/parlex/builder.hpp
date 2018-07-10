@@ -1,15 +1,14 @@
-#ifndef BUILDER_HPP
-#define BUILDER_HPP
+#ifndef INCLUDED_PARLEX_BUILDER_HPP
+#define INCLUDED_PARLEX_BUILDER_HPP
 
 #include <vector>
 
 #include "coherent_map.hpp"
 #include "erased.hpp"
 
-#include "parlex/filter_function.hpp"
 #include "parlex/associativity.hpp"
-
 #include "parlex/detail/nfa.hpp"
+#include "parlex/filter_function.hpp"
 
 namespace parlex {
 namespace detail {
@@ -137,4 +136,4 @@ struct builder : sub_builder {
 
 } // namespace parlex
 
-#endif //BUILDER_HPP
+#endif // INCLUDED_PARLEX_BUILDER_HPP

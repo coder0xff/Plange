@@ -1,6 +1,6 @@
-#ifndef PLC_PLANGE_GRAMMAR_HPP
-#define PLC_PLANGE_GRAMMAR_HPP
+#ifndef INCLUDED_PLC_PLANGE_GRAMMAR_HPP
+#define INCLUDED_PLC_PLANGE_GRAMMAR_HPP
 
 #include "document/_plange_grammar.hpp.inc"
 
-#endif //PLC_PLANGE_GRAMMAR_HPP
+#endif // INCLUDED_PLC_PLANGE_GRAMMAR_HPP

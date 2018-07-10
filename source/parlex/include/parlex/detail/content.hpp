@@ -1,5 +1,5 @@
-#ifndef CONTENT_HPP
-#define CONTENT_HPP
+#ifndef INCLUDED_PARLEX_CONTENT_HPP
+#define INCLUDED_PARLEX_CONTENT_HPP
 
 #include "parlex/detail/terminal.hpp"
 
@@ -13,4 +13,4 @@ public:
 
 }
 
-#endif //CONTENT_HPP
+#endif // INCLUDED_PARLEX_CONTENT_HPP

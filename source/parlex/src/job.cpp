@@ -4,12 +4,12 @@
 #include "perf_timer.hpp"
 #include "tarjan.hpp"
 
+#include "parlex/detail/acceptor.hpp"
 #include "parlex/detail/configuration.hpp"
 #include "parlex/detail/grammar.hpp"
 #include "parlex/detail/match_class.hpp"
 #include "parlex/detail/parser.hpp"
 #include "parlex/detail/producer_table.hpp"
-#include "parlex/detail/acceptor.hpp"
 #include "parlex/detail/subjob.hpp"
 #include "parlex/detail/terminal.hpp"
 #include "parlex/detail/token.hpp"

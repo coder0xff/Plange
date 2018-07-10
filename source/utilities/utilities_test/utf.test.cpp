@@ -1,5 +1,6 @@
-﻿#include "gtest/gtest.h"
-#include "utf.hpp"
+﻿#include "utf.hpp"
+
+#include "gtest/gtest.h"
 
 TEST(UtfTest, RoundTrip32) {
 	auto const original = U"A©☺💩"; // A=1 byte, © (A9)=2 bytes, ☺ (263A)=3 bytes, 💩 (1F4A9)=4 bytes

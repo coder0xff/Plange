@@ -1,11 +1,12 @@
 #include "stdafx.hpp"
 
 #include "scope.hpp"
+
 #include "compiler.hpp"
-#include "module.hpp"
-#include "EXPRESSION.hpp"
-#include "PARENTHETICAL_INVOCATION.hpp"
 #include "DEFINITION.hpp"
+#include "EXPRESSION.hpp"
+#include "module.hpp"
+#include "PARENTHETICAL_INVOCATION.hpp"
 #include "STATEMENT.hpp"
 
 namespace plc

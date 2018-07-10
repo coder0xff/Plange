@@ -1,7 +1,9 @@
 #ifndef INCLUDING_MPL_BIND_HPP
 #define INCLUDING_MPL_BIND_HPP
+
 #include <tuple>
 
+#include "mpl_any.hpp"
 #include "mpl_apply.hpp"
 #include "mpl_bool.hpp"
 #include "mpl_drop.hpp"
@@ -9,7 +11,6 @@
 #include "mpl_fold.hpp"
 #include "mpl_list.hpp"
 #include "mpl_map.hpp"
-#include "mpl_any.hpp"
 
 namespace mpl {
 

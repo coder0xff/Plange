@@ -1,10 +1,10 @@
-#ifndef PRODUCER_HPP
-#define PRODUCER_HPP
+#ifndef INCLUDED_PARLEX_PRODUCER_HPP
+#define INCLUDED_PARLEX_PRODUCER_HPP
 
 #include <map>
-#include <vector>
-#include <set>
 #include <mutex>
+#include <set>
+#include <vector>
 
 #include "parlex/detail/configuration.hpp"
 #include "parlex/detail/derivation.hpp"
@@ -47,4 +47,4 @@ public:
 } // namespace detail
 } // namespace parlex
 
-#endif //PRODUCER_HPP
+#endif // INCLUDED_PARLEX_PRODUCER_HPP

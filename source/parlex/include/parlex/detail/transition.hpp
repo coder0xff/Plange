@@ -1,5 +1,5 @@
-#ifndef TRANSITION_HPP
-#define TRANSITION_HPP
+#ifndef INCLUDED_PARLEX_TRANSITION_HPP
+#define INCLUDED_PARLEX_TRANSITION_HPP
 
 #include "parlex/detail/match.hpp"
 
@@ -16,4 +16,4 @@ struct transition : match {
 
 
 
-#endif //TRANSITION_HPP
+#endif // INCLUDED_PARLEX_TRANSITION_HPP

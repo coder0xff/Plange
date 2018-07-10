@@ -1,12 +1,12 @@
-#ifndef UTILITIES_COVARIANT_INVOKE_HPP
-#define UTILITIES_COVARIANT_INVOKE_HPP
+#ifndef INCLUDED_UTILITIES_COVARIANT_INVOKE_HPP
+#define INCLUDED_UTILITIES_COVARIANT_INVOKE_HPP
 
 #include "mpl_equals.hpp"
 #include "mpl_function_decomposition.hpp"
 #include "mpl_head.hpp"
-#include "mpl_utils.hpp"
-#include "mpl_sfinae.hpp"
 #include "mpl_is_const.hpp"
+#include "mpl_sfinae.hpp"
+#include "mpl_utils.hpp"
 
 namespace detail {
 	template <typename T>
@@ -103,4 +103,4 @@ void covariant_invoke(T & value, V1 const & func1, V2 const & func2, Vs const &.
 	covariant_invoke<U>(value, func2, funcs...);
 }
 
-#endif //UTILITIES_COVARIANT_INVOKE_HPP
+#endif // INCLUDED_UTILITIES_COVARIANT_INVOKE_HPP

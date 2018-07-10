@@ -1,17 +1,16 @@
+#include <codecvt>
 #include <fstream>
 #include <thread>
-#include <codecvt>
 
 #include "gtest/gtest.h"
+#include "perf_timer.hpp"
 #include "utf.hpp"
 
 #include "parlex/builder.hpp"
+#include "parlex/detail/builtins.hpp"
 #include "parlex/detail/grammar.hpp"
 #include "parlex/detail/parser.hpp"
-
 #include "parlex/detail/wirth.hpp"
-#include "parlex/detail/builtins.hpp"
-#include "perf_timer.hpp"
 
 
 using namespace parlex;

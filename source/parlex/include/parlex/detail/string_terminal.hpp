@@ -1,5 +1,5 @@
-#ifndef STRING_TERMINAL_HPP
-#define STRING_TERMINAL_HPP
+#ifndef INCLUDED_PARLEX_STRING_TERMINAL_HPP
+#define INCLUDED_PARLEX_STRING_TERMINAL_HPP
 
 #include "parlex/detail/terminal.hpp"
 
@@ -23,4 +23,4 @@ private:
 } //namespace detail
 } //namespace parlex
 
-#endif //STRING_TERMINAL_HPP
+#endif // INCLUDED_PARLEX_STRING_TERMINAL_HPP

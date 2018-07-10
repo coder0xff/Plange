@@ -1,5 +1,5 @@
-#ifndef UTILS_HPP
-#define UTILS_HPP
+#ifndef INCLUDED_UTILITIES_UTILS_HPP
+#define INCLUDED_UTILITIES_UTILS_HPP
 
 #include <string>
 
@@ -36,4 +36,4 @@ std::string toupper(std::string const & in);
 
 std::string tolower(std::string const & in);
 
-#endif
+#endif // INCLUDED_UTILITIES_UTILS_HPP

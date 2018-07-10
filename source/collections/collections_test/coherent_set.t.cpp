@@ -1,5 +1,6 @@
-#include "gtest/gtest.h"
 #include "../coherent_set.hpp"
+
+#include "gtest/gtest.h"
 
 TEST(CoherentSet, test00) {
 	collections::coherent_set<int> x;

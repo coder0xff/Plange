@@ -1,16 +1,14 @@
-#ifndef CORRELATED_GRAMMAR_HPP
-#define CORRELATED_GRAMMAR_HPP
+#ifndef INCLUDED_PARLEX_GRAMMAR_HPP
+#define INCLUDED_PARLEX_GRAMMAR_HPP
 
 #include <map>
 
 #include "erased.hpp"
 
-#include "parlex/precedence_collection.hpp"
-
-#include "parlex/detail/grammar.hpp"
 #include "parlex/detail/acceptor.hpp"
+#include "parlex/detail/grammar.hpp"
 #include "parlex/detail/string_terminal.hpp"
-
+#include "parlex/precedence_collection.hpp"
 
 namespace parlex {
 struct sub_builder;
@@ -76,4 +74,4 @@ private:
 } // namespace detail
 } // namespace parlex
 
-#endif //CORRELATED_GRAMMAR_HPP
+#endif // INCLUDED_PARLEX_GRAMMAR_HPP

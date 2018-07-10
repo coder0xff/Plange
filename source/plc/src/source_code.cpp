@@ -1,14 +1,13 @@
 #include "source_code.hpp"
 
-#include "utf.hpp"
-#include "plc_utils.hpp"
-
 #include "parlex/detail/abstract_syntax_semilattice.hpp"
+#include "parlex/detail/parser.hpp"
 #include "parlex/detail/recognizer.hpp"
 
-#include "scope.hpp"
 #include "errors.hpp"
-#include "parlex/detail/parser.hpp"
+#include "plc_utils.hpp"
+#include "scope.hpp"
+#include "utf.hpp"
 
 //filter super delimiters
 //Any PAYLOAD that fully contains another PAYLOAD is not a PAYLOAD

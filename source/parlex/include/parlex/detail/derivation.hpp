@@ -1,9 +1,9 @@
-#ifndef DERIVATION_HPP
-#define DERIVATION_HPP
+#ifndef INCLUDED_PARLEX_DERIVATION_HPP
+#define INCLUDED_PARLEX_DERIVATION_HPP
 
 #include <vector>
 
-#include "transition.hpp"
+#include "parlex/detail/transition.hpp"
 
 namespace parlex {
 namespace detail {
@@ -13,4 +13,4 @@ typedef std::vector<transition> derivation;
 }
 } // namespace parlex
 
-#endif //DERIVATION_HPP
+#endif // INCLUDED_PARLEX_DERIVATION_HPP

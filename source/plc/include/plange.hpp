@@ -1,8 +1,8 @@
-#ifndef PLANGE_HPP
-#define PLANGE_HPP
+#ifndef INCLUDED_PLC_PLANGE_HPP
+#define INCLUDED_PLC_PLANGE_HPP
 
-#include "value.hpp"
 #include "Expression.hpp"
+#include "value.hpp"
 
 class plange
 {
@@ -26,4 +26,4 @@ public:
 	static value& get_global(std::vector<std::u32string> qualifiers, std::u32string name);
 };
 
-#endif //PLANGE_HPP
+#endif // INCLUDED_PLC_PLANGE_HPP

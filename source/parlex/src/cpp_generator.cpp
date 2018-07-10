@@ -1,16 +1,15 @@
 #include "parlex/cpp_generator.hpp"
 
 #include <cmath>
+#include <iomanip>
 #include <sstream>
 
-#include "parlex/builder.hpp"
-#include "parlex/document_representation.hpp"
-
-#include "parlex/detail/builtins.hpp"
-
 #include "covariant_invoke.hpp"
-#include <iomanip>
 #include "utf.hpp"
+
+#include "parlex/builder.hpp"
+#include "parlex/detail/builtins.hpp"
+#include "parlex/document_representation.hpp"
 
 namespace parlex {
 

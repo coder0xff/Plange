@@ -1,14 +1,17 @@
+// As of Visual Studio 2017 (15.5.1), xutility will emit warnings about LLVM code despite "#pragma warning(push, 0)" below
+// This will silence those errors so we can build while treating warnings as errors
+// ReSharper disable once CppInconsistentNaming
+#define _SILENCE_CXX17_ITERATOR_BASE_CLASS_DEPRECATION_WARNING
+
 #include <iostream>
+
+#include "gtest/gtest.h"
 
 #include "module.hpp"
 #include "tclap/CmdLine.h"
 #include "utils.hpp"
 
-#pragma warning(push, 0)
-#include <gtest/gtest.h>
 #include "warnings.hpp"
-#pragma warning(pop)
-
 
 int main(int argc, char * argv[]) {
 	if (argc > 1 && strcmp(argv[1], "--test") == 0) {

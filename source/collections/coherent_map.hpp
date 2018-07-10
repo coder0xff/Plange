@@ -7,10 +7,11 @@
 
 #include <algorithm>
 #include <cassert>
+#include <tuple>
 #include <vector>
 
 #include "mover.hpp"
-#include <tuple>
+
 #include "../mpl/mpl_apply_v.hpp"
 
 namespace collections {

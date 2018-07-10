@@ -1,7 +1,7 @@
-#ifndef DOCUMENT_REPRESENTATION_HPP
-#define DOCUMENT_REPRESENTATION_HPP
+#ifndef INCLUDED_PARLEX_DOCUMENT_REPRESENTATION_HPP
+#define INCLUDED_PARLEX_DOCUMENT_REPRESENTATION_HPP
 
-#include "builder.hpp"
+#include "parlex/builder.hpp"
 
 namespace parlex {
 namespace detail {
@@ -28,4 +28,4 @@ erased<node> compute_document_representation(erased<node> const & root);
 } // namespace detail
 } // namespace parlex
 
-#endif //DOCUMENT_REPRESENTATION_HPP
+#endif // INCLUDED_PARLEX_DOCUMENT_REPRESENTATION_HPP

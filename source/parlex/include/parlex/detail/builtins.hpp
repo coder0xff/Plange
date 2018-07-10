@@ -1,5 +1,5 @@
-#ifndef BUILTINS_HPP
-#define BUILTINS_HPP
+#ifndef INCLUDED_PARLEX_BUILTINS_HPP
+#define INCLUDED_PARLEX_BUILTINS_HPP
 
 #include "parlex/builder.hpp"
 #include "parlex/filter_function.hpp"
@@ -11,8 +11,6 @@
 #include "parlex/detail/not_double_quote.hpp"
 #include "parlex/detail/not_newline.hpp"
 #include "parlex/detail/unicode.hpp"
-
-// Misc
 
 namespace parlex {
 
@@ -97,4 +95,4 @@ private:
 } // namespace detail
 } // namespace parlex
 
-#endif //BUILTINS_HPP
+#endif // INCLUDED_PARLEX_BUILTINS_HPP

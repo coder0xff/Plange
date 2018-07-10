@@ -1,5 +1,5 @@
-#ifndef NOT_NEWLINE_HPP
-#define NOT_NEWLINE_HPP
+#ifndef INCLUDED_PARLEX_NOT_NEWLINE_HPP
+#define INCLUDED_PARLEX_NOT_NEWLINE_HPP
 
 #include "parlex/detail/terminal.hpp"
 
@@ -16,4 +16,4 @@ public:
 } // namespace detail
 } // namespace parlex
 
-#endif //NOT_NEWLINE_HPP
+#endif // INCLUDED_PARLEX_NOT_NEWLINE_HPP

@@ -1,8 +1,9 @@
-#ifndef SYMBOL_HPP
-#define SYMBOL_HPP
-#include <string>
-#include <memory>
+#ifndef INCLUDED_PLC_SYMBOL_HPP
+#define INCLUDED_PLC_SYMBOL_HPP
+
 #include <map>
+#include <memory>
+#include <string>
 
 namespace plc {
 
@@ -24,4 +25,4 @@ public:
 
 }
 
-#endif //SYMBOL_HPP
+#endif // INCLUDED_PLC_SYMBOL_HPP

@@ -1,6 +1,6 @@
-#include "gtest/gtest.h"
-
 #include "bits.hpp"
+
+#include "gtest/gtest.h"
 
 TEST(BitsTest, clzTest00) {
 	EXPECT_EQ(32, clz(0));

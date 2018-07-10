@@ -3,8 +3,9 @@
 #ifndef INCLUDING_MPL_MAP_V_HPP
 #define INCLUDING_MPL_MAP_V_HPP
 
-#include "mpl_apply.hpp"
 #include <tuple>
+
+#include "mpl_apply.hpp"
 
 namespace mpl {
 

@@ -1,5 +1,5 @@
-#ifndef BASIC_ESCAPE_SEQUENCE_HPP
-#define BASIC_ESCAPE_SEQUENCE_HPP
+#ifndef INCLUDED_PARLEX_BASIC_ESCAPE_SEQUENCE_HPP
+#define INCLUDED_PARLEX_BASIC_ESCAPE_SEQUENCE_HPP
 
 #include "parlex/detail/terminal.hpp"
 
@@ -13,4 +13,4 @@ public:
 
 } // namespace parlex
 
-#endif //BASIC_ESCAPE_SEQUENCE_HPP
+#endif // INCLUDED_PARLEX_BASIC_ESCAPE_SEQUENCE_HPP

@@ -1,5 +1,5 @@
-#ifndef PERF_TIMER_HPP
-#define PERF_TIMER_HPP
+#ifndef INCLUDED_UTILITIES_PERF_TIMER_HPP
+#define INCLUDED_UTILITIES_PERF_TIMER_HPP
 
 #include <chrono>
 #include <string>
@@ -16,4 +16,4 @@ private:
 	perf_timer const & operator =(perf_timer const & lhs) = delete;
 };
 
-#endif
+#endif // INCLUDED_UTILITIES_PERF_TIMER_HPP

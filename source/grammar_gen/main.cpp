@@ -11,16 +11,18 @@
 #include <iostream>
 #include <optional>
 
-#include <yaml-cpp/yaml.h>
+#pragma warning(push, 0)
+#include "yaml-cpp/yaml.h"
+#pragma warning(pop)
 
 #include "utf.hpp"
 #include "utils.hpp"
 
-#include "parlex/detail/parser.hpp"
-#include "parlex/detail/grammar.hpp"
-#include "parlex/detail/builtins.hpp"
 #include "parlex/builder.hpp"
 #include "parlex/cpp_generator.hpp"
+#include "parlex/detail/builtins.hpp"
+#include "parlex/detail/grammar.hpp"
+#include "parlex/detail/parser.hpp"
 #include "parlex/detail/wirth.hpp"
 
 inline std::string trim(std::string str)

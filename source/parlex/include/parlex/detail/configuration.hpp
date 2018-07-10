@@ -1,5 +1,5 @@
-#ifndef CONFIGURATION_HPP
-#define CONFIGURATION_HPP
+#ifndef INCLUDED_PARLEX_CONFIGURATION_HPP
+#define INCLUDED_PARLEX_CONFIGURATION_HPP
 
 #include <vector>
 
@@ -27,4 +27,4 @@ struct configuration {
 }
 }
 
-#endif
+#endif // INCLUDED_PARLEX_CONFIGURATION_HPP

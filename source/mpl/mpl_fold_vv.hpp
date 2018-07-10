@@ -2,6 +2,7 @@
 #define INCLUDING_MPL_FOLD_VV_HPP
 
 #include <tuple>
+
 #include "mpl_drop_v.hpp"
 
 namespace mpl {

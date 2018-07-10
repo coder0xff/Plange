@@ -1,5 +1,5 @@
-#ifndef WAIT_FLAG_HPP
-#define WAIT_FLAG_HPP
+#ifndef INCLUDED_UTILITIES_WAIT_FLAG_HPP
+#define INCLUDED_UTILITIES_WAIT_FLAG_HPP
 
 #include <condition_variable>
 #include <mutex>
@@ -29,4 +29,4 @@ private:
     volatile bool state;
 };
 
-#endif //WAIT_FLAG_HPP
+#endif // INCLUDED_UTILITIES_WAIT_FLAG_HPP

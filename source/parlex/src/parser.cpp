@@ -2,19 +2,18 @@
 
 #include <stack>
 
-#include "parlex/post_processor.hpp"
-
-#include "parlex/detail/configuration.hpp"
-#include "parlex/detail/grammar.hpp"
-#include "parlex/detail/job.hpp"
-#include "parlex/detail/derivation.hpp"
-#include "parlex/detail/producer.hpp"
-#include "parlex/detail/subjob.hpp"
-
 #include "utils.hpp"
 #include "bits.hpp"
 #include "perf_timer.hpp"
 #include "tarjan.hpp"
+
+#include "parlex/detail/configuration.hpp"
+#include "parlex/detail/derivation.hpp"
+#include "parlex/detail/grammar.hpp"
+#include "parlex/detail/job.hpp"
+#include "parlex/detail/producer.hpp"
+#include "parlex/detail/subjob.hpp"
+#include "parlex/post_processor.hpp"
 
 namespace parlex {
 namespace detail {

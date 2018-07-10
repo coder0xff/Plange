@@ -3,6 +3,8 @@
 
 /* coherent_queue provides push and pop with coherence */
 
+#include <cstdlib>
+
 #include "mover.hpp"
 
 namespace collections {

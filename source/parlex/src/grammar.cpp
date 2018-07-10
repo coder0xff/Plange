@@ -3,11 +3,11 @@
 #include <stack>
 
 #include "coherent_queue.hpp"
+#include "tarjan.hpp"
 
 #include "parlex/builder.hpp"
 #include "parlex/detail/builtins.hpp"
 #include "parlex/detail/c_string.hpp"
-#include "tarjan.hpp"
 
 namespace parlex {
 namespace detail {

@@ -1,11 +1,11 @@
-#ifndef GRAPHVIZ_DOT_HPP
-#define GRAPHVIZ_DOT_HPP
+#ifndef INCLUDED_UTILITIES_GRAPHVIZ_DOT_HPP
+#define INCLUDED_UTILITIES_GRAPHVIZ_DOT_HPP
 
+#include <functional>
+#include <queue>
+#include <sstream>
 #include <string>
 #include <vector>
-#include <functional>
-#include <sstream>
-#include <queue>
 
 #include "utils.hpp"
 
@@ -67,4 +67,4 @@ std::string directed_graph(
 	return directed_graph(vertices, getName, getEdges, getProperties);
 }
 
-#endif //GRAPHVIZ_DOT_HPP
+#endif // INCLUDED_UTILITIES_GRAPHVIZ_DOT_HPP

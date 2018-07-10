@@ -1,5 +1,6 @@
-#include "gtest/gtest.h"
 #include "../coherent_queue.hpp"
+
+#include "gtest/gtest.h"
 
 TEST(CoherentQueue, test0) {
 	collections::coherent_queue<int> x;

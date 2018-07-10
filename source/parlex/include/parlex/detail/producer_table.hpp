@@ -1,10 +1,10 @@
-#ifndef PRODUCER_TABLE_HPP
-#define PRODUCER_TABLE_HPP
+#ifndef INCLUDED_PARLEX_PRODUCER_TABLE_HPP
+#define INCLUDED_PARLEX_PRODUCER_TABLE_HPP
 
 #include <map>
 #include <memory>
 
-#include "producer.hpp"
+#include "parlex/detail/producer.hpp"
 
 namespace parlex::detail {
 
@@ -12,4 +12,4 @@ namespace parlex::detail {
 
 }
 
-#endif
+#endif // INCLUDED_PARLEX_PRODUCER_TABLE_HPP

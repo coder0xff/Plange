@@ -1,13 +1,13 @@
-#ifndef NATURAL_VALUE_HPP
-#define NATURAL_VALUE_HPP
+#ifndef INCLUDED_PLC_NATURAL_VALUE_HPP
+#define INCLUDED_PLC_NATURAL_VALUE_HPP
+
+#include <memory>
 
 #pragma warning(push, 0)
-#include <llvm/IR/Value.h>
+#include "llvm/IR/Value.h"
 #pragma warning(pop)
 
 #include "analytic_value.hpp"
-
-#include <memory>
 
 namespace plc {
 
@@ -30,4 +30,4 @@ public:
 
 }
 
-#endif //NATURAL_VALUE_HPP
+#endif // INCLUDED_PLC_NATURAL_VALUE_HPP

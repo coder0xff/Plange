@@ -1,5 +1,5 @@
-#ifndef PLC_UTILS_HPP
-#define PLC_UTILS_HPP
+#ifndef INCLUDED_PLC_PLC_UTILS_HPP
+#define INCLUDED_PLC_PLC_UTILS_HPP
 
 #include <string>
 
@@ -10,4 +10,4 @@ std::u32string read_utf_file(std::string const & pathname);
 
 }
 
-#endif //PLC_UTILS_HPP
+#endif // INCLUDED_PLC_PLC_UTILS_HPP

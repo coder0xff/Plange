@@ -1,15 +1,15 @@
-#ifndef DOCUMENT_HPP
-#define DOCUMENT_HPP
+#ifndef INCLUDED_PARLEX_DOCUMENT_HPP
+#define INCLUDED_PARLEX_DOCUMENT_HPP
 
 #include <optional>
 #include <variant>
 #include <vector>
 
-#include "../builder.hpp"
-#include "abstract_syntax_semilattice.hpp"
-
 #include "erased.hpp"
 #include "mpl_fold_vx.hpp"
+
+#include "parlex/builder.hpp"
+#include "parlex/detail/abstract_syntax_semilattice.hpp"
 
 namespace parlex::detail::document {
 
@@ -130,4 +130,4 @@ namespace parlex::detail::document {
 
 }
 
-#endif //DOCUMENT_HPP
+#endif // INCLUDED_PARLEX_DOCUMENT_HPP

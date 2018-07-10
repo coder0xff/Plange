@@ -1,5 +1,5 @@
-#ifndef UNICODE_HPP
-#define UNICODE_HPP
+#ifndef INCLUDED_PARLEX_UNICODE_HPP
+#define INCLUDED_PARLEX_UNICODE_HPP
 
 #include "parlex/detail/terminal.hpp"
 
@@ -20,4 +20,4 @@ namespace detail {
 } // namespace detail
 } // namespace parlex
 
-#endif //UNICODE_HPP
+#endif // INCLUDED_PARLEX_UNICODE_HPP

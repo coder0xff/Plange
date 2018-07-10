@@ -1,5 +1,5 @@
-#ifndef WARNINGS_HPP
-#define WARNINGS_HPP
+#ifndef INCLUDED_PLC_WARNINGS_HPP
+#define INCLUDED_PLC_WARNINGS_HPP
 
 #include <string>
 
@@ -18,4 +18,4 @@ MAKE_WARNING(DuplicateFileIgnored, "Duplicate file ignored.", FILE SOURCECODE)
 
 #define WARNING(Name, Info) plc::emit_##Name(__FILE__, __LINE__, Info)
 
-#endif //WARNINGS_HPP
+#endif // INCLUDED_PLC_WARNINGS_HPP

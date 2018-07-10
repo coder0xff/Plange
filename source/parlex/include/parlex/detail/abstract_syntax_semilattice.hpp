@@ -1,13 +1,13 @@
-#ifndef ABSTRACT_SYNTAX_SEMILATTICE_HPP
-#define ABSTRACT_SYNTAX_SEMILATTICE_HPP
+#ifndef PARLEX_ABSTRACT_SYNTAX_SEMILATTICE_HPP
+#define PARLEX_ABSTRACT_SYNTAX_SEMILATTICE_HPP
 
+#include <list>
 #include <map>
 #include <set>
-#include <list>
 
-#include "parlex/detail/match.hpp"
+#include "parlex/detail/abstract_syntax_tree.hpp"
 #include "parlex/detail/derivation.hpp"
-#include "abstract_syntax_tree.hpp"
+#include "parlex/detail/match.hpp"
 
 namespace parlex {
 namespace detail {
@@ -34,4 +34,4 @@ struct abstract_syntax_semilattice {
 } // namespace detail
 } // namespace parlex
 
-#endif //ABSTRACT_SYNTAX_SEMILATTICE_HPP
+#endif // PARLEX_ABSTRACT_SYNTAX_SEMILATTICE_HPP

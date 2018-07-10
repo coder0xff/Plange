@@ -2,22 +2,22 @@
 
 #include <experimental/filesystem>
 
-#include <gtest/gtest.h>
-
-#include "EXPRESSION.hpp"
-#include "TYPE_CONSTRAINT.hpp"
-#include "STATEMENT.hpp"
-#include "MAPS_TO.hpp"
-#include "MULTIPLICATION.hpp"
-#include "BINARY_OP.hpp"
-#include "BINARY_LOGICAL_OP.hpp"
-
-#include "module.hpp"
-#include "utf.hpp"
-#include "plc_utils.hpp"
+#include "gtest/gtest.h"
 
 #include "parlex/detail/parser.hpp"
 #include "perf_timer.hpp"
+#include "utf.hpp"
+
+#include "BINARY_LOGICAL_OP.hpp"
+#include "BINARY_OP.hpp"
+#include "EXPRESSION.hpp"
+#include "MAPS_TO.hpp"
+#include "MULTIPLICATION.hpp"
+#include "STATEMENT.hpp"
+#include "TYPE_CONSTRAINT.hpp"
+
+#include "module.hpp"
+#include "plc_utils.hpp"
 
 static std::string const & stdlibs_dir() {
 	static auto result = to_utf8(canonical(std::experimental::filesystem::path(__FILE__).remove_filename().append("/../../stdlib/"))) + std::string("/");

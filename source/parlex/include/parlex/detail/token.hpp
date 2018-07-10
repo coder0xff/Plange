@@ -1,5 +1,5 @@
-#ifndef TOKEN_HPP
-#define TOKEN_HPP
+#ifndef INCLUDED_PARLEX_TOKEN_HPP
+#define INCLUDED_PARLEX_TOKEN_HPP
 
 #include "parlex/detail/producer.hpp"
 
@@ -16,4 +16,4 @@ public:
 } // namespace detail
 } // namespace parlex
 
-#endif //TOKEN_HPP
+#endif // INCLUDED_PARLEX_TOKEN_HPP

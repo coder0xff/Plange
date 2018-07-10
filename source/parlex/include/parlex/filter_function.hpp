@@ -1,5 +1,5 @@
-#ifndef FILTER_FUNCTION_HPP
-#define FILTER_FUNCTION_HPP
+#ifndef INCLUDED_PARLEX_FILTER_FUNCTION_HPP
+#define INCLUDED_PARLEX_FILTER_FUNCTION_HPP
 
 #include <functional>
 #include <set>
@@ -17,4 +17,4 @@ typedef std::shared_ptr<std::function<std::set<int> (std::u32string const & /*do
 
 } // namespace parlex
 
-#endif //FILTER_FUNCTION_HPP
+#endif // INCLUDED_PARLEX_FILTER_FUNCTION_HPP

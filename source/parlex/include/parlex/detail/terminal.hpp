@@ -1,5 +1,5 @@
-#ifndef TERMINAL_HPP
-#define TERMINAL_HPP
+#ifndef INCLUDED_PARLEX_TERMINAL_HPP
+#define INCLUDED_PARLEX_TERMINAL_HPP
 
 #include "parlex/detail/recognizer.hpp"
 
@@ -23,4 +23,4 @@ protected:
 } // namespace detail
 } // namespace parlex
 
-#endif //TERMINAL_HPP
+#endif // INCLUDED_PARLEX_TERMINAL_HPP

@@ -1,11 +1,10 @@
-#ifndef WIRTH_HPP
-#define WIRTH_HPP
+#ifndef INCLUDED_PARLEX_WIRTH_HPP
+#define INCLUDED_PARLEX_WIRTH_HPP
 
 #include "parlex/associativity.hpp"
 #include "parlex/builder.hpp"
-#include "parlex/filter_function.hpp"
-
 #include "parlex/detail/grammar.hpp"
+#include "parlex/filter_function.hpp"
 
 #include "erased.hpp"
 
@@ -83,4 +82,4 @@ detail::wirth_t const& wirth();
 
 } //namespace parlex
 
-#endif //WIRTH_HPP
+#endif // INCLUDED_PARLEX_WIRTH_HPP

@@ -1,13 +1,13 @@
 #include "parlex/detail/wirth.hpp"
 
-#include "parlex/detail/builtins.hpp"
-
-#include "parlex/detail/parser.hpp"
-
-#include "utils.hpp"
-#include "parlex/builder.hpp"
-#include "utf.hpp"
 #include <iostream>
+
+#include "utf.hpp"
+#include "utils.hpp"
+
+#include "parlex/detail/builtins.hpp"
+#include "parlex/detail/parser.hpp"
+#include "parlex/builder.hpp"
 #include "parlex/detail/c_string.hpp"
 
 namespace parlex {

@@ -1,5 +1,6 @@
 #ifndef INCLUDING_MPL_EQUALS_HPP
 #define INCLUDING_MPL_EQUALS_HPP
+
 #include <type_traits>
 
 namespace mpl {

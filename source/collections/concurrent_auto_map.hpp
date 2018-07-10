@@ -1,5 +1,5 @@
-#ifndef AUTO_MAP_C_HPP
-#define AUTO_MAP_C_HPP
+#ifndef CONCURRENT_AUTO_MAP_HPP
+#define CONCURRENT_AUTO_MAP_HPP
 
 #include <functional>
 #include <map>
@@ -37,4 +37,4 @@ public:
 
 };
 
-#endif //AUTO_MAP_C_HPP
+#endif // CONCURRENT_AUTO_MAP_HPP

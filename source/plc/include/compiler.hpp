@@ -1,5 +1,5 @@
-#ifndef PLC_COMPILER_HPP
-#define PLC_COMPILER_HPP
+#ifndef INCLUDED_PLC_COMPILER_HPP
+#define INCLUDED_PLC_COMPILER_HPP
 
 #include "source_code.hpp"
 
@@ -22,4 +22,4 @@ public:
 
 }
 
-#endif //PLC_COMPILER_HPP
+#endif // INCLUDED_PLC_COMPILER_HPP

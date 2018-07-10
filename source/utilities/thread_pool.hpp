@@ -1,5 +1,5 @@
-#ifndef THREAD_POOL_HPP
-#define THREAD_POOL_HPP
+#ifndef INCLUDED_UTILITIES_THREAD_POOL_HPP
+#define INCLUDED_UTILITIES_THREAD_POOL_HPP
 
 #include <atomic>
 #include <condition_variable>
@@ -10,7 +10,6 @@
 #include <vector>
 
 #include "wait_flag.hpp"
-
 
 class thread_pool {
 public:
@@ -51,4 +50,4 @@ public:
 	void thread_loop();
 };
 
-#endif //THREAD_POOL_HPP
+#endif // INCLUDED_UTILITIES_THREAD_POOL_HPP

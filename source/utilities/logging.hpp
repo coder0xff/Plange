@@ -1,5 +1,5 @@
-#ifndef LOGGING_HPP
-#define LOGGING_HPP
+#ifndef INCLUDED_UTILITIES_LOGGING_HPP
+#define INCLUDED_UTILITIES_LOGGING_HPP
 
 #include <sstream>
 #include <thread>
@@ -48,4 +48,4 @@ void log_impl(char const * const cat, char const * const file, int const line, T
 
 }
 
-#endif
+#endif // INCLUDED_UTILITIES_LOGGING_HPP

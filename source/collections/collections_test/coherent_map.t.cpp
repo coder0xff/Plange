@@ -1,6 +1,8 @@
-#include "gtest/gtest.h"
 #include "../coherent_map.hpp"
+
 #include <random>
+
+#include "gtest/gtest.h"
 
 TEST(CoherentMap, test_construction) {
 	collections::coherent_map<int, int> x;

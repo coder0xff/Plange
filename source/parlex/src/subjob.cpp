@@ -1,14 +1,14 @@
 #include "parlex/detail/subjob.hpp"
 
+#include "utils.hpp"
+// ReSharper disable once CppUnusedIncludeDirective
+#include "logging.hpp"
+
+#include "parlex/detail/acceptor.hpp"
 #include "parlex/detail/configuration.hpp"
 #include "parlex/detail/job.hpp"
 #include "parlex/detail/match_class.hpp"
 #include "parlex/detail/parser.hpp"
-#include "parlex/detail/acceptor.hpp"
-
-#include "utils.hpp"
-// ReSharper disable once CppUnusedIncludeDirective
-#include "logging.hpp"
 
 namespace parlex {
 namespace detail {

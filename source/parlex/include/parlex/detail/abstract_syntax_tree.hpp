@@ -4,7 +4,7 @@
 #include <string>
 #include <vector>
 
-#include "transition.hpp"
+#include "parlex/detail/transition.hpp"
 
 namespace parlex::detail {
 class grammar;
@@ -22,4 +22,4 @@ typedef ast_node abstract_syntax_tree;
 
 
 
-#endif //INCLUDED_PARLEX_ABSTRACT_SYNTAX_TREE_HPP
+#endif // INCLUDED_PARLEX_ABSTRACT_SYNTAX_TREE_HPP

@@ -1,5 +1,5 @@
-#ifndef UTF_HPP
-#define UTF_HPP
+#ifndef INCLUDED_UTILITIES_UTF_HPP
+#define INCLUDED_UTILITIES_UTF_HPP
 
 #include <string>
 
@@ -16,4 +16,4 @@ std::u32string to_utf32(std::string const & s);
 std::u32string to_utf32(std::wstring const & s);
 std::u32string read_with_bom(std::istream && src);
 
-#endif //UTF_HPP
+#endif // INCLUDED_UTILITIES_UTF_HPP

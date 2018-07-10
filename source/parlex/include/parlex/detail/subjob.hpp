@@ -1,14 +1,14 @@
-#ifndef SUBJOB_HPP
-#define SUBJOB_HPP
+#ifndef INCLUDED_PARLEX_SUBJOB_HPP
+#define INCLUDED_PARLEX_SUBJOB_HPP
 
+#include <atomic>
 #include <list>
 #include <mutex>
-#include <atomic>
 
 #include "concurrent_forward_list.hpp"
 
-#include "parlex/detail/derivation.hpp"
 #include "parlex/detail/configuration.hpp"
+#include "parlex/detail/derivation.hpp"
 #include "parlex/detail/producer.hpp"
 
 namespace parlex {
@@ -59,4 +59,4 @@ private:
 } // namespace detail
 } // namespace parlex
 
-#endif //SUBJOB_HPP
+#endif // INCLUDED_PARLEX_SUBJOB_HPP

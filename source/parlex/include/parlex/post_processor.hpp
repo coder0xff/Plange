@@ -1,5 +1,5 @@
-#ifndef POST_PROCESSOR_HPP
-#define POST_PROCESSOR_HPP
+#ifndef INCLUDED_PARLEX_POST_PROCESSOR_HPP
+#define INCLUDED_PARLEX_POST_PROCESSOR_HPP
 
 #include <functional>
 
@@ -14,4 +14,4 @@ typedef std::function<void(detail::abstract_syntax_semilattice &)> post_processo
 
 } // namespace parlex
 
-#endif //POST_PROCESSOR_HPP
+#endif // INCLUDED_PARLEX_POST_PROCESSOR_HPP

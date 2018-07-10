@@ -1,13 +1,12 @@
-#ifndef JOB_HPP
-#define JOB_HPP
+#ifndef INCLUDED_PARLEX_JOB_HPP
+#define INCLUDED_PARLEX_JOB_HPP
 
 #include <functional>
-
-#include "parlex/post_processor.hpp"
 
 #include "parlex/detail/abstract_syntax_semilattice.hpp"
 #include "parlex/detail/producer_table.hpp"
 #include "parlex/detail/subjob.hpp"
+#include "parlex/post_processor.hpp"
 
 namespace parlex {
 namespace detail {
@@ -63,4 +62,4 @@ private:
 } // namespace detail
 } // namespace parlex
 
-#endif //JOB_HPP
+#endif // INCLUDED_PARLEX_JOB_HPP

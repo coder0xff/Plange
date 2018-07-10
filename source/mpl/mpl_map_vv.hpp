@@ -1,7 +1,7 @@
-// map_vv<tuple<Ts...>>::map(functor, elements) returns a tuple<Us...>, where functor has member function `template <typename T> U operator()(T const & element)`, and elements is a tuple<Ts...>
-
 #ifndef INCLUDING_MPL_MAP_VV_HPP
 #define INCLUDING_MPL_MAP_VV_HPP
+
+// map_vv<tuple<Ts...>>::map(functor, elements) returns a tuple<Us...>, where functor has member function `template <typename T> U operator()(T const & element)`, and elements is a tuple<Ts...>
 
 #include <tuple>
 #include <vector>

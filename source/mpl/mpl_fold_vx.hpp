@@ -4,9 +4,9 @@
 #define INCLUDING_MPL_FOLD_VX_HPP
 
 #include "mpl_drop_v.hpp"
-#include "mpl_sfinae.hpp"
 #include "mpl_equals.hpp"
 #include "mpl_list.hpp"
+#include "mpl_sfinae.hpp"
 
 namespace mpl {
 

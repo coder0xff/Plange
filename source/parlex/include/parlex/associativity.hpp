@@ -1,5 +1,5 @@
-#ifndef ASSOCIATIVITY_H
-#define ASSOCIATIVITY_H
+#ifndef INCLUDED_PARLEX_ASSOCIATIVITY_H
+#define INCLUDED_PARLEX_ASSOCIATIVITY_H
 
 namespace parlex {
 
@@ -12,4 +12,4 @@ enum class associativity {
 
 } // namespace parlex
 
-#endif //ASSOCIATIVITY_H
+#endif // INCLUDED_PARLEX_ASSOCIATIVITY_H

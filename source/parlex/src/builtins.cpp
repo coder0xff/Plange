@@ -1,9 +1,9 @@
 #include <iostream>
 #include <mutex>
 
-#include "parlex/detail/builtins.hpp"
-
 #include "utf.hpp"
+
+#include "parlex/detail/builtins.hpp"
 #include "parlex/detail/string_terminal.hpp"
 
 namespace parlex {

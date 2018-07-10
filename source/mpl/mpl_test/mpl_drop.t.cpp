@@ -1,6 +1,6 @@
-#include "../mpl_list.hpp"
-#include "../mpl_equals.hpp"
 #include "../mpl_drop.hpp"
+#include "../mpl_equals.hpp"
+#include "../mpl_list.hpp"
 
 static_assert(mpl::EQUALS<mpl::list<char, int, float>, mpl::drop<0, mpl::list<char, int, float>>>, "");
 

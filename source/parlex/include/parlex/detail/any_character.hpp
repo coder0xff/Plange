@@ -1,5 +1,5 @@
-#ifndef ANY_CHARACTER_HPP
-#define ANY_CHARACTER_HPP
+#ifndef INCLUDED_PARLEX_ANY_CHARACTER_HPP
+#define INCLUDED_PARLEX_ANY_CHARACTER_HPP
 
 #include <string>
 
@@ -18,4 +18,4 @@ public:
 } // namespace detail
 } // namespace parlex
 
-#endif
+#endif // INCLUDED_PARLEX_ANY_CHARACTER_HPP

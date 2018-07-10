@@ -1,5 +1,5 @@
-#ifndef ANALYTIC_VALUE_HPP
-#define ANALYTIC_VALUE_HPP
+#ifndef INCLUDED_PLC_ANALYTIC_VALUE_HPP
+#define INCLUDED_PLC_ANALYTIC_VALUE_HPP
 
 #include <map>
 #include <memory>
@@ -19,4 +19,4 @@ public:
 
 }
 
-#endif //ANALYTIC_VALUE_HPP
+#endif // INCLUDED_PLC_ANALYTIC_VALUE_HPP

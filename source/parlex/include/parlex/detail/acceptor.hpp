@@ -1,16 +1,15 @@
-#ifndef ACCEPTOR_HPP
-#define ACCEPTOR_HPP
+#ifndef INCLUDED_PARLEX_ACCEPTOR_HPP
+#define INCLUDED_PARLEX_ACCEPTOR_HPP
 
 #include "coherent_map.hpp"
 
 #include "parlex/associativity.hpp"
 #include "parlex/builder.hpp"
-#include "parlex/filter_function.hpp"
-#include "parlex/detail/nfa.hpp"
-#include "parlex/detail/recognizer.hpp"
 #include "parlex/detail/acceptor.hpp"
 #include "parlex/detail/configuration.hpp"
-
+#include "parlex/detail/nfa.hpp"
+#include "parlex/detail/recognizer.hpp"
+#include "parlex/filter_function.hpp"
 
 namespace parlex {
 namespace detail {
@@ -71,4 +70,4 @@ public:
 } // namespace detail
 } // namespace parlex
 
-#endif //ACCEPTOR_HPP
+#endif // INCLUDED_PARLEX_ACCEPTOR_HPP

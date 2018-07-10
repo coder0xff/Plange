@@ -1,9 +1,9 @@
-#ifndef PARLEX_CPP_GENERATOR_HPP
-#define PARLEX_CPP_GENERATOR_HPP
+#ifndef INCLUDED_PARLEX_CPP_GENERATOR_HPP
+#define INCLUDED_PARLEX_CPP_GENERATOR_HPP
 
+#include <list>
 #include <map>
 #include <vector>
-#include <list>
 
 namespace parlex {
 
@@ -24,4 +24,4 @@ public:
 
 } // namespace parlex
 
-#endif //PARLEX_CPP_GENERATOR_HPP
+#endif // INCLUDED_PARLEX_CPP_GENERATOR_HPP

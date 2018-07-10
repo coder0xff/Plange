@@ -1,5 +1,5 @@
-#ifndef MATCH_CLASS_HPP
-#define MATCH_CLASS_HPP
+#ifndef INCLUDED_PARLEX_MATCH_CLASS_HPP
+#define INCLUDED_PARLEX_MATCH_CLASS_HPP
 
 #include <cstdint>
 
@@ -21,4 +21,4 @@ struct match_class {
 } // namespace detail
 } // namespace parlex
 
-#endif //MATCH_CLASS_HPP
+#endif // INCLUDED_PARLEX_MATCH_CLASS_HPP

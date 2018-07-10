@@ -1,7 +1,8 @@
-#include <cassert>
-#include "gtest/gtest.h"
-
 #include "erased.hpp"
+
+#include <cassert>
+
+#include "gtest/gtest.h"
 
 struct base1 {
 	base1() : value1(1) {}

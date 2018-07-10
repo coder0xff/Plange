@@ -1,5 +1,5 @@
-#ifndef SOURCE_CODE_HPP
-#define SOURCE_CODE_HPP
+#ifndef INCLUDED_PLC_SOURCE_CODE_HPP
+#define INCLUDED_PLC_SOURCE_CODE_HPP
 
 #include <map>
 
@@ -41,4 +41,4 @@ public:
 };
 
 }
-#endif
+#endif // INCLUDED_PLC_SOURCE_CODE_HPP

@@ -1,15 +1,15 @@
-#ifndef MODULE_HPP
-#define MODULE_HPP
+#ifndef INCLUDED_PLC_MODULE_HPP
+#define INCLUDED_PLC_MODULE_HPP
 
 #include <unordered_map>
 
 #pragma warning(push, 0)
-#include <llvm/IR/GlobalVariable.h>
-#include <llvm/IR/Module.h>
+#include "llvm/IR/GlobalVariable.h"
+#include "llvm/IR/Module.h"
 #pragma warning(pop)
 
-#include "source_code.hpp"
 #include "scope.hpp"
+#include "source_code.hpp"
 
 namespace plc {
 
@@ -35,4 +35,4 @@ private:
 
 } // namespace plc
 
-#endif
+#endif // INCLUDED_PLC_MODULE_HPP

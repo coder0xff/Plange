@@ -1,6 +1,7 @@
 #include "../mpl_fold_v.hpp"
 
 #include <cassert>
+
 #include "gtest/gtest.h"
 
 #include "../mpl_equals.hpp"

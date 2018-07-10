@@ -1,5 +1,5 @@
-#ifndef ERRORS_HPP
-#define ERRORS_HPP
+#ifndef INCLUDED_PLC_ERRORS_HPP
+#define INCLUDED_PLC_ERRORS_HPP
 
 #include <string>
 
@@ -26,4 +26,4 @@ MAKE_ERROR(UnknownSymbol, "The symbol was not found in the current scope.", SOUR
 
 #define ERROR(Name, Info) { plc::emit_##Name(__FILE__, __LINE__, Info); throw; } (void)0  //throw is unreachable, but prevents warnings
 
-#endif //ERRORS_HPP
+#endif // INCLUDED_PLC_ERRORS_HPP

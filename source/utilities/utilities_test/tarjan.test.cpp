@@ -1,6 +1,6 @@
-#include "gtest/gtest.h"
-
 #include "../tarjan.hpp"
+
+#include "gtest/gtest.h"
 
 TEST(Tarjan, verts_0_edges_0) {
 	std::vector<std::string> vertices;

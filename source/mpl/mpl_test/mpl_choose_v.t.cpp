@@ -1,11 +1,11 @@
 #include "../mpl_choose_v.hpp"
 
-#include "../mpl_utils.hpp"
-
 #include <array>
 #include <cassert>
 
 #include "gtest/gtest.h"
+
+#include "../mpl_utils.hpp"
 
 TEST(mplTest, choose_v_test1) {
 	auto const data = std::make_tuple(3.14, "c", 5);

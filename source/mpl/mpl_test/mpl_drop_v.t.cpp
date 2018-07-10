@@ -1,7 +1,8 @@
 #include "../mpl_drop_v.hpp"
 
-#include "gtest/gtest.h"
 #include <array>
+
+#include "gtest/gtest.h"
 
 TEST(mplTest, drop_v_test1) {
 	auto data = std::make_tuple();

@@ -1,5 +1,5 @@
-#ifndef BITS_HPP
-#define BITS_HPP
+#ifndef INCLUDED_UTILITIES_BITS_HPP
+#define INCLUDED_UTILITIES_BITS_HPP
 
 #include <cstdint>
 
@@ -22,10 +22,9 @@ uint32_t __inline clz(uint32_t const value)
 	if (_BitScanReverse(&leadingZero, value)) {
 		return 31 - leadingZero;
 	}
-	// Same remarks as above
 	return 32;
 }
 
 #endif
 
-#endif //BITS_HPP
+#endif // INCLUDED_UTILITIES_BITS_HPP

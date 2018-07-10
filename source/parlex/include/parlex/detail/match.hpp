@@ -1,5 +1,5 @@
-#ifndef MATCH_HPP
-#define MATCH_HPP
+#ifndef INCLUDED_PARLEX_MATCH_HPP
+#define INCLUDED_PARLEX_MATCH_HPP
 
 #include "parlex/detail/match_class.hpp"
 
@@ -23,4 +23,4 @@ struct match : match_class {
 } // namespace detail
 } // namespace parlex
 
-#endif //FAST_MATCH_HPP
+#endif // INCLUDED_PARLEX_MATCH_HPP

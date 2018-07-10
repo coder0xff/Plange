@@ -1,8 +1,7 @@
+#include "tarjan.hpp"
 
-#include <vector>
-#include <functional>
-#include <optional>
 #include <algorithm>
+#include <optional>
 
 std::vector<std::vector<size_t>> tarjan(size_t const vertexCount, std::function<std::vector<size_t>(size_t)> const & transitionFunctor, bool connectedComponentsOnly /*= false*/)
 {

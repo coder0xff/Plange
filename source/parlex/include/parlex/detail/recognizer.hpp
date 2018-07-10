@@ -1,11 +1,10 @@
-#ifndef RECOGNIZER_HPP
-#define RECOGNIZER_HPP
+#ifndef INCLUDED_PARLEX_RECOGNIZER_HPP
+#define INCLUDED_PARLEX_RECOGNIZER_HPP
 
 #include <string>
 
 namespace parlex {
 namespace detail {
-
 
 
 //base class for terminal and acceptor
@@ -22,4 +21,4 @@ public:
 } // namespace detail
 } // namespace parlex
 
-#endif //RECOGNIZER_HPP
+#endif // INCLUDED_PARLEX_RECOGNIZER_HPP

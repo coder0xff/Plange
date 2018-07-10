@@ -1,12 +1,12 @@
 #include "parlex/builder.hpp"
 
+#include <iterator>
 #include <sstream>
 
 #include "utf.hpp"
 #include "graphviz_dot.hpp"
 #include "covariant_invoke.hpp"
 #include "coherent_queue.hpp"
-#include <iterator>
 
 namespace parlex {
 namespace detail {

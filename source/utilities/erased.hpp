@@ -1,5 +1,5 @@
-#ifndef ERASED_HPP
-#define ERASED_HPP
+#ifndef INCLUDED_UTILITIES_ERASED_HPP
+#define INCLUDED_UTILITIES_ERASED_HPP
 
 #include <functional>
 #include <memory>
@@ -125,4 +125,4 @@ erased<T> make_erased(ArgTs&&... args) {
 	return erased<T>(T(std::forward<ArgTs>(args)...));
 }
 
-#endif //ERASED_HPP
+#endif // INCLUDED_UTILITIES_ERASED_HPP

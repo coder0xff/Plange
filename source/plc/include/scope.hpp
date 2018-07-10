@@ -1,10 +1,10 @@
-#ifndef SCOPE_HPP
-#define SCOPE_HPP
+#ifndef INCLUDED_PLC_SCOPE_HPP
+#define INCLUDED_PLC_SCOPE_HPP
 
 #include <vector>
 
 #pragma warning(push, 0)
-#include <llvm/IR/IRBuilder.h>
+#include "llvm/IR/IRBuilder.h"
 #pragma warning(pop)
 
 #include "natural_value.hpp"
@@ -42,4 +42,4 @@ private:
 };
 
 }
-#endif //SCOPE_HPP
+#endif // INCLUDED_PLC_SCOPE_HPP

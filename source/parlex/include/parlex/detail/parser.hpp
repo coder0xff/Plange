@@ -1,14 +1,14 @@
-#ifndef PARSER_HPP
-#define PARSER_HPP
+#ifndef INCLUDED_PARLEX_PARSER_HPP
+#define INCLUDED_PARLEX_PARSER_HPP
 
-#include <thread>
-#include <condition_variable>
 #include <atomic>
+#include <condition_variable>
 #include <queue>
+#include <thread>
 
-#include "parlex/post_processor.hpp"
 #include "parlex/detail/abstract_syntax_semilattice.hpp"
 #include "parlex/detail/producer.hpp"
+#include "parlex/post_processor.hpp"
 
 namespace parlex {
 namespace detail {
@@ -67,4 +67,4 @@ private:
 } // namespace detail
 } // namespace parlex
 
-#endif //PARSER_HPP
+#endif // INCLUDED_PARLEX_PARSER_HPP

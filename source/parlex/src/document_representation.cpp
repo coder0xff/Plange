@@ -1,6 +1,8 @@
 #include "parlex/document_representation.hpp"
-#include "covariant_invoke.hpp"
+
 #include <optional>
+
+#include "covariant_invoke.hpp"
 
 namespace parlex {
 namespace detail {

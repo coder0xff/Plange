@@ -1,8 +1,8 @@
-#ifndef C_STRING_HPP
-#define C_STRING_HPP
+#ifndef INCLUDED_PARLEX_C_STRING_HPP
+#define INCLUDED_PARLEX_C_STRING_HPP
 
-#include "parlex/detail/abstract_syntax_semilattice.hpp"
 #include "parlex/builder.hpp"
+#include "parlex/detail/abstract_syntax_semilattice.hpp"
 
 namespace parlex {
 namespace detail {
@@ -26,4 +26,4 @@ private:
 
 }
 
-#endif // C_STRING_HPP
+#endif // INCLUDED_PARLEX_C_STRING_HPP

@@ -1,5 +1,5 @@
-#ifndef NOT_DOUBLE_QUOTE_HPP
-#define NOT_DOUBLE_QUOTE_HPP
+#ifndef INCLUDED_PARLEX_NOT_DOUBLE_QUOTE_HPP
+#define INCLUDED_PARLEX_NOT_DOUBLE_QUOTE_HPP
 
 #include "parlex/detail/terminal.hpp"
 
@@ -16,4 +16,4 @@ public:
 } // namespace detail
 } // namespace parlex
 
-#endif //NOT_DOUBLE_QUOTE_HPP
+#endif // INCLUDED_PARLEX_NOT_DOUBLE_QUOTE_HPP

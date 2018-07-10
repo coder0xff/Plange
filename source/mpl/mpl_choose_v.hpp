@@ -1,8 +1,9 @@
 #ifndef INCLUDING_MPL_CHOOSE_V_HPP
 #define INCLUDING_MPL_CHOOSE_V_HPP
 
-#include <type_traits>
 #include <tuple>
+#include <type_traits>
+
 #include "mpl_utils.hpp"
 
 // given an index_sequence and a tuple, create a new tuple with only the chosen elements
