@@ -3,12 +3,12 @@ add_subdirectory(utilities_test)
 #collect source files
 set (SOURCES
 	"logging.cpp"
-	"one_shot.cpp"
 	"perf_timer.cpp"
 	"tarjan.cpp"
 	"thread_pool.cpp"
+	"utf.cpp"
 	"utils.cpp"
-	"utf.cpp")
+)
 	
 set (HEADERS
 	"bits.hpp"
@@ -16,13 +16,13 @@ set (HEADERS
 	"erased.hpp"
 	"graphviz_dot.hpp"
 	"logging.hpp"
-	"one_shot.hpp"
 	"perf_timer.hpp"
 	"tarjan.hpp"
 	"thread_pool.hpp"
-	"utils.hpp"
 	"utf.hpp"
-	"wait_flag.hpp")
+	"utils.hpp"
+	"wait_flag.hpp"
+)
 	
 add_library(utilities ${HEADERS} ${SOURCES})
 source_group("src" FILES ${SOURCES})
