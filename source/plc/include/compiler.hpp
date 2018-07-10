@@ -6,6 +6,10 @@
 // ReSharper disable once CppInconsistentNaming
 #define _SILENCE_CXX17_ITERATOR_BASE_CLASS_DEPRECATION_WARNING
 
+#pragma warning(push, 0)
+#include "llvm/IR/LLVMContext.h"
+#pragma warning(pop)
+
 #include "source_code.hpp"
 
 namespace plc {
@@ -23,6 +27,8 @@ public:
 	static T parse(std::u32string const & document) {
 		return source_code::parse<T>(document);
 	}
+
+	llvm::LLVMContext llvm_context;
 };
 
 }

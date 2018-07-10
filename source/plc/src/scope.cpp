@@ -3,8 +3,6 @@
 // ReSharper disable once CppInconsistentNaming
 #define _SILENCE_CXX17_ITERATOR_BASE_CLASS_DEPRECATION_WARNING
 
-#include "stdafx.hpp"
-
 #include "scope.hpp"
 
 #include "compiler.hpp"
@@ -20,7 +18,7 @@ namespace plc
 llvm::Value* buildConcreteValue(module& module)
 {
 	std::vector<llvm::Type*> elements;
-	llvm::StructType* llvm_scope_type = llvm::StructType::get(llvm_context, llvm::ArrayRef<llvm::Type*>(elements));
+	llvm::StructType* llvm_scope_type = llvm::StructType::get(module.owner.llvm_context, llvm::ArrayRef<llvm::Type*>(elements));
 	std::vector<llvm::Constant*> initial_values;
 	auto initial_value = llvm::ConstantStruct::get(llvm_scope_type, llvm::ArrayRef<llvm::Constant*>(initial_values));
 	return new llvm::GlobalVariable(module.get_llvm_module(), llvm_scope_type, false, llvm::GlobalValue::InternalLinkage, initial_value);

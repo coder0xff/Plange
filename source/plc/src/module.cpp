@@ -3,7 +3,6 @@
 // ReSharper disable once CppInconsistentNaming
 #define _SILENCE_CXX17_ITERATOR_BASE_CLASS_DEPRECATION_WARNING
 
-#include "stdafx.hpp"
 #include "module.hpp"
 
 #include <fstream>
@@ -17,8 +16,9 @@
 #include "errors.hpp"
 #include "utf.hpp"
 
-plc::module::module() : llvm_module("module", llvm_context), plange(*this, nullptr, nullptr)
+plc::module::module(compiler * owner) : owner(*owner), llvm_module("module", owner->llvm_context), plange(*this, nullptr, nullptr)
 {
+	throw_assert(owner);
 }
 
 void plc::module::compile(std::string output_filename) const
@@ -46,7 +46,7 @@ llvm::GlobalVariable * plc::module::get_or_add_global_string(std::u32string cons
 	auto const i = global_strings.find(s);
 	if (i != global_strings.end()) return i->second;
 	llvm::StringRef const str(to_utf8(s));
-	auto const strConstant = llvm::ConstantDataArray::getString(llvm_context, str);
+	auto const strConstant = llvm::ConstantDataArray::getString(owner.llvm_context, str);
 	auto gv = new llvm::GlobalVariable(llvm_module, strConstant->getType(), true, llvm::GlobalValue::PrivateLinkage, strConstant);
 	auto const name = "str" + std::to_string(global_strings.size());
 	gv->setName(name);

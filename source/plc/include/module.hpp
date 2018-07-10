@@ -23,14 +23,15 @@ class scope;
 
 class module
 {
+	friend class compiler;
 public:
-	module();
+	explicit module(compiler * owner);
 	void compile(std::string outputFilename) const;
 	source_code const & add_source(std::string pathname);
 	llvm::Module const& get_llvm_module() const;
 	llvm::Module& get_llvm_module();
+	compiler & owner;
 private:
-	friend class compiler;
 	std::vector<source_code> sources;
 	llvm::Module llvm_module;
 	std::unordered_map<std::u32string, llvm::GlobalVariable *> global_strings;

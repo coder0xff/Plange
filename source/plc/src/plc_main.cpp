@@ -12,6 +12,7 @@
 #include "utils.hpp"
 
 #include "warnings.hpp"
+#include "compiler.hpp"
 
 int main(int argc, char * argv[]) {
 	if (argc > 1 && strcmp(argv[1], "--test") == 0) {
@@ -46,7 +47,8 @@ int main(int argc, char * argv[]) {
 		};
 	}
 
-	auto m = std::make_unique<module>();
+	compiler c;
+	auto m = std::make_unique<module>(&c);
 
 	for (auto const & pathname : realpaths) {
 		m->add_source(pathname);
