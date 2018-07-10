@@ -2,7 +2,6 @@ add_subdirectory(utilities_test)
 
 #collect source files
 set (SOURCES
-	"graphviz_dot.cpp"
 	"logging.cpp"
 	"one_shot.cpp"
 	"perf_timer.cpp"
