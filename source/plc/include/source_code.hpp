@@ -1,6 +1,11 @@
 #ifndef INCLUDED_PLC_SOURCE_CODE_HPP
 #define INCLUDED_PLC_SOURCE_CODE_HPP
 
+// As of Visual Studio 2017 (15.5.1), xutility will emit warnings about LLVM code despite "#pragma warning(push, 0)" below
+// This will silence those errors so we can build while treating warnings as errors
+// ReSharper disable once CppInconsistentNaming
+#define _SILENCE_CXX17_ITERATOR_BASE_CLASS_DEPRECATION_WARNING
+
 #include <map>
 
 #include "STATEMENT_SCOPE.hpp"

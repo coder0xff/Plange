@@ -14,13 +14,13 @@ inline void throw_assert(bool const pass) {
 void debugger();
 
 template <typename T>
-inline size_t hash_combine(T const & v) {
+size_t hash_combine(T const & v) {
 	std::hash<T> hasher;
 	return hasher(v);
 }
 
 template <typename T, typename... Rest>
-inline size_t hash_combine(T const & v, Rest... rest) {
+size_t hash_combine(T const & v, Rest... rest) {
 	std::hash<T> hasher;
 	size_t const seed = hash_combine(rest...);
 	return hasher(v) + 0x9e3779b9 + (seed << 6) + (seed >> 2);
@@ -35,5 +35,8 @@ std::string realpath(std::string fileName);
 std::string toupper(std::string const & in);
 
 std::string tolower(std::string const & in);
+
+// Run a process synchronously, returning its output and exit code
+std::pair<std::string, char> exec(std::string const & executable);
 
 #endif // INCLUDED_UTILITIES_UTILS_HPP

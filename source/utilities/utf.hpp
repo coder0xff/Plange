@@ -1,6 +1,8 @@
 #ifndef INCLUDED_UTILITIES_UTF_HPP
 #define INCLUDED_UTILITIES_UTF_HPP
 
+#define _SILENCE_CXX17_CODECVT_HEADER_DEPRECATION_WARNING
+
 #include <string>
 
 std::string to_utf8(std::string const & s);

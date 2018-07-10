@@ -137,7 +137,7 @@ std::u32string read_with_bom(std::istream && src)
 		if (buffer.length() % 4 != 0) {
 			throw std::logic_error("size in bytes must be a multiple of 4");
 		}
-		int const count = buffer.length() / 4;
+		auto const count = buffer.length() / 4;
 		auto temp = std::u32string(count, 0);
 		for (auto i = 0; i < count; ++i) {
 			temp[i] = static_cast<char32_t>(buffer[i * 4 + 3] << 0 | buffer[i * 4 + 2] << 8 | buffer[i * 4 + 1] << 16 | buffer[i * 4 + 0] << 24);
@@ -149,7 +149,7 @@ std::u32string read_with_bom(std::istream && src)
 		if (buffer.length() % 4 != 0) {
 			throw std::logic_error("size in bytes must be a multiple of 4");
 		}
-		int const count = buffer.length() / 4;
+		auto const count = buffer.length() / 4;
 		auto temp = std::u32string(count, 0);
 		for (auto i = 0; i < count; ++i) {
 			temp[i] = static_cast<char32_t>(buffer[i * 4 + 0] << 0 | buffer[i * 4 + 1] << 8 | buffer[i * 4 + 2] << 16 | buffer[i * 4 + 3] << 24);
@@ -161,7 +161,7 @@ std::u32string read_with_bom(std::istream && src)
 		if (buffer.length() % 2 != 0) {
 			throw std::logic_error("size in bytes must be a multiple of 2");
 		}
-		int const count = buffer.length() / 2;
+		auto const count = buffer.length() / 2;
 		auto temp = std::u16string(count, 0);
 		throw std::logic_error("not implemented");
 	}
@@ -170,7 +170,7 @@ std::u32string read_with_bom(std::istream && src)
 		if (buffer.length() % 2 != 0) {
 			throw std::logic_error("size in bytes must be a multiple of 2");
 		}
-		int const count = buffer.length() / 2;
+		auto const count = buffer.length() / 2;
 		auto temp = std::u16string(count, 0);
 		throw std::logic_error("not implemented");
 	}

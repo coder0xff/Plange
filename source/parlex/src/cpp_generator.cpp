@@ -311,7 +311,7 @@ static std::string generate_grammar_builder_initializer(detail::node const & n) 
 								         [&](choice const & v) { return "parlex::choice (" + addTag() + "{\n" + addChildren() + "})"; },
 		                                 [&](optional const & v) { return "parlex::optional(" + addTag() + addChildren() + ")"; },
 		                                 [&](repetition const & v) { return "parlex::repetition(" + addTag() + addChildren() + ")"; },
-	                                     [&](literal const & v) { return "parlex::literal(" + addTag() + "U" + enquote(to_utf8(v.content)) + ")"; },
+	                                     [&](literal const & v) { return "parlex::literal(U" + enquote(to_utf8(v.content)) + ")"; },
 	                                     [&](reference const & v) { return "parlex::reference(" + addTag() + enquote(v.target) + ")"; }
 	);
 

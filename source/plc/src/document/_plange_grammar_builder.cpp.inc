@@ -5,7 +5,7 @@
 			parlex::reference("EXPRESSION"),
 			parlex::repetition(	parlex::reference("IC")
 			),
-			parlex::literal("+", U"+"),
+			parlex::literal(U"+"),
 			parlex::repetition(	parlex::reference("IC")
 			),
 			parlex::reference("EXPRESSION")
@@ -17,9 +17,9 @@
 			parlex::repetition(	parlex::reference("IC")
 			),
 			parlex::choice ({
-				parlex::literal("+<-", U"+<-"),
-				parlex::literal("+←", U"+←"),
-				parlex::literal("⥆", U"⥆")
+				parlex::literal(U"+<-"),
+				parlex::literal(U"+←"),
+				parlex::literal(U"⥆")
 			}),
 			parlex::repetition(	parlex::reference("IC")
 			),
@@ -31,8 +31,8 @@
 			parlex::repetition(	parlex::reference("IC")
 			),
 			parlex::choice ({
-				parlex::literal("±", U"±"),
-				parlex::literal("+-", U"+-")
+				parlex::literal(U"±"),
+				parlex::literal(U"+-")
 			}),
 			parlex::repetition(	parlex::reference("IC")
 			),
@@ -45,12 +45,12 @@
 			parlex::repetition(	parlex::reference("IC")
 			),
 			parlex::choice ({
-				parlex::literal("±", U"±"),
-				parlex::literal("+-", U"+-")
+				parlex::literal(U"±"),
+				parlex::literal(U"+-")
 			}),
 			parlex::choice ({
-				parlex::literal("<-", U"<-"),
-				parlex::literal("←", U"←")
+				parlex::literal(U"<-"),
+				parlex::literal(U"←")
 			}),
 			parlex::repetition(	parlex::reference("IC")
 			),
@@ -59,8 +59,8 @@
 		parlex::production("ALL",
 		parlex::sequence("ALL", {
 			parlex::choice ({
-				parlex::literal("∀", U"∀"),
-				parlex::literal("all", U"all")
+				parlex::literal(U"∀"),
+				parlex::literal(U"all")
 			}),
 			parlex::repetition(	parlex::reference("IC")
 			),
@@ -68,7 +68,7 @@
 		})),
 		parlex::production("ALLOCATION",
 		parlex::sequence("ALLOCATION", {
-			parlex::literal("alloc", U"alloc"),
+			parlex::literal(U"alloc"),
 			parlex::repetition(	parlex::reference("IC")
 			),
 			parlex::reference("PARENTHETICAL_INVOCATION")
@@ -79,8 +79,8 @@
 			parlex::repetition(	parlex::reference("IC")
 			),
 			parlex::choice ({
-				parlex::literal("∧", U"∧"),
-				parlex::literal("and", U"and")
+				parlex::literal(U"∧"),
+				parlex::literal(U"and")
 			}),
 			parlex::repetition(	parlex::reference("IC")
 			),
@@ -93,12 +93,12 @@
 			parlex::repetition(	parlex::reference("IC")
 			),
 			parlex::choice ({
-				parlex::literal("∧", U"∧"),
-				parlex::literal("and", U"and")
+				parlex::literal(U"∧"),
+				parlex::literal(U"and")
 			}),
 			parlex::choice ({
-				parlex::literal("<-", U"<-"),
-				parlex::literal("←", U"←")
+				parlex::literal(U"<-"),
+				parlex::literal(U"←")
 			}),
 			parlex::repetition(	parlex::reference("IC")
 			),
@@ -111,11 +111,11 @@
 			parlex::reference("EXPRESSION"),
 			parlex::repetition(	parlex::reference("IC")
 			),
-			parlex::literal("...", U"...")
+			parlex::literal(U"...")
 		})),
 		parlex::production("ARRAY",
 		parlex::sequence("ARRAY", {
-			parlex::literal("[", U"["),
+			parlex::literal(U"["),
 			parlex::repetition(	parlex::reference("IC")
 			),
 			parlex::optional(	parlex::sequence({
@@ -123,7 +123,7 @@
 					parlex::repetition(	parlex::sequence({
 							parlex::repetition(	parlex::reference("IC")
 							),
-							parlex::literal(",", U","),
+							parlex::literal(U","),
 							parlex::repetition(	parlex::reference("IC")
 							),
 							parlex::reference("expression", "EXPRESSION")
@@ -133,7 +133,7 @@
 					)
 				})
 			),
-			parlex::literal("]", U"]")
+			parlex::literal(U"]")
 		})),
 		parlex::production("ARRAY_INDEXER",
 		parlex::sequence("ARRAY_INDEXER", {
@@ -148,20 +148,20 @@
 		parlex::production("ARRAY_INVOCATION",
 		parlex::sequence("ARRAY_INVOCATION", {
 			parlex::reference("target", "EXPRESSION"),
-			parlex::literal("[", U"["),
+			parlex::literal(U"["),
 			parlex::optional("argsHead", 	parlex::reference("array_indexer", "ARRAY_INDEXER")
 			),
 			parlex::repetition("argsTail", 	parlex::sequence({
 					parlex::repetition(	parlex::reference("IC")
 					),
-					parlex::literal(",", U","),
+					parlex::literal(U","),
 					parlex::optional(	parlex::reference("array_indexer", "ARRAY_INDEXER")
 					)
 				})
 			),
 			parlex::repetition(	parlex::reference("IC")
 			),
-			parlex::literal("]", U"]")
+			parlex::literal(U"]")
 		})),
 		parlex::production("ASM_EXPRESSION",
 		parlex::choice ("ASM_EXPRESSION", {
@@ -173,7 +173,7 @@
 		parlex::production("ASM_FUNCTION",
 		parlex::sequence("ASM_FUNCTION", {
 			parlex::optional(	parlex::sequence({
-					parlex::literal("(", U"("),
+					parlex::literal(U"("),
 					parlex::repetition(	parlex::reference("IC")
 					),
 					parlex::optional(	parlex::sequence({
@@ -181,7 +181,7 @@
 							parlex::repetition(	parlex::sequence({
 									parlex::repetition(	parlex::reference("IC")
 									),
-									parlex::literal(",", U","),
+									parlex::literal(U","),
 									parlex::repetition(	parlex::reference("IC")
 									),
 									parlex::reference("parameter", "PARAMETER")
@@ -191,23 +191,23 @@
 							)
 						})
 					),
-					parlex::literal(")", U")"),
+					parlex::literal(U")"),
 					parlex::repetition(	parlex::reference("IC")
 					)
 				})
 			),
 			parlex::optional(	parlex::reference("FUNCTION_MODIFIER_0")
 			),
-			parlex::literal("asm", U"asm"),
+			parlex::literal(U"asm"),
 			parlex::repetition(	parlex::reference("IC")
 			),
-			parlex::literal("{", U"{"),
+			parlex::literal(U"{"),
 			parlex::reference("ASM_SCOPE"),
-			parlex::literal("}", U"}")
+			parlex::literal(U"}")
 		})),
 		parlex::production("ASM_IDENTIFIER",
 		parlex::sequence("ASM_IDENTIFIER", {
-			parlex::optional(	parlex::literal("%", U"%")
+			parlex::optional(	parlex::literal(U"%")
 			),
 			parlex::reference("IDENTIFIER")
 		})),
@@ -221,12 +221,12 @@
 		parlex::choice ("ASM_PTR_ARITHMETIC_ATT", {
 			parlex::sequence({
 				parlex::reference("ASM_IDENTIFIER"),
-				parlex::literal(":", U":"),
+				parlex::literal(U":"),
 				parlex::reference("NON_FRACTIONAL")
 			}),
 			parlex::sequence({
 				parlex::reference("ASM_IDENTIFIER"),
-				parlex::literal(":", U":"),
+				parlex::literal(U":"),
 				parlex::reference("NON_FRACTIONAL"),
 				parlex::reference("ASM_PTR_ARITHMETIC_ATT_REG")
 			}),
@@ -237,45 +237,45 @@
 		})),
 		parlex::production("ASM_PTR_ARITHMETIC_ATT_REG",
 		parlex::sequence("ASM_PTR_ARITHMETIC_ATT_REG", {
-			parlex::literal("(", U"("),
+			parlex::literal(U"("),
 			parlex::optional(	parlex::reference("asm_identifier", "ASM_IDENTIFIER")
 			),
 			parlex::optional(	parlex::sequence({
-					parlex::literal(",", U","),
+					parlex::literal(U","),
 					parlex::reference("asm_identifier", "ASM_IDENTIFIER"),
 					parlex::optional(	parlex::sequence({
-							parlex::literal(",", U","),
+							parlex::literal(U","),
 							parlex::reference("NON_NEG_NON_FRACTIONAL")
 						})
 					)
 				})
 			),
-			parlex::literal(")", U")")
+			parlex::literal(U")")
 		})),
 		parlex::production("ASM_PTR_ARITHMETIC_INTEL",
 		parlex::sequence("ASM_PTR_ARITHMETIC_INTEL", {
 			parlex::optional(	parlex::sequence({
 					parlex::choice ({
-						parlex::literal("BYTE", U"BYTE"),
-						parlex::literal("WORD", U"WORD"),
-						parlex::literal("DWORD", U"DWORD"),
-						parlex::literal("QWORD", U"QWORD")
+						parlex::literal(U"BYTE"),
+						parlex::literal(U"WORD"),
+						parlex::literal(U"DWORD"),
+						parlex::literal(U"QWORD")
 					}),
-					parlex::literal(" PTR", U" PTR")
+					parlex::literal(U" PTR")
 				})
 			),
-			parlex::literal("[", U"["),
+			parlex::literal(U"["),
 			parlex::optional(	parlex::sequence({
 					parlex::reference("ASM_IDENTIFIER"),
-					parlex::literal(":", U":")
+					parlex::literal(U":")
 				})
 			),
 			parlex::reference("ASM_IDENTIFIER"),
 			parlex::optional(	parlex::sequence({
-					parlex::literal("+", U"+"),
+					parlex::literal(U"+"),
 					parlex::reference("ASM_IDENTIFIER"),
 					parlex::optional(	parlex::sequence({
-							parlex::literal("*", U"*"),
+							parlex::literal(U"*"),
 							parlex::reference("NON_NEG_NON_FRACTIONAL")
 						})
 					)
@@ -283,13 +283,13 @@
 			),
 			parlex::optional(	parlex::sequence({
 					parlex::choice ({
-						parlex::literal("+", U"+"),
-						parlex::literal("-", U"-")
+						parlex::literal(U"+"),
+						parlex::literal(U"-")
 					}),
 					parlex::reference("NON_NEG_INTEGER")
 				})
 			),
-			parlex::literal("]", U"]")
+			parlex::literal(U"]")
 		})),
 		parlex::production("ASM_SCOPE",
 		parlex::repetition("ASM_SCOPE", 	parlex::choice ({
@@ -307,7 +307,7 @@
 					parlex::repetition(	parlex::sequence({
 							parlex::repetition(	parlex::reference("IC")
 							),
-							parlex::literal(",", U","),
+							parlex::literal(U","),
 							parlex::optional(	parlex::sequence({
 									parlex::repetition(	parlex::reference("IC")
 									),
@@ -320,7 +320,7 @@
 			),
 			parlex::repetition(	parlex::reference("IC")
 			),
-			parlex::literal("\n", U"\n")
+			parlex::literal(U"\n")
 		})),
 		parlex::production("ASSIGNMENT_CHAIN",
 		parlex::sequence("ASSIGNMENT_CHAIN", {
@@ -334,8 +334,8 @@
 			parlex::repetition(	parlex::reference("IC")
 			),
 			parlex::choice ({
-				parlex::literal("←", U"←"),
-				parlex::literal("<-", U"<-")
+				parlex::literal(U"←"),
+				parlex::literal(U"<-")
 			}),
 			parlex::repetition(	parlex::reference("IC")
 			),
@@ -347,13 +347,13 @@
 		parlex::associativity::NONE, parlex::filter_function(), {"EXPRESSION", "LESSER_CHAIN", }),
 		parlex::production("ATTRIBUTE",
 		parlex::sequence("ATTRIBUTE", {
-			parlex::literal("@", U"@"),
+			parlex::literal(U"@"),
 			parlex::repetition(	parlex::reference("IC")
 			),
 			parlex::reference("EXPRESSION"),
 			parlex::repetition(	parlex::reference("IC")
 			),
-			parlex::literal("@", U"@")
+			parlex::literal(U"@")
 		})),
 		parlex::production("BIJECTION",
 		parlex::sequence("BIJECTION", {
@@ -361,8 +361,8 @@
 			parlex::repetition(	parlex::reference("IC")
 			),
 			parlex::choice ({
-				parlex::literal("↔", U"↔"),
-				parlex::literal("<->", U"<->")
+				parlex::literal(U"↔"),
+				parlex::literal(U"<->")
 			}),
 			parlex::repetition(	parlex::reference("IC")
 			),
@@ -420,7 +420,7 @@
 			parlex::reference("EXPRESSION"),
 			parlex::repetition(	parlex::reference("IC")
 			),
-			parlex::literal("&&", U"&&"),
+			parlex::literal(U"&&"),
 			parlex::repetition(	parlex::reference("IC")
 			),
 			parlex::reference("EXPRESSION")
@@ -431,10 +431,10 @@
 			parlex::reference("EXPRESSION"),
 			parlex::repetition(	parlex::reference("IC")
 			),
-			parlex::literal("&&", U"&&"),
+			parlex::literal(U"&&"),
 			parlex::choice ({
-				parlex::literal("<-", U"<-"),
-				parlex::literal("←", U"←")
+				parlex::literal(U"<-"),
+				parlex::literal(U"←")
 			}),
 			parlex::repetition(	parlex::reference("IC")
 			),
@@ -442,7 +442,7 @@
 		})),
 		parlex::production("BIT_NOT",
 		parlex::sequence("BIT_NOT", {
-			parlex::literal("~~", U"~~"),
+			parlex::literal(U"~~"),
 			parlex::repetition(	parlex::reference("IC")
 			),
 			parlex::reference("EXPRESSION")
@@ -452,10 +452,10 @@
 			parlex::reference("EXPRESSION"),
 			parlex::repetition(	parlex::reference("IC")
 			),
-			parlex::literal("~~", U"~~"),
+			parlex::literal(U"~~"),
 			parlex::choice ({
-				parlex::literal("<-", U"<-"),
-				parlex::literal("←", U"←")
+				parlex::literal(U"<-"),
+				parlex::literal(U"←")
 			})
 		})),
 		parlex::production("BIT_OR",
@@ -463,7 +463,7 @@
 			parlex::reference("EXPRESSION"),
 			parlex::repetition(	parlex::reference("IC")
 			),
-			parlex::literal("||", U"||"),
+			parlex::literal(U"||"),
 			parlex::repetition(	parlex::reference("IC")
 			),
 			parlex::reference("EXPRESSION")
@@ -474,10 +474,10 @@
 			parlex::reference("EXPRESSION"),
 			parlex::repetition(	parlex::reference("IC")
 			),
-			parlex::literal("||", U"||"),
+			parlex::literal(U"||"),
 			parlex::choice ({
-				parlex::literal("<-", U"<-"),
-				parlex::literal("←", U"←")
+				parlex::literal(U"<-"),
+				parlex::literal(U"←")
 			}),
 			parlex::repetition(	parlex::reference("IC")
 			),
@@ -488,7 +488,7 @@
 			parlex::reference("EXPRESSION"),
 			parlex::repetition(	parlex::reference("IC")
 			),
-			parlex::literal("^^", U"^^"),
+			parlex::literal(U"^^"),
 			parlex::repetition(	parlex::reference("IC")
 			),
 			parlex::reference("EXPRESSION")
@@ -499,10 +499,10 @@
 			parlex::reference("EXPRESSION"),
 			parlex::repetition(	parlex::reference("IC")
 			),
-			parlex::literal("^^", U"^^"),
+			parlex::literal(U"^^"),
 			parlex::choice ({
-				parlex::literal("<-", U"<-"),
-				parlex::literal("←", U"←")
+				parlex::literal(U"<-"),
+				parlex::literal(U"←")
 			}),
 			parlex::repetition(	parlex::reference("IC")
 			),
@@ -510,29 +510,29 @@
 		})),
 		parlex::production("BLOCK",
 		parlex::sequence("BLOCK", {
-			parlex::literal("{", U"{"),
+			parlex::literal(U"{"),
 			parlex::reference("STATEMENT_SCOPE"),
-			parlex::literal("}", U"}")
+			parlex::literal(U"}")
 		})),
 		parlex::production("BOOL",
 		parlex::choice ("BOOL", {
-			parlex::literal("true", U"true"),
-			parlex::literal("false", U"false")
+			parlex::literal(U"true"),
+			parlex::literal(U"false")
 		})),
 		parlex::production("BREAK",
 		parlex::sequence("BREAK", {
-			parlex::literal("break", U"break"),
+			parlex::literal(U"break"),
 			parlex::optional(	parlex::choice ({
 					parlex::sequence({
 						parlex::repetition(	parlex::reference("IC")
 						),
-						parlex::literal("[", U"["),
+						parlex::literal(U"["),
 						parlex::repetition(	parlex::reference("IC")
 						),
 						parlex::reference("expression", "EXPRESSION"),
 						parlex::repetition(	parlex::reference("IC")
 						),
-						parlex::literal("]", U"]")
+						parlex::literal(U"]")
 					}),
 					parlex::sequence({
 						parlex::reference("IC"),
@@ -545,7 +545,7 @@
 		})),
 		parlex::production("CARDINALITY",
 		parlex::sequence("CARDINALITY", {
-			parlex::literal("#", U"#"),
+			parlex::literal(U"#"),
 			parlex::repetition(	parlex::reference("IC")
 			),
 			parlex::reference("EXPRESSION")
@@ -564,7 +564,7 @@
 			parlex::reference("EXPRESSION"),
 			parlex::repetition(	parlex::reference("IC")
 			),
-			parlex::literal("casts", U"casts"),
+			parlex::literal(U"casts"),
 			parlex::repetition(	parlex::reference("IC")
 			),
 			parlex::reference("EXPRESSION")
@@ -572,37 +572,37 @@
 		parlex::production("CEILING",
 		parlex::choice ("CEILING", {
 			parlex::sequence({
-				parlex::literal("⌈", U"⌈"),
+				parlex::literal(U"⌈"),
 				parlex::repetition(	parlex::reference("IC")
 				),
 				parlex::reference("EXPRESSION"),
 				parlex::repetition(	parlex::reference("IC")
 				),
-				parlex::literal("⌉", U"⌉")
+				parlex::literal(U"⌉")
 			}),
 			parlex::sequence({
-				parlex::literal("|\'", U"|\'"),
+				parlex::literal(U"|\'"),
 				parlex::repetition(	parlex::reference("IC")
 				),
 				parlex::reference("EXPRESSION"),
 				parlex::repetition(	parlex::reference("IC")
 				),
-				parlex::literal("\'|", U"\'|")
+				parlex::literal(U"\'|")
 			})
 		})),
 		parlex::production("COMMENT",
 		parlex::sequence("COMMENT", {
-			parlex::literal("/*", U"/*"),
+			parlex::literal(U"/*"),
 			parlex::repetition(	parlex::reference("all")
 			),
-			parlex::literal("*/", U"*/")
+			parlex::literal(U"*/")
 		})),
 		parlex::production("COMPLEMENT",
 		parlex::sequence("COMPLEMENT", {
 			parlex::reference("EXPRESSION"),
 			parlex::repetition(	parlex::reference("IC")
 			),
-			parlex::literal("ᶜ", U"ᶜ")
+			parlex::literal(U"ᶜ")
 		}),
 		parlex::associativity::NONE, parlex::filter_function(), {"BINARY_OP", }),
 		parlex::production("COMPOSITION",
@@ -611,8 +611,8 @@
 			parlex::repetition(	parlex::reference("IC")
 			),
 			parlex::choice ({
-				parlex::literal("∘", U"∘"),
-				parlex::literal("_o_", U"_o_")
+				parlex::literal(U"∘"),
+				parlex::literal(U"_o_")
 			}),
 			parlex::repetition(	parlex::reference("IC")
 			),
@@ -625,12 +625,12 @@
 			parlex::repetition(	parlex::reference("IC")
 			),
 			parlex::choice ({
-				parlex::literal("∘", U"∘"),
-				parlex::literal("_o_", U"_o_")
+				parlex::literal(U"∘"),
+				parlex::literal(U"_o_")
 			}),
 			parlex::choice ({
-				parlex::literal("<-", U"<-"),
-				parlex::literal("←", U"←")
+				parlex::literal(U"<-"),
+				parlex::literal(U"←")
 			}),
 			parlex::repetition(	parlex::reference("IC")
 			),
@@ -641,7 +641,7 @@
 			parlex::reference("EXPRESSION"),
 			parlex::repetition(	parlex::reference("IC")
 			),
-			parlex::literal("|", U"|"),
+			parlex::literal(U"|"),
 			parlex::repetition(	parlex::reference("IC")
 			),
 			parlex::reference("EXPRESSION")
@@ -652,10 +652,10 @@
 			parlex::reference("EXPRESSION"),
 			parlex::repetition(	parlex::reference("IC")
 			),
-			parlex::literal("|", U"|"),
+			parlex::literal(U"|"),
 			parlex::choice ({
-				parlex::literal("<-", U"<-"),
-				parlex::literal("←", U"←")
+				parlex::literal(U"<-"),
+				parlex::literal(U"←")
 			}),
 			parlex::repetition(	parlex::reference("IC")
 			),
@@ -666,13 +666,13 @@
 			parlex::reference("condition", "EXPRESSION"),
 			parlex::repetition(	parlex::reference("IC")
 			),
-			parlex::literal("\?", U"\?"),
+			parlex::literal(U"\?"),
 			parlex::repetition(	parlex::reference("IC")
 			),
 			parlex::reference("true_case", "EXPRESSION"),
 			parlex::repetition(	parlex::reference("IC")
 			),
-			parlex::literal(":", U":"),
+			parlex::literal(U":"),
 			parlex::repetition(	parlex::reference("IC")
 			),
 			parlex::reference("false_case", "EXPRESSION")
@@ -687,18 +687,18 @@
 		})),
 		parlex::production("CONTINUE",
 		parlex::sequence("CONTINUE", {
-			parlex::literal("continue", U"continue"),
+			parlex::literal(U"continue"),
 			parlex::optional(	parlex::choice ({
 					parlex::sequence({
 						parlex::repetition(	parlex::reference("IC")
 						),
-						parlex::literal("[", U"["),
+						parlex::literal(U"["),
 						parlex::repetition(	parlex::reference("IC")
 						),
 						parlex::reference("expression", "EXPRESSION"),
 						parlex::repetition(	parlex::reference("IC")
 						),
-						parlex::literal("]", U"]")
+						parlex::literal(U"]")
 					}),
 					parlex::sequence({
 						parlex::reference("IC"),
@@ -715,8 +715,8 @@
 			parlex::repetition(	parlex::reference("IC")
 			),
 			parlex::choice ({
-				parlex::literal("×", U"×"),
-				parlex::literal("_x_", U"_x_")
+				parlex::literal(U"×"),
+				parlex::literal(U"_x_")
 			}),
 			parlex::repetition(	parlex::reference("IC")
 			),
@@ -729,12 +729,12 @@
 			parlex::repetition(	parlex::reference("IC")
 			),
 			parlex::choice ({
-				parlex::literal("×", U"×"),
-				parlex::literal("_x_", U"_x_")
+				parlex::literal(U"×"),
+				parlex::literal(U"_x_")
 			}),
 			parlex::choice ({
-				parlex::literal("<-", U"<-"),
-				parlex::literal("←", U"←")
+				parlex::literal(U"<-"),
+				parlex::literal(U"←")
 			}),
 			parlex::repetition(	parlex::reference("IC")
 			),
@@ -748,7 +748,7 @@
 		parlex::production("DATE_TIME",
 		parlex::sequence("DATE_TIME", {
 			parlex::reference("DATE"),
-			parlex::literal("T", U"T"),
+			parlex::literal(U"T"),
 			parlex::reference("TIME")
 		})),
 		parlex::production("DATE_YEAR_DAY",
@@ -757,7 +757,7 @@
 			parlex::reference("decimal_digit"),
 			parlex::reference("decimal_digit"),
 			parlex::reference("decimal_digit"),
-			parlex::literal("-", U"-"),
+			parlex::literal(U"-"),
 			parlex::reference("decimal_digit"),
 			parlex::reference("decimal_digit"),
 			parlex::reference("decimal_digit")
@@ -769,10 +769,10 @@
 			parlex::reference("decimal_digit"),
 			parlex::reference("decimal_digit"),
 			parlex::reference("decimal_digit"),
-			parlex::literal("-", U"-"),
+			parlex::literal(U"-"),
 			parlex::reference("decimal_digit"),
 			parlex::reference("decimal_digit"),
-			parlex::literal("-", U"-"),
+			parlex::literal(U"-"),
 			parlex::reference("decimal_digit"),
 			parlex::reference("decimal_digit")
 		}),
@@ -798,7 +798,7 @@
 			parlex::reference("identifier", "IDENTIFIER"),
 			parlex::repetition(	parlex::reference("IC")
 			),
-			parlex::literal(":=", U":="),
+			parlex::literal(U":="),
 			parlex::repetition(	parlex::reference("IC")
 			),
 			parlex::reference("expression", "EXPRESSION")
@@ -806,11 +806,11 @@
 		parlex::production("DELTA",
 		parlex::sequence("DELTA", {
 			parlex::choice ({
-				parlex::literal("Δ", U"Δ"),
-				parlex::literal("_delta_", U"_delta_")
+				parlex::literal(U"Δ"),
+				parlex::literal(U"_delta_")
 			}),
 			parlex::optional(	parlex::sequence({
-					parlex::literal("^", U"^"),
+					parlex::literal(U"^"),
 					parlex::reference("whole_number", "WHOLE_NUMBER")
 				})
 			),
@@ -840,8 +840,8 @@
 			parlex::repetition(	parlex::reference("IC")
 			),
 			parlex::choice ({
-				parlex::literal("÷", U"÷"),
-				parlex::literal("/", U"/")
+				parlex::literal(U"÷"),
+				parlex::literal(U"/")
 			}),
 			parlex::repetition(	parlex::reference("IC")
 			),
@@ -854,12 +854,12 @@
 			parlex::repetition(	parlex::reference("IC")
 			),
 			parlex::choice ({
-				parlex::literal("÷", U"÷"),
-				parlex::literal("/", U"/")
+				parlex::literal(U"÷"),
+				parlex::literal(U"/")
 			}),
 			parlex::choice ({
-				parlex::literal("<-", U"<-"),
-				parlex::literal("←", U"←")
+				parlex::literal(U"<-"),
+				parlex::literal(U"←")
 			}),
 			parlex::repetition(	parlex::reference("IC")
 			),
@@ -867,7 +867,7 @@
 		})),
 		parlex::production("DO",
 		parlex::sequence("DO", {
-			parlex::literal("do", U"do"),
+			parlex::literal(U"do"),
 			parlex::repetition(	parlex::reference("IC")
 			),
 			parlex::reference("expression", "EXPRESSION"),
@@ -875,8 +875,8 @@
 					parlex::repetition(	parlex::reference("IC")
 					),
 					parlex::choice ({
-						parlex::literal("while", U"while"),
-						parlex::literal("until", U"until")
+						parlex::literal(U"while"),
+						parlex::literal(U"until")
 					}),
 					parlex::repetition(	parlex::reference("IC")
 					),
@@ -890,8 +890,8 @@
 			parlex::repetition(	parlex::reference("IC")
 			),
 			parlex::choice ({
-				parlex::literal("⋅", U"⋅"),
-				parlex::literal("_dot_", U"_dot_")
+				parlex::literal(U"⋅"),
+				parlex::literal(U"_dot_")
 			}),
 			parlex::repetition(	parlex::reference("IC")
 			),
@@ -903,80 +903,80 @@
 			parlex::reference("EXPRESSION"),
 			parlex::repetition(	parlex::reference("IC")
 			),
-			parlex::literal("downcasts", U"downcasts"),
+			parlex::literal(U"downcasts"),
 			parlex::repetition(	parlex::reference("IC")
 			),
 			parlex::reference("EXPRESSION")
 		})),
 		parlex::production("EMBEDDED_COMMENT",
 		parlex::sequence("EMBEDDED_COMMENT", {
-			parlex::literal("/***", U"/***"),
+			parlex::literal(U"/***"),
 			parlex::reference("EMBEDDED_COMMENT_INTERIOR"),
-			parlex::literal("***/", U"***/")
+			parlex::literal(U"***/")
 		}),
 		parlex::associativity::NONE, parlex::shortest(), {"COMMENT", }),
 		parlex::production("EMBEDDED_COMMENT_INTERIOR",
 		parlex::choice ("EMBEDDED_COMMENT_INTERIOR", {
 			parlex::reference("payload", "PAYLOAD"),
 			parlex::sequence({
-				parlex::literal("*", U"*"),
+				parlex::literal(U"*"),
 				parlex::reference("EMBEDDED_COMMENT_INTERIOR"),
-				parlex::literal("*", U"*")
+				parlex::literal(U"*")
 			})
 		}),
 		parlex::associativity::NONE, parlex::filter_function(), {"PAYLOAD", }),
 		parlex::production("EMBEDDED_NEWLINE_STRING",
 		parlex::sequence("EMBEDDED_NEWLINE_STRING", {
-			parlex::literal("\"\"\"", U"\"\"\""),
+			parlex::literal(U"\"\"\""),
 			parlex::reference("EMBEDDED_NEWLINE_STRING_INTERIOR"),
-			parlex::literal("\"\"\"", U"\"\"\"")
+			parlex::literal(U"\"\"\"")
 		}),
 		parlex::associativity::NONE, parlex::shortest(), {"EMBEDDED_STRING", }),
 		parlex::production("EMBEDDED_NEWLINE_STRING_INTERIOR",
 		parlex::choice ("EMBEDDED_NEWLINE_STRING_INTERIOR", {
 			parlex::sequence({
-				parlex::literal("\n", U"\n"),
+				parlex::literal(U"\n"),
 				parlex::reference("payload", "PAYLOAD"),
-				parlex::literal("\n", U"\n")
+				parlex::literal(U"\n")
 			}),
 			parlex::sequence({
-				parlex::literal("\"", U"\""),
+				parlex::literal(U"\""),
 				parlex::reference("EMBEDDED_NEWLINE_STRING_INTERIOR"),
-				parlex::literal("\"", U"\"")
+				parlex::literal(U"\"")
 			})
 		}),
 		parlex::associativity::NONE, parlex::filter_function(), {"PAYLOAD", }),
 		parlex::production("EMBEDDED_STRING",
 		parlex::sequence("EMBEDDED_STRING", {
-			parlex::literal("\"\"\"", U"\"\"\""),
+			parlex::literal(U"\"\"\""),
 			parlex::reference("EMBEDDED_STRING_INTERIOR"),
-			parlex::literal("\"\"\"", U"\"\"\"")
+			parlex::literal(U"\"\"\"")
 		}),
 		parlex::associativity::NONE, parlex::shortest()),
 		parlex::production("EMBEDDED_STRING_INTERIOR",
 		parlex::choice ("EMBEDDED_STRING_INTERIOR", {
 			parlex::reference("payload", "PAYLOAD"),
 			parlex::sequence({
-				parlex::literal("\"", U"\""),
+				parlex::literal(U"\""),
 				parlex::reference("EMBEDDED_STRING_INTERIOR"),
-				parlex::literal("\"", U"\"")
+				parlex::literal(U"\"")
 			})
 		}),
 		parlex::associativity::NONE, parlex::filter_function(), {"PAYLOAD", }),
 		parlex::production("END_OF_LINE_COMMENT",
 		parlex::sequence("END_OF_LINE_COMMENT", {
-			parlex::literal("//", U"//"),
+			parlex::literal(U"//"),
 			parlex::repetition(	parlex::reference("not_newline")
 			),
-			parlex::literal("\n", U"\n")
+			parlex::literal(U"\n")
 		})),
 		parlex::production("ENUM",
 		parlex::sequence("ENUM", {
-			parlex::literal("enum", U"enum"),
+			parlex::literal(U"enum"),
 			parlex::repetition(	parlex::reference("IC")
 			),
 			parlex::optional(	parlex::sequence({
-					parlex::literal("inheriting", U"inheriting"),
+					parlex::literal(U"inheriting"),
 					parlex::repetition(	parlex::reference("IC")
 					),
 					parlex::reference("INHERITANCE_LIST"),
@@ -985,7 +985,7 @@
 				})
 			),
 			parlex::optional(	parlex::sequence({
-					parlex::literal("implementing", U"implementing"),
+					parlex::literal(U"implementing"),
 					parlex::repetition(	parlex::reference("IC")
 					),
 					parlex::reference("INHERITANCE_LIST"),
@@ -993,13 +993,13 @@
 					)
 				})
 			),
-			parlex::literal("{", U"{"),
+			parlex::literal(U"{"),
 			parlex::optional(	parlex::sequence({
 					parlex::reference("enum_element", "ENUM_ELEMENT"),
 					parlex::repetition(	parlex::sequence({
 							parlex::repetition(	parlex::reference("IC")
 							),
-							parlex::literal(";", U";"),
+							parlex::literal(U";"),
 							parlex::repetition(	parlex::reference("IC")
 							),
 							parlex::reference("enum_element", "ENUM_ELEMENT")
@@ -1007,7 +1007,7 @@
 					)
 				})
 			),
-			parlex::literal("}", U"}")
+			parlex::literal(U"}")
 		})),
 		parlex::production("ENUM_ELEMENT",
 		parlex::sequence("ENUM_ELEMENT", {
@@ -1015,7 +1015,7 @@
 			parlex::optional(	parlex::sequence({
 					parlex::repetition(	parlex::reference("IC")
 					),
-					parlex::literal(":=", U":="),
+					parlex::literal(U":="),
 					parlex::repetition(	parlex::reference("IC")
 					),
 					parlex::reference("expression", "EXPRESSION")
@@ -1032,7 +1032,7 @@
 		parlex::associativity::NONE, parlex::filter_function(), {"GREATER_CHAIN", "LESSER_CHAIN", "SUBSET_CHAIN", "SUPERSET_CHAIN", }),
 		parlex::production("EQUALITY_CHAIN_LOOP",
 		parlex::sequence("EQUALITY_CHAIN_LOOP", {
-			parlex::literal("=", U"="),
+			parlex::literal(U"="),
 			parlex::repetition(	parlex::reference("IC")
 			),
 			parlex::reference("expression", "EXPRESSION"),
@@ -1049,7 +1049,7 @@
 			parlex::reference("EXPRESSION"),
 			parlex::repetition(	parlex::reference("IC")
 			),
-			parlex::literal("exactly", U"exactly"),
+			parlex::literal(U"exactly"),
 			parlex::repetition(	parlex::reference("IC")
 			),
 			parlex::reference("EXPRESSION")
@@ -1057,8 +1057,8 @@
 		parlex::production("EXISTS",
 		parlex::sequence("EXISTS", {
 			parlex::choice ({
-				parlex::literal("∃", U"∃"),
-				parlex::literal("exists", U"exists")
+				parlex::literal(U"∃"),
+				parlex::literal(U"exists")
 			}),
 			parlex::repetition(	parlex::reference("IC")
 			),
@@ -1067,8 +1067,8 @@
 		parlex::production("EXISTS_ONE",
 		parlex::sequence("EXISTS_ONE", {
 			parlex::choice ({
-				parlex::literal("∃!", U"∃!"),
-				parlex::literal("exists!", U"exists!")
+				parlex::literal(U"∃!"),
+				parlex::literal(U"exists!")
 			}),
 			parlex::repetition(	parlex::reference("IC")
 			),
@@ -1079,7 +1079,7 @@
 			parlex::reference("EXPRESSION"),
 			parlex::repetition(	parlex::reference("IC")
 			),
-			parlex::literal("^", U"^"),
+			parlex::literal(U"^"),
 			parlex::repetition(	parlex::reference("IC")
 			),
 			parlex::reference("EXPRESSION")
@@ -1090,10 +1090,10 @@
 			parlex::reference("EXPRESSION"),
 			parlex::repetition(	parlex::reference("IC")
 			),
-			parlex::literal("^", U"^"),
+			parlex::literal(U"^"),
 			parlex::choice ({
-				parlex::literal("<-", U"<-"),
-				parlex::literal("←", U"←")
+				parlex::literal(U"<-"),
+				parlex::literal(U"←")
 			}),
 			parlex::repetition(	parlex::reference("IC")
 			),
@@ -1146,19 +1146,19 @@
 			parlex::reference("TYPE"),
 			parlex::reference("UNARY_OP"),
 			parlex::reference("VECTOR_NORM"),
-			parlex::literal("context", U"context"),
-			parlex::literal("null", U"null"),
+			parlex::literal(U"context"),
+			parlex::literal(U"null"),
 			parlex::reference("c_string")
 		})),
 		parlex::production("EXTERN",
-		parlex::literal("EXTERN", U"extern"),
+		parlex::literal(U"extern"),
 		parlex::associativity::NONE, parlex::filter_function(), {"IDENTIFIER", }),
 		parlex::production("FACTORIAL",
 		parlex::sequence("FACTORIAL", {
 			parlex::reference("EXPRESSION"),
 			parlex::repetition(	parlex::reference("IC")
 			),
-			parlex::literal("!", U"!")
+			parlex::literal(U"!")
 		}),
 		parlex::associativity::NONE, parlex::filter_function(), {"BINARY_OP", }),
 		parlex::production("FACTORIAL_ASSIGNMENT",
@@ -1166,39 +1166,39 @@
 			parlex::reference("EXPRESSION"),
 			parlex::repetition(	parlex::reference("IC")
 			),
-			parlex::literal("!", U"!"),
+			parlex::literal(U"!"),
 			parlex::choice ({
-				parlex::literal("<-", U"<-"),
-				parlex::literal("←", U"←")
+				parlex::literal(U"<-"),
+				parlex::literal(U"←")
 			})
 		})),
 		parlex::production("FLOOR",
 		parlex::choice ("FLOOR", {
 			parlex::sequence({
-				parlex::literal("⌊", U"⌊"),
+				parlex::literal(U"⌊"),
 				parlex::repetition(	parlex::reference("IC")
 				),
 				parlex::reference("expression", "EXPRESSION"),
 				parlex::repetition(	parlex::reference("IC")
 				),
-				parlex::literal("⌋", U"⌋")
+				parlex::literal(U"⌋")
 			}),
 			parlex::sequence({
-				parlex::literal("|_", U"|_"),
+				parlex::literal(U"|_"),
 				parlex::repetition(	parlex::reference("IC")
 				),
 				parlex::reference("expression", "EXPRESSION"),
 				parlex::repetition(	parlex::reference("IC")
 				),
-				parlex::literal("_|", U"_|")
+				parlex::literal(U"_|")
 			})
 		})),
 		parlex::production("FOR",
 		parlex::sequence("FOR", {
-			parlex::literal("for", U"for"),
+			parlex::literal(U"for"),
 			parlex::repetition(	parlex::reference("IC")
 			),
-			parlex::literal("(", U"("),
+			parlex::literal(U"("),
 			parlex::repetition(	parlex::reference("IC")
 			),
 			parlex::optional("initializer", 	parlex::sequence({
@@ -1210,7 +1210,7 @@
 			parlex::reference("condition", "EXPRESSION"),
 			parlex::repetition(	parlex::reference("IC")
 			),
-			parlex::literal(";", U";"),
+			parlex::literal(U";"),
 			parlex::repetition(	parlex::reference("IC")
 			),
 			parlex::optional("step", 	parlex::sequence({
@@ -1218,7 +1218,7 @@
 					parlex::repetition(	parlex::sequence({
 							parlex::repetition(	parlex::reference("IC")
 							),
-							parlex::literal(",", U","),
+							parlex::literal(U","),
 							parlex::repetition(	parlex::reference("IC")
 							),
 							parlex::reference("ASSIGNMENT_CHAIN")
@@ -1228,17 +1228,17 @@
 					)
 				})
 			),
-			parlex::literal(")", U")"),
+			parlex::literal(U")"),
 			parlex::repetition(	parlex::reference("IC")
 			),
 			parlex::reference("EXPRESSION")
 		})),
 		parlex::production("FOR_COLLECTION",
 		parlex::sequence("FOR_COLLECTION", {
-			parlex::literal("for", U"for"),
+			parlex::literal(U"for"),
 			parlex::repetition(	parlex::reference("IC")
 			),
-			parlex::literal("(", U"("),
+			parlex::literal(U"("),
 			parlex::repetition(	parlex::reference("IC")
 			),
 			parlex::choice ({
@@ -1259,22 +1259,22 @@
 			parlex::repetition(	parlex::reference("IC")
 			),
 			parlex::choice ({
-				parlex::literal("in", U"in"),
-				parlex::literal("∈", U"∈")
+				parlex::literal(U"in"),
+				parlex::literal(U"∈")
 			}),
 			parlex::repetition(	parlex::reference("IC")
 			),
 			parlex::reference("collection", "EXPRESSION"),
 			parlex::repetition(	parlex::reference("IC")
 			),
-			parlex::literal(")", U")"),
+			parlex::literal(U")"),
 			parlex::repetition(	parlex::reference("IC")
 			),
 			parlex::reference("invoke", "EXPRESSION")
 		})),
 		parlex::production("FREE",
 		parlex::sequence("FREE", {
-			parlex::literal("free", U"free"),
+			parlex::literal(U"free"),
 			parlex::repetition(	parlex::reference("IC")
 			),
 			parlex::reference("EXPRESSION")
@@ -1282,7 +1282,7 @@
 		parlex::production("FUNCTION",
 		parlex::sequence("FUNCTION", {
 			parlex::optional(	parlex::sequence({
-					parlex::literal("(", U"("),
+					parlex::literal(U"("),
 					parlex::repetition(	parlex::reference("IC")
 					),
 					parlex::optional(	parlex::sequence({
@@ -1290,7 +1290,7 @@
 							parlex::repetition(	parlex::sequence({
 									parlex::repetition(	parlex::reference("IC")
 									),
-									parlex::literal(",", U","),
+									parlex::literal(U","),
 									parlex::repetition(	parlex::reference("IC")
 									),
 									parlex::reference("parameter", "PARAMETER")
@@ -1300,7 +1300,7 @@
 							)
 						})
 					),
-					parlex::literal(")", U")"),
+					parlex::literal(U")"),
 					parlex::repetition(	parlex::reference("IC")
 					)
 				})
@@ -1341,7 +1341,7 @@
 		})),
 		parlex::production("FUNCTION_MODIFIER_ATOMIC",
 		parlex::sequence("FUNCTION_MODIFIER_ATOMIC", {
-			parlex::literal("atomic", U"atomic"),
+			parlex::literal(U"atomic"),
 			parlex::optional(	parlex::sequence({
 					parlex::reference("IC"),
 					parlex::repetition(	parlex::reference("IC")
@@ -1352,45 +1352,45 @@
 		})),
 		parlex::production("FUNCTION_MODIFIER_CALLING_CONVENTION",
 		parlex::choice ("FUNCTION_MODIFIER_CALLING_CONVENTION", {
-			parlex::literal("c_call", U"c_call"),
-			parlex::literal("fast_call", U"fast_call"),
-			parlex::literal("cold_call", U"cold_call"),
-			parlex::literal("ghc_call", U"ghc_call"),
-			parlex::literal("hipe_call", U"hipe_call"),
-			parlex::literal("webkit_js_call", U"webkit_js_call"),
-			parlex::literal("any_reg_call", U"any_reg_call"),
-			parlex::literal("preserve_most_call", U"preserve_most_call"),
-			parlex::literal("preserve_all_call", U"preserve_all_call"),
-			parlex::literal("swift_call", U"swift_call"),
-			parlex::literal("cxx_fast_tls_call", U"cxx_fast_tls_call"),
-			parlex::literal("first_target_call", U"first_target_call"),
-			parlex::literal("x86_std_call", U"x86_std_call"),
-			parlex::literal("X86_fast_call", U"X86_fast_call"),
-			parlex::literal("arm_apcs_call", U"arm_apcs_call"),
-			parlex::literal("arm_aapcs_call", U"arm_aapcs_call"),
-			parlex::literal("arm_aapcs_vfp_call", U"arm_aapcs_vfp_call"),
-			parlex::literal("msp430_intr_call", U"msp430_intr_call"),
-			parlex::literal("x86_this_call", U"x86_this_call"),
-			parlex::literal("ptx_kernel_call", U"ptx_kernel_call"),
-			parlex::literal("ptx_device_call", U"ptx_device_call"),
-			parlex::literal("spir_func_call", U"spir_func_call"),
-			parlex::literal("spir_kernel_call", U"spir_kernel_call"),
-			parlex::literal("intel_ocl_bi_call", U"intel_ocl_bi_call"),
-			parlex::literal("x86_64_sysv_call", U"x86_64_sysv_call"),
-			parlex::literal("x86_64_win64_call", U"x86_64_win64_call"),
-			parlex::literal("x86_vector_call", U"x86_vector_call"),
-			parlex::literal("hhvm_call", U"hhvm_call"),
-			parlex::literal("x86_intr_call", U"x86_intr_call"),
-			parlex::literal("avr_intr_call", U"avr_intr_call"),
-			parlex::literal("avr_signal_call", U"avr_signal_call"),
-			parlex::literal("avr_builtin_call", U"avr_builtin_call")
+			parlex::literal(U"c_call"),
+			parlex::literal(U"fast_call"),
+			parlex::literal(U"cold_call"),
+			parlex::literal(U"ghc_call"),
+			parlex::literal(U"hipe_call"),
+			parlex::literal(U"webkit_js_call"),
+			parlex::literal(U"any_reg_call"),
+			parlex::literal(U"preserve_most_call"),
+			parlex::literal(U"preserve_all_call"),
+			parlex::literal(U"swift_call"),
+			parlex::literal(U"cxx_fast_tls_call"),
+			parlex::literal(U"first_target_call"),
+			parlex::literal(U"x86_std_call"),
+			parlex::literal(U"X86_fast_call"),
+			parlex::literal(U"arm_apcs_call"),
+			parlex::literal(U"arm_aapcs_call"),
+			parlex::literal(U"arm_aapcs_vfp_call"),
+			parlex::literal(U"msp430_intr_call"),
+			parlex::literal(U"x86_this_call"),
+			parlex::literal(U"ptx_kernel_call"),
+			parlex::literal(U"ptx_device_call"),
+			parlex::literal(U"spir_func_call"),
+			parlex::literal(U"spir_kernel_call"),
+			parlex::literal(U"intel_ocl_bi_call"),
+			parlex::literal(U"x86_64_sysv_call"),
+			parlex::literal(U"x86_64_win64_call"),
+			parlex::literal(U"x86_vector_call"),
+			parlex::literal(U"hhvm_call"),
+			parlex::literal(U"x86_intr_call"),
+			parlex::literal(U"avr_intr_call"),
+			parlex::literal(U"avr_signal_call"),
+			parlex::literal(U"avr_builtin_call")
 		})),
 		parlex::production("FUNCTION_MODIFIER_MODEL",
 		parlex::sequence("FUNCTION_MODIFIER_MODEL", {
 			parlex::choice ("model", {
-				parlex::literal("pure", U"pure"),
-				parlex::literal("imperative", U"imperative"),
-				parlex::literal("opaque", U"opaque")
+				parlex::literal(U"pure"),
+				parlex::literal(U"imperative"),
+				parlex::literal(U"opaque")
 			}),
 			parlex::optional(	parlex::sequence({
 					parlex::reference("IC"),
@@ -1421,8 +1421,8 @@
 		parlex::production("FUNCTION_MODIFIER_STABILITY",
 		parlex::sequence("FUNCTION_MODIFIER_STABILITY", {
 			parlex::choice ("stability", {
-				parlex::literal("stable", U"stable"),
-				parlex::literal("unstable", U"unstable")
+				parlex::literal(U"stable"),
+				parlex::literal(U"unstable")
 			}),
 			parlex::optional(	parlex::sequence({
 					parlex::reference("IC"),
@@ -1434,7 +1434,7 @@
 		})),
 		parlex::production("FUNCTION_MODIFIER_THROWING",
 		parlex::sequence("FUNCTION_MODIFIER_THROWING", {
-			parlex::literal("throwing", U"throwing"),
+			parlex::literal(U"throwing"),
 			parlex::optional(	parlex::sequence({
 					parlex::repetition(	parlex::reference("IC")
 					),
@@ -1459,10 +1459,10 @@
 		parlex::production("GREATER_CHAIN_LOOP",
 		parlex::sequence("GREATER_CHAIN_LOOP", {
 			parlex::choice ({
-				parlex::literal("=", U"="),
-				parlex::literal(">", U">"),
-				parlex::literal("=>", U"=>"),
-				parlex::literal("≥", U"≥")
+				parlex::literal(U"="),
+				parlex::literal(U">"),
+				parlex::literal(U"=>"),
+				parlex::literal(U"≥")
 			}),
 			parlex::repetition(	parlex::reference("IC")
 			),
@@ -1480,8 +1480,8 @@
 			parlex::repetition(	parlex::reference("IC")
 			),
 			parlex::choice ({
-				parlex::literal("∋", U"∋"),
-				parlex::literal("has", U"has")
+				parlex::literal(U"∋"),
+				parlex::literal(U"has")
 			}),
 			parlex::repetition(	parlex::reference("IC")
 			),
@@ -1490,7 +1490,7 @@
 		parlex::associativity::LEFT),
 		parlex::production("HEX",
 		parlex::sequence("HEX", {
-			parlex::literal("0x", U"0x"),
+			parlex::literal(U"0x"),
 			parlex::reference("hexadecimal_digit"),
 			parlex::repetition(	parlex::reference("hexadecimal_digit")
 			)
@@ -1506,19 +1506,19 @@
 		parlex::sequence("IDENTIFIER", {
 			parlex::choice ("head", {
 				parlex::reference("letter"),
-				parlex::literal("_", U"_")
+				parlex::literal(U"_")
 			}),
 			parlex::repetition("tail", 	parlex::choice ({
 					parlex::reference("letter"),
 					parlex::reference("number"),
-					parlex::literal("_", U"_")
+					parlex::literal(U"_")
 				})
 			)
 		}),
 		parlex::associativity::NONE, parlex::longest(), {"ALL", }),
 		parlex::production("IF",
 		parlex::sequence("IF", {
-			parlex::literal("if", U"if"),
+			parlex::literal(U"if"),
 			parlex::repetition(	parlex::reference("IC")
 			),
 			parlex::reference("condition", "PARENTHETICAL"),
@@ -1528,7 +1528,7 @@
 			parlex::repetition(	parlex::sequence({
 					parlex::repetition(	parlex::reference("IC")
 					),
-					parlex::literal("elif", U"elif"),
+					parlex::literal(U"elif"),
 					parlex::repetition(	parlex::reference("IC")
 					),
 					parlex::reference("condition", "PARENTHETICAL"),
@@ -1540,7 +1540,7 @@
 			parlex::optional(	parlex::sequence({
 					parlex::repetition(	parlex::reference("IC")
 					),
-					parlex::literal("else", U"else"),
+					parlex::literal(U"else"),
 					parlex::repetition(	parlex::reference("IC")
 					),
 					parlex::reference("else_invoke", "EXPRESSION")
@@ -1553,8 +1553,8 @@
 			parlex::repetition(	parlex::reference("IC")
 			),
 			parlex::choice ({
-				parlex::literal("⇔", U"⇔"),
-				parlex::literal("<=>", U"<=>")
+				parlex::literal(U"⇔"),
+				parlex::literal(U"<=>")
 			}),
 			parlex::repetition(	parlex::reference("IC")
 			),
@@ -1566,7 +1566,7 @@
 			parlex::reference("EXPRESSION"),
 			parlex::repetition(	parlex::reference("IC")
 			),
-			parlex::literal("implements", U"implements"),
+			parlex::literal(U"implements"),
 			parlex::repetition(	parlex::reference("IC")
 			),
 			parlex::reference("EXPRESSION")
@@ -1577,8 +1577,8 @@
 			parlex::repetition(	parlex::reference("IC")
 			),
 			parlex::choice ({
-				parlex::literal("⇒", U"⇒"),
-				parlex::literal("=>", U"=>")
+				parlex::literal(U"⇒"),
+				parlex::literal(U"=>")
 			}),
 			parlex::repetition(	parlex::reference("IC")
 			),
@@ -1591,12 +1591,12 @@
 			parlex::repetition(	parlex::reference("IC")
 			),
 			parlex::choice ({
-				parlex::literal("⇒", U"⇒"),
-				parlex::literal("=>", U"=>")
+				parlex::literal(U"⇒"),
+				parlex::literal(U"=>")
 			}),
 			parlex::choice ({
-				parlex::literal("<-", U"<-"),
-				parlex::literal("←", U"←")
+				parlex::literal(U"<-"),
+				parlex::literal(U"←")
 			}),
 			parlex::repetition(	parlex::reference("IC")
 			),
@@ -1604,14 +1604,14 @@
 		})),
 		parlex::production("IMPLICIT_TYPE_DEREFERENCE",
 		parlex::sequence("IMPLICIT_TYPE_DEREFERENCE", {
-			parlex::literal("<", U"<"),
+			parlex::literal(U"<"),
 			parlex::repetition(	parlex::reference("IC")
 			),
-			parlex::literal(">", U">")
+			parlex::literal(U">")
 		})),
 		parlex::production("IMPORT",
 		parlex::sequence("IMPORT", {
-			parlex::literal("import", U"import"),
+			parlex::literal(U"import"),
 			parlex::repetition(	parlex::reference("IC")
 			),
 			parlex::reference("EXPRESSION")
@@ -1622,8 +1622,8 @@
 			parlex::repetition(	parlex::reference("IC")
 			),
 			parlex::choice ({
-				parlex::literal("∈", U"∈"),
-				parlex::literal("in", U"in")
+				parlex::literal(U"∈"),
+				parlex::literal(U"in")
 			}),
 			parlex::repetition(	parlex::reference("IC")
 			),
@@ -1636,8 +1636,8 @@
 			parlex::repetition(	parlex::reference("IC")
 			),
 			parlex::choice ({
-				parlex::literal("≠", U"≠"),
-				parlex::literal("/=", U"/=")
+				parlex::literal(U"≠"),
+				parlex::literal(U"/=")
 			}),
 			parlex::repetition(	parlex::reference("IC")
 			),
@@ -1653,9 +1653,9 @@
 					parlex::reference("IC"),
 					parlex::repetition(	parlex::reference("IC")
 					),
-					parlex::literal("diamond", U"diamond")
+					parlex::literal(U"diamond")
 				}),
-				parlex::literal("diamond", U"diamond")
+				parlex::literal(U"diamond")
 			}),
 			parlex::reference("IC"),
 			parlex::repetition(	parlex::reference("IC")
@@ -1669,7 +1669,7 @@
 			parlex::repetition(	parlex::sequence({
 					parlex::repetition(	parlex::reference("IC")
 					),
-					parlex::literal(",", U","),
+					parlex::literal(U","),
 					parlex::repetition(	parlex::reference("IC")
 					),
 					parlex::optional(	parlex::reference("INHERITANCE_ITEM_PREFIX")
@@ -1683,7 +1683,7 @@
 			parlex::reference("EXPRESSION"),
 			parlex::repetition(	parlex::reference("IC")
 			),
-			parlex::literal("inherits", U"inherits"),
+			parlex::literal(U"inherits"),
 			parlex::repetition(	parlex::reference("IC")
 			),
 			parlex::reference("EXPRESSION")
@@ -1693,7 +1693,7 @@
 			parlex::reference("EXPRESSION"),
 			parlex::repetition(	parlex::reference("IC")
 			),
-			parlex::literal("\\", U"\\"),
+			parlex::literal(U"\\"),
 			parlex::repetition(	parlex::reference("IC")
 			),
 			parlex::reference("EXPRESSION")
@@ -1704,10 +1704,10 @@
 			parlex::reference("EXPRESSION"),
 			parlex::repetition(	parlex::reference("IC")
 			),
-			parlex::literal("\\", U"\\"),
+			parlex::literal(U"\\"),
 			parlex::choice ({
-				parlex::literal("<-", U"<-"),
-				parlex::literal("←", U"←")
+				parlex::literal(U"<-"),
+				parlex::literal(U"←")
 			}),
 			parlex::repetition(	parlex::reference("IC")
 			),
@@ -1718,7 +1718,7 @@
 			parlex::reference("EXPRESSION"),
 			parlex::repetition(	parlex::reference("IC")
 			),
-			parlex::literal("∩", U"∩"),
+			parlex::literal(U"∩"),
 			parlex::repetition(	parlex::reference("IC")
 			),
 			parlex::reference("EXPRESSION")
@@ -1729,10 +1729,10 @@
 			parlex::reference("EXPRESSION"),
 			parlex::repetition(	parlex::reference("IC")
 			),
-			parlex::literal("∩", U"∩"),
+			parlex::literal(U"∩"),
 			parlex::choice ({
-				parlex::literal("<-", U"<-"),
-				parlex::literal("←", U"←")
+				parlex::literal(U"<-"),
+				parlex::literal(U"←")
 			}),
 			parlex::repetition(	parlex::reference("IC")
 			),
@@ -1750,7 +1750,7 @@
 			parlex::reference("EXPRESSION"),
 			parlex::repetition(	parlex::reference("IC")
 			),
-			parlex::literal("is", U"is"),
+			parlex::literal(U"is"),
 			parlex::repetition(	parlex::reference("IC")
 			),
 			parlex::reference("EXPRESSION")
@@ -1760,7 +1760,7 @@
 			parlex::reference("EXPRESSION"),
 			parlex::repetition(	parlex::reference("IC")
 			),
-			parlex::literal("*", U"*")
+			parlex::literal(U"*")
 		})),
 		parlex::production("LESSER_CHAIN",
 		parlex::sequence("LESSER_CHAIN", {
@@ -1772,10 +1772,10 @@
 		parlex::production("LESSER_CHAIN_LOOP",
 		parlex::sequence("LESSER_CHAIN_LOOP", {
 			parlex::choice ({
-				parlex::literal("=", U"="),
-				parlex::literal("<", U"<"),
-				parlex::literal("=<", U"=<"),
-				parlex::literal("≤", U"≤")
+				parlex::literal(U"="),
+				parlex::literal(U"<"),
+				parlex::literal(U"=<"),
+				parlex::literal(U"≤")
 			}),
 			parlex::repetition(	parlex::reference("IC")
 			),
@@ -1789,7 +1789,7 @@
 		})),
 		parlex::production("LIST",
 		parlex::sequence("LIST", {
-			parlex::literal("[|", U"[|"),
+			parlex::literal(U"[|"),
 			parlex::repetition(	parlex::reference("IC")
 			),
 			parlex::optional("elements", 	parlex::sequence({
@@ -1797,7 +1797,7 @@
 					parlex::repetition(	parlex::sequence({
 							parlex::repetition(	parlex::reference("IC")
 							),
-							parlex::literal(", ", U", "),
+							parlex::literal(U", "),
 							parlex::repetition(	parlex::reference("IC")
 							),
 							parlex::reference("EXPRESSION")
@@ -1807,11 +1807,11 @@
 					)
 				})
 			),
-			parlex::literal("|]", U"|]")
+			parlex::literal(U"|]")
 		})),
 		parlex::production("LOCK",
 		parlex::sequence("LOCK", {
-			parlex::literal("lock", U"lock"),
+			parlex::literal(U"lock"),
 			parlex::repetition(	parlex::reference("IC")
 			),
 			parlex::reference("PARENTHETICAL"),
@@ -1822,8 +1822,8 @@
 		parlex::production("LOOP",
 		parlex::sequence("LOOP", {
 			parlex::choice ({
-				parlex::literal("while", U"while"),
-				parlex::literal("until", U"until")
+				parlex::literal(U"while"),
+				parlex::literal(U"until")
 			}),
 			parlex::repetition(	parlex::reference("IC")
 			),
@@ -1834,37 +1834,37 @@
 		})),
 		parlex::production("MAGNITUDE",
 		parlex::sequence("MAGNITUDE", {
-			parlex::literal("|", U"|"),
+			parlex::literal(U"|"),
 			parlex::repetition(	parlex::reference("IC")
 			),
 			parlex::reference("EXPRESSION"),
 			parlex::repetition(	parlex::reference("IC")
 			),
-			parlex::literal("|", U"|")
+			parlex::literal(U"|")
 		})),
 		parlex::production("MAP",
 		parlex::sequence("MAP", {
-			parlex::literal("{", U"{"),
+			parlex::literal(U"{"),
 			parlex::optional(	parlex::sequence({
 					parlex::repetition(	parlex::reference("IC")
 					),
 					parlex::reference("EXPRESSION"),
 					parlex::repetition(	parlex::reference("IC")
 					),
-					parlex::literal(":", U":"),
+					parlex::literal(U":"),
 					parlex::repetition(	parlex::reference("IC")
 					),
 					parlex::reference("EXPRESSION"),
 					parlex::repetition(	parlex::sequence({
 							parlex::repetition(	parlex::reference("IC")
 							),
-							parlex::literal(",", U","),
+							parlex::literal(U","),
 							parlex::repetition(	parlex::reference("IC")
 							),
 							parlex::reference("EXPRESSION"),
 							parlex::repetition(	parlex::reference("IC")
 							),
-							parlex::literal(":", U":"),
+							parlex::literal(U":"),
 							parlex::repetition(	parlex::reference("IC")
 							),
 							parlex::reference("EXPRESSION")
@@ -1874,7 +1874,7 @@
 			),
 			parlex::repetition(	parlex::reference("IC")
 			),
-			parlex::literal("}", U"}")
+			parlex::literal(U"}")
 		}),
 		parlex::associativity::NONE, parlex::filter_function(), {"FUNCTION", }),
 		parlex::production("MAPS_TO",
@@ -1883,8 +1883,8 @@
 			parlex::repetition(	parlex::reference("IC")
 			),
 			parlex::choice ({
-				parlex::literal("→", U"→"),
-				parlex::literal("->", U"->")
+				parlex::literal(U"→"),
+				parlex::literal(U"->")
 			}),
 			parlex::repetition(	parlex::reference("IC")
 			),
@@ -1896,7 +1896,7 @@
 			parlex::reference("EXPRESSION"),
 			parlex::repetition(	parlex::reference("IC")
 			),
-			parlex::literal(".", U"."),
+			parlex::literal(U"."),
 			parlex::repetition(	parlex::reference("IC")
 			),
 			parlex::reference("IDENTIFIER")
@@ -1904,7 +1904,7 @@
 		parlex::associativity::LEFT),
 		parlex::production("MEMBER_OFFSET",
 		parlex::sequence("MEMBER_OFFSET", {
-			parlex::literal("@", U"@"),
+			parlex::literal(U"@"),
 			parlex::repetition(	parlex::reference("IC")
 			),
 			parlex::reference("WHOLE_NUMBER")
@@ -1914,7 +1914,7 @@
 			parlex::reference("EXPRESSION"),
 			parlex::repetition(	parlex::reference("IC")
 			),
-			parlex::literal("%", U"%"),
+			parlex::literal(U"%"),
 			parlex::repetition(	parlex::reference("IC")
 			),
 			parlex::reference("EXPRESSION")
@@ -1925,10 +1925,10 @@
 			parlex::reference("EXPRESSION"),
 			parlex::repetition(	parlex::reference("IC")
 			),
-			parlex::literal("%", U"%"),
+			parlex::literal(U"%"),
 			parlex::choice ({
-				parlex::literal("<-", U"<-"),
-				parlex::literal("←", U"←")
+				parlex::literal(U"<-"),
+				parlex::literal(U"←")
 			}),
 			parlex::repetition(	parlex::reference("IC")
 			),
@@ -1939,7 +1939,7 @@
 			parlex::reference("EXPRESSION"),
 			parlex::repetition(	parlex::reference("IC")
 			),
-			parlex::literal("*", U"*"),
+			parlex::literal(U"*"),
 			parlex::repetition(	parlex::reference("IC")
 			),
 			parlex::reference("EXPRESSION")
@@ -1950,10 +1950,10 @@
 			parlex::reference("EXPRESSION"),
 			parlex::repetition(	parlex::reference("IC")
 			),
-			parlex::literal("*", U"*"),
+			parlex::literal(U"*"),
 			parlex::choice ({
-				parlex::literal("<-", U"<-"),
-				parlex::literal("←", U"←")
+				parlex::literal(U"<-"),
+				parlex::literal(U"←")
 			}),
 			parlex::repetition(	parlex::reference("IC")
 			),
@@ -1972,8 +1972,8 @@
 			parlex::repetition(	parlex::reference("IC")
 			),
 			parlex::choice ({
-				parlex::literal("↑", U"↑"),
-				parlex::literal("nand", U"nand")
+				parlex::literal(U"↑"),
+				parlex::literal(U"nand")
 			}),
 			parlex::repetition(	parlex::reference("IC")
 			),
@@ -1986,12 +1986,12 @@
 			parlex::repetition(	parlex::reference("IC")
 			),
 			parlex::choice ({
-				parlex::literal("↑", U"↑"),
-				parlex::literal("nand", U"nand")
+				parlex::literal(U"↑"),
+				parlex::literal(U"nand")
 			}),
 			parlex::choice ({
-				parlex::literal("<-", U"<-"),
-				parlex::literal("←", U"←")
+				parlex::literal(U"<-"),
+				parlex::literal(U"←")
 			}),
 			parlex::repetition(	parlex::reference("IC")
 			),
@@ -2000,27 +2000,27 @@
 		parlex::production("NEAREST_INTEGER",
 		parlex::choice ("NEAREST_INTEGER", {
 			parlex::sequence({
-				parlex::literal("⌊", U"⌊"),
+				parlex::literal(U"⌊"),
 				parlex::repetition(	parlex::reference("IC")
 				),
 				parlex::reference("EXPRESSION"),
 				parlex::repetition(	parlex::reference("IC")
 				),
-				parlex::literal("⌉", U"⌉")
+				parlex::literal(U"⌉")
 			}),
 			parlex::sequence({
-				parlex::literal("|_", U"|_"),
+				parlex::literal(U"|_"),
 				parlex::repetition(	parlex::reference("IC")
 				),
 				parlex::reference("EXPRESSION"),
 				parlex::repetition(	parlex::reference("IC")
 				),
-				parlex::literal("\'|", U"\'|")
+				parlex::literal(U"\'|")
 			})
 		})),
 		parlex::production("NEGATION",
 		parlex::sequence("NEGATION", {
-			parlex::literal("-", U"-"),
+			parlex::literal(U"-"),
 			parlex::repetition(	parlex::reference("IC")
 			),
 			parlex::reference("EXPRESSION")
@@ -2031,15 +2031,15 @@
 			parlex::reference("EXPRESSION"),
 			parlex::repetition(	parlex::reference("IC")
 			),
-			parlex::literal("-", U"-"),
+			parlex::literal(U"-"),
 			parlex::choice ({
-				parlex::literal("<-", U"<-"),
-				parlex::literal("←", U"←")
+				parlex::literal(U"<-"),
+				parlex::literal(U"←")
 			})
 		})),
 		parlex::production("NON_FRACTIONAL",
 		parlex::sequence("NON_FRACTIONAL", {
-			parlex::optional(	parlex::literal("-", U"-")
+			parlex::optional(	parlex::literal(U"-")
 			),
 			parlex::reference("NON_NEG_NON_FRACTIONAL")
 		})),
@@ -2049,12 +2049,12 @@
 				parlex::reference("decimal_digit"),
 				parlex::repetition(	parlex::reference("decimal_digit")
 				),
-				parlex::literal(".", U"."),
+				parlex::literal(U"."),
 				parlex::repetition(	parlex::reference("decimal_digit")
 				)
 			}),
 			parlex::sequence({
-				parlex::literal(".", U"."),
+				parlex::literal(U"."),
 				parlex::reference("decimal_digit"),
 				parlex::repetition(	parlex::reference("decimal_digit")
 				)
@@ -2067,7 +2067,7 @@
 				parlex::repetition(	parlex::reference("decimal_digit")
 				)
 			}),
-			parlex::literal("0", U"0")
+			parlex::literal(U"0")
 		})),
 		parlex::production("NON_NEG_NON_FRACTIONAL",
 		parlex::choice ("NON_NEG_NON_FRACTIONAL", {
@@ -2082,15 +2082,15 @@
 		})),
 		parlex::production("NON_ZERO_DECIMAL_DIGIT",
 		parlex::choice ("NON_ZERO_DECIMAL_DIGIT", {
-			parlex::literal("1", U"1"),
-			parlex::literal("2", U"2"),
-			parlex::literal("3", U"3"),
-			parlex::literal("4", U"4"),
-			parlex::literal("5", U"5"),
-			parlex::literal("6", U"6"),
-			parlex::literal("7", U"7"),
-			parlex::literal("8", U"8"),
-			parlex::literal("9", U"9")
+			parlex::literal(U"1"),
+			parlex::literal(U"2"),
+			parlex::literal(U"3"),
+			parlex::literal(U"4"),
+			parlex::literal(U"5"),
+			parlex::literal(U"6"),
+			parlex::literal(U"7"),
+			parlex::literal(U"8"),
+			parlex::literal(U"9")
 		})),
 		parlex::production("NOR",
 		parlex::sequence("NOR", {
@@ -2098,8 +2098,8 @@
 			parlex::repetition(	parlex::reference("IC")
 			),
 			parlex::choice ({
-				parlex::literal("↓", U"↓"),
-				parlex::literal("nor", U"nor")
+				parlex::literal(U"↓"),
+				parlex::literal(U"nor")
 			}),
 			parlex::repetition(	parlex::reference("IC")
 			),
@@ -2112,12 +2112,12 @@
 			parlex::repetition(	parlex::reference("IC")
 			),
 			parlex::choice ({
-				parlex::literal("↓", U"↓"),
-				parlex::literal("nor", U"nor")
+				parlex::literal(U"↓"),
+				parlex::literal(U"nor")
 			}),
 			parlex::choice ({
-				parlex::literal("<-", U"<-"),
-				parlex::literal("←", U"←")
+				parlex::literal(U"<-"),
+				parlex::literal(U"←")
 			}),
 			parlex::repetition(	parlex::reference("IC")
 			),
@@ -2126,8 +2126,8 @@
 		parlex::production("NOT",
 		parlex::sequence("NOT", {
 			parlex::choice ({
-				parlex::literal("¬", U"¬"),
-				parlex::literal("~", U"~")
+				parlex::literal(U"¬"),
+				parlex::literal(U"~")
 			}),
 			parlex::repetition(	parlex::reference("IC")
 			),
@@ -2140,12 +2140,12 @@
 			parlex::repetition(	parlex::reference("IC")
 			),
 			parlex::choice ({
-				parlex::literal("¬", U"¬"),
-				parlex::literal("~", U"~")
+				parlex::literal(U"¬"),
+				parlex::literal(U"~")
 			}),
 			parlex::choice ({
-				parlex::literal("<-", U"<-"),
-				parlex::literal("←", U"←")
+				parlex::literal(U"<-"),
+				parlex::literal(U"←")
 			})
 		})),
 		parlex::production("NOT_HAS",
@@ -2154,8 +2154,8 @@
 			parlex::repetition(	parlex::reference("IC")
 			),
 			parlex::choice ({
-				parlex::literal("∌", U"∌"),
-				parlex::literal("/has", U"/has")
+				parlex::literal(U"∌"),
+				parlex::literal(U"/has")
 			}),
 			parlex::repetition(	parlex::reference("IC")
 			),
@@ -2168,8 +2168,8 @@
 			parlex::repetition(	parlex::reference("IC")
 			),
 			parlex::choice ({
-				parlex::literal("∉", U"∉"),
-				parlex::literal("/in", U"/in")
+				parlex::literal(U"∉"),
+				parlex::literal(U"/in")
 			}),
 			parlex::repetition(	parlex::reference("IC")
 			),
@@ -2181,7 +2181,7 @@
 			parlex::reference("EXPRESSION"),
 			parlex::repetition(	parlex::reference("IC")
 			),
-			parlex::literal("\?\?", U"\?\?"),
+			parlex::literal(U"\?\?"),
 			parlex::repetition(	parlex::reference("IC")
 			),
 			parlex::reference("EXPRESSION")
@@ -2192,10 +2192,10 @@
 			parlex::reference("EXPRESSION"),
 			parlex::repetition(	parlex::reference("IC")
 			),
-			parlex::literal("\?\?", U"\?\?"),
+			parlex::literal(U"\?\?"),
 			parlex::choice ({
-				parlex::literal("<-", U"<-"),
-				parlex::literal("←", U"←")
+				parlex::literal(U"<-"),
+				parlex::literal(U"←")
 			}),
 			parlex::repetition(	parlex::reference("IC")
 			),
@@ -2203,11 +2203,11 @@
 		})),
 		parlex::production("OBJECT",
 		parlex::sequence("OBJECT", {
-			parlex::literal("object", U"object"),
+			parlex::literal(U"object"),
 			parlex::repetition(	parlex::reference("IC")
 			),
 			parlex::optional(	parlex::sequence({
-					parlex::literal("inheriting", U"inheriting"),
+					parlex::literal(U"inheriting"),
 					parlex::repetition(	parlex::reference("IC")
 					),
 					parlex::reference("INHERITANCE_LIST"),
@@ -2216,7 +2216,7 @@
 				})
 			),
 			parlex::optional(	parlex::sequence({
-					parlex::literal("implementing", U"implementing"),
+					parlex::literal(U"implementing"),
 					parlex::repetition(	parlex::reference("IC")
 					),
 					parlex::reference("INHERITANCE_LIST"),
@@ -2224,13 +2224,13 @@
 					)
 				})
 			),
-			parlex::literal("{", U"{"),
+			parlex::literal(U"{"),
 			parlex::reference("TYPE_SCOPE"),
-			parlex::literal("}", U"}")
+			parlex::literal(U"}")
 		})),
 		parlex::production("OCTAL",
 		parlex::sequence("OCTAL", {
-			parlex::literal("0", U"0"),
+			parlex::literal(U"0"),
 			parlex::reference("octal_digit"),
 			parlex::repetition(	parlex::reference("octal_digit")
 			)
@@ -2280,8 +2280,8 @@
 			parlex::repetition(	parlex::reference("IC")
 			),
 			parlex::choice ({
-				parlex::literal("∨", U"∨"),
-				parlex::literal("or", U"or")
+				parlex::literal(U"∨"),
+				parlex::literal(U"or")
 			}),
 			parlex::repetition(	parlex::reference("IC")
 			),
@@ -2294,12 +2294,12 @@
 			parlex::repetition(	parlex::reference("IC")
 			),
 			parlex::choice ({
-				parlex::literal("∨", U"∨"),
-				parlex::literal("or", U"or")
+				parlex::literal(U"∨"),
+				parlex::literal(U"or")
 			}),
 			parlex::choice ({
-				parlex::literal("<-", U"<-"),
-				parlex::literal("←", U"←")
+				parlex::literal(U"<-"),
+				parlex::literal(U"←")
 			}),
 			parlex::repetition(	parlex::reference("IC")
 			),
@@ -2316,7 +2316,7 @@
 			parlex::optional(	parlex::sequence({
 					parlex::repetition(	parlex::reference("IC")
 					),
-					parlex::literal("=", U"="),
+					parlex::literal(U"="),
 					parlex::repetition(	parlex::reference("IC")
 					),
 					parlex::reference("EXPRESSION")
@@ -2333,7 +2333,7 @@
 					})
 				),
 				parlex::reference("IDENTIFIER"),
-				parlex::optional(	parlex::literal("...", U"...")
+				parlex::optional(	parlex::literal(U"...")
 				)
 			}),
 			parlex::sequence({
@@ -2347,35 +2347,35 @@
 					})
 				),
 				parlex::reference("IDENTIFIER"),
-				parlex::optional(	parlex::literal("...", U"...")
+				parlex::optional(	parlex::literal(U"...")
 				),
 				parlex::repetition(	parlex::reference("IC")
 				),
-				parlex::literal("=", U"="),
+				parlex::literal(U"="),
 				parlex::repetition(	parlex::reference("IC")
 				),
 				parlex::reference("EXPRESSION"),
-				parlex::optional(	parlex::literal("...", U"...")
+				parlex::optional(	parlex::literal(U"...")
 				)
 			})
 		}),
 		parlex::associativity::NONE, parlex::filter_function(), {"PARAMETER_ANALYTIC", }),
 		parlex::production("PARENTHETICAL",
 		parlex::sequence("PARENTHETICAL", {
-			parlex::literal("(", U"("),
+			parlex::literal(U"("),
 			parlex::repetition(	parlex::reference("IC")
 			),
 			parlex::reference("EXPRESSION"),
 			parlex::repetition(	parlex::reference("IC")
 			),
-			parlex::literal(")", U")")
+			parlex::literal(U")")
 		})),
 		parlex::production("PARENTHETICAL_INVOCATION",
 		parlex::sequence("PARENTHETICAL_INVOCATION", {
 			parlex::reference("target", "EXPRESSION"),
 			parlex::repetition(	parlex::reference("IC")
 			),
-			parlex::literal("(", U"("),
+			parlex::literal(U"("),
 			parlex::optional("argsHead", 	parlex::sequence({
 					parlex::repetition(	parlex::reference("IC")
 					),
@@ -2388,7 +2388,7 @@
 			parlex::repetition("argsTail", 	parlex::sequence({
 					parlex::repetition(	parlex::reference("IC")
 					),
-					parlex::literal(",", U","),
+					parlex::literal(U","),
 					parlex::optional(	parlex::sequence({
 							parlex::repetition(	parlex::reference("IC")
 							),
@@ -2402,7 +2402,7 @@
 			),
 			parlex::repetition(	parlex::reference("IC")
 			),
-			parlex::literal(")", U")")
+			parlex::literal(U")")
 		})),
 		parlex::production("PAYLOAD",
 		parlex::sequence("PAYLOAD", {
@@ -2412,7 +2412,7 @@
 		})),
 		parlex::production("PLATFORM",
 		parlex::sequence("PLATFORM", {
-			parlex::literal("_", U"_"),
+			parlex::literal(U"_"),
 			parlex::choice ({
 				parlex::reference("letter"),
 				parlex::reference("number")
@@ -2420,7 +2420,7 @@
 			parlex::repetition(	parlex::choice ({
 					parlex::reference("letter"),
 					parlex::reference("number"),
-					parlex::literal("_", U"_")
+					parlex::literal(U"_")
 				})
 			)
 		}),
@@ -2430,7 +2430,7 @@
 			parlex::reference("EXPRESSION"),
 			parlex::repetition(	parlex::reference("IC")
 			),
-			parlex::literal("--", U"--")
+			parlex::literal(U"--")
 		}),
 		parlex::associativity::NONE, parlex::filter_function(), {"BINARY_OP", "NEGATION", }),
 		parlex::production("POST_INC",
@@ -2438,7 +2438,7 @@
 			parlex::reference("EXPRESSION"),
 			parlex::repetition(	parlex::reference("IC")
 			),
-			parlex::literal("++", U"++")
+			parlex::literal(U"++")
 		}),
 		parlex::associativity::NONE, parlex::filter_function(), {"BINARY_OP", "NEGATION", }),
 		parlex::production("PREPEND",
@@ -2446,7 +2446,7 @@
 			parlex::reference("EXPRESSION"),
 			parlex::repetition(	parlex::reference("IC")
 			),
-			parlex::literal("&", U"&"),
+			parlex::literal(U"&"),
 			parlex::repetition(	parlex::reference("IC")
 			),
 			parlex::reference("EXPRESSION")
@@ -2457,10 +2457,10 @@
 			parlex::reference("EXPRESSION"),
 			parlex::repetition(	parlex::reference("IC")
 			),
-			parlex::literal("&", U"&"),
+			parlex::literal(U"&"),
 			parlex::choice ({
-				parlex::literal("<-", U"<-"),
-				parlex::literal("←", U"←")
+				parlex::literal(U"<-"),
+				parlex::literal(U"←")
 			}),
 			parlex::repetition(	parlex::reference("IC")
 			),
@@ -2468,7 +2468,7 @@
 		})),
 		parlex::production("PRE_DEC",
 		parlex::sequence("PRE_DEC", {
-			parlex::literal("--", U"--"),
+			parlex::literal(U"--"),
 			parlex::repetition(	parlex::reference("IC")
 			),
 			parlex::reference("EXPRESSION")
@@ -2476,7 +2476,7 @@
 		parlex::associativity::NONE, parlex::filter_function(), {"BINARY_OP", "NEGATION", }),
 		parlex::production("PRE_INC",
 		parlex::sequence("PRE_INC", {
-			parlex::literal("++", U"++"),
+			parlex::literal(U"++"),
 			parlex::repetition(	parlex::reference("IC")
 			),
 			parlex::reference("EXPRESSION")
@@ -2485,8 +2485,8 @@
 		parlex::production("RADICAL",
 		parlex::sequence("RADICAL", {
 			parlex::choice ({
-				parlex::literal("√", U"√"),
-				parlex::literal("sqrt", U"sqrt")
+				parlex::literal(U"√"),
+				parlex::literal(U"sqrt")
 			}),
 			parlex::repetition(	parlex::reference("IC")
 			),
@@ -2499,71 +2499,71 @@
 			parlex::repetition(	parlex::reference("IC")
 			),
 			parlex::choice ({
-				parlex::literal("√", U"√"),
-				parlex::literal("sqrt", U"sqrt")
+				parlex::literal(U"√"),
+				parlex::literal(U"sqrt")
 			}),
 			parlex::choice ({
-				parlex::literal("<-", U"<-"),
-				parlex::literal("←", U"←")
+				parlex::literal(U"<-"),
+				parlex::literal(U"←")
 			})
 		})),
 		parlex::production("RANGE",
 		parlex::choice ("RANGE", {
 			parlex::sequence({
-				parlex::literal("(", U"("),
+				parlex::literal(U"("),
 				parlex::repetition(	parlex::reference("IC")
 				),
-				parlex::literal("...", U"..."),
+				parlex::literal(U"..."),
 				parlex::repetition(	parlex::reference("IC")
 				),
 				parlex::reference("EXPRESSION"),
 				parlex::repetition(	parlex::reference("IC")
 				),
 				parlex::choice ({
-					parlex::literal("]", U"]"),
-					parlex::literal(")", U")")
+					parlex::literal(U"]"),
+					parlex::literal(U")")
 				})
 			}),
 			parlex::sequence({
 				parlex::choice ({
-					parlex::literal("[", U"["),
-					parlex::literal("(", U"(")
+					parlex::literal(U"["),
+					parlex::literal(U"(")
 				}),
 				parlex::repetition(	parlex::reference("IC")
 				),
 				parlex::reference("EXPRESSION"),
 				parlex::repetition(	parlex::reference("IC")
 				),
-				parlex::literal("...", U"..."),
+				parlex::literal(U"..."),
 				parlex::repetition(	parlex::reference("IC")
 				),
-				parlex::literal(")", U")")
+				parlex::literal(U")")
 			}),
 			parlex::sequence({
 				parlex::choice ({
-					parlex::literal("(", U"("),
-					parlex::literal("[", U"[")
+					parlex::literal(U"("),
+					parlex::literal(U"[")
 				}),
 				parlex::repetition(	parlex::reference("IC")
 				),
 				parlex::reference("EXPRESSION"),
 				parlex::repetition(	parlex::reference("IC")
 				),
-				parlex::literal("...", U"..."),
+				parlex::literal(U"..."),
 				parlex::repetition(	parlex::reference("IC")
 				),
 				parlex::reference("EXPRESSION"),
 				parlex::repetition(	parlex::reference("IC")
 				),
 				parlex::choice ({
-					parlex::literal("]", U"]"),
-					parlex::literal(")", U")")
+					parlex::literal(U"]"),
+					parlex::literal(U")")
 				})
 			})
 		})),
 		parlex::production("READ_LOCK",
 		parlex::sequence("READ_LOCK", {
-			parlex::literal("read_lock", U"read_lock"),
+			parlex::literal(U"read_lock"),
 			parlex::repetition(	parlex::reference("IC")
 			),
 			parlex::reference("PARENTHETICAL"),
@@ -2573,7 +2573,7 @@
 		})),
 		parlex::production("RECORD",
 		parlex::sequence("RECORD", {
-			parlex::literal("record", U"record"),
+			parlex::literal(U"record"),
 			parlex::reference("IC"),
 			parlex::repetition(	parlex::reference("IC")
 			),
@@ -2581,7 +2581,7 @@
 		})),
 		parlex::production("REGEX",
 		parlex::sequence("REGEX", {
-			parlex::literal("R", U"R"),
+			parlex::literal(U"R"),
 			parlex::reference("c_string")
 		})),
 		parlex::production("RELATIONAL_COLLECTION_OP",
@@ -2606,17 +2606,17 @@
 		parlex::associativity::NONE, parlex::filter_function(), {"BINARY_LOGICAL_OP", }),
 		parlex::production("RETURN",
 		parlex::sequence("RETURN", {
-			parlex::literal("return", U"return"),
+			parlex::literal(U"return"),
 			parlex::optional(	parlex::sequence({
 					parlex::repetition(	parlex::reference("IC")
 					),
-					parlex::literal("[", U"["),
+					parlex::literal(U"["),
 					parlex::repetition(	parlex::reference("IC")
 					),
 					parlex::reference("EXPRESSION"),
 					parlex::repetition(	parlex::reference("IC")
 					),
-					parlex::literal("]", U"]")
+					parlex::literal(U"]")
 				})
 			),
 			parlex::optional(	parlex::sequence({
@@ -2628,7 +2628,7 @@
 		})),
 		parlex::production("SET",
 		parlex::sequence("SET", {
-			parlex::literal("{|", U"{|"),
+			parlex::literal(U"{|"),
 			parlex::repetition(	parlex::reference("IC")
 			),
 			parlex::optional("elements", 	parlex::sequence({
@@ -2636,7 +2636,7 @@
 					parlex::repetition(	parlex::sequence({
 							parlex::repetition(	parlex::reference("IC")
 							),
-							parlex::literal(",", U","),
+							parlex::literal(U","),
 							parlex::repetition(	parlex::reference("IC")
 							),
 							parlex::reference("EXPRESSION")
@@ -2646,31 +2646,31 @@
 					)
 				})
 			),
-			parlex::literal("|}", U"|}")
+			parlex::literal(U"|}")
 		}),
 		parlex::associativity::NONE, parlex::filter_function(), {"MAGNITUDE", }),
 		parlex::production("SET_COMPREHENSION",
 		parlex::sequence("SET_COMPREHENSION", {
-			parlex::literal("{", U"{"),
+			parlex::literal(U"{"),
 			parlex::repetition(	parlex::reference("IC")
 			),
 			parlex::reference("EXPRESSION"),
 			parlex::repetition(	parlex::reference("IC")
 			),
-			parlex::literal("|", U"|"),
+			parlex::literal(U"|"),
 			parlex::repetition(	parlex::reference("IC")
 			),
 			parlex::reference("EXPRESSION"),
 			parlex::repetition(	parlex::reference("IC")
 			),
-			parlex::literal("}", U"}")
+			parlex::literal(U"}")
 		})),
 		parlex::production("SHIFTL",
 		parlex::sequence("SHIFTL", {
 			parlex::reference("EXPRESSION"),
 			parlex::repetition(	parlex::reference("IC")
 			),
-			parlex::literal("<<", U"<<"),
+			parlex::literal(U"<<"),
 			parlex::repetition(	parlex::reference("IC")
 			),
 			parlex::reference("EXPRESSION")
@@ -2681,10 +2681,10 @@
 			parlex::reference("EXPRESSION"),
 			parlex::repetition(	parlex::reference("IC")
 			),
-			parlex::literal("<<", U"<<"),
+			parlex::literal(U"<<"),
 			parlex::choice ({
-				parlex::literal("<-", U"<-"),
-				parlex::literal("←", U"←")
+				parlex::literal(U"<-"),
+				parlex::literal(U"←")
 			}),
 			parlex::repetition(	parlex::reference("IC")
 			),
@@ -2695,7 +2695,7 @@
 			parlex::reference("EXPRESSION"),
 			parlex::repetition(	parlex::reference("IC")
 			),
-			parlex::literal(">>", U">>"),
+			parlex::literal(U">>"),
 			parlex::repetition(	parlex::reference("IC")
 			),
 			parlex::reference("EXPRESSION")
@@ -2706,10 +2706,10 @@
 			parlex::reference("EXPRESSION"),
 			parlex::repetition(	parlex::reference("IC")
 			),
-			parlex::literal(">>", U">>"),
+			parlex::literal(U">>"),
 			parlex::choice ({
-				parlex::literal("<-", U"<-"),
-				parlex::literal("←", U"←")
+				parlex::literal(U"<-"),
+				parlex::literal(U"←")
 			}),
 			parlex::repetition(	parlex::reference("IC")
 			),
@@ -2720,7 +2720,7 @@
 			parlex::reference("EXPRESSION"),
 			parlex::repetition(	parlex::reference("IC")
 			),
-			parlex::literal(":", U":"),
+			parlex::literal(U":"),
 			parlex::repetition(	parlex::reference("IC")
 			),
 			parlex::reference("EXPRESSION")
@@ -2751,7 +2751,7 @@
 			}),
 			parlex::repetition("ic", 	parlex::reference("IC")
 			),
-			parlex::literal(";", U";")
+			parlex::literal(U";")
 		})),
 		parlex::production("STATEMENT_SCOPE",
 		parlex::repetition("STATEMENT_SCOPE", 	parlex::choice ({
@@ -2760,7 +2760,7 @@
 			})
 		)),
 		parlex::production("STATIC",
-		parlex::literal("STATIC", U"static"),
+		parlex::literal(U"static"),
 		parlex::associativity::NONE, parlex::filter_function(), {"IDENTIFIER", }),
 		parlex::production("SUBSET_CHAIN",
 		parlex::sequence("SUBSET_CHAIN", {
@@ -2772,11 +2772,11 @@
 		parlex::production("SUBSET_CHAIN_LOOP",
 		parlex::sequence("SUBSET_CHAIN_LOOP", {
 			parlex::choice ({
-				parlex::literal("=", U"="),
-				parlex::literal("⊆", U"⊆"),
-				parlex::literal("subs", U"subs"),
-				parlex::literal("⊂", U"⊂"),
-				parlex::literal("psubs", U"psubs")
+				parlex::literal(U"="),
+				parlex::literal(U"⊆"),
+				parlex::literal(U"subs"),
+				parlex::literal(U"⊂"),
+				parlex::literal(U"psubs")
 			}),
 			parlex::repetition(	parlex::reference("IC")
 			),
@@ -2794,7 +2794,7 @@
 			parlex::reference("EXPRESSION"),
 			parlex::repetition(	parlex::reference("IC")
 			),
-			parlex::literal("-", U"-"),
+			parlex::literal(U"-"),
 			parlex::repetition(	parlex::reference("IC")
 			),
 			parlex::reference("EXPRESSION")
@@ -2805,10 +2805,10 @@
 			parlex::reference("EXPRESSION"),
 			parlex::repetition(	parlex::reference("IC")
 			),
-			parlex::literal("-", U"-"),
+			parlex::literal(U"-"),
 			parlex::choice ({
-				parlex::literal("<-", U"<-"),
-				parlex::literal("←", U"←")
+				parlex::literal(U"<-"),
+				parlex::literal(U"←")
 			}),
 			parlex::repetition(	parlex::reference("IC")
 			),
@@ -2824,11 +2824,11 @@
 		parlex::production("SUPERSET_CHAIN_LOOP",
 		parlex::sequence("SUPERSET_CHAIN_LOOP", {
 			parlex::choice ({
-				parlex::literal("=", U"="),
-				parlex::literal("⊇", U"⊇"),
-				parlex::literal("sups", U"sups"),
-				parlex::literal("⊃", U"⊃"),
-				parlex::literal("psups", U"psups")
+				parlex::literal(U"="),
+				parlex::literal(U"⊇"),
+				parlex::literal(U"sups"),
+				parlex::literal(U"⊃"),
+				parlex::literal(U"psups")
 			}),
 			parlex::repetition(	parlex::reference("IC")
 			),
@@ -2847,8 +2847,8 @@
 			parlex::repetition(	parlex::reference("IC")
 			),
 			parlex::choice ({
-				parlex::literal("⋮", U"⋮"),
-				parlex::literal("_swiz_", U"_swiz_")
+				parlex::literal(U"⋮"),
+				parlex::literal(U"_swiz_")
 			}),
 			parlex::repetition(	parlex::reference("IC")
 			),
@@ -2859,7 +2859,7 @@
 			parlex::reference("EXPRESSION"),
 			parlex::repetition(	parlex::reference("IC")
 			),
-			parlex::literal("⊖", U"⊖"),
+			parlex::literal(U"⊖"),
 			parlex::repetition(	parlex::reference("IC")
 			),
 			parlex::reference("EXPRESSION")
@@ -2870,10 +2870,10 @@
 			parlex::reference("EXPRESSION"),
 			parlex::repetition(	parlex::reference("IC")
 			),
-			parlex::literal("⊖", U"⊖"),
+			parlex::literal(U"⊖"),
 			parlex::choice ({
-				parlex::literal("<-", U"<-"),
-				parlex::literal("←", U"←")
+				parlex::literal(U"<-"),
+				parlex::literal(U"←")
 			}),
 			parlex::repetition(	parlex::reference("IC")
 			),
@@ -2881,65 +2881,65 @@
 		})),
 		parlex::production("THIS",
 		parlex::sequence("THIS", {
-			parlex::literal("this", U"this"),
+			parlex::literal(U"this"),
 			parlex::optional(	parlex::sequence({
 					parlex::repetition(	parlex::reference("IC")
 					),
-					parlex::literal("[", U"["),
+					parlex::literal(U"["),
 					parlex::repetition(	parlex::reference("IC")
 					),
 					parlex::reference("EXPRESSION"),
 					parlex::repetition(	parlex::reference("IC")
 					),
-					parlex::literal("]", U"]")
+					parlex::literal(U"]")
 				})
 			)
 		})),
 		parlex::production("THIS_FUNC",
 		parlex::sequence("THIS_FUNC", {
-			parlex::literal("this_func", U"this_func"),
+			parlex::literal(U"this_func"),
 			parlex::optional(	parlex::sequence({
 					parlex::repetition(	parlex::reference("IC")
 					),
-					parlex::literal("[", U"["),
+					parlex::literal(U"["),
 					parlex::repetition(	parlex::reference("IC")
 					),
 					parlex::reference("EXPRESSION"),
 					parlex::repetition(	parlex::reference("IC")
 					),
-					parlex::literal("]", U"]")
+					parlex::literal(U"]")
 				})
 			)
 		})),
 		parlex::production("THIS_TYPE",
 		parlex::sequence("THIS_TYPE", {
-			parlex::literal("this_type", U"this_type"),
+			parlex::literal(U"this_type"),
 			parlex::optional(	parlex::sequence({
 					parlex::repetition(	parlex::reference("IC")
 					),
-					parlex::literal("[", U"["),
+					parlex::literal(U"["),
 					parlex::repetition(	parlex::reference("IC")
 					),
 					parlex::reference("EXPRESSION"),
 					parlex::repetition(	parlex::reference("IC")
 					),
-					parlex::literal("]", U"]")
+					parlex::literal(U"]")
 				})
 			)
 		})),
 		parlex::production("THROW",
 		parlex::sequence("THROW", {
-			parlex::literal("throw", U"throw"),
+			parlex::literal(U"throw"),
 			parlex::optional(	parlex::sequence({
 					parlex::repetition(	parlex::reference("IC")
 					),
-					parlex::literal("[", U"["),
+					parlex::literal(U"["),
 					parlex::repetition(	parlex::reference("IC")
 					),
 					parlex::reference("EXPRESSION"),
 					parlex::repetition(	parlex::reference("IC")
 					),
-					parlex::literal("]", U"]")
+					parlex::literal(U"]")
 				})
 			),
 			parlex::optional(	parlex::sequence({
@@ -2951,34 +2951,34 @@
 		})),
 		parlex::production("TIME",
 		parlex::sequence("TIME", {
-			parlex::optional(	parlex::literal("-", U"-")
+			parlex::optional(	parlex::literal(U"-")
 			),
 			parlex::reference("decimal_digit"),
 			parlex::reference("decimal_digit"),
-			parlex::literal(":", U":"),
+			parlex::literal(U":"),
 			parlex::reference("decimal_digit"),
 			parlex::reference("decimal_digit"),
-			parlex::literal(":", U":"),
+			parlex::literal(U":"),
 			parlex::reference("decimal_digit"),
 			parlex::reference("decimal_digit"),
 			parlex::optional(	parlex::sequence({
-					parlex::literal(".", U"."),
+					parlex::literal(U"."),
 					parlex::reference("decimal_digit"),
 					parlex::repetition(	parlex::reference("decimal_digit")
 					)
 				})
 			),
 			parlex::optional(	parlex::choice ({
-					parlex::literal("Z", U"Z"),
+					parlex::literal(U"Z"),
 					parlex::sequence({
 						parlex::choice ({
-							parlex::literal("+", U"+"),
-							parlex::literal("-", U"-")
+							parlex::literal(U"+"),
+							parlex::literal(U"-")
 						}),
 						parlex::reference("decimal_digit"),
 						parlex::reference("decimal_digit"),
 						parlex::optional(	parlex::sequence({
-								parlex::literal(":", U":"),
+								parlex::literal(U":"),
 								parlex::reference("decimal_digit"),
 								parlex::reference("decimal_digit")
 							})
@@ -2989,18 +2989,18 @@
 		})),
 		parlex::production("TRY",
 		parlex::sequence("TRY", {
-			parlex::literal("try", U"try"),
+			parlex::literal(U"try"),
 			parlex::repetition(	parlex::reference("IC")
 			),
 			parlex::reference("EXPRESSION"),
 			parlex::repetition(	parlex::reference("IC")
 			),
-			parlex::literal("catch", U"catch"),
+			parlex::literal(U"catch"),
 			parlex::repetition(	parlex::reference("IC")
 			),
 			parlex::reference("EXPRESSION"),
 			parlex::repetition(	parlex::sequence({
-					parlex::literal("catch", U"catch"),
+					parlex::literal(U"catch"),
 					parlex::repetition(	parlex::reference("IC")
 					),
 					parlex::reference("EXPRESSION")
@@ -3009,7 +3009,7 @@
 			parlex::optional(	parlex::sequence({
 					parlex::repetition(	parlex::reference("IC")
 					),
-					parlex::literal("finally", U"finally"),
+					parlex::literal(U"finally"),
 					parlex::repetition(	parlex::reference("IC")
 					),
 					parlex::reference("EXPRESSION")
@@ -3018,14 +3018,14 @@
 		})),
 		parlex::production("TUPLE",
 		parlex::sequence("TUPLE", {
-			parlex::literal("(|", U"(|"),
+			parlex::literal(U"(|"),
 			parlex::repetition(	parlex::reference("IC")
 			),
 			parlex::reference("EXPRESSION"),
 			parlex::repetition(	parlex::sequence({
 					parlex::repetition(	parlex::reference("IC")
 					),
-					parlex::literal(",", U","),
+					parlex::literal(U","),
 					parlex::repetition(	parlex::reference("IC")
 					),
 					parlex::reference("EXPRESSION")
@@ -3033,16 +3033,16 @@
 			),
 			parlex::repetition(	parlex::reference("IC")
 			),
-			parlex::literal("|)", U"|)")
+			parlex::literal(U"|)")
 		}),
 		parlex::associativity::NONE, parlex::filter_function(), {"MAGNITUDE", }),
 		parlex::production("TYPE",
 		parlex::sequence("TYPE", {
-			parlex::literal("type", U"type"),
+			parlex::literal(U"type"),
 			parlex::repetition(	parlex::reference("IC")
 			),
 			parlex::optional(	parlex::sequence({
-					parlex::literal("inheriting", U"inheriting"),
+					parlex::literal(U"inheriting"),
 					parlex::repetition(	parlex::reference("IC")
 					),
 					parlex::reference("INHERITANCE_LIST"),
@@ -3051,7 +3051,7 @@
 				})
 			),
 			parlex::optional(	parlex::sequence({
-					parlex::literal("implementing", U"implementing"),
+					parlex::literal(U"implementing"),
 					parlex::repetition(	parlex::reference("IC")
 					),
 					parlex::reference("INHERITANCE_LIST"),
@@ -3059,9 +3059,9 @@
 					)
 				})
 			),
-			parlex::literal("{", U"{"),
+			parlex::literal(U"{"),
 			parlex::reference("TYPE_SCOPE"),
-			parlex::literal("}", U"}")
+			parlex::literal(U"}")
 		})),
 		parlex::production("TYPE_CONSTRAINT",
 		parlex::sequence("TYPE_CONSTRAINT", {
@@ -3081,7 +3081,7 @@
 			parlex::optional(	parlex::sequence({
 					parlex::repetition(	parlex::reference("IC")
 					),
-					parlex::literal(",", U","),
+					parlex::literal(U","),
 					parlex::repetition(	parlex::reference("IC")
 					),
 					parlex::reference("TYPE_CONSTRAINT_CHAIN")
@@ -3129,19 +3129,19 @@
 		})),
 		parlex::production("TYPE_DEREFERENCE",
 		parlex::sequence("TYPE_DEREFERENCE", {
-			parlex::literal("<", U"<"),
+			parlex::literal(U"<"),
 			parlex::repetition(	parlex::reference("IC")
 			),
 			parlex::reference("EXPRESSION"),
 			parlex::repetition(	parlex::reference("IC")
 			),
-			parlex::literal(">", U">")
+			parlex::literal(U">")
 		})),
 		parlex::production("TYPE_INVOCATION",
 		parlex::sequence("TYPE_INVOCATION", {
 			parlex::reference("target", "EXPRESSION"),
 			parlex::sequence({
-				parlex::literal("<", U"<"),
+				parlex::literal(U"<"),
 				parlex::optional("argsHead", 	parlex::sequence({
 						parlex::repetition(	parlex::reference("IC")
 						),
@@ -3154,7 +3154,7 @@
 				parlex::repetition("argsTail", 	parlex::sequence({
 						parlex::repetition(	parlex::reference("IC")
 						),
-						parlex::literal(",", U","),
+						parlex::literal(U","),
 						parlex::optional(	parlex::sequence({
 								parlex::repetition(	parlex::reference("IC")
 								),
@@ -3168,7 +3168,7 @@
 				),
 				parlex::repetition(	parlex::reference("IC")
 				),
-				parlex::literal(">", U">")
+				parlex::literal(U">")
 			})
 		})),
 		parlex::production("TYPE_SCOPE",
@@ -3200,8 +3200,8 @@
 			parlex::repetition(	parlex::reference("IC")
 			),
 			parlex::choice ({
-				parlex::literal("←", U"←"),
-				parlex::literal("<-", U"<-")
+				parlex::literal(U"←"),
+				parlex::literal(U"<-")
 			}),
 			parlex::repetition(	parlex::reference("IC")
 			),
@@ -3251,7 +3251,7 @@
 			parlex::optional(	parlex::sequence({
 					parlex::repetition(	parlex::reference("IC")
 					),
-					parlex::literal(",", U","),
+					parlex::literal(U","),
 					parlex::repetition(	parlex::reference("IC")
 					),
 					parlex::reference("TYPE_SCOPE_TYPE_CONSTRAINT_CHAIN")
@@ -3264,7 +3264,7 @@
 				parlex::reference("VISIBILITY_MODIFIER"),
 				parlex::repetition(	parlex::reference("IC")
 				),
-				parlex::literal(":", U":")
+				parlex::literal(U":")
 			}),
 			parlex::reference("TYPE_SCOPE_TYPE_CONSTRAINT"),
 			parlex::reference("STATEMENT")
@@ -3296,7 +3296,7 @@
 			parlex::reference("EXPRESSION"),
 			parlex::repetition(	parlex::reference("IC")
 			),
-			parlex::literal("∪", U"∪"),
+			parlex::literal(U"∪"),
 			parlex::repetition(	parlex::reference("IC")
 			),
 			parlex::reference("EXPRESSION")
@@ -3307,10 +3307,10 @@
 			parlex::reference("EXPRESSION"),
 			parlex::repetition(	parlex::reference("IC")
 			),
-			parlex::literal("∪", U"∪"),
+			parlex::literal(U"∪"),
 			parlex::choice ({
-				parlex::literal("<-", U"<-"),
-				parlex::literal("←", U"←")
+				parlex::literal(U"<-"),
+				parlex::literal(U"←")
 			}),
 			parlex::repetition(	parlex::reference("IC")
 			),
@@ -3319,21 +3319,21 @@
 		parlex::production("UNIT_DIVISION",
 		parlex::sequence("UNIT_DIVISION", {
 			parlex::reference("DIMENSION"),
-			parlex::literal("/", U"/"),
+			parlex::literal(U"/"),
 			parlex::reference("DIMENSION")
 		}),
 		parlex::associativity::LEFT),
 		parlex::production("UNIT_EXPONENTIATION",
 		parlex::sequence("UNIT_EXPONENTIATION", {
 			parlex::reference("DIMENSION"),
-			parlex::literal("^", U"^"),
+			parlex::literal(U"^"),
 			parlex::reference("NON_FRACTIONAL")
 		}),
 		parlex::associativity::RIGHT, parlex::filter_function(), {"UNIT_DIVISION", "UNIT_MULTIPLICATION", }),
 		parlex::production("UNIT_MULTIPLICATION",
 		parlex::sequence("UNIT_MULTIPLICATION", {
 			parlex::reference("DIMENSION"),
-			parlex::literal("*", U"*"),
+			parlex::literal(U"*"),
 			parlex::reference("DIMENSION")
 		}),
 		parlex::associativity::LEFT),
@@ -3342,98 +3342,98 @@
 			parlex::reference("EXPRESSION"),
 			parlex::repetition(	parlex::reference("IC")
 			),
-			parlex::literal("upcasts", U"upcasts"),
+			parlex::literal(U"upcasts"),
 			parlex::repetition(	parlex::reference("IC")
 			),
 			parlex::reference("EXPRESSION")
 		})),
 		parlex::production("USING",
 		parlex::sequence("USING", {
-			parlex::literal("using", U"using"),
+			parlex::literal(U"using"),
 			parlex::repetition(	parlex::reference("IC")
 			),
-			parlex::literal("(", U"("),
+			parlex::literal(U"("),
 			parlex::repetition(	parlex::reference("IC")
 			),
 			parlex::reference("EXPRESSION"),
 			parlex::repetition(	parlex::reference("IC")
 			),
-			parlex::literal(")", U")"),
+			parlex::literal(U")"),
 			parlex::repetition(	parlex::reference("IC")
 			),
 			parlex::reference("BLOCK")
 		})),
 		parlex::production("VECTOR_NORM",
 		parlex::sequence("VECTOR_NORM", {
-			parlex::literal("||", U"||"),
+			parlex::literal(U"||"),
 			parlex::repetition(	parlex::reference("IC")
 			),
 			parlex::reference("EXPRESSION"),
 			parlex::repetition(	parlex::reference("IC")
 			),
-			parlex::literal("||", U"||")
+			parlex::literal(U"||")
 		})),
 		parlex::production("VISIBILITY_MODIFIER",
 		parlex::choice ("VISIBILITY_MODIFIER", {
-			parlex::literal("public", U"public"),
-			parlex::literal("protected", U"protected"),
-			parlex::literal("protected internal", U"protected internal"),
-			parlex::literal("internal", U"internal"),
-			parlex::literal("private", U"private")
+			parlex::literal(U"public"),
+			parlex::literal(U"protected"),
+			parlex::literal(U"protected internal"),
+			parlex::literal(U"internal"),
+			parlex::literal(U"private")
 		})),
 		parlex::production("VOLATILE_IMPLICIT_TYPE_DEREFERENCE",
 		parlex::sequence("VOLATILE_IMPLICIT_TYPE_DEREFERENCE", {
-			parlex::literal("<", U"<"),
+			parlex::literal(U"<"),
 			parlex::repetition(	parlex::reference("IC")
 			),
-			parlex::literal("volatile", U"volatile"),
+			parlex::literal(U"volatile"),
 			parlex::repetition(	parlex::reference("IC")
 			),
-			parlex::literal(">", U">")
+			parlex::literal(U">")
 		})),
 		parlex::production("VOLATILE_TYPE_DEREFERENCE",
 		parlex::sequence("VOLATILE_TYPE_DEREFERENCE", {
-			parlex::literal("<", U"<"),
+			parlex::literal(U"<"),
 			parlex::repetition(	parlex::reference("IC")
 			),
-			parlex::literal("volatile", U"volatile"),
+			parlex::literal(U"volatile"),
 			parlex::repetition(	parlex::reference("IC")
 			),
 			parlex::reference("EXPRESSION"),
 			parlex::repetition(	parlex::reference("IC")
 			),
-			parlex::literal(">", U">")
+			parlex::literal(U">")
 		})),
 		parlex::production("WHOLE_NUMBER",
 		parlex::sequence("WHOLE_NUMBER", {
 			parlex::choice ({
-				parlex::literal("1", U"1"),
-				parlex::literal("2", U"2"),
-				parlex::literal("3", U"3"),
-				parlex::literal("4", U"4"),
-				parlex::literal("5", U"5"),
-				parlex::literal("6", U"6"),
-				parlex::literal("7", U"7"),
-				parlex::literal("8", U"8"),
-				parlex::literal("9", U"9")
+				parlex::literal(U"1"),
+				parlex::literal(U"2"),
+				parlex::literal(U"3"),
+				parlex::literal(U"4"),
+				parlex::literal(U"5"),
+				parlex::literal(U"6"),
+				parlex::literal(U"7"),
+				parlex::literal(U"8"),
+				parlex::literal(U"9")
 			}),
 			parlex::repetition(	parlex::choice ({
-					parlex::literal("0", U"0"),
-					parlex::literal("1", U"1"),
-					parlex::literal("2", U"2"),
-					parlex::literal("3", U"3"),
-					parlex::literal("4", U"4"),
-					parlex::literal("5", U"5"),
-					parlex::literal("6", U"6"),
-					parlex::literal("7", U"7"),
-					parlex::literal("8", U"8"),
-					parlex::literal("9", U"9")
+					parlex::literal(U"0"),
+					parlex::literal(U"1"),
+					parlex::literal(U"2"),
+					parlex::literal(U"3"),
+					parlex::literal(U"4"),
+					parlex::literal(U"5"),
+					parlex::literal(U"6"),
+					parlex::literal(U"7"),
+					parlex::literal(U"8"),
+					parlex::literal(U"9")
 				})
 			)
 		})),
 		parlex::production("WRITE_LOCK",
 		parlex::sequence("WRITE_LOCK", {
-			parlex::literal("write_lock", U"write_lock"),
+			parlex::literal(U"write_lock"),
 			parlex::repetition(	parlex::reference("IC")
 			),
 			parlex::reference("PARENTHETICAL"),
@@ -3450,17 +3450,17 @@
 		parlex::associativity::NONE, parlex::longest()),
 		parlex::production("XML_DOC_STRING",
 		parlex::sequence("XML_DOC_STRING", {
-			parlex::literal("```", U"```"),
+			parlex::literal(U"```"),
 			parlex::reference("XML_DOC_STRING_INTERIOR"),
-			parlex::literal("```", U"```")
+			parlex::literal(U"```")
 		})),
 		parlex::production("XML_DOC_STRING_INTERIOR",
 		parlex::choice ("XML_DOC_STRING_INTERIOR", {
 			parlex::reference("payload", "PAYLOAD"),
 			parlex::sequence({
-				parlex::literal("`", U"`"),
+				parlex::literal(U"`"),
 				parlex::reference("XML_DOC_STRING_INTERIOR"),
-				parlex::literal("`", U"`")
+				parlex::literal(U"`")
 			})
 		}),
 		parlex::associativity::NONE, parlex::filter_function(), {"PAYLOAD", }),
@@ -3470,8 +3470,8 @@
 			parlex::repetition(	parlex::reference("IC")
 			),
 			parlex::choice ({
-				parlex::literal("⊕", U"⊕"),
-				parlex::literal("xor", U"xor")
+				parlex::literal(U"⊕"),
+				parlex::literal(U"xor")
 			}),
 			parlex::repetition(	parlex::reference("IC")
 			),
@@ -3484,12 +3484,12 @@
 			parlex::repetition(	parlex::reference("IC")
 			),
 			parlex::choice ({
-				parlex::literal("⊕", U"⊕"),
-				parlex::literal("xor", U"xor")
+				parlex::literal(U"⊕"),
+				parlex::literal(U"xor")
 			}),
 			parlex::choice ({
-				parlex::literal("<-", U"<-"),
-				parlex::literal("←", U"←")
+				parlex::literal(U"<-"),
+				parlex::literal(U"←")
 			}),
 			parlex::repetition(	parlex::reference("IC")
 			),
