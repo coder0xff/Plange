@@ -2,10 +2,6 @@
 	path = source/googletest
 	url = https://github.com/google/googletest.git
 	branch = origin/release-1.6.0
-[submodule "source/grammar_gen/yaml-cpp"]
-	path = source/grammar_gen/yaml-cpp
-	url = https://github.com/coder0xff/yaml-cpp.git
-	branch = origin/vs_15_5_5
 [submodule "source/plc/lld"]
 	path = source/plc/lld
 	url = https://git.llvm.org/git/lld
@@ -14,3 +10,8 @@
 	path = source/plc/llvm
 	url = https://git.llvm.org/git/llvm
 	branch = release_60
+[submodule "source/grammar_gen/yaml-cpp"]
+	path = source/grammar_gen/yaml-cpp
+	url = https://github.com/jbeder/yaml-cpp.git
+	branch = yaml-cpp-0.6.2
+	
