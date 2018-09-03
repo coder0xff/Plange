@@ -12,6 +12,7 @@ public:
 	typedef T type;
 
 	erased(type const & v) : op_ptr(&op<T>), downcast_offset(0), value(new type(v)) {}
+	erased(type && v) : op_ptr(&op<T>), downcast_offset(0), value(new type(std::move(v))) {}
 
 	// construct from type U that inherits T
 	template <typename U>
