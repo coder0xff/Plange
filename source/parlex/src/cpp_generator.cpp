@@ -699,7 +699,11 @@ static erased<detail::node> flatten_sequence_as_forced_aggregate(bool const isPr
 				child->tag = child->tag + "_t";
 			}
 		} else {
-			fieldName = "dontCare" + std::to_string(childIndex);
+			if (child->tag.empty()) {
+				fieldName = "dont_care" + std::to_string(childIndex);
+			} else {
+				fieldName = child->tag;
+			}
 		}
 		forcedAggregate.add_member(fieldName, child);
 		++childIndex;

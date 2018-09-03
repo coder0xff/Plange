@@ -1,7 +1,5 @@
 #include "parlex/detail/wirth.hpp"
 
-#include <iostream>
-
 #include "utf.hpp"
 #include "utils.hpp"
 
@@ -131,7 +129,6 @@ builder wirth_t::load_grammar(std::string const & rootId, std::map<std::string, 
 	}
 	return result;
 }
-
 
 builder wirth_t::load_grammar(std::string const & rootId, std::u32string const & document, std::map<std::string, associativity> const & associativities, std::set<std::string> const & longestNames, std::set<std::string> const & shortestNames) const {
 	parser p;
@@ -285,7 +282,12 @@ builder generate_wirth() {
 					reference("identifier")
 				}),
 				sequence({
-					optional(literal(U"$")),
+					optional(
+						choice({
+							literal(U"$"),
+							reference("tag")
+						})
+					),
 					reference("c_string")
 				}),
 				sequence({

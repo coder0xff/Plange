@@ -55,7 +55,7 @@ bool leaf::is_leaf() const { return true; }
 
 } // namespace detail
 
-literal::literal(std::u32string const & content) : leaf(to_utf8(content)), content(content) {}
+literal::literal(std::u32string const & content) : leaf(""), content(content) {}
 
 literal::literal(std::string const & tag, std::u32string const & content) : leaf(tag), content(content) {}
 
