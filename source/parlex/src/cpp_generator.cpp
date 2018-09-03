@@ -422,12 +422,21 @@ static std::string generate_literal_declarations(std::map<std::u32string, std::s
 
 static erased<detail::node> flatten_node(bool isProduction, std::string const & grammarName, erased<detail::node> & n, std::vector<std::string> & subResults, std::set<std::string> & forwardDeclarations, std::list<std::string> const & scopes, std::vector<std::string> & builderDefinitions, bool & fullyDefined);
 
+static bool ends_with (std::string const &fullString, std::string const &ending) {
+    if (fullString.length() >= ending.length()) {
+        return (0 == fullString.compare (fullString.length() - ending.length(), ending.length(), ending));
+    }
+	return false;
+}
+
 static detail::node::children_t flatten_children(std::string const & grammarName, std::string const & elementNameHint, detail::node::children_t & children, std::vector<std::string> & subResults, std::set<std::string> & forwardDeclarations, std::list<std::string> const & scopes, std::vector<std::string> & builderDefinitions) {
 	detail::node::children_t results;
-	auto counter = 0;
 	for (auto & child : children) {
 		if (child->tag == "") {
-			child->tag = elementNameHint + "_" + std::to_string(counter++ + 1) + "_t";
+			child->tag = elementNameHint;
+			if (!ends_with(elementNameHint, "_t")) {
+				child->tag += "_t";
+			}
 		}
 		bool dontCareChildWasFullyDefined;
 		auto const temp = flatten_node(false, grammarName, child, subResults, forwardDeclarations, scopes, builderDefinitions, dontCareChildWasFullyDefined);
