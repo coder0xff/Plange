@@ -13,7 +13,6 @@ struct match_class {
 	uint16_t recognizer_index;
 
 	match_class(uint32_t const documentPosition, uint16_t const recognizerIndex);
-	match_class(match_class const & other) = default;
 
 	bool operator <(match_class const & rhs) const;
 };
