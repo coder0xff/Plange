@@ -111,6 +111,26 @@ std::string tolower(std::string const & in) {
 	return result;
 }
 
+std::pair<std::string, char> exec(std::string const & executable) {
+	auto const popenFunction =
+#ifdef _MSC_VER
+	_popen
+#else
+	popen
+#endif
+		;
+
+	std::string output;
+	std::unique_ptr<FILE> stdoutPipe(popenFunction(executable.c_str(), "r"));
+	throw_assert(!stdoutPipe);
+	int c;
+	while ((c = fgetc(stdoutPipe.get())) != EOF) {
+		output += char(c);
+	}
+	auto result = std::make_pair(output, feof(stdoutPipe.get()));
+	return result;
+}
+
 #ifndef CMAKE_INTDIR
 #define CMAKE_INTDIR "None"
 #endif
