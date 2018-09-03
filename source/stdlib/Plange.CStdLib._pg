@@ -2,16 +2,21 @@
 	<CInt> quot;
 	<CInt> rem;
 };
+
 Div_t.Layout = cStdlib.Layout;
+
 <Type> LDiv_t := type {
 	<CLongInt> quot;
 	<CLongInt> rem;
 };
+
 LDiv_t.Layout = cStdlib.Layout;
+
 <Type> LLDiv_t := type {
 	<CLongLongInt> quot;
 	<CLongLongInt> rem;
 };
+
 LLDiv_t.Layout = cStdlib.Layout;
 CSigval := CInt | Pointer<Void>;
 <Type> RandomData := type {
@@ -23,7 +28,9 @@ CSigval := CInt | Pointer<Void>;
 	<Pointer<CInt>> rand_sep;
 	<Pointer<Int32>> end_ptr;
 };
+
 RandomData.Layout = cStdlib.Layout;
+
 <Type> Drand48Data := type {
 	<Array<CUnsignedShort>> __x(3);
 	<Array<CUnsignedShort>> __old_x(3);
@@ -31,13 +38,17 @@ RandomData.Layout = cStdlib.Layout;
 	<CUnsignedShort> __init;
 	<CUnsignedLongLong> __a;
 };
+
 Drand48Data.Layout = cStdlib.Layout;
 
 import Plange.CStdLib.Generated._pg;
 
 extern <CUnsignedInt -> Pointer<Void>> malloc;
+
 extern <CUnsignedInt * CUnsignedInt -> Pointer<Void>> calloc;
+
 extern <Pointer<Void> * CUnsignedInt -> Pointer<Void>> realloc;
+
 <Number -> Number> abs;
 <Number -> Int> ceil;
 <Number -> Number> factorial;
