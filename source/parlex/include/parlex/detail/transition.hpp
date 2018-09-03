@@ -7,7 +7,7 @@ namespace parlex::detail {
 struct leaf;
 
 struct transition : match {
-	leaf const * const l;
+	leaf const * l;
 
 	transition(match const & m, leaf const * l) : match(m), l(l) {}
 };
