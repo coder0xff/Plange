@@ -122,7 +122,7 @@ int main(int const argc, const char* argv[]) {
 				precedences.insert(element.as<std::string>());
 			}
 		}
-		defs.emplace(std::piecewise_construct, forward_as_tuple(name), forward_as_tuple(source, assoc, filter, precedences));
+		defs.emplace(std::piecewise_construct, std::forward_as_tuple(name), std::forward_as_tuple(source, assoc, filter, precedences));
 	}
 	auto const g = parlex::wirth().load_grammar("STATEMENT_SCOPE", defs);
 	auto const files = parlex::cpp_generator::generate("plange", { "plc" }, g);
