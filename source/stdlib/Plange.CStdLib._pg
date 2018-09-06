@@ -32,8 +32,8 @@ CSigval := CInt | Pointer<Void>;
 RandomData.Layout = cStdlib.Layout;
 
 <Type> Drand48Data := type {
-	<Array<CUnsignedShort>> __x(3);
-	<Array<CUnsignedShort>> __old_x(3);
+	<Array<CUnsignedShort, 3>> __x;
+	<Array<CUnsignedShort, 3>> __old_x;
 	<CUnsignedShort> __c;
 	<CUnsignedShort> __init;
 	<CUnsignedLongLong> __a;
