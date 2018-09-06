@@ -166,7 +166,7 @@ A reference counted pointer for deterministic destruction.
 ```
 Pointer <-
 	(<Type> T) {
-		return type inheriting Pointer {
+		return type inheriting Offset {
 			<RawPointer<Atomic<CInt>> counter;
 			<RawPointer<T>> value_ptr;
 
