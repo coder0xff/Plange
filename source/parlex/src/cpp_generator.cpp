@@ -319,7 +319,7 @@ static std::string generate_grammar_builder_initializer(detail::node const & n) 
 
 }
 
-// generate a portion of the cpp.inc that construct the parlex grammar
+// Generate the portion of the cpp.inc that constructs the parlex grammar.
 static std::string generate_production_builder_initializer(production const & p) {
 	std::stringstream ss;
 	ss << "parlex::production(" << enquote(p.name) << ",\n";
@@ -367,7 +367,7 @@ static std::string generate_production_builder_initializer(production const & p)
 	return ss.str();
 }
 
-// generate a function that returns the grammar_builder
+// Generate a function that returns the grammar_builder.
 static std::string generate_x_builder_cpp_inc(builder const & b) {
 	std::stringstream source;
 	for (auto const & p : b.productions) {
@@ -387,7 +387,7 @@ static std::string generate_x_builder_cpp_inc(builder const & b) {
 	return source.str();
 }
 
-// return a string containing data-member declarations for each production
+// Return a string containing data-member declarations for each production.
 static std::string generate_production_member_declarations(builder const & b) {
 	std::stringstream result;
 	for (auto const & p : b.productions) {
@@ -396,7 +396,7 @@ static std::string generate_production_member_declarations(builder const & b) {
 	return result.str();
 }
 
-// return a string containing constructor initializers for each production
+// Return a string containing constructor initializers for each production.
 static std::string generate_production_member_initializers(builder const & b) {
 	std::stringstream ss;
 	auto isFirst = true;
@@ -435,10 +435,27 @@ static bool ends_with (std::string const &fullString, std::string const &ending)
 }
 
 static detail::node::children_t flatten_children(std::string const & grammarName, std::string const & elementNameHint, detail::node::children_t & children, std::vector<std::string> & subResults, std::set<std::string> & forwardDeclarations, std::list<std::string> const & scopes, std::vector<std::string> & builderDefinitions) {
+	bool willNameAnyChildren = false;
+	bool willNameManyChildren = false;
+	for (auto const & child : children) {
+		if (child->tag.empty()) {
+			if (!willNameAnyChildren) {
+				willNameAnyChildren = true;
+			} else {
+				willNameManyChildren = true;
+				break;
+			}
+		}
+	}
+
+	int renamedChildCounter = 0;	
 	detail::node::children_t results;
 	for (auto & child : children) {
-		if (child->tag == "") {
+		if (child->tag.empty()) {
 			child->tag = elementNameHint;
+			if (willNameManyChildren) {
+				child->tag += std::to_string(++renamedChildCounter);
+			}
 			if (!ends_with(elementNameHint, "_t")) {
 				child->tag += "_t";
 			}
