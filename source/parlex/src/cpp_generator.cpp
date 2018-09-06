@@ -323,12 +323,12 @@ static std::string generate_grammar_builder_initializer(detail::node const & n) 
 static std::string generate_production_builder_initializer(production const & p) {
 	std::stringstream ss;
 	ss << "parlex::production(" << enquote(p.name) << ",\n";
-	ss << indent(generate_grammar_builder_initializer(*p.behavior), 2);
+	ss << indent(generate_grammar_builder_initializer(*p.behavior), 1);
 	auto const needsPrecendences = p.precedences.size() > 0;
 	auto const needsFilter = p.filter != filter_function() || needsPrecendences;
 	auto const needsAssociativity = p.assoc != associativity::NONE || needsFilter;
 	if (needsAssociativity) {
-		ss << ",\n\t\tparlex::associativity::";
+		ss << ",\n\tparlex::associativity::";
 		switch (p.assoc) {
 			case associativity::ANY:
 				ss << "ANY";
@@ -370,11 +370,16 @@ static std::string generate_production_builder_initializer(production const & p)
 // generate a function that returns the grammar_builder
 static std::string generate_x_builder_cpp_inc(builder const & b) {
 	std::stringstream source;
+	for (auto const & p : b.productions) {
+		source << "static parlex::production " << p.name << "() {\n";
+		source << "\treturn " << generate_production_builder_initializer(p) << ";\n";
+		source << "}\n\n";
+	}
+
 	source << "static parlex::builder const & builder() {\n";
 	source << "\tstatic parlex::builder const result(" << enquote(b.root_name) << ", {\n";
 	for (auto const & p : b.productions) {
-		source << "\t\t" << generate_production_builder_initializer(p);
-		source << ",\n";
+		source << "\t\t" << p.name << "(),\n";
 	}
 	source << "\t});\n";
 	source << "\treturn result;\n";
