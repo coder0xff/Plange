@@ -5,15 +5,15 @@
 #include <string>
 #include <vector>
 
+#ifdef _MSC_VER
+#   include <Windows.h>
+#endif
+
 #include "utils.hpp"
 
 void debugger() {
 #ifdef _MSC_VER
-#   ifdef _WIN64
-	throw std::runtime_error("inline asm in unsupported on this platform");
-#   else
-	__asm int 3
-#   endif
+	DebugBreak();
 #else
 	raise(SIGTRAP);
 #endif
