@@ -450,16 +450,26 @@ static std::string generate_struct_declaration(bool const isProduction, std::str
 	std::stringstream declaration;
 
 	declaration << "struct " << name << " {\n";
+	if (isProduction) {
+		declaration << "\tint32_t document_position, consumed_character_count;\n\n";
+	}
 	for (auto const & internalSubResult : internalSubResults) {
 		declaration << indent(internalSubResult) << "\n\n";
 	}
 	declaration << indent(generate_struct_members(flattenedDataMembers));
 	declaration << "\n\n";
-	declaration << "\texplicit " << name << "(\n";
-	declaration << indent(generate_struct_constructor_parameters(flattenedDataMembers), 2);
+	declaration << "\texplicit " << name << "\n\t\t(";
+	if (isProduction) {
+		declaration << "int32_t documentPosition, int32_t consumedCharacterCount, ";
+	}
+	declaration << generate_struct_constructor_parameters(flattenedDataMembers);
 	declaration << ")";
 	if (flattenedDataMembers.size() > 0) {
-		declaration << " : ";
+		declaration << "\n\t\t";
+		declaration << ": ";
+		if (isProduction) {
+			declaration << "document_position(documentPosition), consumed_character_count(consumedCharacterCount), ";
+		}
 		declaration << generate_struct_constructor_initializers(flattenedDataMembers);
 	}
 	declaration << " {}\n\n";
@@ -503,6 +513,9 @@ static erased<detail::node> flatten_aggregate(bool const isProduction, std::stri
 	builderDefinition << "\tauto const & children = b->children;\n";
 	builderDefinition << indent(generate_struct_builder_children(flattenedDataMembers));
 	builderDefinition << "\treturn " << aggregate.tag << "(";
+	if (isProduction) {
+		builderDefinition << "n.document_position, n.consumed_character_count, ";
+	}
 	builderDefinition << generate_struct_build_moves(flattenedDataMembers);
 	builderDefinition << ");\n";
 	builderDefinition << "}\n";
