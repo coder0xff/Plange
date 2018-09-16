@@ -14,7 +14,7 @@ plc::IMPLICIT_TYPE_DEREFERENCE plc::IMPLICIT_TYPE_DEREFERENCE::build(parlex::det
 	auto v0 = parlex::detail::document::element<parlex::detail::document::text<literal_0x3C_t>>::build(&*children[0], w);
 	auto v1 = parlex::detail::document::element<std::vector<erased<IC>>>::build(&*children[1], w);
 	auto v2 = parlex::detail::document::element<parlex::detail::document::text<literal_0x3E_t>>::build(&*children[2], w);
-	return IMPLICIT_TYPE_DEREFERENCE(std::move(v0), std::move(v1), std::move(v2));
+	return IMPLICIT_TYPE_DEREFERENCE(n.document_position, n.consumed_character_count, std::move(v0), std::move(v1), std::move(v2));
 }
 
 

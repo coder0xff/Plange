@@ -21,30 +21,34 @@ struct IC;
 struct TYPE_STATEMENT;
 
 struct TYPE_SCOPE {
-	struct field_2_t_1_t {
+	int32_t document_position, consumed_character_count;
+
+	struct field_2_t {
 		erased<TYPE_STATEMENT> field_1;
 		
 		std::vector<erased<IC>> field_2;
 		
 	
 	
-		explicit field_2_t_1_t(
-			erased<TYPE_STATEMENT> && field_1, std::vector<erased<IC>> && field_2) : field_1(std::move(field_1)), field_2(std::move(field_2)) {}
+		explicit field_2_t
+			(erased<TYPE_STATEMENT> && field_1, std::vector<erased<IC>> && field_2)
+			: field_1(std::move(field_1)), field_2(std::move(field_2)) {}
 	
-		field_2_t_1_t(field_2_t_1_t const & other) = default;
-		field_2_t_1_t(field_2_t_1_t && move) = default;
+		field_2_t(field_2_t const & other) = default;
+		field_2_t(field_2_t && move) = default;
 	
-		static field_2_t_1_t build(parlex::detail::node const * b, parlex::detail::document::walk & w);
+		static field_2_t build(parlex::detail::node const * b, parlex::detail::document::walk & w);
 	};
 
 	std::vector<erased<IC>> field_1;
 	
-	std::vector<field_2_t_1_t> field_2;
+	std::vector<field_2_t> field_2;
 	
 
 
-	explicit TYPE_SCOPE(
-		std::vector<erased<IC>> && field_1, std::vector<field_2_t_1_t> && field_2) : field_1(std::move(field_1)), field_2(std::move(field_2)) {}
+	explicit TYPE_SCOPE
+		(int32_t documentPosition, int32_t consumedCharacterCount, std::vector<erased<IC>> && field_1, std::vector<field_2_t> && field_2)
+		: document_position(documentPosition), consumed_character_count(consumedCharacterCount), field_1(std::move(field_1)), field_2(std::move(field_2)) {}
 
 	TYPE_SCOPE(TYPE_SCOPE const & other) = default;
 	TYPE_SCOPE(TYPE_SCOPE && move) = default;

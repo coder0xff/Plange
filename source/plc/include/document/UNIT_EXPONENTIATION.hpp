@@ -21,16 +21,19 @@ struct DIMENSION;
 struct NON_FRACTIONAL;
 
 struct UNIT_EXPONENTIATION {
+	int32_t document_position, consumed_character_count;
+
 	erased<DIMENSION> field_1;
 	
-	parlex::detail::document::text<literal_0x5E_t> dontCare1;
+	parlex::detail::document::text<literal_0x5E_t> dont_care1;
 	
 	erased<NON_FRACTIONAL> field_2;
 	
 
 
-	explicit UNIT_EXPONENTIATION(
-		erased<DIMENSION> && field_1, parlex::detail::document::text<literal_0x5E_t> && dontCare1, erased<NON_FRACTIONAL> && field_2) : field_1(std::move(field_1)), dontCare1(std::move(dontCare1)), field_2(std::move(field_2)) {}
+	explicit UNIT_EXPONENTIATION
+		(int32_t documentPosition, int32_t consumedCharacterCount, erased<DIMENSION> && field_1, parlex::detail::document::text<literal_0x5E_t> && dont_care1, erased<NON_FRACTIONAL> && field_2)
+		: document_position(documentPosition), consumed_character_count(consumedCharacterCount), field_1(std::move(field_1)), dont_care1(std::move(dont_care1)), field_2(std::move(field_2)) {}
 
 	UNIT_EXPONENTIATION(UNIT_EXPONENTIATION const & other) = default;
 	UNIT_EXPONENTIATION(UNIT_EXPONENTIATION && move) = default;

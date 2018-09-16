@@ -16,7 +16,7 @@ plc::VOLATILE_IMPLICIT_TYPE_DEREFERENCE plc::VOLATILE_IMPLICIT_TYPE_DEREFERENCE:
 	auto v2 = parlex::detail::document::element<parlex::detail::document::text<literal_volatile_t>>::build(&*children[2], w);
 	auto v3 = parlex::detail::document::element<std::vector<erased<IC>>>::build(&*children[3], w);
 	auto v4 = parlex::detail::document::element<parlex::detail::document::text<literal_0x3E_t>>::build(&*children[4], w);
-	return VOLATILE_IMPLICIT_TYPE_DEREFERENCE(std::move(v0), std::move(v1), std::move(v2), std::move(v3), std::move(v4));
+	return VOLATILE_IMPLICIT_TYPE_DEREFERENCE(n.document_position, n.consumed_character_count, std::move(v0), std::move(v1), std::move(v2), std::move(v3), std::move(v4));
 }
 
 

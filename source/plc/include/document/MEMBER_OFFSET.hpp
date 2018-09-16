@@ -21,7 +21,9 @@ struct IC;
 struct WHOLE_NUMBER;
 
 struct MEMBER_OFFSET {
-	parlex::detail::document::text<literal_0x40_t> dontCare0;
+	int32_t document_position, consumed_character_count;
+
+	parlex::detail::document::text<literal_0x40_t> dont_care0;
 	
 	std::vector<erased<IC>> field_1;
 	
@@ -29,8 +31,9 @@ struct MEMBER_OFFSET {
 	
 
 
-	explicit MEMBER_OFFSET(
-		parlex::detail::document::text<literal_0x40_t> && dontCare0, std::vector<erased<IC>> && field_1, erased<WHOLE_NUMBER> && field_2) : dontCare0(std::move(dontCare0)), field_1(std::move(field_1)), field_2(std::move(field_2)) {}
+	explicit MEMBER_OFFSET
+		(int32_t documentPosition, int32_t consumedCharacterCount, parlex::detail::document::text<literal_0x40_t> && dont_care0, std::vector<erased<IC>> && field_1, erased<WHOLE_NUMBER> && field_2)
+		: document_position(documentPosition), consumed_character_count(consumedCharacterCount), dont_care0(std::move(dont_care0)), field_1(std::move(field_1)), field_2(std::move(field_2)) {}
 
 	MEMBER_OFFSET(MEMBER_OFFSET const & other) = default;
 	MEMBER_OFFSET(MEMBER_OFFSET && move) = default;

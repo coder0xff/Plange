@@ -21,6 +21,8 @@ struct EXPRESSION;
 struct IC;
 
 struct AND_ASSIGNMENT {
+	int32_t document_position, consumed_character_count;
+
 	erased<EXPRESSION> field_1;
 	
 	std::vector<erased<IC>> field_2;
@@ -41,14 +43,15 @@ struct AND_ASSIGNMENT {
 	
 
 
-	explicit AND_ASSIGNMENT(
-		erased<EXPRESSION> && field_1, std::vector<erased<IC>> && field_2, std::variant<
-			parlex::detail::document::text<literal_0xE20x880xA7_t>,
-			parlex::detail::document::text<literal_and_t>
-		> && field_3, std::variant<
-			parlex::detail::document::text<literal_0x3C0x2D_t>,
-			parlex::detail::document::text<literal_0xE20x860x90_t>
-		> && field_4, std::vector<erased<IC>> && field_5, erased<EXPRESSION> && field_6) : field_1(std::move(field_1)), field_2(std::move(field_2)), field_3(std::move(field_3)), field_4(std::move(field_4)), field_5(std::move(field_5)), field_6(std::move(field_6)) {}
+	explicit AND_ASSIGNMENT
+		(int32_t documentPosition, int32_t consumedCharacterCount, erased<EXPRESSION> && field_1, std::vector<erased<IC>> && field_2, std::variant<
+	parlex::detail::document::text<literal_0xE20x880xA7_t>,
+	parlex::detail::document::text<literal_and_t>
+> && field_3, std::variant<
+	parlex::detail::document::text<literal_0x3C0x2D_t>,
+	parlex::detail::document::text<literal_0xE20x860x90_t>
+> && field_4, std::vector<erased<IC>> && field_5, erased<EXPRESSION> && field_6)
+		: document_position(documentPosition), consumed_character_count(consumedCharacterCount), field_1(std::move(field_1)), field_2(std::move(field_2)), field_3(std::move(field_3)), field_4(std::move(field_4)), field_5(std::move(field_5)), field_6(std::move(field_6)) {}
 
 	AND_ASSIGNMENT(AND_ASSIGNMENT const & other) = default;
 	AND_ASSIGNMENT(AND_ASSIGNMENT && move) = default;

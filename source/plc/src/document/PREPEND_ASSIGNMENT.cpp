@@ -21,7 +21,7 @@ plc::PREPEND_ASSIGNMENT plc::PREPEND_ASSIGNMENT::build(parlex::detail::ast_node 
 	>>::build(&*children[3], w);
 	auto v4 = parlex::detail::document::element<std::vector<erased<IC>>>::build(&*children[4], w);
 	auto v5 = parlex::detail::document::element<erased<EXPRESSION>>::build(&*children[5], w);
-	return PREPEND_ASSIGNMENT(std::move(v0), std::move(v1), std::move(v2), std::move(v3), std::move(v4), std::move(v5));
+	return PREPEND_ASSIGNMENT(n.document_position, n.consumed_character_count, std::move(v0), std::move(v1), std::move(v2), std::move(v3), std::move(v4), std::move(v5));
 }
 
 

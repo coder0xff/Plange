@@ -18,14 +18,17 @@
 namespace plc {
 
 struct ASM_OP {
+	int32_t document_position, consumed_character_count;
+
 	parlex::detail::document::text<parlex::detail::lowercase_letter_t> field_1;
 	
 	std::vector<parlex::detail::document::text<parlex::detail::lowercase_letter_t>> field_2;
 	
 
 
-	explicit ASM_OP(
-		parlex::detail::document::text<parlex::detail::lowercase_letter_t> && field_1, std::vector<parlex::detail::document::text<parlex::detail::lowercase_letter_t>> && field_2) : field_1(std::move(field_1)), field_2(std::move(field_2)) {}
+	explicit ASM_OP
+		(int32_t documentPosition, int32_t consumedCharacterCount, parlex::detail::document::text<parlex::detail::lowercase_letter_t> && field_1, std::vector<parlex::detail::document::text<parlex::detail::lowercase_letter_t>> && field_2)
+		: document_position(documentPosition), consumed_character_count(consumedCharacterCount), field_1(std::move(field_1)), field_2(std::move(field_2)) {}
 
 	ASM_OP(ASM_OP const & other) = default;
 	ASM_OP(ASM_OP && move) = default;

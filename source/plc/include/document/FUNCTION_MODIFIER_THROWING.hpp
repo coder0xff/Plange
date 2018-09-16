@@ -22,23 +22,26 @@ struct FUNCTION_MODIFIER_2;
 struct IC;
 
 struct FUNCTION_MODIFIER_THROWING {
-	struct field_1_t_1_t {
+	int32_t document_position, consumed_character_count;
+
+	struct field_1_t {
 		std::vector<erased<IC>> field_1;
 		
 		erased<ARRAY> field_2;
 		
 	
 	
-		explicit field_1_t_1_t(
-			std::vector<erased<IC>> && field_1, erased<ARRAY> && field_2) : field_1(std::move(field_1)), field_2(std::move(field_2)) {}
+		explicit field_1_t
+			(std::vector<erased<IC>> && field_1, erased<ARRAY> && field_2)
+			: field_1(std::move(field_1)), field_2(std::move(field_2)) {}
 	
-		field_1_t_1_t(field_1_t_1_t const & other) = default;
-		field_1_t_1_t(field_1_t_1_t && move) = default;
+		field_1_t(field_1_t const & other) = default;
+		field_1_t(field_1_t && move) = default;
 	
-		static field_1_t_1_t build(parlex::detail::node const * b, parlex::detail::document::walk & w);
+		static field_1_t build(parlex::detail::node const * b, parlex::detail::document::walk & w);
 	};
 
-	struct field_2_t_1_t {
+	struct field_2_t {
 		erased<IC> field_1;
 		
 		std::vector<erased<IC>> field_2;
@@ -47,25 +50,27 @@ struct FUNCTION_MODIFIER_THROWING {
 		
 	
 	
-		explicit field_2_t_1_t(
-			erased<IC> && field_1, std::vector<erased<IC>> && field_2, erased<FUNCTION_MODIFIER_2> && field_3) : field_1(std::move(field_1)), field_2(std::move(field_2)), field_3(std::move(field_3)) {}
+		explicit field_2_t
+			(erased<IC> && field_1, std::vector<erased<IC>> && field_2, erased<FUNCTION_MODIFIER_2> && field_3)
+			: field_1(std::move(field_1)), field_2(std::move(field_2)), field_3(std::move(field_3)) {}
 	
-		field_2_t_1_t(field_2_t_1_t const & other) = default;
-		field_2_t_1_t(field_2_t_1_t && move) = default;
+		field_2_t(field_2_t const & other) = default;
+		field_2_t(field_2_t && move) = default;
 	
-		static field_2_t_1_t build(parlex::detail::node const * b, parlex::detail::document::walk & w);
+		static field_2_t build(parlex::detail::node const * b, parlex::detail::document::walk & w);
 	};
 
-	parlex::detail::document::text<literal_throwing_t> dontCare0;
+	parlex::detail::document::text<literal_throwing_t> throwing;
 	
-	std::optional<field_1_t_1_t> field_1;
+	std::optional<field_1_t> field_1;
 	
-	std::optional<field_2_t_1_t> field_2;
+	std::optional<field_2_t> field_2;
 	
 
 
-	explicit FUNCTION_MODIFIER_THROWING(
-		parlex::detail::document::text<literal_throwing_t> && dontCare0, std::optional<field_1_t_1_t> && field_1, std::optional<field_2_t_1_t> && field_2) : dontCare0(std::move(dontCare0)), field_1(std::move(field_1)), field_2(std::move(field_2)) {}
+	explicit FUNCTION_MODIFIER_THROWING
+		(int32_t documentPosition, int32_t consumedCharacterCount, parlex::detail::document::text<literal_throwing_t> && throwing, std::optional<field_1_t> && field_1, std::optional<field_2_t> && field_2)
+		: document_position(documentPosition), consumed_character_count(consumedCharacterCount), throwing(std::move(throwing)), field_1(std::move(field_1)), field_2(std::move(field_2)) {}
 
 	FUNCTION_MODIFIER_THROWING(FUNCTION_MODIFIER_THROWING const & other) = default;
 	FUNCTION_MODIFIER_THROWING(FUNCTION_MODIFIER_THROWING && move) = default;

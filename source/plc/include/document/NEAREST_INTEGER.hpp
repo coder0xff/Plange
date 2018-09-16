@@ -20,8 +20,8 @@ namespace plc {
 struct EXPRESSION;
 struct IC;
 
-struct NEAREST_INTEGER_1_t {
-	parlex::detail::document::text<literal_0xE20x8C0x8A_t> dontCare0;
+struct NEAREST_INTEGER1_t {
+	parlex::detail::document::text<literal_0xE20x8C0x8A_t> dont_care0;
 	
 	std::vector<erased<IC>> field_1;
 	
@@ -29,21 +29,22 @@ struct NEAREST_INTEGER_1_t {
 	
 	std::vector<erased<IC>> field_3;
 	
-	parlex::detail::document::text<literal_0xE20x8C0x89_t> dontCare4;
+	parlex::detail::document::text<literal_0xE20x8C0x89_t> dont_care4;
 	
 
 
-	explicit NEAREST_INTEGER_1_t(
-		parlex::detail::document::text<literal_0xE20x8C0x8A_t> && dontCare0, std::vector<erased<IC>> && field_1, erased<EXPRESSION> && field_2, std::vector<erased<IC>> && field_3, parlex::detail::document::text<literal_0xE20x8C0x89_t> && dontCare4) : dontCare0(std::move(dontCare0)), field_1(std::move(field_1)), field_2(std::move(field_2)), field_3(std::move(field_3)), dontCare4(std::move(dontCare4)) {}
+	explicit NEAREST_INTEGER1_t
+		(parlex::detail::document::text<literal_0xE20x8C0x8A_t> && dont_care0, std::vector<erased<IC>> && field_1, erased<EXPRESSION> && field_2, std::vector<erased<IC>> && field_3, parlex::detail::document::text<literal_0xE20x8C0x89_t> && dont_care4)
+		: dont_care0(std::move(dont_care0)), field_1(std::move(field_1)), field_2(std::move(field_2)), field_3(std::move(field_3)), dont_care4(std::move(dont_care4)) {}
 
-	NEAREST_INTEGER_1_t(NEAREST_INTEGER_1_t const & other) = default;
-	NEAREST_INTEGER_1_t(NEAREST_INTEGER_1_t && move) = default;
+	NEAREST_INTEGER1_t(NEAREST_INTEGER1_t const & other) = default;
+	NEAREST_INTEGER1_t(NEAREST_INTEGER1_t && move) = default;
 
-	static NEAREST_INTEGER_1_t build(parlex::detail::node const * b, parlex::detail::document::walk & w);
+	static NEAREST_INTEGER1_t build(parlex::detail::node const * b, parlex::detail::document::walk & w);
 };
 
-struct NEAREST_INTEGER_2_t {
-	parlex::detail::document::text<literal_0x7C__t> dontCare0;
+struct NEAREST_INTEGER2_t {
+	parlex::detail::document::text<literal_0x7C__t> dont_care0;
 	
 	std::vector<erased<IC>> field_1;
 	
@@ -51,22 +52,23 @@ struct NEAREST_INTEGER_2_t {
 	
 	std::vector<erased<IC>> field_3;
 	
-	parlex::detail::document::text<literal_0x270x7C_t> dontCare4;
+	parlex::detail::document::text<literal_0x270x7C_t> dont_care4;
 	
 
 
-	explicit NEAREST_INTEGER_2_t(
-		parlex::detail::document::text<literal_0x7C__t> && dontCare0, std::vector<erased<IC>> && field_1, erased<EXPRESSION> && field_2, std::vector<erased<IC>> && field_3, parlex::detail::document::text<literal_0x270x7C_t> && dontCare4) : dontCare0(std::move(dontCare0)), field_1(std::move(field_1)), field_2(std::move(field_2)), field_3(std::move(field_3)), dontCare4(std::move(dontCare4)) {}
+	explicit NEAREST_INTEGER2_t
+		(parlex::detail::document::text<literal_0x7C__t> && dont_care0, std::vector<erased<IC>> && field_1, erased<EXPRESSION> && field_2, std::vector<erased<IC>> && field_3, parlex::detail::document::text<literal_0x270x7C_t> && dont_care4)
+		: dont_care0(std::move(dont_care0)), field_1(std::move(field_1)), field_2(std::move(field_2)), field_3(std::move(field_3)), dont_care4(std::move(dont_care4)) {}
 
-	NEAREST_INTEGER_2_t(NEAREST_INTEGER_2_t const & other) = default;
-	NEAREST_INTEGER_2_t(NEAREST_INTEGER_2_t && move) = default;
+	NEAREST_INTEGER2_t(NEAREST_INTEGER2_t const & other) = default;
+	NEAREST_INTEGER2_t(NEAREST_INTEGER2_t && move) = default;
 
-	static NEAREST_INTEGER_2_t build(parlex::detail::node const * b, parlex::detail::document::walk & w);
+	static NEAREST_INTEGER2_t build(parlex::detail::node const * b, parlex::detail::document::walk & w);
 };
 
 typedef std::variant<
-	NEAREST_INTEGER_1_t,
-	NEAREST_INTEGER_2_t
+	NEAREST_INTEGER1_t,
+	NEAREST_INTEGER2_t
 > NEAREST_INTEGER_base;
 
 struct NEAREST_INTEGER: NEAREST_INTEGER_base {

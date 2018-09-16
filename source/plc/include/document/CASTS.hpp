@@ -21,11 +21,13 @@ struct EXPRESSION;
 struct IC;
 
 struct CASTS {
+	int32_t document_position, consumed_character_count;
+
 	erased<EXPRESSION> field_1;
 	
 	std::vector<erased<IC>> field_2;
 	
-	parlex::detail::document::text<literal_casts_t> dontCare2;
+	parlex::detail::document::text<literal_casts_t> dont_care2;
 	
 	std::vector<erased<IC>> field_3;
 	
@@ -33,8 +35,9 @@ struct CASTS {
 	
 
 
-	explicit CASTS(
-		erased<EXPRESSION> && field_1, std::vector<erased<IC>> && field_2, parlex::detail::document::text<literal_casts_t> && dontCare2, std::vector<erased<IC>> && field_3, erased<EXPRESSION> && field_4) : field_1(std::move(field_1)), field_2(std::move(field_2)), dontCare2(std::move(dontCare2)), field_3(std::move(field_3)), field_4(std::move(field_4)) {}
+	explicit CASTS
+		(int32_t documentPosition, int32_t consumedCharacterCount, erased<EXPRESSION> && field_1, std::vector<erased<IC>> && field_2, parlex::detail::document::text<literal_casts_t> && dont_care2, std::vector<erased<IC>> && field_3, erased<EXPRESSION> && field_4)
+		: document_position(documentPosition), consumed_character_count(consumedCharacterCount), field_1(std::move(field_1)), field_2(std::move(field_2)), dont_care2(std::move(dont_care2)), field_3(std::move(field_3)), field_4(std::move(field_4)) {}
 
 	CASTS(CASTS const & other) = default;
 	CASTS(CASTS && move) = default;

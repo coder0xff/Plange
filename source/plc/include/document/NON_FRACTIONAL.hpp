@@ -20,14 +20,17 @@ namespace plc {
 struct NON_NEG_NON_FRACTIONAL;
 
 struct NON_FRACTIONAL {
+	int32_t document_position, consumed_character_count;
+
 	std::optional<parlex::detail::document::text<literal_0x2D_t>> field_1;
 	
 	erased<NON_NEG_NON_FRACTIONAL> field_2;
 	
 
 
-	explicit NON_FRACTIONAL(
-		std::optional<parlex::detail::document::text<literal_0x2D_t>> && field_1, erased<NON_NEG_NON_FRACTIONAL> && field_2) : field_1(std::move(field_1)), field_2(std::move(field_2)) {}
+	explicit NON_FRACTIONAL
+		(int32_t documentPosition, int32_t consumedCharacterCount, std::optional<parlex::detail::document::text<literal_0x2D_t>> && field_1, erased<NON_NEG_NON_FRACTIONAL> && field_2)
+		: document_position(documentPosition), consumed_character_count(consumedCharacterCount), field_1(std::move(field_1)), field_2(std::move(field_2)) {}
 
 	NON_FRACTIONAL(NON_FRACTIONAL const & other) = default;
 	NON_FRACTIONAL(NON_FRACTIONAL && move) = default;

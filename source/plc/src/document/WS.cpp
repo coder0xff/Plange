@@ -11,7 +11,7 @@ plc::WS plc::WS::build(parlex::detail::ast_node const & n) {
 	auto const & children = b->children;
 	auto v0 = parlex::detail::document::element<parlex::detail::document::text<parlex::detail::white_space_t>>::build(&*children[0], w);
 	auto v1 = parlex::detail::document::element<std::vector<parlex::detail::document::text<parlex::detail::white_space_t>>>::build(&*children[1], w);
-	return WS(std::move(v0), std::move(v1));
+	return WS(n.document_position, n.consumed_character_count, std::move(v0), std::move(v1));
 }
 
 

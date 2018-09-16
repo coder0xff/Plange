@@ -12,27 +12,27 @@
 #include "MEMBER_OFFSET.hpp"
 #include "XML_DOC_STRING.hpp"
 
-plc::TYPE_SCOPE_ASSIGNMENT_CHAIN::field_1_t_1_t plc::TYPE_SCOPE_ASSIGNMENT_CHAIN::field_1_t_1_t::build(parlex::detail::node const * b, parlex::detail::document::walk & w) {
+plc::TYPE_SCOPE_ASSIGNMENT_CHAIN::field_1_t plc::TYPE_SCOPE_ASSIGNMENT_CHAIN::field_1_t::build(parlex::detail::node const * b, parlex::detail::document::walk & w) {
 	auto const & children = b->children;
 	auto v0 = parlex::detail::document::element<erased<XML_DOC_STRING>>::build(&*children[0], w);
 	auto v1 = parlex::detail::document::element<std::vector<erased<IC>>>::build(&*children[1], w);
-	return field_1_t_1_t(std::move(v0), std::move(v1));
+	return field_1_t(std::move(v0), std::move(v1));
 }
 
-plc::TYPE_SCOPE_ASSIGNMENT_CHAIN::field_3_t_1_t plc::TYPE_SCOPE_ASSIGNMENT_CHAIN::field_3_t_1_t::build(parlex::detail::node const * b, parlex::detail::document::walk & w) {
+plc::TYPE_SCOPE_ASSIGNMENT_CHAIN::field_3_t plc::TYPE_SCOPE_ASSIGNMENT_CHAIN::field_3_t::build(parlex::detail::node const * b, parlex::detail::document::walk & w) {
 	auto const & children = b->children;
 	auto v0 = parlex::detail::document::element<std::vector<erased<IC>>>::build(&*children[0], w);
 	auto v1 = parlex::detail::document::element<erased<MEMBER_OFFSET>>::build(&*children[1], w);
-	return field_3_t_1_t(std::move(v0), std::move(v1));
+	return field_3_t(std::move(v0), std::move(v1));
 }
 
 plc::TYPE_SCOPE_ASSIGNMENT_CHAIN plc::TYPE_SCOPE_ASSIGNMENT_CHAIN::build(parlex::detail::ast_node const & n) {
 	static auto const * b = acceptor().behavior;
 	parlex::detail::document::walk w{ n.children.cbegin(), n.children.cend() };
 	auto const & children = b->children;
-	auto v0 = parlex::detail::document::element<std::optional<field_1_t_1_t>>::build(&*children[0], w);
+	auto v0 = parlex::detail::document::element<std::optional<field_1_t>>::build(&*children[0], w);
 	auto v1 = parlex::detail::document::element<erased<IDENTIFIER>>::build(&*children[1], w);
-	auto v2 = parlex::detail::document::element<std::optional<field_3_t_1_t>>::build(&*children[2], w);
+	auto v2 = parlex::detail::document::element<std::optional<field_3_t>>::build(&*children[2], w);
 	auto v3 = parlex::detail::document::element<std::vector<erased<IC>>>::build(&*children[3], w);
 	auto v4 = parlex::detail::document::element<std::variant<
 		parlex::detail::document::text<literal_0xE20x860x90_t>,
@@ -43,7 +43,7 @@ plc::TYPE_SCOPE_ASSIGNMENT_CHAIN plc::TYPE_SCOPE_ASSIGNMENT_CHAIN::build(parlex:
 		erased<EXPRESSION>,
 		erased<ASSIGNMENT_CHAIN>
 	>>::build(&*children[6], w);
-	return TYPE_SCOPE_ASSIGNMENT_CHAIN(std::move(v0), std::move(v1), std::move(v2), std::move(v3), std::move(v4), std::move(v5), std::move(v6));
+	return TYPE_SCOPE_ASSIGNMENT_CHAIN(n.document_position, n.consumed_character_count, std::move(v0), std::move(v1), std::move(v2), std::move(v3), std::move(v4), std::move(v5), std::move(v6));
 }
 
 

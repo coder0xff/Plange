@@ -21,14 +21,17 @@ struct DIMENSION;
 struct NON_NEG_NUMBER;
 
 struct DIMENSIONAL_NUMBER {
+	int32_t document_position, consumed_character_count;
+
 	erased<NON_NEG_NUMBER> field_1;
 	
 	erased<DIMENSION> field_2;
 	
 
 
-	explicit DIMENSIONAL_NUMBER(
-		erased<NON_NEG_NUMBER> && field_1, erased<DIMENSION> && field_2) : field_1(std::move(field_1)), field_2(std::move(field_2)) {}
+	explicit DIMENSIONAL_NUMBER
+		(int32_t documentPosition, int32_t consumedCharacterCount, erased<NON_NEG_NUMBER> && field_1, erased<DIMENSION> && field_2)
+		: document_position(documentPosition), consumed_character_count(consumedCharacterCount), field_1(std::move(field_1)), field_2(std::move(field_2)) {}
 
 	DIMENSIONAL_NUMBER(DIMENSIONAL_NUMBER const & other) = default;
 	DIMENSIONAL_NUMBER(DIMENSIONAL_NUMBER && move) = default;

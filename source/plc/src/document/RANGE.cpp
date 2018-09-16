@@ -19,7 +19,7 @@ RANGE RANGE::build(parlex::detail::ast_node const & n) {
 }
 
 } // namespace plc
-plc::RANGE_1_t plc::RANGE_1_t::build(parlex::detail::node const * b, parlex::detail::document::walk & w) {
+plc::RANGE1_t plc::RANGE1_t::build(parlex::detail::node const * b, parlex::detail::document::walk & w) {
 	auto const & children = b->children;
 	auto v0 = parlex::detail::document::element<parlex::detail::document::text<literal_0x28_t>>::build(&*children[0], w);
 	auto v1 = parlex::detail::document::element<std::vector<erased<IC>>>::build(&*children[1], w);
@@ -31,10 +31,10 @@ plc::RANGE_1_t plc::RANGE_1_t::build(parlex::detail::node const * b, parlex::det
 		parlex::detail::document::text<literal_0x5D_t>,
 		parlex::detail::document::text<literal_0x29_t>
 	>>::build(&*children[6], w);
-	return RANGE_1_t(std::move(v0), std::move(v1), std::move(v2), std::move(v3), std::move(v4), std::move(v5), std::move(v6));
+	return RANGE1_t(std::move(v0), std::move(v1), std::move(v2), std::move(v3), std::move(v4), std::move(v5), std::move(v6));
 }
 
-plc::RANGE_2_t plc::RANGE_2_t::build(parlex::detail::node const * b, parlex::detail::document::walk & w) {
+plc::RANGE2_t plc::RANGE2_t::build(parlex::detail::node const * b, parlex::detail::document::walk & w) {
 	auto const & children = b->children;
 	auto v0 = parlex::detail::document::element<std::variant<
 		parlex::detail::document::text<literal_0x5B_t>,
@@ -46,10 +46,10 @@ plc::RANGE_2_t plc::RANGE_2_t::build(parlex::detail::node const * b, parlex::det
 	auto v4 = parlex::detail::document::element<parlex::detail::document::text<literal_0x2E0x2E0x2E_t>>::build(&*children[4], w);
 	auto v5 = parlex::detail::document::element<std::vector<erased<IC>>>::build(&*children[5], w);
 	auto v6 = parlex::detail::document::element<parlex::detail::document::text<literal_0x29_t>>::build(&*children[6], w);
-	return RANGE_2_t(std::move(v0), std::move(v1), std::move(v2), std::move(v3), std::move(v4), std::move(v5), std::move(v6));
+	return RANGE2_t(std::move(v0), std::move(v1), std::move(v2), std::move(v3), std::move(v4), std::move(v5), std::move(v6));
 }
 
-plc::RANGE_3_t plc::RANGE_3_t::build(parlex::detail::node const * b, parlex::detail::document::walk & w) {
+plc::RANGE3_t plc::RANGE3_t::build(parlex::detail::node const * b, parlex::detail::document::walk & w) {
 	auto const & children = b->children;
 	auto v0 = parlex::detail::document::element<std::variant<
 		parlex::detail::document::text<literal_0x28_t>,
@@ -66,7 +66,7 @@ plc::RANGE_3_t plc::RANGE_3_t::build(parlex::detail::node const * b, parlex::det
 		parlex::detail::document::text<literal_0x5D_t>,
 		parlex::detail::document::text<literal_0x29_t>
 	>>::build(&*children[8], w);
-	return RANGE_3_t(std::move(v0), std::move(v1), std::move(v2), std::move(v3), std::move(v4), std::move(v5), std::move(v6), std::move(v7), std::move(v8));
+	return RANGE3_t(std::move(v0), std::move(v1), std::move(v2), std::move(v3), std::move(v4), std::move(v5), std::move(v6), std::move(v7), std::move(v8));
 }
 
 

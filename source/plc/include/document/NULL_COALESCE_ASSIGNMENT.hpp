@@ -21,11 +21,13 @@ struct EXPRESSION;
 struct IC;
 
 struct NULL_COALESCE_ASSIGNMENT {
+	int32_t document_position, consumed_character_count;
+
 	erased<EXPRESSION> field_1;
 	
 	std::vector<erased<IC>> field_2;
 	
-	parlex::detail::document::text<literal_0x3F0x3F_t> dontCare2;
+	parlex::detail::document::text<literal_0x3F0x3F_t> dont_care2;
 	
 	std::variant<
 		parlex::detail::document::text<literal_0x3C0x2D_t>,
@@ -38,11 +40,12 @@ struct NULL_COALESCE_ASSIGNMENT {
 	
 
 
-	explicit NULL_COALESCE_ASSIGNMENT(
-		erased<EXPRESSION> && field_1, std::vector<erased<IC>> && field_2, parlex::detail::document::text<literal_0x3F0x3F_t> && dontCare2, std::variant<
-			parlex::detail::document::text<literal_0x3C0x2D_t>,
-			parlex::detail::document::text<literal_0xE20x860x90_t>
-		> && field_3, std::vector<erased<IC>> && field_4, erased<EXPRESSION> && field_5) : field_1(std::move(field_1)), field_2(std::move(field_2)), dontCare2(std::move(dontCare2)), field_3(std::move(field_3)), field_4(std::move(field_4)), field_5(std::move(field_5)) {}
+	explicit NULL_COALESCE_ASSIGNMENT
+		(int32_t documentPosition, int32_t consumedCharacterCount, erased<EXPRESSION> && field_1, std::vector<erased<IC>> && field_2, parlex::detail::document::text<literal_0x3F0x3F_t> && dont_care2, std::variant<
+	parlex::detail::document::text<literal_0x3C0x2D_t>,
+	parlex::detail::document::text<literal_0xE20x860x90_t>
+> && field_3, std::vector<erased<IC>> && field_4, erased<EXPRESSION> && field_5)
+		: document_position(documentPosition), consumed_character_count(consumedCharacterCount), field_1(std::move(field_1)), field_2(std::move(field_2)), dont_care2(std::move(dont_care2)), field_3(std::move(field_3)), field_4(std::move(field_4)), field_5(std::move(field_5)) {}
 
 	NULL_COALESCE_ASSIGNMENT(NULL_COALESCE_ASSIGNMENT const & other) = default;
 	NULL_COALESCE_ASSIGNMENT(NULL_COALESCE_ASSIGNMENT && move) = default;

@@ -21,6 +21,8 @@ struct EXPRESSION;
 struct IC;
 
 struct RADICAL {
+	int32_t document_position, consumed_character_count;
+
 	std::variant<
 		parlex::detail::document::text<literal_0xE20x880x9A_t>,
 		parlex::detail::document::text<literal_sqrt_t>
@@ -32,11 +34,12 @@ struct RADICAL {
 	
 
 
-	explicit RADICAL(
-		std::variant<
-			parlex::detail::document::text<literal_0xE20x880x9A_t>,
-			parlex::detail::document::text<literal_sqrt_t>
-		> && field_1, std::vector<erased<IC>> && field_2, erased<EXPRESSION> && field_3) : field_1(std::move(field_1)), field_2(std::move(field_2)), field_3(std::move(field_3)) {}
+	explicit RADICAL
+		(int32_t documentPosition, int32_t consumedCharacterCount, std::variant<
+	parlex::detail::document::text<literal_0xE20x880x9A_t>,
+	parlex::detail::document::text<literal_sqrt_t>
+> && field_1, std::vector<erased<IC>> && field_2, erased<EXPRESSION> && field_3)
+		: document_position(documentPosition), consumed_character_count(consumedCharacterCount), field_1(std::move(field_1)), field_2(std::move(field_2)), field_3(std::move(field_3)) {}
 
 	RADICAL(RADICAL const & other) = default;
 	RADICAL(RADICAL && move) = default;

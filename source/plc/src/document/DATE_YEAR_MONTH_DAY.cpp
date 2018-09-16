@@ -19,7 +19,7 @@ plc::DATE_YEAR_MONTH_DAY plc::DATE_YEAR_MONTH_DAY::build(parlex::detail::ast_nod
 	auto v7 = parlex::detail::document::element<parlex::detail::document::text<literal_0x2D_t>>::build(&*children[7], w);
 	auto v8 = parlex::detail::document::element<parlex::detail::document::text<parlex::detail::decimal_digit_t>>::build(&*children[8], w);
 	auto v9 = parlex::detail::document::element<parlex::detail::document::text<parlex::detail::decimal_digit_t>>::build(&*children[9], w);
-	return DATE_YEAR_MONTH_DAY(std::move(v0), std::move(v1), std::move(v2), std::move(v3), std::move(v4), std::move(v5), std::move(v6), std::move(v7), std::move(v8), std::move(v9));
+	return DATE_YEAR_MONTH_DAY(n.document_position, n.consumed_character_count, std::move(v0), std::move(v1), std::move(v2), std::move(v3), std::move(v4), std::move(v5), std::move(v6), std::move(v7), std::move(v8), std::move(v9));
 }
 
 

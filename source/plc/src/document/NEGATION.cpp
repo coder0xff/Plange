@@ -15,7 +15,7 @@ plc::NEGATION plc::NEGATION::build(parlex::detail::ast_node const & n) {
 	auto v0 = parlex::detail::document::element<parlex::detail::document::text<literal_0x2D_t>>::build(&*children[0], w);
 	auto v1 = parlex::detail::document::element<std::vector<erased<IC>>>::build(&*children[1], w);
 	auto v2 = parlex::detail::document::element<erased<EXPRESSION>>::build(&*children[2], w);
-	return NEGATION(std::move(v0), std::move(v1), std::move(v2));
+	return NEGATION(n.document_position, n.consumed_character_count, std::move(v0), std::move(v1), std::move(v2));
 }
 
 

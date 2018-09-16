@@ -14,7 +14,7 @@ plc::UNIT_MULTIPLICATION plc::UNIT_MULTIPLICATION::build(parlex::detail::ast_nod
 	auto v0 = parlex::detail::document::element<erased<DIMENSION>>::build(&*children[0], w);
 	auto v1 = parlex::detail::document::element<parlex::detail::document::text<literal_0x2A_t>>::build(&*children[1], w);
 	auto v2 = parlex::detail::document::element<erased<DIMENSION>>::build(&*children[2], w);
-	return UNIT_MULTIPLICATION(std::move(v0), std::move(v1), std::move(v2));
+	return UNIT_MULTIPLICATION(n.document_position, n.consumed_character_count, std::move(v0), std::move(v1), std::move(v2));
 }
 
 

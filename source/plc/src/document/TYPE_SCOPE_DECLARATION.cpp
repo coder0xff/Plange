@@ -10,28 +10,28 @@
 #include "MEMBER_OFFSET.hpp"
 #include "XML_DOC_STRING.hpp"
 
-plc::TYPE_SCOPE_DECLARATION::field_1_t_1_t plc::TYPE_SCOPE_DECLARATION::field_1_t_1_t::build(parlex::detail::node const * b, parlex::detail::document::walk & w) {
+plc::TYPE_SCOPE_DECLARATION::field_1_t plc::TYPE_SCOPE_DECLARATION::field_1_t::build(parlex::detail::node const * b, parlex::detail::document::walk & w) {
 	auto const & children = b->children;
 	auto v0 = parlex::detail::document::element<erased<XML_DOC_STRING>>::build(&*children[0], w);
 	auto v1 = parlex::detail::document::element<std::vector<erased<IC>>>::build(&*children[1], w);
-	return field_1_t_1_t(std::move(v0), std::move(v1));
+	return field_1_t(std::move(v0), std::move(v1));
 }
 
-plc::TYPE_SCOPE_DECLARATION::field_3_t_1_t plc::TYPE_SCOPE_DECLARATION::field_3_t_1_t::build(parlex::detail::node const * b, parlex::detail::document::walk & w) {
+plc::TYPE_SCOPE_DECLARATION::field_3_t plc::TYPE_SCOPE_DECLARATION::field_3_t::build(parlex::detail::node const * b, parlex::detail::document::walk & w) {
 	auto const & children = b->children;
 	auto v0 = parlex::detail::document::element<std::vector<erased<IC>>>::build(&*children[0], w);
 	auto v1 = parlex::detail::document::element<erased<MEMBER_OFFSET>>::build(&*children[1], w);
-	return field_3_t_1_t(std::move(v0), std::move(v1));
+	return field_3_t(std::move(v0), std::move(v1));
 }
 
 plc::TYPE_SCOPE_DECLARATION plc::TYPE_SCOPE_DECLARATION::build(parlex::detail::ast_node const & n) {
 	static auto const * b = acceptor().behavior;
 	parlex::detail::document::walk w{ n.children.cbegin(), n.children.cend() };
 	auto const & children = b->children;
-	auto v0 = parlex::detail::document::element<std::optional<field_1_t_1_t>>::build(&*children[0], w);
+	auto v0 = parlex::detail::document::element<std::optional<field_1_t>>::build(&*children[0], w);
 	auto v1 = parlex::detail::document::element<erased<IDENTIFIER>>::build(&*children[1], w);
-	auto v2 = parlex::detail::document::element<std::optional<field_3_t_1_t>>::build(&*children[2], w);
-	return TYPE_SCOPE_DECLARATION(std::move(v0), std::move(v1), std::move(v2));
+	auto v2 = parlex::detail::document::element<std::optional<field_3_t>>::build(&*children[2], w);
+	return TYPE_SCOPE_DECLARATION(n.document_position, n.consumed_character_count, std::move(v0), std::move(v1), std::move(v2));
 }
 
 

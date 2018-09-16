@@ -21,7 +21,9 @@ struct FUNCTION_MODIFIER_CALLING_CONVENTION;
 struct IC;
 
 struct FUNCTION_MODIFIER_MODEL {
-	struct field_1_t_1_t {
+	int32_t document_position, consumed_character_count;
+
+	struct field_1_t {
 		erased<IC> field_1;
 		
 		std::vector<erased<IC>> field_2;
@@ -30,13 +32,14 @@ struct FUNCTION_MODIFIER_MODEL {
 		
 	
 	
-		explicit field_1_t_1_t(
-			erased<IC> && field_1, std::vector<erased<IC>> && field_2, erased<FUNCTION_MODIFIER_CALLING_CONVENTION> && field_3) : field_1(std::move(field_1)), field_2(std::move(field_2)), field_3(std::move(field_3)) {}
+		explicit field_1_t
+			(erased<IC> && field_1, std::vector<erased<IC>> && field_2, erased<FUNCTION_MODIFIER_CALLING_CONVENTION> && field_3)
+			: field_1(std::move(field_1)), field_2(std::move(field_2)), field_3(std::move(field_3)) {}
 	
-		field_1_t_1_t(field_1_t_1_t const & other) = default;
-		field_1_t_1_t(field_1_t_1_t && move) = default;
+		field_1_t(field_1_t const & other) = default;
+		field_1_t(field_1_t && move) = default;
 	
-		static field_1_t_1_t build(parlex::detail::node const * b, parlex::detail::document::walk & w);
+		static field_1_t build(parlex::detail::node const * b, parlex::detail::document::walk & w);
 	};
 
 	std::variant<
@@ -45,16 +48,17 @@ struct FUNCTION_MODIFIER_MODEL {
 		parlex::detail::document::text<literal_opaque_t>
 	> model;
 	
-	std::optional<field_1_t_1_t> field_1;
+	std::optional<field_1_t> field_1;
 	
 
 
-	explicit FUNCTION_MODIFIER_MODEL(
-		std::variant<
-			parlex::detail::document::text<literal_pure_t>,
-			parlex::detail::document::text<literal_imperative_t>,
-			parlex::detail::document::text<literal_opaque_t>
-		> && model, std::optional<field_1_t_1_t> && field_1) : model(std::move(model)), field_1(std::move(field_1)) {}
+	explicit FUNCTION_MODIFIER_MODEL
+		(int32_t documentPosition, int32_t consumedCharacterCount, std::variant<
+	parlex::detail::document::text<literal_pure_t>,
+	parlex::detail::document::text<literal_imperative_t>,
+	parlex::detail::document::text<literal_opaque_t>
+> && model, std::optional<field_1_t> && field_1)
+		: document_position(documentPosition), consumed_character_count(consumedCharacterCount), model(std::move(model)), field_1(std::move(field_1)) {}
 
 	FUNCTION_MODIFIER_MODEL(FUNCTION_MODIFIER_MODEL const & other) = default;
 	FUNCTION_MODIFIER_MODEL(FUNCTION_MODIFIER_MODEL && move) = default;

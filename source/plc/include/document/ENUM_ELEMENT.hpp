@@ -22,10 +22,12 @@ struct IC;
 struct IDENTIFIER;
 
 struct ENUM_ELEMENT {
-	struct field_1_t_1_t {
+	int32_t document_position, consumed_character_count;
+
+	struct field_1_t {
 		std::vector<erased<IC>> field_1;
 		
-		parlex::detail::document::text<literal_0x3A0x3D_t> dontCare1;
+		parlex::detail::document::text<literal_0x3A0x3D_t> dont_care1;
 		
 		std::vector<erased<IC>> field_2;
 		
@@ -33,23 +35,25 @@ struct ENUM_ELEMENT {
 		
 	
 	
-		explicit field_1_t_1_t(
-			std::vector<erased<IC>> && field_1, parlex::detail::document::text<literal_0x3A0x3D_t> && dontCare1, std::vector<erased<IC>> && field_2, erased<EXPRESSION> && expression) : field_1(std::move(field_1)), dontCare1(std::move(dontCare1)), field_2(std::move(field_2)), expression(std::move(expression)) {}
+		explicit field_1_t
+			(std::vector<erased<IC>> && field_1, parlex::detail::document::text<literal_0x3A0x3D_t> && dont_care1, std::vector<erased<IC>> && field_2, erased<EXPRESSION> && expression)
+			: field_1(std::move(field_1)), dont_care1(std::move(dont_care1)), field_2(std::move(field_2)), expression(std::move(expression)) {}
 	
-		field_1_t_1_t(field_1_t_1_t const & other) = default;
-		field_1_t_1_t(field_1_t_1_t && move) = default;
+		field_1_t(field_1_t const & other) = default;
+		field_1_t(field_1_t && move) = default;
 	
-		static field_1_t_1_t build(parlex::detail::node const * b, parlex::detail::document::walk & w);
+		static field_1_t build(parlex::detail::node const * b, parlex::detail::document::walk & w);
 	};
 
 	erased<IDENTIFIER> identifier;
 	
-	std::optional<field_1_t_1_t> field_1;
+	std::optional<field_1_t> field_1;
 	
 
 
-	explicit ENUM_ELEMENT(
-		erased<IDENTIFIER> && identifier, std::optional<field_1_t_1_t> && field_1) : identifier(std::move(identifier)), field_1(std::move(field_1)) {}
+	explicit ENUM_ELEMENT
+		(int32_t documentPosition, int32_t consumedCharacterCount, erased<IDENTIFIER> && identifier, std::optional<field_1_t> && field_1)
+		: document_position(documentPosition), consumed_character_count(consumedCharacterCount), identifier(std::move(identifier)), field_1(std::move(field_1)) {}
 
 	ENUM_ELEMENT(ENUM_ELEMENT const & other) = default;
 	ENUM_ELEMENT(ENUM_ELEMENT && move) = default;

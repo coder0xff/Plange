@@ -8,7 +8,7 @@
 #include "EXPRESSION.hpp"
 #include "IC.hpp"
 
-plc::THIS::field_1_t_1_t plc::THIS::field_1_t_1_t::build(parlex::detail::node const * b, parlex::detail::document::walk & w) {
+plc::THIS::field_1_t plc::THIS::field_1_t::build(parlex::detail::node const * b, parlex::detail::document::walk & w) {
 	auto const & children = b->children;
 	auto v0 = parlex::detail::document::element<std::vector<erased<IC>>>::build(&*children[0], w);
 	auto v1 = parlex::detail::document::element<parlex::detail::document::text<literal_0x5B_t>>::build(&*children[1], w);
@@ -16,7 +16,7 @@ plc::THIS::field_1_t_1_t plc::THIS::field_1_t_1_t::build(parlex::detail::node co
 	auto v3 = parlex::detail::document::element<erased<EXPRESSION>>::build(&*children[3], w);
 	auto v4 = parlex::detail::document::element<std::vector<erased<IC>>>::build(&*children[4], w);
 	auto v5 = parlex::detail::document::element<parlex::detail::document::text<literal_0x5D_t>>::build(&*children[5], w);
-	return field_1_t_1_t(std::move(v0), std::move(v1), std::move(v2), std::move(v3), std::move(v4), std::move(v5));
+	return field_1_t(std::move(v0), std::move(v1), std::move(v2), std::move(v3), std::move(v4), std::move(v5));
 }
 
 plc::THIS plc::THIS::build(parlex::detail::ast_node const & n) {
@@ -24,8 +24,8 @@ plc::THIS plc::THIS::build(parlex::detail::ast_node const & n) {
 	parlex::detail::document::walk w{ n.children.cbegin(), n.children.cend() };
 	auto const & children = b->children;
 	auto v0 = parlex::detail::document::element<parlex::detail::document::text<literal_this_t>>::build(&*children[0], w);
-	auto v1 = parlex::detail::document::element<std::optional<field_1_t_1_t>>::build(&*children[1], w);
-	return THIS(std::move(v0), std::move(v1));
+	auto v1 = parlex::detail::document::element<std::optional<field_1_t>>::build(&*children[1], w);
+	return THIS(n.document_position, n.consumed_character_count, std::move(v0), std::move(v1));
 }
 
 

@@ -22,34 +22,34 @@ PARAMETER_NATURAL PARAMETER_NATURAL::build(parlex::detail::ast_node const & n) {
 }
 
 } // namespace plc
-plc::PARAMETER_NATURAL_1_t::field_1_t_1_t plc::PARAMETER_NATURAL_1_t::field_1_t_1_t::build(parlex::detail::node const * b, parlex::detail::document::walk & w) {
+plc::PARAMETER_NATURAL1_t::field_1_t plc::PARAMETER_NATURAL1_t::field_1_t::build(parlex::detail::node const * b, parlex::detail::document::walk & w) {
 	auto const & children = b->children;
 	auto v0 = parlex::detail::document::element<erased<TYPE_DEREFERENCE>>::build(&*children[0], w);
 	auto v1 = parlex::detail::document::element<std::vector<erased<IC>>>::build(&*children[1], w);
-	return field_1_t_1_t(std::move(v0), std::move(v1));
+	return field_1_t(std::move(v0), std::move(v1));
 }
 
-plc::PARAMETER_NATURAL_1_t plc::PARAMETER_NATURAL_1_t::build(parlex::detail::node const * b, parlex::detail::document::walk & w) {
+plc::PARAMETER_NATURAL1_t plc::PARAMETER_NATURAL1_t::build(parlex::detail::node const * b, parlex::detail::document::walk & w) {
 	auto const & children = b->children;
-	auto v0 = parlex::detail::document::element<std::optional<field_1_t_1_t>>::build(&*children[0], w);
+	auto v0 = parlex::detail::document::element<std::optional<field_1_t>>::build(&*children[0], w);
 	auto v1 = parlex::detail::document::element<erased<IDENTIFIER>>::build(&*children[1], w);
 	auto v2 = parlex::detail::document::element<std::optional<parlex::detail::document::text<literal_0x2E0x2E0x2E_t>>>::build(&*children[2], w);
-	return PARAMETER_NATURAL_1_t(std::move(v0), std::move(v1), std::move(v2));
+	return PARAMETER_NATURAL1_t(std::move(v0), std::move(v1), std::move(v2));
 }
 
-plc::PARAMETER_NATURAL_2_t::field_1_t_1_t plc::PARAMETER_NATURAL_2_t::field_1_t_1_t::build(parlex::detail::node const * b, parlex::detail::document::walk & w) {
+plc::PARAMETER_NATURAL2_t::field_1_t plc::PARAMETER_NATURAL2_t::field_1_t::build(parlex::detail::node const * b, parlex::detail::document::walk & w) {
 	auto const & children = b->children;
 	auto v0 = parlex::detail::document::element<std::variant<
 		erased<TYPE_DEREFERENCE>,
 		erased<IMPLICIT_TYPE_DEREFERENCE>
 	>>::build(&*children[0], w);
 	auto v1 = parlex::detail::document::element<std::vector<erased<IC>>>::build(&*children[1], w);
-	return field_1_t_1_t(std::move(v0), std::move(v1));
+	return field_1_t(std::move(v0), std::move(v1));
 }
 
-plc::PARAMETER_NATURAL_2_t plc::PARAMETER_NATURAL_2_t::build(parlex::detail::node const * b, parlex::detail::document::walk & w) {
+plc::PARAMETER_NATURAL2_t plc::PARAMETER_NATURAL2_t::build(parlex::detail::node const * b, parlex::detail::document::walk & w) {
 	auto const & children = b->children;
-	auto v0 = parlex::detail::document::element<std::optional<field_1_t_1_t>>::build(&*children[0], w);
+	auto v0 = parlex::detail::document::element<std::optional<field_1_t>>::build(&*children[0], w);
 	auto v1 = parlex::detail::document::element<erased<IDENTIFIER>>::build(&*children[1], w);
 	auto v2 = parlex::detail::document::element<std::optional<parlex::detail::document::text<literal_0x2E0x2E0x2E_t>>>::build(&*children[2], w);
 	auto v3 = parlex::detail::document::element<std::vector<erased<IC>>>::build(&*children[3], w);
@@ -57,7 +57,7 @@ plc::PARAMETER_NATURAL_2_t plc::PARAMETER_NATURAL_2_t::build(parlex::detail::nod
 	auto v5 = parlex::detail::document::element<std::vector<erased<IC>>>::build(&*children[5], w);
 	auto v6 = parlex::detail::document::element<erased<EXPRESSION>>::build(&*children[6], w);
 	auto v7 = parlex::detail::document::element<std::optional<parlex::detail::document::text<literal_0x2E0x2E0x2E_t>>>::build(&*children[7], w);
-	return PARAMETER_NATURAL_2_t(std::move(v0), std::move(v1), std::move(v2), std::move(v3), std::move(v4), std::move(v5), std::move(v6), std::move(v7));
+	return PARAMETER_NATURAL2_t(std::move(v0), std::move(v1), std::move(v2), std::move(v3), std::move(v4), std::move(v5), std::move(v6), std::move(v7));
 }
 
 

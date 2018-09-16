@@ -22,8 +22,10 @@ struct INHERITANCE_LIST;
 struct TYPE_SCOPE;
 
 struct TYPE {
-	struct field_2_t_1_t {
-		parlex::detail::document::text<literal_inheriting_t> dontCare0;
+	int32_t document_position, consumed_character_count;
+
+	struct field_2_t {
+		parlex::detail::document::text<literal_inheriting_t> dont_care0;
 		
 		std::vector<erased<IC>> field_1;
 		
@@ -33,17 +35,18 @@ struct TYPE {
 		
 	
 	
-		explicit field_2_t_1_t(
-			parlex::detail::document::text<literal_inheriting_t> && dontCare0, std::vector<erased<IC>> && field_1, erased<INHERITANCE_LIST> && field_2, std::vector<erased<IC>> && field_3) : dontCare0(std::move(dontCare0)), field_1(std::move(field_1)), field_2(std::move(field_2)), field_3(std::move(field_3)) {}
+		explicit field_2_t
+			(parlex::detail::document::text<literal_inheriting_t> && dont_care0, std::vector<erased<IC>> && field_1, erased<INHERITANCE_LIST> && field_2, std::vector<erased<IC>> && field_3)
+			: dont_care0(std::move(dont_care0)), field_1(std::move(field_1)), field_2(std::move(field_2)), field_3(std::move(field_3)) {}
 	
-		field_2_t_1_t(field_2_t_1_t const & other) = default;
-		field_2_t_1_t(field_2_t_1_t && move) = default;
+		field_2_t(field_2_t const & other) = default;
+		field_2_t(field_2_t && move) = default;
 	
-		static field_2_t_1_t build(parlex::detail::node const * b, parlex::detail::document::walk & w);
+		static field_2_t build(parlex::detail::node const * b, parlex::detail::document::walk & w);
 	};
 
-	struct field_3_t_1_t {
-		parlex::detail::document::text<literal_implementing_t> dontCare0;
+	struct field_3_t {
+		parlex::detail::document::text<literal_implementing_t> dont_care0;
 		
 		std::vector<erased<IC>> field_1;
 		
@@ -53,33 +56,35 @@ struct TYPE {
 		
 	
 	
-		explicit field_3_t_1_t(
-			parlex::detail::document::text<literal_implementing_t> && dontCare0, std::vector<erased<IC>> && field_1, erased<INHERITANCE_LIST> && field_2, std::vector<erased<IC>> && field_3) : dontCare0(std::move(dontCare0)), field_1(std::move(field_1)), field_2(std::move(field_2)), field_3(std::move(field_3)) {}
+		explicit field_3_t
+			(parlex::detail::document::text<literal_implementing_t> && dont_care0, std::vector<erased<IC>> && field_1, erased<INHERITANCE_LIST> && field_2, std::vector<erased<IC>> && field_3)
+			: dont_care0(std::move(dont_care0)), field_1(std::move(field_1)), field_2(std::move(field_2)), field_3(std::move(field_3)) {}
 	
-		field_3_t_1_t(field_3_t_1_t const & other) = default;
-		field_3_t_1_t(field_3_t_1_t && move) = default;
+		field_3_t(field_3_t const & other) = default;
+		field_3_t(field_3_t && move) = default;
 	
-		static field_3_t_1_t build(parlex::detail::node const * b, parlex::detail::document::walk & w);
+		static field_3_t build(parlex::detail::node const * b, parlex::detail::document::walk & w);
 	};
 
-	parlex::detail::document::text<literal_type_t> dontCare0;
+	parlex::detail::document::text<literal_type_t> dont_care0;
 	
 	std::vector<erased<IC>> field_1;
 	
-	std::optional<field_2_t_1_t> field_2;
+	std::optional<field_2_t> field_2;
 	
-	std::optional<field_3_t_1_t> field_3;
+	std::optional<field_3_t> field_3;
 	
-	parlex::detail::document::text<literal_0x7B_t> dontCare4;
+	parlex::detail::document::text<literal_0x7B_t> dont_care4;
 	
 	erased<TYPE_SCOPE> field_4;
 	
-	parlex::detail::document::text<literal_0x7D_t> dontCare6;
+	parlex::detail::document::text<literal_0x7D_t> dont_care6;
 	
 
 
-	explicit TYPE(
-		parlex::detail::document::text<literal_type_t> && dontCare0, std::vector<erased<IC>> && field_1, std::optional<field_2_t_1_t> && field_2, std::optional<field_3_t_1_t> && field_3, parlex::detail::document::text<literal_0x7B_t> && dontCare4, erased<TYPE_SCOPE> && field_4, parlex::detail::document::text<literal_0x7D_t> && dontCare6) : dontCare0(std::move(dontCare0)), field_1(std::move(field_1)), field_2(std::move(field_2)), field_3(std::move(field_3)), dontCare4(std::move(dontCare4)), field_4(std::move(field_4)), dontCare6(std::move(dontCare6)) {}
+	explicit TYPE
+		(int32_t documentPosition, int32_t consumedCharacterCount, parlex::detail::document::text<literal_type_t> && dont_care0, std::vector<erased<IC>> && field_1, std::optional<field_2_t> && field_2, std::optional<field_3_t> && field_3, parlex::detail::document::text<literal_0x7B_t> && dont_care4, erased<TYPE_SCOPE> && field_4, parlex::detail::document::text<literal_0x7D_t> && dont_care6)
+		: document_position(documentPosition), consumed_character_count(consumedCharacterCount), dont_care0(std::move(dont_care0)), field_1(std::move(field_1)), field_2(std::move(field_2)), field_3(std::move(field_3)), dont_care4(std::move(dont_care4)), field_4(std::move(field_4)), dont_care6(std::move(dont_care6)) {}
 
 	TYPE(TYPE const & other) = default;
 	TYPE(TYPE && move) = default;

@@ -21,6 +21,8 @@ struct EXPRESSION;
 struct IC;
 
 struct NOR {
+	int32_t document_position, consumed_character_count;
+
 	erased<EXPRESSION> field_1;
 	
 	std::vector<erased<IC>> field_2;
@@ -36,11 +38,12 @@ struct NOR {
 	
 
 
-	explicit NOR(
-		erased<EXPRESSION> && field_1, std::vector<erased<IC>> && field_2, std::variant<
-			parlex::detail::document::text<literal_0xE20x860x93_t>,
-			parlex::detail::document::text<literal_nor_t>
-		> && field_3, std::vector<erased<IC>> && field_4, erased<EXPRESSION> && field_5) : field_1(std::move(field_1)), field_2(std::move(field_2)), field_3(std::move(field_3)), field_4(std::move(field_4)), field_5(std::move(field_5)) {}
+	explicit NOR
+		(int32_t documentPosition, int32_t consumedCharacterCount, erased<EXPRESSION> && field_1, std::vector<erased<IC>> && field_2, std::variant<
+	parlex::detail::document::text<literal_0xE20x860x93_t>,
+	parlex::detail::document::text<literal_nor_t>
+> && field_3, std::vector<erased<IC>> && field_4, erased<EXPRESSION> && field_5)
+		: document_position(documentPosition), consumed_character_count(consumedCharacterCount), field_1(std::move(field_1)), field_2(std::move(field_2)), field_3(std::move(field_3)), field_4(std::move(field_4)), field_5(std::move(field_5)) {}
 
 	NOR(NOR const & other) = default;
 	NOR(NOR && move) = default;

@@ -10,39 +10,39 @@
 #include "EXPRESSION.hpp"
 #include "IC.hpp"
 
-plc::TYPE_INVOCATION::field_1_t::argsHead_t_1_t plc::TYPE_INVOCATION::field_1_t::argsHead_t_1_t::build(parlex::detail::node const * b, parlex::detail::document::walk & w) {
+plc::TYPE_INVOCATION::field_1_t::argsHead_t plc::TYPE_INVOCATION::field_1_t::argsHead_t::build(parlex::detail::node const * b, parlex::detail::document::walk & w) {
 	auto const & children = b->children;
 	auto v0 = parlex::detail::document::element<std::vector<erased<IC>>>::build(&*children[0], w);
 	auto v1 = parlex::detail::document::element<std::variant<
 		erased<ARGUMENT>,
 		erased<ARGUMENT_PACK>
 	>>::build(&*children[1], w);
-	return argsHead_t_1_t(std::move(v0), std::move(v1));
+	return argsHead_t(std::move(v0), std::move(v1));
 }
 
-plc::TYPE_INVOCATION::field_1_t::argsTail_t_1_t::field_2_t_1_t plc::TYPE_INVOCATION::field_1_t::argsTail_t_1_t::field_2_t_1_t::build(parlex::detail::node const * b, parlex::detail::document::walk & w) {
+plc::TYPE_INVOCATION::field_1_t::argsTail_t::field_2_t plc::TYPE_INVOCATION::field_1_t::argsTail_t::field_2_t::build(parlex::detail::node const * b, parlex::detail::document::walk & w) {
 	auto const & children = b->children;
 	auto v0 = parlex::detail::document::element<std::vector<erased<IC>>>::build(&*children[0], w);
 	auto v1 = parlex::detail::document::element<std::variant<
 		erased<ARGUMENT>,
 		erased<ARGUMENT_PACK>
 	>>::build(&*children[1], w);
-	return field_2_t_1_t(std::move(v0), std::move(v1));
+	return field_2_t(std::move(v0), std::move(v1));
 }
 
-plc::TYPE_INVOCATION::field_1_t::argsTail_t_1_t plc::TYPE_INVOCATION::field_1_t::argsTail_t_1_t::build(parlex::detail::node const * b, parlex::detail::document::walk & w) {
+plc::TYPE_INVOCATION::field_1_t::argsTail_t plc::TYPE_INVOCATION::field_1_t::argsTail_t::build(parlex::detail::node const * b, parlex::detail::document::walk & w) {
 	auto const & children = b->children;
 	auto v0 = parlex::detail::document::element<std::vector<erased<IC>>>::build(&*children[0], w);
 	auto v1 = parlex::detail::document::element<parlex::detail::document::text<literal_0x2C_t>>::build(&*children[1], w);
-	auto v2 = parlex::detail::document::element<std::optional<field_2_t_1_t>>::build(&*children[2], w);
-	return argsTail_t_1_t(std::move(v0), std::move(v1), std::move(v2));
+	auto v2 = parlex::detail::document::element<std::optional<field_2_t>>::build(&*children[2], w);
+	return argsTail_t(std::move(v0), std::move(v1), std::move(v2));
 }
 
 plc::TYPE_INVOCATION::field_1_t plc::TYPE_INVOCATION::field_1_t::build(parlex::detail::node const * b, parlex::detail::document::walk & w) {
 	auto const & children = b->children;
 	auto v0 = parlex::detail::document::element<parlex::detail::document::text<literal_0x3C_t>>::build(&*children[0], w);
-	auto v1 = parlex::detail::document::element<std::optional<argsHead_t_1_t>>::build(&*children[1], w);
-	auto v2 = parlex::detail::document::element<std::vector<argsTail_t_1_t>>::build(&*children[2], w);
+	auto v1 = parlex::detail::document::element<std::optional<argsHead_t>>::build(&*children[1], w);
+	auto v2 = parlex::detail::document::element<std::vector<argsTail_t>>::build(&*children[2], w);
 	auto v3 = parlex::detail::document::element<std::vector<erased<IC>>>::build(&*children[3], w);
 	auto v4 = parlex::detail::document::element<parlex::detail::document::text<literal_0x3E_t>>::build(&*children[4], w);
 	return field_1_t(std::move(v0), std::move(v1), std::move(v2), std::move(v3), std::move(v4));
@@ -54,7 +54,7 @@ plc::TYPE_INVOCATION plc::TYPE_INVOCATION::build(parlex::detail::ast_node const 
 	auto const & children = b->children;
 	auto v0 = parlex::detail::document::element<erased<EXPRESSION>>::build(&*children[0], w);
 	auto v1 = parlex::detail::document::element<field_1_t>::build(&*children[1], w);
-	return TYPE_INVOCATION(std::move(v0), std::move(v1));
+	return TYPE_INVOCATION(n.document_position, n.consumed_character_count, std::move(v0), std::move(v1));
 }
 
 

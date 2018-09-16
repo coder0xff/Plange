@@ -17,28 +17,29 @@
 
 namespace plc {
 
-struct NON_NEG_FRACTIONAL_1_t {
+struct NON_NEG_FRACTIONAL1_t {
 	parlex::detail::document::text<parlex::detail::decimal_digit_t> field_1;
 	
 	std::vector<parlex::detail::document::text<parlex::detail::decimal_digit_t>> field_2;
 	
-	parlex::detail::document::text<literal_0x2E_t> dontCare2;
+	parlex::detail::document::text<literal_0x2E_t> dont_care2;
 	
 	std::vector<parlex::detail::document::text<parlex::detail::decimal_digit_t>> field_3;
 	
 
 
-	explicit NON_NEG_FRACTIONAL_1_t(
-		parlex::detail::document::text<parlex::detail::decimal_digit_t> && field_1, std::vector<parlex::detail::document::text<parlex::detail::decimal_digit_t>> && field_2, parlex::detail::document::text<literal_0x2E_t> && dontCare2, std::vector<parlex::detail::document::text<parlex::detail::decimal_digit_t>> && field_3) : field_1(std::move(field_1)), field_2(std::move(field_2)), dontCare2(std::move(dontCare2)), field_3(std::move(field_3)) {}
+	explicit NON_NEG_FRACTIONAL1_t
+		(parlex::detail::document::text<parlex::detail::decimal_digit_t> && field_1, std::vector<parlex::detail::document::text<parlex::detail::decimal_digit_t>> && field_2, parlex::detail::document::text<literal_0x2E_t> && dont_care2, std::vector<parlex::detail::document::text<parlex::detail::decimal_digit_t>> && field_3)
+		: field_1(std::move(field_1)), field_2(std::move(field_2)), dont_care2(std::move(dont_care2)), field_3(std::move(field_3)) {}
 
-	NON_NEG_FRACTIONAL_1_t(NON_NEG_FRACTIONAL_1_t const & other) = default;
-	NON_NEG_FRACTIONAL_1_t(NON_NEG_FRACTIONAL_1_t && move) = default;
+	NON_NEG_FRACTIONAL1_t(NON_NEG_FRACTIONAL1_t const & other) = default;
+	NON_NEG_FRACTIONAL1_t(NON_NEG_FRACTIONAL1_t && move) = default;
 
-	static NON_NEG_FRACTIONAL_1_t build(parlex::detail::node const * b, parlex::detail::document::walk & w);
+	static NON_NEG_FRACTIONAL1_t build(parlex::detail::node const * b, parlex::detail::document::walk & w);
 };
 
-struct NON_NEG_FRACTIONAL_2_t {
-	parlex::detail::document::text<literal_0x2E_t> dontCare0;
+struct NON_NEG_FRACTIONAL2_t {
+	parlex::detail::document::text<literal_0x2E_t> dont_care0;
 	
 	parlex::detail::document::text<parlex::detail::decimal_digit_t> field_1;
 	
@@ -46,18 +47,19 @@ struct NON_NEG_FRACTIONAL_2_t {
 	
 
 
-	explicit NON_NEG_FRACTIONAL_2_t(
-		parlex::detail::document::text<literal_0x2E_t> && dontCare0, parlex::detail::document::text<parlex::detail::decimal_digit_t> && field_1, std::vector<parlex::detail::document::text<parlex::detail::decimal_digit_t>> && field_2) : dontCare0(std::move(dontCare0)), field_1(std::move(field_1)), field_2(std::move(field_2)) {}
+	explicit NON_NEG_FRACTIONAL2_t
+		(parlex::detail::document::text<literal_0x2E_t> && dont_care0, parlex::detail::document::text<parlex::detail::decimal_digit_t> && field_1, std::vector<parlex::detail::document::text<parlex::detail::decimal_digit_t>> && field_2)
+		: dont_care0(std::move(dont_care0)), field_1(std::move(field_1)), field_2(std::move(field_2)) {}
 
-	NON_NEG_FRACTIONAL_2_t(NON_NEG_FRACTIONAL_2_t const & other) = default;
-	NON_NEG_FRACTIONAL_2_t(NON_NEG_FRACTIONAL_2_t && move) = default;
+	NON_NEG_FRACTIONAL2_t(NON_NEG_FRACTIONAL2_t const & other) = default;
+	NON_NEG_FRACTIONAL2_t(NON_NEG_FRACTIONAL2_t && move) = default;
 
-	static NON_NEG_FRACTIONAL_2_t build(parlex::detail::node const * b, parlex::detail::document::walk & w);
+	static NON_NEG_FRACTIONAL2_t build(parlex::detail::node const * b, parlex::detail::document::walk & w);
 };
 
 typedef std::variant<
-	NON_NEG_FRACTIONAL_1_t,
-	NON_NEG_FRACTIONAL_2_t
+	NON_NEG_FRACTIONAL1_t,
+	NON_NEG_FRACTIONAL2_t
 > NON_NEG_FRACTIONAL_base;
 
 struct NON_NEG_FRACTIONAL: NON_NEG_FRACTIONAL_base {

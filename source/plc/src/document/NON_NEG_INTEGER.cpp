@@ -18,11 +18,11 @@ NON_NEG_INTEGER NON_NEG_INTEGER::build(parlex::detail::ast_node const & n) {
 }
 
 } // namespace plc
-plc::NON_NEG_INTEGER_1_t plc::NON_NEG_INTEGER_1_t::build(parlex::detail::node const * b, parlex::detail::document::walk & w) {
+plc::NON_NEG_INTEGER1_t plc::NON_NEG_INTEGER1_t::build(parlex::detail::node const * b, parlex::detail::document::walk & w) {
 	auto const & children = b->children;
 	auto v0 = parlex::detail::document::element<erased<NON_ZERO_DECIMAL_DIGIT>>::build(&*children[0], w);
 	auto v1 = parlex::detail::document::element<std::vector<parlex::detail::document::text<parlex::detail::decimal_digit_t>>>::build(&*children[1], w);
-	return NON_NEG_INTEGER_1_t(std::move(v0), std::move(v1));
+	return NON_NEG_INTEGER1_t(std::move(v0), std::move(v1));
 }
 
 

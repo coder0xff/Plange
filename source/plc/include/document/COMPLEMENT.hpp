@@ -21,16 +21,19 @@ struct EXPRESSION;
 struct IC;
 
 struct COMPLEMENT {
+	int32_t document_position, consumed_character_count;
+
 	erased<EXPRESSION> field_1;
 	
 	std::vector<erased<IC>> field_2;
 	
-	parlex::detail::document::text<literal_0xE10xB60x9C_t> dontCare2;
+	parlex::detail::document::text<literal_0xE10xB60x9C_t> dont_care2;
 	
 
 
-	explicit COMPLEMENT(
-		erased<EXPRESSION> && field_1, std::vector<erased<IC>> && field_2, parlex::detail::document::text<literal_0xE10xB60x9C_t> && dontCare2) : field_1(std::move(field_1)), field_2(std::move(field_2)), dontCare2(std::move(dontCare2)) {}
+	explicit COMPLEMENT
+		(int32_t documentPosition, int32_t consumedCharacterCount, erased<EXPRESSION> && field_1, std::vector<erased<IC>> && field_2, parlex::detail::document::text<literal_0xE10xB60x9C_t> && dont_care2)
+		: document_position(documentPosition), consumed_character_count(consumedCharacterCount), field_1(std::move(field_1)), field_2(std::move(field_2)), dont_care2(std::move(dont_care2)) {}
 
 	COMPLEMENT(COMPLEMENT const & other) = default;
 	COMPLEMENT(COMPLEMENT && move) = default;

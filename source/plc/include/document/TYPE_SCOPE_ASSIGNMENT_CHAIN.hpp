@@ -25,43 +25,47 @@ struct MEMBER_OFFSET;
 struct XML_DOC_STRING;
 
 struct TYPE_SCOPE_ASSIGNMENT_CHAIN {
-	struct field_1_t_1_t {
+	int32_t document_position, consumed_character_count;
+
+	struct field_1_t {
 		erased<XML_DOC_STRING> field_1;
 		
 		std::vector<erased<IC>> field_2;
 		
 	
 	
-		explicit field_1_t_1_t(
-			erased<XML_DOC_STRING> && field_1, std::vector<erased<IC>> && field_2) : field_1(std::move(field_1)), field_2(std::move(field_2)) {}
+		explicit field_1_t
+			(erased<XML_DOC_STRING> && field_1, std::vector<erased<IC>> && field_2)
+			: field_1(std::move(field_1)), field_2(std::move(field_2)) {}
 	
-		field_1_t_1_t(field_1_t_1_t const & other) = default;
-		field_1_t_1_t(field_1_t_1_t && move) = default;
+		field_1_t(field_1_t const & other) = default;
+		field_1_t(field_1_t && move) = default;
 	
-		static field_1_t_1_t build(parlex::detail::node const * b, parlex::detail::document::walk & w);
+		static field_1_t build(parlex::detail::node const * b, parlex::detail::document::walk & w);
 	};
 
-	struct field_3_t_1_t {
+	struct field_3_t {
 		std::vector<erased<IC>> field_1;
 		
 		erased<MEMBER_OFFSET> field_2;
 		
 	
 	
-		explicit field_3_t_1_t(
-			std::vector<erased<IC>> && field_1, erased<MEMBER_OFFSET> && field_2) : field_1(std::move(field_1)), field_2(std::move(field_2)) {}
+		explicit field_3_t
+			(std::vector<erased<IC>> && field_1, erased<MEMBER_OFFSET> && field_2)
+			: field_1(std::move(field_1)), field_2(std::move(field_2)) {}
 	
-		field_3_t_1_t(field_3_t_1_t const & other) = default;
-		field_3_t_1_t(field_3_t_1_t && move) = default;
+		field_3_t(field_3_t const & other) = default;
+		field_3_t(field_3_t && move) = default;
 	
-		static field_3_t_1_t build(parlex::detail::node const * b, parlex::detail::document::walk & w);
+		static field_3_t build(parlex::detail::node const * b, parlex::detail::document::walk & w);
 	};
 
-	std::optional<field_1_t_1_t> field_1;
+	std::optional<field_1_t> field_1;
 	
 	erased<IDENTIFIER> field_2;
 	
-	std::optional<field_3_t_1_t> field_3;
+	std::optional<field_3_t> field_3;
 	
 	std::vector<erased<IC>> field_4;
 	
@@ -79,14 +83,15 @@ struct TYPE_SCOPE_ASSIGNMENT_CHAIN {
 	
 
 
-	explicit TYPE_SCOPE_ASSIGNMENT_CHAIN(
-		std::optional<field_1_t_1_t> && field_1, erased<IDENTIFIER> && field_2, std::optional<field_3_t_1_t> && field_3, std::vector<erased<IC>> && field_4, std::variant<
-			parlex::detail::document::text<literal_0xE20x860x90_t>,
-			parlex::detail::document::text<literal_0x3C0x2D_t>
-		> && field_5, std::vector<erased<IC>> && field_6, std::variant<
-			erased<EXPRESSION>,
-			erased<ASSIGNMENT_CHAIN>
-		> && field_7) : field_1(std::move(field_1)), field_2(std::move(field_2)), field_3(std::move(field_3)), field_4(std::move(field_4)), field_5(std::move(field_5)), field_6(std::move(field_6)), field_7(std::move(field_7)) {}
+	explicit TYPE_SCOPE_ASSIGNMENT_CHAIN
+		(int32_t documentPosition, int32_t consumedCharacterCount, std::optional<field_1_t> && field_1, erased<IDENTIFIER> && field_2, std::optional<field_3_t> && field_3, std::vector<erased<IC>> && field_4, std::variant<
+	parlex::detail::document::text<literal_0xE20x860x90_t>,
+	parlex::detail::document::text<literal_0x3C0x2D_t>
+> && field_5, std::vector<erased<IC>> && field_6, std::variant<
+	erased<EXPRESSION>,
+	erased<ASSIGNMENT_CHAIN>
+> && field_7)
+		: document_position(documentPosition), consumed_character_count(consumedCharacterCount), field_1(std::move(field_1)), field_2(std::move(field_2)), field_3(std::move(field_3)), field_4(std::move(field_4)), field_5(std::move(field_5)), field_6(std::move(field_6)), field_7(std::move(field_7)) {}
 
 	TYPE_SCOPE_ASSIGNMENT_CHAIN(TYPE_SCOPE_ASSIGNMENT_CHAIN const & other) = default;
 	TYPE_SCOPE_ASSIGNMENT_CHAIN(TYPE_SCOPE_ASSIGNMENT_CHAIN && move) = default;

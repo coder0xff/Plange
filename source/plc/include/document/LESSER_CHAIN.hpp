@@ -22,6 +22,8 @@ struct IC;
 struct LESSER_CHAIN_LOOP;
 
 struct LESSER_CHAIN {
+	int32_t document_position, consumed_character_count;
+
 	erased<EXPRESSION> field_1;
 	
 	std::vector<erased<IC>> field_2;
@@ -30,8 +32,9 @@ struct LESSER_CHAIN {
 	
 
 
-	explicit LESSER_CHAIN(
-		erased<EXPRESSION> && field_1, std::vector<erased<IC>> && field_2, erased<LESSER_CHAIN_LOOP> && field_3) : field_1(std::move(field_1)), field_2(std::move(field_2)), field_3(std::move(field_3)) {}
+	explicit LESSER_CHAIN
+		(int32_t documentPosition, int32_t consumedCharacterCount, erased<EXPRESSION> && field_1, std::vector<erased<IC>> && field_2, erased<LESSER_CHAIN_LOOP> && field_3)
+		: document_position(documentPosition), consumed_character_count(consumedCharacterCount), field_1(std::move(field_1)), field_2(std::move(field_2)), field_3(std::move(field_3)) {}
 
 	LESSER_CHAIN(LESSER_CHAIN const & other) = default;
 	LESSER_CHAIN(LESSER_CHAIN && move) = default;

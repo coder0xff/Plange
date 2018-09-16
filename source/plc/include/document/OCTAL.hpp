@@ -18,7 +18,9 @@
 namespace plc {
 
 struct OCTAL {
-	parlex::detail::document::text<literal_0_t> dontCare0;
+	int32_t document_position, consumed_character_count;
+
+	parlex::detail::document::text<literal_0_t> dont_care0;
 	
 	parlex::detail::document::text<parlex::detail::octal_digit_t> field_1;
 	
@@ -26,8 +28,9 @@ struct OCTAL {
 	
 
 
-	explicit OCTAL(
-		parlex::detail::document::text<literal_0_t> && dontCare0, parlex::detail::document::text<parlex::detail::octal_digit_t> && field_1, std::vector<parlex::detail::document::text<parlex::detail::octal_digit_t>> && field_2) : dontCare0(std::move(dontCare0)), field_1(std::move(field_1)), field_2(std::move(field_2)) {}
+	explicit OCTAL
+		(int32_t documentPosition, int32_t consumedCharacterCount, parlex::detail::document::text<literal_0_t> && dont_care0, parlex::detail::document::text<parlex::detail::octal_digit_t> && field_1, std::vector<parlex::detail::document::text<parlex::detail::octal_digit_t>> && field_2)
+		: document_position(documentPosition), consumed_character_count(consumedCharacterCount), dont_care0(std::move(dont_care0)), field_1(std::move(field_1)), field_2(std::move(field_2)) {}
 
 	OCTAL(OCTAL const & other) = default;
 	OCTAL(OCTAL && move) = default;

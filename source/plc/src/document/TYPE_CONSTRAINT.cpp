@@ -16,7 +16,7 @@ plc::TYPE_CONSTRAINT plc::TYPE_CONSTRAINT::build(parlex::detail::ast_node const 
 	auto v0 = parlex::detail::document::element<erased<TYPE_CONSTRAINT_HEAD>>::build(&*children[0], w);
 	auto v1 = parlex::detail::document::element<std::vector<erased<IC>>>::build(&*children[1], w);
 	auto v2 = parlex::detail::document::element<erased<TYPE_CONSTRAINT_CHAIN>>::build(&*children[2], w);
-	return TYPE_CONSTRAINT(std::move(v0), std::move(v1), std::move(v2));
+	return TYPE_CONSTRAINT(n.document_position, n.consumed_character_count, std::move(v0), std::move(v1), std::move(v2));
 }
 
 

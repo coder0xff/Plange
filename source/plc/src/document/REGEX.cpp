@@ -11,7 +11,7 @@ plc::REGEX plc::REGEX::build(parlex::detail::ast_node const & n) {
 	auto const & children = b->children;
 	auto v0 = parlex::detail::document::element<parlex::detail::document::text<literal_R_t>>::build(&*children[0], w);
 	auto v1 = parlex::detail::document::element<parlex::detail::document::text<void>>::build(&*children[1], w);
-	return REGEX(std::move(v0), std::move(v1));
+	return REGEX(n.document_position, n.consumed_character_count, std::move(v0), std::move(v1));
 }
 
 

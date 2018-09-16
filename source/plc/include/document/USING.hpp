@@ -22,11 +22,13 @@ struct EXPRESSION;
 struct IC;
 
 struct USING {
-	parlex::detail::document::text<literal_using_t> dontCare0;
+	int32_t document_position, consumed_character_count;
+
+	parlex::detail::document::text<literal_using_t> dont_care0;
 	
 	std::vector<erased<IC>> field_01;
 	
-	parlex::detail::document::text<literal_0x28_t> dontCare2;
+	parlex::detail::document::text<literal_0x28_t> dont_care2;
 	
 	std::vector<erased<IC>> field_02;
 	
@@ -34,7 +36,7 @@ struct USING {
 	
 	std::vector<erased<IC>> field_04;
 	
-	parlex::detail::document::text<literal_0x29_t> dontCare6;
+	parlex::detail::document::text<literal_0x29_t> dont_care6;
 	
 	std::vector<erased<IC>> field_05;
 	
@@ -42,8 +44,9 @@ struct USING {
 	
 
 
-	explicit USING(
-		parlex::detail::document::text<literal_using_t> && dontCare0, std::vector<erased<IC>> && field_01, parlex::detail::document::text<literal_0x28_t> && dontCare2, std::vector<erased<IC>> && field_02, erased<EXPRESSION> && field_03, std::vector<erased<IC>> && field_04, parlex::detail::document::text<literal_0x29_t> && dontCare6, std::vector<erased<IC>> && field_05, erased<BLOCK> && field_06) : dontCare0(std::move(dontCare0)), field_01(std::move(field_01)), dontCare2(std::move(dontCare2)), field_02(std::move(field_02)), field_03(std::move(field_03)), field_04(std::move(field_04)), dontCare6(std::move(dontCare6)), field_05(std::move(field_05)), field_06(std::move(field_06)) {}
+	explicit USING
+		(int32_t documentPosition, int32_t consumedCharacterCount, parlex::detail::document::text<literal_using_t> && dont_care0, std::vector<erased<IC>> && field_01, parlex::detail::document::text<literal_0x28_t> && dont_care2, std::vector<erased<IC>> && field_02, erased<EXPRESSION> && field_03, std::vector<erased<IC>> && field_04, parlex::detail::document::text<literal_0x29_t> && dont_care6, std::vector<erased<IC>> && field_05, erased<BLOCK> && field_06)
+		: document_position(documentPosition), consumed_character_count(consumedCharacterCount), dont_care0(std::move(dont_care0)), field_01(std::move(field_01)), dont_care2(std::move(dont_care2)), field_02(std::move(field_02)), field_03(std::move(field_03)), field_04(std::move(field_04)), dont_care6(std::move(dont_care6)), field_05(std::move(field_05)), field_06(std::move(field_06)) {}
 
 	USING(USING const & other) = default;
 	USING(USING && move) = default;

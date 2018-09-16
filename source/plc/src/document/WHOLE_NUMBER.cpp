@@ -32,7 +32,7 @@ plc::WHOLE_NUMBER plc::WHOLE_NUMBER::build(parlex::detail::ast_node const & n) {
 		parlex::detail::document::text<literal_8_t>,
 		parlex::detail::document::text<literal_9_t>
 	>>>::build(&*children[1], w);
-	return WHOLE_NUMBER(std::move(v0), std::move(v1));
+	return WHOLE_NUMBER(n.document_position, n.consumed_character_count, std::move(v0), std::move(v1));
 }
 
 

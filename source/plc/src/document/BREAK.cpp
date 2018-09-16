@@ -9,7 +9,7 @@
 #include "IC.hpp"
 #include "IDENTIFIER.hpp"
 
-plc::BREAK::field_1_t_1_t_1_t plc::BREAK::field_1_t_1_t_1_t::build(parlex::detail::node const * b, parlex::detail::document::walk & w) {
+plc::BREAK::field_1_t1 plc::BREAK::field_1_t1::build(parlex::detail::node const * b, parlex::detail::document::walk & w) {
 	auto const & children = b->children;
 	auto v0 = parlex::detail::document::element<std::vector<erased<IC>>>::build(&*children[0], w);
 	auto v1 = parlex::detail::document::element<parlex::detail::document::text<literal_0x5B_t>>::build(&*children[1], w);
@@ -17,15 +17,15 @@ plc::BREAK::field_1_t_1_t_1_t plc::BREAK::field_1_t_1_t_1_t::build(parlex::detai
 	auto v3 = parlex::detail::document::element<erased<EXPRESSION>>::build(&*children[3], w);
 	auto v4 = parlex::detail::document::element<std::vector<erased<IC>>>::build(&*children[4], w);
 	auto v5 = parlex::detail::document::element<parlex::detail::document::text<literal_0x5D_t>>::build(&*children[5], w);
-	return field_1_t_1_t_1_t(std::move(v0), std::move(v1), std::move(v2), std::move(v3), std::move(v4), std::move(v5));
+	return field_1_t1(std::move(v0), std::move(v1), std::move(v2), std::move(v3), std::move(v4), std::move(v5));
 }
 
-plc::BREAK::field_1_t_1_t_2_t plc::BREAK::field_1_t_1_t_2_t::build(parlex::detail::node const * b, parlex::detail::document::walk & w) {
+plc::BREAK::field_1_t2 plc::BREAK::field_1_t2::build(parlex::detail::node const * b, parlex::detail::document::walk & w) {
 	auto const & children = b->children;
 	auto v0 = parlex::detail::document::element<erased<IC>>::build(&*children[0], w);
 	auto v1 = parlex::detail::document::element<std::vector<erased<IC>>>::build(&*children[1], w);
 	auto v2 = parlex::detail::document::element<erased<IDENTIFIER>>::build(&*children[2], w);
-	return field_1_t_1_t_2_t(std::move(v0), std::move(v1), std::move(v2));
+	return field_1_t2(std::move(v0), std::move(v1), std::move(v2));
 }
 
 plc::BREAK plc::BREAK::build(parlex::detail::ast_node const & n) {
@@ -34,10 +34,10 @@ plc::BREAK plc::BREAK::build(parlex::detail::ast_node const & n) {
 	auto const & children = b->children;
 	auto v0 = parlex::detail::document::element<parlex::detail::document::text<literal_break_t>>::build(&*children[0], w);
 	auto v1 = parlex::detail::document::element<std::optional<std::variant<
-		field_1_t_1_t_1_t,
-		field_1_t_1_t_2_t
+		field_1_t1,
+		field_1_t2
 	>>>::build(&*children[1], w);
-	return BREAK(std::move(v0), std::move(v1));
+	return BREAK(n.document_position, n.consumed_character_count, std::move(v0), std::move(v1));
 }
 
 

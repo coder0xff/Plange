@@ -16,7 +16,7 @@ plc::RECORD plc::RECORD::build(parlex::detail::ast_node const & n) {
 	auto v1 = parlex::detail::document::element<erased<IC>>::build(&*children[1], w);
 	auto v2 = parlex::detail::document::element<std::vector<erased<IC>>>::build(&*children[2], w);
 	auto v3 = parlex::detail::document::element<erased<TYPE>>::build(&*children[3], w);
-	return RECORD(std::move(v0), std::move(v1), std::move(v2), std::move(v3));
+	return RECORD(n.document_position, n.consumed_character_count, std::move(v0), std::move(v1), std::move(v2), std::move(v3));
 }
 
 

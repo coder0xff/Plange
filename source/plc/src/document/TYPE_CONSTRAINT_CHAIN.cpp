@@ -11,13 +11,13 @@
 #include "IC.hpp"
 #include "TYPE_CONSTRAINT_CHAIN.hpp"
 
-plc::TYPE_CONSTRAINT_CHAIN::field_2_t_1_t plc::TYPE_CONSTRAINT_CHAIN::field_2_t_1_t::build(parlex::detail::node const * b, parlex::detail::document::walk & w) {
+plc::TYPE_CONSTRAINT_CHAIN::field_2_t plc::TYPE_CONSTRAINT_CHAIN::field_2_t::build(parlex::detail::node const * b, parlex::detail::document::walk & w) {
 	auto const & children = b->children;
 	auto v0 = parlex::detail::document::element<std::vector<erased<IC>>>::build(&*children[0], w);
 	auto v1 = parlex::detail::document::element<parlex::detail::document::text<literal_0x2C_t>>::build(&*children[1], w);
 	auto v2 = parlex::detail::document::element<std::vector<erased<IC>>>::build(&*children[2], w);
 	auto v3 = parlex::detail::document::element<erased<TYPE_CONSTRAINT_CHAIN>>::build(&*children[3], w);
-	return field_2_t_1_t(std::move(v0), std::move(v1), std::move(v2), std::move(v3));
+	return field_2_t(std::move(v0), std::move(v1), std::move(v2), std::move(v3));
 }
 
 plc::TYPE_CONSTRAINT_CHAIN plc::TYPE_CONSTRAINT_CHAIN::build(parlex::detail::ast_node const & n) {
@@ -29,8 +29,8 @@ plc::TYPE_CONSTRAINT_CHAIN plc::TYPE_CONSTRAINT_CHAIN::build(parlex::detail::ast
 		erased<ASSIGNMENT_CHAIN>,
 		erased<DEFINITION>
 	>>::build(&*children[0], w);
-	auto v1 = parlex::detail::document::element<std::optional<field_2_t_1_t>>::build(&*children[1], w);
-	return TYPE_CONSTRAINT_CHAIN(std::move(v0), std::move(v1));
+	auto v1 = parlex::detail::document::element<std::optional<field_2_t>>::build(&*children[1], w);
+	return TYPE_CONSTRAINT_CHAIN(n.document_position, n.consumed_character_count, std::move(v0), std::move(v1));
 }
 
 

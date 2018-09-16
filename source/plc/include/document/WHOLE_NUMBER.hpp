@@ -18,6 +18,8 @@
 namespace plc {
 
 struct WHOLE_NUMBER {
+	int32_t document_position, consumed_character_count;
+
 	std::variant<
 		parlex::detail::document::text<literal_1_t>,
 		parlex::detail::document::text<literal_2_t>,
@@ -45,29 +47,30 @@ struct WHOLE_NUMBER {
 	
 
 
-	explicit WHOLE_NUMBER(
-		std::variant<
-			parlex::detail::document::text<literal_1_t>,
-			parlex::detail::document::text<literal_2_t>,
-			parlex::detail::document::text<literal_3_t>,
-			parlex::detail::document::text<literal_4_t>,
-			parlex::detail::document::text<literal_5_t>,
-			parlex::detail::document::text<literal_6_t>,
-			parlex::detail::document::text<literal_7_t>,
-			parlex::detail::document::text<literal_8_t>,
-			parlex::detail::document::text<literal_9_t>
-		> && field_1, std::vector<std::variant<
-			parlex::detail::document::text<literal_0_t>,
-			parlex::detail::document::text<literal_1_t>,
-			parlex::detail::document::text<literal_2_t>,
-			parlex::detail::document::text<literal_3_t>,
-			parlex::detail::document::text<literal_4_t>,
-			parlex::detail::document::text<literal_5_t>,
-			parlex::detail::document::text<literal_6_t>,
-			parlex::detail::document::text<literal_7_t>,
-			parlex::detail::document::text<literal_8_t>,
-			parlex::detail::document::text<literal_9_t>
-		>> && field_2) : field_1(std::move(field_1)), field_2(std::move(field_2)) {}
+	explicit WHOLE_NUMBER
+		(int32_t documentPosition, int32_t consumedCharacterCount, std::variant<
+	parlex::detail::document::text<literal_1_t>,
+	parlex::detail::document::text<literal_2_t>,
+	parlex::detail::document::text<literal_3_t>,
+	parlex::detail::document::text<literal_4_t>,
+	parlex::detail::document::text<literal_5_t>,
+	parlex::detail::document::text<literal_6_t>,
+	parlex::detail::document::text<literal_7_t>,
+	parlex::detail::document::text<literal_8_t>,
+	parlex::detail::document::text<literal_9_t>
+> && field_1, std::vector<std::variant<
+	parlex::detail::document::text<literal_0_t>,
+	parlex::detail::document::text<literal_1_t>,
+	parlex::detail::document::text<literal_2_t>,
+	parlex::detail::document::text<literal_3_t>,
+	parlex::detail::document::text<literal_4_t>,
+	parlex::detail::document::text<literal_5_t>,
+	parlex::detail::document::text<literal_6_t>,
+	parlex::detail::document::text<literal_7_t>,
+	parlex::detail::document::text<literal_8_t>,
+	parlex::detail::document::text<literal_9_t>
+>> && field_2)
+		: document_position(documentPosition), consumed_character_count(consumedCharacterCount), field_1(std::move(field_1)), field_2(std::move(field_2)) {}
 
 	WHOLE_NUMBER(WHOLE_NUMBER const & other) = default;
 	WHOLE_NUMBER(WHOLE_NUMBER && move) = default;

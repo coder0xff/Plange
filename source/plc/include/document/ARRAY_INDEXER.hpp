@@ -23,6 +23,8 @@ struct IC;
 struct SLICE;
 
 struct ARRAY_INDEXER {
+	int32_t document_position, consumed_character_count;
+
 	std::vector<erased<IC>> field_1;
 	
 	std::variant<
@@ -33,12 +35,13 @@ struct ARRAY_INDEXER {
 	
 
 
-	explicit ARRAY_INDEXER(
-		std::vector<erased<IC>> && field_1, std::variant<
-			erased<ARGUMENT>,
-			erased<ARGUMENT_PACK>,
-			erased<SLICE>
-		> && field_2) : field_1(std::move(field_1)), field_2(std::move(field_2)) {}
+	explicit ARRAY_INDEXER
+		(int32_t documentPosition, int32_t consumedCharacterCount, std::vector<erased<IC>> && field_1, std::variant<
+	erased<ARGUMENT>,
+	erased<ARGUMENT_PACK>,
+	erased<SLICE>
+> && field_2)
+		: document_position(documentPosition), consumed_character_count(consumedCharacterCount), field_1(std::move(field_1)), field_2(std::move(field_2)) {}
 
 	ARRAY_INDEXER(ARRAY_INDEXER const & other) = default;
 	ARRAY_INDEXER(ARRAY_INDEXER && move) = default;

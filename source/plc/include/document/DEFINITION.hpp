@@ -23,29 +23,32 @@ struct IDENTIFIER;
 struct XML_DOC_STRING;
 
 struct DEFINITION {
-	struct field_1_t_1_t {
+	int32_t document_position, consumed_character_count;
+
+	struct field_1_t {
 		erased<XML_DOC_STRING> xml_doc_string;
 		
 		std::vector<erased<IC>> field_1;
 		
 	
 	
-		explicit field_1_t_1_t(
-			erased<XML_DOC_STRING> && xml_doc_string, std::vector<erased<IC>> && field_1) : xml_doc_string(std::move(xml_doc_string)), field_1(std::move(field_1)) {}
+		explicit field_1_t
+			(erased<XML_DOC_STRING> && xml_doc_string, std::vector<erased<IC>> && field_1)
+			: xml_doc_string(std::move(xml_doc_string)), field_1(std::move(field_1)) {}
 	
-		field_1_t_1_t(field_1_t_1_t const & other) = default;
-		field_1_t_1_t(field_1_t_1_t && move) = default;
+		field_1_t(field_1_t const & other) = default;
+		field_1_t(field_1_t && move) = default;
 	
-		static field_1_t_1_t build(parlex::detail::node const * b, parlex::detail::document::walk & w);
+		static field_1_t build(parlex::detail::node const * b, parlex::detail::document::walk & w);
 	};
 
-	std::optional<field_1_t_1_t> field_1;
+	std::optional<field_1_t> field_1;
 	
 	erased<IDENTIFIER> identifier;
 	
 	std::vector<erased<IC>> field_2;
 	
-	parlex::detail::document::text<literal_0x3A0x3D_t> dontCare3;
+	parlex::detail::document::text<literal_0x3A0x3D_t> dont_care3;
 	
 	std::vector<erased<IC>> field_3;
 	
@@ -53,8 +56,9 @@ struct DEFINITION {
 	
 
 
-	explicit DEFINITION(
-		std::optional<field_1_t_1_t> && field_1, erased<IDENTIFIER> && identifier, std::vector<erased<IC>> && field_2, parlex::detail::document::text<literal_0x3A0x3D_t> && dontCare3, std::vector<erased<IC>> && field_3, erased<EXPRESSION> && expression) : field_1(std::move(field_1)), identifier(std::move(identifier)), field_2(std::move(field_2)), dontCare3(std::move(dontCare3)), field_3(std::move(field_3)), expression(std::move(expression)) {}
+	explicit DEFINITION
+		(int32_t documentPosition, int32_t consumedCharacterCount, std::optional<field_1_t> && field_1, erased<IDENTIFIER> && identifier, std::vector<erased<IC>> && field_2, parlex::detail::document::text<literal_0x3A0x3D_t> && dont_care3, std::vector<erased<IC>> && field_3, erased<EXPRESSION> && expression)
+		: document_position(documentPosition), consumed_character_count(consumedCharacterCount), field_1(std::move(field_1)), identifier(std::move(identifier)), field_2(std::move(field_2)), dont_care3(std::move(dont_care3)), field_3(std::move(field_3)), expression(std::move(expression)) {}
 
 	DEFINITION(DEFINITION const & other) = default;
 	DEFINITION(DEFINITION && move) = default;

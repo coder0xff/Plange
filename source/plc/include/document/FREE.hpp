@@ -21,7 +21,9 @@ struct EXPRESSION;
 struct IC;
 
 struct FREE {
-	parlex::detail::document::text<literal_free_t> dontCare0;
+	int32_t document_position, consumed_character_count;
+
+	parlex::detail::document::text<literal_free_t> dont_care0;
 	
 	std::vector<erased<IC>> field_1;
 	
@@ -29,8 +31,9 @@ struct FREE {
 	
 
 
-	explicit FREE(
-		parlex::detail::document::text<literal_free_t> && dontCare0, std::vector<erased<IC>> && field_1, erased<EXPRESSION> && field_2) : dontCare0(std::move(dontCare0)), field_1(std::move(field_1)), field_2(std::move(field_2)) {}
+	explicit FREE
+		(int32_t documentPosition, int32_t consumedCharacterCount, parlex::detail::document::text<literal_free_t> && dont_care0, std::vector<erased<IC>> && field_1, erased<EXPRESSION> && field_2)
+		: document_position(documentPosition), consumed_character_count(consumedCharacterCount), dont_care0(std::move(dont_care0)), field_1(std::move(field_1)), field_2(std::move(field_2)) {}
 
 	FREE(FREE const & other) = default;
 	FREE(FREE && move) = default;

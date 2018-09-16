@@ -19,7 +19,7 @@ plc::PLATFORM plc::PLATFORM::build(parlex::detail::ast_node const & n) {
 		parlex::detail::document::text<parlex::detail::number_t>,
 		parlex::detail::document::text<literal___t>
 	>>>::build(&*children[2], w);
-	return PLATFORM(std::move(v0), std::move(v1), std::move(v2));
+	return PLATFORM(n.document_position, n.consumed_character_count, std::move(v0), std::move(v1), std::move(v2));
 }
 
 

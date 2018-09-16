@@ -18,7 +18,9 @@
 namespace plc {
 
 struct PLATFORM {
-	parlex::detail::document::text<literal___t> dontCare0;
+	int32_t document_position, consumed_character_count;
+
+	parlex::detail::document::text<literal___t> dont_care0;
 	
 	std::variant<
 		parlex::detail::document::text<parlex::detail::letter_t>,
@@ -33,15 +35,16 @@ struct PLATFORM {
 	
 
 
-	explicit PLATFORM(
-		parlex::detail::document::text<literal___t> && dontCare0, std::variant<
-			parlex::detail::document::text<parlex::detail::letter_t>,
-			parlex::detail::document::text<parlex::detail::number_t>
-		> && field_1, std::vector<std::variant<
-			parlex::detail::document::text<parlex::detail::letter_t>,
-			parlex::detail::document::text<parlex::detail::number_t>,
-			parlex::detail::document::text<literal___t>
-		>> && field_2) : dontCare0(std::move(dontCare0)), field_1(std::move(field_1)), field_2(std::move(field_2)) {}
+	explicit PLATFORM
+		(int32_t documentPosition, int32_t consumedCharacterCount, parlex::detail::document::text<literal___t> && dont_care0, std::variant<
+	parlex::detail::document::text<parlex::detail::letter_t>,
+	parlex::detail::document::text<parlex::detail::number_t>
+> && field_1, std::vector<std::variant<
+	parlex::detail::document::text<parlex::detail::letter_t>,
+	parlex::detail::document::text<parlex::detail::number_t>,
+	parlex::detail::document::text<literal___t>
+>> && field_2)
+		: document_position(documentPosition), consumed_character_count(consumedCharacterCount), dont_care0(std::move(dont_care0)), field_1(std::move(field_1)), field_2(std::move(field_2)) {}
 
 	PLATFORM(PLATFORM const & other) = default;
 	PLATFORM(PLATFORM && move) = default;

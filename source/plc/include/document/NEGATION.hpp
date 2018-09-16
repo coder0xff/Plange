@@ -21,7 +21,9 @@ struct EXPRESSION;
 struct IC;
 
 struct NEGATION {
-	parlex::detail::document::text<literal_0x2D_t> dontCare0;
+	int32_t document_position, consumed_character_count;
+
+	parlex::detail::document::text<literal_0x2D_t> dont_care0;
 	
 	std::vector<erased<IC>> field_1;
 	
@@ -29,8 +31,9 @@ struct NEGATION {
 	
 
 
-	explicit NEGATION(
-		parlex::detail::document::text<literal_0x2D_t> && dontCare0, std::vector<erased<IC>> && field_1, erased<EXPRESSION> && field_2) : dontCare0(std::move(dontCare0)), field_1(std::move(field_1)), field_2(std::move(field_2)) {}
+	explicit NEGATION
+		(int32_t documentPosition, int32_t consumedCharacterCount, parlex::detail::document::text<literal_0x2D_t> && dont_care0, std::vector<erased<IC>> && field_1, erased<EXPRESSION> && field_2)
+		: document_position(documentPosition), consumed_character_count(consumedCharacterCount), dont_care0(std::move(dont_care0)), field_1(std::move(field_1)), field_2(std::move(field_2)) {}
 
 	NEGATION(NEGATION const & other) = default;
 	NEGATION(NEGATION && move) = default;

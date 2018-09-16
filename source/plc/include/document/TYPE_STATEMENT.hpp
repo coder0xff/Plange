@@ -22,26 +22,27 @@ struct STATEMENT;
 struct TYPE_SCOPE_TYPE_CONSTRAINT;
 struct VISIBILITY_MODIFIER;
 
-struct TYPE_STATEMENT_1_t {
+struct TYPE_STATEMENT1_t {
 	erased<VISIBILITY_MODIFIER> field_1;
 	
 	std::vector<erased<IC>> field_2;
 	
-	parlex::detail::document::text<literal_0x3A_t> dontCare2;
+	parlex::detail::document::text<literal_0x3A_t> dont_care2;
 	
 
 
-	explicit TYPE_STATEMENT_1_t(
-		erased<VISIBILITY_MODIFIER> && field_1, std::vector<erased<IC>> && field_2, parlex::detail::document::text<literal_0x3A_t> && dontCare2) : field_1(std::move(field_1)), field_2(std::move(field_2)), dontCare2(std::move(dontCare2)) {}
+	explicit TYPE_STATEMENT1_t
+		(erased<VISIBILITY_MODIFIER> && field_1, std::vector<erased<IC>> && field_2, parlex::detail::document::text<literal_0x3A_t> && dont_care2)
+		: field_1(std::move(field_1)), field_2(std::move(field_2)), dont_care2(std::move(dont_care2)) {}
 
-	TYPE_STATEMENT_1_t(TYPE_STATEMENT_1_t const & other) = default;
-	TYPE_STATEMENT_1_t(TYPE_STATEMENT_1_t && move) = default;
+	TYPE_STATEMENT1_t(TYPE_STATEMENT1_t const & other) = default;
+	TYPE_STATEMENT1_t(TYPE_STATEMENT1_t && move) = default;
 
-	static TYPE_STATEMENT_1_t build(parlex::detail::node const * b, parlex::detail::document::walk & w);
+	static TYPE_STATEMENT1_t build(parlex::detail::node const * b, parlex::detail::document::walk & w);
 };
 
 typedef std::variant<
-	TYPE_STATEMENT_1_t,
+	TYPE_STATEMENT1_t,
 	erased<TYPE_SCOPE_TYPE_CONSTRAINT>,
 	erased<STATEMENT>
 > TYPE_STATEMENT_base;

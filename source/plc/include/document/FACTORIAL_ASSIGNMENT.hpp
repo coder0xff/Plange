@@ -21,11 +21,13 @@ struct EXPRESSION;
 struct IC;
 
 struct FACTORIAL_ASSIGNMENT {
+	int32_t document_position, consumed_character_count;
+
 	erased<EXPRESSION> field_1;
 	
 	std::vector<erased<IC>> field_2;
 	
-	parlex::detail::document::text<literal_0x21_t> dontCare2;
+	parlex::detail::document::text<literal_0x21_t> dont_care2;
 	
 	std::variant<
 		parlex::detail::document::text<literal_0x3C0x2D_t>,
@@ -34,11 +36,12 @@ struct FACTORIAL_ASSIGNMENT {
 	
 
 
-	explicit FACTORIAL_ASSIGNMENT(
-		erased<EXPRESSION> && field_1, std::vector<erased<IC>> && field_2, parlex::detail::document::text<literal_0x21_t> && dontCare2, std::variant<
-			parlex::detail::document::text<literal_0x3C0x2D_t>,
-			parlex::detail::document::text<literal_0xE20x860x90_t>
-		> && field_3) : field_1(std::move(field_1)), field_2(std::move(field_2)), dontCare2(std::move(dontCare2)), field_3(std::move(field_3)) {}
+	explicit FACTORIAL_ASSIGNMENT
+		(int32_t documentPosition, int32_t consumedCharacterCount, erased<EXPRESSION> && field_1, std::vector<erased<IC>> && field_2, parlex::detail::document::text<literal_0x21_t> && dont_care2, std::variant<
+	parlex::detail::document::text<literal_0x3C0x2D_t>,
+	parlex::detail::document::text<literal_0xE20x860x90_t>
+> && field_3)
+		: document_position(documentPosition), consumed_character_count(consumedCharacterCount), field_1(std::move(field_1)), field_2(std::move(field_2)), dont_care2(std::move(dont_care2)), field_3(std::move(field_3)) {}
 
 	FACTORIAL_ASSIGNMENT(FACTORIAL_ASSIGNMENT const & other) = default;
 	FACTORIAL_ASSIGNMENT(FACTORIAL_ASSIGNMENT && move) = default;

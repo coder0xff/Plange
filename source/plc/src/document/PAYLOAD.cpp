@@ -11,7 +11,7 @@ plc::PAYLOAD plc::PAYLOAD::build(parlex::detail::ast_node const & n) {
 	auto const & children = b->children;
 	auto v0 = parlex::detail::document::element<parlex::detail::document::text<parlex::detail::all_t>>::build(&*children[0], w);
 	auto v1 = parlex::detail::document::element<std::vector<parlex::detail::document::text<parlex::detail::all_t>>>::build(&*children[1], w);
-	return PAYLOAD(std::move(v0), std::move(v1));
+	return PAYLOAD(n.document_position, n.consumed_character_count, std::move(v0), std::move(v1));
 }
 
 

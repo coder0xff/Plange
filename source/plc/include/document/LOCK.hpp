@@ -22,7 +22,9 @@ struct IC;
 struct PARENTHETICAL;
 
 struct LOCK {
-	parlex::detail::document::text<literal_lock_t> dontCare0;
+	int32_t document_position, consumed_character_count;
+
+	parlex::detail::document::text<literal_lock_t> dont_care0;
 	
 	std::vector<erased<IC>> field_1;
 	
@@ -34,8 +36,9 @@ struct LOCK {
 	
 
 
-	explicit LOCK(
-		parlex::detail::document::text<literal_lock_t> && dontCare0, std::vector<erased<IC>> && field_1, erased<PARENTHETICAL> && field_2, std::vector<erased<IC>> && field_3, erased<BLOCK> && field_4) : dontCare0(std::move(dontCare0)), field_1(std::move(field_1)), field_2(std::move(field_2)), field_3(std::move(field_3)), field_4(std::move(field_4)) {}
+	explicit LOCK
+		(int32_t documentPosition, int32_t consumedCharacterCount, parlex::detail::document::text<literal_lock_t> && dont_care0, std::vector<erased<IC>> && field_1, erased<PARENTHETICAL> && field_2, std::vector<erased<IC>> && field_3, erased<BLOCK> && field_4)
+		: document_position(documentPosition), consumed_character_count(consumedCharacterCount), dont_care0(std::move(dont_care0)), field_1(std::move(field_1)), field_2(std::move(field_2)), field_3(std::move(field_3)), field_4(std::move(field_4)) {}
 
 	LOCK(LOCK const & other) = default;
 	LOCK(LOCK && move) = default;

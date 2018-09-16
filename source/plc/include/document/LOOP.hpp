@@ -22,6 +22,8 @@ struct IC;
 struct PARENTHETICAL;
 
 struct LOOP {
+	int32_t document_position, consumed_character_count;
+
 	std::variant<
 		parlex::detail::document::text<literal_while_t>,
 		parlex::detail::document::text<literal_until_t>
@@ -37,11 +39,12 @@ struct LOOP {
 	
 
 
-	explicit LOOP(
-		std::variant<
-			parlex::detail::document::text<literal_while_t>,
-			parlex::detail::document::text<literal_until_t>
-		> && field_1, std::vector<erased<IC>> && field_2, erased<PARENTHETICAL> && field_3, std::vector<erased<IC>> && field_4, erased<EXPRESSION> && field_5) : field_1(std::move(field_1)), field_2(std::move(field_2)), field_3(std::move(field_3)), field_4(std::move(field_4)), field_5(std::move(field_5)) {}
+	explicit LOOP
+		(int32_t documentPosition, int32_t consumedCharacterCount, std::variant<
+	parlex::detail::document::text<literal_while_t>,
+	parlex::detail::document::text<literal_until_t>
+> && field_1, std::vector<erased<IC>> && field_2, erased<PARENTHETICAL> && field_3, std::vector<erased<IC>> && field_4, erased<EXPRESSION> && field_5)
+		: document_position(documentPosition), consumed_character_count(consumedCharacterCount), field_1(std::move(field_1)), field_2(std::move(field_2)), field_3(std::move(field_3)), field_4(std::move(field_4)), field_5(std::move(field_5)) {}
 
 	LOOP(LOOP const & other) = default;
 	LOOP(LOOP && move) = default;

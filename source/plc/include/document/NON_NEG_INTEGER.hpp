@@ -19,24 +19,25 @@ namespace plc {
 
 struct NON_ZERO_DECIMAL_DIGIT;
 
-struct NON_NEG_INTEGER_1_t {
+struct NON_NEG_INTEGER1_t {
 	erased<NON_ZERO_DECIMAL_DIGIT> field_1;
 	
 	std::vector<parlex::detail::document::text<parlex::detail::decimal_digit_t>> field_2;
 	
 
 
-	explicit NON_NEG_INTEGER_1_t(
-		erased<NON_ZERO_DECIMAL_DIGIT> && field_1, std::vector<parlex::detail::document::text<parlex::detail::decimal_digit_t>> && field_2) : field_1(std::move(field_1)), field_2(std::move(field_2)) {}
+	explicit NON_NEG_INTEGER1_t
+		(erased<NON_ZERO_DECIMAL_DIGIT> && field_1, std::vector<parlex::detail::document::text<parlex::detail::decimal_digit_t>> && field_2)
+		: field_1(std::move(field_1)), field_2(std::move(field_2)) {}
 
-	NON_NEG_INTEGER_1_t(NON_NEG_INTEGER_1_t const & other) = default;
-	NON_NEG_INTEGER_1_t(NON_NEG_INTEGER_1_t && move) = default;
+	NON_NEG_INTEGER1_t(NON_NEG_INTEGER1_t const & other) = default;
+	NON_NEG_INTEGER1_t(NON_NEG_INTEGER1_t && move) = default;
 
-	static NON_NEG_INTEGER_1_t build(parlex::detail::node const * b, parlex::detail::document::walk & w);
+	static NON_NEG_INTEGER1_t build(parlex::detail::node const * b, parlex::detail::document::walk & w);
 };
 
 typedef std::variant<
-	NON_NEG_INTEGER_1_t,
+	NON_NEG_INTEGER1_t,
 	parlex::detail::document::text<literal_0_t>
 > NON_NEG_INTEGER_base;
 

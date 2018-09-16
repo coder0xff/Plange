@@ -21,6 +21,8 @@ struct EXPRESSION;
 struct IC;
 
 struct IFF {
+	int32_t document_position, consumed_character_count;
+
 	erased<EXPRESSION> field_1;
 	
 	std::vector<erased<IC>> field_2;
@@ -36,11 +38,12 @@ struct IFF {
 	
 
 
-	explicit IFF(
-		erased<EXPRESSION> && field_1, std::vector<erased<IC>> && field_2, std::variant<
-			parlex::detail::document::text<literal_0xE20x870x94_t>,
-			parlex::detail::document::text<literal_0x3C0x3D0x3E_t>
-		> && field_3, std::vector<erased<IC>> && field_4, erased<EXPRESSION> && field_5) : field_1(std::move(field_1)), field_2(std::move(field_2)), field_3(std::move(field_3)), field_4(std::move(field_4)), field_5(std::move(field_5)) {}
+	explicit IFF
+		(int32_t documentPosition, int32_t consumedCharacterCount, erased<EXPRESSION> && field_1, std::vector<erased<IC>> && field_2, std::variant<
+	parlex::detail::document::text<literal_0xE20x870x94_t>,
+	parlex::detail::document::text<literal_0x3C0x3D0x3E_t>
+> && field_3, std::vector<erased<IC>> && field_4, erased<EXPRESSION> && field_5)
+		: document_position(documentPosition), consumed_character_count(consumedCharacterCount), field_1(std::move(field_1)), field_2(std::move(field_2)), field_3(std::move(field_3)), field_4(std::move(field_4)), field_5(std::move(field_5)) {}
 
 	IFF(IFF const & other) = default;
 	IFF(IFF && move) = default;

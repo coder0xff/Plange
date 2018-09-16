@@ -12,7 +12,7 @@ plc::HEX plc::HEX::build(parlex::detail::ast_node const & n) {
 	auto v0 = parlex::detail::document::element<parlex::detail::document::text<literal_0x_t>>::build(&*children[0], w);
 	auto v1 = parlex::detail::document::element<parlex::detail::document::text<parlex::detail::hexadecimal_digit_t>>::build(&*children[1], w);
 	auto v2 = parlex::detail::document::element<std::vector<parlex::detail::document::text<parlex::detail::hexadecimal_digit_t>>>::build(&*children[2], w);
-	return HEX(std::move(v0), std::move(v1), std::move(v2));
+	return HEX(n.document_position, n.consumed_character_count, std::move(v0), std::move(v1), std::move(v2));
 }
 
 

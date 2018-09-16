@@ -9,7 +9,7 @@
 #include "IC.hpp"
 #include "PARENTHETICAL.hpp"
 
-plc::DO::field_2_t_1_t plc::DO::field_2_t_1_t::build(parlex::detail::node const * b, parlex::detail::document::walk & w) {
+plc::DO::field_2_t plc::DO::field_2_t::build(parlex::detail::node const * b, parlex::detail::document::walk & w) {
 	auto const & children = b->children;
 	auto v0 = parlex::detail::document::element<std::vector<erased<IC>>>::build(&*children[0], w);
 	auto v1 = parlex::detail::document::element<std::variant<
@@ -18,7 +18,7 @@ plc::DO::field_2_t_1_t plc::DO::field_2_t_1_t::build(parlex::detail::node const 
 	>>::build(&*children[1], w);
 	auto v2 = parlex::detail::document::element<std::vector<erased<IC>>>::build(&*children[2], w);
 	auto v3 = parlex::detail::document::element<erased<PARENTHETICAL>>::build(&*children[3], w);
-	return field_2_t_1_t(std::move(v0), std::move(v1), std::move(v2), std::move(v3));
+	return field_2_t(std::move(v0), std::move(v1), std::move(v2), std::move(v3));
 }
 
 plc::DO plc::DO::build(parlex::detail::ast_node const & n) {
@@ -28,8 +28,8 @@ plc::DO plc::DO::build(parlex::detail::ast_node const & n) {
 	auto v0 = parlex::detail::document::element<parlex::detail::document::text<literal_do_t>>::build(&*children[0], w);
 	auto v1 = parlex::detail::document::element<std::vector<erased<IC>>>::build(&*children[1], w);
 	auto v2 = parlex::detail::document::element<erased<EXPRESSION>>::build(&*children[2], w);
-	auto v3 = parlex::detail::document::element<std::optional<field_2_t_1_t>>::build(&*children[3], w);
-	return DO(std::move(v0), std::move(v1), std::move(v2), std::move(v3));
+	auto v3 = parlex::detail::document::element<std::optional<field_2_t>>::build(&*children[3], w);
+	return DO(n.document_position, n.consumed_character_count, std::move(v0), std::move(v1), std::move(v2), std::move(v3));
 }
 
 

@@ -21,7 +21,7 @@ plc::CONDITIONAL plc::CONDITIONAL::build(parlex::detail::ast_node const & n) {
 	auto v6 = parlex::detail::document::element<parlex::detail::document::text<literal_0x3A_t>>::build(&*children[6], w);
 	auto v7 = parlex::detail::document::element<std::vector<erased<IC>>>::build(&*children[7], w);
 	auto v8 = parlex::detail::document::element<erased<EXPRESSION>>::build(&*children[8], w);
-	return CONDITIONAL(std::move(v0), std::move(v1), std::move(v2), std::move(v3), std::move(v4), std::move(v5), std::move(v6), std::move(v7), std::move(v8));
+	return CONDITIONAL(n.document_position, n.consumed_character_count, std::move(v0), std::move(v1), std::move(v2), std::move(v3), std::move(v4), std::move(v5), std::move(v6), std::move(v7), std::move(v8));
 }
 
 

@@ -21,16 +21,19 @@ struct DATE;
 struct TIME;
 
 struct DATE_TIME {
+	int32_t document_position, consumed_character_count;
+
 	erased<DATE> field_1;
 	
-	parlex::detail::document::text<literal_T_t> dontCare1;
+	parlex::detail::document::text<literal_T_t> dont_care1;
 	
 	erased<TIME> field_2;
 	
 
 
-	explicit DATE_TIME(
-		erased<DATE> && field_1, parlex::detail::document::text<literal_T_t> && dontCare1, erased<TIME> && field_2) : field_1(std::move(field_1)), dontCare1(std::move(dontCare1)), field_2(std::move(field_2)) {}
+	explicit DATE_TIME
+		(int32_t documentPosition, int32_t consumedCharacterCount, erased<DATE> && field_1, parlex::detail::document::text<literal_T_t> && dont_care1, erased<TIME> && field_2)
+		: document_position(documentPosition), consumed_character_count(consumedCharacterCount), field_1(std::move(field_1)), dont_care1(std::move(dont_care1)), field_2(std::move(field_2)) {}
 
 	DATE_TIME(DATE_TIME const & other) = default;
 	DATE_TIME(DATE_TIME && move) = default;

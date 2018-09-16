@@ -21,7 +21,9 @@ struct EXPRESSION;
 struct IC;
 
 struct VECTOR_NORM {
-	parlex::detail::document::text<literal_0x7C0x7C_t> dontCare0;
+	int32_t document_position, consumed_character_count;
+
+	parlex::detail::document::text<literal_0x7C0x7C_t> dont_care0;
 	
 	std::vector<erased<IC>> field_1;
 	
@@ -29,12 +31,13 @@ struct VECTOR_NORM {
 	
 	std::vector<erased<IC>> field_3;
 	
-	parlex::detail::document::text<literal_0x7C0x7C_t> dontCare4;
+	parlex::detail::document::text<literal_0x7C0x7C_t> dont_care4;
 	
 
 
-	explicit VECTOR_NORM(
-		parlex::detail::document::text<literal_0x7C0x7C_t> && dontCare0, std::vector<erased<IC>> && field_1, erased<EXPRESSION> && field_2, std::vector<erased<IC>> && field_3, parlex::detail::document::text<literal_0x7C0x7C_t> && dontCare4) : dontCare0(std::move(dontCare0)), field_1(std::move(field_1)), field_2(std::move(field_2)), field_3(std::move(field_3)), dontCare4(std::move(dontCare4)) {}
+	explicit VECTOR_NORM
+		(int32_t documentPosition, int32_t consumedCharacterCount, parlex::detail::document::text<literal_0x7C0x7C_t> && dont_care0, std::vector<erased<IC>> && field_1, erased<EXPRESSION> && field_2, std::vector<erased<IC>> && field_3, parlex::detail::document::text<literal_0x7C0x7C_t> && dont_care4)
+		: document_position(documentPosition), consumed_character_count(consumedCharacterCount), dont_care0(std::move(dont_care0)), field_1(std::move(field_1)), field_2(std::move(field_2)), field_3(std::move(field_3)), dont_care4(std::move(dont_care4)) {}
 
 	VECTOR_NORM(VECTOR_NORM const & other) = default;
 	VECTOR_NORM(VECTOR_NORM && move) = default;

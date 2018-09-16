@@ -21,10 +21,12 @@ struct EXPRESSION;
 struct IC;
 
 struct THROW {
-	struct field_1_t_1_t {
+	int32_t document_position, consumed_character_count;
+
+	struct field_1_t {
 		std::vector<erased<IC>> field_1;
 		
-		parlex::detail::document::text<literal_0x5B_t> dontCare1;
+		parlex::detail::document::text<literal_0x5B_t> dont_care1;
 		
 		std::vector<erased<IC>> field_2;
 		
@@ -32,45 +34,48 @@ struct THROW {
 		
 		std::vector<erased<IC>> field_4;
 		
-		parlex::detail::document::text<literal_0x5D_t> dontCare5;
+		parlex::detail::document::text<literal_0x5D_t> dont_care5;
 		
 	
 	
-		explicit field_1_t_1_t(
-			std::vector<erased<IC>> && field_1, parlex::detail::document::text<literal_0x5B_t> && dontCare1, std::vector<erased<IC>> && field_2, erased<EXPRESSION> && field_3, std::vector<erased<IC>> && field_4, parlex::detail::document::text<literal_0x5D_t> && dontCare5) : field_1(std::move(field_1)), dontCare1(std::move(dontCare1)), field_2(std::move(field_2)), field_3(std::move(field_3)), field_4(std::move(field_4)), dontCare5(std::move(dontCare5)) {}
+		explicit field_1_t
+			(std::vector<erased<IC>> && field_1, parlex::detail::document::text<literal_0x5B_t> && dont_care1, std::vector<erased<IC>> && field_2, erased<EXPRESSION> && field_3, std::vector<erased<IC>> && field_4, parlex::detail::document::text<literal_0x5D_t> && dont_care5)
+			: field_1(std::move(field_1)), dont_care1(std::move(dont_care1)), field_2(std::move(field_2)), field_3(std::move(field_3)), field_4(std::move(field_4)), dont_care5(std::move(dont_care5)) {}
 	
-		field_1_t_1_t(field_1_t_1_t const & other) = default;
-		field_1_t_1_t(field_1_t_1_t && move) = default;
+		field_1_t(field_1_t const & other) = default;
+		field_1_t(field_1_t && move) = default;
 	
-		static field_1_t_1_t build(parlex::detail::node const * b, parlex::detail::document::walk & w);
+		static field_1_t build(parlex::detail::node const * b, parlex::detail::document::walk & w);
 	};
 
-	struct field_2_t_1_t {
+	struct field_2_t {
 		std::vector<erased<IC>> field_1;
 		
 		erased<EXPRESSION> field_2;
 		
 	
 	
-		explicit field_2_t_1_t(
-			std::vector<erased<IC>> && field_1, erased<EXPRESSION> && field_2) : field_1(std::move(field_1)), field_2(std::move(field_2)) {}
+		explicit field_2_t
+			(std::vector<erased<IC>> && field_1, erased<EXPRESSION> && field_2)
+			: field_1(std::move(field_1)), field_2(std::move(field_2)) {}
 	
-		field_2_t_1_t(field_2_t_1_t const & other) = default;
-		field_2_t_1_t(field_2_t_1_t && move) = default;
+		field_2_t(field_2_t const & other) = default;
+		field_2_t(field_2_t && move) = default;
 	
-		static field_2_t_1_t build(parlex::detail::node const * b, parlex::detail::document::walk & w);
+		static field_2_t build(parlex::detail::node const * b, parlex::detail::document::walk & w);
 	};
 
-	parlex::detail::document::text<literal_throw_t> dontCare0;
+	parlex::detail::document::text<literal_throw_t> dont_care0;
 	
-	std::optional<field_1_t_1_t> field_1;
+	std::optional<field_1_t> field_1;
 	
-	std::optional<field_2_t_1_t> field_2;
+	std::optional<field_2_t> field_2;
 	
 
 
-	explicit THROW(
-		parlex::detail::document::text<literal_throw_t> && dontCare0, std::optional<field_1_t_1_t> && field_1, std::optional<field_2_t_1_t> && field_2) : dontCare0(std::move(dontCare0)), field_1(std::move(field_1)), field_2(std::move(field_2)) {}
+	explicit THROW
+		(int32_t documentPosition, int32_t consumedCharacterCount, parlex::detail::document::text<literal_throw_t> && dont_care0, std::optional<field_1_t> && field_1, std::optional<field_2_t> && field_2)
+		: document_position(documentPosition), consumed_character_count(consumedCharacterCount), dont_care0(std::move(dont_care0)), field_1(std::move(field_1)), field_2(std::move(field_2)) {}
 
 	THROW(THROW const & other) = default;
 	THROW(THROW && move) = default;

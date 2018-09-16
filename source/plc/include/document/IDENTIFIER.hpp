@@ -18,6 +18,8 @@
 namespace plc {
 
 struct IDENTIFIER {
+	int32_t document_position, consumed_character_count;
+
 	std::variant<
 		parlex::detail::document::text<parlex::detail::letter_t>,
 		parlex::detail::document::text<literal___t>
@@ -31,15 +33,16 @@ struct IDENTIFIER {
 	
 
 
-	explicit IDENTIFIER(
-		std::variant<
-			parlex::detail::document::text<parlex::detail::letter_t>,
-			parlex::detail::document::text<literal___t>
-		> && head, std::vector<std::variant<
-			parlex::detail::document::text<parlex::detail::letter_t>,
-			parlex::detail::document::text<parlex::detail::number_t>,
-			parlex::detail::document::text<literal___t>
-		>> && tail) : head(std::move(head)), tail(std::move(tail)) {}
+	explicit IDENTIFIER
+		(int32_t documentPosition, int32_t consumedCharacterCount, std::variant<
+	parlex::detail::document::text<parlex::detail::letter_t>,
+	parlex::detail::document::text<literal___t>
+> && head, std::vector<std::variant<
+	parlex::detail::document::text<parlex::detail::letter_t>,
+	parlex::detail::document::text<parlex::detail::number_t>,
+	parlex::detail::document::text<literal___t>
+>> && tail)
+		: document_position(documentPosition), consumed_character_count(consumedCharacterCount), head(std::move(head)), tail(std::move(tail)) {}
 
 	IDENTIFIER(IDENTIFIER const & other) = default;
 	IDENTIFIER(IDENTIFIER && move) = default;

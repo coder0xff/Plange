@@ -22,34 +22,38 @@ struct EXPRESSION;
 struct IC;
 
 struct EQUALITY_CHAIN_LOOP {
-	struct field_2_t_1_t {
+	int32_t document_position, consumed_character_count;
+
+	struct field_2_t {
 		std::vector<erased<IC>> field_1;
 		
 		erased<EQUALITY_CHAIN_LOOP> equality_chain_loop;
 		
 	
 	
-		explicit field_2_t_1_t(
-			std::vector<erased<IC>> && field_1, erased<EQUALITY_CHAIN_LOOP> && equality_chain_loop) : field_1(std::move(field_1)), equality_chain_loop(std::move(equality_chain_loop)) {}
+		explicit field_2_t
+			(std::vector<erased<IC>> && field_1, erased<EQUALITY_CHAIN_LOOP> && equality_chain_loop)
+			: field_1(std::move(field_1)), equality_chain_loop(std::move(equality_chain_loop)) {}
 	
-		field_2_t_1_t(field_2_t_1_t const & other) = default;
-		field_2_t_1_t(field_2_t_1_t && move) = default;
+		field_2_t(field_2_t const & other) = default;
+		field_2_t(field_2_t && move) = default;
 	
-		static field_2_t_1_t build(parlex::detail::node const * b, parlex::detail::document::walk & w);
+		static field_2_t build(parlex::detail::node const * b, parlex::detail::document::walk & w);
 	};
 
-	parlex::detail::document::text<literal_0x3D_t> dontCare0;
+	parlex::detail::document::text<literal_0x3D_t> dont_care0;
 	
 	std::vector<erased<IC>> field_1;
 	
 	erased<EXPRESSION> expression;
 	
-	std::optional<field_2_t_1_t> field_2;
+	std::optional<field_2_t> field_2;
 	
 
 
-	explicit EQUALITY_CHAIN_LOOP(
-		parlex::detail::document::text<literal_0x3D_t> && dontCare0, std::vector<erased<IC>> && field_1, erased<EXPRESSION> && expression, std::optional<field_2_t_1_t> && field_2) : dontCare0(std::move(dontCare0)), field_1(std::move(field_1)), expression(std::move(expression)), field_2(std::move(field_2)) {}
+	explicit EQUALITY_CHAIN_LOOP
+		(int32_t documentPosition, int32_t consumedCharacterCount, parlex::detail::document::text<literal_0x3D_t> && dont_care0, std::vector<erased<IC>> && field_1, erased<EXPRESSION> && expression, std::optional<field_2_t> && field_2)
+		: document_position(documentPosition), consumed_character_count(consumedCharacterCount), dont_care0(std::move(dont_care0)), field_1(std::move(field_1)), expression(std::move(expression)), field_2(std::move(field_2)) {}
 
 	EQUALITY_CHAIN_LOOP(EQUALITY_CHAIN_LOOP const & other) = default;
 	EQUALITY_CHAIN_LOOP(EQUALITY_CHAIN_LOOP && move) = default;

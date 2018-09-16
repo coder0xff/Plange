@@ -19,20 +19,20 @@ EMBEDDED_NEWLINE_STRING_INTERIOR EMBEDDED_NEWLINE_STRING_INTERIOR::build(parlex:
 }
 
 } // namespace plc
-plc::EMBEDDED_NEWLINE_STRING_INTERIOR_1_t plc::EMBEDDED_NEWLINE_STRING_INTERIOR_1_t::build(parlex::detail::node const * b, parlex::detail::document::walk & w) {
+plc::EMBEDDED_NEWLINE_STRING_INTERIOR1_t plc::EMBEDDED_NEWLINE_STRING_INTERIOR1_t::build(parlex::detail::node const * b, parlex::detail::document::walk & w) {
 	auto const & children = b->children;
 	auto v0 = parlex::detail::document::element<parlex::detail::document::text<literal_0x0A_t>>::build(&*children[0], w);
 	auto v1 = parlex::detail::document::element<erased<PAYLOAD>>::build(&*children[1], w);
 	auto v2 = parlex::detail::document::element<parlex::detail::document::text<literal_0x0A_t>>::build(&*children[2], w);
-	return EMBEDDED_NEWLINE_STRING_INTERIOR_1_t(std::move(v0), std::move(v1), std::move(v2));
+	return EMBEDDED_NEWLINE_STRING_INTERIOR1_t(std::move(v0), std::move(v1), std::move(v2));
 }
 
-plc::EMBEDDED_NEWLINE_STRING_INTERIOR_2_t plc::EMBEDDED_NEWLINE_STRING_INTERIOR_2_t::build(parlex::detail::node const * b, parlex::detail::document::walk & w) {
+plc::EMBEDDED_NEWLINE_STRING_INTERIOR2_t plc::EMBEDDED_NEWLINE_STRING_INTERIOR2_t::build(parlex::detail::node const * b, parlex::detail::document::walk & w) {
 	auto const & children = b->children;
 	auto v0 = parlex::detail::document::element<parlex::detail::document::text<literal_0x22_t>>::build(&*children[0], w);
 	auto v1 = parlex::detail::document::element<erased<EMBEDDED_NEWLINE_STRING_INTERIOR>>::build(&*children[1], w);
 	auto v2 = parlex::detail::document::element<parlex::detail::document::text<literal_0x22_t>>::build(&*children[2], w);
-	return EMBEDDED_NEWLINE_STRING_INTERIOR_2_t(std::move(v0), std::move(v1), std::move(v2));
+	return EMBEDDED_NEWLINE_STRING_INTERIOR2_t(std::move(v0), std::move(v1), std::move(v2));
 }
 
 

@@ -18,16 +18,19 @@
 namespace plc {
 
 struct COMMENT {
-	parlex::detail::document::text<literal_0x2F0x2A_t> dontCare0;
+	int32_t document_position, consumed_character_count;
+
+	parlex::detail::document::text<literal_0x2F0x2A_t> dont_care0;
 	
 	std::vector<parlex::detail::document::text<parlex::detail::all_t>> field_1;
 	
-	parlex::detail::document::text<literal_0x2A0x2F_t> dontCare2;
+	parlex::detail::document::text<literal_0x2A0x2F_t> dont_care2;
 	
 
 
-	explicit COMMENT(
-		parlex::detail::document::text<literal_0x2F0x2A_t> && dontCare0, std::vector<parlex::detail::document::text<parlex::detail::all_t>> && field_1, parlex::detail::document::text<literal_0x2A0x2F_t> && dontCare2) : dontCare0(std::move(dontCare0)), field_1(std::move(field_1)), dontCare2(std::move(dontCare2)) {}
+	explicit COMMENT
+		(int32_t documentPosition, int32_t consumedCharacterCount, parlex::detail::document::text<literal_0x2F0x2A_t> && dont_care0, std::vector<parlex::detail::document::text<parlex::detail::all_t>> && field_1, parlex::detail::document::text<literal_0x2A0x2F_t> && dont_care2)
+		: document_position(documentPosition), consumed_character_count(consumedCharacterCount), dont_care0(std::move(dont_care0)), field_1(std::move(field_1)), dont_care2(std::move(dont_care2)) {}
 
 	COMMENT(COMMENT const & other) = default;
 	COMMENT(COMMENT && move) = default;

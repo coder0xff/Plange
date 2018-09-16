@@ -20,16 +20,19 @@ namespace plc {
 struct XML_DOC_STRING_INTERIOR;
 
 struct XML_DOC_STRING {
-	parlex::detail::document::text<literal_0x600x600x60_t> dontCare0;
+	int32_t document_position, consumed_character_count;
+
+	parlex::detail::document::text<literal_0x600x600x60_t> dont_care0;
 	
 	erased<XML_DOC_STRING_INTERIOR> field_1;
 	
-	parlex::detail::document::text<literal_0x600x600x60_t> dontCare2;
+	parlex::detail::document::text<literal_0x600x600x60_t> dont_care2;
 	
 
 
-	explicit XML_DOC_STRING(
-		parlex::detail::document::text<literal_0x600x600x60_t> && dontCare0, erased<XML_DOC_STRING_INTERIOR> && field_1, parlex::detail::document::text<literal_0x600x600x60_t> && dontCare2) : dontCare0(std::move(dontCare0)), field_1(std::move(field_1)), dontCare2(std::move(dontCare2)) {}
+	explicit XML_DOC_STRING
+		(int32_t documentPosition, int32_t consumedCharacterCount, parlex::detail::document::text<literal_0x600x600x60_t> && dont_care0, erased<XML_DOC_STRING_INTERIOR> && field_1, parlex::detail::document::text<literal_0x600x600x60_t> && dont_care2)
+		: document_position(documentPosition), consumed_character_count(consumedCharacterCount), dont_care0(std::move(dont_care0)), field_1(std::move(field_1)), dont_care2(std::move(dont_care2)) {}
 
 	XML_DOC_STRING(XML_DOC_STRING const & other) = default;
 	XML_DOC_STRING(XML_DOC_STRING && move) = default;

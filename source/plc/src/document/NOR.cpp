@@ -20,7 +20,7 @@ plc::NOR plc::NOR::build(parlex::detail::ast_node const & n) {
 	>>::build(&*children[2], w);
 	auto v3 = parlex::detail::document::element<std::vector<erased<IC>>>::build(&*children[3], w);
 	auto v4 = parlex::detail::document::element<erased<EXPRESSION>>::build(&*children[4], w);
-	return NOR(std::move(v0), std::move(v1), std::move(v2), std::move(v3), std::move(v4));
+	return NOR(n.document_position, n.consumed_character_count, std::move(v0), std::move(v1), std::move(v2), std::move(v3), std::move(v4));
 }
 
 

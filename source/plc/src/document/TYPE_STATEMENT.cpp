@@ -21,12 +21,12 @@ TYPE_STATEMENT TYPE_STATEMENT::build(parlex::detail::ast_node const & n) {
 }
 
 } // namespace plc
-plc::TYPE_STATEMENT_1_t plc::TYPE_STATEMENT_1_t::build(parlex::detail::node const * b, parlex::detail::document::walk & w) {
+plc::TYPE_STATEMENT1_t plc::TYPE_STATEMENT1_t::build(parlex::detail::node const * b, parlex::detail::document::walk & w) {
 	auto const & children = b->children;
 	auto v0 = parlex::detail::document::element<erased<VISIBILITY_MODIFIER>>::build(&*children[0], w);
 	auto v1 = parlex::detail::document::element<std::vector<erased<IC>>>::build(&*children[1], w);
 	auto v2 = parlex::detail::document::element<parlex::detail::document::text<literal_0x3A_t>>::build(&*children[2], w);
-	return TYPE_STATEMENT_1_t(std::move(v0), std::move(v1), std::move(v2));
+	return TYPE_STATEMENT1_t(std::move(v0), std::move(v1), std::move(v2));
 }
 
 

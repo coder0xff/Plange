@@ -13,7 +13,7 @@ plc::ASM_IDENTIFIER plc::ASM_IDENTIFIER::build(parlex::detail::ast_node const & 
 	auto const & children = b->children;
 	auto v0 = parlex::detail::document::element<std::optional<parlex::detail::document::text<literal_0x25_t>>>::build(&*children[0], w);
 	auto v1 = parlex::detail::document::element<erased<IDENTIFIER>>::build(&*children[1], w);
-	return ASM_IDENTIFIER(std::move(v0), std::move(v1));
+	return ASM_IDENTIFIER(n.document_position, n.consumed_character_count, std::move(v0), std::move(v1));
 }
 
 

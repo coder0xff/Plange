@@ -22,6 +22,8 @@ struct EXPRESSION;
 struct IC;
 
 struct EQUALITY_CHAIN {
+	int32_t document_position, consumed_character_count;
+
 	erased<EXPRESSION> expression;
 	
 	std::vector<erased<IC>> field_1;
@@ -30,8 +32,9 @@ struct EQUALITY_CHAIN {
 	
 
 
-	explicit EQUALITY_CHAIN(
-		erased<EXPRESSION> && expression, std::vector<erased<IC>> && field_1, erased<EQUALITY_CHAIN_LOOP> && equality_chain_loop) : expression(std::move(expression)), field_1(std::move(field_1)), equality_chain_loop(std::move(equality_chain_loop)) {}
+	explicit EQUALITY_CHAIN
+		(int32_t documentPosition, int32_t consumedCharacterCount, erased<EXPRESSION> && expression, std::vector<erased<IC>> && field_1, erased<EQUALITY_CHAIN_LOOP> && equality_chain_loop)
+		: document_position(documentPosition), consumed_character_count(consumedCharacterCount), expression(std::move(expression)), field_1(std::move(field_1)), equality_chain_loop(std::move(equality_chain_loop)) {}
 
 	EQUALITY_CHAIN(EQUALITY_CHAIN const & other) = default;
 	EQUALITY_CHAIN(EQUALITY_CHAIN && move) = default;

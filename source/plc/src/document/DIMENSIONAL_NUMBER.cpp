@@ -14,7 +14,7 @@ plc::DIMENSIONAL_NUMBER plc::DIMENSIONAL_NUMBER::build(parlex::detail::ast_node 
 	auto const & children = b->children;
 	auto v0 = parlex::detail::document::element<erased<NON_NEG_NUMBER>>::build(&*children[0], w);
 	auto v1 = parlex::detail::document::element<erased<DIMENSION>>::build(&*children[1], w);
-	return DIMENSIONAL_NUMBER(std::move(v0), std::move(v1));
+	return DIMENSIONAL_NUMBER(n.document_position, n.consumed_character_count, std::move(v0), std::move(v1));
 }
 
 

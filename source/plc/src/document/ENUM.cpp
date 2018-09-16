@@ -9,38 +9,38 @@
 #include "IC.hpp"
 #include "INHERITANCE_LIST.hpp"
 
-plc::ENUM::field_2_t_1_t plc::ENUM::field_2_t_1_t::build(parlex::detail::node const * b, parlex::detail::document::walk & w) {
+plc::ENUM::field_2_t plc::ENUM::field_2_t::build(parlex::detail::node const * b, parlex::detail::document::walk & w) {
 	auto const & children = b->children;
 	auto v0 = parlex::detail::document::element<parlex::detail::document::text<literal_inheriting_t>>::build(&*children[0], w);
 	auto v1 = parlex::detail::document::element<std::vector<erased<IC>>>::build(&*children[1], w);
 	auto v2 = parlex::detail::document::element<erased<INHERITANCE_LIST>>::build(&*children[2], w);
 	auto v3 = parlex::detail::document::element<std::vector<erased<IC>>>::build(&*children[3], w);
-	return field_2_t_1_t(std::move(v0), std::move(v1), std::move(v2), std::move(v3));
+	return field_2_t(std::move(v0), std::move(v1), std::move(v2), std::move(v3));
 }
 
-plc::ENUM::field_3_t_1_t plc::ENUM::field_3_t_1_t::build(parlex::detail::node const * b, parlex::detail::document::walk & w) {
+plc::ENUM::field_3_t plc::ENUM::field_3_t::build(parlex::detail::node const * b, parlex::detail::document::walk & w) {
 	auto const & children = b->children;
 	auto v0 = parlex::detail::document::element<parlex::detail::document::text<literal_implementing_t>>::build(&*children[0], w);
 	auto v1 = parlex::detail::document::element<std::vector<erased<IC>>>::build(&*children[1], w);
 	auto v2 = parlex::detail::document::element<erased<INHERITANCE_LIST>>::build(&*children[2], w);
 	auto v3 = parlex::detail::document::element<std::vector<erased<IC>>>::build(&*children[3], w);
-	return field_3_t_1_t(std::move(v0), std::move(v1), std::move(v2), std::move(v3));
+	return field_3_t(std::move(v0), std::move(v1), std::move(v2), std::move(v3));
 }
 
-plc::ENUM::field_4_t_1_t::field_1_t_1_t plc::ENUM::field_4_t_1_t::field_1_t_1_t::build(parlex::detail::node const * b, parlex::detail::document::walk & w) {
+plc::ENUM::field_4_t::field_1_t plc::ENUM::field_4_t::field_1_t::build(parlex::detail::node const * b, parlex::detail::document::walk & w) {
 	auto const & children = b->children;
 	auto v0 = parlex::detail::document::element<std::vector<erased<IC>>>::build(&*children[0], w);
 	auto v1 = parlex::detail::document::element<parlex::detail::document::text<literal_0x3B_t>>::build(&*children[1], w);
 	auto v2 = parlex::detail::document::element<std::vector<erased<IC>>>::build(&*children[2], w);
 	auto v3 = parlex::detail::document::element<erased<ENUM_ELEMENT>>::build(&*children[3], w);
-	return field_1_t_1_t(std::move(v0), std::move(v1), std::move(v2), std::move(v3));
+	return field_1_t(std::move(v0), std::move(v1), std::move(v2), std::move(v3));
 }
 
-plc::ENUM::field_4_t_1_t plc::ENUM::field_4_t_1_t::build(parlex::detail::node const * b, parlex::detail::document::walk & w) {
+plc::ENUM::field_4_t plc::ENUM::field_4_t::build(parlex::detail::node const * b, parlex::detail::document::walk & w) {
 	auto const & children = b->children;
 	auto v0 = parlex::detail::document::element<erased<ENUM_ELEMENT>>::build(&*children[0], w);
-	auto v1 = parlex::detail::document::element<std::vector<field_1_t_1_t>>::build(&*children[1], w);
-	return field_4_t_1_t(std::move(v0), std::move(v1));
+	auto v1 = parlex::detail::document::element<std::vector<field_1_t>>::build(&*children[1], w);
+	return field_4_t(std::move(v0), std::move(v1));
 }
 
 plc::ENUM plc::ENUM::build(parlex::detail::ast_node const & n) {
@@ -49,12 +49,12 @@ plc::ENUM plc::ENUM::build(parlex::detail::ast_node const & n) {
 	auto const & children = b->children;
 	auto v0 = parlex::detail::document::element<parlex::detail::document::text<literal_enum_t>>::build(&*children[0], w);
 	auto v1 = parlex::detail::document::element<std::vector<erased<IC>>>::build(&*children[1], w);
-	auto v2 = parlex::detail::document::element<std::optional<field_2_t_1_t>>::build(&*children[2], w);
-	auto v3 = parlex::detail::document::element<std::optional<field_3_t_1_t>>::build(&*children[3], w);
+	auto v2 = parlex::detail::document::element<std::optional<field_2_t>>::build(&*children[2], w);
+	auto v3 = parlex::detail::document::element<std::optional<field_3_t>>::build(&*children[3], w);
 	auto v4 = parlex::detail::document::element<parlex::detail::document::text<literal_0x7B_t>>::build(&*children[4], w);
-	auto v5 = parlex::detail::document::element<std::optional<field_4_t_1_t>>::build(&*children[5], w);
+	auto v5 = parlex::detail::document::element<std::optional<field_4_t>>::build(&*children[5], w);
 	auto v6 = parlex::detail::document::element<parlex::detail::document::text<literal_0x7D_t>>::build(&*children[6], w);
-	return ENUM(std::move(v0), std::move(v1), std::move(v2), std::move(v3), std::move(v4), std::move(v5), std::move(v6));
+	return ENUM(n.document_position, n.consumed_character_count, std::move(v0), std::move(v1), std::move(v2), std::move(v3), std::move(v4), std::move(v5), std::move(v6));
 }
 
 

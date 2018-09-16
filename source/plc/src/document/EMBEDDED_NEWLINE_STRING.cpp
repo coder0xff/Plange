@@ -14,7 +14,7 @@ plc::EMBEDDED_NEWLINE_STRING plc::EMBEDDED_NEWLINE_STRING::build(parlex::detail:
 	auto v0 = parlex::detail::document::element<parlex::detail::document::text<literal_0x220x220x22_t>>::build(&*children[0], w);
 	auto v1 = parlex::detail::document::element<erased<EMBEDDED_NEWLINE_STRING_INTERIOR>>::build(&*children[1], w);
 	auto v2 = parlex::detail::document::element<parlex::detail::document::text<literal_0x220x220x22_t>>::build(&*children[2], w);
-	return EMBEDDED_NEWLINE_STRING(std::move(v0), std::move(v1), std::move(v2));
+	return EMBEDDED_NEWLINE_STRING(n.document_position, n.consumed_character_count, std::move(v0), std::move(v1), std::move(v2));
 }
 
 

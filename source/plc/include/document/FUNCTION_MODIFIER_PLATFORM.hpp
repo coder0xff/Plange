@@ -22,7 +22,9 @@ struct IC;
 struct PLATFORM;
 
 struct FUNCTION_MODIFIER_PLATFORM {
-	struct field_2_t_1_t {
+	int32_t document_position, consumed_character_count;
+
+	struct field_2_t {
 		erased<IC> field_1;
 		
 		std::vector<erased<IC>> field_2;
@@ -31,16 +33,17 @@ struct FUNCTION_MODIFIER_PLATFORM {
 		
 	
 	
-		explicit field_2_t_1_t(
-			erased<IC> && field_1, std::vector<erased<IC>> && field_2, erased<PLATFORM> && field_3) : field_1(std::move(field_1)), field_2(std::move(field_2)), field_3(std::move(field_3)) {}
+		explicit field_2_t
+			(erased<IC> && field_1, std::vector<erased<IC>> && field_2, erased<PLATFORM> && field_3)
+			: field_1(std::move(field_1)), field_2(std::move(field_2)), field_3(std::move(field_3)) {}
 	
-		field_2_t_1_t(field_2_t_1_t const & other) = default;
-		field_2_t_1_t(field_2_t_1_t && move) = default;
+		field_2_t(field_2_t const & other) = default;
+		field_2_t(field_2_t && move) = default;
 	
-		static field_2_t_1_t build(parlex::detail::node const * b, parlex::detail::document::walk & w);
+		static field_2_t build(parlex::detail::node const * b, parlex::detail::document::walk & w);
 	};
 
-	struct field_3_t_1_t {
+	struct field_3_t {
 		erased<IC> field_1;
 		
 		std::vector<erased<IC>> field_2;
@@ -49,25 +52,27 @@ struct FUNCTION_MODIFIER_PLATFORM {
 		
 	
 	
-		explicit field_3_t_1_t(
-			erased<IC> && field_1, std::vector<erased<IC>> && field_2, erased<FUNCTION_MODIFIER_4> && field_3) : field_1(std::move(field_1)), field_2(std::move(field_2)), field_3(std::move(field_3)) {}
+		explicit field_3_t
+			(erased<IC> && field_1, std::vector<erased<IC>> && field_2, erased<FUNCTION_MODIFIER_4> && field_3)
+			: field_1(std::move(field_1)), field_2(std::move(field_2)), field_3(std::move(field_3)) {}
 	
-		field_3_t_1_t(field_3_t_1_t const & other) = default;
-		field_3_t_1_t(field_3_t_1_t && move) = default;
+		field_3_t(field_3_t const & other) = default;
+		field_3_t(field_3_t && move) = default;
 	
-		static field_3_t_1_t build(parlex::detail::node const * b, parlex::detail::document::walk & w);
+		static field_3_t build(parlex::detail::node const * b, parlex::detail::document::walk & w);
 	};
 
 	erased<PLATFORM> field_1;
 	
-	std::vector<field_2_t_1_t> field_2;
+	std::vector<field_2_t> field_2;
 	
-	std::optional<field_3_t_1_t> field_3;
+	std::optional<field_3_t> field_3;
 	
 
 
-	explicit FUNCTION_MODIFIER_PLATFORM(
-		erased<PLATFORM> && field_1, std::vector<field_2_t_1_t> && field_2, std::optional<field_3_t_1_t> && field_3) : field_1(std::move(field_1)), field_2(std::move(field_2)), field_3(std::move(field_3)) {}
+	explicit FUNCTION_MODIFIER_PLATFORM
+		(int32_t documentPosition, int32_t consumedCharacterCount, erased<PLATFORM> && field_1, std::vector<field_2_t> && field_2, std::optional<field_3_t> && field_3)
+		: document_position(documentPosition), consumed_character_count(consumedCharacterCount), field_1(std::move(field_1)), field_2(std::move(field_2)), field_3(std::move(field_3)) {}
 
 	FUNCTION_MODIFIER_PLATFORM(FUNCTION_MODIFIER_PLATFORM const & other) = default;
 	FUNCTION_MODIFIER_PLATFORM(FUNCTION_MODIFIER_PLATFORM && move) = default;

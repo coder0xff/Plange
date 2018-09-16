@@ -25,26 +25,29 @@ struct TYPE_SCOPE_TYPE_CONSTRAINT_CHAIN;
 struct XML_DOC_STRING;
 
 struct TYPE_SCOPE_TYPE_CONSTRAINT_CHAIN {
-	struct field_1_t_1_t {
+	int32_t document_position, consumed_character_count;
+
+	struct field_1_t {
 		erased<XML_DOC_STRING> field_1;
 		
 		std::vector<erased<IC>> field_2;
 		
 	
 	
-		explicit field_1_t_1_t(
-			erased<XML_DOC_STRING> && field_1, std::vector<erased<IC>> && field_2) : field_1(std::move(field_1)), field_2(std::move(field_2)) {}
+		explicit field_1_t
+			(erased<XML_DOC_STRING> && field_1, std::vector<erased<IC>> && field_2)
+			: field_1(std::move(field_1)), field_2(std::move(field_2)) {}
 	
-		field_1_t_1_t(field_1_t_1_t const & other) = default;
-		field_1_t_1_t(field_1_t_1_t && move) = default;
+		field_1_t(field_1_t const & other) = default;
+		field_1_t(field_1_t && move) = default;
 	
-		static field_1_t_1_t build(parlex::detail::node const * b, parlex::detail::document::walk & w);
+		static field_1_t build(parlex::detail::node const * b, parlex::detail::document::walk & w);
 	};
 
-	struct field_3_t_1_t {
+	struct field_3_t {
 		std::vector<erased<IC>> field_1;
 		
-		parlex::detail::document::text<literal_0x2C_t> dontCare1;
+		parlex::detail::document::text<literal_0x2C_t> dont_care1;
 		
 		std::vector<erased<IC>> field_2;
 		
@@ -52,16 +55,17 @@ struct TYPE_SCOPE_TYPE_CONSTRAINT_CHAIN {
 		
 	
 	
-		explicit field_3_t_1_t(
-			std::vector<erased<IC>> && field_1, parlex::detail::document::text<literal_0x2C_t> && dontCare1, std::vector<erased<IC>> && field_2, erased<TYPE_SCOPE_TYPE_CONSTRAINT_CHAIN> && field_3) : field_1(std::move(field_1)), dontCare1(std::move(dontCare1)), field_2(std::move(field_2)), field_3(std::move(field_3)) {}
+		explicit field_3_t
+			(std::vector<erased<IC>> && field_1, parlex::detail::document::text<literal_0x2C_t> && dont_care1, std::vector<erased<IC>> && field_2, erased<TYPE_SCOPE_TYPE_CONSTRAINT_CHAIN> && field_3)
+			: field_1(std::move(field_1)), dont_care1(std::move(dont_care1)), field_2(std::move(field_2)), field_3(std::move(field_3)) {}
 	
-		field_3_t_1_t(field_3_t_1_t const & other) = default;
-		field_3_t_1_t(field_3_t_1_t && move) = default;
+		field_3_t(field_3_t const & other) = default;
+		field_3_t(field_3_t && move) = default;
 	
-		static field_3_t_1_t build(parlex::detail::node const * b, parlex::detail::document::walk & w);
+		static field_3_t build(parlex::detail::node const * b, parlex::detail::document::walk & w);
 	};
 
-	std::optional<field_1_t_1_t> field_1;
+	std::optional<field_1_t> field_1;
 	
 	std::variant<
 		erased<TYPE_SCOPE_DECLARATION>,
@@ -69,16 +73,17 @@ struct TYPE_SCOPE_TYPE_CONSTRAINT_CHAIN {
 		erased<DEFINITION>
 	> field_2;
 	
-	std::optional<field_3_t_1_t> field_3;
+	std::optional<field_3_t> field_3;
 	
 
 
-	explicit TYPE_SCOPE_TYPE_CONSTRAINT_CHAIN(
-		std::optional<field_1_t_1_t> && field_1, std::variant<
-			erased<TYPE_SCOPE_DECLARATION>,
-			erased<TYPE_SCOPE_ASSIGNMENT_CHAIN>,
-			erased<DEFINITION>
-		> && field_2, std::optional<field_3_t_1_t> && field_3) : field_1(std::move(field_1)), field_2(std::move(field_2)), field_3(std::move(field_3)) {}
+	explicit TYPE_SCOPE_TYPE_CONSTRAINT_CHAIN
+		(int32_t documentPosition, int32_t consumedCharacterCount, std::optional<field_1_t> && field_1, std::variant<
+	erased<TYPE_SCOPE_DECLARATION>,
+	erased<TYPE_SCOPE_ASSIGNMENT_CHAIN>,
+	erased<DEFINITION>
+> && field_2, std::optional<field_3_t> && field_3)
+		: document_position(documentPosition), consumed_character_count(consumedCharacterCount), field_1(std::move(field_1)), field_2(std::move(field_2)), field_3(std::move(field_3)) {}
 
 	TYPE_SCOPE_TYPE_CONSTRAINT_CHAIN(TYPE_SCOPE_TYPE_CONSTRAINT_CHAIN const & other) = default;
 	TYPE_SCOPE_TYPE_CONSTRAINT_CHAIN(TYPE_SCOPE_TYPE_CONSTRAINT_CHAIN && move) = default;

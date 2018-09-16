@@ -20,8 +20,8 @@ namespace plc {
 struct EXPRESSION;
 struct IC;
 
-struct FLOOR_1_t {
-	parlex::detail::document::text<literal_0xE20x8C0x8A_t> dontCare0;
+struct FLOOR1_t {
+	parlex::detail::document::text<literal_0xE20x8C0x8A_t> dont_care0;
 	
 	std::vector<erased<IC>> field_1;
 	
@@ -29,21 +29,22 @@ struct FLOOR_1_t {
 	
 	std::vector<erased<IC>> field_2;
 	
-	parlex::detail::document::text<literal_0xE20x8C0x8B_t> dontCare4;
+	parlex::detail::document::text<literal_0xE20x8C0x8B_t> dont_care4;
 	
 
 
-	explicit FLOOR_1_t(
-		parlex::detail::document::text<literal_0xE20x8C0x8A_t> && dontCare0, std::vector<erased<IC>> && field_1, erased<EXPRESSION> && expression, std::vector<erased<IC>> && field_2, parlex::detail::document::text<literal_0xE20x8C0x8B_t> && dontCare4) : dontCare0(std::move(dontCare0)), field_1(std::move(field_1)), expression(std::move(expression)), field_2(std::move(field_2)), dontCare4(std::move(dontCare4)) {}
+	explicit FLOOR1_t
+		(parlex::detail::document::text<literal_0xE20x8C0x8A_t> && dont_care0, std::vector<erased<IC>> && field_1, erased<EXPRESSION> && expression, std::vector<erased<IC>> && field_2, parlex::detail::document::text<literal_0xE20x8C0x8B_t> && dont_care4)
+		: dont_care0(std::move(dont_care0)), field_1(std::move(field_1)), expression(std::move(expression)), field_2(std::move(field_2)), dont_care4(std::move(dont_care4)) {}
 
-	FLOOR_1_t(FLOOR_1_t const & other) = default;
-	FLOOR_1_t(FLOOR_1_t && move) = default;
+	FLOOR1_t(FLOOR1_t const & other) = default;
+	FLOOR1_t(FLOOR1_t && move) = default;
 
-	static FLOOR_1_t build(parlex::detail::node const * b, parlex::detail::document::walk & w);
+	static FLOOR1_t build(parlex::detail::node const * b, parlex::detail::document::walk & w);
 };
 
-struct FLOOR_2_t {
-	parlex::detail::document::text<literal_0x7C__t> dontCare0;
+struct FLOOR2_t {
+	parlex::detail::document::text<literal_0x7C__t> dont_care0;
 	
 	std::vector<erased<IC>> field_1;
 	
@@ -51,22 +52,23 @@ struct FLOOR_2_t {
 	
 	std::vector<erased<IC>> field_2;
 	
-	parlex::detail::document::text<literal__0x7C_t> dontCare4;
+	parlex::detail::document::text<literal__0x7C_t> dont_care4;
 	
 
 
-	explicit FLOOR_2_t(
-		parlex::detail::document::text<literal_0x7C__t> && dontCare0, std::vector<erased<IC>> && field_1, erased<EXPRESSION> && expression, std::vector<erased<IC>> && field_2, parlex::detail::document::text<literal__0x7C_t> && dontCare4) : dontCare0(std::move(dontCare0)), field_1(std::move(field_1)), expression(std::move(expression)), field_2(std::move(field_2)), dontCare4(std::move(dontCare4)) {}
+	explicit FLOOR2_t
+		(parlex::detail::document::text<literal_0x7C__t> && dont_care0, std::vector<erased<IC>> && field_1, erased<EXPRESSION> && expression, std::vector<erased<IC>> && field_2, parlex::detail::document::text<literal__0x7C_t> && dont_care4)
+		: dont_care0(std::move(dont_care0)), field_1(std::move(field_1)), expression(std::move(expression)), field_2(std::move(field_2)), dont_care4(std::move(dont_care4)) {}
 
-	FLOOR_2_t(FLOOR_2_t const & other) = default;
-	FLOOR_2_t(FLOOR_2_t && move) = default;
+	FLOOR2_t(FLOOR2_t const & other) = default;
+	FLOOR2_t(FLOOR2_t && move) = default;
 
-	static FLOOR_2_t build(parlex::detail::node const * b, parlex::detail::document::walk & w);
+	static FLOOR2_t build(parlex::detail::node const * b, parlex::detail::document::walk & w);
 };
 
 typedef std::variant<
-	FLOOR_1_t,
-	FLOOR_2_t
+	FLOOR1_t,
+	FLOOR2_t
 > FLOOR_base;
 
 struct FLOOR: FLOOR_base {

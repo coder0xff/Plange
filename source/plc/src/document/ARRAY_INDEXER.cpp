@@ -20,7 +20,7 @@ plc::ARRAY_INDEXER plc::ARRAY_INDEXER::build(parlex::detail::ast_node const & n)
 		erased<ARGUMENT_PACK>,
 		erased<SLICE>
 	>>::build(&*children[1], w);
-	return ARRAY_INDEXER(std::move(v0), std::move(v1));
+	return ARRAY_INDEXER(n.document_position, n.consumed_character_count, std::move(v0), std::move(v1));
 }
 
 

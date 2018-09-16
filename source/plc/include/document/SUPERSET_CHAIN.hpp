@@ -22,6 +22,8 @@ struct IC;
 struct SUPERSET_CHAIN_LOOP;
 
 struct SUPERSET_CHAIN {
+	int32_t document_position, consumed_character_count;
+
 	erased<EXPRESSION> field_1;
 	
 	std::vector<erased<IC>> field_2;
@@ -30,8 +32,9 @@ struct SUPERSET_CHAIN {
 	
 
 
-	explicit SUPERSET_CHAIN(
-		erased<EXPRESSION> && field_1, std::vector<erased<IC>> && field_2, erased<SUPERSET_CHAIN_LOOP> && field_3) : field_1(std::move(field_1)), field_2(std::move(field_2)), field_3(std::move(field_3)) {}
+	explicit SUPERSET_CHAIN
+		(int32_t documentPosition, int32_t consumedCharacterCount, erased<EXPRESSION> && field_1, std::vector<erased<IC>> && field_2, erased<SUPERSET_CHAIN_LOOP> && field_3)
+		: document_position(documentPosition), consumed_character_count(consumedCharacterCount), field_1(std::move(field_1)), field_2(std::move(field_2)), field_3(std::move(field_3)) {}
 
 	SUPERSET_CHAIN(SUPERSET_CHAIN const & other) = default;
 	SUPERSET_CHAIN(SUPERSET_CHAIN && move) = default;

@@ -18,7 +18,9 @@
 namespace plc {
 
 struct HEX {
-	parlex::detail::document::text<literal_0x_t> dontCare0;
+	int32_t document_position, consumed_character_count;
+
+	parlex::detail::document::text<literal_0x_t> dont_care0;
 	
 	parlex::detail::document::text<parlex::detail::hexadecimal_digit_t> field_1;
 	
@@ -26,8 +28,9 @@ struct HEX {
 	
 
 
-	explicit HEX(
-		parlex::detail::document::text<literal_0x_t> && dontCare0, parlex::detail::document::text<parlex::detail::hexadecimal_digit_t> && field_1, std::vector<parlex::detail::document::text<parlex::detail::hexadecimal_digit_t>> && field_2) : dontCare0(std::move(dontCare0)), field_1(std::move(field_1)), field_2(std::move(field_2)) {}
+	explicit HEX
+		(int32_t documentPosition, int32_t consumedCharacterCount, parlex::detail::document::text<literal_0x_t> && dont_care0, parlex::detail::document::text<parlex::detail::hexadecimal_digit_t> && field_1, std::vector<parlex::detail::document::text<parlex::detail::hexadecimal_digit_t>> && field_2)
+		: document_position(documentPosition), consumed_character_count(consumedCharacterCount), dont_care0(std::move(dont_care0)), field_1(std::move(field_1)), field_2(std::move(field_2)) {}
 
 	HEX(HEX const & other) = default;
 	HEX(HEX && move) = default;

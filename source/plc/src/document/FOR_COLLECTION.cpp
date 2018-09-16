@@ -11,19 +11,19 @@
 #include "IMPLICIT_TYPE_DEREFERENCE.hpp"
 #include "TYPE_DEREFERENCE.hpp"
 
-plc::FOR_COLLECTION::declaration::field_1_t_1_t plc::FOR_COLLECTION::declaration::field_1_t_1_t::build(parlex::detail::node const * b, parlex::detail::document::walk & w) {
+plc::FOR_COLLECTION::declaration::field_1_t plc::FOR_COLLECTION::declaration::field_1_t::build(parlex::detail::node const * b, parlex::detail::document::walk & w) {
 	auto const & children = b->children;
 	auto v0 = parlex::detail::document::element<std::variant<
 		erased<TYPE_DEREFERENCE>,
 		erased<IMPLICIT_TYPE_DEREFERENCE>
 	>>::build(&*children[0], w);
 	auto v1 = parlex::detail::document::element<std::vector<erased<IC>>>::build(&*children[1], w);
-	return field_1_t_1_t(std::move(v0), std::move(v1));
+	return field_1_t(std::move(v0), std::move(v1));
 }
 
 plc::FOR_COLLECTION::declaration plc::FOR_COLLECTION::declaration::build(parlex::detail::node const * b, parlex::detail::document::walk & w) {
 	auto const & children = b->children;
-	auto v0 = parlex::detail::document::element<std::optional<field_1_t_1_t>>::build(&*children[0], w);
+	auto v0 = parlex::detail::document::element<std::optional<field_1_t>>::build(&*children[0], w);
 	auto v1 = parlex::detail::document::element<erased<IDENTIFIER>>::build(&*children[1], w);
 	return declaration(std::move(v0), std::move(v1));
 }
@@ -51,7 +51,7 @@ plc::FOR_COLLECTION plc::FOR_COLLECTION::build(parlex::detail::ast_node const & 
 	auto v10 = parlex::detail::document::element<parlex::detail::document::text<literal_0x29_t>>::build(&*children[10], w);
 	auto v11 = parlex::detail::document::element<std::vector<erased<IC>>>::build(&*children[11], w);
 	auto v12 = parlex::detail::document::element<erased<EXPRESSION>>::build(&*children[12], w);
-	return FOR_COLLECTION(std::move(v0), std::move(v1), std::move(v2), std::move(v3), std::move(v4), std::move(v5), std::move(v6), std::move(v7), std::move(v8), std::move(v9), std::move(v10), std::move(v11), std::move(v12));
+	return FOR_COLLECTION(n.document_position, n.consumed_character_count, std::move(v0), std::move(v1), std::move(v2), std::move(v3), std::move(v4), std::move(v5), std::move(v6), std::move(v7), std::move(v8), std::move(v9), std::move(v10), std::move(v11), std::move(v12));
 }
 
 

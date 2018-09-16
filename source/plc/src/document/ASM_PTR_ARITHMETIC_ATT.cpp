@@ -20,28 +20,28 @@ ASM_PTR_ARITHMETIC_ATT ASM_PTR_ARITHMETIC_ATT::build(parlex::detail::ast_node co
 }
 
 } // namespace plc
-plc::ASM_PTR_ARITHMETIC_ATT_1_t plc::ASM_PTR_ARITHMETIC_ATT_1_t::build(parlex::detail::node const * b, parlex::detail::document::walk & w) {
+plc::ASM_PTR_ARITHMETIC_ATT1_t plc::ASM_PTR_ARITHMETIC_ATT1_t::build(parlex::detail::node const * b, parlex::detail::document::walk & w) {
 	auto const & children = b->children;
 	auto v0 = parlex::detail::document::element<erased<ASM_IDENTIFIER>>::build(&*children[0], w);
 	auto v1 = parlex::detail::document::element<parlex::detail::document::text<literal_0x3A_t>>::build(&*children[1], w);
 	auto v2 = parlex::detail::document::element<erased<NON_FRACTIONAL>>::build(&*children[2], w);
-	return ASM_PTR_ARITHMETIC_ATT_1_t(std::move(v0), std::move(v1), std::move(v2));
+	return ASM_PTR_ARITHMETIC_ATT1_t(std::move(v0), std::move(v1), std::move(v2));
 }
 
-plc::ASM_PTR_ARITHMETIC_ATT_2_t plc::ASM_PTR_ARITHMETIC_ATT_2_t::build(parlex::detail::node const * b, parlex::detail::document::walk & w) {
+plc::ASM_PTR_ARITHMETIC_ATT2_t plc::ASM_PTR_ARITHMETIC_ATT2_t::build(parlex::detail::node const * b, parlex::detail::document::walk & w) {
 	auto const & children = b->children;
 	auto v0 = parlex::detail::document::element<erased<ASM_IDENTIFIER>>::build(&*children[0], w);
 	auto v1 = parlex::detail::document::element<parlex::detail::document::text<literal_0x3A_t>>::build(&*children[1], w);
 	auto v2 = parlex::detail::document::element<erased<NON_FRACTIONAL>>::build(&*children[2], w);
 	auto v3 = parlex::detail::document::element<erased<ASM_PTR_ARITHMETIC_ATT_REG>>::build(&*children[3], w);
-	return ASM_PTR_ARITHMETIC_ATT_2_t(std::move(v0), std::move(v1), std::move(v2), std::move(v3));
+	return ASM_PTR_ARITHMETIC_ATT2_t(std::move(v0), std::move(v1), std::move(v2), std::move(v3));
 }
 
-plc::ASM_PTR_ARITHMETIC_ATT_3_t plc::ASM_PTR_ARITHMETIC_ATT_3_t::build(parlex::detail::node const * b, parlex::detail::document::walk & w) {
+plc::ASM_PTR_ARITHMETIC_ATT3_t plc::ASM_PTR_ARITHMETIC_ATT3_t::build(parlex::detail::node const * b, parlex::detail::document::walk & w) {
 	auto const & children = b->children;
 	auto v0 = parlex::detail::document::element<erased<NON_FRACTIONAL>>::build(&*children[0], w);
 	auto v1 = parlex::detail::document::element<erased<ASM_PTR_ARITHMETIC_ATT_REG>>::build(&*children[1], w);
-	return ASM_PTR_ARITHMETIC_ATT_3_t(std::move(v0), std::move(v1));
+	return ASM_PTR_ARITHMETIC_ATT3_t(std::move(v0), std::move(v1));
 }
 
 

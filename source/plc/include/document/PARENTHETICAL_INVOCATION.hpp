@@ -23,7 +23,9 @@ struct EXPRESSION;
 struct IC;
 
 struct PARENTHETICAL_INVOCATION {
-	struct argsHead_t_1_t {
+	int32_t document_position, consumed_character_count;
+
+	struct argsHead_t {
 		std::vector<erased<IC>> field_1;
 		
 		std::variant<
@@ -33,20 +35,21 @@ struct PARENTHETICAL_INVOCATION {
 		
 	
 	
-		explicit argsHead_t_1_t(
-			std::vector<erased<IC>> && field_1, std::variant<
-				erased<ARGUMENT>,
-				erased<ARGUMENT_PACK>
-			> && field_2) : field_1(std::move(field_1)), field_2(std::move(field_2)) {}
+		explicit argsHead_t
+			(std::vector<erased<IC>> && field_1, std::variant<
+		erased<ARGUMENT>,
+		erased<ARGUMENT_PACK>
+	> && field_2)
+			: field_1(std::move(field_1)), field_2(std::move(field_2)) {}
 	
-		argsHead_t_1_t(argsHead_t_1_t const & other) = default;
-		argsHead_t_1_t(argsHead_t_1_t && move) = default;
+		argsHead_t(argsHead_t const & other) = default;
+		argsHead_t(argsHead_t && move) = default;
 	
-		static argsHead_t_1_t build(parlex::detail::node const * b, parlex::detail::document::walk & w);
+		static argsHead_t build(parlex::detail::node const * b, parlex::detail::document::walk & w);
 	};
 
-	struct argsTail_t_1_t {
-		struct field_2_t_1_t {
+	struct argsTail_t {
+		struct field_2_t {
 			std::vector<erased<IC>> field_1;
 			
 			std::variant<
@@ -56,53 +59,56 @@ struct PARENTHETICAL_INVOCATION {
 			
 		
 		
-			explicit field_2_t_1_t(
-				std::vector<erased<IC>> && field_1, std::variant<
-					erased<ARGUMENT>,
-					erased<ARGUMENT_PACK>
-				> && field_2) : field_1(std::move(field_1)), field_2(std::move(field_2)) {}
+			explicit field_2_t
+				(std::vector<erased<IC>> && field_1, std::variant<
+			erased<ARGUMENT>,
+			erased<ARGUMENT_PACK>
+		> && field_2)
+				: field_1(std::move(field_1)), field_2(std::move(field_2)) {}
 		
-			field_2_t_1_t(field_2_t_1_t const & other) = default;
-			field_2_t_1_t(field_2_t_1_t && move) = default;
+			field_2_t(field_2_t const & other) = default;
+			field_2_t(field_2_t && move) = default;
 		
-			static field_2_t_1_t build(parlex::detail::node const * b, parlex::detail::document::walk & w);
+			static field_2_t build(parlex::detail::node const * b, parlex::detail::document::walk & w);
 		};
 	
 		std::vector<erased<IC>> field_1;
 		
-		parlex::detail::document::text<literal_0x2C_t> dontCare1;
+		parlex::detail::document::text<literal_0x2C_t> dont_care1;
 		
-		std::optional<field_2_t_1_t> field_2;
+		std::optional<field_2_t> field_2;
 		
 	
 	
-		explicit argsTail_t_1_t(
-			std::vector<erased<IC>> && field_1, parlex::detail::document::text<literal_0x2C_t> && dontCare1, std::optional<field_2_t_1_t> && field_2) : field_1(std::move(field_1)), dontCare1(std::move(dontCare1)), field_2(std::move(field_2)) {}
+		explicit argsTail_t
+			(std::vector<erased<IC>> && field_1, parlex::detail::document::text<literal_0x2C_t> && dont_care1, std::optional<field_2_t> && field_2)
+			: field_1(std::move(field_1)), dont_care1(std::move(dont_care1)), field_2(std::move(field_2)) {}
 	
-		argsTail_t_1_t(argsTail_t_1_t const & other) = default;
-		argsTail_t_1_t(argsTail_t_1_t && move) = default;
+		argsTail_t(argsTail_t const & other) = default;
+		argsTail_t(argsTail_t && move) = default;
 	
-		static argsTail_t_1_t build(parlex::detail::node const * b, parlex::detail::document::walk & w);
+		static argsTail_t build(parlex::detail::node const * b, parlex::detail::document::walk & w);
 	};
 
 	erased<EXPRESSION> target;
 	
 	std::vector<erased<IC>> field_1;
 	
-	parlex::detail::document::text<literal_0x28_t> dontCare2;
+	parlex::detail::document::text<literal_0x28_t> dont_care2;
 	
-	std::optional<argsHead_t_1_t> argsHead;
+	std::optional<argsHead_t> argsHead;
 	
-	std::vector<argsTail_t_1_t> argsTail;
+	std::vector<argsTail_t> argsTail;
 	
 	std::vector<erased<IC>> field_2;
 	
-	parlex::detail::document::text<literal_0x29_t> dontCare6;
+	parlex::detail::document::text<literal_0x29_t> dont_care6;
 	
 
 
-	explicit PARENTHETICAL_INVOCATION(
-		erased<EXPRESSION> && target, std::vector<erased<IC>> && field_1, parlex::detail::document::text<literal_0x28_t> && dontCare2, std::optional<argsHead_t_1_t> && argsHead, std::vector<argsTail_t_1_t> && argsTail, std::vector<erased<IC>> && field_2, parlex::detail::document::text<literal_0x29_t> && dontCare6) : target(std::move(target)), field_1(std::move(field_1)), dontCare2(std::move(dontCare2)), argsHead(std::move(argsHead)), argsTail(std::move(argsTail)), field_2(std::move(field_2)), dontCare6(std::move(dontCare6)) {}
+	explicit PARENTHETICAL_INVOCATION
+		(int32_t documentPosition, int32_t consumedCharacterCount, erased<EXPRESSION> && target, std::vector<erased<IC>> && field_1, parlex::detail::document::text<literal_0x28_t> && dont_care2, std::optional<argsHead_t> && argsHead, std::vector<argsTail_t> && argsTail, std::vector<erased<IC>> && field_2, parlex::detail::document::text<literal_0x29_t> && dont_care6)
+		: document_position(documentPosition), consumed_character_count(consumedCharacterCount), target(std::move(target)), field_1(std::move(field_1)), dont_care2(std::move(dont_care2)), argsHead(std::move(argsHead)), argsTail(std::move(argsTail)), field_2(std::move(field_2)), dont_care6(std::move(dont_care6)) {}
 
 	PARENTHETICAL_INVOCATION(PARENTHETICAL_INVOCATION const & other) = default;
 	PARENTHETICAL_INVOCATION(PARENTHETICAL_INVOCATION && move) = default;

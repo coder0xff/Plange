@@ -19,7 +19,7 @@ plc::FACTORIAL_ASSIGNMENT plc::FACTORIAL_ASSIGNMENT::build(parlex::detail::ast_n
 		parlex::detail::document::text<literal_0x3C0x2D_t>,
 		parlex::detail::document::text<literal_0xE20x860x90_t>
 	>>::build(&*children[3], w);
-	return FACTORIAL_ASSIGNMENT(std::move(v0), std::move(v1), std::move(v2), std::move(v3));
+	return FACTORIAL_ASSIGNMENT(n.document_position, n.consumed_character_count, std::move(v0), std::move(v1), std::move(v2), std::move(v3));
 }
 
 

@@ -22,6 +22,8 @@ struct GREATER_CHAIN_LOOP;
 struct IC;
 
 struct GREATER_CHAIN {
+	int32_t document_position, consumed_character_count;
+
 	erased<EXPRESSION> expression;
 	
 	std::vector<erased<IC>> field_1;
@@ -30,8 +32,9 @@ struct GREATER_CHAIN {
 	
 
 
-	explicit GREATER_CHAIN(
-		erased<EXPRESSION> && expression, std::vector<erased<IC>> && field_1, erased<GREATER_CHAIN_LOOP> && greater_chain_loop) : expression(std::move(expression)), field_1(std::move(field_1)), greater_chain_loop(std::move(greater_chain_loop)) {}
+	explicit GREATER_CHAIN
+		(int32_t documentPosition, int32_t consumedCharacterCount, erased<EXPRESSION> && expression, std::vector<erased<IC>> && field_1, erased<GREATER_CHAIN_LOOP> && greater_chain_loop)
+		: document_position(documentPosition), consumed_character_count(consumedCharacterCount), expression(std::move(expression)), field_1(std::move(field_1)), greater_chain_loop(std::move(greater_chain_loop)) {}
 
 	GREATER_CHAIN(GREATER_CHAIN const & other) = default;
 	GREATER_CHAIN(GREATER_CHAIN && move) = default;
