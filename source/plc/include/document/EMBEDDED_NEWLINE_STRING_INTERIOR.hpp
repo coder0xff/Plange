@@ -7,7 +7,7 @@
 #include <variant>
 #include <vector>
 
-#include "erased.hpp"
+#include "val.hpp"
 
 #include "parlex/detail/abstract_syntax_tree.hpp"
 #include "parlex/detail/builtins.hpp"
@@ -23,14 +23,14 @@ struct PAYLOAD;
 struct EMBEDDED_NEWLINE_STRING_INTERIOR1_t {
 	parlex::detail::document::text<literal_0x0A_t> dont_care0;
 	
-	erased<PAYLOAD> payload;
+	val<PAYLOAD> payload;
 	
 	parlex::detail::document::text<literal_0x0A_t> dont_care2;
 	
 
 
 	explicit EMBEDDED_NEWLINE_STRING_INTERIOR1_t
-		(parlex::detail::document::text<literal_0x0A_t> && dont_care0, erased<PAYLOAD> && payload, parlex::detail::document::text<literal_0x0A_t> && dont_care2)
+		(parlex::detail::document::text<literal_0x0A_t> && dont_care0, val<PAYLOAD> && payload, parlex::detail::document::text<literal_0x0A_t> && dont_care2)
 		: dont_care0(std::move(dont_care0)), payload(std::move(payload)), dont_care2(std::move(dont_care2)) {}
 
 	EMBEDDED_NEWLINE_STRING_INTERIOR1_t(EMBEDDED_NEWLINE_STRING_INTERIOR1_t const & other) = default;
@@ -42,14 +42,14 @@ struct EMBEDDED_NEWLINE_STRING_INTERIOR1_t {
 struct EMBEDDED_NEWLINE_STRING_INTERIOR2_t {
 	parlex::detail::document::text<literal_0x22_t> dont_care0;
 	
-	erased<EMBEDDED_NEWLINE_STRING_INTERIOR> field_1;
+	val<EMBEDDED_NEWLINE_STRING_INTERIOR> field_1;
 	
 	parlex::detail::document::text<literal_0x22_t> dont_care2;
 	
 
 
 	explicit EMBEDDED_NEWLINE_STRING_INTERIOR2_t
-		(parlex::detail::document::text<literal_0x22_t> && dont_care0, erased<EMBEDDED_NEWLINE_STRING_INTERIOR> && field_1, parlex::detail::document::text<literal_0x22_t> && dont_care2)
+		(parlex::detail::document::text<literal_0x22_t> && dont_care0, val<EMBEDDED_NEWLINE_STRING_INTERIOR> && field_1, parlex::detail::document::text<literal_0x22_t> && dont_care2)
 		: dont_care0(std::move(dont_care0)), field_1(std::move(field_1)), dont_care2(std::move(dont_care2)) {}
 
 	EMBEDDED_NEWLINE_STRING_INTERIOR2_t(EMBEDDED_NEWLINE_STRING_INTERIOR2_t const & other) = default;

@@ -7,7 +7,7 @@
 #include <variant>
 #include <vector>
 
-#include "erased.hpp"
+#include "val.hpp"
 
 #include "parlex/detail/abstract_syntax_tree.hpp"
 #include "parlex/detail/builtins.hpp"
@@ -23,10 +23,10 @@ struct SYMMETRIC_DIFFERENCE;
 struct UNION;
 
 typedef std::variant<
-	erased<BIJECTION>,
-	erased<INTERSECTION>,
-	erased<SYMMETRIC_DIFFERENCE>,
-	erased<UNION>
+	val<BIJECTION>,
+	val<INTERSECTION>,
+	val<SYMMETRIC_DIFFERENCE>,
+	val<UNION>
 > BINARY_COLLECTION_OP_base;
 
 struct BINARY_COLLECTION_OP: BINARY_COLLECTION_OP_base {

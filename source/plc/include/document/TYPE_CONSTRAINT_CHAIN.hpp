@@ -7,7 +7,7 @@
 #include <variant>
 #include <vector>
 
-#include "erased.hpp"
+#include "val.hpp"
 
 #include "parlex/detail/abstract_syntax_tree.hpp"
 #include "parlex/detail/builtins.hpp"
@@ -27,18 +27,18 @@ struct TYPE_CONSTRAINT_CHAIN {
 	int32_t document_position, consumed_character_count;
 
 	struct field_2_t {
-		std::vector<erased<IC>> field_1;
+		std::vector<val<IC>> field_1;
 		
 		parlex::detail::document::text<literal_0x2C_t> dont_care1;
 		
-		std::vector<erased<IC>> field_2;
+		std::vector<val<IC>> field_2;
 		
-		erased<TYPE_CONSTRAINT_CHAIN> field_3;
+		val<TYPE_CONSTRAINT_CHAIN> field_3;
 		
 	
 	
 		explicit field_2_t
-			(std::vector<erased<IC>> && field_1, parlex::detail::document::text<literal_0x2C_t> && dont_care1, std::vector<erased<IC>> && field_2, erased<TYPE_CONSTRAINT_CHAIN> && field_3)
+			(std::vector<val<IC>> && field_1, parlex::detail::document::text<literal_0x2C_t> && dont_care1, std::vector<val<IC>> && field_2, val<TYPE_CONSTRAINT_CHAIN> && field_3)
 			: field_1(std::move(field_1)), dont_care1(std::move(dont_care1)), field_2(std::move(field_2)), field_3(std::move(field_3)) {}
 	
 		field_2_t(field_2_t const & other) = default;
@@ -48,9 +48,9 @@ struct TYPE_CONSTRAINT_CHAIN {
 	};
 
 	std::variant<
-		erased<DECLARATION>,
-		erased<ASSIGNMENT_CHAIN>,
-		erased<DEFINITION>
+		val<DECLARATION>,
+		val<ASSIGNMENT_CHAIN>,
+		val<DEFINITION>
 	> field_1;
 	
 	std::optional<field_2_t> field_2;
@@ -59,9 +59,9 @@ struct TYPE_CONSTRAINT_CHAIN {
 
 	explicit TYPE_CONSTRAINT_CHAIN
 		(int32_t documentPosition, int32_t consumedCharacterCount, std::variant<
-	erased<DECLARATION>,
-	erased<ASSIGNMENT_CHAIN>,
-	erased<DEFINITION>
+	val<DECLARATION>,
+	val<ASSIGNMENT_CHAIN>,
+	val<DEFINITION>
 > && field_1, std::optional<field_2_t> && field_2)
 		: document_position(documentPosition), consumed_character_count(consumedCharacterCount), field_1(std::move(field_1)), field_2(std::move(field_2)) {}
 

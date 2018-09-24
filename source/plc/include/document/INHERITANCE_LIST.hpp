@@ -7,7 +7,7 @@
 #include <variant>
 #include <vector>
 
-#include "erased.hpp"
+#include "val.hpp"
 
 #include "parlex/detail/abstract_syntax_tree.hpp"
 #include "parlex/detail/builtins.hpp"
@@ -25,20 +25,20 @@ struct INHERITANCE_LIST {
 	int32_t document_position, consumed_character_count;
 
 	struct field_2_t {
-		std::vector<erased<IC>> field_1;
+		std::vector<val<IC>> field_1;
 		
 		parlex::detail::document::text<literal_0x2C_t> dont_care1;
 		
-		std::vector<erased<IC>> field_2;
+		std::vector<val<IC>> field_2;
 		
-		std::optional<erased<INHERITANCE_ITEM_PREFIX>> field_3;
+		std::optional<val<INHERITANCE_ITEM_PREFIX>> field_3;
 		
-		erased<EXPRESSION> expression;
+		val<EXPRESSION> expression;
 		
 	
 	
 		explicit field_2_t
-			(std::vector<erased<IC>> && field_1, parlex::detail::document::text<literal_0x2C_t> && dont_care1, std::vector<erased<IC>> && field_2, std::optional<erased<INHERITANCE_ITEM_PREFIX>> && field_3, erased<EXPRESSION> && expression)
+			(std::vector<val<IC>> && field_1, parlex::detail::document::text<literal_0x2C_t> && dont_care1, std::vector<val<IC>> && field_2, std::optional<val<INHERITANCE_ITEM_PREFIX>> && field_3, val<EXPRESSION> && expression)
 			: field_1(std::move(field_1)), dont_care1(std::move(dont_care1)), field_2(std::move(field_2)), field_3(std::move(field_3)), expression(std::move(expression)) {}
 	
 		field_2_t(field_2_t const & other) = default;
@@ -47,16 +47,16 @@ struct INHERITANCE_LIST {
 		static field_2_t build(parlex::detail::node const * b, parlex::detail::document::walk & w);
 	};
 
-	std::optional<erased<INHERITANCE_ITEM_PREFIX>> field_1;
+	std::optional<val<INHERITANCE_ITEM_PREFIX>> field_1;
 	
-	erased<EXPRESSION> expression;
+	val<EXPRESSION> expression;
 	
 	std::vector<field_2_t> field_2;
 	
 
 
 	explicit INHERITANCE_LIST
-		(int32_t documentPosition, int32_t consumedCharacterCount, std::optional<erased<INHERITANCE_ITEM_PREFIX>> && field_1, erased<EXPRESSION> && expression, std::vector<field_2_t> && field_2)
+		(int32_t documentPosition, int32_t consumedCharacterCount, std::optional<val<INHERITANCE_ITEM_PREFIX>> && field_1, val<EXPRESSION> && expression, std::vector<field_2_t> && field_2)
 		: document_position(documentPosition), consumed_character_count(consumedCharacterCount), field_1(std::move(field_1)), expression(std::move(expression)), field_2(std::move(field_2)) {}
 
 	INHERITANCE_LIST(INHERITANCE_LIST const & other) = default;

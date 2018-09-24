@@ -5,7 +5,7 @@
 #include <variant>
 #include <vector>
 
-#include "erased.hpp"
+#include "val.hpp"
 #include "mpl_fold_vx.hpp"
 
 #include "parlex/builder.hpp"
@@ -50,8 +50,8 @@ namespace parlex::detail::document {
 	};
 
 	template<typename T>
-	struct element<erased<T>> {
-		static erased<T> build(node const * b, walk & w) {
+	struct element<val<T>> {
+		static val<T> build(node const * b, walk & w) {
 			auto const * asLeaf = dynamic_cast<leaf const *>(b);
 			throw_assert(asLeaf != nullptr);
 			throw_assert(asLeaf == w.pos->l);
@@ -103,7 +103,7 @@ namespace parlex::detail::document {
 		}
 
 		template<typename T>
-		t_table operator()(t_table && accumulator, erased<node> const & b) {
+		t_table operator()(t_table && accumulator, val<node> const & b) {
 			accumulator[&*b] = &wrapper<T>;
 			return accumulator;
 		}

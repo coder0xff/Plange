@@ -7,7 +7,7 @@
 #include <variant>
 #include <vector>
 
-#include "erased.hpp"
+#include "val.hpp"
 
 #include "parlex/detail/abstract_syntax_tree.hpp"
 #include "parlex/detail/builtins.hpp"
@@ -27,14 +27,14 @@ struct ASSIGNMENT_CHAIN {
 	int32_t document_position, consumed_character_count;
 
 	struct field_1_t {
-		erased<XML_DOC_STRING> xml_doc_string;
+		val<XML_DOC_STRING> xml_doc_string;
 		
-		std::vector<erased<IC>> field_1;
+		std::vector<val<IC>> field_1;
 		
 	
 	
 		explicit field_1_t
-			(erased<XML_DOC_STRING> && xml_doc_string, std::vector<erased<IC>> && field_1)
+			(val<XML_DOC_STRING> && xml_doc_string, std::vector<val<IC>> && field_1)
 			: xml_doc_string(std::move(xml_doc_string)), field_1(std::move(field_1)) {}
 	
 		field_1_t(field_1_t const & other) = default;
@@ -45,31 +45,31 @@ struct ASSIGNMENT_CHAIN {
 
 	std::optional<field_1_t> field_1;
 	
-	erased<IDENTIFIER> identifier;
+	val<IDENTIFIER> identifier;
 	
-	std::vector<erased<IC>> field_2;
+	std::vector<val<IC>> field_2;
 	
 	std::variant<
 		parlex::detail::document::text<literal_0xE20x860x90_t>,
 		parlex::detail::document::text<literal_0x3C0x2D_t>
 	> field_3;
 	
-	std::vector<erased<IC>> field_4;
+	std::vector<val<IC>> field_4;
 	
 	std::variant<
-		erased<EXPRESSION>,
-		erased<ASSIGNMENT_CHAIN>
+		val<EXPRESSION>,
+		val<ASSIGNMENT_CHAIN>
 	> field_5;
 	
 
 
 	explicit ASSIGNMENT_CHAIN
-		(int32_t documentPosition, int32_t consumedCharacterCount, std::optional<field_1_t> && field_1, erased<IDENTIFIER> && identifier, std::vector<erased<IC>> && field_2, std::variant<
+		(int32_t documentPosition, int32_t consumedCharacterCount, std::optional<field_1_t> && field_1, val<IDENTIFIER> && identifier, std::vector<val<IC>> && field_2, std::variant<
 	parlex::detail::document::text<literal_0xE20x860x90_t>,
 	parlex::detail::document::text<literal_0x3C0x2D_t>
-> && field_3, std::vector<erased<IC>> && field_4, std::variant<
-	erased<EXPRESSION>,
-	erased<ASSIGNMENT_CHAIN>
+> && field_3, std::vector<val<IC>> && field_4, std::variant<
+	val<EXPRESSION>,
+	val<ASSIGNMENT_CHAIN>
 > && field_5)
 		: document_position(documentPosition), consumed_character_count(consumedCharacterCount), field_1(std::move(field_1)), identifier(std::move(identifier)), field_2(std::move(field_2)), field_3(std::move(field_3)), field_4(std::move(field_4)), field_5(std::move(field_5)) {}
 

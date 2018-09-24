@@ -7,7 +7,7 @@
 #include <variant>
 #include <vector>
 
-#include "erased.hpp"
+#include "val.hpp"
 
 #include "parlex/detail/abstract_syntax_tree.hpp"
 #include "parlex/detail/builtins.hpp"
@@ -23,15 +23,15 @@ struct IC;
 struct RANGE1_t {
 	parlex::detail::document::text<literal_0x28_t> dont_care0;
 	
-	std::vector<erased<IC>> field_1;
+	std::vector<val<IC>> field_1;
 	
 	parlex::detail::document::text<literal_0x2E0x2E0x2E_t> dont_care2;
 	
-	std::vector<erased<IC>> field_2;
+	std::vector<val<IC>> field_2;
 	
-	erased<EXPRESSION> field_3;
+	val<EXPRESSION> field_3;
 	
-	std::vector<erased<IC>> field_4;
+	std::vector<val<IC>> field_4;
 	
 	std::variant<
 		parlex::detail::document::text<literal_0x5D_t>,
@@ -41,7 +41,7 @@ struct RANGE1_t {
 
 
 	explicit RANGE1_t
-		(parlex::detail::document::text<literal_0x28_t> && dont_care0, std::vector<erased<IC>> && field_1, parlex::detail::document::text<literal_0x2E0x2E0x2E_t> && dont_care2, std::vector<erased<IC>> && field_2, erased<EXPRESSION> && field_3, std::vector<erased<IC>> && field_4, std::variant<
+		(parlex::detail::document::text<literal_0x28_t> && dont_care0, std::vector<val<IC>> && field_1, parlex::detail::document::text<literal_0x2E0x2E0x2E_t> && dont_care2, std::vector<val<IC>> && field_2, val<EXPRESSION> && field_3, std::vector<val<IC>> && field_4, std::variant<
 	parlex::detail::document::text<literal_0x5D_t>,
 	parlex::detail::document::text<literal_0x29_t>
 > && field_5)
@@ -59,15 +59,15 @@ struct RANGE2_t {
 		parlex::detail::document::text<literal_0x28_t>
 	> field_1;
 	
-	std::vector<erased<IC>> field_2;
+	std::vector<val<IC>> field_2;
 	
-	erased<EXPRESSION> field_3;
+	val<EXPRESSION> field_3;
 	
-	std::vector<erased<IC>> field_4;
+	std::vector<val<IC>> field_4;
 	
 	parlex::detail::document::text<literal_0x2E0x2E0x2E_t> dont_care4;
 	
-	std::vector<erased<IC>> field_5;
+	std::vector<val<IC>> field_5;
 	
 	parlex::detail::document::text<literal_0x29_t> dont_care6;
 	
@@ -77,7 +77,7 @@ struct RANGE2_t {
 		(std::variant<
 	parlex::detail::document::text<literal_0x5B_t>,
 	parlex::detail::document::text<literal_0x28_t>
-> && field_1, std::vector<erased<IC>> && field_2, erased<EXPRESSION> && field_3, std::vector<erased<IC>> && field_4, parlex::detail::document::text<literal_0x2E0x2E0x2E_t> && dont_care4, std::vector<erased<IC>> && field_5, parlex::detail::document::text<literal_0x29_t> && dont_care6)
+> && field_1, std::vector<val<IC>> && field_2, val<EXPRESSION> && field_3, std::vector<val<IC>> && field_4, parlex::detail::document::text<literal_0x2E0x2E0x2E_t> && dont_care4, std::vector<val<IC>> && field_5, parlex::detail::document::text<literal_0x29_t> && dont_care6)
 		: field_1(std::move(field_1)), field_2(std::move(field_2)), field_3(std::move(field_3)), field_4(std::move(field_4)), dont_care4(std::move(dont_care4)), field_5(std::move(field_5)), dont_care6(std::move(dont_care6)) {}
 
 	RANGE2_t(RANGE2_t const & other) = default;
@@ -92,19 +92,19 @@ struct RANGE3_t {
 		parlex::detail::document::text<literal_0x5B_t>
 	> field_01;
 	
-	std::vector<erased<IC>> field_02;
+	std::vector<val<IC>> field_02;
 	
-	erased<EXPRESSION> field_03;
+	val<EXPRESSION> field_03;
 	
-	std::vector<erased<IC>> field_04;
+	std::vector<val<IC>> field_04;
 	
 	parlex::detail::document::text<literal_0x2E0x2E0x2E_t> dont_care4;
 	
-	std::vector<erased<IC>> field_05;
+	std::vector<val<IC>> field_05;
 	
-	erased<EXPRESSION> field_06;
+	val<EXPRESSION> field_06;
 	
-	std::vector<erased<IC>> field_07;
+	std::vector<val<IC>> field_07;
 	
 	std::variant<
 		parlex::detail::document::text<literal_0x5D_t>,
@@ -117,7 +117,7 @@ struct RANGE3_t {
 		(std::variant<
 	parlex::detail::document::text<literal_0x28_t>,
 	parlex::detail::document::text<literal_0x5B_t>
-> && field_01, std::vector<erased<IC>> && field_02, erased<EXPRESSION> && field_03, std::vector<erased<IC>> && field_04, parlex::detail::document::text<literal_0x2E0x2E0x2E_t> && dont_care4, std::vector<erased<IC>> && field_05, erased<EXPRESSION> && field_06, std::vector<erased<IC>> && field_07, std::variant<
+> && field_01, std::vector<val<IC>> && field_02, val<EXPRESSION> && field_03, std::vector<val<IC>> && field_04, parlex::detail::document::text<literal_0x2E0x2E0x2E_t> && dont_care4, std::vector<val<IC>> && field_05, val<EXPRESSION> && field_06, std::vector<val<IC>> && field_07, std::variant<
 	parlex::detail::document::text<literal_0x5D_t>,
 	parlex::detail::document::text<literal_0x29_t>
 > && field_08)

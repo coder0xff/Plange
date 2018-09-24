@@ -7,7 +7,7 @@
 #include <variant>
 #include <vector>
 
-#include "erased.hpp"
+#include "val.hpp"
 
 #include "parlex/detail/abstract_syntax_tree.hpp"
 #include "parlex/detail/builtins.hpp"
@@ -23,16 +23,16 @@ struct TYPE_SCOPE_TYPE_CONSTRAINT;
 struct VISIBILITY_MODIFIER;
 
 struct TYPE_STATEMENT1_t {
-	erased<VISIBILITY_MODIFIER> field_1;
+	val<VISIBILITY_MODIFIER> field_1;
 	
-	std::vector<erased<IC>> field_2;
+	std::vector<val<IC>> field_2;
 	
 	parlex::detail::document::text<literal_0x3A_t> dont_care2;
 	
 
 
 	explicit TYPE_STATEMENT1_t
-		(erased<VISIBILITY_MODIFIER> && field_1, std::vector<erased<IC>> && field_2, parlex::detail::document::text<literal_0x3A_t> && dont_care2)
+		(val<VISIBILITY_MODIFIER> && field_1, std::vector<val<IC>> && field_2, parlex::detail::document::text<literal_0x3A_t> && dont_care2)
 		: field_1(std::move(field_1)), field_2(std::move(field_2)), dont_care2(std::move(dont_care2)) {}
 
 	TYPE_STATEMENT1_t(TYPE_STATEMENT1_t const & other) = default;
@@ -43,8 +43,8 @@ struct TYPE_STATEMENT1_t {
 
 typedef std::variant<
 	TYPE_STATEMENT1_t,
-	erased<TYPE_SCOPE_TYPE_CONSTRAINT>,
-	erased<STATEMENT>
+	val<TYPE_SCOPE_TYPE_CONSTRAINT>,
+	val<STATEMENT>
 > TYPE_STATEMENT_base;
 
 struct TYPE_STATEMENT: TYPE_STATEMENT_base {

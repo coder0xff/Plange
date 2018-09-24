@@ -7,7 +7,7 @@
 #include <variant>
 #include <vector>
 
-#include "erased.hpp"
+#include "val.hpp"
 
 #include "parlex/detail/abstract_syntax_tree.hpp"
 #include "parlex/detail/builtins.hpp"
@@ -20,14 +20,14 @@ namespace plc {
 struct NON_ZERO_DECIMAL_DIGIT;
 
 struct NON_NEG_INTEGER1_t {
-	erased<NON_ZERO_DECIMAL_DIGIT> field_1;
+	val<NON_ZERO_DECIMAL_DIGIT> field_1;
 	
 	std::vector<parlex::detail::document::text<parlex::detail::decimal_digit_t>> field_2;
 	
 
 
 	explicit NON_NEG_INTEGER1_t
-		(erased<NON_ZERO_DECIMAL_DIGIT> && field_1, std::vector<parlex::detail::document::text<parlex::detail::decimal_digit_t>> && field_2)
+		(val<NON_ZERO_DECIMAL_DIGIT> && field_1, std::vector<parlex::detail::document::text<parlex::detail::decimal_digit_t>> && field_2)
 		: field_1(std::move(field_1)), field_2(std::move(field_2)) {}
 
 	NON_NEG_INTEGER1_t(NON_NEG_INTEGER1_t const & other) = default;

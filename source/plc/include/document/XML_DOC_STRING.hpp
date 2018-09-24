@@ -7,7 +7,7 @@
 #include <variant>
 #include <vector>
 
-#include "erased.hpp"
+#include "val.hpp"
 
 #include "parlex/detail/abstract_syntax_tree.hpp"
 #include "parlex/detail/builtins.hpp"
@@ -24,14 +24,14 @@ struct XML_DOC_STRING {
 
 	parlex::detail::document::text<literal_0x600x600x60_t> dont_care0;
 	
-	erased<XML_DOC_STRING_INTERIOR> field_1;
+	val<XML_DOC_STRING_INTERIOR> field_1;
 	
 	parlex::detail::document::text<literal_0x600x600x60_t> dont_care2;
 	
 
 
 	explicit XML_DOC_STRING
-		(int32_t documentPosition, int32_t consumedCharacterCount, parlex::detail::document::text<literal_0x600x600x60_t> && dont_care0, erased<XML_DOC_STRING_INTERIOR> && field_1, parlex::detail::document::text<literal_0x600x600x60_t> && dont_care2)
+		(int32_t documentPosition, int32_t consumedCharacterCount, parlex::detail::document::text<literal_0x600x600x60_t> && dont_care0, val<XML_DOC_STRING_INTERIOR> && field_1, parlex::detail::document::text<literal_0x600x600x60_t> && dont_care2)
 		: document_position(documentPosition), consumed_character_count(consumedCharacterCount), dont_care0(std::move(dont_care0)), field_1(std::move(field_1)), dont_care2(std::move(dont_care2)) {}
 
 	XML_DOC_STRING(XML_DOC_STRING const & other) = default;

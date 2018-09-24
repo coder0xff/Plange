@@ -7,7 +7,7 @@
 #include <variant>
 #include <vector>
 
-#include "erased.hpp"
+#include "val.hpp"
 
 #include "parlex/detail/abstract_syntax_tree.hpp"
 #include "parlex/detail/builtins.hpp"
@@ -24,11 +24,11 @@ struct UNARY_ARITHMETIC_OP;
 struct UNARY_LOGICAL_OP;
 
 typedef std::variant<
-	erased<ALLOCATION>,
-	erased<CARDINALITY>,
-	erased<KLEENE_STAR>,
-	erased<UNARY_ARITHMETIC_OP>,
-	erased<UNARY_LOGICAL_OP>
+	val<ALLOCATION>,
+	val<CARDINALITY>,
+	val<KLEENE_STAR>,
+	val<UNARY_ARITHMETIC_OP>,
+	val<UNARY_LOGICAL_OP>
 > UNARY_OP_base;
 
 struct UNARY_OP: UNARY_OP_base {

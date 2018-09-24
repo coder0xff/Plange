@@ -12,8 +12,8 @@ plc::NOT_ASSIGNMENT plc::NOT_ASSIGNMENT::build(parlex::detail::ast_node const & 
 	static auto const * b = acceptor().behavior;
 	parlex::detail::document::walk w{ n.children.cbegin(), n.children.cend() };
 	auto const & children = b->children;
-	auto v0 = parlex::detail::document::element<erased<EXPRESSION>>::build(&*children[0], w);
-	auto v1 = parlex::detail::document::element<std::vector<erased<IC>>>::build(&*children[1], w);
+	auto v0 = parlex::detail::document::element<val<EXPRESSION>>::build(&*children[0], w);
+	auto v1 = parlex::detail::document::element<std::vector<val<IC>>>::build(&*children[1], w);
 	auto v2 = parlex::detail::document::element<std::variant<
 		parlex::detail::document::text<literal_0xC20xAC_t>,
 		parlex::detail::document::text<literal_0x7E_t>

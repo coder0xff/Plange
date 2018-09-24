@@ -35,13 +35,13 @@ scope::scope(module& m, source_code const* source, scope* parent) :
 struct invocation_visistor {
 	scope & s;
 
-	void operator()(erased<PARENTHETICAL_INVOCATION> const & parentheticalInvocation) const {
+	void operator()(val<PARENTHETICAL_INVOCATION> const & parentheticalInvocation) const {
 		s.static_resolve(*parentheticalInvocation->target);
 	}
 };
 
 struct expression_visitor {
-	analytic_value * operator()(erased<INVOCATION> const & invocation) const {
+	analytic_value * operator()(val<INVOCATION> const & invocation) const {
 		throw std::logic_error("not implemented");
 	}
 };
@@ -49,11 +49,11 @@ struct expression_visitor {
 struct statement_visitor {
 	scope & s;
 
-	void operator()(erased<ASSIGNMENT_CHAIN> const & value) { throw std::logic_error("not implemented"); }
-	void operator()(erased<BREAK> const & value) { throw std::logic_error("not implemented"); }
-	void operator()(erased<CONTINUE> const & value) { throw std::logic_error("not implemented"); }
+	void operator()(val<ASSIGNMENT_CHAIN> const & value) { throw std::logic_error("not implemented"); }
+	void operator()(val<BREAK> const & value) { throw std::logic_error("not implemented"); }
+	void operator()(val<CONTINUE> const & value) { throw std::logic_error("not implemented"); }
 
-	void operator()(erased<DEFINITION> const & definition) {
+	void operator()(val<DEFINITION> const & definition) {
 		std::optional<std::u32string> docString;
 		if (definition->field_1.has_value()) {
 			XML_DOC_STRING const & xmlDocString = *definition->field_1->xml_doc_string;
@@ -61,22 +61,22 @@ struct statement_visitor {
 		}
 	}
 
-	void operator()(erased<DO> const & value) { throw std::logic_error("not implemented"); }
-	void operator()(erased<EXPRESSION> const & value) { throw std::logic_error("not implemented"); }
-	void operator()(erased<FOR> const & value) { throw std::logic_error("not implemented"); }
-	void operator()(erased<FOR_COLLECTION> const & value) { throw std::logic_error("not implemented"); }
-	void operator()(erased<FREE> const & value) { throw std::logic_error("not implemented"); }
-	void operator()(erased<IMPORT> const & value) { throw std::logic_error("not implemented"); }
-	void operator()(erased<LOCK> const & value) { throw std::logic_error("not implemented"); }
-	void operator()(erased<LOOP> const & value) { throw std::logic_error("not implemented"); }
-	void operator()(erased<OP_ASSIGNMENT> const & value) { throw std::logic_error("not implemented"); }
-	void operator()(erased<READ_LOCK> const & value) { throw std::logic_error("not implemented"); }
-	void operator()(erased<RETURN> const & value) { throw std::logic_error("not implemented"); }
-	void operator()(erased<THROW> const & value) { throw std::logic_error("not implemented"); }
-	void operator()(erased<TRY> const & value) { throw std::logic_error("not implemented"); }
-	void operator()(erased<TYPE_CONSTRAINT> const & value) { throw std::logic_error("not implemented"); }
-	void operator()(erased<WRITE_LOCK> const & value) { throw std::logic_error("not implemented"); }
-	void operator()(erased<USING> const & value) { throw std::logic_error("not implemented"); }
+	void operator()(val<DO> const & value) { throw std::logic_error("not implemented"); }
+	void operator()(val<EXPRESSION> const & value) { throw std::logic_error("not implemented"); }
+	void operator()(val<FOR> const & value) { throw std::logic_error("not implemented"); }
+	void operator()(val<FOR_COLLECTION> const & value) { throw std::logic_error("not implemented"); }
+	void operator()(val<FREE> const & value) { throw std::logic_error("not implemented"); }
+	void operator()(val<IMPORT> const & value) { throw std::logic_error("not implemented"); }
+	void operator()(val<LOCK> const & value) { throw std::logic_error("not implemented"); }
+	void operator()(val<LOOP> const & value) { throw std::logic_error("not implemented"); }
+	void operator()(val<OP_ASSIGNMENT> const & value) { throw std::logic_error("not implemented"); }
+	void operator()(val<READ_LOCK> const & value) { throw std::logic_error("not implemented"); }
+	void operator()(val<RETURN> const & value) { throw std::logic_error("not implemented"); }
+	void operator()(val<THROW> const & value) { throw std::logic_error("not implemented"); }
+	void operator()(val<TRY> const & value) { throw std::logic_error("not implemented"); }
+	void operator()(val<TYPE_CONSTRAINT> const & value) { throw std::logic_error("not implemented"); }
+	void operator()(val<WRITE_LOCK> const & value) { throw std::logic_error("not implemented"); }
+	void operator()(val<USING> const & value) { throw std::logic_error("not implemented"); }
 
 };
 
@@ -86,8 +86,8 @@ scope::scope(module & m, source_code const * source, scope * parent, STATEMENT_S
 	source(source),
 	parent(parent)
 {
-	for (std::variant<erased<IC>, erased<STATEMENT>> const & entry : dom) {
-		erased<STATEMENT> const * statementPtr = std::get_if<erased<STATEMENT>>(&entry);
+	for (std::variant<val<IC>, val<STATEMENT>> const & entry : dom) {
+		val<STATEMENT> const * statementPtr = std::get_if<val<STATEMENT>>(&entry);
 		if (statementPtr != nullptr) {
 			STATEMENT const & statement = **statementPtr;
 			visit(statement_visitor{ *this }, statement.value);

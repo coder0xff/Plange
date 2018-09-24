@@ -13,8 +13,8 @@
 
 plc::ASSIGNMENT_CHAIN::field_1_t plc::ASSIGNMENT_CHAIN::field_1_t::build(parlex::detail::node const * b, parlex::detail::document::walk & w) {
 	auto const & children = b->children;
-	auto v0 = parlex::detail::document::element<erased<XML_DOC_STRING>>::build(&*children[0], w);
-	auto v1 = parlex::detail::document::element<std::vector<erased<IC>>>::build(&*children[1], w);
+	auto v0 = parlex::detail::document::element<val<XML_DOC_STRING>>::build(&*children[0], w);
+	auto v1 = parlex::detail::document::element<std::vector<val<IC>>>::build(&*children[1], w);
 	return field_1_t(std::move(v0), std::move(v1));
 }
 
@@ -23,16 +23,16 @@ plc::ASSIGNMENT_CHAIN plc::ASSIGNMENT_CHAIN::build(parlex::detail::ast_node cons
 	parlex::detail::document::walk w{ n.children.cbegin(), n.children.cend() };
 	auto const & children = b->children;
 	auto v0 = parlex::detail::document::element<std::optional<field_1_t>>::build(&*children[0], w);
-	auto v1 = parlex::detail::document::element<erased<IDENTIFIER>>::build(&*children[1], w);
-	auto v2 = parlex::detail::document::element<std::vector<erased<IC>>>::build(&*children[2], w);
+	auto v1 = parlex::detail::document::element<val<IDENTIFIER>>::build(&*children[1], w);
+	auto v2 = parlex::detail::document::element<std::vector<val<IC>>>::build(&*children[2], w);
 	auto v3 = parlex::detail::document::element<std::variant<
 		parlex::detail::document::text<literal_0xE20x860x90_t>,
 		parlex::detail::document::text<literal_0x3C0x2D_t>
 	>>::build(&*children[3], w);
-	auto v4 = parlex::detail::document::element<std::vector<erased<IC>>>::build(&*children[4], w);
+	auto v4 = parlex::detail::document::element<std::vector<val<IC>>>::build(&*children[4], w);
 	auto v5 = parlex::detail::document::element<std::variant<
-		erased<EXPRESSION>,
-		erased<ASSIGNMENT_CHAIN>
+		val<EXPRESSION>,
+		val<ASSIGNMENT_CHAIN>
 	>>::build(&*children[5], w);
 	return ASSIGNMENT_CHAIN(n.document_position, n.consumed_character_count, std::move(v0), std::move(v1), std::move(v2), std::move(v3), std::move(v4), std::move(v5));
 }

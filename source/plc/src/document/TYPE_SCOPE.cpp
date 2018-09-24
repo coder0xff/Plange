@@ -10,8 +10,8 @@
 
 plc::TYPE_SCOPE::field_2_t plc::TYPE_SCOPE::field_2_t::build(parlex::detail::node const * b, parlex::detail::document::walk & w) {
 	auto const & children = b->children;
-	auto v0 = parlex::detail::document::element<erased<TYPE_STATEMENT>>::build(&*children[0], w);
-	auto v1 = parlex::detail::document::element<std::vector<erased<IC>>>::build(&*children[1], w);
+	auto v0 = parlex::detail::document::element<val<TYPE_STATEMENT>>::build(&*children[0], w);
+	auto v1 = parlex::detail::document::element<std::vector<val<IC>>>::build(&*children[1], w);
 	return field_2_t(std::move(v0), std::move(v1));
 }
 
@@ -19,7 +19,7 @@ plc::TYPE_SCOPE plc::TYPE_SCOPE::build(parlex::detail::ast_node const & n) {
 	static auto const * b = acceptor().behavior;
 	parlex::detail::document::walk w{ n.children.cbegin(), n.children.cend() };
 	auto const & children = b->children;
-	auto v0 = parlex::detail::document::element<std::vector<erased<IC>>>::build(&*children[0], w);
+	auto v0 = parlex::detail::document::element<std::vector<val<IC>>>::build(&*children[0], w);
 	auto v1 = parlex::detail::document::element<std::vector<field_2_t>>::build(&*children[1], w);
 	return TYPE_SCOPE(n.document_position, n.consumed_character_count, std::move(v0), std::move(v1));
 }

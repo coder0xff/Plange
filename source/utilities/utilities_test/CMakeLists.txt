@@ -4,7 +4,7 @@ find_package (Threads)
 
 SET(SOURCES
 	"bits.test.cpp"
-	"erased.test.cpp"
+	"val.test.cpp"
 	"tarjan.test.cpp"
 	"utf.test.cpp"
 )

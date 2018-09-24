@@ -11,16 +11,16 @@
 
 plc::FUNCTION_MODIFIER_THROWING::field_1_t plc::FUNCTION_MODIFIER_THROWING::field_1_t::build(parlex::detail::node const * b, parlex::detail::document::walk & w) {
 	auto const & children = b->children;
-	auto v0 = parlex::detail::document::element<std::vector<erased<IC>>>::build(&*children[0], w);
-	auto v1 = parlex::detail::document::element<erased<ARRAY>>::build(&*children[1], w);
+	auto v0 = parlex::detail::document::element<std::vector<val<IC>>>::build(&*children[0], w);
+	auto v1 = parlex::detail::document::element<val<ARRAY>>::build(&*children[1], w);
 	return field_1_t(std::move(v0), std::move(v1));
 }
 
 plc::FUNCTION_MODIFIER_THROWING::field_2_t plc::FUNCTION_MODIFIER_THROWING::field_2_t::build(parlex::detail::node const * b, parlex::detail::document::walk & w) {
 	auto const & children = b->children;
-	auto v0 = parlex::detail::document::element<erased<IC>>::build(&*children[0], w);
-	auto v1 = parlex::detail::document::element<std::vector<erased<IC>>>::build(&*children[1], w);
-	auto v2 = parlex::detail::document::element<erased<FUNCTION_MODIFIER_2>>::build(&*children[2], w);
+	auto v0 = parlex::detail::document::element<val<IC>>::build(&*children[0], w);
+	auto v1 = parlex::detail::document::element<std::vector<val<IC>>>::build(&*children[1], w);
+	auto v2 = parlex::detail::document::element<val<FUNCTION_MODIFIER_2>>::build(&*children[2], w);
 	return field_2_t(std::move(v0), std::move(v1), std::move(v2));
 }
 

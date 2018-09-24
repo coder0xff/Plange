@@ -11,8 +11,8 @@
 
 plc::GREATER_CHAIN_LOOP::field_3_t plc::GREATER_CHAIN_LOOP::field_3_t::build(parlex::detail::node const * b, parlex::detail::document::walk & w) {
 	auto const & children = b->children;
-	auto v0 = parlex::detail::document::element<std::vector<erased<IC>>>::build(&*children[0], w);
-	auto v1 = parlex::detail::document::element<erased<GREATER_CHAIN_LOOP>>::build(&*children[1], w);
+	auto v0 = parlex::detail::document::element<std::vector<val<IC>>>::build(&*children[0], w);
+	auto v1 = parlex::detail::document::element<val<GREATER_CHAIN_LOOP>>::build(&*children[1], w);
 	return field_3_t(std::move(v0), std::move(v1));
 }
 
@@ -26,8 +26,8 @@ plc::GREATER_CHAIN_LOOP plc::GREATER_CHAIN_LOOP::build(parlex::detail::ast_node 
 		parlex::detail::document::text<literal_0x3D0x3E_t>,
 		parlex::detail::document::text<literal_0xE20x890xA5_t>
 	>>::build(&*children[0], w);
-	auto v1 = parlex::detail::document::element<std::vector<erased<IC>>>::build(&*children[1], w);
-	auto v2 = parlex::detail::document::element<erased<EXPRESSION>>::build(&*children[2], w);
+	auto v1 = parlex::detail::document::element<std::vector<val<IC>>>::build(&*children[1], w);
+	auto v2 = parlex::detail::document::element<val<EXPRESSION>>::build(&*children[2], w);
 	auto v3 = parlex::detail::document::element<std::optional<field_3_t>>::build(&*children[3], w);
 	return GREATER_CHAIN_LOOP(n.document_position, n.consumed_character_count, std::move(v0), std::move(v1), std::move(v2), std::move(v3));
 }

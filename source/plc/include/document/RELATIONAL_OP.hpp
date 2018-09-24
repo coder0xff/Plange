@@ -7,7 +7,7 @@
 #include <variant>
 #include <vector>
 
-#include "erased.hpp"
+#include "val.hpp"
 
 #include "parlex/detail/abstract_syntax_tree.hpp"
 #include "parlex/detail/builtins.hpp"
@@ -28,15 +28,15 @@ struct RELATIONAL_COLLECTION_OP;
 struct UPCASTS;
 
 typedef std::variant<
-	erased<CASTS>,
-	erased<DOWNCASTS>,
-	erased<EXACTLY>,
-	erased<IMPLEMENTS>,
-	erased<INEQUALITY>,
-	erased<INHERITS>,
-	erased<IS>,
-	erased<RELATIONAL_COLLECTION_OP>,
-	erased<UPCASTS>
+	val<CASTS>,
+	val<DOWNCASTS>,
+	val<EXACTLY>,
+	val<IMPLEMENTS>,
+	val<INEQUALITY>,
+	val<INHERITS>,
+	val<IS>,
+	val<RELATIONAL_COLLECTION_OP>,
+	val<UPCASTS>
 > RELATIONAL_OP_base;
 
 struct RELATIONAL_OP: RELATIONAL_OP_base {

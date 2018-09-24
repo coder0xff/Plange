@@ -7,7 +7,7 @@
 #include <variant>
 #include <vector>
 
-#include "erased.hpp"
+#include "val.hpp"
 
 #include "parlex/detail/abstract_syntax_tree.hpp"
 #include "parlex/detail/builtins.hpp"
@@ -25,21 +25,21 @@ struct SLICE;
 struct ARRAY_INDEXER {
 	int32_t document_position, consumed_character_count;
 
-	std::vector<erased<IC>> field_1;
+	std::vector<val<IC>> field_1;
 	
 	std::variant<
-		erased<ARGUMENT>,
-		erased<ARGUMENT_PACK>,
-		erased<SLICE>
+		val<ARGUMENT>,
+		val<ARGUMENT_PACK>,
+		val<SLICE>
 	> field_2;
 	
 
 
 	explicit ARRAY_INDEXER
-		(int32_t documentPosition, int32_t consumedCharacterCount, std::vector<erased<IC>> && field_1, std::variant<
-	erased<ARGUMENT>,
-	erased<ARGUMENT_PACK>,
-	erased<SLICE>
+		(int32_t documentPosition, int32_t consumedCharacterCount, std::vector<val<IC>> && field_1, std::variant<
+	val<ARGUMENT>,
+	val<ARGUMENT_PACK>,
+	val<SLICE>
 > && field_2)
 		: document_position(documentPosition), consumed_character_count(consumedCharacterCount), field_1(std::move(field_1)), field_2(std::move(field_2)) {}
 

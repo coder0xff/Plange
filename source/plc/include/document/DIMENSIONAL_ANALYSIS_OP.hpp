@@ -7,7 +7,7 @@
 #include <variant>
 #include <vector>
 
-#include "erased.hpp"
+#include "val.hpp"
 
 #include "parlex/detail/abstract_syntax_tree.hpp"
 #include "parlex/detail/builtins.hpp"
@@ -22,9 +22,9 @@ struct UNIT_EXPONENTIATION;
 struct UNIT_MULTIPLICATION;
 
 typedef std::variant<
-	erased<UNIT_DIVISION>,
-	erased<UNIT_EXPONENTIATION>,
-	erased<UNIT_MULTIPLICATION>
+	val<UNIT_DIVISION>,
+	val<UNIT_EXPONENTIATION>,
+	val<UNIT_MULTIPLICATION>
 > DIMENSIONAL_ANALYSIS_OP_base;
 
 struct DIMENSIONAL_ANALYSIS_OP: DIMENSIONAL_ANALYSIS_OP_base {

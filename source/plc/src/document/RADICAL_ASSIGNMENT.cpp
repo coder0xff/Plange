@@ -12,8 +12,8 @@ plc::RADICAL_ASSIGNMENT plc::RADICAL_ASSIGNMENT::build(parlex::detail::ast_node 
 	static auto const * b = acceptor().behavior;
 	parlex::detail::document::walk w{ n.children.cbegin(), n.children.cend() };
 	auto const & children = b->children;
-	auto v0 = parlex::detail::document::element<erased<EXPRESSION>>::build(&*children[0], w);
-	auto v1 = parlex::detail::document::element<std::vector<erased<IC>>>::build(&*children[1], w);
+	auto v0 = parlex::detail::document::element<val<EXPRESSION>>::build(&*children[0], w);
+	auto v1 = parlex::detail::document::element<std::vector<val<IC>>>::build(&*children[1], w);
 	auto v2 = parlex::detail::document::element<std::variant<
 		parlex::detail::document::text<literal_0xE20x880x9A_t>,
 		parlex::detail::document::text<literal_sqrt_t>

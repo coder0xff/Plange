@@ -3,7 +3,7 @@
 
 #include <map>
 
-#include "erased.hpp"
+#include "val.hpp"
 
 #include "parlex/detail/acceptor.hpp"
 #include "parlex/detail/grammar.hpp"
@@ -32,7 +32,7 @@ public:
 		friend class grammar;
 		acceptor machine;
 		std::unique_ptr<node> behavior;
-		void set_behavior(grammar const & g, erased<node> const & behavior);
+		void set_behavior(grammar const & g, val<node> const & behavior);
 	};
 
 	explicit grammar(builder const & grammarDefinition);

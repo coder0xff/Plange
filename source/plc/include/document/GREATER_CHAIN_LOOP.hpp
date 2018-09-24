@@ -7,7 +7,7 @@
 #include <variant>
 #include <vector>
 
-#include "erased.hpp"
+#include "val.hpp"
 
 #include "parlex/detail/abstract_syntax_tree.hpp"
 #include "parlex/detail/builtins.hpp"
@@ -25,14 +25,14 @@ struct GREATER_CHAIN_LOOP {
 	int32_t document_position, consumed_character_count;
 
 	struct field_3_t {
-		std::vector<erased<IC>> field_1;
+		std::vector<val<IC>> field_1;
 		
-		erased<GREATER_CHAIN_LOOP> greater_chain_loop;
+		val<GREATER_CHAIN_LOOP> greater_chain_loop;
 		
 	
 	
 		explicit field_3_t
-			(std::vector<erased<IC>> && field_1, erased<GREATER_CHAIN_LOOP> && greater_chain_loop)
+			(std::vector<val<IC>> && field_1, val<GREATER_CHAIN_LOOP> && greater_chain_loop)
 			: field_1(std::move(field_1)), greater_chain_loop(std::move(greater_chain_loop)) {}
 	
 		field_3_t(field_3_t const & other) = default;
@@ -48,9 +48,9 @@ struct GREATER_CHAIN_LOOP {
 		parlex::detail::document::text<literal_0xE20x890xA5_t>
 	> field_1;
 	
-	std::vector<erased<IC>> field_2;
+	std::vector<val<IC>> field_2;
 	
-	erased<EXPRESSION> expression;
+	val<EXPRESSION> expression;
 	
 	std::optional<field_3_t> field_3;
 	
@@ -62,7 +62,7 @@ struct GREATER_CHAIN_LOOP {
 	parlex::detail::document::text<literal_0x3E_t>,
 	parlex::detail::document::text<literal_0x3D0x3E_t>,
 	parlex::detail::document::text<literal_0xE20x890xA5_t>
-> && field_1, std::vector<erased<IC>> && field_2, erased<EXPRESSION> && expression, std::optional<field_3_t> && field_3)
+> && field_1, std::vector<val<IC>> && field_2, val<EXPRESSION> && expression, std::optional<field_3_t> && field_3)
 		: document_position(documentPosition), consumed_character_count(consumedCharacterCount), field_1(std::move(field_1)), field_2(std::move(field_2)), expression(std::move(expression)), field_3(std::move(field_3)) {}
 
 	GREATER_CHAIN_LOOP(GREATER_CHAIN_LOOP const & other) = default;

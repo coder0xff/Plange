@@ -14,11 +14,11 @@ plc::ARRAY_INDEXER plc::ARRAY_INDEXER::build(parlex::detail::ast_node const & n)
 	static auto const * b = acceptor().behavior;
 	parlex::detail::document::walk w{ n.children.cbegin(), n.children.cend() };
 	auto const & children = b->children;
-	auto v0 = parlex::detail::document::element<std::vector<erased<IC>>>::build(&*children[0], w);
+	auto v0 = parlex::detail::document::element<std::vector<val<IC>>>::build(&*children[0], w);
 	auto v1 = parlex::detail::document::element<std::variant<
-		erased<ARGUMENT>,
-		erased<ARGUMENT_PACK>,
-		erased<SLICE>
+		val<ARGUMENT>,
+		val<ARGUMENT_PACK>,
+		val<SLICE>
 	>>::build(&*children[1], w);
 	return ARRAY_INDEXER(n.document_position, n.consumed_character_count, std::move(v0), std::move(v1));
 }

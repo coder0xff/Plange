@@ -7,7 +7,7 @@
 #include <variant>
 #include <vector>
 
-#include "erased.hpp"
+#include "val.hpp"
 
 #include "parlex/detail/abstract_syntax_tree.hpp"
 #include "parlex/detail/builtins.hpp"
@@ -25,22 +25,22 @@ struct BREAK {
 	int32_t document_position, consumed_character_count;
 
 	struct field_1_t1 {
-		std::vector<erased<IC>> field_1;
+		std::vector<val<IC>> field_1;
 		
 		parlex::detail::document::text<literal_0x5B_t> dont_care1;
 		
-		std::vector<erased<IC>> field_2;
+		std::vector<val<IC>> field_2;
 		
-		erased<EXPRESSION> expression;
+		val<EXPRESSION> expression;
 		
-		std::vector<erased<IC>> field_3;
+		std::vector<val<IC>> field_3;
 		
 		parlex::detail::document::text<literal_0x5D_t> dont_care5;
 		
 	
 	
 		explicit field_1_t1
-			(std::vector<erased<IC>> && field_1, parlex::detail::document::text<literal_0x5B_t> && dont_care1, std::vector<erased<IC>> && field_2, erased<EXPRESSION> && expression, std::vector<erased<IC>> && field_3, parlex::detail::document::text<literal_0x5D_t> && dont_care5)
+			(std::vector<val<IC>> && field_1, parlex::detail::document::text<literal_0x5B_t> && dont_care1, std::vector<val<IC>> && field_2, val<EXPRESSION> && expression, std::vector<val<IC>> && field_3, parlex::detail::document::text<literal_0x5D_t> && dont_care5)
 			: field_1(std::move(field_1)), dont_care1(std::move(dont_care1)), field_2(std::move(field_2)), expression(std::move(expression)), field_3(std::move(field_3)), dont_care5(std::move(dont_care5)) {}
 	
 		field_1_t1(field_1_t1 const & other) = default;
@@ -50,16 +50,16 @@ struct BREAK {
 	};
 
 	struct field_1_t2 {
-		erased<IC> field_1;
+		val<IC> field_1;
 		
-		std::vector<erased<IC>> field_2;
+		std::vector<val<IC>> field_2;
 		
-		erased<IDENTIFIER> identifier;
+		val<IDENTIFIER> identifier;
 		
 	
 	
 		explicit field_1_t2
-			(erased<IC> && field_1, std::vector<erased<IC>> && field_2, erased<IDENTIFIER> && identifier)
+			(val<IC> && field_1, std::vector<val<IC>> && field_2, val<IDENTIFIER> && identifier)
 			: field_1(std::move(field_1)), field_2(std::move(field_2)), identifier(std::move(identifier)) {}
 	
 		field_1_t2(field_1_t2 const & other) = default;

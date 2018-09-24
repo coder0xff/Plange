@@ -39,11 +39,11 @@ TEST(PlcCompiler, ParseMultiplyMapsTo) {
 
 TEST(PlcCompiler, ParseMultiplyMapsToExpression) {
 	auto result = plc::compiler::parse<plc::EXPRESSION>(U"a*b->c");
-	ASSERT_TRUE(std::holds_alternative<erased<plc::BINARY_OP>>(result));
-	plc::BINARY_OP const & binaryOp = *std::get<erased<plc::BINARY_OP>>(result);
-	ASSERT_TRUE(std::holds_alternative<erased<plc::BINARY_LOGICAL_OP>>(binaryOp));
-	plc::BINARY_LOGICAL_OP const & binaryLogicalOp = *std::get<erased<plc::BINARY_LOGICAL_OP>>(binaryOp);
-	ASSERT_TRUE(std::holds_alternative<erased<plc::MAPS_TO>>(binaryLogicalOp));
+	ASSERT_TRUE(std::holds_alternative<val<plc::BINARY_OP>>(result));
+	plc::BINARY_OP const & binaryOp = *std::get<val<plc::BINARY_OP>>(result);
+	ASSERT_TRUE(std::holds_alternative<val<plc::BINARY_LOGICAL_OP>>(binaryOp));
+	plc::BINARY_LOGICAL_OP const & binaryLogicalOp = *std::get<val<plc::BINARY_LOGICAL_OP>>(binaryOp);
+	ASSERT_TRUE(std::holds_alternative<val<plc::MAPS_TO>>(binaryLogicalOp));
 }
 
 TEST(PlcCompiler, ParseTypeConstraint) {

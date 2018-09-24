@@ -7,7 +7,7 @@
 #include <variant>
 #include <vector>
 
-#include "erased.hpp"
+#include "val.hpp"
 
 #include "parlex/detail/abstract_syntax_tree.hpp"
 #include "parlex/detail/builtins.hpp"
@@ -23,28 +23,28 @@ struct IC;
 struct CONDITIONAL {
 	int32_t document_position, consumed_character_count;
 
-	erased<EXPRESSION> condition;
+	val<EXPRESSION> condition;
 	
-	std::vector<erased<IC>> field_01;
+	std::vector<val<IC>> field_01;
 	
 	parlex::detail::document::text<literal_0x3F_t> dont_care2;
 	
-	std::vector<erased<IC>> field_02;
+	std::vector<val<IC>> field_02;
 	
-	erased<EXPRESSION> true_case;
+	val<EXPRESSION> true_case;
 	
-	std::vector<erased<IC>> field_03;
+	std::vector<val<IC>> field_03;
 	
 	parlex::detail::document::text<literal_0x3A_t> dont_care6;
 	
-	std::vector<erased<IC>> field_04;
+	std::vector<val<IC>> field_04;
 	
-	erased<EXPRESSION> false_case;
+	val<EXPRESSION> false_case;
 	
 
 
 	explicit CONDITIONAL
-		(int32_t documentPosition, int32_t consumedCharacterCount, erased<EXPRESSION> && condition, std::vector<erased<IC>> && field_01, parlex::detail::document::text<literal_0x3F_t> && dont_care2, std::vector<erased<IC>> && field_02, erased<EXPRESSION> && true_case, std::vector<erased<IC>> && field_03, parlex::detail::document::text<literal_0x3A_t> && dont_care6, std::vector<erased<IC>> && field_04, erased<EXPRESSION> && false_case)
+		(int32_t documentPosition, int32_t consumedCharacterCount, val<EXPRESSION> && condition, std::vector<val<IC>> && field_01, parlex::detail::document::text<literal_0x3F_t> && dont_care2, std::vector<val<IC>> && field_02, val<EXPRESSION> && true_case, std::vector<val<IC>> && field_03, parlex::detail::document::text<literal_0x3A_t> && dont_care6, std::vector<val<IC>> && field_04, val<EXPRESSION> && false_case)
 		: document_position(documentPosition), consumed_character_count(consumedCharacterCount), condition(std::move(condition)), field_01(std::move(field_01)), dont_care2(std::move(dont_care2)), field_02(std::move(field_02)), true_case(std::move(true_case)), field_03(std::move(field_03)), dont_care6(std::move(dont_care6)), field_04(std::move(field_04)), false_case(std::move(false_case)) {}
 
 	CONDITIONAL(CONDITIONAL const & other) = default;

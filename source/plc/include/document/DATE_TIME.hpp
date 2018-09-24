@@ -7,7 +7,7 @@
 #include <variant>
 #include <vector>
 
-#include "erased.hpp"
+#include "val.hpp"
 
 #include "parlex/detail/abstract_syntax_tree.hpp"
 #include "parlex/detail/builtins.hpp"
@@ -23,16 +23,16 @@ struct TIME;
 struct DATE_TIME {
 	int32_t document_position, consumed_character_count;
 
-	erased<DATE> field_1;
+	val<DATE> field_1;
 	
 	parlex::detail::document::text<literal_T_t> dont_care1;
 	
-	erased<TIME> field_2;
+	val<TIME> field_2;
 	
 
 
 	explicit DATE_TIME
-		(int32_t documentPosition, int32_t consumedCharacterCount, erased<DATE> && field_1, parlex::detail::document::text<literal_T_t> && dont_care1, erased<TIME> && field_2)
+		(int32_t documentPosition, int32_t consumedCharacterCount, val<DATE> && field_1, parlex::detail::document::text<literal_T_t> && dont_care1, val<TIME> && field_2)
 		: document_position(documentPosition), consumed_character_count(consumedCharacterCount), field_1(std::move(field_1)), dont_care1(std::move(dont_care1)), field_2(std::move(field_2)) {}
 
 	DATE_TIME(DATE_TIME const & other) = default;

@@ -7,7 +7,7 @@
 #include <variant>
 #include <vector>
 
-#include "erased.hpp"
+#include "val.hpp"
 
 #include "parlex/detail/abstract_syntax_tree.hpp"
 #include "parlex/detail/builtins.hpp"
@@ -23,9 +23,9 @@ struct IC;
 struct BIT_NOT_ASSIGNMENT {
 	int32_t document_position, consumed_character_count;
 
-	erased<EXPRESSION> field_1;
+	val<EXPRESSION> field_1;
 	
-	std::vector<erased<IC>> field_2;
+	std::vector<val<IC>> field_2;
 	
 	parlex::detail::document::text<literal_0x7E0x7E_t> dont_care2;
 	
@@ -37,7 +37,7 @@ struct BIT_NOT_ASSIGNMENT {
 
 
 	explicit BIT_NOT_ASSIGNMENT
-		(int32_t documentPosition, int32_t consumedCharacterCount, erased<EXPRESSION> && field_1, std::vector<erased<IC>> && field_2, parlex::detail::document::text<literal_0x7E0x7E_t> && dont_care2, std::variant<
+		(int32_t documentPosition, int32_t consumedCharacterCount, val<EXPRESSION> && field_1, std::vector<val<IC>> && field_2, parlex::detail::document::text<literal_0x7E0x7E_t> && dont_care2, std::variant<
 	parlex::detail::document::text<literal_0x3C0x2D_t>,
 	parlex::detail::document::text<literal_0xE20x860x90_t>
 > && field_3)

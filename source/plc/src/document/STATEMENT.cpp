@@ -32,28 +32,28 @@ plc::STATEMENT plc::STATEMENT::build(parlex::detail::ast_node const & n) {
 	parlex::detail::document::walk w{ n.children.cbegin(), n.children.cend() };
 	auto const & children = b->children;
 	auto v0 = parlex::detail::document::element<std::variant<
-		erased<ASSIGNMENT_CHAIN>,
-		erased<BREAK>,
-		erased<CONTINUE>,
-		erased<DEFINITION>,
-		erased<DO>,
-		erased<EXPRESSION>,
-		erased<FOR>,
-		erased<FOR_COLLECTION>,
-		erased<FREE>,
-		erased<IMPORT>,
-		erased<LOCK>,
-		erased<LOOP>,
-		erased<OP_ASSIGNMENT>,
-		erased<READ_LOCK>,
-		erased<RETURN>,
-		erased<THROW>,
-		erased<TRY>,
-		erased<TYPE_CONSTRAINT>,
-		erased<WRITE_LOCK>,
-		erased<USING>
+		val<ASSIGNMENT_CHAIN>,
+		val<BREAK>,
+		val<CONTINUE>,
+		val<DEFINITION>,
+		val<DO>,
+		val<EXPRESSION>,
+		val<FOR>,
+		val<FOR_COLLECTION>,
+		val<FREE>,
+		val<IMPORT>,
+		val<LOCK>,
+		val<LOOP>,
+		val<OP_ASSIGNMENT>,
+		val<READ_LOCK>,
+		val<RETURN>,
+		val<THROW>,
+		val<TRY>,
+		val<TYPE_CONSTRAINT>,
+		val<WRITE_LOCK>,
+		val<USING>
 	>>::build(&*children[0], w);
-	auto v1 = parlex::detail::document::element<std::vector<erased<IC>>>::build(&*children[1], w);
+	auto v1 = parlex::detail::document::element<std::vector<val<IC>>>::build(&*children[1], w);
 	auto v2 = parlex::detail::document::element<parlex::detail::document::text<literal_0x3B_t>>::build(&*children[2], w);
 	return STATEMENT(n.document_position, n.consumed_character_count, std::move(v0), std::move(v1), std::move(v2));
 }

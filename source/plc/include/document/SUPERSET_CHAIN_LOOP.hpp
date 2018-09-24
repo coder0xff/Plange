@@ -7,7 +7,7 @@
 #include <variant>
 #include <vector>
 
-#include "erased.hpp"
+#include "val.hpp"
 
 #include "parlex/detail/abstract_syntax_tree.hpp"
 #include "parlex/detail/builtins.hpp"
@@ -25,14 +25,14 @@ struct SUPERSET_CHAIN_LOOP {
 	int32_t document_position, consumed_character_count;
 
 	struct field_4_t {
-		std::vector<erased<IC>> field_1;
+		std::vector<val<IC>> field_1;
 		
-		erased<SUPERSET_CHAIN_LOOP> field_2;
+		val<SUPERSET_CHAIN_LOOP> field_2;
 		
 	
 	
 		explicit field_4_t
-			(std::vector<erased<IC>> && field_1, erased<SUPERSET_CHAIN_LOOP> && field_2)
+			(std::vector<val<IC>> && field_1, val<SUPERSET_CHAIN_LOOP> && field_2)
 			: field_1(std::move(field_1)), field_2(std::move(field_2)) {}
 	
 		field_4_t(field_4_t const & other) = default;
@@ -49,9 +49,9 @@ struct SUPERSET_CHAIN_LOOP {
 		parlex::detail::document::text<literal_psups_t>
 	> field_1;
 	
-	std::vector<erased<IC>> field_2;
+	std::vector<val<IC>> field_2;
 	
-	erased<EXPRESSION> field_3;
+	val<EXPRESSION> field_3;
 	
 	std::optional<field_4_t> field_4;
 	
@@ -64,7 +64,7 @@ struct SUPERSET_CHAIN_LOOP {
 	parlex::detail::document::text<literal_sups_t>,
 	parlex::detail::document::text<literal_0xE20x8A0x83_t>,
 	parlex::detail::document::text<literal_psups_t>
-> && field_1, std::vector<erased<IC>> && field_2, erased<EXPRESSION> && field_3, std::optional<field_4_t> && field_4)
+> && field_1, std::vector<val<IC>> && field_2, val<EXPRESSION> && field_3, std::optional<field_4_t> && field_4)
 		: document_position(documentPosition), consumed_character_count(consumedCharacterCount), field_1(std::move(field_1)), field_2(std::move(field_2)), field_3(std::move(field_3)), field_4(std::move(field_4)) {}
 
 	SUPERSET_CHAIN_LOOP(SUPERSET_CHAIN_LOOP const & other) = default;

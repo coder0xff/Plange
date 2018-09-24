@@ -389,8 +389,8 @@ static std::u32string extract_payload(std::u32string const & document, std::vect
 
 static std::u32string extract_xml_doc_string_payload(std::u32string const & document, XML_DOC_STRING_INTERIOR const * xmlDocStringInterior) {
 	while (true) {
-		if (std::holds_alternative<XML_DOC_STRING_INTERIOR_1_t>(*xmlDocStringInterior)) {
-			XML_DOC_STRING_INTERIOR_1_t const & x = std::get<XML_DOC_STRING_INTERIOR_1_t>(*xmlDocStringInterior);
+		if (std::holds_alternative<XML_DOC_STRING_INTERIOR_t>(*xmlDocStringInterior)) {
+			XML_DOC_STRING_INTERIOR_t const & x = std::get<XML_DOC_STRING_INTERIOR_t>(*xmlDocStringInterior);
 			xmlDocStringInterior = &*x.field_1;
 			continue;
 		}

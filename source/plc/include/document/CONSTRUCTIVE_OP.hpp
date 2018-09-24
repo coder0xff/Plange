@@ -7,7 +7,7 @@
 #include <variant>
 #include <vector>
 
-#include "erased.hpp"
+#include "val.hpp"
 
 #include "parlex/detail/abstract_syntax_tree.hpp"
 #include "parlex/detail/builtins.hpp"
@@ -23,10 +23,10 @@ struct NULL_COALESCE;
 struct PREPEND;
 
 typedef std::variant<
-	erased<COMPOSITION>,
-	erased<COMPOUND>,
-	erased<PREPEND>,
-	erased<NULL_COALESCE>
+	val<COMPOSITION>,
+	val<COMPOUND>,
+	val<PREPEND>,
+	val<NULL_COALESCE>
 > CONSTRUCTIVE_OP_base;
 
 struct CONSTRUCTIVE_OP: CONSTRUCTIVE_OP_base {

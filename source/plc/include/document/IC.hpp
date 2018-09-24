@@ -7,7 +7,7 @@
 #include <variant>
 #include <vector>
 
-#include "erased.hpp"
+#include "val.hpp"
 
 #include "parlex/detail/abstract_syntax_tree.hpp"
 #include "parlex/detail/builtins.hpp"
@@ -23,10 +23,10 @@ struct END_OF_LINE_COMMENT;
 struct WS;
 
 typedef std::variant<
-	erased<COMMENT>,
-	erased<EMBEDDED_COMMENT>,
-	erased<END_OF_LINE_COMMENT>,
-	erased<WS>
+	val<COMMENT>,
+	val<EMBEDDED_COMMENT>,
+	val<END_OF_LINE_COMMENT>,
+	val<WS>
 > IC_base;
 
 struct IC: IC_base {

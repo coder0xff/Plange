@@ -13,9 +13,9 @@ plc::TYPE_SCOPE_TYPE_CONSTRAINT plc::TYPE_SCOPE_TYPE_CONSTRAINT::build(parlex::d
 	static auto const * b = acceptor().behavior;
 	parlex::detail::document::walk w{ n.children.cbegin(), n.children.cend() };
 	auto const & children = b->children;
-	auto v0 = parlex::detail::document::element<erased<TYPE_CONSTRAINT_HEAD>>::build(&*children[0], w);
-	auto v1 = parlex::detail::document::element<std::vector<erased<IC>>>::build(&*children[1], w);
-	auto v2 = parlex::detail::document::element<erased<TYPE_SCOPE_TYPE_CONSTRAINT_CHAIN>>::build(&*children[2], w);
+	auto v0 = parlex::detail::document::element<val<TYPE_CONSTRAINT_HEAD>>::build(&*children[0], w);
+	auto v1 = parlex::detail::document::element<std::vector<val<IC>>>::build(&*children[1], w);
+	auto v2 = parlex::detail::document::element<val<TYPE_SCOPE_TYPE_CONSTRAINT_CHAIN>>::build(&*children[2], w);
 	return TYPE_SCOPE_TYPE_CONSTRAINT(n.document_position, n.consumed_character_count, std::move(v0), std::move(v1), std::move(v2));
 }
 

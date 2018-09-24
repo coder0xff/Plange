@@ -7,7 +7,7 @@
 #include <variant>
 #include <vector>
 
-#include "erased.hpp"
+#include "val.hpp"
 
 #include "parlex/detail/abstract_syntax_tree.hpp"
 #include "parlex/detail/builtins.hpp"
@@ -24,16 +24,16 @@ struct SUBSET_CHAIN_LOOP;
 struct SUBSET_CHAIN {
 	int32_t document_position, consumed_character_count;
 
-	erased<EXPRESSION> field_1;
+	val<EXPRESSION> field_1;
 	
-	std::vector<erased<IC>> field_2;
+	std::vector<val<IC>> field_2;
 	
-	erased<SUBSET_CHAIN_LOOP> field_3;
+	val<SUBSET_CHAIN_LOOP> field_3;
 	
 
 
 	explicit SUBSET_CHAIN
-		(int32_t documentPosition, int32_t consumedCharacterCount, erased<EXPRESSION> && field_1, std::vector<erased<IC>> && field_2, erased<SUBSET_CHAIN_LOOP> && field_3)
+		(int32_t documentPosition, int32_t consumedCharacterCount, val<EXPRESSION> && field_1, std::vector<val<IC>> && field_2, val<SUBSET_CHAIN_LOOP> && field_3)
 		: document_position(documentPosition), consumed_character_count(consumedCharacterCount), field_1(std::move(field_1)), field_2(std::move(field_2)), field_3(std::move(field_3)) {}
 
 	SUBSET_CHAIN(SUBSET_CHAIN const & other) = default;

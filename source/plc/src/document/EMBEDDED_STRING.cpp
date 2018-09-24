@@ -12,7 +12,7 @@ plc::EMBEDDED_STRING plc::EMBEDDED_STRING::build(parlex::detail::ast_node const 
 	parlex::detail::document::walk w{ n.children.cbegin(), n.children.cend() };
 	auto const & children = b->children;
 	auto v0 = parlex::detail::document::element<parlex::detail::document::text<literal_0x220x220x22_t>>::build(&*children[0], w);
-	auto v1 = parlex::detail::document::element<erased<EMBEDDED_STRING_INTERIOR>>::build(&*children[1], w);
+	auto v1 = parlex::detail::document::element<val<EMBEDDED_STRING_INTERIOR>>::build(&*children[1], w);
 	auto v2 = parlex::detail::document::element<parlex::detail::document::text<literal_0x220x220x22_t>>::build(&*children[2], w);
 	return EMBEDDED_STRING(n.document_position, n.consumed_character_count, std::move(v0), std::move(v1), std::move(v2));
 }

@@ -13,8 +13,8 @@ plc::ALLOCATION plc::ALLOCATION::build(parlex::detail::ast_node const & n) {
 	parlex::detail::document::walk w{ n.children.cbegin(), n.children.cend() };
 	auto const & children = b->children;
 	auto v0 = parlex::detail::document::element<parlex::detail::document::text<literal_alloc_t>>::build(&*children[0], w);
-	auto v1 = parlex::detail::document::element<std::vector<erased<IC>>>::build(&*children[1], w);
-	auto v2 = parlex::detail::document::element<erased<PARENTHETICAL_INVOCATION>>::build(&*children[2], w);
+	auto v1 = parlex::detail::document::element<std::vector<val<IC>>>::build(&*children[1], w);
+	auto v2 = parlex::detail::document::element<val<PARENTHETICAL_INVOCATION>>::build(&*children[2], w);
 	return ALLOCATION(n.document_position, n.consumed_character_count, std::move(v0), std::move(v1), std::move(v2));
 }
 

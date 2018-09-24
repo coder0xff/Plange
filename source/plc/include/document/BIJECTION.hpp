@@ -7,7 +7,7 @@
 #include <variant>
 #include <vector>
 
-#include "erased.hpp"
+#include "val.hpp"
 
 #include "parlex/detail/abstract_syntax_tree.hpp"
 #include "parlex/detail/builtins.hpp"
@@ -23,26 +23,26 @@ struct IC;
 struct BIJECTION {
 	int32_t document_position, consumed_character_count;
 
-	erased<EXPRESSION> field_1;
+	val<EXPRESSION> field_1;
 	
-	std::vector<erased<IC>> field_2;
+	std::vector<val<IC>> field_2;
 	
 	std::variant<
 		parlex::detail::document::text<literal_0xE20x860x94_t>,
 		parlex::detail::document::text<literal_0x3C0x2D0x3E_t>
 	> field_3;
 	
-	std::vector<erased<IC>> field_4;
+	std::vector<val<IC>> field_4;
 	
-	erased<EXPRESSION> field_5;
+	val<EXPRESSION> field_5;
 	
 
 
 	explicit BIJECTION
-		(int32_t documentPosition, int32_t consumedCharacterCount, erased<EXPRESSION> && field_1, std::vector<erased<IC>> && field_2, std::variant<
+		(int32_t documentPosition, int32_t consumedCharacterCount, val<EXPRESSION> && field_1, std::vector<val<IC>> && field_2, std::variant<
 	parlex::detail::document::text<literal_0xE20x860x94_t>,
 	parlex::detail::document::text<literal_0x3C0x2D0x3E_t>
-> && field_3, std::vector<erased<IC>> && field_4, erased<EXPRESSION> && field_5)
+> && field_3, std::vector<val<IC>> && field_4, val<EXPRESSION> && field_5)
 		: document_position(documentPosition), consumed_character_count(consumedCharacterCount), field_1(std::move(field_1)), field_2(std::move(field_2)), field_3(std::move(field_3)), field_4(std::move(field_4)), field_5(std::move(field_5)) {}
 
 	BIJECTION(BIJECTION const & other) = default;

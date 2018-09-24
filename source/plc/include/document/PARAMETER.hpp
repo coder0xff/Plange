@@ -7,7 +7,7 @@
 #include <variant>
 #include <vector>
 
-#include "erased.hpp"
+#include "val.hpp"
 
 #include "parlex/detail/abstract_syntax_tree.hpp"
 #include "parlex/detail/builtins.hpp"
@@ -21,8 +21,8 @@ struct PARAMETER_ANALYTIC;
 struct PARAMETER_NATURAL;
 
 typedef std::variant<
-	erased<PARAMETER_NATURAL>,
-	erased<PARAMETER_ANALYTIC>
+	val<PARAMETER_NATURAL>,
+	val<PARAMETER_ANALYTIC>
 > PARAMETER_base;
 
 struct PARAMETER: PARAMETER_base {

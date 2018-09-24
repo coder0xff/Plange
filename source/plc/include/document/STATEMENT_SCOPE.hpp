@@ -7,7 +7,7 @@
 #include <variant>
 #include <vector>
 
-#include "erased.hpp"
+#include "val.hpp"
 
 #include "parlex/detail/abstract_syntax_tree.hpp"
 #include "parlex/detail/builtins.hpp"
@@ -21,8 +21,8 @@ struct IC;
 struct STATEMENT;
 
 typedef std::vector<std::variant<
-	erased<IC>,
-	erased<STATEMENT>
+	val<IC>,
+	val<STATEMENT>
 >> STATEMENT_SCOPE_base;
 
 struct STATEMENT_SCOPE: STATEMENT_SCOPE_base {

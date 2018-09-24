@@ -7,7 +7,7 @@
 #include <variant>
 #include <vector>
 
-#include "erased.hpp"
+#include "val.hpp"
 
 #include "parlex/detail/abstract_syntax_tree.hpp"
 #include "parlex/detail/builtins.hpp"
@@ -23,10 +23,10 @@ struct NOT_HAS;
 struct NOT_IN;
 
 typedef std::variant<
-	erased<HAS>,
-	erased<IN>,
-	erased<NOT_HAS>,
-	erased<NOT_IN>
+	val<HAS>,
+	val<IN>,
+	val<NOT_HAS>,
+	val<NOT_IN>
 > RELATIONAL_COLLECTION_OP_base;
 
 struct RELATIONAL_COLLECTION_OP: RELATIONAL_COLLECTION_OP_base {

@@ -7,7 +7,7 @@
 #include <variant>
 #include <vector>
 
-#include "erased.hpp"
+#include "val.hpp"
 
 #include "parlex/detail/abstract_syntax_tree.hpp"
 #include "parlex/detail/builtins.hpp"
@@ -27,12 +27,12 @@ struct ASM_PTR_ARITHMETIC_ATT_REG {
 		struct field_1_t {
 			parlex::detail::document::text<literal_0x2C_t> dont_care0;
 			
-			erased<NON_NEG_NON_FRACTIONAL> field_1;
+			val<NON_NEG_NON_FRACTIONAL> field_1;
 			
 		
 		
 			explicit field_1_t
-				(parlex::detail::document::text<literal_0x2C_t> && dont_care0, erased<NON_NEG_NON_FRACTIONAL> && field_1)
+				(parlex::detail::document::text<literal_0x2C_t> && dont_care0, val<NON_NEG_NON_FRACTIONAL> && field_1)
 				: dont_care0(std::move(dont_care0)), field_1(std::move(field_1)) {}
 		
 			field_1_t(field_1_t const & other) = default;
@@ -43,14 +43,14 @@ struct ASM_PTR_ARITHMETIC_ATT_REG {
 	
 		parlex::detail::document::text<literal_0x2C_t> dont_care0;
 		
-		erased<ASM_IDENTIFIER> asm_identifier;
+		val<ASM_IDENTIFIER> asm_identifier;
 		
 		std::optional<field_1_t> field_1;
 		
 	
 	
 		explicit field_2_t
-			(parlex::detail::document::text<literal_0x2C_t> && dont_care0, erased<ASM_IDENTIFIER> && asm_identifier, std::optional<field_1_t> && field_1)
+			(parlex::detail::document::text<literal_0x2C_t> && dont_care0, val<ASM_IDENTIFIER> && asm_identifier, std::optional<field_1_t> && field_1)
 			: dont_care0(std::move(dont_care0)), asm_identifier(std::move(asm_identifier)), field_1(std::move(field_1)) {}
 	
 		field_2_t(field_2_t const & other) = default;
@@ -61,7 +61,7 @@ struct ASM_PTR_ARITHMETIC_ATT_REG {
 
 	parlex::detail::document::text<literal_0x28_t> dont_care0;
 	
-	std::optional<erased<ASM_IDENTIFIER>> field_1;
+	std::optional<val<ASM_IDENTIFIER>> field_1;
 	
 	std::optional<field_2_t> field_2;
 	
@@ -70,7 +70,7 @@ struct ASM_PTR_ARITHMETIC_ATT_REG {
 
 
 	explicit ASM_PTR_ARITHMETIC_ATT_REG
-		(int32_t documentPosition, int32_t consumedCharacterCount, parlex::detail::document::text<literal_0x28_t> && dont_care0, std::optional<erased<ASM_IDENTIFIER>> && field_1, std::optional<field_2_t> && field_2, parlex::detail::document::text<literal_0x29_t> && dont_care3)
+		(int32_t documentPosition, int32_t consumedCharacterCount, parlex::detail::document::text<literal_0x28_t> && dont_care0, std::optional<val<ASM_IDENTIFIER>> && field_1, std::optional<field_2_t> && field_2, parlex::detail::document::text<literal_0x29_t> && dont_care3)
 		: document_position(documentPosition), consumed_character_count(consumedCharacterCount), dont_care0(std::move(dont_care0)), field_1(std::move(field_1)), field_2(std::move(field_2)), dont_care3(std::move(dont_care3)) {}
 
 	ASM_PTR_ARITHMETIC_ATT_REG(ASM_PTR_ARITHMETIC_ATT_REG const & other) = default;

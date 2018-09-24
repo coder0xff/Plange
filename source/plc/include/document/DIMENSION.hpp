@@ -7,7 +7,7 @@
 #include <variant>
 #include <vector>
 
-#include "erased.hpp"
+#include "val.hpp"
 
 #include "parlex/detail/abstract_syntax_tree.hpp"
 #include "parlex/detail/builtins.hpp"
@@ -21,8 +21,8 @@ struct DIMENSIONAL_ANALYSIS_OP;
 struct IDENTIFIER;
 
 typedef std::variant<
-	erased<IDENTIFIER>,
-	erased<DIMENSIONAL_ANALYSIS_OP>
+	val<IDENTIFIER>,
+	val<DIMENSIONAL_ANALYSIS_OP>
 > DIMENSION_base;
 
 struct DIMENSION: DIMENSION_base {

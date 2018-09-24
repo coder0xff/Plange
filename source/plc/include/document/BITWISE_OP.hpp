@@ -7,7 +7,7 @@
 #include <variant>
 #include <vector>
 
-#include "erased.hpp"
+#include "val.hpp"
 
 #include "parlex/detail/abstract_syntax_tree.hpp"
 #include "parlex/detail/builtins.hpp"
@@ -22,9 +22,9 @@ struct BIT_OR;
 struct BIT_XOR;
 
 typedef std::variant<
-	erased<BIT_AND>,
-	erased<BIT_OR>,
-	erased<BIT_XOR>
+	val<BIT_AND>,
+	val<BIT_OR>,
+	val<BIT_XOR>
 > BITWISE_OP_base;
 
 struct BITWISE_OP: BITWISE_OP_base {

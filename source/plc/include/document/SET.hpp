@@ -7,7 +7,7 @@
 #include <variant>
 #include <vector>
 
-#include "erased.hpp"
+#include "val.hpp"
 
 #include "parlex/detail/abstract_syntax_tree.hpp"
 #include "parlex/detail/builtins.hpp"
@@ -25,18 +25,18 @@ struct SET {
 
 	struct elements_t {
 		struct field_2_t {
-			std::vector<erased<IC>> field_1;
+			std::vector<val<IC>> field_1;
 			
 			parlex::detail::document::text<literal_0x2C_t> dont_care1;
 			
-			std::vector<erased<IC>> field_2;
+			std::vector<val<IC>> field_2;
 			
-			erased<EXPRESSION> field_3;
+			val<EXPRESSION> field_3;
 			
 		
 		
 			explicit field_2_t
-				(std::vector<erased<IC>> && field_1, parlex::detail::document::text<literal_0x2C_t> && dont_care1, std::vector<erased<IC>> && field_2, erased<EXPRESSION> && field_3)
+				(std::vector<val<IC>> && field_1, parlex::detail::document::text<literal_0x2C_t> && dont_care1, std::vector<val<IC>> && field_2, val<EXPRESSION> && field_3)
 				: field_1(std::move(field_1)), dont_care1(std::move(dont_care1)), field_2(std::move(field_2)), field_3(std::move(field_3)) {}
 		
 			field_2_t(field_2_t const & other) = default;
@@ -45,16 +45,16 @@ struct SET {
 			static field_2_t build(parlex::detail::node const * b, parlex::detail::document::walk & w);
 		};
 	
-		erased<EXPRESSION> field_1;
+		val<EXPRESSION> field_1;
 		
 		std::vector<field_2_t> field_2;
 		
-		std::vector<erased<IC>> field_3;
+		std::vector<val<IC>> field_3;
 		
 	
 	
 		explicit elements_t
-			(erased<EXPRESSION> && field_1, std::vector<field_2_t> && field_2, std::vector<erased<IC>> && field_3)
+			(val<EXPRESSION> && field_1, std::vector<field_2_t> && field_2, std::vector<val<IC>> && field_3)
 			: field_1(std::move(field_1)), field_2(std::move(field_2)), field_3(std::move(field_3)) {}
 	
 		elements_t(elements_t const & other) = default;
@@ -65,7 +65,7 @@ struct SET {
 
 	parlex::detail::document::text<literal_0x7B0x7C_t> dont_care0;
 	
-	std::vector<erased<IC>> field_1;
+	std::vector<val<IC>> field_1;
 	
 	std::optional<elements_t> elements;
 	
@@ -74,7 +74,7 @@ struct SET {
 
 
 	explicit SET
-		(int32_t documentPosition, int32_t consumedCharacterCount, parlex::detail::document::text<literal_0x7B0x7C_t> && dont_care0, std::vector<erased<IC>> && field_1, std::optional<elements_t> && elements, parlex::detail::document::text<literal_0x7C0x7D_t> && dont_care3)
+		(int32_t documentPosition, int32_t consumedCharacterCount, parlex::detail::document::text<literal_0x7B0x7C_t> && dont_care0, std::vector<val<IC>> && field_1, std::optional<elements_t> && elements, parlex::detail::document::text<literal_0x7C0x7D_t> && dont_care3)
 		: document_position(documentPosition), consumed_character_count(consumedCharacterCount), dont_care0(std::move(dont_care0)), field_1(std::move(field_1)), elements(std::move(elements)), dont_care3(std::move(dont_care3)) {}
 
 	SET(SET const & other) = default;

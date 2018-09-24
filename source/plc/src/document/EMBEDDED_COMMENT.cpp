@@ -12,7 +12,7 @@ plc::EMBEDDED_COMMENT plc::EMBEDDED_COMMENT::build(parlex::detail::ast_node cons
 	parlex::detail::document::walk w{ n.children.cbegin(), n.children.cend() };
 	auto const & children = b->children;
 	auto v0 = parlex::detail::document::element<parlex::detail::document::text<literal_0x2F0x2A0x2A0x2A_t>>::build(&*children[0], w);
-	auto v1 = parlex::detail::document::element<erased<EMBEDDED_COMMENT_INTERIOR>>::build(&*children[1], w);
+	auto v1 = parlex::detail::document::element<val<EMBEDDED_COMMENT_INTERIOR>>::build(&*children[1], w);
 	auto v2 = parlex::detail::document::element<parlex::detail::document::text<literal_0x2A0x2A0x2A0x2F_t>>::build(&*children[2], w);
 	return EMBEDDED_COMMENT(n.document_position, n.consumed_character_count, std::move(v0), std::move(v1), std::move(v2));
 }

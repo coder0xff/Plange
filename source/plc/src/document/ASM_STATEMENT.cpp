@@ -11,14 +11,14 @@
 
 plc::ASM_STATEMENT::field_2_t::field_3_t::field_2_t plc::ASM_STATEMENT::field_2_t::field_3_t::field_2_t::build(parlex::detail::node const * b, parlex::detail::document::walk & w) {
 	auto const & children = b->children;
-	auto v0 = parlex::detail::document::element<std::vector<erased<IC>>>::build(&*children[0], w);
-	auto v1 = parlex::detail::document::element<erased<ASM_EXPRESSION>>::build(&*children[1], w);
+	auto v0 = parlex::detail::document::element<std::vector<val<IC>>>::build(&*children[0], w);
+	auto v1 = parlex::detail::document::element<val<ASM_EXPRESSION>>::build(&*children[1], w);
 	return field_2_t(std::move(v0), std::move(v1));
 }
 
 plc::ASM_STATEMENT::field_2_t::field_3_t plc::ASM_STATEMENT::field_2_t::field_3_t::build(parlex::detail::node const * b, parlex::detail::document::walk & w) {
 	auto const & children = b->children;
-	auto v0 = parlex::detail::document::element<std::vector<erased<IC>>>::build(&*children[0], w);
+	auto v0 = parlex::detail::document::element<std::vector<val<IC>>>::build(&*children[0], w);
 	auto v1 = parlex::detail::document::element<parlex::detail::document::text<literal_0x2C_t>>::build(&*children[1], w);
 	auto v2 = parlex::detail::document::element<std::optional<field_2_t>>::build(&*children[2], w);
 	return field_3_t(std::move(v0), std::move(v1), std::move(v2));
@@ -26,8 +26,8 @@ plc::ASM_STATEMENT::field_2_t::field_3_t plc::ASM_STATEMENT::field_2_t::field_3_
 
 plc::ASM_STATEMENT::field_2_t plc::ASM_STATEMENT::field_2_t::build(parlex::detail::node const * b, parlex::detail::document::walk & w) {
 	auto const & children = b->children;
-	auto v0 = parlex::detail::document::element<std::vector<erased<IC>>>::build(&*children[0], w);
-	auto v1 = parlex::detail::document::element<erased<ASM_EXPRESSION>>::build(&*children[1], w);
+	auto v0 = parlex::detail::document::element<std::vector<val<IC>>>::build(&*children[0], w);
+	auto v1 = parlex::detail::document::element<val<ASM_EXPRESSION>>::build(&*children[1], w);
 	auto v2 = parlex::detail::document::element<std::vector<field_3_t>>::build(&*children[2], w);
 	return field_2_t(std::move(v0), std::move(v1), std::move(v2));
 }
@@ -36,9 +36,9 @@ plc::ASM_STATEMENT plc::ASM_STATEMENT::build(parlex::detail::ast_node const & n)
 	static auto const * b = acceptor().behavior;
 	parlex::detail::document::walk w{ n.children.cbegin(), n.children.cend() };
 	auto const & children = b->children;
-	auto v0 = parlex::detail::document::element<erased<ASM_OP>>::build(&*children[0], w);
+	auto v0 = parlex::detail::document::element<val<ASM_OP>>::build(&*children[0], w);
 	auto v1 = parlex::detail::document::element<std::optional<field_2_t>>::build(&*children[1], w);
-	auto v2 = parlex::detail::document::element<std::vector<erased<IC>>>::build(&*children[2], w);
+	auto v2 = parlex::detail::document::element<std::vector<val<IC>>>::build(&*children[2], w);
 	auto v3 = parlex::detail::document::element<parlex::detail::document::text<literal_0x0A_t>>::build(&*children[3], w);
 	return ASM_STATEMENT(n.document_position, n.consumed_character_count, std::move(v0), std::move(v1), std::move(v2), std::move(v3));
 }
