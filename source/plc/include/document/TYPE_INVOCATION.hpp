@@ -7,7 +7,7 @@
 #include <variant>
 #include <vector>
 
-#include "erased.hpp"
+#include "val.hpp"
 
 #include "parlex/detail/abstract_syntax_tree.hpp"
 #include "parlex/detail/builtins.hpp"
@@ -27,19 +27,19 @@ struct TYPE_INVOCATION {
 
 	struct field_1_t {
 		struct argsHead_t {
-			std::vector<erased<IC>> field_1;
+			std::vector<val<IC>> field_1;
 			
 			std::variant<
-				erased<ARGUMENT>,
-				erased<ARGUMENT_PACK>
+				val<ARGUMENT>,
+				val<ARGUMENT_PACK>
 			> field_2;
 			
 		
 		
 			explicit argsHead_t
-				(std::vector<erased<IC>> && field_1, std::variant<
-			erased<ARGUMENT>,
-			erased<ARGUMENT_PACK>
+				(std::vector<val<IC>> && field_1, std::variant<
+			val<ARGUMENT>,
+			val<ARGUMENT_PACK>
 		> && field_2)
 				: field_1(std::move(field_1)), field_2(std::move(field_2)) {}
 		
@@ -51,19 +51,19 @@ struct TYPE_INVOCATION {
 	
 		struct argsTail_t {
 			struct field_2_t {
-				std::vector<erased<IC>> field_1;
+				std::vector<val<IC>> field_1;
 				
 				std::variant<
-					erased<ARGUMENT>,
-					erased<ARGUMENT_PACK>
+					val<ARGUMENT>,
+					val<ARGUMENT_PACK>
 				> field_2;
 				
 			
 			
 				explicit field_2_t
-					(std::vector<erased<IC>> && field_1, std::variant<
-				erased<ARGUMENT>,
-				erased<ARGUMENT_PACK>
+					(std::vector<val<IC>> && field_1, std::variant<
+				val<ARGUMENT>,
+				val<ARGUMENT_PACK>
 			> && field_2)
 					: field_1(std::move(field_1)), field_2(std::move(field_2)) {}
 			
@@ -73,7 +73,7 @@ struct TYPE_INVOCATION {
 				static field_2_t build(parlex::detail::node const * b, parlex::detail::document::walk & w);
 			};
 		
-			std::vector<erased<IC>> field_1;
+			std::vector<val<IC>> field_1;
 			
 			parlex::detail::document::text<literal_0x2C_t> dont_care1;
 			
@@ -82,7 +82,7 @@ struct TYPE_INVOCATION {
 		
 		
 			explicit argsTail_t
-				(std::vector<erased<IC>> && field_1, parlex::detail::document::text<literal_0x2C_t> && dont_care1, std::optional<field_2_t> && field_2)
+				(std::vector<val<IC>> && field_1, parlex::detail::document::text<literal_0x2C_t> && dont_care1, std::optional<field_2_t> && field_2)
 				: field_1(std::move(field_1)), dont_care1(std::move(dont_care1)), field_2(std::move(field_2)) {}
 		
 			argsTail_t(argsTail_t const & other) = default;
@@ -97,14 +97,14 @@ struct TYPE_INVOCATION {
 		
 		std::vector<argsTail_t> argsTail;
 		
-		std::vector<erased<IC>> field_1;
+		std::vector<val<IC>> field_1;
 		
 		parlex::detail::document::text<literal_0x3E_t> dont_care4;
 		
 	
 	
 		explicit field_1_t
-			(parlex::detail::document::text<literal_0x3C_t> && dont_care0, std::optional<argsHead_t> && argsHead, std::vector<argsTail_t> && argsTail, std::vector<erased<IC>> && field_1, parlex::detail::document::text<literal_0x3E_t> && dont_care4)
+			(parlex::detail::document::text<literal_0x3C_t> && dont_care0, std::optional<argsHead_t> && argsHead, std::vector<argsTail_t> && argsTail, std::vector<val<IC>> && field_1, parlex::detail::document::text<literal_0x3E_t> && dont_care4)
 			: dont_care0(std::move(dont_care0)), argsHead(std::move(argsHead)), argsTail(std::move(argsTail)), field_1(std::move(field_1)), dont_care4(std::move(dont_care4)) {}
 	
 		field_1_t(field_1_t const & other) = default;
@@ -113,14 +113,14 @@ struct TYPE_INVOCATION {
 		static field_1_t build(parlex::detail::node const * b, parlex::detail::document::walk & w);
 	};
 
-	erased<EXPRESSION> target;
+	val<EXPRESSION> target;
 	
 	field_1_t field_1;
 	
 
 
 	explicit TYPE_INVOCATION
-		(int32_t documentPosition, int32_t consumedCharacterCount, erased<EXPRESSION> && target, field_1_t && field_1)
+		(int32_t documentPosition, int32_t consumedCharacterCount, val<EXPRESSION> && target, field_1_t && field_1)
 		: document_position(documentPosition), consumed_character_count(consumedCharacterCount), target(std::move(target)), field_1(std::move(field_1)) {}
 
 	TYPE_INVOCATION(TYPE_INVOCATION const & other) = default;

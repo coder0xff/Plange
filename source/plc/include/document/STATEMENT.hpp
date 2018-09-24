@@ -7,7 +7,7 @@
 #include <variant>
 #include <vector>
 
-#include "erased.hpp"
+#include "val.hpp"
 
 #include "parlex/detail/abstract_syntax_tree.hpp"
 #include "parlex/detail/builtins.hpp"
@@ -43,29 +43,29 @@ struct STATEMENT {
 	int32_t document_position, consumed_character_count;
 
 	std::variant<
-		erased<ASSIGNMENT_CHAIN>,
-		erased<BREAK>,
-		erased<CONTINUE>,
-		erased<DEFINITION>,
-		erased<DO>,
-		erased<EXPRESSION>,
-		erased<FOR>,
-		erased<FOR_COLLECTION>,
-		erased<FREE>,
-		erased<IMPORT>,
-		erased<LOCK>,
-		erased<LOOP>,
-		erased<OP_ASSIGNMENT>,
-		erased<READ_LOCK>,
-		erased<RETURN>,
-		erased<THROW>,
-		erased<TRY>,
-		erased<TYPE_CONSTRAINT>,
-		erased<WRITE_LOCK>,
-		erased<USING>
+		val<ASSIGNMENT_CHAIN>,
+		val<BREAK>,
+		val<CONTINUE>,
+		val<DEFINITION>,
+		val<DO>,
+		val<EXPRESSION>,
+		val<FOR>,
+		val<FOR_COLLECTION>,
+		val<FREE>,
+		val<IMPORT>,
+		val<LOCK>,
+		val<LOOP>,
+		val<OP_ASSIGNMENT>,
+		val<READ_LOCK>,
+		val<RETURN>,
+		val<THROW>,
+		val<TRY>,
+		val<TYPE_CONSTRAINT>,
+		val<WRITE_LOCK>,
+		val<USING>
 	> value;
 	
-	std::vector<erased<IC>> ic;
+	std::vector<val<IC>> ic;
 	
 	parlex::detail::document::text<literal_0x3B_t> dont_care2;
 	
@@ -73,27 +73,27 @@ struct STATEMENT {
 
 	explicit STATEMENT
 		(int32_t documentPosition, int32_t consumedCharacterCount, std::variant<
-	erased<ASSIGNMENT_CHAIN>,
-	erased<BREAK>,
-	erased<CONTINUE>,
-	erased<DEFINITION>,
-	erased<DO>,
-	erased<EXPRESSION>,
-	erased<FOR>,
-	erased<FOR_COLLECTION>,
-	erased<FREE>,
-	erased<IMPORT>,
-	erased<LOCK>,
-	erased<LOOP>,
-	erased<OP_ASSIGNMENT>,
-	erased<READ_LOCK>,
-	erased<RETURN>,
-	erased<THROW>,
-	erased<TRY>,
-	erased<TYPE_CONSTRAINT>,
-	erased<WRITE_LOCK>,
-	erased<USING>
-> && value, std::vector<erased<IC>> && ic, parlex::detail::document::text<literal_0x3B_t> && dont_care2)
+	val<ASSIGNMENT_CHAIN>,
+	val<BREAK>,
+	val<CONTINUE>,
+	val<DEFINITION>,
+	val<DO>,
+	val<EXPRESSION>,
+	val<FOR>,
+	val<FOR_COLLECTION>,
+	val<FREE>,
+	val<IMPORT>,
+	val<LOCK>,
+	val<LOOP>,
+	val<OP_ASSIGNMENT>,
+	val<READ_LOCK>,
+	val<RETURN>,
+	val<THROW>,
+	val<TRY>,
+	val<TYPE_CONSTRAINT>,
+	val<WRITE_LOCK>,
+	val<USING>
+> && value, std::vector<val<IC>> && ic, parlex::detail::document::text<literal_0x3B_t> && dont_care2)
 		: document_position(documentPosition), consumed_character_count(consumedCharacterCount), value(std::move(value)), ic(std::move(ic)), dont_care2(std::move(dont_care2)) {}
 
 	STATEMENT(STATEMENT const & other) = default;

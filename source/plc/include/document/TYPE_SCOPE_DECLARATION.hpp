@@ -7,7 +7,7 @@
 #include <variant>
 #include <vector>
 
-#include "erased.hpp"
+#include "val.hpp"
 
 #include "parlex/detail/abstract_syntax_tree.hpp"
 #include "parlex/detail/builtins.hpp"
@@ -26,14 +26,14 @@ struct TYPE_SCOPE_DECLARATION {
 	int32_t document_position, consumed_character_count;
 
 	struct field_1_t {
-		erased<XML_DOC_STRING> field_1;
+		val<XML_DOC_STRING> field_1;
 		
-		std::vector<erased<IC>> field_2;
+		std::vector<val<IC>> field_2;
 		
 	
 	
 		explicit field_1_t
-			(erased<XML_DOC_STRING> && field_1, std::vector<erased<IC>> && field_2)
+			(val<XML_DOC_STRING> && field_1, std::vector<val<IC>> && field_2)
 			: field_1(std::move(field_1)), field_2(std::move(field_2)) {}
 	
 		field_1_t(field_1_t const & other) = default;
@@ -43,14 +43,14 @@ struct TYPE_SCOPE_DECLARATION {
 	};
 
 	struct field_3_t {
-		std::vector<erased<IC>> field_1;
+		std::vector<val<IC>> field_1;
 		
-		erased<MEMBER_OFFSET> field_2;
+		val<MEMBER_OFFSET> field_2;
 		
 	
 	
 		explicit field_3_t
-			(std::vector<erased<IC>> && field_1, erased<MEMBER_OFFSET> && field_2)
+			(std::vector<val<IC>> && field_1, val<MEMBER_OFFSET> && field_2)
 			: field_1(std::move(field_1)), field_2(std::move(field_2)) {}
 	
 		field_3_t(field_3_t const & other) = default;
@@ -61,14 +61,14 @@ struct TYPE_SCOPE_DECLARATION {
 
 	std::optional<field_1_t> field_1;
 	
-	erased<IDENTIFIER> field_2;
+	val<IDENTIFIER> field_2;
 	
 	std::optional<field_3_t> field_3;
 	
 
 
 	explicit TYPE_SCOPE_DECLARATION
-		(int32_t documentPosition, int32_t consumedCharacterCount, std::optional<field_1_t> && field_1, erased<IDENTIFIER> && field_2, std::optional<field_3_t> && field_3)
+		(int32_t documentPosition, int32_t consumedCharacterCount, std::optional<field_1_t> && field_1, val<IDENTIFIER> && field_2, std::optional<field_3_t> && field_3)
 		: document_position(documentPosition), consumed_character_count(consumedCharacterCount), field_1(std::move(field_1)), field_2(std::move(field_2)), field_3(std::move(field_3)) {}
 
 	TYPE_SCOPE_DECLARATION(TYPE_SCOPE_DECLARATION const & other) = default;

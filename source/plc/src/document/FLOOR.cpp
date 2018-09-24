@@ -22,9 +22,9 @@ FLOOR FLOOR::build(parlex::detail::ast_node const & n) {
 plc::FLOOR1_t plc::FLOOR1_t::build(parlex::detail::node const * b, parlex::detail::document::walk & w) {
 	auto const & children = b->children;
 	auto v0 = parlex::detail::document::element<parlex::detail::document::text<literal_0xE20x8C0x8A_t>>::build(&*children[0], w);
-	auto v1 = parlex::detail::document::element<std::vector<erased<IC>>>::build(&*children[1], w);
-	auto v2 = parlex::detail::document::element<erased<EXPRESSION>>::build(&*children[2], w);
-	auto v3 = parlex::detail::document::element<std::vector<erased<IC>>>::build(&*children[3], w);
+	auto v1 = parlex::detail::document::element<std::vector<val<IC>>>::build(&*children[1], w);
+	auto v2 = parlex::detail::document::element<val<EXPRESSION>>::build(&*children[2], w);
+	auto v3 = parlex::detail::document::element<std::vector<val<IC>>>::build(&*children[3], w);
 	auto v4 = parlex::detail::document::element<parlex::detail::document::text<literal_0xE20x8C0x8B_t>>::build(&*children[4], w);
 	return FLOOR1_t(std::move(v0), std::move(v1), std::move(v2), std::move(v3), std::move(v4));
 }
@@ -32,9 +32,9 @@ plc::FLOOR1_t plc::FLOOR1_t::build(parlex::detail::node const * b, parlex::detai
 plc::FLOOR2_t plc::FLOOR2_t::build(parlex::detail::node const * b, parlex::detail::document::walk & w) {
 	auto const & children = b->children;
 	auto v0 = parlex::detail::document::element<parlex::detail::document::text<literal_0x7C__t>>::build(&*children[0], w);
-	auto v1 = parlex::detail::document::element<std::vector<erased<IC>>>::build(&*children[1], w);
-	auto v2 = parlex::detail::document::element<erased<EXPRESSION>>::build(&*children[2], w);
-	auto v3 = parlex::detail::document::element<std::vector<erased<IC>>>::build(&*children[3], w);
+	auto v1 = parlex::detail::document::element<std::vector<val<IC>>>::build(&*children[1], w);
+	auto v2 = parlex::detail::document::element<val<EXPRESSION>>::build(&*children[2], w);
+	auto v3 = parlex::detail::document::element<std::vector<val<IC>>>::build(&*children[3], w);
 	auto v4 = parlex::detail::document::element<parlex::detail::document::text<literal__0x7C_t>>::build(&*children[4], w);
 	return FLOOR2_t(std::move(v0), std::move(v1), std::move(v2), std::move(v3), std::move(v4));
 }

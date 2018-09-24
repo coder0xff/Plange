@@ -7,7 +7,7 @@
 #include <variant>
 #include <vector>
 
-#include "erased.hpp"
+#include "val.hpp"
 
 #include "parlex/detail/abstract_syntax_tree.hpp"
 #include "parlex/detail/builtins.hpp"
@@ -52,14 +52,14 @@ struct ASM_PTR_ARITHMETIC_INTEL {
 	};
 
 	struct field_2_t {
-		erased<ASM_IDENTIFIER> field_1;
+		val<ASM_IDENTIFIER> field_1;
 		
 		parlex::detail::document::text<literal_0x3A_t> dont_care1;
 		
 	
 	
 		explicit field_2_t
-			(erased<ASM_IDENTIFIER> && field_1, parlex::detail::document::text<literal_0x3A_t> && dont_care1)
+			(val<ASM_IDENTIFIER> && field_1, parlex::detail::document::text<literal_0x3A_t> && dont_care1)
 			: field_1(std::move(field_1)), dont_care1(std::move(dont_care1)) {}
 	
 		field_2_t(field_2_t const & other) = default;
@@ -72,12 +72,12 @@ struct ASM_PTR_ARITHMETIC_INTEL {
 		struct field_2_t {
 			parlex::detail::document::text<literal_0x2A_t> dont_care0;
 			
-			erased<NON_NEG_NON_FRACTIONAL> field_1;
+			val<NON_NEG_NON_FRACTIONAL> field_1;
 			
 		
 		
 			explicit field_2_t
-				(parlex::detail::document::text<literal_0x2A_t> && dont_care0, erased<NON_NEG_NON_FRACTIONAL> && field_1)
+				(parlex::detail::document::text<literal_0x2A_t> && dont_care0, val<NON_NEG_NON_FRACTIONAL> && field_1)
 				: dont_care0(std::move(dont_care0)), field_1(std::move(field_1)) {}
 		
 			field_2_t(field_2_t const & other) = default;
@@ -88,14 +88,14 @@ struct ASM_PTR_ARITHMETIC_INTEL {
 	
 		parlex::detail::document::text<literal_0x2B_t> dont_care0;
 		
-		erased<ASM_IDENTIFIER> field_1;
+		val<ASM_IDENTIFIER> field_1;
 		
 		std::optional<field_2_t> field_2;
 		
 	
 	
 		explicit field_4_t
-			(parlex::detail::document::text<literal_0x2B_t> && dont_care0, erased<ASM_IDENTIFIER> && field_1, std::optional<field_2_t> && field_2)
+			(parlex::detail::document::text<literal_0x2B_t> && dont_care0, val<ASM_IDENTIFIER> && field_1, std::optional<field_2_t> && field_2)
 			: dont_care0(std::move(dont_care0)), field_1(std::move(field_1)), field_2(std::move(field_2)) {}
 	
 		field_4_t(field_4_t const & other) = default;
@@ -110,7 +110,7 @@ struct ASM_PTR_ARITHMETIC_INTEL {
 			parlex::detail::document::text<literal_0x2D_t>
 		> field_1;
 		
-		erased<NON_NEG_INTEGER> field_2;
+		val<NON_NEG_INTEGER> field_2;
 		
 	
 	
@@ -118,7 +118,7 @@ struct ASM_PTR_ARITHMETIC_INTEL {
 			(std::variant<
 		parlex::detail::document::text<literal_0x2B_t>,
 		parlex::detail::document::text<literal_0x2D_t>
-	> && field_1, erased<NON_NEG_INTEGER> && field_2)
+	> && field_1, val<NON_NEG_INTEGER> && field_2)
 			: field_1(std::move(field_1)), field_2(std::move(field_2)) {}
 	
 		field_5_t(field_5_t const & other) = default;
@@ -133,7 +133,7 @@ struct ASM_PTR_ARITHMETIC_INTEL {
 	
 	std::optional<field_2_t> field_2;
 	
-	erased<ASM_IDENTIFIER> field_3;
+	val<ASM_IDENTIFIER> field_3;
 	
 	std::optional<field_4_t> field_4;
 	
@@ -144,7 +144,7 @@ struct ASM_PTR_ARITHMETIC_INTEL {
 
 
 	explicit ASM_PTR_ARITHMETIC_INTEL
-		(int32_t documentPosition, int32_t consumedCharacterCount, std::optional<field_1_t> && field_1, parlex::detail::document::text<literal_0x5B_t> && dont_care1, std::optional<field_2_t> && field_2, erased<ASM_IDENTIFIER> && field_3, std::optional<field_4_t> && field_4, std::optional<field_5_t> && field_5, parlex::detail::document::text<literal_0x5D_t> && dont_care6)
+		(int32_t documentPosition, int32_t consumedCharacterCount, std::optional<field_1_t> && field_1, parlex::detail::document::text<literal_0x5B_t> && dont_care1, std::optional<field_2_t> && field_2, val<ASM_IDENTIFIER> && field_3, std::optional<field_4_t> && field_4, std::optional<field_5_t> && field_5, parlex::detail::document::text<literal_0x5D_t> && dont_care6)
 		: document_position(documentPosition), consumed_character_count(consumedCharacterCount), field_1(std::move(field_1)), dont_care1(std::move(dont_care1)), field_2(std::move(field_2)), field_3(std::move(field_3)), field_4(std::move(field_4)), field_5(std::move(field_5)), dont_care6(std::move(dont_care6)) {}
 
 	ASM_PTR_ARITHMETIC_INTEL(ASM_PTR_ARITHMETIC_INTEL const & other) = default;

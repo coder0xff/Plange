@@ -6,7 +6,7 @@
 #include "parlex/detail/grammar.hpp"
 #include "parlex/filter_function.hpp"
 
-#include "erased.hpp"
+#include "val.hpp"
 
 namespace parlex {
 namespace detail {
@@ -52,7 +52,7 @@ public:
 	builder load_grammar(std::string const & rootId, std::map<std::string, production> const & definitions) const;
 	builder load_grammar(std::string const & rootId, std::u32string const & document, std::map<std::string, associativity> const & associativities = {}, std::set<std::string> const & longestNames = {}, std::set<std::string> const & shortestNames = {}) const;
 
-	erased<node> compile_expression(std::u32string const & source) const;
+	val<node> compile_expression(std::u32string const & source) const;
 
 private:
 	uint16_t const open_square;
@@ -69,10 +69,10 @@ private:
 
 	size_t c_string_recognizer_index;
 
-	erased<node> process_factor(std::u32string const & document, ast_node const & factor) const;
-	erased<node> process_term(std::u32string const & document, ast_node const & term) const;
-	erased<node> process_expression(std::u32string const & document, ast_node const & expression) const;
-	erased<node> process_production(std::u32string const & document, ast_node const & production) const;
+	val<node> process_factor(std::u32string const & document, ast_node const & factor) const;
+	val<node> process_term(std::u32string const & document, ast_node const & term) const;
+	val<node> process_expression(std::u32string const & document, ast_node const & expression) const;
+	val<node> process_production(std::u32string const & document, ast_node const & production) const;
 
 };
 

@@ -7,7 +7,7 @@
 #include <variant>
 #include <vector>
 
-#include "erased.hpp"
+#include "val.hpp"
 
 #include "parlex/detail/abstract_syntax_tree.hpp"
 #include "parlex/detail/builtins.hpp"
@@ -25,14 +25,14 @@ struct FUNCTION_MODIFIER_THROWING {
 	int32_t document_position, consumed_character_count;
 
 	struct field_1_t {
-		std::vector<erased<IC>> field_1;
+		std::vector<val<IC>> field_1;
 		
-		erased<ARRAY> field_2;
+		val<ARRAY> field_2;
 		
 	
 	
 		explicit field_1_t
-			(std::vector<erased<IC>> && field_1, erased<ARRAY> && field_2)
+			(std::vector<val<IC>> && field_1, val<ARRAY> && field_2)
 			: field_1(std::move(field_1)), field_2(std::move(field_2)) {}
 	
 		field_1_t(field_1_t const & other) = default;
@@ -42,16 +42,16 @@ struct FUNCTION_MODIFIER_THROWING {
 	};
 
 	struct field_2_t {
-		erased<IC> field_1;
+		val<IC> field_1;
 		
-		std::vector<erased<IC>> field_2;
+		std::vector<val<IC>> field_2;
 		
-		erased<FUNCTION_MODIFIER_2> field_3;
+		val<FUNCTION_MODIFIER_2> field_3;
 		
 	
 	
 		explicit field_2_t
-			(erased<IC> && field_1, std::vector<erased<IC>> && field_2, erased<FUNCTION_MODIFIER_2> && field_3)
+			(val<IC> && field_1, std::vector<val<IC>> && field_2, val<FUNCTION_MODIFIER_2> && field_3)
 			: field_1(std::move(field_1)), field_2(std::move(field_2)), field_3(std::move(field_3)) {}
 	
 		field_2_t(field_2_t const & other) = default;

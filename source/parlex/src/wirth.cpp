@@ -11,7 +11,7 @@
 namespace parlex {
 namespace detail {
 
-erased<node> wirth_t::process_factor(std::u32string const & document, ast_node const & factor) const {
+val<node> wirth_t::process_factor(std::u32string const & document, ast_node const & factor) const {
 
 	auto i = factor.children.begin();
 	std::string tag;
@@ -33,8 +33,8 @@ erased<node> wirth_t::process_factor(std::u32string const & document, ast_node c
 		tag = to_utf8(document.substr(j.document_position, j.consumed_character_count));
 	}
 
-	std::unique_ptr<erased<node>> result;
-	auto const set = [&result](erased<node> const & node) { result.reset(new erased<detail::node>(node)); };
+	std::unique_ptr<val<node>> result;
+	auto const set = [&result](val<node> const & node) { result.reset(new val<detail::node>(node)); };
 	if (i->recognizer_index == identifier_dfa) {
 		auto const name = to_utf8(document.substr(i->document_position, i->consumed_character_count));
 		set(reference(name));
@@ -67,7 +67,7 @@ erased<node> wirth_t::process_factor(std::u32string const & document, ast_node c
 	return *result;
 }
 
-erased<node> wirth_t::process_term(std::u32string const & document, ast_node const & term) const {
+val<node> wirth_t::process_term(std::u32string const & document, ast_node const & term) const {
 	std::vector<ast_node const *> factors;
 
 	for (auto const & entry : term.children) {
@@ -85,7 +85,7 @@ erased<node> wirth_t::process_term(std::u32string const & document, ast_node con
 	return result;
 }
 
-erased<node> wirth_t::process_expression(std::u32string const & document, ast_node const & expression) const {
+val<node> wirth_t::process_expression(std::u32string const & document, ast_node const & expression) const {
 	std::vector<ast_node const *> terms;
 
 	auto const & p = expression.children;
@@ -104,7 +104,7 @@ erased<node> wirth_t::process_expression(std::u32string const & document, ast_no
 	return result;
 }
 
-erased<node> wirth_t::compile_expression(std::u32string const & source) const {
+val<node> wirth_t::compile_expression(std::u32string const & source) const {
 	parser p;
 	auto assl = p.parse(*this, get_recognizer(expression_dfa), source, progress_bar);
 	if (!assl.is_rooted()) {
@@ -325,7 +325,7 @@ wirth_t::wirth_t() : grammar(generate_wirth()),
                      identifier_dfa(lookup_recognizer_index("identifier")),
 					 c_string_recognizer_index(grammar::lookup_recognizer_index("c_string")) {}
 
-erased<node> wirth_t::process_production(std::u32string const & document, ast_node const & production) const {
+val<node> wirth_t::process_production(std::u32string const & document, ast_node const & production) const {
 	for (auto const & entry : production.children) {
 		if (entry.recognizer_index == expression_dfa) {
 			return process_expression(document, entry);

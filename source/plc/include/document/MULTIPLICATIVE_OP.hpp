@@ -7,7 +7,7 @@
 #include <variant>
 #include <vector>
 
-#include "erased.hpp"
+#include "val.hpp"
 
 #include "parlex/detail/abstract_syntax_tree.hpp"
 #include "parlex/detail/builtins.hpp"
@@ -22,9 +22,9 @@ struct DOT_PRODUCT;
 struct MULTIPLICATION;
 
 typedef std::variant<
-	erased<CROSS_PRODUCT>,
-	erased<DOT_PRODUCT>,
-	erased<MULTIPLICATION>
+	val<CROSS_PRODUCT>,
+	val<DOT_PRODUCT>,
+	val<MULTIPLICATION>
 > MULTIPLICATIVE_OP_base;
 
 struct MULTIPLICATIVE_OP: MULTIPLICATIVE_OP_base {

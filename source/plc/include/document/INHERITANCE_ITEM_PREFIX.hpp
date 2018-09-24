@@ -7,7 +7,7 @@
 #include <variant>
 #include <vector>
 
-#include "erased.hpp"
+#include "val.hpp"
 
 #include "parlex/detail/abstract_syntax_tree.hpp"
 #include "parlex/detail/builtins.hpp"
@@ -24,18 +24,18 @@ struct INHERITANCE_ITEM_PREFIX {
 	int32_t document_position, consumed_character_count;
 
 	struct field_1_t2 {
-		erased<VISIBILITY_MODIFIER> field_1;
+		val<VISIBILITY_MODIFIER> field_1;
 		
-		erased<IC> field_2;
+		val<IC> field_2;
 		
-		std::vector<erased<IC>> field_3;
+		std::vector<val<IC>> field_3;
 		
 		parlex::detail::document::text<literal_diamond_t> diamond;
 		
 	
 	
 		explicit field_1_t2
-			(erased<VISIBILITY_MODIFIER> && field_1, erased<IC> && field_2, std::vector<erased<IC>> && field_3, parlex::detail::document::text<literal_diamond_t> && diamond)
+			(val<VISIBILITY_MODIFIER> && field_1, val<IC> && field_2, std::vector<val<IC>> && field_3, parlex::detail::document::text<literal_diamond_t> && diamond)
 			: field_1(std::move(field_1)), field_2(std::move(field_2)), field_3(std::move(field_3)), diamond(std::move(diamond)) {}
 	
 		field_1_t2(field_1_t2 const & other) = default;
@@ -45,23 +45,23 @@ struct INHERITANCE_ITEM_PREFIX {
 	};
 
 	std::variant<
-		erased<VISIBILITY_MODIFIER>,
+		val<VISIBILITY_MODIFIER>,
 		field_1_t2,
 		parlex::detail::document::text<literal_diamond_t>
 	> field_1;
 	
-	erased<IC> field_2;
+	val<IC> field_2;
 	
-	std::vector<erased<IC>> field_3;
+	std::vector<val<IC>> field_3;
 	
 
 
 	explicit INHERITANCE_ITEM_PREFIX
 		(int32_t documentPosition, int32_t consumedCharacterCount, std::variant<
-	erased<VISIBILITY_MODIFIER>,
+	val<VISIBILITY_MODIFIER>,
 	field_1_t2,
 	parlex::detail::document::text<literal_diamond_t>
-> && field_1, erased<IC> && field_2, std::vector<erased<IC>> && field_3)
+> && field_1, val<IC> && field_2, std::vector<val<IC>> && field_3)
 		: document_position(documentPosition), consumed_character_count(consumedCharacterCount), field_1(std::move(field_1)), field_2(std::move(field_2)), field_3(std::move(field_3)) {}
 
 	INHERITANCE_ITEM_PREFIX(INHERITANCE_ITEM_PREFIX const & other) = default;

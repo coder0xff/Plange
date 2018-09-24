@@ -7,7 +7,7 @@
 #include <variant>
 #include <vector>
 
-#include "erased.hpp"
+#include "val.hpp"
 
 #include "parlex/detail/abstract_syntax_tree.hpp"
 #include "parlex/detail/builtins.hpp"
@@ -24,14 +24,14 @@ struct IMPLICIT_TYPE_DEREFERENCE {
 
 	parlex::detail::document::text<literal_0x3C_t> dont_care0;
 	
-	std::vector<erased<IC>> field_1;
+	std::vector<val<IC>> field_1;
 	
 	parlex::detail::document::text<literal_0x3E_t> dont_care2;
 	
 
 
 	explicit IMPLICIT_TYPE_DEREFERENCE
-		(int32_t documentPosition, int32_t consumedCharacterCount, parlex::detail::document::text<literal_0x3C_t> && dont_care0, std::vector<erased<IC>> && field_1, parlex::detail::document::text<literal_0x3E_t> && dont_care2)
+		(int32_t documentPosition, int32_t consumedCharacterCount, parlex::detail::document::text<literal_0x3C_t> && dont_care0, std::vector<val<IC>> && field_1, parlex::detail::document::text<literal_0x3E_t> && dont_care2)
 		: document_position(documentPosition), consumed_character_count(consumedCharacterCount), dont_care0(std::move(dont_care0)), field_1(std::move(field_1)), dont_care2(std::move(dont_care2)) {}
 
 	IMPLICIT_TYPE_DEREFERENCE(IMPLICIT_TYPE_DEREFERENCE const & other) = default;

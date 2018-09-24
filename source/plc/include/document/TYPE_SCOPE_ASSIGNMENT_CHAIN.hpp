@@ -7,7 +7,7 @@
 #include <variant>
 #include <vector>
 
-#include "erased.hpp"
+#include "val.hpp"
 
 #include "parlex/detail/abstract_syntax_tree.hpp"
 #include "parlex/detail/builtins.hpp"
@@ -28,14 +28,14 @@ struct TYPE_SCOPE_ASSIGNMENT_CHAIN {
 	int32_t document_position, consumed_character_count;
 
 	struct field_1_t {
-		erased<XML_DOC_STRING> field_1;
+		val<XML_DOC_STRING> field_1;
 		
-		std::vector<erased<IC>> field_2;
+		std::vector<val<IC>> field_2;
 		
 	
 	
 		explicit field_1_t
-			(erased<XML_DOC_STRING> && field_1, std::vector<erased<IC>> && field_2)
+			(val<XML_DOC_STRING> && field_1, std::vector<val<IC>> && field_2)
 			: field_1(std::move(field_1)), field_2(std::move(field_2)) {}
 	
 		field_1_t(field_1_t const & other) = default;
@@ -45,14 +45,14 @@ struct TYPE_SCOPE_ASSIGNMENT_CHAIN {
 	};
 
 	struct field_3_t {
-		std::vector<erased<IC>> field_1;
+		std::vector<val<IC>> field_1;
 		
-		erased<MEMBER_OFFSET> field_2;
+		val<MEMBER_OFFSET> field_2;
 		
 	
 	
 		explicit field_3_t
-			(std::vector<erased<IC>> && field_1, erased<MEMBER_OFFSET> && field_2)
+			(std::vector<val<IC>> && field_1, val<MEMBER_OFFSET> && field_2)
 			: field_1(std::move(field_1)), field_2(std::move(field_2)) {}
 	
 		field_3_t(field_3_t const & other) = default;
@@ -63,33 +63,33 @@ struct TYPE_SCOPE_ASSIGNMENT_CHAIN {
 
 	std::optional<field_1_t> field_1;
 	
-	erased<IDENTIFIER> field_2;
+	val<IDENTIFIER> field_2;
 	
 	std::optional<field_3_t> field_3;
 	
-	std::vector<erased<IC>> field_4;
+	std::vector<val<IC>> field_4;
 	
 	std::variant<
 		parlex::detail::document::text<literal_0xE20x860x90_t>,
 		parlex::detail::document::text<literal_0x3C0x2D_t>
 	> field_5;
 	
-	std::vector<erased<IC>> field_6;
+	std::vector<val<IC>> field_6;
 	
 	std::variant<
-		erased<EXPRESSION>,
-		erased<ASSIGNMENT_CHAIN>
+		val<EXPRESSION>,
+		val<ASSIGNMENT_CHAIN>
 	> field_7;
 	
 
 
 	explicit TYPE_SCOPE_ASSIGNMENT_CHAIN
-		(int32_t documentPosition, int32_t consumedCharacterCount, std::optional<field_1_t> && field_1, erased<IDENTIFIER> && field_2, std::optional<field_3_t> && field_3, std::vector<erased<IC>> && field_4, std::variant<
+		(int32_t documentPosition, int32_t consumedCharacterCount, std::optional<field_1_t> && field_1, val<IDENTIFIER> && field_2, std::optional<field_3_t> && field_3, std::vector<val<IC>> && field_4, std::variant<
 	parlex::detail::document::text<literal_0xE20x860x90_t>,
 	parlex::detail::document::text<literal_0x3C0x2D_t>
-> && field_5, std::vector<erased<IC>> && field_6, std::variant<
-	erased<EXPRESSION>,
-	erased<ASSIGNMENT_CHAIN>
+> && field_5, std::vector<val<IC>> && field_6, std::variant<
+	val<EXPRESSION>,
+	val<ASSIGNMENT_CHAIN>
 > && field_7)
 		: document_position(documentPosition), consumed_character_count(consumedCharacterCount), field_1(std::move(field_1)), field_2(std::move(field_2)), field_3(std::move(field_3)), field_4(std::move(field_4)), field_5(std::move(field_5)), field_6(std::move(field_6)), field_7(std::move(field_7)) {}
 

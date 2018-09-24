@@ -14,17 +14,17 @@
 
 plc::TYPE_SCOPE_TYPE_CONSTRAINT_CHAIN::field_1_t plc::TYPE_SCOPE_TYPE_CONSTRAINT_CHAIN::field_1_t::build(parlex::detail::node const * b, parlex::detail::document::walk & w) {
 	auto const & children = b->children;
-	auto v0 = parlex::detail::document::element<erased<XML_DOC_STRING>>::build(&*children[0], w);
-	auto v1 = parlex::detail::document::element<std::vector<erased<IC>>>::build(&*children[1], w);
+	auto v0 = parlex::detail::document::element<val<XML_DOC_STRING>>::build(&*children[0], w);
+	auto v1 = parlex::detail::document::element<std::vector<val<IC>>>::build(&*children[1], w);
 	return field_1_t(std::move(v0), std::move(v1));
 }
 
 plc::TYPE_SCOPE_TYPE_CONSTRAINT_CHAIN::field_3_t plc::TYPE_SCOPE_TYPE_CONSTRAINT_CHAIN::field_3_t::build(parlex::detail::node const * b, parlex::detail::document::walk & w) {
 	auto const & children = b->children;
-	auto v0 = parlex::detail::document::element<std::vector<erased<IC>>>::build(&*children[0], w);
+	auto v0 = parlex::detail::document::element<std::vector<val<IC>>>::build(&*children[0], w);
 	auto v1 = parlex::detail::document::element<parlex::detail::document::text<literal_0x2C_t>>::build(&*children[1], w);
-	auto v2 = parlex::detail::document::element<std::vector<erased<IC>>>::build(&*children[2], w);
-	auto v3 = parlex::detail::document::element<erased<TYPE_SCOPE_TYPE_CONSTRAINT_CHAIN>>::build(&*children[3], w);
+	auto v2 = parlex::detail::document::element<std::vector<val<IC>>>::build(&*children[2], w);
+	auto v3 = parlex::detail::document::element<val<TYPE_SCOPE_TYPE_CONSTRAINT_CHAIN>>::build(&*children[3], w);
 	return field_3_t(std::move(v0), std::move(v1), std::move(v2), std::move(v3));
 }
 
@@ -34,9 +34,9 @@ plc::TYPE_SCOPE_TYPE_CONSTRAINT_CHAIN plc::TYPE_SCOPE_TYPE_CONSTRAINT_CHAIN::bui
 	auto const & children = b->children;
 	auto v0 = parlex::detail::document::element<std::optional<field_1_t>>::build(&*children[0], w);
 	auto v1 = parlex::detail::document::element<std::variant<
-		erased<TYPE_SCOPE_DECLARATION>,
-		erased<TYPE_SCOPE_ASSIGNMENT_CHAIN>,
-		erased<DEFINITION>
+		val<TYPE_SCOPE_DECLARATION>,
+		val<TYPE_SCOPE_ASSIGNMENT_CHAIN>,
+		val<DEFINITION>
 	>>::build(&*children[1], w);
 	auto v2 = parlex::detail::document::element<std::optional<field_3_t>>::build(&*children[2], w);
 	return TYPE_SCOPE_TYPE_CONSTRAINT_CHAIN(n.document_position, n.consumed_character_count, std::move(v0), std::move(v1), std::move(v2));

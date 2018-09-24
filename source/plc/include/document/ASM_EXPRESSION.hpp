@@ -7,7 +7,7 @@
 #include <variant>
 #include <vector>
 
-#include "erased.hpp"
+#include "val.hpp"
 
 #include "parlex/detail/abstract_syntax_tree.hpp"
 #include "parlex/detail/builtins.hpp"
@@ -23,10 +23,10 @@ struct ASM_PTR_ARITHMETIC_INTEL;
 struct NON_FRACTIONAL;
 
 typedef std::variant<
-	erased<ASM_IDENTIFIER>,
-	erased<ASM_PTR_ARITHMETIC_ATT>,
-	erased<ASM_PTR_ARITHMETIC_INTEL>,
-	erased<NON_FRACTIONAL>
+	val<ASM_IDENTIFIER>,
+	val<ASM_PTR_ARITHMETIC_ATT>,
+	val<ASM_PTR_ARITHMETIC_INTEL>,
+	val<NON_FRACTIONAL>
 > ASM_EXPRESSION_base;
 
 struct ASM_EXPRESSION: ASM_EXPRESSION_base {

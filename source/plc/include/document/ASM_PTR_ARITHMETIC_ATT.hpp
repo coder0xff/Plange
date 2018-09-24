@@ -7,7 +7,7 @@
 #include <variant>
 #include <vector>
 
-#include "erased.hpp"
+#include "val.hpp"
 
 #include "parlex/detail/abstract_syntax_tree.hpp"
 #include "parlex/detail/builtins.hpp"
@@ -22,16 +22,16 @@ struct ASM_PTR_ARITHMETIC_ATT_REG;
 struct NON_FRACTIONAL;
 
 struct ASM_PTR_ARITHMETIC_ATT1_t {
-	erased<ASM_IDENTIFIER> field_1;
+	val<ASM_IDENTIFIER> field_1;
 	
 	parlex::detail::document::text<literal_0x3A_t> dont_care1;
 	
-	erased<NON_FRACTIONAL> field_2;
+	val<NON_FRACTIONAL> field_2;
 	
 
 
 	explicit ASM_PTR_ARITHMETIC_ATT1_t
-		(erased<ASM_IDENTIFIER> && field_1, parlex::detail::document::text<literal_0x3A_t> && dont_care1, erased<NON_FRACTIONAL> && field_2)
+		(val<ASM_IDENTIFIER> && field_1, parlex::detail::document::text<literal_0x3A_t> && dont_care1, val<NON_FRACTIONAL> && field_2)
 		: field_1(std::move(field_1)), dont_care1(std::move(dont_care1)), field_2(std::move(field_2)) {}
 
 	ASM_PTR_ARITHMETIC_ATT1_t(ASM_PTR_ARITHMETIC_ATT1_t const & other) = default;
@@ -41,18 +41,18 @@ struct ASM_PTR_ARITHMETIC_ATT1_t {
 };
 
 struct ASM_PTR_ARITHMETIC_ATT2_t {
-	erased<ASM_IDENTIFIER> field_1;
+	val<ASM_IDENTIFIER> field_1;
 	
 	parlex::detail::document::text<literal_0x3A_t> dont_care1;
 	
-	erased<NON_FRACTIONAL> field_2;
+	val<NON_FRACTIONAL> field_2;
 	
-	erased<ASM_PTR_ARITHMETIC_ATT_REG> field_3;
+	val<ASM_PTR_ARITHMETIC_ATT_REG> field_3;
 	
 
 
 	explicit ASM_PTR_ARITHMETIC_ATT2_t
-		(erased<ASM_IDENTIFIER> && field_1, parlex::detail::document::text<literal_0x3A_t> && dont_care1, erased<NON_FRACTIONAL> && field_2, erased<ASM_PTR_ARITHMETIC_ATT_REG> && field_3)
+		(val<ASM_IDENTIFIER> && field_1, parlex::detail::document::text<literal_0x3A_t> && dont_care1, val<NON_FRACTIONAL> && field_2, val<ASM_PTR_ARITHMETIC_ATT_REG> && field_3)
 		: field_1(std::move(field_1)), dont_care1(std::move(dont_care1)), field_2(std::move(field_2)), field_3(std::move(field_3)) {}
 
 	ASM_PTR_ARITHMETIC_ATT2_t(ASM_PTR_ARITHMETIC_ATT2_t const & other) = default;
@@ -62,14 +62,14 @@ struct ASM_PTR_ARITHMETIC_ATT2_t {
 };
 
 struct ASM_PTR_ARITHMETIC_ATT3_t {
-	erased<NON_FRACTIONAL> field_1;
+	val<NON_FRACTIONAL> field_1;
 	
-	erased<ASM_PTR_ARITHMETIC_ATT_REG> field_2;
+	val<ASM_PTR_ARITHMETIC_ATT_REG> field_2;
 	
 
 
 	explicit ASM_PTR_ARITHMETIC_ATT3_t
-		(erased<NON_FRACTIONAL> && field_1, erased<ASM_PTR_ARITHMETIC_ATT_REG> && field_2)
+		(val<NON_FRACTIONAL> && field_1, val<ASM_PTR_ARITHMETIC_ATT_REG> && field_2)
 		: field_1(std::move(field_1)), field_2(std::move(field_2)) {}
 
 	ASM_PTR_ARITHMETIC_ATT3_t(ASM_PTR_ARITHMETIC_ATT3_t const & other) = default;

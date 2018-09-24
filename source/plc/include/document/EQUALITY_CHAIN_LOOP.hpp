@@ -7,7 +7,7 @@
 #include <variant>
 #include <vector>
 
-#include "erased.hpp"
+#include "val.hpp"
 
 #include "parlex/detail/abstract_syntax_tree.hpp"
 #include "parlex/detail/builtins.hpp"
@@ -25,14 +25,14 @@ struct EQUALITY_CHAIN_LOOP {
 	int32_t document_position, consumed_character_count;
 
 	struct field_2_t {
-		std::vector<erased<IC>> field_1;
+		std::vector<val<IC>> field_1;
 		
-		erased<EQUALITY_CHAIN_LOOP> equality_chain_loop;
+		val<EQUALITY_CHAIN_LOOP> equality_chain_loop;
 		
 	
 	
 		explicit field_2_t
-			(std::vector<erased<IC>> && field_1, erased<EQUALITY_CHAIN_LOOP> && equality_chain_loop)
+			(std::vector<val<IC>> && field_1, val<EQUALITY_CHAIN_LOOP> && equality_chain_loop)
 			: field_1(std::move(field_1)), equality_chain_loop(std::move(equality_chain_loop)) {}
 	
 		field_2_t(field_2_t const & other) = default;
@@ -43,16 +43,16 @@ struct EQUALITY_CHAIN_LOOP {
 
 	parlex::detail::document::text<literal_0x3D_t> dont_care0;
 	
-	std::vector<erased<IC>> field_1;
+	std::vector<val<IC>> field_1;
 	
-	erased<EXPRESSION> expression;
+	val<EXPRESSION> expression;
 	
 	std::optional<field_2_t> field_2;
 	
 
 
 	explicit EQUALITY_CHAIN_LOOP
-		(int32_t documentPosition, int32_t consumedCharacterCount, parlex::detail::document::text<literal_0x3D_t> && dont_care0, std::vector<erased<IC>> && field_1, erased<EXPRESSION> && expression, std::optional<field_2_t> && field_2)
+		(int32_t documentPosition, int32_t consumedCharacterCount, parlex::detail::document::text<literal_0x3D_t> && dont_care0, std::vector<val<IC>> && field_1, val<EXPRESSION> && expression, std::optional<field_2_t> && field_2)
 		: document_position(documentPosition), consumed_character_count(consumedCharacterCount), dont_care0(std::move(dont_care0)), field_1(std::move(field_1)), expression(std::move(expression)), field_2(std::move(field_2)) {}
 
 	EQUALITY_CHAIN_LOOP(EQUALITY_CHAIN_LOOP const & other) = default;

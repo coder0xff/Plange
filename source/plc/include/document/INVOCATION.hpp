@@ -7,7 +7,7 @@
 #include <variant>
 #include <vector>
 
-#include "erased.hpp"
+#include "val.hpp"
 
 #include "parlex/detail/abstract_syntax_tree.hpp"
 #include "parlex/detail/builtins.hpp"
@@ -22,9 +22,9 @@ struct PARENTHETICAL_INVOCATION;
 struct TYPE_INVOCATION;
 
 typedef std::variant<
-	erased<PARENTHETICAL_INVOCATION>,
-	erased<ARRAY_INVOCATION>,
-	erased<TYPE_INVOCATION>
+	val<PARENTHETICAL_INVOCATION>,
+	val<ARRAY_INVOCATION>,
+	val<TYPE_INVOCATION>
 > INVOCATION_base;
 
 struct INVOCATION: INVOCATION_base {

@@ -7,7 +7,7 @@
 #include <variant>
 #include <vector>
 
-#include "erased.hpp"
+#include "val.hpp"
 
 #include "parlex/detail/abstract_syntax_tree.hpp"
 #include "parlex/detail/builtins.hpp"
@@ -22,9 +22,9 @@ struct NON_NEG_INTEGER;
 struct OCTAL;
 
 typedef std::variant<
-	erased<NON_NEG_INTEGER>,
-	erased<HEX>,
-	erased<OCTAL>
+	val<NON_NEG_INTEGER>,
+	val<HEX>,
+	val<OCTAL>
 > NON_NEG_NON_FRACTIONAL_base;
 
 struct NON_NEG_NON_FRACTIONAL: NON_NEG_NON_FRACTIONAL_base {

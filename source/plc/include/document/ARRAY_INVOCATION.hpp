@@ -7,7 +7,7 @@
 #include <variant>
 #include <vector>
 
-#include "erased.hpp"
+#include "val.hpp"
 
 #include "parlex/detail/abstract_syntax_tree.hpp"
 #include "parlex/detail/builtins.hpp"
@@ -25,16 +25,16 @@ struct ARRAY_INVOCATION {
 	int32_t document_position, consumed_character_count;
 
 	struct argsTail_t {
-		std::vector<erased<IC>> field_1;
+		std::vector<val<IC>> field_1;
 		
 		parlex::detail::document::text<literal_0x2C_t> dont_care1;
 		
-		std::optional<erased<ARRAY_INDEXER>> field_2;
+		std::optional<val<ARRAY_INDEXER>> field_2;
 		
 	
 	
 		explicit argsTail_t
-			(std::vector<erased<IC>> && field_1, parlex::detail::document::text<literal_0x2C_t> && dont_care1, std::optional<erased<ARRAY_INDEXER>> && field_2)
+			(std::vector<val<IC>> && field_1, parlex::detail::document::text<literal_0x2C_t> && dont_care1, std::optional<val<ARRAY_INDEXER>> && field_2)
 			: field_1(std::move(field_1)), dont_care1(std::move(dont_care1)), field_2(std::move(field_2)) {}
 	
 		argsTail_t(argsTail_t const & other) = default;
@@ -43,22 +43,22 @@ struct ARRAY_INVOCATION {
 		static argsTail_t build(parlex::detail::node const * b, parlex::detail::document::walk & w);
 	};
 
-	erased<EXPRESSION> target;
+	val<EXPRESSION> target;
 	
 	parlex::detail::document::text<literal_0x5B_t> dont_care1;
 	
-	std::optional<erased<ARRAY_INDEXER>> argsHead;
+	std::optional<val<ARRAY_INDEXER>> argsHead;
 	
 	std::vector<argsTail_t> argsTail;
 	
-	std::vector<erased<IC>> field_1;
+	std::vector<val<IC>> field_1;
 	
 	parlex::detail::document::text<literal_0x5D_t> dont_care5;
 	
 
 
 	explicit ARRAY_INVOCATION
-		(int32_t documentPosition, int32_t consumedCharacterCount, erased<EXPRESSION> && target, parlex::detail::document::text<literal_0x5B_t> && dont_care1, std::optional<erased<ARRAY_INDEXER>> && argsHead, std::vector<argsTail_t> && argsTail, std::vector<erased<IC>> && field_1, parlex::detail::document::text<literal_0x5D_t> && dont_care5)
+		(int32_t documentPosition, int32_t consumedCharacterCount, val<EXPRESSION> && target, parlex::detail::document::text<literal_0x5B_t> && dont_care1, std::optional<val<ARRAY_INDEXER>> && argsHead, std::vector<argsTail_t> && argsTail, std::vector<val<IC>> && field_1, parlex::detail::document::text<literal_0x5D_t> && dont_care5)
 		: document_position(documentPosition), consumed_character_count(consumedCharacterCount), target(std::move(target)), dont_care1(std::move(dont_care1)), argsHead(std::move(argsHead)), argsTail(std::move(argsTail)), field_1(std::move(field_1)), dont_care5(std::move(dont_care5)) {}
 
 	ARRAY_INVOCATION(ARRAY_INVOCATION const & other) = default;

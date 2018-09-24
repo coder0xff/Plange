@@ -7,7 +7,7 @@
 #include <variant>
 #include <vector>
 
-#include "erased.hpp"
+#include "val.hpp"
 
 #include "parlex/detail/abstract_syntax_tree.hpp"
 #include "parlex/detail/builtins.hpp"
@@ -29,16 +29,16 @@ struct SHIFTR;
 struct SUBTRACTION;
 
 typedef std::variant<
-	erased<ADD_SUB>,
-	erased<ADDITION>,
-	erased<DIVISION>,
-	erased<EXPONENTIATION>,
-	erased<INTEGER_DIVISION>,
-	erased<MODULATION>,
-	erased<MULTIPLICATIVE_OP>,
-	erased<SHIFTL>,
-	erased<SHIFTR>,
-	erased<SUBTRACTION>
+	val<ADD_SUB>,
+	val<ADDITION>,
+	val<DIVISION>,
+	val<EXPONENTIATION>,
+	val<INTEGER_DIVISION>,
+	val<MODULATION>,
+	val<MULTIPLICATIVE_OP>,
+	val<SHIFTL>,
+	val<SHIFTR>,
+	val<SUBTRACTION>
 > BINARY_ARITHMETIC_OP_base;
 
 struct BINARY_ARITHMETIC_OP: BINARY_ARITHMETIC_OP_base {

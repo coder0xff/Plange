@@ -7,7 +7,7 @@
 #include <variant>
 #include <vector>
 
-#include "erased.hpp"
+#include "val.hpp"
 
 #include "parlex/detail/abstract_syntax_tree.hpp"
 #include "parlex/detail/builtins.hpp"
@@ -26,12 +26,12 @@ struct DELTA {
 	struct field_2_t {
 		parlex::detail::document::text<literal_0x5E_t> dont_care0;
 		
-		erased<WHOLE_NUMBER> whole_number;
+		val<WHOLE_NUMBER> whole_number;
 		
 	
 	
 		explicit field_2_t
-			(parlex::detail::document::text<literal_0x5E_t> && dont_care0, erased<WHOLE_NUMBER> && whole_number)
+			(parlex::detail::document::text<literal_0x5E_t> && dont_care0, val<WHOLE_NUMBER> && whole_number)
 			: dont_care0(std::move(dont_care0)), whole_number(std::move(whole_number)) {}
 	
 		field_2_t(field_2_t const & other) = default;
@@ -47,7 +47,7 @@ struct DELTA {
 	
 	std::optional<field_2_t> field_2;
 	
-	erased<EXPRESSION> expression;
+	val<EXPRESSION> expression;
 	
 
 
@@ -55,7 +55,7 @@ struct DELTA {
 		(int32_t documentPosition, int32_t consumedCharacterCount, std::variant<
 	parlex::detail::document::text<literal_0xCE0x94_t>,
 	parlex::detail::document::text<literal__delta__t>
-> && field_1, std::optional<field_2_t> && field_2, erased<EXPRESSION> && expression)
+> && field_1, std::optional<field_2_t> && field_2, val<EXPRESSION> && expression)
 		: document_position(documentPosition), consumed_character_count(consumedCharacterCount), field_1(std::move(field_1)), field_2(std::move(field_2)), expression(std::move(expression)) {}
 
 	DELTA(DELTA const & other) = default;

@@ -22,11 +22,11 @@ RANGE RANGE::build(parlex::detail::ast_node const & n) {
 plc::RANGE1_t plc::RANGE1_t::build(parlex::detail::node const * b, parlex::detail::document::walk & w) {
 	auto const & children = b->children;
 	auto v0 = parlex::detail::document::element<parlex::detail::document::text<literal_0x28_t>>::build(&*children[0], w);
-	auto v1 = parlex::detail::document::element<std::vector<erased<IC>>>::build(&*children[1], w);
+	auto v1 = parlex::detail::document::element<std::vector<val<IC>>>::build(&*children[1], w);
 	auto v2 = parlex::detail::document::element<parlex::detail::document::text<literal_0x2E0x2E0x2E_t>>::build(&*children[2], w);
-	auto v3 = parlex::detail::document::element<std::vector<erased<IC>>>::build(&*children[3], w);
-	auto v4 = parlex::detail::document::element<erased<EXPRESSION>>::build(&*children[4], w);
-	auto v5 = parlex::detail::document::element<std::vector<erased<IC>>>::build(&*children[5], w);
+	auto v3 = parlex::detail::document::element<std::vector<val<IC>>>::build(&*children[3], w);
+	auto v4 = parlex::detail::document::element<val<EXPRESSION>>::build(&*children[4], w);
+	auto v5 = parlex::detail::document::element<std::vector<val<IC>>>::build(&*children[5], w);
 	auto v6 = parlex::detail::document::element<std::variant<
 		parlex::detail::document::text<literal_0x5D_t>,
 		parlex::detail::document::text<literal_0x29_t>
@@ -40,11 +40,11 @@ plc::RANGE2_t plc::RANGE2_t::build(parlex::detail::node const * b, parlex::detai
 		parlex::detail::document::text<literal_0x5B_t>,
 		parlex::detail::document::text<literal_0x28_t>
 	>>::build(&*children[0], w);
-	auto v1 = parlex::detail::document::element<std::vector<erased<IC>>>::build(&*children[1], w);
-	auto v2 = parlex::detail::document::element<erased<EXPRESSION>>::build(&*children[2], w);
-	auto v3 = parlex::detail::document::element<std::vector<erased<IC>>>::build(&*children[3], w);
+	auto v1 = parlex::detail::document::element<std::vector<val<IC>>>::build(&*children[1], w);
+	auto v2 = parlex::detail::document::element<val<EXPRESSION>>::build(&*children[2], w);
+	auto v3 = parlex::detail::document::element<std::vector<val<IC>>>::build(&*children[3], w);
 	auto v4 = parlex::detail::document::element<parlex::detail::document::text<literal_0x2E0x2E0x2E_t>>::build(&*children[4], w);
-	auto v5 = parlex::detail::document::element<std::vector<erased<IC>>>::build(&*children[5], w);
+	auto v5 = parlex::detail::document::element<std::vector<val<IC>>>::build(&*children[5], w);
 	auto v6 = parlex::detail::document::element<parlex::detail::document::text<literal_0x29_t>>::build(&*children[6], w);
 	return RANGE2_t(std::move(v0), std::move(v1), std::move(v2), std::move(v3), std::move(v4), std::move(v5), std::move(v6));
 }
@@ -55,13 +55,13 @@ plc::RANGE3_t plc::RANGE3_t::build(parlex::detail::node const * b, parlex::detai
 		parlex::detail::document::text<literal_0x28_t>,
 		parlex::detail::document::text<literal_0x5B_t>
 	>>::build(&*children[0], w);
-	auto v1 = parlex::detail::document::element<std::vector<erased<IC>>>::build(&*children[1], w);
-	auto v2 = parlex::detail::document::element<erased<EXPRESSION>>::build(&*children[2], w);
-	auto v3 = parlex::detail::document::element<std::vector<erased<IC>>>::build(&*children[3], w);
+	auto v1 = parlex::detail::document::element<std::vector<val<IC>>>::build(&*children[1], w);
+	auto v2 = parlex::detail::document::element<val<EXPRESSION>>::build(&*children[2], w);
+	auto v3 = parlex::detail::document::element<std::vector<val<IC>>>::build(&*children[3], w);
 	auto v4 = parlex::detail::document::element<parlex::detail::document::text<literal_0x2E0x2E0x2E_t>>::build(&*children[4], w);
-	auto v5 = parlex::detail::document::element<std::vector<erased<IC>>>::build(&*children[5], w);
-	auto v6 = parlex::detail::document::element<erased<EXPRESSION>>::build(&*children[6], w);
-	auto v7 = parlex::detail::document::element<std::vector<erased<IC>>>::build(&*children[7], w);
+	auto v5 = parlex::detail::document::element<std::vector<val<IC>>>::build(&*children[5], w);
+	auto v6 = parlex::detail::document::element<val<EXPRESSION>>::build(&*children[6], w);
+	auto v7 = parlex::detail::document::element<std::vector<val<IC>>>::build(&*children[7], w);
 	auto v8 = parlex::detail::document::element<std::variant<
 		parlex::detail::document::text<literal_0x5D_t>,
 		parlex::detail::document::text<literal_0x29_t>

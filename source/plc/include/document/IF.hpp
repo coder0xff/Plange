@@ -7,7 +7,7 @@
 #include <variant>
 #include <vector>
 
-#include "erased.hpp"
+#include "val.hpp"
 
 #include "parlex/detail/abstract_syntax_tree.hpp"
 #include "parlex/detail/builtins.hpp"
@@ -25,22 +25,22 @@ struct IF {
 	int32_t document_position, consumed_character_count;
 
 	struct field_3_t {
-		std::vector<erased<IC>> field_1;
+		std::vector<val<IC>> field_1;
 		
 		parlex::detail::document::text<literal_elif_t> dont_care1;
 		
-		std::vector<erased<IC>> field_2;
+		std::vector<val<IC>> field_2;
 		
-		erased<PARENTHETICAL> condition;
+		val<PARENTHETICAL> condition;
 		
-		std::vector<erased<IC>> field_3;
+		std::vector<val<IC>> field_3;
 		
-		erased<EXPRESSION> invoke;
+		val<EXPRESSION> invoke;
 		
 	
 	
 		explicit field_3_t
-			(std::vector<erased<IC>> && field_1, parlex::detail::document::text<literal_elif_t> && dont_care1, std::vector<erased<IC>> && field_2, erased<PARENTHETICAL> && condition, std::vector<erased<IC>> && field_3, erased<EXPRESSION> && invoke)
+			(std::vector<val<IC>> && field_1, parlex::detail::document::text<literal_elif_t> && dont_care1, std::vector<val<IC>> && field_2, val<PARENTHETICAL> && condition, std::vector<val<IC>> && field_3, val<EXPRESSION> && invoke)
 			: field_1(std::move(field_1)), dont_care1(std::move(dont_care1)), field_2(std::move(field_2)), condition(std::move(condition)), field_3(std::move(field_3)), invoke(std::move(invoke)) {}
 	
 		field_3_t(field_3_t const & other) = default;
@@ -50,18 +50,18 @@ struct IF {
 	};
 
 	struct field_4_t {
-		std::vector<erased<IC>> field_1;
+		std::vector<val<IC>> field_1;
 		
 		parlex::detail::document::text<literal_else_t> dont_care1;
 		
-		std::vector<erased<IC>> field_2;
+		std::vector<val<IC>> field_2;
 		
-		erased<EXPRESSION> else_invoke;
+		val<EXPRESSION> else_invoke;
 		
 	
 	
 		explicit field_4_t
-			(std::vector<erased<IC>> && field_1, parlex::detail::document::text<literal_else_t> && dont_care1, std::vector<erased<IC>> && field_2, erased<EXPRESSION> && else_invoke)
+			(std::vector<val<IC>> && field_1, parlex::detail::document::text<literal_else_t> && dont_care1, std::vector<val<IC>> && field_2, val<EXPRESSION> && else_invoke)
 			: field_1(std::move(field_1)), dont_care1(std::move(dont_care1)), field_2(std::move(field_2)), else_invoke(std::move(else_invoke)) {}
 	
 		field_4_t(field_4_t const & other) = default;
@@ -72,13 +72,13 @@ struct IF {
 
 	parlex::detail::document::text<literal_if_t> dont_care0;
 	
-	std::vector<erased<IC>> field_1;
+	std::vector<val<IC>> field_1;
 	
-	erased<PARENTHETICAL> condition;
+	val<PARENTHETICAL> condition;
 	
-	std::vector<erased<IC>> field_2;
+	std::vector<val<IC>> field_2;
 	
-	erased<EXPRESSION> invoke;
+	val<EXPRESSION> invoke;
 	
 	std::vector<field_3_t> field_3;
 	
@@ -87,7 +87,7 @@ struct IF {
 
 
 	explicit IF
-		(int32_t documentPosition, int32_t consumedCharacterCount, parlex::detail::document::text<literal_if_t> && dont_care0, std::vector<erased<IC>> && field_1, erased<PARENTHETICAL> && condition, std::vector<erased<IC>> && field_2, erased<EXPRESSION> && invoke, std::vector<field_3_t> && field_3, std::optional<field_4_t> && field_4)
+		(int32_t documentPosition, int32_t consumedCharacterCount, parlex::detail::document::text<literal_if_t> && dont_care0, std::vector<val<IC>> && field_1, val<PARENTHETICAL> && condition, std::vector<val<IC>> && field_2, val<EXPRESSION> && invoke, std::vector<field_3_t> && field_3, std::optional<field_4_t> && field_4)
 		: document_position(documentPosition), consumed_character_count(consumedCharacterCount), dont_care0(std::move(dont_care0)), field_1(std::move(field_1)), condition(std::move(condition)), field_2(std::move(field_2)), invoke(std::move(invoke)), field_3(std::move(field_3)), field_4(std::move(field_4)) {}
 
 	IF(IF const & other) = default;

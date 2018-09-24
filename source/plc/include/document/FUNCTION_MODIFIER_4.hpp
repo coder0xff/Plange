@@ -7,7 +7,7 @@
 #include <variant>
 #include <vector>
 
-#include "erased.hpp"
+#include "val.hpp"
 
 #include "parlex/detail/abstract_syntax_tree.hpp"
 #include "parlex/detail/builtins.hpp"
@@ -21,8 +21,8 @@ struct FUNCTION_MODIFIER_CALLING_CONVENTION;
 struct FUNCTION_MODIFIER_MODEL;
 
 typedef std::variant<
-	erased<FUNCTION_MODIFIER_MODEL>,
-	erased<FUNCTION_MODIFIER_CALLING_CONVENTION>
+	val<FUNCTION_MODIFIER_MODEL>,
+	val<FUNCTION_MODIFIER_CALLING_CONVENTION>
 > FUNCTION_MODIFIER_4_base;
 
 struct FUNCTION_MODIFIER_4: FUNCTION_MODIFIER_4_base {

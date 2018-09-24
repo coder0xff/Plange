@@ -7,7 +7,7 @@
 #include <variant>
 #include <vector>
 
-#include "erased.hpp"
+#include "val.hpp"
 
 #include "parlex/detail/abstract_syntax_tree.hpp"
 #include "parlex/detail/builtins.hpp"
@@ -27,16 +27,16 @@ struct OBJECT {
 	struct field_2_t {
 		parlex::detail::document::text<literal_inheriting_t> dont_care0;
 		
-		std::vector<erased<IC>> field_1;
+		std::vector<val<IC>> field_1;
 		
-		erased<INHERITANCE_LIST> field_2;
+		val<INHERITANCE_LIST> field_2;
 		
-		std::vector<erased<IC>> field_3;
+		std::vector<val<IC>> field_3;
 		
 	
 	
 		explicit field_2_t
-			(parlex::detail::document::text<literal_inheriting_t> && dont_care0, std::vector<erased<IC>> && field_1, erased<INHERITANCE_LIST> && field_2, std::vector<erased<IC>> && field_3)
+			(parlex::detail::document::text<literal_inheriting_t> && dont_care0, std::vector<val<IC>> && field_1, val<INHERITANCE_LIST> && field_2, std::vector<val<IC>> && field_3)
 			: dont_care0(std::move(dont_care0)), field_1(std::move(field_1)), field_2(std::move(field_2)), field_3(std::move(field_3)) {}
 	
 		field_2_t(field_2_t const & other) = default;
@@ -48,16 +48,16 @@ struct OBJECT {
 	struct field_3_t {
 		parlex::detail::document::text<literal_implementing_t> dont_care0;
 		
-		std::vector<erased<IC>> field_1;
+		std::vector<val<IC>> field_1;
 		
-		erased<INHERITANCE_LIST> field_2;
+		val<INHERITANCE_LIST> field_2;
 		
-		std::vector<erased<IC>> field_3;
+		std::vector<val<IC>> field_3;
 		
 	
 	
 		explicit field_3_t
-			(parlex::detail::document::text<literal_implementing_t> && dont_care0, std::vector<erased<IC>> && field_1, erased<INHERITANCE_LIST> && field_2, std::vector<erased<IC>> && field_3)
+			(parlex::detail::document::text<literal_implementing_t> && dont_care0, std::vector<val<IC>> && field_1, val<INHERITANCE_LIST> && field_2, std::vector<val<IC>> && field_3)
 			: dont_care0(std::move(dont_care0)), field_1(std::move(field_1)), field_2(std::move(field_2)), field_3(std::move(field_3)) {}
 	
 		field_3_t(field_3_t const & other) = default;
@@ -68,7 +68,7 @@ struct OBJECT {
 
 	parlex::detail::document::text<literal_object_t> dont_care0;
 	
-	std::vector<erased<IC>> field_1;
+	std::vector<val<IC>> field_1;
 	
 	std::optional<field_2_t> field_2;
 	
@@ -76,14 +76,14 @@ struct OBJECT {
 	
 	parlex::detail::document::text<literal_0x7B_t> dont_care4;
 	
-	erased<TYPE_SCOPE> field_4;
+	val<TYPE_SCOPE> field_4;
 	
 	parlex::detail::document::text<literal_0x7D_t> dont_care6;
 	
 
 
 	explicit OBJECT
-		(int32_t documentPosition, int32_t consumedCharacterCount, parlex::detail::document::text<literal_object_t> && dont_care0, std::vector<erased<IC>> && field_1, std::optional<field_2_t> && field_2, std::optional<field_3_t> && field_3, parlex::detail::document::text<literal_0x7B_t> && dont_care4, erased<TYPE_SCOPE> && field_4, parlex::detail::document::text<literal_0x7D_t> && dont_care6)
+		(int32_t documentPosition, int32_t consumedCharacterCount, parlex::detail::document::text<literal_object_t> && dont_care0, std::vector<val<IC>> && field_1, std::optional<field_2_t> && field_2, std::optional<field_3_t> && field_3, parlex::detail::document::text<literal_0x7B_t> && dont_care4, val<TYPE_SCOPE> && field_4, parlex::detail::document::text<literal_0x7D_t> && dont_care6)
 		: document_position(documentPosition), consumed_character_count(consumedCharacterCount), dont_care0(std::move(dont_care0)), field_1(std::move(field_1)), field_2(std::move(field_2)), field_3(std::move(field_3)), dont_care4(std::move(dont_care4)), field_4(std::move(field_4)), dont_care6(std::move(dont_care6)) {}
 
 	OBJECT(OBJECT const & other) = default;

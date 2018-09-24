@@ -7,7 +7,7 @@
 #include <variant>
 #include <vector>
 
-#include "erased.hpp"
+#include "val.hpp"
 
 #include "parlex/detail/abstract_syntax_tree.hpp"
 #include "parlex/detail/builtins.hpp"
@@ -23,20 +23,20 @@ struct IC;
 struct MODULATION {
 	int32_t document_position, consumed_character_count;
 
-	erased<EXPRESSION> field_1;
+	val<EXPRESSION> field_1;
 	
-	std::vector<erased<IC>> field_2;
+	std::vector<val<IC>> field_2;
 	
 	parlex::detail::document::text<literal_0x25_t> dont_care2;
 	
-	std::vector<erased<IC>> field_3;
+	std::vector<val<IC>> field_3;
 	
-	erased<EXPRESSION> field_4;
+	val<EXPRESSION> field_4;
 	
 
 
 	explicit MODULATION
-		(int32_t documentPosition, int32_t consumedCharacterCount, erased<EXPRESSION> && field_1, std::vector<erased<IC>> && field_2, parlex::detail::document::text<literal_0x25_t> && dont_care2, std::vector<erased<IC>> && field_3, erased<EXPRESSION> && field_4)
+		(int32_t documentPosition, int32_t consumedCharacterCount, val<EXPRESSION> && field_1, std::vector<val<IC>> && field_2, parlex::detail::document::text<literal_0x25_t> && dont_care2, std::vector<val<IC>> && field_3, val<EXPRESSION> && field_4)
 		: document_position(documentPosition), consumed_character_count(consumedCharacterCount), field_1(std::move(field_1)), field_2(std::move(field_2)), dont_care2(std::move(dont_care2)), field_3(std::move(field_3)), field_4(std::move(field_4)) {}
 
 	MODULATION(MODULATION const & other) = default;

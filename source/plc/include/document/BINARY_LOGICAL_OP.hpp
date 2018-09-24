@@ -7,7 +7,7 @@
 #include <variant>
 #include <vector>
 
-#include "erased.hpp"
+#include "val.hpp"
 
 #include "parlex/detail/abstract_syntax_tree.hpp"
 #include "parlex/detail/builtins.hpp"
@@ -27,14 +27,14 @@ struct OR;
 struct XOR;
 
 typedef std::variant<
-	erased<AND>,
-	erased<IFF>,
-	erased<IMPLICATION>,
-	erased<MAPS_TO>,
-	erased<NAND>,
-	erased<NOR>,
-	erased<OR>,
-	erased<XOR>
+	val<AND>,
+	val<IFF>,
+	val<IMPLICATION>,
+	val<MAPS_TO>,
+	val<NAND>,
+	val<NOR>,
+	val<OR>,
+	val<XOR>
 > BINARY_LOGICAL_OP_base;
 
 struct BINARY_LOGICAL_OP: BINARY_LOGICAL_OP_base {

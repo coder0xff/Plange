@@ -7,7 +7,7 @@
 #include <variant>
 #include <vector>
 
-#include "erased.hpp"
+#include "val.hpp"
 
 #include "parlex/detail/abstract_syntax_tree.hpp"
 #include "parlex/detail/builtins.hpp"
@@ -25,12 +25,12 @@ struct CONSTRUCTIVE_OP;
 struct RELATIONAL_OP;
 
 typedef std::variant<
-	erased<BINARY_ARITHMETIC_OP>,
-	erased<BINARY_COLLECTION_OP>,
-	erased<BINARY_LOGICAL_OP>,
-	erased<BITWISE_OP>,
-	erased<CONSTRUCTIVE_OP>,
-	erased<RELATIONAL_OP>
+	val<BINARY_ARITHMETIC_OP>,
+	val<BINARY_COLLECTION_OP>,
+	val<BINARY_LOGICAL_OP>,
+	val<BITWISE_OP>,
+	val<CONSTRUCTIVE_OP>,
+	val<RELATIONAL_OP>
 > BINARY_OP_base;
 
 struct BINARY_OP: BINARY_OP_base {

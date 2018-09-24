@@ -18,36 +18,36 @@
 
 plc::TYPE_CONSTRAINT_HEAD::field_1_t plc::TYPE_CONSTRAINT_HEAD::field_1_t::build(parlex::detail::node const * b, parlex::detail::document::walk & w) {
 	auto const & children = b->children;
-	auto v0 = parlex::detail::document::element<erased<XML_DOC_STRING>>::build(&*children[0], w);
-	auto v1 = parlex::detail::document::element<std::vector<erased<IC>>>::build(&*children[1], w);
+	auto v0 = parlex::detail::document::element<val<XML_DOC_STRING>>::build(&*children[0], w);
+	auto v1 = parlex::detail::document::element<std::vector<val<IC>>>::build(&*children[1], w);
 	return field_1_t(std::move(v0), std::move(v1));
 }
 
 plc::TYPE_CONSTRAINT_HEAD::field_2_t plc::TYPE_CONSTRAINT_HEAD::field_2_t::build(parlex::detail::node const * b, parlex::detail::document::walk & w) {
 	auto const & children = b->children;
-	auto v0 = parlex::detail::document::element<erased<ATTRIBUTE>>::build(&*children[0], w);
-	auto v1 = parlex::detail::document::element<std::vector<erased<IC>>>::build(&*children[1], w);
+	auto v0 = parlex::detail::document::element<val<ATTRIBUTE>>::build(&*children[0], w);
+	auto v1 = parlex::detail::document::element<std::vector<val<IC>>>::build(&*children[1], w);
 	return field_2_t(std::move(v0), std::move(v1));
 }
 
 plc::TYPE_CONSTRAINT_HEAD::field_3_t plc::TYPE_CONSTRAINT_HEAD::field_3_t::build(parlex::detail::node const * b, parlex::detail::document::walk & w) {
 	auto const & children = b->children;
-	auto v0 = parlex::detail::document::element<erased<VISIBILITY_MODIFIER>>::build(&*children[0], w);
-	auto v1 = parlex::detail::document::element<std::vector<erased<IC>>>::build(&*children[1], w);
+	auto v0 = parlex::detail::document::element<val<VISIBILITY_MODIFIER>>::build(&*children[0], w);
+	auto v1 = parlex::detail::document::element<std::vector<val<IC>>>::build(&*children[1], w);
 	return field_3_t(std::move(v0), std::move(v1));
 }
 
 plc::TYPE_CONSTRAINT_HEAD::field_4_t plc::TYPE_CONSTRAINT_HEAD::field_4_t::build(parlex::detail::node const * b, parlex::detail::document::walk & w) {
 	auto const & children = b->children;
-	auto v0 = parlex::detail::document::element<erased<STATIC>>::build(&*children[0], w);
-	auto v1 = parlex::detail::document::element<std::vector<erased<IC>>>::build(&*children[1], w);
+	auto v0 = parlex::detail::document::element<val<STATIC>>::build(&*children[0], w);
+	auto v1 = parlex::detail::document::element<std::vector<val<IC>>>::build(&*children[1], w);
 	return field_4_t(std::move(v0), std::move(v1));
 }
 
 plc::TYPE_CONSTRAINT_HEAD::field_5_t plc::TYPE_CONSTRAINT_HEAD::field_5_t::build(parlex::detail::node const * b, parlex::detail::document::walk & w) {
 	auto const & children = b->children;
-	auto v0 = parlex::detail::document::element<erased<EXTERN>>::build(&*children[0], w);
-	auto v1 = parlex::detail::document::element<std::vector<erased<IC>>>::build(&*children[1], w);
+	auto v0 = parlex::detail::document::element<val<EXTERN>>::build(&*children[0], w);
+	auto v1 = parlex::detail::document::element<std::vector<val<IC>>>::build(&*children[1], w);
 	return field_5_t(std::move(v0), std::move(v1));
 }
 
@@ -61,10 +61,10 @@ plc::TYPE_CONSTRAINT_HEAD plc::TYPE_CONSTRAINT_HEAD::build(parlex::detail::ast_n
 	auto v3 = parlex::detail::document::element<std::optional<field_4_t>>::build(&*children[3], w);
 	auto v4 = parlex::detail::document::element<std::optional<field_5_t>>::build(&*children[4], w);
 	auto v5 = parlex::detail::document::element<std::variant<
-		erased<TYPE_DEREFERENCE>,
-		erased<VOLATILE_TYPE_DEREFERENCE>,
-		erased<IMPLICIT_TYPE_DEREFERENCE>,
-		erased<VOLATILE_IMPLICIT_TYPE_DEREFERENCE>
+		val<TYPE_DEREFERENCE>,
+		val<VOLATILE_TYPE_DEREFERENCE>,
+		val<IMPLICIT_TYPE_DEREFERENCE>,
+		val<VOLATILE_IMPLICIT_TYPE_DEREFERENCE>
 	>>::build(&*children[5], w);
 	return TYPE_CONSTRAINT_HEAD(n.document_position, n.consumed_character_count, std::move(v0), std::move(v1), std::move(v2), std::move(v3), std::move(v4), std::move(v5));
 }

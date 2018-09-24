@@ -7,7 +7,7 @@
 #include <variant>
 #include <vector>
 
-#include "erased.hpp"
+#include "val.hpp"
 
 #include "parlex/detail/abstract_syntax_tree.hpp"
 #include "parlex/detail/builtins.hpp"
@@ -24,14 +24,14 @@ struct EMBEDDED_COMMENT {
 
 	parlex::detail::document::text<literal_0x2F0x2A0x2A0x2A_t> dont_care0;
 	
-	erased<EMBEDDED_COMMENT_INTERIOR> field_1;
+	val<EMBEDDED_COMMENT_INTERIOR> field_1;
 	
 	parlex::detail::document::text<literal_0x2A0x2A0x2A0x2F_t> dont_care2;
 	
 
 
 	explicit EMBEDDED_COMMENT
-		(int32_t documentPosition, int32_t consumedCharacterCount, parlex::detail::document::text<literal_0x2F0x2A0x2A0x2A_t> && dont_care0, erased<EMBEDDED_COMMENT_INTERIOR> && field_1, parlex::detail::document::text<literal_0x2A0x2A0x2A0x2F_t> && dont_care2)
+		(int32_t documentPosition, int32_t consumedCharacterCount, parlex::detail::document::text<literal_0x2F0x2A0x2A0x2A_t> && dont_care0, val<EMBEDDED_COMMENT_INTERIOR> && field_1, parlex::detail::document::text<literal_0x2A0x2A0x2A0x2F_t> && dont_care2)
 		: document_position(documentPosition), consumed_character_count(consumedCharacterCount), dont_care0(std::move(dont_care0)), field_1(std::move(field_1)), dont_care2(std::move(dont_care2)) {}
 
 	EMBEDDED_COMMENT(EMBEDDED_COMMENT const & other) = default;

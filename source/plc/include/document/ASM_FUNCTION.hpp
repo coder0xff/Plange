@@ -7,7 +7,7 @@
 #include <variant>
 #include <vector>
 
-#include "erased.hpp"
+#include "val.hpp"
 
 #include "parlex/detail/abstract_syntax_tree.hpp"
 #include "parlex/detail/builtins.hpp"
@@ -28,18 +28,18 @@ struct ASM_FUNCTION {
 	struct field_1_t {
 		struct field_2_t {
 			struct field_1_t {
-				std::vector<erased<IC>> field_1;
+				std::vector<val<IC>> field_1;
 				
 				parlex::detail::document::text<literal_0x2C_t> dont_care1;
 				
-				std::vector<erased<IC>> field_2;
+				std::vector<val<IC>> field_2;
 				
-				erased<PARAMETER> parameter;
+				val<PARAMETER> parameter;
 				
 			
 			
 				explicit field_1_t
-					(std::vector<erased<IC>> && field_1, parlex::detail::document::text<literal_0x2C_t> && dont_care1, std::vector<erased<IC>> && field_2, erased<PARAMETER> && parameter)
+					(std::vector<val<IC>> && field_1, parlex::detail::document::text<literal_0x2C_t> && dont_care1, std::vector<val<IC>> && field_2, val<PARAMETER> && parameter)
 					: field_1(std::move(field_1)), dont_care1(std::move(dont_care1)), field_2(std::move(field_2)), parameter(std::move(parameter)) {}
 			
 				field_1_t(field_1_t const & other) = default;
@@ -48,16 +48,16 @@ struct ASM_FUNCTION {
 				static field_1_t build(parlex::detail::node const * b, parlex::detail::document::walk & w);
 			};
 		
-			erased<PARAMETER> parameter;
+			val<PARAMETER> parameter;
 			
 			std::vector<field_1_t> field_1;
 			
-			std::vector<erased<IC>> field_2;
+			std::vector<val<IC>> field_2;
 			
 		
 		
 			explicit field_2_t
-				(erased<PARAMETER> && parameter, std::vector<field_1_t> && field_1, std::vector<erased<IC>> && field_2)
+				(val<PARAMETER> && parameter, std::vector<field_1_t> && field_1, std::vector<val<IC>> && field_2)
 				: parameter(std::move(parameter)), field_1(std::move(field_1)), field_2(std::move(field_2)) {}
 		
 			field_2_t(field_2_t const & other) = default;
@@ -68,18 +68,18 @@ struct ASM_FUNCTION {
 	
 		parlex::detail::document::text<literal_0x28_t> dont_care0;
 		
-		std::vector<erased<IC>> field_1;
+		std::vector<val<IC>> field_1;
 		
 		std::optional<field_2_t> field_2;
 		
 		parlex::detail::document::text<literal_0x29_t> dont_care3;
 		
-		std::vector<erased<IC>> field_3;
+		std::vector<val<IC>> field_3;
 		
 	
 	
 		explicit field_1_t
-			(parlex::detail::document::text<literal_0x28_t> && dont_care0, std::vector<erased<IC>> && field_1, std::optional<field_2_t> && field_2, parlex::detail::document::text<literal_0x29_t> && dont_care3, std::vector<erased<IC>> && field_3)
+			(parlex::detail::document::text<literal_0x28_t> && dont_care0, std::vector<val<IC>> && field_1, std::optional<field_2_t> && field_2, parlex::detail::document::text<literal_0x29_t> && dont_care3, std::vector<val<IC>> && field_3)
 			: dont_care0(std::move(dont_care0)), field_1(std::move(field_1)), field_2(std::move(field_2)), dont_care3(std::move(dont_care3)), field_3(std::move(field_3)) {}
 	
 		field_1_t(field_1_t const & other) = default;
@@ -90,22 +90,22 @@ struct ASM_FUNCTION {
 
 	std::optional<field_1_t> field_1;
 	
-	std::optional<erased<FUNCTION_MODIFIER_0>> field_2;
+	std::optional<val<FUNCTION_MODIFIER_0>> field_2;
 	
 	parlex::detail::document::text<literal_asm_t> dont_care2;
 	
-	std::vector<erased<IC>> field_3;
+	std::vector<val<IC>> field_3;
 	
 	parlex::detail::document::text<literal_0x7B_t> dont_care4;
 	
-	erased<ASM_SCOPE> field_4;
+	val<ASM_SCOPE> field_4;
 	
 	parlex::detail::document::text<literal_0x7D_t> dont_care6;
 	
 
 
 	explicit ASM_FUNCTION
-		(int32_t documentPosition, int32_t consumedCharacterCount, std::optional<field_1_t> && field_1, std::optional<erased<FUNCTION_MODIFIER_0>> && field_2, parlex::detail::document::text<literal_asm_t> && dont_care2, std::vector<erased<IC>> && field_3, parlex::detail::document::text<literal_0x7B_t> && dont_care4, erased<ASM_SCOPE> && field_4, parlex::detail::document::text<literal_0x7D_t> && dont_care6)
+		(int32_t documentPosition, int32_t consumedCharacterCount, std::optional<field_1_t> && field_1, std::optional<val<FUNCTION_MODIFIER_0>> && field_2, parlex::detail::document::text<literal_asm_t> && dont_care2, std::vector<val<IC>> && field_3, parlex::detail::document::text<literal_0x7B_t> && dont_care4, val<ASM_SCOPE> && field_4, parlex::detail::document::text<literal_0x7D_t> && dont_care6)
 		: document_position(documentPosition), consumed_character_count(consumedCharacterCount), field_1(std::move(field_1)), field_2(std::move(field_2)), dont_care2(std::move(dont_care2)), field_3(std::move(field_3)), dont_care4(std::move(dont_care4)), field_4(std::move(field_4)), dont_care6(std::move(dont_care6)) {}
 
 	ASM_FUNCTION(ASM_FUNCTION const & other) = default;

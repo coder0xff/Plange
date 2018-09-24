@@ -7,7 +7,7 @@
 #include <variant>
 #include <vector>
 
-#include "erased.hpp"
+#include "val.hpp"
 
 #include "parlex/detail/abstract_syntax_tree.hpp"
 #include "parlex/detail/builtins.hpp"
@@ -23,14 +23,14 @@ struct PAYLOAD;
 struct EMBEDDED_COMMENT_INTERIOR_t {
 	parlex::detail::document::text<literal_0x2A_t> dont_care0;
 	
-	erased<EMBEDDED_COMMENT_INTERIOR> field_1;
+	val<EMBEDDED_COMMENT_INTERIOR> field_1;
 	
 	parlex::detail::document::text<literal_0x2A_t> dont_care2;
 	
 
 
 	explicit EMBEDDED_COMMENT_INTERIOR_t
-		(parlex::detail::document::text<literal_0x2A_t> && dont_care0, erased<EMBEDDED_COMMENT_INTERIOR> && field_1, parlex::detail::document::text<literal_0x2A_t> && dont_care2)
+		(parlex::detail::document::text<literal_0x2A_t> && dont_care0, val<EMBEDDED_COMMENT_INTERIOR> && field_1, parlex::detail::document::text<literal_0x2A_t> && dont_care2)
 		: dont_care0(std::move(dont_care0)), field_1(std::move(field_1)), dont_care2(std::move(dont_care2)) {}
 
 	EMBEDDED_COMMENT_INTERIOR_t(EMBEDDED_COMMENT_INTERIOR_t const & other) = default;
@@ -40,7 +40,7 @@ struct EMBEDDED_COMMENT_INTERIOR_t {
 };
 
 typedef std::variant<
-	erased<PAYLOAD>,
+	val<PAYLOAD>,
 	EMBEDDED_COMMENT_INTERIOR_t
 > EMBEDDED_COMMENT_INTERIOR_base;
 

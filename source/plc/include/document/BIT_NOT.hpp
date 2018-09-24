@@ -7,7 +7,7 @@
 #include <variant>
 #include <vector>
 
-#include "erased.hpp"
+#include "val.hpp"
 
 #include "parlex/detail/abstract_syntax_tree.hpp"
 #include "parlex/detail/builtins.hpp"
@@ -25,14 +25,14 @@ struct BIT_NOT {
 
 	parlex::detail::document::text<literal_0x7E0x7E_t> dont_care0;
 	
-	std::vector<erased<IC>> field_1;
+	std::vector<val<IC>> field_1;
 	
-	erased<EXPRESSION> field_2;
+	val<EXPRESSION> field_2;
 	
 
 
 	explicit BIT_NOT
-		(int32_t documentPosition, int32_t consumedCharacterCount, parlex::detail::document::text<literal_0x7E0x7E_t> && dont_care0, std::vector<erased<IC>> && field_1, erased<EXPRESSION> && field_2)
+		(int32_t documentPosition, int32_t consumedCharacterCount, parlex::detail::document::text<literal_0x7E0x7E_t> && dont_care0, std::vector<val<IC>> && field_1, val<EXPRESSION> && field_2)
 		: document_position(documentPosition), consumed_character_count(consumedCharacterCount), dont_care0(std::move(dont_care0)), field_1(std::move(field_1)), field_2(std::move(field_2)) {}
 
 	BIT_NOT(BIT_NOT const & other) = default;

@@ -16,7 +16,7 @@ automaton unit::to_nfa() const
 	throw std::logic_error("This operation is invalid");
 }
 
-static erased<node> copy_with_conversions(erased<node> const & n) {
+static val<node> copy_with_conversions(val<node> const & n) {
 	auto const & nPtr = *n;
 
 #define DO_AS(name) \
@@ -29,7 +29,7 @@ static erased<node> copy_with_conversions(erased<node> const & n) {
 		return result; \
 	}
 
-	return covariant_invoke<erased<node>> (nPtr, 
+	return covariant_invoke<val<node>> (nPtr, 
 		[&](literal const & v) { return v; },
 		[&](reference const & v) { return v; },
 		DO_AS(choice),
@@ -39,8 +39,8 @@ static erased<node> copy_with_conversions(erased<node> const & n) {
 	);
 }
 
-static erased<node> reduce(erased<node> const & n) {
-	auto getChildren = [&](std::function<std::optional<erased<node>> (erased<node> const &)> selector)
+static val<node> reduce(val<node> const & n) {
+	auto getChildren = [&](std::function<std::optional<val<node>> (val<node> const &)> selector)
 	{
 		node::children_t newChildren;
 		for (auto & child : n->children) {
@@ -52,22 +52,22 @@ static erased<node> reduce(erased<node> const & n) {
 		return newChildren;
 	};
 
-	return covariant_invoke<erased<node>>(*n,
+	return covariant_invoke<val<node>>(*n,
 		[&](unit const & v) { return v; },
 		[&](aggregate const & v) { return v; },
 		[&](choice const & v) { return v; },
 		[&](optional const & v) { return v; },
 		[&](repetition const & v) { return v; },
 		[&](sequence const & v) {
-			auto children = getChildren([&](erased<node> const & child) {
-				std::optional<erased<node>> result;
+			auto children = getChildren([&](val<node> const & child) {
+				std::optional<val<node>> result;
 				auto const * asUnitPtr = dynamic_cast<unit const *>(&*child);
 				if (asUnitPtr == nullptr || !asUnitPtr->tag.empty()) {
 					result = child;
 				}
 				return result;
 			});
-			if (std::all_of(children.begin(), children.end(), [](erased<node> const & child) { return !child->tag.empty(); })) {
+			if (std::all_of(children.begin(), children.end(), [](val<node> const & child) { return !child->tag.empty(); })) {
 				aggregate result;
 				auto childIndex = 0;
 				for (auto const & child : children) {
@@ -76,16 +76,16 @@ static erased<node> reduce(erased<node> const & n) {
 					result.add_member(child->tag, childCopy);
 					++childIndex;
 				}
-				return erased<node>(result);
+				return val<node>(result);
 			}
 			sequence result;
 			result.children = children;
-			return erased<node>(result);
+			return val<node>(result);
 		}
 	);
 }
 
-void aggregate::add_member(std::string const & name, erased<node> const & type) {
+void aggregate::add_member(std::string const & name, val<node> const & type) {
 	for (auto const & member : data_members) {
 		if (member.first == name) {
 			throw std::runtime_error("duplicate member name");
@@ -100,7 +100,7 @@ automaton aggregate::to_nfa() const
 	throw std::logic_error("This operation is invalid");
 }
 
-erased<node> compute_document_representation(erased<node> const & root) {
+val<node> compute_document_representation(val<node> const & root) {
 	return copy_with_conversions(root);
 }
 

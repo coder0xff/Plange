@@ -7,7 +7,7 @@
 #include <variant>
 #include <vector>
 
-#include "erased.hpp"
+#include "val.hpp"
 
 #include "parlex/detail/abstract_syntax_tree.hpp"
 #include "parlex/detail/builtins.hpp"
@@ -24,12 +24,12 @@ struct ASM_IDENTIFIER {
 
 	std::optional<parlex::detail::document::text<literal_0x25_t>> field_1;
 	
-	erased<IDENTIFIER> field_2;
+	val<IDENTIFIER> field_2;
 	
 
 
 	explicit ASM_IDENTIFIER
-		(int32_t documentPosition, int32_t consumedCharacterCount, std::optional<parlex::detail::document::text<literal_0x25_t>> && field_1, erased<IDENTIFIER> && field_2)
+		(int32_t documentPosition, int32_t consumedCharacterCount, std::optional<parlex::detail::document::text<literal_0x25_t>> && field_1, val<IDENTIFIER> && field_2)
 		: document_position(documentPosition), consumed_character_count(consumedCharacterCount), field_1(std::move(field_1)), field_2(std::move(field_2)) {}
 
 	ASM_IDENTIFIER(ASM_IDENTIFIER const & other) = default;

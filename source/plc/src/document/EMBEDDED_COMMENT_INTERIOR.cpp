@@ -22,7 +22,7 @@ EMBEDDED_COMMENT_INTERIOR EMBEDDED_COMMENT_INTERIOR::build(parlex::detail::ast_n
 plc::EMBEDDED_COMMENT_INTERIOR_t plc::EMBEDDED_COMMENT_INTERIOR_t::build(parlex::detail::node const * b, parlex::detail::document::walk & w) {
 	auto const & children = b->children;
 	auto v0 = parlex::detail::document::element<parlex::detail::document::text<literal_0x2A_t>>::build(&*children[0], w);
-	auto v1 = parlex::detail::document::element<erased<EMBEDDED_COMMENT_INTERIOR>>::build(&*children[1], w);
+	auto v1 = parlex::detail::document::element<val<EMBEDDED_COMMENT_INTERIOR>>::build(&*children[1], w);
 	auto v2 = parlex::detail::document::element<parlex::detail::document::text<literal_0x2A_t>>::build(&*children[2], w);
 	return EMBEDDED_COMMENT_INTERIOR_t(std::move(v0), std::move(v1), std::move(v2));
 }

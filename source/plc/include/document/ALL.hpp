@@ -7,7 +7,7 @@
 #include <variant>
 #include <vector>
 
-#include "erased.hpp"
+#include "val.hpp"
 
 #include "parlex/detail/abstract_syntax_tree.hpp"
 #include "parlex/detail/builtins.hpp"
@@ -28,9 +28,9 @@ struct ALL {
 		parlex::detail::document::text<literal_all_t>
 	> field_1;
 	
-	std::vector<erased<IC>> field_2;
+	std::vector<val<IC>> field_2;
 	
-	erased<EXPRESSION> field_3;
+	val<EXPRESSION> field_3;
 	
 
 
@@ -38,7 +38,7 @@ struct ALL {
 		(int32_t documentPosition, int32_t consumedCharacterCount, std::variant<
 	parlex::detail::document::text<literal_0xE20x880x80_t>,
 	parlex::detail::document::text<literal_all_t>
-> && field_1, std::vector<erased<IC>> && field_2, erased<EXPRESSION> && field_3)
+> && field_1, std::vector<val<IC>> && field_2, val<EXPRESSION> && field_3)
 		: document_position(documentPosition), consumed_character_count(consumedCharacterCount), field_1(std::move(field_1)), field_2(std::move(field_2)), field_3(std::move(field_3)) {}
 
 	ALL(ALL const & other) = default;

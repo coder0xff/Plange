@@ -7,7 +7,7 @@
 #include <variant>
 #include <vector>
 
-#include "erased.hpp"
+#include "val.hpp"
 
 #include "parlex/detail/abstract_syntax_tree.hpp"
 #include "parlex/detail/builtins.hpp"
@@ -25,18 +25,18 @@ struct ARRAY {
 
 	struct field_2_t {
 		struct field_1_t {
-			std::vector<erased<IC>> field_1;
+			std::vector<val<IC>> field_1;
 			
 			parlex::detail::document::text<literal_0x2C_t> dont_care1;
 			
-			std::vector<erased<IC>> field_2;
+			std::vector<val<IC>> field_2;
 			
-			erased<EXPRESSION> expression;
+			val<EXPRESSION> expression;
 			
 		
 		
 			explicit field_1_t
-				(std::vector<erased<IC>> && field_1, parlex::detail::document::text<literal_0x2C_t> && dont_care1, std::vector<erased<IC>> && field_2, erased<EXPRESSION> && expression)
+				(std::vector<val<IC>> && field_1, parlex::detail::document::text<literal_0x2C_t> && dont_care1, std::vector<val<IC>> && field_2, val<EXPRESSION> && expression)
 				: field_1(std::move(field_1)), dont_care1(std::move(dont_care1)), field_2(std::move(field_2)), expression(std::move(expression)) {}
 		
 			field_1_t(field_1_t const & other) = default;
@@ -45,16 +45,16 @@ struct ARRAY {
 			static field_1_t build(parlex::detail::node const * b, parlex::detail::document::walk & w);
 		};
 	
-		erased<EXPRESSION> expression;
+		val<EXPRESSION> expression;
 		
 		std::vector<field_1_t> field_1;
 		
-		std::vector<erased<IC>> field_2;
+		std::vector<val<IC>> field_2;
 		
 	
 	
 		explicit field_2_t
-			(erased<EXPRESSION> && expression, std::vector<field_1_t> && field_1, std::vector<erased<IC>> && field_2)
+			(val<EXPRESSION> && expression, std::vector<field_1_t> && field_1, std::vector<val<IC>> && field_2)
 			: expression(std::move(expression)), field_1(std::move(field_1)), field_2(std::move(field_2)) {}
 	
 		field_2_t(field_2_t const & other) = default;
@@ -65,7 +65,7 @@ struct ARRAY {
 
 	parlex::detail::document::text<literal_0x5B_t> dont_care0;
 	
-	std::vector<erased<IC>> field_1;
+	std::vector<val<IC>> field_1;
 	
 	std::optional<field_2_t> field_2;
 	
@@ -74,7 +74,7 @@ struct ARRAY {
 
 
 	explicit ARRAY
-		(int32_t documentPosition, int32_t consumedCharacterCount, parlex::detail::document::text<literal_0x5B_t> && dont_care0, std::vector<erased<IC>> && field_1, std::optional<field_2_t> && field_2, parlex::detail::document::text<literal_0x5D_t> && dont_care3)
+		(int32_t documentPosition, int32_t consumedCharacterCount, parlex::detail::document::text<literal_0x5B_t> && dont_care0, std::vector<val<IC>> && field_1, std::optional<field_2_t> && field_2, parlex::detail::document::text<literal_0x5D_t> && dont_care3)
 		: document_position(documentPosition), consumed_character_count(consumedCharacterCount), dont_care0(std::move(dont_care0)), field_1(std::move(field_1)), field_2(std::move(field_2)), dont_care3(std::move(dont_care3)) {}
 
 	ARRAY(ARRAY const & other) = default;

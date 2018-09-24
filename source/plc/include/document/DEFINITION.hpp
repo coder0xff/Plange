@@ -7,7 +7,7 @@
 #include <variant>
 #include <vector>
 
-#include "erased.hpp"
+#include "val.hpp"
 
 #include "parlex/detail/abstract_syntax_tree.hpp"
 #include "parlex/detail/builtins.hpp"
@@ -26,14 +26,14 @@ struct DEFINITION {
 	int32_t document_position, consumed_character_count;
 
 	struct field_1_t {
-		erased<XML_DOC_STRING> xml_doc_string;
+		val<XML_DOC_STRING> xml_doc_string;
 		
-		std::vector<erased<IC>> field_1;
+		std::vector<val<IC>> field_1;
 		
 	
 	
 		explicit field_1_t
-			(erased<XML_DOC_STRING> && xml_doc_string, std::vector<erased<IC>> && field_1)
+			(val<XML_DOC_STRING> && xml_doc_string, std::vector<val<IC>> && field_1)
 			: xml_doc_string(std::move(xml_doc_string)), field_1(std::move(field_1)) {}
 	
 		field_1_t(field_1_t const & other) = default;
@@ -44,20 +44,20 @@ struct DEFINITION {
 
 	std::optional<field_1_t> field_1;
 	
-	erased<IDENTIFIER> identifier;
+	val<IDENTIFIER> identifier;
 	
-	std::vector<erased<IC>> field_2;
+	std::vector<val<IC>> field_2;
 	
 	parlex::detail::document::text<literal_0x3A0x3D_t> dont_care3;
 	
-	std::vector<erased<IC>> field_3;
+	std::vector<val<IC>> field_3;
 	
-	erased<EXPRESSION> expression;
+	val<EXPRESSION> expression;
 	
 
 
 	explicit DEFINITION
-		(int32_t documentPosition, int32_t consumedCharacterCount, std::optional<field_1_t> && field_1, erased<IDENTIFIER> && identifier, std::vector<erased<IC>> && field_2, parlex::detail::document::text<literal_0x3A0x3D_t> && dont_care3, std::vector<erased<IC>> && field_3, erased<EXPRESSION> && expression)
+		(int32_t documentPosition, int32_t consumedCharacterCount, std::optional<field_1_t> && field_1, val<IDENTIFIER> && identifier, std::vector<val<IC>> && field_2, parlex::detail::document::text<literal_0x3A0x3D_t> && dont_care3, std::vector<val<IC>> && field_3, val<EXPRESSION> && expression)
 		: document_position(documentPosition), consumed_character_count(consumedCharacterCount), field_1(std::move(field_1)), identifier(std::move(identifier)), field_2(std::move(field_2)), dont_care3(std::move(dont_care3)), field_3(std::move(field_3)), expression(std::move(expression)) {}
 
 	DEFINITION(DEFINITION const & other) = default;

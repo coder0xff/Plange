@@ -7,7 +7,7 @@
 #include <variant>
 #include <vector>
 
-#include "erased.hpp"
+#include "val.hpp"
 
 #include "parlex/detail/abstract_syntax_tree.hpp"
 #include "parlex/detail/builtins.hpp"
@@ -21,8 +21,8 @@ struct DATE_YEAR_DAY;
 struct DATE_YEAR_MONTH_DAY;
 
 typedef std::variant<
-	erased<DATE_YEAR_MONTH_DAY>,
-	erased<DATE_YEAR_DAY>
+	val<DATE_YEAR_MONTH_DAY>,
+	val<DATE_YEAR_DAY>
 > DATE_base;
 
 struct DATE: DATE_base {

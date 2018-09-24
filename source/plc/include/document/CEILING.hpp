@@ -7,7 +7,7 @@
 #include <variant>
 #include <vector>
 
-#include "erased.hpp"
+#include "val.hpp"
 
 #include "parlex/detail/abstract_syntax_tree.hpp"
 #include "parlex/detail/builtins.hpp"
@@ -23,18 +23,18 @@ struct IC;
 struct CEILING1_t {
 	parlex::detail::document::text<literal_0xE20x8C0x88_t> dont_care0;
 	
-	std::vector<erased<IC>> field_1;
+	std::vector<val<IC>> field_1;
 	
-	erased<EXPRESSION> field_2;
+	val<EXPRESSION> field_2;
 	
-	std::vector<erased<IC>> field_3;
+	std::vector<val<IC>> field_3;
 	
 	parlex::detail::document::text<literal_0xE20x8C0x89_t> dont_care4;
 	
 
 
 	explicit CEILING1_t
-		(parlex::detail::document::text<literal_0xE20x8C0x88_t> && dont_care0, std::vector<erased<IC>> && field_1, erased<EXPRESSION> && field_2, std::vector<erased<IC>> && field_3, parlex::detail::document::text<literal_0xE20x8C0x89_t> && dont_care4)
+		(parlex::detail::document::text<literal_0xE20x8C0x88_t> && dont_care0, std::vector<val<IC>> && field_1, val<EXPRESSION> && field_2, std::vector<val<IC>> && field_3, parlex::detail::document::text<literal_0xE20x8C0x89_t> && dont_care4)
 		: dont_care0(std::move(dont_care0)), field_1(std::move(field_1)), field_2(std::move(field_2)), field_3(std::move(field_3)), dont_care4(std::move(dont_care4)) {}
 
 	CEILING1_t(CEILING1_t const & other) = default;
@@ -46,18 +46,18 @@ struct CEILING1_t {
 struct CEILING2_t {
 	parlex::detail::document::text<literal_0x7C0x27_t> dont_care0;
 	
-	std::vector<erased<IC>> field_1;
+	std::vector<val<IC>> field_1;
 	
-	erased<EXPRESSION> field_2;
+	val<EXPRESSION> field_2;
 	
-	std::vector<erased<IC>> field_3;
+	std::vector<val<IC>> field_3;
 	
 	parlex::detail::document::text<literal_0x270x7C_t> dont_care4;
 	
 
 
 	explicit CEILING2_t
-		(parlex::detail::document::text<literal_0x7C0x27_t> && dont_care0, std::vector<erased<IC>> && field_1, erased<EXPRESSION> && field_2, std::vector<erased<IC>> && field_3, parlex::detail::document::text<literal_0x270x7C_t> && dont_care4)
+		(parlex::detail::document::text<literal_0x7C0x27_t> && dont_care0, std::vector<val<IC>> && field_1, val<EXPRESSION> && field_2, std::vector<val<IC>> && field_3, parlex::detail::document::text<literal_0x270x7C_t> && dont_care4)
 		: dont_care0(std::move(dont_care0)), field_1(std::move(field_1)), field_2(std::move(field_2)), field_3(std::move(field_3)), dont_care4(std::move(dont_care4)) {}
 
 	CEILING2_t(CEILING2_t const & other) = default;

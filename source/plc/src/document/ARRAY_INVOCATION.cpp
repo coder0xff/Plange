@@ -11,9 +11,9 @@
 
 plc::ARRAY_INVOCATION::argsTail_t plc::ARRAY_INVOCATION::argsTail_t::build(parlex::detail::node const * b, parlex::detail::document::walk & w) {
 	auto const & children = b->children;
-	auto v0 = parlex::detail::document::element<std::vector<erased<IC>>>::build(&*children[0], w);
+	auto v0 = parlex::detail::document::element<std::vector<val<IC>>>::build(&*children[0], w);
 	auto v1 = parlex::detail::document::element<parlex::detail::document::text<literal_0x2C_t>>::build(&*children[1], w);
-	auto v2 = parlex::detail::document::element<std::optional<erased<ARRAY_INDEXER>>>::build(&*children[2], w);
+	auto v2 = parlex::detail::document::element<std::optional<val<ARRAY_INDEXER>>>::build(&*children[2], w);
 	return argsTail_t(std::move(v0), std::move(v1), std::move(v2));
 }
 
@@ -21,11 +21,11 @@ plc::ARRAY_INVOCATION plc::ARRAY_INVOCATION::build(parlex::detail::ast_node cons
 	static auto const * b = acceptor().behavior;
 	parlex::detail::document::walk w{ n.children.cbegin(), n.children.cend() };
 	auto const & children = b->children;
-	auto v0 = parlex::detail::document::element<erased<EXPRESSION>>::build(&*children[0], w);
+	auto v0 = parlex::detail::document::element<val<EXPRESSION>>::build(&*children[0], w);
 	auto v1 = parlex::detail::document::element<parlex::detail::document::text<literal_0x5B_t>>::build(&*children[1], w);
-	auto v2 = parlex::detail::document::element<std::optional<erased<ARRAY_INDEXER>>>::build(&*children[2], w);
+	auto v2 = parlex::detail::document::element<std::optional<val<ARRAY_INDEXER>>>::build(&*children[2], w);
 	auto v3 = parlex::detail::document::element<std::vector<argsTail_t>>::build(&*children[3], w);
-	auto v4 = parlex::detail::document::element<std::vector<erased<IC>>>::build(&*children[4], w);
+	auto v4 = parlex::detail::document::element<std::vector<val<IC>>>::build(&*children[4], w);
 	auto v5 = parlex::detail::document::element<parlex::detail::document::text<literal_0x5D_t>>::build(&*children[5], w);
 	return ARRAY_INVOCATION(n.document_position, n.consumed_character_count, std::move(v0), std::move(v1), std::move(v2), std::move(v3), std::move(v4), std::move(v5));
 }

@@ -7,7 +7,7 @@
 #include <variant>
 #include <vector>
 
-#include "erased.hpp"
+#include "val.hpp"
 
 #include "parlex/detail/abstract_syntax_tree.hpp"
 #include "parlex/detail/builtins.hpp"
@@ -24,16 +24,16 @@ struct PARENTHETICAL;
 struct CAST {
 	int32_t document_position, consumed_character_count;
 
-	erased<PARENTHETICAL> field_1;
+	val<PARENTHETICAL> field_1;
 	
-	std::vector<erased<IC>> field_2;
+	std::vector<val<IC>> field_2;
 	
-	erased<EXPRESSION> field_3;
+	val<EXPRESSION> field_3;
 	
 
 
 	explicit CAST
-		(int32_t documentPosition, int32_t consumedCharacterCount, erased<PARENTHETICAL> && field_1, std::vector<erased<IC>> && field_2, erased<EXPRESSION> && field_3)
+		(int32_t documentPosition, int32_t consumedCharacterCount, val<PARENTHETICAL> && field_1, std::vector<val<IC>> && field_2, val<EXPRESSION> && field_3)
 		: document_position(documentPosition), consumed_character_count(consumedCharacterCount), field_1(std::move(field_1)), field_2(std::move(field_2)), field_3(std::move(field_3)) {}
 
 	CAST(CAST const & other) = default;

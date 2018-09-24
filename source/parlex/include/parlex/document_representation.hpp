@@ -16,14 +16,14 @@ struct unit : node {
 
 // a leaf node representing a data structure
 struct aggregate : node {
-	typedef std::vector<std::pair<std::string /* data member name */, erased<node>>> data_members_t;
+	typedef std::vector<std::pair<std::string /* data member name */, val<node>>> data_members_t;
 	data_members_t data_members;
-	void add_member(std::string const & name, erased<node> const & type);
+	void add_member(std::string const & name, val<node> const & type);
 
 	automaton to_nfa() const override;
 };
 
-erased<node> compute_document_representation(erased<node> const & root);
+val<node> compute_document_representation(val<node> const & root);
 
 } // namespace detail
 } // namespace parlex

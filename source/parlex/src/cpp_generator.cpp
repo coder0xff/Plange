@@ -423,7 +423,7 @@ static std::string generate_literal_declarations(std::map<std::u32string, std::s
 
 #pragma region Node Transformations
 
-static erased<detail::node> flatten_node(bool isProduction, std::string const & grammarName, erased<detail::node> & n,
+static val<detail::node> flatten_node(bool isProduction, std::string const & grammarName, val<detail::node> & n,
                                          std::vector<std::string> & subResults,
                                          std::set<std::string> & forwardDeclarations,
                                          std::list<std::string> const & scopes,
@@ -528,7 +528,7 @@ static std::string generate_struct_declaration(bool const isProduction, std::str
 }
 
 // return a type node and any sub results needed to define the referenced type
-static erased<detail::node> flatten_aggregate(bool const isProduction, std::string const & grammarName,
+static val<detail::node> flatten_aggregate(bool const isProduction, std::string const & grammarName,
                                               detail::aggregate const & aggregate,
                                               std::vector<std::string> & subResults,
                                               std::set<std::string> & forwardDeclarations,
@@ -577,7 +577,7 @@ static erased<detail::node> flatten_aggregate(bool const isProduction, std::stri
 	return type(aggregate.tag);
 }
 
-static erased<detail::node> flatten_choice_as_enum(bool const isProduction, std::string const & grammarName,
+static val<detail::node> flatten_choice_as_enum(bool const isProduction, std::string const & grammarName,
                                                    choice const & choice, detail::node::children_t const & children,
                                                    std::vector<std::string> & subResults,
                                                    std::set<std::string> & forwardDeclarations,
@@ -600,7 +600,7 @@ static erased<detail::node> flatten_choice_as_enum(bool const isProduction, std:
 	return type(choice.tag);
 }
 
-static erased<detail::node> flatten_choice_as_variant(detail::node::children_t & children) {
+static val<detail::node> flatten_choice_as_variant(detail::node::children_t & children) {
 	std::stringstream ss;
 	ss << "std::variant<\n";
 	for (size_t i = 0; i < children.size(); ++i) {
@@ -627,7 +627,7 @@ static erased<detail::node> flatten_choice_as_variant(detail::node::children_t &
 	return type(ss.str());
 }
 
-static erased<detail::node> flatten_choice(bool const isProduction, std::string const & grammarName, choice & choice,
+static val<detail::node> flatten_choice(bool const isProduction, std::string const & grammarName, choice & choice,
                                            std::vector<std::string> & subResults,
                                            std::set<std::string> & forwardDeclarations,
                                            std::list<std::string> const & scopes,
@@ -643,7 +643,7 @@ static erased<detail::node> flatten_choice(bool const isProduction, std::string 
 		std::vector<std::string> dontCareBuilderDefinitions;
 		auto children = flatten_children(grammarName, choice.tag, choice.children, dontCareSubResults,
 		                                 dontCareForwardDeclarations, scopes, dontCareBuilderDefinitions);
-		allTaggedUnits = std::all_of(children.begin(), children.end(), [](erased<detail::node> const & child) {
+		allTaggedUnits = std::all_of(children.begin(), children.end(), [](val<detail::node> const & child) {
 			return child->tag != "" && dynamic_cast<detail::unit const *>(&*child) != nullptr;
 		});
 	}
@@ -663,7 +663,7 @@ static erased<detail::node> flatten_choice(bool const isProduction, std::string 
 	}
 }
 
-static erased<detail::node> flatten_optional(std::string const & grammarName, optional & optional,
+static val<detail::node> flatten_optional(std::string const & grammarName, optional & optional,
                                              std::vector<std::string> & subResults,
                                              std::set<std::string> & forwardDeclarations,
                                              std::list<std::string> const & scopes,
@@ -687,7 +687,7 @@ static erased<detail::node> flatten_optional(std::string const & grammarName, op
 	return type(result);
 }
 
-static erased<detail::node> flatten_repetition(std::string const & grammarName, repetition & repetition,
+static val<detail::node> flatten_repetition(std::string const & grammarName, repetition & repetition,
                                                std::vector<std::string> & subResults,
                                                std::set<std::string> & forwardDeclarations,
                                                std::list<std::string> const & scopes,
@@ -708,7 +708,7 @@ static erased<detail::node> flatten_repetition(std::string const & grammarName, 
 	return type(result);
 }
 
-static erased<detail::node> flatten_sequence_as_tuple(std::string const & grammarName, sequence & sequence,
+static val<detail::node> flatten_sequence_as_tuple(std::string const & grammarName, sequence & sequence,
                                                       std::vector<std::string> & subResults,
                                                       std::set<std::string> & forwardDeclarations,
                                                       std::list<std::string> const & scopes,
@@ -748,7 +748,7 @@ static detail::node::children_t flatten_children(detail::node::children_t childr
 	                        std::list<std::string>(), dontCareBuilderDefinitions);
 }
 
-static erased<detail::node> flatten_sequence_as_forced_aggregate(bool const isProduction,
+static val<detail::node> flatten_sequence_as_forced_aggregate(bool const isProduction,
                                                                  std::string const & grammarName, sequence & sequence,
                                                                  std::vector<std::string> & subResults,
                                                                  std::set<std::string> & forwardDeclarations,
@@ -795,7 +795,7 @@ static erased<detail::node> flatten_sequence_as_forced_aggregate(bool const isPr
 	                         builderDefinitions);
 }
 
-static erased<detail::node> flatten_sequence(bool const isProduction, std::string const & grammarName,
+static val<detail::node> flatten_sequence(bool const isProduction, std::string const & grammarName,
                                              sequence & sequence, std::vector<std::string> & subResults,
                                              std::set<std::string> & forwardDeclarations,
                                              std::list<std::string> const & scopes,
@@ -811,7 +811,7 @@ static erased<detail::node> flatten_sequence(bool const isProduction, std::strin
 	                                            forwardDeclarations, scopes, builderDefinitions);
 }
 
-static erased<detail::node> flatten_node(bool isProduction, std::string const & grammarName, erased<detail::node> & n,
+static val<detail::node> flatten_node(bool isProduction, std::string const & grammarName, val<detail::node> & n,
                                          std::vector<std::string> & subResults,
                                          std::set<std::string> & forwardDeclarations,
                                          std::list<std::string> const & scopes,
@@ -819,9 +819,9 @@ static erased<detail::node> flatten_node(bool isProduction, std::string const & 
 	fullyDefined = false;
 	auto newScopes(scopes);
 	newScopes.push_back(n->tag);
-	erased<detail::node> result = covariant_invoke<erased<detail::node>>(*n,
+	val<detail::node> result = covariant_invoke<val<detail::node>>(*n,
 	                                                                     [&](literal & l) {
-		                                                                     return erased<detail::node>(
+		                                                                     return val<detail::node>(
 			                                                                     type(
 				                                                                     "parlex::detail::document::text<"
 				                                                                     + string_to_c_name(
@@ -839,19 +839,19 @@ static erased<detail::node> flatten_node(bool isProduction, std::string const & 
 			                                                                     target == "c_string") {
 			                                                                     if (terminalPtr != nullptr) {
 				                                                                     fullyDefined = false;
-				                                                                     return erased<detail::node>(
+				                                                                     return val<detail::node>(
 					                                                                     type(
 						                                                                     "parlex::detail::document::text<parlex::detail::"
 						                                                                     + v.target + "_t>"));
 			                                                                     }
-			                                                                     return erased<detail::node>(
+			                                                                     return val<detail::node>(
 				                                                                     type(
 					                                                                     "parlex::detail::document::text<void>"));
 		                                                                     }
 		                                                                     forwardDeclarations.insert(v.target);
 		                                                                     fullyDefined = false;
-		                                                                     return erased<detail::node>(
-			                                                                     type("erased<" + v.target + ">"));
+		                                                                     return val<detail::node>(
+			                                                                     type("val<" + v.target + ">"));
 	                                                                     },
 	                                                                     [&](type & v) { return v; },
 	                                                                     [&](detail::aggregate & v) {
@@ -946,7 +946,7 @@ cpp_generator::output_files generate_literals(std::string const & name, std::lis
 	return results;
 }
 
-void tag_all_literals(erased<detail::node> & n) {
+void tag_all_literals(val<detail::node> & n) {
 	auto asUnit = dynamic_cast<detail::unit *>(&*n);
 	if (asUnit != nullptr) {
 		if (asUnit->tag == "") {
@@ -990,7 +990,7 @@ static cpp_generator::output_files generate_production_struct(std::string const 
 	header << "#include <optional>\n";
 	header << "#include <variant>\n";
 	header << "#include <vector>\n\n";
-	header << "#include \"erased.hpp\"\n\n";
+	header << "#include \"val.hpp\"\n\n";
 	header << "#include \"parlex/detail/abstract_syntax_tree.hpp\"\n";
 	header << "#include \"parlex/detail/builtins.hpp\"\n";
 	header << "#include \"parlex/detail/document.hpp\"\n\n";
