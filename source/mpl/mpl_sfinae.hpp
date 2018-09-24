@@ -15,7 +15,7 @@
 namespace mpl {
 
 	struct sfinae_t {
-		int operator =(int const & x) const { return x; };
+		int operator =(int const & x) const { return x; }
 	};
 
 	template<bool Enable, typename T = sfinae_t>
