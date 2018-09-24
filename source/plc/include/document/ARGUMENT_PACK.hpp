@@ -23,17 +23,17 @@ struct IC;
 struct ARGUMENT_PACK {
 	int32_t document_position, consumed_character_count;
 
-	val<EXPRESSION> field_1;
+	val<EXPRESSION> expression;
 	
-	std::vector<val<IC>> field_2;
+	std::vector<val<IC>> field_1;
 	
 	parlex::detail::document::text<literal_0x2E0x2E0x2E_t> dont_care2;
 	
 
 
 	explicit ARGUMENT_PACK
-		(int32_t documentPosition, int32_t consumedCharacterCount, val<EXPRESSION> && field_1, std::vector<val<IC>> && field_2, parlex::detail::document::text<literal_0x2E0x2E0x2E_t> && dont_care2)
-		: document_position(documentPosition), consumed_character_count(consumedCharacterCount), field_1(std::move(field_1)), field_2(std::move(field_2)), dont_care2(std::move(dont_care2)) {}
+		(int32_t documentPosition, int32_t consumedCharacterCount, val<EXPRESSION> && expression, std::vector<val<IC>> && field_1, parlex::detail::document::text<literal_0x2E0x2E0x2E_t> && dont_care2)
+		: document_position(documentPosition), consumed_character_count(consumedCharacterCount), expression(std::move(expression)), field_1(std::move(field_1)), dont_care2(std::move(dont_care2)) {}
 
 	ARGUMENT_PACK(ARGUMENT_PACK const & other) = default;
 	ARGUMENT_PACK(ARGUMENT_PACK && move) = default;

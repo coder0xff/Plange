@@ -31,14 +31,14 @@ struct DELTA;
 struct DIMENSIONAL_NUMBER;
 struct EMBEDDED_STRING;
 struct ENUM;
-struct EQUALITY_CHAIN;
+struct EQUALITY;
 struct FLOOR;
 struct FUNCTION;
-struct GREATER_CHAIN;
+struct GREATER;
 struct IDENTIFIER;
 struct IF;
 struct INVOCATION;
-struct LESSER_CHAIN;
+struct LESSER;
 struct LIST;
 struct MAGNITUDE;
 struct MAP;
@@ -51,8 +51,8 @@ struct RANGE;
 struct REGEX;
 struct SET;
 struct SET_COMPREHENSION;
-struct SUBSET_CHAIN;
-struct SUPERSET_CHAIN;
+struct SUBSET;
+struct SUPERSET;
 struct SWIZZLE;
 struct THIS;
 struct THIS_FUNC;
@@ -78,14 +78,14 @@ typedef std::variant<
 	val<DIMENSIONAL_NUMBER>,
 	val<EMBEDDED_STRING>,
 	val<ENUM>,
-	val<EQUALITY_CHAIN>,
+	val<EQUALITY>,
 	val<FLOOR>,
 	val<FUNCTION>,
-	val<GREATER_CHAIN>,
+	val<GREATER>,
 	val<IDENTIFIER>,
 	val<IF>,
 	val<INVOCATION>,
-	val<LESSER_CHAIN>,
+	val<LESSER>,
 	val<LIST>,
 	val<MAGNITUDE>,
 	val<MAP>,
@@ -98,8 +98,8 @@ typedef std::variant<
 	val<REGEX>,
 	val<SET>,
 	val<SET_COMPREHENSION>,
-	val<SUBSET_CHAIN>,
-	val<SUPERSET_CHAIN>,
+	val<SUBSET>,
+	val<SUPERSET>,
 	val<SWIZZLE>,
 	val<THIS>,
 	val<THIS_FUNC>,

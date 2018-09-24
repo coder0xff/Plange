@@ -209,6 +209,8 @@ struct literal_casts_t { };
 struct literal_catch_t { };
 // "cold_call"
 struct literal_cold_call_t { };
+// "const"
+struct literal_const_t { };
 // "context"
 struct literal_context_t { };
 // "continue"

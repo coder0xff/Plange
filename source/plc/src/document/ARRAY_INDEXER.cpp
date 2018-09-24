@@ -5,24 +5,21 @@
 #include "plange_grammar.hpp"
 
 #include "parlex/detail/document.hpp"
-#include "ARGUMENT.hpp"
 #include "ARGUMENT_PACK.hpp"
-#include "IC.hpp"
+#include "EXPRESSION.hpp"
 #include "SLICE.hpp"
 
-plc::ARRAY_INDEXER plc::ARRAY_INDEXER::build(parlex::detail::ast_node const & n) {
+#include "ARRAY_INDEXER.hpp"
+
+namespace plc {
+
+ARRAY_INDEXER ARRAY_INDEXER::build(parlex::detail::ast_node const & n) {
 	static auto const * b = acceptor().behavior;
 	parlex::detail::document::walk w{ n.children.cbegin(), n.children.cend() };
-	auto const & children = b->children;
-	auto v0 = parlex::detail::document::element<std::vector<val<IC>>>::build(&*children[0], w);
-	auto v1 = parlex::detail::document::element<std::variant<
-		val<ARGUMENT>,
-		val<ARGUMENT_PACK>,
-		val<SLICE>
-	>>::build(&*children[1], w);
-	return ARRAY_INDEXER(n.document_position, n.consumed_character_count, std::move(v0), std::move(v1));
+	return ARRAY_INDEXER(parlex::detail::document::element<ARRAY_INDEXER_base>::build(b, w));
 }
 
+} // namespace plc
 
 parlex::detail::acceptor const & plc::ARRAY_INDEXER::acceptor() {
 	static auto const & result = *static_cast<parlex::detail::acceptor const *>(&plange_grammar::get().get_recognizer(plange_grammar::get().ARRAY_INDEXER));

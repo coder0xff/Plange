@@ -18,20 +18,43 @@
 namespace plc {
 
 struct ARRAY_INVOCATION;
+struct EXPRESSION;
+struct IC;
 struct PARENTHETICAL_INVOCATION;
 struct TYPE_INVOCATION;
 
-typedef std::variant<
+struct INVOCATION {
+	int32_t document_position, consumed_character_count;
+
+	val<EXPRESSION> expression;
+	
+	std::vector<val<IC>> ic;
+	
+	std::variant<
+		val<PARENTHETICAL_INVOCATION>,
+		val<ARRAY_INVOCATION>,
+		val<TYPE_INVOCATION>
+	> args;
+	
+
+
+	explicit INVOCATION
+		(int32_t documentPosition, int32_t consumedCharacterCount, val<EXPRESSION> && expression, std::vector<val<IC>> && ic, std::variant<
 	val<PARENTHETICAL_INVOCATION>,
 	val<ARRAY_INVOCATION>,
 	val<TYPE_INVOCATION>
-> INVOCATION_base;
+> && args)
+		: document_position(documentPosition), consumed_character_count(consumedCharacterCount), expression(std::move(expression)), ic(std::move(ic)), args(std::move(args)) {}
 
-struct INVOCATION: INVOCATION_base {
+	INVOCATION(INVOCATION const & other) = default;
+	INVOCATION(INVOCATION && move) = default;
+
 	static INVOCATION build(parlex::detail::ast_node const & n);
-	explicit INVOCATION(INVOCATION_base const & value) : INVOCATION_base(value) {}
 	static parlex::detail::acceptor const & acceptor();
+
 };
+
+
 } // namespace plc
 
 

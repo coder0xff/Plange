@@ -17,60 +17,22 @@
 
 namespace plc {
 
+struct NON_ZERO_DECIMAL_DIGIT;
+
 struct WHOLE_NUMBER {
 	int32_t document_position, consumed_character_count;
 
-	std::variant<
-		parlex::detail::document::text<literal_1_t>,
-		parlex::detail::document::text<literal_2_t>,
-		parlex::detail::document::text<literal_3_t>,
-		parlex::detail::document::text<literal_4_t>,
-		parlex::detail::document::text<literal_5_t>,
-		parlex::detail::document::text<literal_6_t>,
-		parlex::detail::document::text<literal_7_t>,
-		parlex::detail::document::text<literal_8_t>,
-		parlex::detail::document::text<literal_9_t>
-	> field_1;
+	std::vector<parlex::detail::document::text<literal_0_t>> field_1;
 	
-	std::vector<std::variant<
-		parlex::detail::document::text<literal_0_t>,
-		parlex::detail::document::text<literal_1_t>,
-		parlex::detail::document::text<literal_2_t>,
-		parlex::detail::document::text<literal_3_t>,
-		parlex::detail::document::text<literal_4_t>,
-		parlex::detail::document::text<literal_5_t>,
-		parlex::detail::document::text<literal_6_t>,
-		parlex::detail::document::text<literal_7_t>,
-		parlex::detail::document::text<literal_8_t>,
-		parlex::detail::document::text<literal_9_t>
-	>> field_2;
+	val<NON_ZERO_DECIMAL_DIGIT> field_2;
+	
+	std::vector<parlex::detail::document::text<parlex::detail::decimal_digit_t>> field_3;
 	
 
 
 	explicit WHOLE_NUMBER
-		(int32_t documentPosition, int32_t consumedCharacterCount, std::variant<
-	parlex::detail::document::text<literal_1_t>,
-	parlex::detail::document::text<literal_2_t>,
-	parlex::detail::document::text<literal_3_t>,
-	parlex::detail::document::text<literal_4_t>,
-	parlex::detail::document::text<literal_5_t>,
-	parlex::detail::document::text<literal_6_t>,
-	parlex::detail::document::text<literal_7_t>,
-	parlex::detail::document::text<literal_8_t>,
-	parlex::detail::document::text<literal_9_t>
-> && field_1, std::vector<std::variant<
-	parlex::detail::document::text<literal_0_t>,
-	parlex::detail::document::text<literal_1_t>,
-	parlex::detail::document::text<literal_2_t>,
-	parlex::detail::document::text<literal_3_t>,
-	parlex::detail::document::text<literal_4_t>,
-	parlex::detail::document::text<literal_5_t>,
-	parlex::detail::document::text<literal_6_t>,
-	parlex::detail::document::text<literal_7_t>,
-	parlex::detail::document::text<literal_8_t>,
-	parlex::detail::document::text<literal_9_t>
->> && field_2)
-		: document_position(documentPosition), consumed_character_count(consumedCharacterCount), field_1(std::move(field_1)), field_2(std::move(field_2)) {}
+		(int32_t documentPosition, int32_t consumedCharacterCount, std::vector<parlex::detail::document::text<literal_0_t>> && field_1, val<NON_ZERO_DECIMAL_DIGIT> && field_2, std::vector<parlex::detail::document::text<parlex::detail::decimal_digit_t>> && field_3)
+		: document_position(documentPosition), consumed_character_count(consumedCharacterCount), field_1(std::move(field_1)), field_2(std::move(field_2)), field_3(std::move(field_3)) {}
 
 	WHOLE_NUMBER(WHOLE_NUMBER const & other) = default;
 	WHOLE_NUMBER(WHOLE_NUMBER && move) = default;

@@ -5,7 +5,7 @@
 #include "plange_grammar.hpp"
 
 #include "parlex/detail/document.hpp"
-#include "ASSIGNMENT_CHAIN.hpp"
+#include "ASSIGNMENT.hpp"
 #include "BREAK.hpp"
 #include "CONTINUE.hpp"
 #include "DEFINITION.hpp"
@@ -32,7 +32,7 @@ plc::STATEMENT plc::STATEMENT::build(parlex::detail::ast_node const & n) {
 	parlex::detail::document::walk w{ n.children.cbegin(), n.children.cend() };
 	auto const & children = b->children;
 	auto v0 = parlex::detail::document::element<std::variant<
-		val<ASSIGNMENT_CHAIN>,
+		val<ASSIGNMENT>,
 		val<BREAK>,
 		val<CONTINUE>,
 		val<DEFINITION>,

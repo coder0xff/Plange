@@ -19,46 +19,26 @@ namespace plc {
 
 struct EXPRESSION;
 struct IC;
-struct IDENTIFIER;
-struct XML_DOC_STRING;
+struct IDENTIFIER_SPECIFICATION;
 
 struct DEFINITION {
 	int32_t document_position, consumed_character_count;
 
-	struct field_1_t {
-		val<XML_DOC_STRING> xml_doc_string;
-		
-		std::vector<val<IC>> field_1;
-		
+	val<IDENTIFIER_SPECIFICATION> identifier_specification;
 	
+	std::vector<val<IC>> field_1;
 	
-		explicit field_1_t
-			(val<XML_DOC_STRING> && xml_doc_string, std::vector<val<IC>> && field_1)
-			: xml_doc_string(std::move(xml_doc_string)), field_1(std::move(field_1)) {}
-	
-		field_1_t(field_1_t const & other) = default;
-		field_1_t(field_1_t && move) = default;
-	
-		static field_1_t build(parlex::detail::node const * b, parlex::detail::document::walk & w);
-	};
-
-	std::optional<field_1_t> field_1;
-	
-	val<IDENTIFIER> identifier;
+	parlex::detail::document::text<literal_0x3A0x3D_t> dont_care2;
 	
 	std::vector<val<IC>> field_2;
-	
-	parlex::detail::document::text<literal_0x3A0x3D_t> dont_care3;
-	
-	std::vector<val<IC>> field_3;
 	
 	val<EXPRESSION> expression;
 	
 
 
 	explicit DEFINITION
-		(int32_t documentPosition, int32_t consumedCharacterCount, std::optional<field_1_t> && field_1, val<IDENTIFIER> && identifier, std::vector<val<IC>> && field_2, parlex::detail::document::text<literal_0x3A0x3D_t> && dont_care3, std::vector<val<IC>> && field_3, val<EXPRESSION> && expression)
-		: document_position(documentPosition), consumed_character_count(consumedCharacterCount), field_1(std::move(field_1)), identifier(std::move(identifier)), field_2(std::move(field_2)), dont_care3(std::move(dont_care3)), field_3(std::move(field_3)), expression(std::move(expression)) {}
+		(int32_t documentPosition, int32_t consumedCharacterCount, val<IDENTIFIER_SPECIFICATION> && identifier_specification, std::vector<val<IC>> && field_1, parlex::detail::document::text<literal_0x3A0x3D_t> && dont_care2, std::vector<val<IC>> && field_2, val<EXPRESSION> && expression)
+		: document_position(documentPosition), consumed_character_count(consumedCharacterCount), identifier_specification(std::move(identifier_specification)), field_1(std::move(field_1)), dont_care2(std::move(dont_care2)), field_2(std::move(field_2)), expression(std::move(expression)) {}
 
 	DEFINITION(DEFINITION const & other) = default;
 	DEFINITION(DEFINITION && move) = default;

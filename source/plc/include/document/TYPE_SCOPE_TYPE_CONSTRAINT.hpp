@@ -18,23 +18,46 @@
 namespace plc {
 
 struct IC;
-struct TYPE_CONSTRAINT_HEAD;
-struct TYPE_SCOPE_TYPE_CONSTRAINT_CHAIN;
+struct TYPE_CONSTRAINT_SPECIFICATION;
+struct TYPE_SCOPE_TYPE_CONSTRAINT_ELEMENT;
 
 struct TYPE_SCOPE_TYPE_CONSTRAINT {
 	int32_t document_position, consumed_character_count;
 
-	val<TYPE_CONSTRAINT_HEAD> field_1;
+	struct tail_t {
+		std::vector<val<IC>> ic1;
+		
+		parlex::detail::document::text<literal_0x2C_t> comma;
+		
+		std::vector<val<IC>> ic2;
+		
+		val<TYPE_SCOPE_TYPE_CONSTRAINT_ELEMENT> field_1;
+		
 	
-	std::vector<val<IC>> field_2;
 	
-	val<TYPE_SCOPE_TYPE_CONSTRAINT_CHAIN> field_3;
+		explicit tail_t
+			(std::vector<val<IC>> && ic1, parlex::detail::document::text<literal_0x2C_t> && comma, std::vector<val<IC>> && ic2, val<TYPE_SCOPE_TYPE_CONSTRAINT_ELEMENT> && field_1)
+			: ic1(std::move(ic1)), comma(std::move(comma)), ic2(std::move(ic2)), field_1(std::move(field_1)) {}
+	
+		tail_t(tail_t const & other) = default;
+		tail_t(tail_t && move) = default;
+	
+		static tail_t build(parlex::detail::node const * b, parlex::detail::document::walk & w);
+	};
+
+	val<TYPE_CONSTRAINT_SPECIFICATION> constraint;
+	
+	std::vector<val<IC>> ic;
+	
+	val<TYPE_SCOPE_TYPE_CONSTRAINT_ELEMENT> head;
+	
+	std::vector<tail_t> tail;
 	
 
 
 	explicit TYPE_SCOPE_TYPE_CONSTRAINT
-		(int32_t documentPosition, int32_t consumedCharacterCount, val<TYPE_CONSTRAINT_HEAD> && field_1, std::vector<val<IC>> && field_2, val<TYPE_SCOPE_TYPE_CONSTRAINT_CHAIN> && field_3)
-		: document_position(documentPosition), consumed_character_count(consumedCharacterCount), field_1(std::move(field_1)), field_2(std::move(field_2)), field_3(std::move(field_3)) {}
+		(int32_t documentPosition, int32_t consumedCharacterCount, val<TYPE_CONSTRAINT_SPECIFICATION> && constraint, std::vector<val<IC>> && ic, val<TYPE_SCOPE_TYPE_CONSTRAINT_ELEMENT> && head, std::vector<tail_t> && tail)
+		: document_position(documentPosition), consumed_character_count(consumedCharacterCount), constraint(std::move(constraint)), ic(std::move(ic)), head(std::move(head)), tail(std::move(tail)) {}
 
 	TYPE_SCOPE_TYPE_CONSTRAINT(TYPE_SCOPE_TYPE_CONSTRAINT const & other) = default;
 	TYPE_SCOPE_TYPE_CONSTRAINT(TYPE_SCOPE_TYPE_CONSTRAINT && move) = default;

@@ -17,49 +17,42 @@
 
 namespace plc {
 
-struct ARRAY_INDEXER;
-struct EXPRESSION;
+struct ARRAY_ARGUMENTS;
 struct IC;
 
 struct ARRAY_INVOCATION {
 	int32_t document_position, consumed_character_count;
 
-	struct argsTail_t {
-		std::vector<val<IC>> field_1;
+	struct field_1_t {
+		val<ARRAY_ARGUMENTS> array_arguments;
 		
-		parlex::detail::document::text<literal_0x2C_t> dont_care1;
-		
-		std::optional<val<ARRAY_INDEXER>> field_2;
+		std::vector<val<IC>> ic;
 		
 	
 	
-		explicit argsTail_t
-			(std::vector<val<IC>> && field_1, parlex::detail::document::text<literal_0x2C_t> && dont_care1, std::optional<val<ARRAY_INDEXER>> && field_2)
-			: field_1(std::move(field_1)), dont_care1(std::move(dont_care1)), field_2(std::move(field_2)) {}
+		explicit field_1_t
+			(val<ARRAY_ARGUMENTS> && array_arguments, std::vector<val<IC>> && ic)
+			: array_arguments(std::move(array_arguments)), ic(std::move(ic)) {}
 	
-		argsTail_t(argsTail_t const & other) = default;
-		argsTail_t(argsTail_t && move) = default;
+		field_1_t(field_1_t const & other) = default;
+		field_1_t(field_1_t && move) = default;
 	
-		static argsTail_t build(parlex::detail::node const * b, parlex::detail::document::walk & w);
+		static field_1_t build(parlex::detail::node const * b, parlex::detail::document::walk & w);
 	};
 
-	val<EXPRESSION> target;
+	parlex::detail::document::text<literal_0x5B_t> dont_care0;
 	
-	parlex::detail::document::text<literal_0x5B_t> dont_care1;
+	std::vector<val<IC>> ic;
 	
-	std::optional<val<ARRAY_INDEXER>> argsHead;
+	std::optional<field_1_t> field_1;
 	
-	std::vector<argsTail_t> argsTail;
-	
-	std::vector<val<IC>> field_1;
-	
-	parlex::detail::document::text<literal_0x5D_t> dont_care5;
+	parlex::detail::document::text<literal_0x5D_t> dont_care3;
 	
 
 
 	explicit ARRAY_INVOCATION
-		(int32_t documentPosition, int32_t consumedCharacterCount, val<EXPRESSION> && target, parlex::detail::document::text<literal_0x5B_t> && dont_care1, std::optional<val<ARRAY_INDEXER>> && argsHead, std::vector<argsTail_t> && argsTail, std::vector<val<IC>> && field_1, parlex::detail::document::text<literal_0x5D_t> && dont_care5)
-		: document_position(documentPosition), consumed_character_count(consumedCharacterCount), target(std::move(target)), dont_care1(std::move(dont_care1)), argsHead(std::move(argsHead)), argsTail(std::move(argsTail)), field_1(std::move(field_1)), dont_care5(std::move(dont_care5)) {}
+		(int32_t documentPosition, int32_t consumedCharacterCount, parlex::detail::document::text<literal_0x5B_t> && dont_care0, std::vector<val<IC>> && ic, std::optional<field_1_t> && field_1, parlex::detail::document::text<literal_0x5D_t> && dont_care3)
+		: document_position(documentPosition), consumed_character_count(consumedCharacterCount), dont_care0(std::move(dont_care0)), ic(std::move(ic)), field_1(std::move(field_1)), dont_care3(std::move(dont_care3)) {}
 
 	ARRAY_INVOCATION(ARRAY_INVOCATION const & other) = default;
 	ARRAY_INVOCATION(ARRAY_INVOCATION && move) = default;
