@@ -155,6 +155,7 @@ set(SOURCES
 	"src/scope.cpp"
 	"src/source_code.cpp"
 	"src/symbol.cpp"
+	"src/visibility.cpp"
 	"src/warnings.cpp"
 )
 
@@ -170,6 +171,7 @@ set(HEADERS
 	"include/scope.hpp"
 	"include/source_code.hpp"
 	"include/symbol.hpp"
+	"include/visibility.hpp"
 	"include/warnings.hpp"
 )
 
