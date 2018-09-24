@@ -17,98 +17,42 @@
 
 namespace plc {
 
-struct ARGUMENT;
-struct ARGUMENT_PACK;
-struct EXPRESSION;
 struct IC;
+struct STANDARD_ARGUMENTS;
 
 struct PARENTHETICAL_INVOCATION {
 	int32_t document_position, consumed_character_count;
 
-	struct argsHead_t {
-		std::vector<val<IC>> field_1;
+	struct field_1_t {
+		val<STANDARD_ARGUMENTS> standard_arguments;
 		
-		std::variant<
-			val<ARGUMENT>,
-			val<ARGUMENT_PACK>
-		> field_2;
+		std::vector<val<IC>> ic;
 		
 	
 	
-		explicit argsHead_t
-			(std::vector<val<IC>> && field_1, std::variant<
-		val<ARGUMENT>,
-		val<ARGUMENT_PACK>
-	> && field_2)
-			: field_1(std::move(field_1)), field_2(std::move(field_2)) {}
+		explicit field_1_t
+			(val<STANDARD_ARGUMENTS> && standard_arguments, std::vector<val<IC>> && ic)
+			: standard_arguments(std::move(standard_arguments)), ic(std::move(ic)) {}
 	
-		argsHead_t(argsHead_t const & other) = default;
-		argsHead_t(argsHead_t && move) = default;
+		field_1_t(field_1_t const & other) = default;
+		field_1_t(field_1_t && move) = default;
 	
-		static argsHead_t build(parlex::detail::node const * b, parlex::detail::document::walk & w);
+		static field_1_t build(parlex::detail::node const * b, parlex::detail::document::walk & w);
 	};
 
-	struct argsTail_t {
-		struct field_2_t {
-			std::vector<val<IC>> field_1;
-			
-			std::variant<
-				val<ARGUMENT>,
-				val<ARGUMENT_PACK>
-			> field_2;
-			
-		
-		
-			explicit field_2_t
-				(std::vector<val<IC>> && field_1, std::variant<
-			val<ARGUMENT>,
-			val<ARGUMENT_PACK>
-		> && field_2)
-				: field_1(std::move(field_1)), field_2(std::move(field_2)) {}
-		
-			field_2_t(field_2_t const & other) = default;
-			field_2_t(field_2_t && move) = default;
-		
-			static field_2_t build(parlex::detail::node const * b, parlex::detail::document::walk & w);
-		};
+	parlex::detail::document::text<literal_0x28_t> dont_care0;
 	
-		std::vector<val<IC>> field_1;
-		
-		parlex::detail::document::text<literal_0x2C_t> dont_care1;
-		
-		std::optional<field_2_t> field_2;
-		
+	std::vector<val<IC>> ic;
 	
+	std::optional<field_1_t> field_1;
 	
-		explicit argsTail_t
-			(std::vector<val<IC>> && field_1, parlex::detail::document::text<literal_0x2C_t> && dont_care1, std::optional<field_2_t> && field_2)
-			: field_1(std::move(field_1)), dont_care1(std::move(dont_care1)), field_2(std::move(field_2)) {}
-	
-		argsTail_t(argsTail_t const & other) = default;
-		argsTail_t(argsTail_t && move) = default;
-	
-		static argsTail_t build(parlex::detail::node const * b, parlex::detail::document::walk & w);
-	};
-
-	val<EXPRESSION> target;
-	
-	std::vector<val<IC>> field_1;
-	
-	parlex::detail::document::text<literal_0x28_t> dont_care2;
-	
-	std::optional<argsHead_t> argsHead;
-	
-	std::vector<argsTail_t> argsTail;
-	
-	std::vector<val<IC>> field_2;
-	
-	parlex::detail::document::text<literal_0x29_t> dont_care6;
+	parlex::detail::document::text<literal_0x29_t> dont_care3;
 	
 
 
 	explicit PARENTHETICAL_INVOCATION
-		(int32_t documentPosition, int32_t consumedCharacterCount, val<EXPRESSION> && target, std::vector<val<IC>> && field_1, parlex::detail::document::text<literal_0x28_t> && dont_care2, std::optional<argsHead_t> && argsHead, std::vector<argsTail_t> && argsTail, std::vector<val<IC>> && field_2, parlex::detail::document::text<literal_0x29_t> && dont_care6)
-		: document_position(documentPosition), consumed_character_count(consumedCharacterCount), target(std::move(target)), field_1(std::move(field_1)), dont_care2(std::move(dont_care2)), argsHead(std::move(argsHead)), argsTail(std::move(argsTail)), field_2(std::move(field_2)), dont_care6(std::move(dont_care6)) {}
+		(int32_t documentPosition, int32_t consumedCharacterCount, parlex::detail::document::text<literal_0x28_t> && dont_care0, std::vector<val<IC>> && ic, std::optional<field_1_t> && field_1, parlex::detail::document::text<literal_0x29_t> && dont_care3)
+		: document_position(documentPosition), consumed_character_count(consumedCharacterCount), dont_care0(std::move(dont_care0)), ic(std::move(ic)), field_1(std::move(field_1)), dont_care3(std::move(dont_care3)) {}
 
 	PARENTHETICAL_INVOCATION(PARENTHETICAL_INVOCATION const & other) = default;
 	PARENTHETICAL_INVOCATION(PARENTHETICAL_INVOCATION && move) = default;

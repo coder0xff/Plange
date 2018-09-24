@@ -107,13 +107,8 @@ static parlex::production AND_ASSIGNMENT() {
 	return parlex::production("AND_ASSIGNMENT",v12);
 }
 
-static parlex::production ARGUMENT() {
-	parlex::reference const v0("ARGUMENT", "EXPRESSION");
-	return parlex::production("ARGUMENT",v0);
-}
-
 static parlex::production ARGUMENT_PACK() {
-	parlex::reference const v0("EXPRESSION");
+	parlex::reference const v0("expression", "EXPRESSION");
 	parlex::reference const v1("IC");
 	parlex::repetition const v2(v1);
 	parlex::literal const v3(U"...");
@@ -143,34 +138,43 @@ static parlex::production ARRAY() {
 	return parlex::production("ARRAY",v17);
 }
 
+static parlex::production ARRAY_ARGUMENTS() {
+	parlex::reference const v0("array_indexer", "ARRAY_INDEXER");
+	parlex::optional const v1("head", v0);
+	parlex::reference const v2("IC");
+	parlex::repetition const v3("ic", v2);
+	parlex::literal const v4(U",");
+	parlex::reference const v5("IC");
+	parlex::repetition const v6("ic", v5);
+	parlex::reference const v7("array_indexer", "ARRAY_INDEXER");
+	parlex::sequence const v8({v6, v7});
+	parlex::optional const v9(v8);
+	parlex::sequence const v10({v3, v4, v9});
+	parlex::repetition const v11("tail", v10);
+	parlex::sequence const v12("ARRAY_ARGUMENTS", {v1, v11});
+	return parlex::production("ARRAY_ARGUMENTS",v12);
+}
+
 static parlex::production ARRAY_INDEXER() {
-	parlex::reference const v0("IC");
-	parlex::repetition const v1(v0);
-	parlex::reference const v2("ARGUMENT");
-	parlex::reference const v3("ARGUMENT_PACK");
-	parlex::reference const v4("SLICE");
-	parlex::choice const v5({v2, v3, v4});
-	parlex::sequence const v6("ARRAY_INDEXER", {v1, v5});
-	return parlex::production("ARRAY_INDEXER",v6);
+	parlex::reference const v0("EXPRESSION");
+	parlex::reference const v1("ARGUMENT_PACK");
+	parlex::reference const v2("SLICE");
+	parlex::choice const v3("ARRAY_INDEXER", {v0, v1, v2});
+	return parlex::production("ARRAY_INDEXER",v3);
 }
 
 static parlex::production ARRAY_INVOCATION() {
-	parlex::reference const v0("target", "EXPRESSION");
-	parlex::literal const v1(U"[");
-	parlex::reference const v2("array_indexer", "ARRAY_INDEXER");
-	parlex::optional const v3("argsHead", v2);
+	parlex::literal const v0(U"[");
+	parlex::reference const v1("IC");
+	parlex::repetition const v2("ic", v1);
+	parlex::reference const v3("array_arguments", "ARRAY_ARGUMENTS");
 	parlex::reference const v4("IC");
-	parlex::repetition const v5(v4);
-	parlex::literal const v6(U",");
-	parlex::reference const v7("array_indexer", "ARRAY_INDEXER");
-	parlex::optional const v8(v7);
-	parlex::sequence const v9({v5, v6, v8});
-	parlex::repetition const v10("argsTail", v9);
-	parlex::reference const v11("IC");
-	parlex::repetition const v12(v11);
-	parlex::literal const v13(U"]");
-	parlex::sequence const v14("ARRAY_INVOCATION", {v0, v1, v3, v10, v12, v13});
-	return parlex::production("ARRAY_INVOCATION",v14);
+	parlex::repetition const v5("ic", v4);
+	parlex::sequence const v6({v3, v5});
+	parlex::optional const v7(v6);
+	parlex::literal const v8(U"]");
+	parlex::sequence const v9("ARRAY_INVOCATION", {v0, v2, v7, v8});
+	return parlex::production("ARRAY_INVOCATION",v9);
 }
 
 static parlex::production ASM_EXPRESSION() {
@@ -332,32 +336,37 @@ static parlex::production ASM_STATEMENT() {
 	return parlex::production("ASM_STATEMENT",v19);
 }
 
-static parlex::production ASSIGNMENT_CHAIN() {
-	parlex::reference const v0("xml_doc_string", "XML_DOC_STRING");
+static parlex::production ASSIGNMENT() {
+	parlex::reference const v0("identifier_specification", "IDENTIFIER_SPECIFICATION");
 	parlex::reference const v1("IC");
-	parlex::repetition const v2(v1);
-	parlex::sequence const v3({v0, v2});
-	parlex::optional const v4(v3);
-	parlex::reference const v5("identifier", "IDENTIFIER");
-	parlex::reference const v6("IC");
-	parlex::repetition const v7(v6);
-	parlex::literal const v8(U"←");
-	parlex::literal const v9(U"<-");
-	parlex::choice const v10({v8, v9});
-	parlex::reference const v11("IC");
-	parlex::repetition const v12(v11);
-	parlex::reference const v13("expression", "EXPRESSION");
-	parlex::reference const v14("ASSIGNMENT_CHAIN");
-	parlex::choice const v15({v13, v14});
-	parlex::sequence const v16("ASSIGNMENT_CHAIN", {v4, v5, v7, v10, v12, v15});
-	return parlex::production("ASSIGNMENT_CHAIN",v16, parlex::associativity::NONE, parlex::filter_function(), {"EXPRESSION", "LESSER_CHAIN", });
+	parlex::repetition const v2("ic", v1);
+	parlex::reference const v3("assignment_node", "ASSIGNMENT_NODE");
+	parlex::sequence const v4("ASSIGNMENT", {v0, v2, v3});
+	return parlex::production("ASSIGNMENT",v4, parlex::associativity::NONE, parlex::filter_function(), {"EXPRESSION", "LESSER", });
+}
+
+static parlex::production ASSIGNMENT_NODE() {
+	parlex::literal const v0(U"←");
+	parlex::literal const v1(U"<-");
+	parlex::choice const v2({v0, v1});
+	parlex::reference const v3("IC");
+	parlex::repetition const v4("ic", v3);
+	parlex::reference const v5("expression", "EXPRESSION");
+	parlex::reference const v6("identifier_specification", "IDENTIFIER_SPECIFICATION");
+	parlex::reference const v7("IC");
+	parlex::repetition const v8("ic", v7);
+	parlex::reference const v9("next", "ASSIGNMENT_NODE");
+	parlex::sequence const v10({v6, v8, v9});
+	parlex::choice const v11("value", {v5, v10});
+	parlex::sequence const v12("ASSIGNMENT_NODE", {v2, v4, v11});
+	return parlex::production("ASSIGNMENT_NODE",v12);
 }
 
 static parlex::production ATTRIBUTE() {
 	parlex::literal const v0(U"@");
 	parlex::reference const v1("IC");
 	parlex::repetition const v2(v1);
-	parlex::reference const v3("EXPRESSION");
+	parlex::reference const v3("expression", "EXPRESSION");
 	parlex::reference const v4("IC");
 	parlex::repetition const v5(v4);
 	parlex::literal const v6(U"@");
@@ -632,7 +641,7 @@ static parlex::production COMMENT() {
 	parlex::repetition const v2(v1);
 	parlex::literal const v3(U"*/");
 	parlex::sequence const v4("COMMENT", {v0, v2, v3});
-	return parlex::production("COMMENT",v4);
+	return parlex::production("COMMENT",v4, parlex::associativity::NONE, parlex::shortest());
 }
 
 static parlex::production COMPLEMENT() {
@@ -826,32 +835,16 @@ static parlex::production DATE_YEAR_MONTH_DAY() {
 	return parlex::production("DATE_YEAR_MONTH_DAY",v10, parlex::associativity::NONE, parlex::filter_function(), {"SUBTRACTION", });
 }
 
-static parlex::production DECLARATION() {
-	parlex::reference const v0("xml_doc_string", "XML_DOC_STRING");
-	parlex::reference const v1("IC");
-	parlex::repetition const v2(v1);
-	parlex::sequence const v3({v0, v2});
-	parlex::optional const v4(v3);
-	parlex::reference const v5("identifier", "IDENTIFIER");
-	parlex::sequence const v6("DECLARATION", {v4, v5});
-	return parlex::production("DECLARATION",v6);
-}
-
 static parlex::production DEFINITION() {
-	parlex::reference const v0("xml_doc_string", "XML_DOC_STRING");
+	parlex::reference const v0("identifier_specification", "IDENTIFIER_SPECIFICATION");
 	parlex::reference const v1("IC");
 	parlex::repetition const v2(v1);
-	parlex::sequence const v3({v0, v2});
-	parlex::optional const v4(v3);
-	parlex::reference const v5("identifier", "IDENTIFIER");
-	parlex::reference const v6("IC");
-	parlex::repetition const v7(v6);
-	parlex::literal const v8(U":=");
-	parlex::reference const v9("IC");
-	parlex::repetition const v10(v9);
-	parlex::reference const v11("expression", "EXPRESSION");
-	parlex::sequence const v12("DEFINITION", {v4, v5, v7, v8, v10, v11});
-	return parlex::production("DEFINITION",v12);
+	parlex::literal const v3(U":=");
+	parlex::reference const v4("IC");
+	parlex::repetition const v5(v4);
+	parlex::reference const v6("expression", "EXPRESSION");
+	parlex::sequence const v7("DEFINITION", {v0, v2, v3, v5, v6});
+	return parlex::production("DEFINITION",v7);
 }
 
 static parlex::production DELTA() {
@@ -1069,40 +1062,42 @@ static parlex::production ENUM() {
 }
 
 static parlex::production ENUM_ELEMENT() {
-	parlex::reference const v0("identifier", "IDENTIFIER");
-	parlex::reference const v1("IC");
-	parlex::repetition const v2(v1);
-	parlex::literal const v3(U":=");
-	parlex::reference const v4("IC");
-	parlex::repetition const v5(v4);
-	parlex::reference const v6("expression", "EXPRESSION");
-	parlex::sequence const v7({v2, v3, v5, v6});
-	parlex::optional const v8(v7);
-	parlex::sequence const v9("ENUM_ELEMENT", {v0, v8});
-	return parlex::production("ENUM_ELEMENT",v9);
+	parlex::reference const v0("xml_doc_string", "XML_DOC_STRING");
+	parlex::optional const v1("doc", v0);
+	parlex::reference const v2("identifier", "IDENTIFIER");
+	parlex::reference const v3("IC");
+	parlex::repetition const v4(v3);
+	parlex::literal const v5(U":=");
+	parlex::reference const v6("IC");
+	parlex::repetition const v7(v6);
+	parlex::reference const v8("expression", "EXPRESSION");
+	parlex::sequence const v9({v4, v5, v7, v8});
+	parlex::optional const v10(v9);
+	parlex::sequence const v11("ENUM_ELEMENT", {v1, v2, v10});
+	return parlex::production("ENUM_ELEMENT",v11);
 }
 
-static parlex::production EQUALITY_CHAIN() {
+static parlex::production EQUALITY() {
 	parlex::reference const v0("expression", "EXPRESSION");
 	parlex::reference const v1("IC");
 	parlex::repetition const v2(v1);
-	parlex::reference const v3("equality_chain_loop", "EQUALITY_CHAIN_LOOP");
-	parlex::sequence const v4("EQUALITY_CHAIN", {v0, v2, v3});
-	return parlex::production("EQUALITY_CHAIN",v4, parlex::associativity::NONE, parlex::filter_function(), {"GREATER_CHAIN", "LESSER_CHAIN", "SUBSET_CHAIN", "SUPERSET_CHAIN", });
+	parlex::reference const v3("equality_node", "EQUALITY_NODE");
+	parlex::sequence const v4("EQUALITY", {v0, v2, v3});
+	return parlex::production("EQUALITY",v4, parlex::associativity::NONE, parlex::filter_function(), {"GREATER", "LESSER", "SUBSET", "SUPERSET", });
 }
 
-static parlex::production EQUALITY_CHAIN_LOOP() {
+static parlex::production EQUALITY_NODE() {
 	parlex::literal const v0(U"=");
 	parlex::reference const v1("IC");
 	parlex::repetition const v2(v1);
 	parlex::reference const v3("expression", "EXPRESSION");
 	parlex::reference const v4("IC");
 	parlex::repetition const v5(v4);
-	parlex::reference const v6("equality_chain_loop", "EQUALITY_CHAIN_LOOP");
+	parlex::reference const v6("equality_node", "EQUALITY_NODE");
 	parlex::sequence const v7({v5, v6});
 	parlex::optional const v8(v7);
-	parlex::sequence const v9("EQUALITY_CHAIN_LOOP", {v0, v2, v3, v8});
-	return parlex::production("EQUALITY_CHAIN_LOOP",v9, parlex::associativity::NONE, parlex::filter_function(), {"EXPRESSION", });
+	parlex::sequence const v9("EQUALITY_NODE", {v0, v2, v3, v8});
+	return parlex::production("EQUALITY_NODE",v9, parlex::associativity::NONE, parlex::filter_function(), {"EXPRESSION", });
 }
 
 static parlex::production EXACTLY() {
@@ -1181,14 +1176,14 @@ static parlex::production EXPRESSION() {
 	parlex::reference const v11("DIMENSIONAL_NUMBER");
 	parlex::reference const v12("EMBEDDED_STRING");
 	parlex::reference const v13("ENUM");
-	parlex::reference const v14("EQUALITY_CHAIN");
+	parlex::reference const v14("EQUALITY");
 	parlex::reference const v15("FLOOR");
 	parlex::reference const v16("FUNCTION");
-	parlex::reference const v17("GREATER_CHAIN");
+	parlex::reference const v17("GREATER");
 	parlex::reference const v18("IDENTIFIER");
 	parlex::reference const v19("IF");
 	parlex::reference const v20("INVOCATION");
-	parlex::reference const v21("LESSER_CHAIN");
+	parlex::reference const v21("LESSER");
 	parlex::reference const v22("LIST");
 	parlex::reference const v23("MAGNITUDE");
 	parlex::reference const v24("MAP");
@@ -1201,8 +1196,8 @@ static parlex::production EXPRESSION() {
 	parlex::reference const v31("REGEX");
 	parlex::reference const v32("SET");
 	parlex::reference const v33("SET_COMPREHENSION");
-	parlex::reference const v34("SUBSET_CHAIN");
-	parlex::reference const v35("SUPERSET_CHAIN");
+	parlex::reference const v34("SUBSET");
+	parlex::reference const v35("SUPERSET");
 	parlex::reference const v36("SWIZZLE");
 	parlex::reference const v37("THIS");
 	parlex::reference const v38("THIS_FUNC");
@@ -1217,11 +1212,6 @@ static parlex::production EXPRESSION() {
 	parlex::reference const v47("c_string");
 	parlex::choice const v48("EXPRESSION", {v0, v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11, v12, v13, v14, v15, v16, v17, v18, v19, v20, v21, v22, v23, v24, v25, v26, v27, v28, v29, v30, v31, v32, v33, v34, v35, v36, v37, v38, v39, v40, v41, v42, v43, v44, v45, v46, v47});
 	return parlex::production("EXPRESSION",v48);
-}
-
-static parlex::production EXTERN() {
-	parlex::literal const v0(U"extern");
-	return parlex::production("EXTERN",v0, parlex::associativity::NONE, parlex::filter_function(), {"IDENTIFIER", });
 }
 
 static parlex::production FACTORIAL() {
@@ -1269,82 +1259,114 @@ static parlex::production FLOOR() {
 static parlex::production FOR() {
 	parlex::literal const v0(U"for");
 	parlex::reference const v1("IC");
-	parlex::repetition const v2(v1);
+	parlex::repetition const v2("ic1", v1);
 	parlex::literal const v3(U"(");
 	parlex::reference const v4("IC");
-	parlex::repetition const v5(v4);
-	parlex::reference const v6("STATEMENT_SCOPE");
+	parlex::repetition const v5("ic2", v4);
+	parlex::reference const v6("statement_scope", "STATEMENT_SCOPE");
 	parlex::reference const v7("IC");
-	parlex::repetition const v8(v7);
+	parlex::repetition const v8("ic", v7);
 	parlex::sequence const v9({v6, v8});
 	parlex::optional const v10("initializer", v9);
 	parlex::reference const v11("condition", "EXPRESSION");
 	parlex::reference const v12("IC");
-	parlex::repetition const v13(v12);
+	parlex::repetition const v13("ic3", v12);
 	parlex::literal const v14(U";");
 	parlex::reference const v15("IC");
-	parlex::repetition const v16(v15);
-	parlex::reference const v17("ASSIGNMENT_CHAIN");
+	parlex::repetition const v16("ic4", v15);
+	parlex::reference const v17("for_step_list", "FOR_STEP_LIST");
 	parlex::reference const v18("IC");
-	parlex::repetition const v19(v18);
-	parlex::literal const v20(U",");
-	parlex::reference const v21("IC");
-	parlex::repetition const v22(v21);
-	parlex::reference const v23("ASSIGNMENT_CHAIN");
-	parlex::sequence const v24({v19, v20, v22, v23});
-	parlex::repetition const v25(v24);
-	parlex::reference const v26("IC");
-	parlex::repetition const v27(v26);
-	parlex::sequence const v28({v17, v25, v27});
-	parlex::optional const v29("step", v28);
-	parlex::literal const v30(U")");
-	parlex::reference const v31("IC");
-	parlex::repetition const v32(v31);
-	parlex::reference const v33("EXPRESSION");
-	parlex::sequence const v34("FOR", {v0, v2, v3, v5, v10, v11, v13, v14, v16, v29, v30, v32, v33});
-	return parlex::production("FOR",v34);
+	parlex::repetition const v19("ic", v18);
+	parlex::sequence const v20({v17, v19});
+	parlex::optional const v21("step", v20);
+	parlex::literal const v22(U")");
+	parlex::reference const v23("IC");
+	parlex::repetition const v24("ic5", v23);
+	parlex::reference const v25("EXPRESSION");
+	parlex::sequence const v26("FOR", {v0, v2, v3, v5, v10, v11, v13, v14, v16, v21, v22, v24, v25});
+	return parlex::production("FOR",v26);
 }
 
 static parlex::production FOR_COLLECTION() {
 	parlex::literal const v0(U"for");
 	parlex::reference const v1("IC");
-	parlex::repetition const v2(v1);
+	parlex::repetition const v2("ic1", v1);
 	parlex::literal const v3(U"(");
 	parlex::reference const v4("IC");
-	parlex::repetition const v5(v4);
+	parlex::repetition const v5("ic2", v4);
 	parlex::reference const v6("TYPE_DEREFERENCE");
 	parlex::reference const v7("IMPLICIT_TYPE_DEREFERENCE");
 	parlex::choice const v8({v6, v7});
 	parlex::reference const v9("IC");
-	parlex::repetition const v10(v9);
+	parlex::repetition const v10("ic", v9);
 	parlex::sequence const v11({v8, v10});
 	parlex::optional const v12(v11);
-	parlex::reference const v13("IDENTIFIER");
+	parlex::reference const v13("identifier", "IDENTIFIER");
 	parlex::sequence const v14("declaration", {v12, v13});
 	parlex::reference const v15("expression", "EXPRESSION");
 	parlex::choice const v16({v14, v15});
 	parlex::reference const v17("IC");
-	parlex::repetition const v18(v17);
+	parlex::repetition const v18("ic3", v17);
 	parlex::literal const v19(U"in");
 	parlex::literal const v20(U"∈");
 	parlex::choice const v21({v19, v20});
 	parlex::reference const v22("IC");
-	parlex::repetition const v23(v22);
+	parlex::repetition const v23("ic4", v22);
 	parlex::reference const v24("collection", "EXPRESSION");
 	parlex::reference const v25("IC");
-	parlex::repetition const v26(v25);
+	parlex::repetition const v26("ic5", v25);
 	parlex::literal const v27(U")");
 	parlex::reference const v28("IC");
-	parlex::repetition const v29(v28);
-	parlex::reference const v30("invoke", "EXPRESSION");
+	parlex::repetition const v29("ic6", v28);
+	parlex::reference const v30("expression", "EXPRESSION");
 	parlex::sequence const v31("FOR_COLLECTION", {v0, v2, v3, v5, v16, v18, v21, v23, v24, v26, v27, v29, v30});
 	return parlex::production("FOR_COLLECTION",v31);
+}
+
+static parlex::production FOR_STEP() {
+	parlex::reference const v0("identifier", "IDENTIFIER");
+	parlex::reference const v1("IC");
+	parlex::repetition const v2("ic", v1);
+	parlex::reference const v3("for_step_node", "FOR_STEP_NODE");
+	parlex::sequence const v4("FOR_STEP", {v0, v2, v3});
+	return parlex::production("FOR_STEP",v4);
+}
+
+static parlex::production FOR_STEP_LIST() {
+	parlex::reference const v0("for_step", "FOR_STEP");
+	parlex::reference const v1("IC");
+	parlex::repetition const v2("ic1", v1);
+	parlex::literal const v3(U",");
+	parlex::reference const v4("IC");
+	parlex::repetition const v5("ic2", v4);
+	parlex::reference const v6("for_step", "FOR_STEP");
+	parlex::sequence const v7({v2, v3, v5, v6});
+	parlex::repetition const v8("tail", v7);
+	parlex::sequence const v9("FOR_STEP_LIST", {v0, v8});
+	return parlex::production("FOR_STEP_LIST",v9);
+}
+
+static parlex::production FOR_STEP_NODE() {
+	parlex::literal const v0(U"←");
+	parlex::literal const v1(U"<-");
+	parlex::choice const v2({v0, v1});
+	parlex::reference const v3("IC");
+	parlex::repetition const v4("ic", v3);
+	parlex::reference const v5("expression", "EXPRESSION");
+	parlex::reference const v6("identifier", "IDENTIFIER");
+	parlex::reference const v7("IC");
+	parlex::repetition const v8("ic", v7);
+	parlex::reference const v9("next", "FOR_STEP_NODE");
+	parlex::sequence const v10({v6, v8, v9});
+	parlex::choice const v11("value", {v5, v10});
+	parlex::sequence const v12("FOR_STEP_NODE", {v2, v4, v11});
+	return parlex::production("FOR_STEP_NODE",v12);
 }
 
 static parlex::production FREE() {
 	parlex::literal const v0(U"free");
 	parlex::reference const v1("IC");
-	parlex::repetition const v2(v1);
+	parlex::repetition const v2("ic", v1);
 	parlex::reference const v3("EXPRESSION");
 	parlex::sequence const v4("FREE", {v0, v2, v3});
 	return parlex::production("FREE",v4);
@@ -1530,16 +1552,16 @@ static parlex::production FUNCTION_MODIFIER_THROWING() {
 	return parlex::production("FUNCTION_MODIFIER_THROWING",v12);
 }
 
-static parlex::production GREATER_CHAIN() {
+static parlex::production GREATER() {
 	parlex::reference const v0("expression", "EXPRESSION");
 	parlex::reference const v1("IC");
 	parlex::repetition const v2(v1);
-	parlex::reference const v3("greater_chain_loop", "GREATER_CHAIN_LOOP");
-	parlex::sequence const v4("GREATER_CHAIN", {v0, v2, v3});
-	return parlex::production("GREATER_CHAIN",v4);
+	parlex::reference const v3("greater_node", "GREATER_NODE");
+	parlex::sequence const v4("GREATER", {v0, v2, v3});
+	return parlex::production("GREATER",v4);
 }
 
-static parlex::production GREATER_CHAIN_LOOP() {
+static parlex::production GREATER_NODE() {
 	parlex::literal const v0(U"=");
 	parlex::literal const v1(U">");
 	parlex::literal const v2(U"=>");
@@ -1550,11 +1572,11 @@ static parlex::production GREATER_CHAIN_LOOP() {
 	parlex::reference const v7("expression", "EXPRESSION");
 	parlex::reference const v8("IC");
 	parlex::repetition const v9(v8);
-	parlex::reference const v10("greater_chain_loop", "GREATER_CHAIN_LOOP");
+	parlex::reference const v10("greater_node", "GREATER_NODE");
 	parlex::sequence const v11({v9, v10});
 	parlex::optional const v12(v11);
-	parlex::sequence const v13("GREATER_CHAIN_LOOP", {v4, v6, v7, v12});
-	return parlex::production("GREATER_CHAIN_LOOP",v13);
+	parlex::sequence const v13("GREATER_NODE", {v4, v6, v7, v12});
+	return parlex::production("GREATER_NODE",v13);
 }
 
 static parlex::production HAS() {
@@ -1600,6 +1622,34 @@ static parlex::production IDENTIFIER() {
 	parlex::repetition const v7("tail", v6);
 	parlex::sequence const v8("IDENTIFIER", {v2, v7});
 	return parlex::production("IDENTIFIER",v8, parlex::associativity::NONE, parlex::longest(), {"ALL", });
+}
+
+static parlex::production IDENTIFIER_SPECIFICATION() {
+	parlex::reference const v0("xml_doc_string", "XML_DOC_STRING");
+	parlex::optional const v1("doc", v0);
+	parlex::reference const v2("attribute", "ATTRIBUTE");
+	parlex::reference const v3("IC");
+	parlex::repetition const v4("ic", v3);
+	parlex::sequence const v5({v2, v4});
+	parlex::repetition const v6("attributes", v5);
+	parlex::reference const v7("visibility_modifier", "VISIBILITY_MODIFIER");
+	parlex::reference const v8("IC");
+	parlex::repetition const v9("ic", v8);
+	parlex::sequence const v10({v7, v9});
+	parlex::optional const v11("visibility", v10);
+	parlex::literal const v12(U"static");
+	parlex::reference const v13("IC");
+	parlex::repetition const v14(v13);
+	parlex::sequence const v15({v12, v14});
+	parlex::optional const v16("static_", v15);
+	parlex::literal const v17(U"extern");
+	parlex::reference const v18("IC");
+	parlex::repetition const v19(v18);
+	parlex::sequence const v20({v17, v19});
+	parlex::optional const v21("extern_", v20);
+	parlex::reference const v22("identifier", "IDENTIFIER");
+	parlex::sequence const v23("IDENTIFIER_SPECIFICATION", {v1, v6, v11, v16, v21, v22});
+	return parlex::production("IDENTIFIER_SPECIFICATION",v23);
 }
 
 static parlex::production IF() {
@@ -1838,11 +1888,15 @@ static parlex::production INTERSECTION_ASSIGNMENT() {
 }
 
 static parlex::production INVOCATION() {
-	parlex::reference const v0("PARENTHETICAL_INVOCATION");
-	parlex::reference const v1("ARRAY_INVOCATION");
-	parlex::reference const v2("TYPE_INVOCATION");
-	parlex::choice const v3("INVOCATION", {v0, v1, v2});
-	return parlex::production("INVOCATION",v3, parlex::associativity::NONE, parlex::filter_function(), {"BINARY_OP", "NEGATION", "RADICAL", });
+	parlex::reference const v0("expression", "EXPRESSION");
+	parlex::reference const v1("IC");
+	parlex::repetition const v2("ic", v1);
+	parlex::reference const v3("PARENTHETICAL_INVOCATION");
+	parlex::reference const v4("ARRAY_INVOCATION");
+	parlex::reference const v5("TYPE_INVOCATION");
+	parlex::choice const v6("args", {v3, v4, v5});
+	parlex::sequence const v7("INVOCATION", {v0, v2, v6});
+	return parlex::production("INVOCATION",v7, parlex::associativity::NONE, parlex::filter_function(), {"BINARY_OP", "NEGATION", "RADICAL", });
 }
 
 static parlex::production IS() {
@@ -1866,31 +1920,31 @@ static parlex::production KLEENE_STAR() {
 	return parlex::production("KLEENE_STAR",v4);
 }
 
-static parlex::production LESSER_CHAIN() {
-	parlex::reference const v0("EXPRESSION");
+static parlex::production LESSER() {
+	parlex::reference const v0("expression", "EXPRESSION");
 	parlex::reference const v1("IC");
-	parlex::repetition const v2(v1);
-	parlex::reference const v3("LESSER_CHAIN_LOOP");
-	parlex::sequence const v4("LESSER_CHAIN", {v0, v2, v3});
-	return parlex::production("LESSER_CHAIN",v4);
+	parlex::repetition const v2("ic", v1);
+	parlex::reference const v3("lesser_node", "LESSER_NODE");
+	parlex::sequence const v4("LESSER", {v0, v2, v3});
+	return parlex::production("LESSER",v4);
 }
 
-static parlex::production LESSER_CHAIN_LOOP() {
+static parlex::production LESSER_NODE() {
 	parlex::literal const v0(U"=");
 	parlex::literal const v1(U"<");
 	parlex::literal const v2(U"=<");
 	parlex::literal const v3(U"≤");
 	parlex::choice const v4({v0, v1, v2, v3});
 	parlex::reference const v5("IC");
-	parlex::repetition const v6(v5);
-	parlex::reference const v7("EXPRESSION");
+	parlex::repetition const v6("ic", v5);
+	parlex::reference const v7("expression", "EXPRESSION");
 	parlex::reference const v8("IC");
-	parlex::repetition const v9(v8);
-	parlex::reference const v10("LESSER_CHAIN_LOOP");
+	parlex::repetition const v9("ic", v8);
+	parlex::reference const v10("lesser_node", "LESSER_NODE");
 	parlex::sequence const v11({v9, v10});
 	parlex::optional const v12(v11);
-	parlex::sequence const v13("LESSER_CHAIN_LOOP", {v4, v6, v7, v12});
-	return parlex::production("LESSER_CHAIN_LOOP",v13);
+	parlex::sequence const v13("LESSER_NODE", {v4, v6, v7, v12});
+	return parlex::production("LESSER_NODE",v13);
 }
 
 static parlex::production LIST() {
@@ -1988,17 +2042,29 @@ static parlex::production MAP() {
 }
 
 static parlex::production MAPS_TO() {
-	parlex::reference const v0("EXPRESSION");
+	parlex::literal const v0(U"volatile");
 	parlex::reference const v1("IC");
-	parlex::repetition const v2(v1);
-	parlex::literal const v3(U"→");
-	parlex::literal const v4(U"->");
-	parlex::choice const v5({v3, v4});
-	parlex::reference const v6("IC");
-	parlex::repetition const v7(v6);
-	parlex::reference const v8("EXPRESSION");
-	parlex::sequence const v9("MAPS_TO", {v0, v2, v5, v7, v8});
-	return parlex::production("MAPS_TO",v9, parlex::associativity::RIGHT);
+	parlex::reference const v2("IC");
+	parlex::repetition const v3(v2);
+	parlex::sequence const v4({v0, v1, v3});
+	parlex::optional const v5(v4);
+	parlex::literal const v6(U"const");
+	parlex::reference const v7("IC");
+	parlex::reference const v8("IC");
+	parlex::repetition const v9(v8);
+	parlex::sequence const v10({v6, v7, v9});
+	parlex::optional const v11(v10);
+	parlex::reference const v12("lhs", "EXPRESSION");
+	parlex::reference const v13("IC");
+	parlex::repetition const v14("ic1", v13);
+	parlex::literal const v15(U"→");
+	parlex::literal const v16(U"->");
+	parlex::choice const v17({v15, v16});
+	parlex::reference const v18("IC");
+	parlex::repetition const v19("ic2", v18);
+	parlex::reference const v20("rhs", "EXPRESSION");
+	parlex::sequence const v21("MAPS_TO", {v5, v11, v12, v14, v17, v19, v20});
+	return parlex::production("MAPS_TO",v21, parlex::associativity::RIGHT);
 }
 
 static parlex::production MEMBER_ACCESS() {
@@ -2016,8 +2082,8 @@ static parlex::production MEMBER_ACCESS() {
 static parlex::production MEMBER_OFFSET() {
 	parlex::literal const v0(U"@");
 	parlex::reference const v1("IC");
-	parlex::repetition const v2(v1);
-	parlex::reference const v3("WHOLE_NUMBER");
+	parlex::repetition const v2("ic", v1);
+	parlex::reference const v3("offset", "NATURAL_NUMBER");
 	parlex::sequence const v4("MEMBER_OFFSET", {v0, v2, v3});
 	return parlex::production("MEMBER_OFFSET",v4);
 }
@@ -2113,6 +2179,14 @@ static parlex::production NAND_ASSIGNMENT() {
 	parlex::reference const v11("EXPRESSION");
 	parlex::sequence const v12("NAND_ASSIGNMENT", {v0, v2, v5, v8, v10, v11});
 	return parlex::production("NAND_ASSIGNMENT",v12);
+}
+
+static parlex::production NATURAL_NUMBER() {
+	parlex::reference const v0("decimal_digit");
+	parlex::reference const v1("decimal_digit");
+	parlex::repetition const v2(v1);
+	parlex::sequence const v3("NATURAL_NUMBER", {v0, v2});
+	return parlex::production("NATURAL_NUMBER",v3);
 }
 
 static parlex::production NEAREST_INTEGER() {
@@ -2507,34 +2581,17 @@ static parlex::production PARENTHETICAL() {
 }
 
 static parlex::production PARENTHETICAL_INVOCATION() {
-	parlex::reference const v0("target", "EXPRESSION");
+	parlex::literal const v0(U"(");
 	parlex::reference const v1("IC");
-	parlex::repetition const v2(v1);
-	parlex::literal const v3(U"(");
+	parlex::repetition const v2("ic", v1);
+	parlex::reference const v3("standard_arguments", "STANDARD_ARGUMENTS");
 	parlex::reference const v4("IC");
-	parlex::repetition const v5(v4);
-	parlex::reference const v6("ARGUMENT");
-	parlex::reference const v7("ARGUMENT_PACK");
-	parlex::choice const v8({v6, v7});
-	parlex::sequence const v9({v5, v8});
-	parlex::optional const v10("argsHead", v9);
-	parlex::reference const v11("IC");
-	parlex::repetition const v12(v11);
-	parlex::literal const v13(U",");
-	parlex::reference const v14("IC");
-	parlex::repetition const v15(v14);
-	parlex::reference const v16("ARGUMENT");
-	parlex::reference const v17("ARGUMENT_PACK");
-	parlex::choice const v18({v16, v17});
-	parlex::sequence const v19({v15, v18});
-	parlex::optional const v20(v19);
-	parlex::sequence const v21({v12, v13, v20});
-	parlex::repetition const v22("argsTail", v21);
-	parlex::reference const v23("IC");
-	parlex::repetition const v24(v23);
-	parlex::literal const v25(U")");
-	parlex::sequence const v26("PARENTHETICAL_INVOCATION", {v0, v2, v3, v10, v22, v24, v25});
-	return parlex::production("PARENTHETICAL_INVOCATION",v26);
+	parlex::repetition const v5("ic", v4);
+	parlex::sequence const v6({v3, v5});
+	parlex::optional const v7(v6);
+	parlex::literal const v8(U")");
+	parlex::sequence const v9("PARENTHETICAL_INVOCATION", {v0, v2, v7, v8});
+	return parlex::production("PARENTHETICAL_INVOCATION",v9);
 }
 
 static parlex::production PAYLOAD() {
@@ -2876,8 +2933,29 @@ static parlex::production SLICE() {
 	return parlex::production("SLICE",v7);
 }
 
+static parlex::production STANDARD_ARGUMENTS() {
+	parlex::reference const v0("EXPRESSION");
+	parlex::reference const v1("ARGUMENT_PACK");
+	parlex::choice const v2("argument", {v0, v1});
+	parlex::optional const v3("head", v2);
+	parlex::reference const v4("IC");
+	parlex::repetition const v5("ic", v4);
+	parlex::literal const v6(U",");
+	parlex::reference const v7("IC");
+	parlex::repetition const v8("ic", v7);
+	parlex::reference const v9("EXPRESSION");
+	parlex::reference const v10("ARGUMENT_PACK");
+	parlex::choice const v11("argument", {v9, v10});
+	parlex::sequence const v12({v8, v11});
+	parlex::optional const v13(v12);
+	parlex::sequence const v14({v5, v6, v13});
+	parlex::repetition const v15("tail", v14);
+	parlex::sequence const v16("STANDARD_ARGUMENTS", {v3, v15});
+	return parlex::production("STANDARD_ARGUMENTS",v16);
+}
+
 static parlex::production STATEMENT() {
-	parlex::reference const v0("ASSIGNMENT_CHAIN");
+	parlex::reference const v0("ASSIGNMENT");
 	parlex::reference const v1("BREAK");
 	parlex::reference const v2("CONTINUE");
 	parlex::reference const v3("DEFINITION");
@@ -2913,21 +2991,16 @@ static parlex::production STATEMENT_SCOPE() {
 	return parlex::production("STATEMENT_SCOPE",v3);
 }
 
-static parlex::production STATIC() {
-	parlex::literal const v0(U"static");
-	return parlex::production("STATIC",v0, parlex::associativity::NONE, parlex::filter_function(), {"IDENTIFIER", });
-}
-
-static parlex::production SUBSET_CHAIN() {
-	parlex::reference const v0("EXPRESSION");
+static parlex::production SUBSET() {
+	parlex::reference const v0("expression", "EXPRESSION");
 	parlex::reference const v1("IC");
-	parlex::repetition const v2(v1);
-	parlex::reference const v3("SUBSET_CHAIN_LOOP");
-	parlex::sequence const v4("SUBSET_CHAIN", {v0, v2, v3});
-	return parlex::production("SUBSET_CHAIN",v4);
+	parlex::repetition const v2("ic", v1);
+	parlex::reference const v3("subset_node", "SUBSET_NODE");
+	parlex::sequence const v4("SUBSET", {v0, v2, v3});
+	return parlex::production("SUBSET",v4);
 }
 
-static parlex::production SUBSET_CHAIN_LOOP() {
+static parlex::production SUBSET_NODE() {
 	parlex::literal const v0(U"=");
 	parlex::literal const v1(U"⊆");
 	parlex::literal const v2(U"subs");
@@ -2935,15 +3008,15 @@ static parlex::production SUBSET_CHAIN_LOOP() {
 	parlex::literal const v4(U"psubs");
 	parlex::choice const v5({v0, v1, v2, v3, v4});
 	parlex::reference const v6("IC");
-	parlex::repetition const v7(v6);
-	parlex::reference const v8("EXPRESSION");
+	parlex::repetition const v7("ic", v6);
+	parlex::reference const v8("expression", "EXPRESSION");
 	parlex::reference const v9("IC");
-	parlex::repetition const v10(v9);
-	parlex::reference const v11("SUBSET_CHAIN_LOOP");
+	parlex::repetition const v10("ic", v9);
+	parlex::reference const v11("subset_node", "SUBSET_NODE");
 	parlex::sequence const v12({v10, v11});
 	parlex::optional const v13(v12);
-	parlex::sequence const v14("SUBSET_CHAIN_LOOP", {v5, v7, v8, v13});
-	return parlex::production("SUBSET_CHAIN_LOOP",v14, parlex::associativity::NONE, parlex::filter_function(), {"EXPRESSION", });
+	parlex::sequence const v14("SUBSET_NODE", {v5, v7, v8, v13});
+	return parlex::production("SUBSET_NODE",v14, parlex::associativity::NONE, parlex::filter_function(), {"EXPRESSION", });
 }
 
 static parlex::production SUBTRACTION() {
@@ -2973,16 +3046,16 @@ static parlex::production SUBTRACTION_ASSIGNMENT() {
 	return parlex::production("SUBTRACTION_ASSIGNMENT",v10);
 }
 
-static parlex::production SUPERSET_CHAIN() {
-	parlex::reference const v0("EXPRESSION");
+static parlex::production SUPERSET() {
+	parlex::reference const v0("expression", "EXPRESSION");
 	parlex::reference const v1("IC");
-	parlex::repetition const v2(v1);
-	parlex::reference const v3("SUPERSET_CHAIN_LOOP");
-	parlex::sequence const v4("SUPERSET_CHAIN", {v0, v2, v3});
-	return parlex::production("SUPERSET_CHAIN",v4);
+	parlex::repetition const v2("ic", v1);
+	parlex::reference const v3("superset_node", "SUPERSET_NODE");
+	parlex::sequence const v4("SUPERSET", {v0, v2, v3});
+	return parlex::production("SUPERSET",v4);
 }
 
-static parlex::production SUPERSET_CHAIN_LOOP() {
+static parlex::production SUPERSET_NODE() {
 	parlex::literal const v0(U"=");
 	parlex::literal const v1(U"⊇");
 	parlex::literal const v2(U"sups");
@@ -2990,15 +3063,15 @@ static parlex::production SUPERSET_CHAIN_LOOP() {
 	parlex::literal const v4(U"psups");
 	parlex::choice const v5({v0, v1, v2, v3, v4});
 	parlex::reference const v6("IC");
-	parlex::repetition const v7(v6);
-	parlex::reference const v8("EXPRESSION");
+	parlex::repetition const v7("ic", v6);
+	parlex::reference const v8("expression", "EXPRESSION");
 	parlex::reference const v9("IC");
-	parlex::repetition const v10(v9);
-	parlex::reference const v11("SUPERSET_CHAIN_LOOP");
+	parlex::repetition const v10("ic", v9);
+	parlex::reference const v11("superset_node", "SUPERSET_NODE");
 	parlex::sequence const v12({v10, v11});
 	parlex::optional const v13(v12);
-	parlex::sequence const v14("SUPERSET_CHAIN_LOOP", {v5, v7, v8, v13});
-	return parlex::production("SUPERSET_CHAIN_LOOP",v14, parlex::associativity::NONE, parlex::filter_function(), {"EXPRESSION", });
+	parlex::sequence const v14("SUPERSET_NODE", {v5, v7, v8, v13});
+	return parlex::production("SUPERSET_NODE",v14, parlex::associativity::NONE, parlex::filter_function(), {"EXPRESSION", });
 }
 
 static parlex::production SWIZZLE() {
@@ -3227,106 +3300,97 @@ static parlex::production TYPE() {
 }
 
 static parlex::production TYPE_CONSTRAINT() {
-	parlex::reference const v0("TYPE_CONSTRAINT_HEAD");
+	parlex::reference const v0("specification", "TYPE_CONSTRAINT_SPECIFICATION");
 	parlex::reference const v1("IC");
-	parlex::repetition const v2(v1);
-	parlex::reference const v3("TYPE_CONSTRAINT_CHAIN");
-	parlex::sequence const v4("TYPE_CONSTRAINT", {v0, v2, v3});
-	return parlex::production("TYPE_CONSTRAINT",v4, parlex::associativity::NONE, parlex::filter_function(), {"EXPRESSION", });
-}
-
-static parlex::production TYPE_CONSTRAINT_CHAIN() {
-	parlex::reference const v0("DECLARATION");
-	parlex::reference const v1("ASSIGNMENT_CHAIN");
-	parlex::reference const v2("DEFINITION");
-	parlex::choice const v3({v0, v1, v2});
+	parlex::repetition const v2("ic", v1);
+	parlex::reference const v3("head", "TYPE_CONSTRAINT_ELEMENT");
 	parlex::reference const v4("IC");
-	parlex::repetition const v5(v4);
+	parlex::repetition const v5("ic1", v4);
 	parlex::literal const v6(U",");
 	parlex::reference const v7("IC");
-	parlex::repetition const v8(v7);
-	parlex::reference const v9("TYPE_CONSTRAINT_CHAIN");
+	parlex::repetition const v8("ic2", v7);
+	parlex::reference const v9("type_constraint_element", "TYPE_CONSTRAINT_ELEMENT");
 	parlex::sequence const v10({v5, v6, v8, v9});
-	parlex::optional const v11(v10);
-	parlex::sequence const v12("TYPE_CONSTRAINT_CHAIN", {v3, v11});
-	return parlex::production("TYPE_CONSTRAINT_CHAIN",v12);
+	parlex::repetition const v11("tail", v10);
+	parlex::sequence const v12("TYPE_CONSTRAINT", {v0, v2, v3, v11});
+	return parlex::production("TYPE_CONSTRAINT",v12, parlex::associativity::NONE, parlex::filter_function(), {"EXPRESSION", });
 }
 
-static parlex::production TYPE_CONSTRAINT_HEAD() {
-	parlex::reference const v0("xml_doc_string", "XML_DOC_STRING");
+static parlex::production TYPE_CONSTRAINT_DECLARATION() {
+	parlex::reference const v0("identifier_specification", "IDENTIFIER_SPECIFICATION");
 	parlex::reference const v1("IC");
-	parlex::repetition const v2(v1);
-	parlex::sequence const v3({v0, v2});
-	parlex::optional const v4(v3);
-	parlex::reference const v5("ATTRIBUTE");
-	parlex::reference const v6("IC");
-	parlex::repetition const v7(v6);
-	parlex::sequence const v8({v5, v7});
-	parlex::repetition const v9(v8);
-	parlex::reference const v10("visibility_modifier", "VISIBILITY_MODIFIER");
-	parlex::reference const v11("IC");
-	parlex::repetition const v12(v11);
-	parlex::sequence const v13({v10, v12});
-	parlex::optional const v14(v13);
-	parlex::reference const v15("STATIC");
-	parlex::reference const v16("IC");
-	parlex::repetition const v17(v16);
-	parlex::sequence const v18({v15, v17});
-	parlex::optional const v19(v18);
-	parlex::reference const v20("EXTERN");
-	parlex::reference const v21("IC");
-	parlex::repetition const v22(v21);
-	parlex::sequence const v23({v20, v22});
-	parlex::optional const v24(v23);
-	parlex::reference const v25("TYPE_DEREFERENCE");
-	parlex::reference const v26("VOLATILE_TYPE_DEREFERENCE");
-	parlex::reference const v27("IMPLICIT_TYPE_DEREFERENCE");
-	parlex::reference const v28("VOLATILE_IMPLICIT_TYPE_DEREFERENCE");
-	parlex::choice const v29("type_dereference", {v25, v26, v27, v28});
-	parlex::sequence const v30("TYPE_CONSTRAINT_HEAD", {v4, v9, v14, v19, v24, v29});
-	return parlex::production("TYPE_CONSTRAINT_HEAD",v30);
+	parlex::repetition const v2("ic", v1);
+	parlex::reference const v3("parenthetical_invocation", "PARENTHETICAL_INVOCATION");
+	parlex::sequence const v4({v2, v3});
+	parlex::optional const v5("args", v4);
+	parlex::sequence const v6("TYPE_CONSTRAINT_DECLARATION", {v0, v5});
+	return parlex::production("TYPE_CONSTRAINT_DECLARATION",v6);
+}
+
+static parlex::production TYPE_CONSTRAINT_ELEMENT() {
+	parlex::reference const v0("TYPE_CONSTRAINT_DECLARATION");
+	parlex::reference const v1("ASSIGNMENT");
+	parlex::reference const v2("DEFINITION");
+	parlex::choice const v3("TYPE_CONSTRAINT_ELEMENT", {v0, v1, v2});
+	return parlex::production("TYPE_CONSTRAINT_ELEMENT",v3);
+}
+
+static parlex::production TYPE_CONSTRAINT_SPECIFICATION() {
+	parlex::reference const v0("xml_doc_string", "XML_DOC_STRING");
+	parlex::optional const v1("doc", v0);
+	parlex::reference const v2("attribute", "ATTRIBUTE");
+	parlex::reference const v3("IC");
+	parlex::repetition const v4("ic", v3);
+	parlex::sequence const v5({v2, v4});
+	parlex::repetition const v6("attributes", v5);
+	parlex::reference const v7("visibility_modifier", "VISIBILITY_MODIFIER");
+	parlex::reference const v8("IC");
+	parlex::repetition const v9("ic", v8);
+	parlex::sequence const v10({v7, v9});
+	parlex::optional const v11("visibility", v10);
+	parlex::literal const v12(U"static");
+	parlex::reference const v13("IC");
+	parlex::repetition const v14(v13);
+	parlex::sequence const v15({v12, v14});
+	parlex::optional const v16("static_", v15);
+	parlex::literal const v17(U"extern");
+	parlex::reference const v18("IC");
+	parlex::repetition const v19(v18);
+	parlex::sequence const v20({v17, v19});
+	parlex::optional const v21("extern_", v20);
+	parlex::reference const v22("TYPE_DEREFERENCE");
+	parlex::reference const v23("VOLATILE_TYPE_DEREFERENCE");
+	parlex::reference const v24("IMPLICIT_TYPE_DEREFERENCE");
+	parlex::reference const v25("VOLATILE_IMPLICIT_TYPE_DEREFERENCE");
+	parlex::choice const v26("type_dereference", {v22, v23, v24, v25});
+	parlex::sequence const v27("TYPE_CONSTRAINT_SPECIFICATION", {v1, v6, v11, v16, v21, v26});
+	return parlex::production("TYPE_CONSTRAINT_SPECIFICATION",v27);
 }
 
 static parlex::production TYPE_DEREFERENCE() {
 	parlex::literal const v0(U"<");
 	parlex::reference const v1("IC");
-	parlex::repetition const v2(v1);
-	parlex::reference const v3("EXPRESSION");
+	parlex::repetition const v2("ic1", v1);
+	parlex::reference const v3("expression", "EXPRESSION");
 	parlex::reference const v4("IC");
-	parlex::repetition const v5(v4);
+	parlex::repetition const v5("ic2", v4);
 	parlex::literal const v6(U">");
 	parlex::sequence const v7("TYPE_DEREFERENCE", {v0, v2, v3, v5, v6});
 	return parlex::production("TYPE_DEREFERENCE",v7);
 }
 
 static parlex::production TYPE_INVOCATION() {
-	parlex::reference const v0("target", "EXPRESSION");
-	parlex::literal const v1(U"<");
-	parlex::reference const v2("IC");
-	parlex::repetition const v3(v2);
-	parlex::reference const v4("ARGUMENT");
-	parlex::reference const v5("ARGUMENT_PACK");
-	parlex::choice const v6({v4, v5});
-	parlex::sequence const v7({v3, v6});
-	parlex::optional const v8("argsHead", v7);
-	parlex::reference const v9("IC");
-	parlex::repetition const v10(v9);
-	parlex::literal const v11(U",");
-	parlex::reference const v12("IC");
-	parlex::repetition const v13(v12);
-	parlex::reference const v14("ARGUMENT");
-	parlex::reference const v15("ARGUMENT_PACK");
-	parlex::choice const v16({v14, v15});
-	parlex::sequence const v17({v13, v16});
-	parlex::optional const v18(v17);
-	parlex::sequence const v19({v10, v11, v18});
-	parlex::repetition const v20("argsTail", v19);
-	parlex::reference const v21("IC");
-	parlex::repetition const v22(v21);
-	parlex::literal const v23(U">");
-	parlex::sequence const v24({v1, v8, v20, v22, v23});
-	parlex::sequence const v25("TYPE_INVOCATION", {v0, v24});
-	return parlex::production("TYPE_INVOCATION",v25);
+	parlex::literal const v0(U"<");
+	parlex::reference const v1("IC");
+	parlex::repetition const v2("ic", v1);
+	parlex::reference const v3("standard_arguments", "STANDARD_ARGUMENTS");
+	parlex::reference const v4("IC");
+	parlex::repetition const v5("ic", v4);
+	parlex::sequence const v6({v3, v5});
+	parlex::optional const v7(v6);
+	parlex::literal const v8(U">");
+	parlex::sequence const v9("TYPE_INVOCATION", {v0, v2, v7, v8});
+	return parlex::production("TYPE_INVOCATION",v9);
 }
 
 static parlex::production TYPE_SCOPE() {
@@ -3341,77 +3405,81 @@ static parlex::production TYPE_SCOPE() {
 	return parlex::production("TYPE_SCOPE",v7);
 }
 
-static parlex::production TYPE_SCOPE_ASSIGNMENT_CHAIN() {
-	parlex::reference const v0("XML_DOC_STRING");
+static parlex::production TYPE_SCOPE_ASSIGNMENT() {
+	parlex::reference const v0("identifier_specification", "IDENTIFIER_SPECIFICATION");
 	parlex::reference const v1("IC");
-	parlex::repetition const v2(v1);
-	parlex::sequence const v3({v0, v2});
-	parlex::optional const v4(v3);
-	parlex::reference const v5("IDENTIFIER");
-	parlex::reference const v6("IC");
-	parlex::repetition const v7(v6);
-	parlex::reference const v8("MEMBER_OFFSET");
-	parlex::sequence const v9({v7, v8});
-	parlex::optional const v10(v9);
-	parlex::reference const v11("IC");
-	parlex::repetition const v12(v11);
-	parlex::literal const v13(U"←");
-	parlex::literal const v14(U"<-");
-	parlex::choice const v15({v13, v14});
-	parlex::reference const v16("IC");
-	parlex::repetition const v17(v16);
-	parlex::reference const v18("EXPRESSION");
-	parlex::reference const v19("ASSIGNMENT_CHAIN");
-	parlex::choice const v20({v18, v19});
-	parlex::sequence const v21("TYPE_SCOPE_ASSIGNMENT_CHAIN", {v4, v5, v10, v12, v15, v17, v20});
-	return parlex::production("TYPE_SCOPE_ASSIGNMENT_CHAIN",v21, parlex::associativity::NONE, parlex::filter_function(), {"EXPRESSION", });
+	parlex::repetition const v2("ic", v1);
+	parlex::reference const v3("member_offset", "MEMBER_OFFSET");
+	parlex::reference const v4("IC");
+	parlex::repetition const v5("ic", v4);
+	parlex::sequence const v6({v3, v5});
+	parlex::optional const v7(v6);
+	parlex::reference const v8("type_scope_assignment_node", "TYPE_SCOPE_ASSIGNMENT_NODE");
+	parlex::sequence const v9("TYPE_SCOPE_ASSIGNMENT", {v0, v2, v7, v8});
+	return parlex::production("TYPE_SCOPE_ASSIGNMENT",v9, parlex::associativity::NONE, parlex::filter_function(), {"EXPRESSION", });
 }
 
-static parlex::production TYPE_SCOPE_DECLARATION() {
-	parlex::reference const v0("XML_DOC_STRING");
-	parlex::reference const v1("IC");
-	parlex::repetition const v2(v1);
-	parlex::sequence const v3({v0, v2});
-	parlex::optional const v4(v3);
-	parlex::reference const v5("IDENTIFIER");
-	parlex::reference const v6("IC");
-	parlex::repetition const v7(v6);
-	parlex::reference const v8("MEMBER_OFFSET");
-	parlex::sequence const v9({v7, v8});
-	parlex::optional const v10(v9);
-	parlex::sequence const v11("TYPE_SCOPE_DECLARATION", {v4, v5, v10});
-	return parlex::production("TYPE_SCOPE_DECLARATION",v11);
+static parlex::production TYPE_SCOPE_ASSIGNMENT_NODE() {
+	parlex::literal const v0(U"←");
+	parlex::literal const v1(U"<-");
+	parlex::choice const v2({v0, v1});
+	parlex::reference const v3("IC");
+	parlex::repetition const v4("ic", v3);
+	parlex::reference const v5("expression", "EXPRESSION");
+	parlex::reference const v6("identifier_specification", "IDENTIFIER_SPECIFICATION");
+	parlex::reference const v7("MEMBER_OFFSET");
+	parlex::reference const v8("IC");
+	parlex::repetition const v9("ic", v8);
+	parlex::sequence const v10({v7, v9});
+	parlex::optional const v11(v10);
+	parlex::reference const v12("IC");
+	parlex::repetition const v13(v12);
+	parlex::reference const v14("next", "TYPE_SCOPE_ASSIGNMENT_NODE");
+	parlex::sequence const v15({v6, v11, v13, v14});
+	parlex::choice const v16({v5, v15});
+	parlex::sequence const v17("TYPE_SCOPE_ASSIGNMENT_NODE", {v2, v4, v16});
+	return parlex::production("TYPE_SCOPE_ASSIGNMENT_NODE",v17);
 }
 
 static parlex::production TYPE_SCOPE_TYPE_CONSTRAINT() {
-	parlex::reference const v0("TYPE_CONSTRAINT_HEAD");
+	parlex::reference const v0("constraint", "TYPE_CONSTRAINT_SPECIFICATION");
 	parlex::reference const v1("IC");
-	parlex::repetition const v2(v1);
-	parlex::reference const v3("TYPE_SCOPE_TYPE_CONSTRAINT_CHAIN");
-	parlex::sequence const v4("TYPE_SCOPE_TYPE_CONSTRAINT", {v0, v2, v3});
-	return parlex::production("TYPE_SCOPE_TYPE_CONSTRAINT",v4, parlex::associativity::NONE, parlex::filter_function(), {"TYPE_CONSTRAINT", });
+	parlex::repetition const v2("ic", v1);
+	parlex::reference const v3("head", "TYPE_SCOPE_TYPE_CONSTRAINT_ELEMENT");
+	parlex::reference const v4("IC");
+	parlex::repetition const v5("ic1", v4);
+	parlex::literal const v6(U",");
+	parlex::reference const v7("IC");
+	parlex::repetition const v8("ic2", v7);
+	parlex::reference const v9("TYPE_SCOPE_TYPE_CONSTRAINT_ELEMENT");
+	parlex::sequence const v10({v5, v6, v8, v9});
+	parlex::repetition const v11("tail", v10);
+	parlex::sequence const v12("TYPE_SCOPE_TYPE_CONSTRAINT", {v0, v2, v3, v11});
+	return parlex::production("TYPE_SCOPE_TYPE_CONSTRAINT",v12, parlex::associativity::NONE, parlex::filter_function(), {"TYPE_CONSTRAINT", });
 }
 
-static parlex::production TYPE_SCOPE_TYPE_CONSTRAINT_CHAIN() {
-	parlex::reference const v0("XML_DOC_STRING");
+static parlex::production TYPE_SCOPE_TYPE_CONSTRAINT_DECLARATION() {
+	parlex::reference const v0("identifier_specification", "IDENTIFIER_SPECIFICATION");
 	parlex::reference const v1("IC");
-	parlex::repetition const v2(v1);
-	parlex::sequence const v3({v0, v2});
-	parlex::optional const v4(v3);
-	parlex::reference const v5("TYPE_SCOPE_DECLARATION");
-	parlex::reference const v6("TYPE_SCOPE_ASSIGNMENT_CHAIN");
-	parlex::reference const v7("DEFINITION");
-	parlex::choice const v8({v5, v6, v7});
-	parlex::reference const v9("IC");
-	parlex::repetition const v10(v9);
-	parlex::literal const v11(U",");
-	parlex::reference const v12("IC");
-	parlex::repetition const v13(v12);
-	parlex::reference const v14("TYPE_SCOPE_TYPE_CONSTRAINT_CHAIN");
-	parlex::sequence const v15({v10, v11, v13, v14});
-	parlex::optional const v16(v15);
-	parlex::sequence const v17("TYPE_SCOPE_TYPE_CONSTRAINT_CHAIN", {v4, v8, v16});
-	return parlex::production("TYPE_SCOPE_TYPE_CONSTRAINT_CHAIN",v17);
+	parlex::repetition const v2("ic", v1);
+	parlex::reference const v3("PARENTHETICAL_INVOCATION");
+	parlex::sequence const v4({v2, v3});
+	parlex::optional const v5("args", v4);
+	parlex::reference const v6("IC");
+	parlex::repetition const v7("ic", v6);
+	parlex::reference const v8("member_offset", "MEMBER_OFFSET");
+	parlex::sequence const v9({v7, v8});
+	parlex::optional const v10(v9);
+	parlex::sequence const v11("TYPE_SCOPE_TYPE_CONSTRAINT_DECLARATION", {v0, v5, v10});
+	return parlex::production("TYPE_SCOPE_TYPE_CONSTRAINT_DECLARATION",v11);
+}
+
+static parlex::production TYPE_SCOPE_TYPE_CONSTRAINT_ELEMENT() {
+	parlex::reference const v0("TYPE_SCOPE_TYPE_CONSTRAINT_DECLARATION");
+	parlex::reference const v1("TYPE_SCOPE_ASSIGNMENT");
+	parlex::reference const v2("DEFINITION");
+	parlex::choice const v3("TYPE_SCOPE_TYPE_CONSTRAINT_ELEMENT", {v0, v1, v2});
+	return parlex::production("TYPE_SCOPE_TYPE_CONSTRAINT_ELEMENT",v3);
 }
 
 static parlex::production TYPE_STATEMENT() {
@@ -3422,8 +3490,10 @@ static parlex::production TYPE_STATEMENT() {
 	parlex::sequence const v4({v0, v2, v3});
 	parlex::reference const v5("TYPE_SCOPE_TYPE_CONSTRAINT");
 	parlex::reference const v6("STATEMENT");
-	parlex::choice const v7("TYPE_STATEMENT", {v4, v5, v6});
-	return parlex::production("TYPE_STATEMENT",v7);
+	parlex::choice const v7({v4, v5, v6});
+	parlex::literal const v8(U";");
+	parlex::sequence const v9("TYPE_STATEMENT", {v7, v8});
+	return parlex::production("TYPE_STATEMENT",v9);
 }
 
 static parlex::production UNARY_ARITHMETIC_OP() {
@@ -3571,43 +3641,26 @@ static parlex::production VOLATILE_IMPLICIT_TYPE_DEREFERENCE() {
 static parlex::production VOLATILE_TYPE_DEREFERENCE() {
 	parlex::literal const v0(U"<");
 	parlex::reference const v1("IC");
-	parlex::repetition const v2(v1);
+	parlex::repetition const v2("ic1", v1);
 	parlex::literal const v3(U"volatile");
 	parlex::reference const v4("IC");
-	parlex::repetition const v5(v4);
-	parlex::reference const v6("EXPRESSION");
+	parlex::repetition const v5("ic2", v4);
+	parlex::reference const v6("expression", "EXPRESSION");
 	parlex::reference const v7("IC");
-	parlex::repetition const v8(v7);
+	parlex::repetition const v8("ic3", v7);
 	parlex::literal const v9(U">");
 	parlex::sequence const v10("VOLATILE_TYPE_DEREFERENCE", {v0, v2, v3, v5, v6, v8, v9});
 	return parlex::production("VOLATILE_TYPE_DEREFERENCE",v10);
 }
 
 static parlex::production WHOLE_NUMBER() {
-	parlex::literal const v0(U"1");
-	parlex::literal const v1(U"2");
-	parlex::literal const v2(U"3");
-	parlex::literal const v3(U"4");
-	parlex::literal const v4(U"5");
-	parlex::literal const v5(U"6");
-	parlex::literal const v6(U"7");
-	parlex::literal const v7(U"8");
-	parlex::literal const v8(U"9");
-	parlex::choice const v9({v0, v1, v2, v3, v4, v5, v6, v7, v8});
-	parlex::literal const v10(U"0");
-	parlex::literal const v11(U"1");
-	parlex::literal const v12(U"2");
-	parlex::literal const v13(U"3");
-	parlex::literal const v14(U"4");
-	parlex::literal const v15(U"5");
-	parlex::literal const v16(U"6");
-	parlex::literal const v17(U"7");
-	parlex::literal const v18(U"8");
-	parlex::literal const v19(U"9");
-	parlex::choice const v20({v10, v11, v12, v13, v14, v15, v16, v17, v18, v19});
-	parlex::repetition const v21(v20);
-	parlex::sequence const v22("WHOLE_NUMBER", {v9, v21});
-	return parlex::production("WHOLE_NUMBER",v22);
+	parlex::literal const v0(U"0");
+	parlex::repetition const v1(v0);
+	parlex::reference const v2("NON_ZERO_DECIMAL_DIGIT");
+	parlex::reference const v3("decimal_digit");
+	parlex::repetition const v4(v3);
+	parlex::sequence const v5("WHOLE_NUMBER", {v1, v2, v4});
+	return parlex::production("WHOLE_NUMBER",v5);
 }
 
 static parlex::production WRITE_LOCK() {
@@ -3632,16 +3685,18 @@ static parlex::production WS() {
 
 static parlex::production XML_DOC_STRING() {
 	parlex::literal const v0(U"```");
-	parlex::reference const v1("XML_DOC_STRING_INTERIOR");
+	parlex::reference const v1("interior", "XML_DOC_STRING_INTERIOR");
 	parlex::literal const v2(U"```");
-	parlex::sequence const v3("XML_DOC_STRING", {v0, v1, v2});
-	return parlex::production("XML_DOC_STRING",v3);
+	parlex::reference const v3("IC");
+	parlex::repetition const v4("ic", v3);
+	parlex::sequence const v5("XML_DOC_STRING", {v0, v1, v2, v4});
+	return parlex::production("XML_DOC_STRING",v5);
 }
 
 static parlex::production XML_DOC_STRING_INTERIOR() {
 	parlex::reference const v0("payload", "PAYLOAD");
 	parlex::literal const v1(U"`");
-	parlex::reference const v2("XML_DOC_STRING_INTERIOR");
+	parlex::reference const v2("interior", "XML_DOC_STRING_INTERIOR");
 	parlex::literal const v3(U"`");
 	parlex::sequence const v4({v1, v2, v3});
 	parlex::choice const v5("XML_DOC_STRING_INTERIOR", {v0, v4});
@@ -3689,9 +3744,9 @@ static parlex::builder const & builder() {
 		ALLOCATION(),
 		AND(),
 		AND_ASSIGNMENT(),
-		ARGUMENT(),
 		ARGUMENT_PACK(),
 		ARRAY(),
+		ARRAY_ARGUMENTS(),
 		ARRAY_INDEXER(),
 		ARRAY_INVOCATION(),
 		ASM_EXPRESSION(),
@@ -3703,7 +3758,8 @@ static parlex::builder const & builder() {
 		ASM_PTR_ARITHMETIC_INTEL(),
 		ASM_SCOPE(),
 		ASM_STATEMENT(),
-		ASSIGNMENT_CHAIN(),
+		ASSIGNMENT(),
+		ASSIGNMENT_NODE(),
 		ATTRIBUTE(),
 		BIJECTION(),
 		BINARY_ARITHMETIC_OP(),
@@ -3741,7 +3797,6 @@ static parlex::builder const & builder() {
 		DATE_TIME(),
 		DATE_YEAR_DAY(),
 		DATE_YEAR_MONTH_DAY(),
-		DECLARATION(),
 		DEFINITION(),
 		DELTA(),
 		DIMENSION(),
@@ -3761,20 +3816,22 @@ static parlex::builder const & builder() {
 		END_OF_LINE_COMMENT(),
 		ENUM(),
 		ENUM_ELEMENT(),
-		EQUALITY_CHAIN(),
-		EQUALITY_CHAIN_LOOP(),
+		EQUALITY(),
+		EQUALITY_NODE(),
 		EXACTLY(),
 		EXISTS(),
 		EXISTS_ONE(),
 		EXPONENTIATION(),
 		EXPONENTIATION_ASSIGNMENT(),
 		EXPRESSION(),
-		EXTERN(),
 		FACTORIAL(),
 		FACTORIAL_ASSIGNMENT(),
 		FLOOR(),
 		FOR(),
 		FOR_COLLECTION(),
+		FOR_STEP(),
+		FOR_STEP_LIST(),
+		FOR_STEP_NODE(),
 		FREE(),
 		FUNCTION(),
 		FUNCTION_MODIFIER_0(),
@@ -3788,12 +3845,13 @@ static parlex::builder const & builder() {
 		FUNCTION_MODIFIER_PLATFORM(),
 		FUNCTION_MODIFIER_STABILITY(),
 		FUNCTION_MODIFIER_THROWING(),
-		GREATER_CHAIN(),
-		GREATER_CHAIN_LOOP(),
+		GREATER(),
+		GREATER_NODE(),
 		HAS(),
 		HEX(),
 		IC(),
 		IDENTIFIER(),
+		IDENTIFIER_SPECIFICATION(),
 		IF(),
 		IFF(),
 		IMPLEMENTS(),
@@ -3813,8 +3871,8 @@ static parlex::builder const & builder() {
 		INVOCATION(),
 		IS(),
 		KLEENE_STAR(),
-		LESSER_CHAIN(),
-		LESSER_CHAIN_LOOP(),
+		LESSER(),
+		LESSER_NODE(),
 		LIST(),
 		LOCK(),
 		LOOP(),
@@ -3830,6 +3888,7 @@ static parlex::builder const & builder() {
 		MULTIPLICATIVE_OP(),
 		NAND(),
 		NAND_ASSIGNMENT(),
+		NATURAL_NUMBER(),
 		NEAREST_INTEGER(),
 		NEGATION(),
 		NEGATION_ASSIGNMENT(),
@@ -3881,15 +3940,15 @@ static parlex::builder const & builder() {
 		SHIFTR(),
 		SHIFTR_ASSIGNMENT(),
 		SLICE(),
+		STANDARD_ARGUMENTS(),
 		STATEMENT(),
 		STATEMENT_SCOPE(),
-		STATIC(),
-		SUBSET_CHAIN(),
-		SUBSET_CHAIN_LOOP(),
+		SUBSET(),
+		SUBSET_NODE(),
 		SUBTRACTION(),
 		SUBTRACTION_ASSIGNMENT(),
-		SUPERSET_CHAIN(),
-		SUPERSET_CHAIN_LOOP(),
+		SUPERSET(),
+		SUPERSET_NODE(),
 		SWIZZLE(),
 		SYMMETRIC_DIFFERENCE(),
 		SYMMETRIC_DIFFERENCE_ASSIGNMENT(),
@@ -3902,15 +3961,17 @@ static parlex::builder const & builder() {
 		TUPLE(),
 		TYPE(),
 		TYPE_CONSTRAINT(),
-		TYPE_CONSTRAINT_CHAIN(),
-		TYPE_CONSTRAINT_HEAD(),
+		TYPE_CONSTRAINT_DECLARATION(),
+		TYPE_CONSTRAINT_ELEMENT(),
+		TYPE_CONSTRAINT_SPECIFICATION(),
 		TYPE_DEREFERENCE(),
 		TYPE_INVOCATION(),
 		TYPE_SCOPE(),
-		TYPE_SCOPE_ASSIGNMENT_CHAIN(),
-		TYPE_SCOPE_DECLARATION(),
+		TYPE_SCOPE_ASSIGNMENT(),
+		TYPE_SCOPE_ASSIGNMENT_NODE(),
 		TYPE_SCOPE_TYPE_CONSTRAINT(),
-		TYPE_SCOPE_TYPE_CONSTRAINT_CHAIN(),
+		TYPE_SCOPE_TYPE_CONSTRAINT_DECLARATION(),
+		TYPE_SCOPE_TYPE_CONSTRAINT_ELEMENT(),
 		TYPE_STATEMENT(),
 		UNARY_ARITHMETIC_OP(),
 		UNARY_LOGICAL_OP(),

@@ -23,15 +23,15 @@ struct XML_DOC_STRING_INTERIOR;
 struct XML_DOC_STRING_INTERIOR_t {
 	parlex::detail::document::text<literal_0x60_t> dont_care0;
 	
-	val<XML_DOC_STRING_INTERIOR> field_1;
+	val<XML_DOC_STRING_INTERIOR> interior;
 	
 	parlex::detail::document::text<literal_0x60_t> dont_care2;
 	
 
 
 	explicit XML_DOC_STRING_INTERIOR_t
-		(parlex::detail::document::text<literal_0x60_t> && dont_care0, val<XML_DOC_STRING_INTERIOR> && field_1, parlex::detail::document::text<literal_0x60_t> && dont_care2)
-		: dont_care0(std::move(dont_care0)), field_1(std::move(field_1)), dont_care2(std::move(dont_care2)) {}
+		(parlex::detail::document::text<literal_0x60_t> && dont_care0, val<XML_DOC_STRING_INTERIOR> && interior, parlex::detail::document::text<literal_0x60_t> && dont_care2)
+		: dont_care0(std::move(dont_care0)), interior(std::move(interior)), dont_care2(std::move(dont_care2)) {}
 
 	XML_DOC_STRING_INTERIOR_t(XML_DOC_STRING_INTERIOR_t const & other) = default;
 	XML_DOC_STRING_INTERIOR_t(XML_DOC_STRING_INTERIOR_t && move) = default;

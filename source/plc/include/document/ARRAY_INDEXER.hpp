@@ -17,41 +17,21 @@
 
 namespace plc {
 
-struct ARGUMENT;
 struct ARGUMENT_PACK;
-struct IC;
+struct EXPRESSION;
 struct SLICE;
 
-struct ARRAY_INDEXER {
-	int32_t document_position, consumed_character_count;
-
-	std::vector<val<IC>> field_1;
-	
-	std::variant<
-		val<ARGUMENT>,
-		val<ARGUMENT_PACK>,
-		val<SLICE>
-	> field_2;
-	
-
-
-	explicit ARRAY_INDEXER
-		(int32_t documentPosition, int32_t consumedCharacterCount, std::vector<val<IC>> && field_1, std::variant<
-	val<ARGUMENT>,
+typedef std::variant<
+	val<EXPRESSION>,
 	val<ARGUMENT_PACK>,
 	val<SLICE>
-> && field_2)
-		: document_position(documentPosition), consumed_character_count(consumedCharacterCount), field_1(std::move(field_1)), field_2(std::move(field_2)) {}
+> ARRAY_INDEXER_base;
 
-	ARRAY_INDEXER(ARRAY_INDEXER const & other) = default;
-	ARRAY_INDEXER(ARRAY_INDEXER && move) = default;
-
+struct ARRAY_INDEXER: ARRAY_INDEXER_base {
 	static ARRAY_INDEXER build(parlex::detail::ast_node const & n);
+	explicit ARRAY_INDEXER(ARRAY_INDEXER_base const & value) : ARRAY_INDEXER_base(value) {}
 	static parlex::detail::acceptor const & acceptor();
-
 };
-
-
 } // namespace plc
 
 

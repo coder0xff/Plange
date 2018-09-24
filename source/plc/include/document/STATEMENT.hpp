@@ -17,7 +17,7 @@
 
 namespace plc {
 
-struct ASSIGNMENT_CHAIN;
+struct ASSIGNMENT;
 struct BREAK;
 struct CONTINUE;
 struct DEFINITION;
@@ -43,7 +43,7 @@ struct STATEMENT {
 	int32_t document_position, consumed_character_count;
 
 	std::variant<
-		val<ASSIGNMENT_CHAIN>,
+		val<ASSIGNMENT>,
 		val<BREAK>,
 		val<CONTINUE>,
 		val<DEFINITION>,
@@ -73,7 +73,7 @@ struct STATEMENT {
 
 	explicit STATEMENT
 		(int32_t documentPosition, int32_t consumedCharacterCount, std::variant<
-	val<ASSIGNMENT_CHAIN>,
+	val<ASSIGNMENT>,
 	val<BREAK>,
 	val<CONTINUE>,
 	val<DEFINITION>,

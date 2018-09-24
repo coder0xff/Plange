@@ -6,17 +6,27 @@
 
 #include "parlex/detail/document.hpp"
 #include "IC.hpp"
-#include "TYPE_CONSTRAINT_HEAD.hpp"
-#include "TYPE_SCOPE_TYPE_CONSTRAINT_CHAIN.hpp"
+#include "TYPE_CONSTRAINT_SPECIFICATION.hpp"
+#include "TYPE_SCOPE_TYPE_CONSTRAINT_ELEMENT.hpp"
+
+plc::TYPE_SCOPE_TYPE_CONSTRAINT::tail_t plc::TYPE_SCOPE_TYPE_CONSTRAINT::tail_t::build(parlex::detail::node const * b, parlex::detail::document::walk & w) {
+	auto const & children = b->children;
+	auto v0 = parlex::detail::document::element<std::vector<val<IC>>>::build(&*children[0], w);
+	auto v1 = parlex::detail::document::element<parlex::detail::document::text<literal_0x2C_t>>::build(&*children[1], w);
+	auto v2 = parlex::detail::document::element<std::vector<val<IC>>>::build(&*children[2], w);
+	auto v3 = parlex::detail::document::element<val<TYPE_SCOPE_TYPE_CONSTRAINT_ELEMENT>>::build(&*children[3], w);
+	return tail_t(std::move(v0), std::move(v1), std::move(v2), std::move(v3));
+}
 
 plc::TYPE_SCOPE_TYPE_CONSTRAINT plc::TYPE_SCOPE_TYPE_CONSTRAINT::build(parlex::detail::ast_node const & n) {
 	static auto const * b = acceptor().behavior;
 	parlex::detail::document::walk w{ n.children.cbegin(), n.children.cend() };
 	auto const & children = b->children;
-	auto v0 = parlex::detail::document::element<val<TYPE_CONSTRAINT_HEAD>>::build(&*children[0], w);
+	auto v0 = parlex::detail::document::element<val<TYPE_CONSTRAINT_SPECIFICATION>>::build(&*children[0], w);
 	auto v1 = parlex::detail::document::element<std::vector<val<IC>>>::build(&*children[1], w);
-	auto v2 = parlex::detail::document::element<val<TYPE_SCOPE_TYPE_CONSTRAINT_CHAIN>>::build(&*children[2], w);
-	return TYPE_SCOPE_TYPE_CONSTRAINT(n.document_position, n.consumed_character_count, std::move(v0), std::move(v1), std::move(v2));
+	auto v2 = parlex::detail::document::element<val<TYPE_SCOPE_TYPE_CONSTRAINT_ELEMENT>>::build(&*children[2], w);
+	auto v3 = parlex::detail::document::element<std::vector<tail_t>>::build(&*children[3], w);
+	return TYPE_SCOPE_TYPE_CONSTRAINT(n.document_position, n.consumed_character_count, std::move(v0), std::move(v1), std::move(v2), std::move(v3));
 }
 
 

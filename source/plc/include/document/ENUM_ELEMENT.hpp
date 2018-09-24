@@ -20,6 +20,7 @@ namespace plc {
 struct EXPRESSION;
 struct IC;
 struct IDENTIFIER;
+struct XML_DOC_STRING;
 
 struct ENUM_ELEMENT {
 	int32_t document_position, consumed_character_count;
@@ -45,6 +46,8 @@ struct ENUM_ELEMENT {
 		static field_1_t build(parlex::detail::node const * b, parlex::detail::document::walk & w);
 	};
 
+	std::optional<val<XML_DOC_STRING>> doc;
+	
 	val<IDENTIFIER> identifier;
 	
 	std::optional<field_1_t> field_1;
@@ -52,8 +55,8 @@ struct ENUM_ELEMENT {
 
 
 	explicit ENUM_ELEMENT
-		(int32_t documentPosition, int32_t consumedCharacterCount, val<IDENTIFIER> && identifier, std::optional<field_1_t> && field_1)
-		: document_position(documentPosition), consumed_character_count(consumedCharacterCount), identifier(std::move(identifier)), field_1(std::move(field_1)) {}
+		(int32_t documentPosition, int32_t consumedCharacterCount, std::optional<val<XML_DOC_STRING>> && doc, val<IDENTIFIER> && identifier, std::optional<field_1_t> && field_1)
+		: document_position(documentPosition), consumed_character_count(consumedCharacterCount), doc(std::move(doc)), identifier(std::move(identifier)), field_1(std::move(field_1)) {}
 
 	ENUM_ELEMENT(ENUM_ELEMENT const & other) = default;
 	ENUM_ELEMENT(ENUM_ELEMENT && move) = default;

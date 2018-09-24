@@ -17,6 +17,7 @@
 
 namespace plc {
 
+struct IC;
 struct XML_DOC_STRING_INTERIOR;
 
 struct XML_DOC_STRING {
@@ -24,15 +25,17 @@ struct XML_DOC_STRING {
 
 	parlex::detail::document::text<literal_0x600x600x60_t> dont_care0;
 	
-	val<XML_DOC_STRING_INTERIOR> field_1;
+	val<XML_DOC_STRING_INTERIOR> interior;
 	
 	parlex::detail::document::text<literal_0x600x600x60_t> dont_care2;
+	
+	std::vector<val<IC>> ic;
 	
 
 
 	explicit XML_DOC_STRING
-		(int32_t documentPosition, int32_t consumedCharacterCount, parlex::detail::document::text<literal_0x600x600x60_t> && dont_care0, val<XML_DOC_STRING_INTERIOR> && field_1, parlex::detail::document::text<literal_0x600x600x60_t> && dont_care2)
-		: document_position(documentPosition), consumed_character_count(consumedCharacterCount), dont_care0(std::move(dont_care0)), field_1(std::move(field_1)), dont_care2(std::move(dont_care2)) {}
+		(int32_t documentPosition, int32_t consumedCharacterCount, parlex::detail::document::text<literal_0x600x600x60_t> && dont_care0, val<XML_DOC_STRING_INTERIOR> && interior, parlex::detail::document::text<literal_0x600x600x60_t> && dont_care2, std::vector<val<IC>> && ic)
+		: document_position(documentPosition), consumed_character_count(consumedCharacterCount), dont_care0(std::move(dont_care0)), interior(std::move(interior)), dont_care2(std::move(dont_care2)), ic(std::move(ic)) {}
 
 	XML_DOC_STRING(XML_DOC_STRING const & other) = default;
 	XML_DOC_STRING(XML_DOC_STRING && move) = default;
