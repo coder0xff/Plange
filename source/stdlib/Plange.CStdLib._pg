@@ -18,7 +18,12 @@ LDiv_t.Layout = cStdlib.Layout;
 };
 
 LLDiv_t.Layout = cStdlib.Layout;
-CSigval := CInt | Pointer<Void>;
+
+CSigval := type {
+	<CInt> int @ 0;
+	<Pointer<Void>> pointer @ 0;
+};
+
 <Type> RandomData := type {
 	<Pointer<Int32>> fptr;
 	<Pointer<Int32>> rptr;
