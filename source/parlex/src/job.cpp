@@ -86,15 +86,15 @@ void job::update_progress(uint32_t const completed)
 	}
 }
 
-void job::fast_breakout() {
-	for (auto & pair : producers) {
-		auto const & matchClass = pair.first;
-		auto & producer = *pair.second;
-		if (g.is_recognizer_left_recursive(matchClass.recognizer_index)) {
-			producer.terminate(*this, matchClass);
-		}
-	}
-}
+//void job::fast_breakout() {
+//	for (auto & pair : producers) {
+//		auto const & matchClass = pair.first;
+//		auto & producer = *pair.second;
+//		if (g.is_recognizer_left_recursive(matchClass.recognizer_index)) {
+//			producer.terminate(*this, matchClass);
+//		}
+//	}
+//}
 
 bool job::full_breakout() {
 	std::vector<match_class> vertices;
@@ -125,12 +125,16 @@ bool job::full_breakout() {
 	auto stronglyConnectedComponents = tarjan(vertices.size(), edgeFunctor, true);
 
 	auto anyHalted = false;
-	//halt subjobs that are subscribed to themselves (in)directly
-	for (auto const & stronglyConnectedComponent : stronglyConnectedComponents) {
+	//halt the subjobs furthest down the hierarchy that are subscribed to themselves (in)directly
+	for (auto i = stronglyConnectedComponents.rbegin(); i != stronglyConnectedComponents.rend(); ++i) {
+		std::vector<std::vector<size_t>>::value_type const & stronglyConnectedComponent = *i;
 		for (auto vertexIndex: stronglyConnectedComponent) {
 			auto const & matchClass = vertices[vertexIndex];
 			get_producer(matchClass).terminate(*this, matchClass);
 			anyHalted = true;
+		}
+		if (!owner->work.empty()) {
+			break;
 		}
 	}
 
@@ -140,7 +144,7 @@ bool job::full_breakout() {
 bool job::handle_deadlocks() {
 	//perf_timer perf(__func__);
 
-	fast_breakout();
+	//fast_breakout();
 
 	// Did fast_breakout free up any nodes to do some work?
 	if (!owner->work.empty()) {
