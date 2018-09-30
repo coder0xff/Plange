@@ -25,13 +25,7 @@ namespace val_detail {
 		TYPE
 	};
 
-	class block {
-		template <typename>
-		friend class ptr;
-
-		template <typename, size_t>
-		friend class val;
-
+	struct block {
 		std::atomic<intptr_t> count;
 		std::atomic<void *> data; // Ensure that propagation of this value to other threads is immediate
 
@@ -201,11 +195,11 @@ namespace val_detail {
 // non-nullable weak pointer to val objects
 template <typename T>
 class ptr {  // NOLINT(cppcoreguidelines-special-member-functions, hicpp-special-member-functions)
-	template <typename, size_t>
-	friend class val;
-
 	template <typename>
 	friend class ptr;
+
+	template <typename, size_t>
+	friend class val;
 
 	using descriptor_t = val_detail::descriptor_t;
 	using block = val_detail::block;
@@ -346,7 +340,7 @@ class val {  // NOLINT(cppcoreguidelines-special-member-functions, cppcoreguidel
 	}
 
 public:
-	typedef T type;
+	typedef T value_type;
 	static constexpr size_t small_storage_size = SmallStorageSize;
 
 	// ReSharper disable CppPossiblyUninitializedMember
