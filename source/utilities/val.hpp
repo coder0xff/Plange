@@ -367,8 +367,8 @@ public:
 	val(U && v) : data(new val_detail::block(construct(v)), val_detail::compute_upcast_offset<T, U>, &val_detail::op<U>) {}  // NOLINT(misc-forwarding-reference-overload)
 
 	// construct from val<U> where U inherits T
-	template <typename U, typename std::enable_if<std::is_base_of<T, U>::value, int>::type = 0>
-	explicit val(val<U> const & other) : data(other.data.clone(val_detail::compute_upcast_offset<T, U>, emplacement_ptr(other.data.get_size_of_data()))) {}
+	template <typename U, size_t SmallStorageSizeU, typename std::enable_if<std::is_base_of<T, U>::value, int>::type = 0>
+	explicit val(val<U, SmallStorageSizeU> const & other) : data(other.data.clone(val_detail::compute_upcast_offset<T, U>, emplacement_ptr(other.data.get_size_of_data()))) {}
 
 	// ReSharper restore CppPossiblyUninitializedMember
 	// ReSharper restore CppNonExplicitConvertingConstructor
@@ -398,8 +398,8 @@ public:
 	}
 
 	// assignment operator from val<U> where U inherits T
-	template <typename U, typename std::enable_if<std::is_base_of<T, U>::value, int>::type = 0>
-	val& operator =(val<U> rhs) {
+	template <typename U, size_t SmallStorageSizeU, typename std::enable_if<std::is_base_of<T, U>::value, int>::type = 0>
+	val& operator =(val<U, SmallStorageSizeU> rhs) {
 		*data = *rhs;
 		return *this;
 	}
