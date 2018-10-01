@@ -8,11 +8,11 @@
 #include "ARRAY_ARGUMENTS.hpp"
 #include "IC.hpp"
 
-plc::ARRAY_INVOCATION::field_1_t plc::ARRAY_INVOCATION::field_1_t::build(parlex::detail::node const * b, parlex::detail::document::walk & w) {
+plc::ARRAY_INVOCATION::arguments_t plc::ARRAY_INVOCATION::arguments_t::build(parlex::detail::node const * b, parlex::detail::document::walk & w) {
 	auto const & children = b->children;
 	auto v0 = parlex::detail::document::element<val<ARRAY_ARGUMENTS>>::build(&*children[0], w);
 	auto v1 = parlex::detail::document::element<std::vector<val<IC>>>::build(&*children[1], w);
-	return field_1_t(std::move(v0), std::move(v1));
+	return arguments_t(std::move(v0), std::move(v1));
 }
 
 plc::ARRAY_INVOCATION plc::ARRAY_INVOCATION::build(parlex::detail::ast_node const & n) {
@@ -21,7 +21,7 @@ plc::ARRAY_INVOCATION plc::ARRAY_INVOCATION::build(parlex::detail::ast_node cons
 	auto const & children = b->children;
 	auto v0 = parlex::detail::document::element<parlex::detail::document::text<literal_0x5B_t>>::build(&*children[0], w);
 	auto v1 = parlex::detail::document::element<std::vector<val<IC>>>::build(&*children[1], w);
-	auto v2 = parlex::detail::document::element<std::optional<field_1_t>>::build(&*children[2], w);
+	auto v2 = parlex::detail::document::element<std::optional<arguments_t>>::build(&*children[2], w);
 	auto v3 = parlex::detail::document::element<parlex::detail::document::text<literal_0x5D_t>>::build(&*children[3], w);
 	return ARRAY_INVOCATION(n.document_position, n.consumed_character_count, std::move(v0), std::move(v1), std::move(v2), std::move(v3));
 }

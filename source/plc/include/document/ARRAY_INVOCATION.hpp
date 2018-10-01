@@ -23,36 +23,36 @@ struct IC;
 struct ARRAY_INVOCATION {
 	int32_t document_position, consumed_character_count;
 
-	struct field_1_t {
+	struct arguments_t {
 		val<ARRAY_ARGUMENTS> array_arguments;
 		
 		std::vector<val<IC>> ic;
 		
 	
 	
-		explicit field_1_t
+		explicit arguments_t
 			(val<ARRAY_ARGUMENTS> && array_arguments, std::vector<val<IC>> && ic)
 			: array_arguments(std::move(array_arguments)), ic(std::move(ic)) {}
 	
-		field_1_t(field_1_t const & other) = default;
-		field_1_t(field_1_t && move) = default;
+		arguments_t(arguments_t const & other) = default;
+		arguments_t(arguments_t && move) = default;
 	
-		static field_1_t build(parlex::detail::node const * b, parlex::detail::document::walk & w);
+		static arguments_t build(parlex::detail::node const * b, parlex::detail::document::walk & w);
 	};
 
 	parlex::detail::document::text<literal_0x5B_t> dont_care0;
 	
 	std::vector<val<IC>> ic;
 	
-	std::optional<field_1_t> field_1;
+	std::optional<arguments_t> arguments;
 	
 	parlex::detail::document::text<literal_0x5D_t> dont_care3;
 	
 
 
 	explicit ARRAY_INVOCATION
-		(int32_t documentPosition, int32_t consumedCharacterCount, parlex::detail::document::text<literal_0x5B_t> && dont_care0, std::vector<val<IC>> && ic, std::optional<field_1_t> && field_1, parlex::detail::document::text<literal_0x5D_t> && dont_care3)
-		: document_position(documentPosition), consumed_character_count(consumedCharacterCount), dont_care0(std::move(dont_care0)), ic(std::move(ic)), field_1(std::move(field_1)), dont_care3(std::move(dont_care3)) {}
+		(int32_t documentPosition, int32_t consumedCharacterCount, parlex::detail::document::text<literal_0x5B_t> && dont_care0, std::vector<val<IC>> && ic, std::optional<arguments_t> && arguments, parlex::detail::document::text<literal_0x5D_t> && dont_care3)
+		: document_position(documentPosition), consumed_character_count(consumedCharacterCount), dont_care0(std::move(dont_care0)), ic(std::move(ic)), arguments(std::move(arguments)), dont_care3(std::move(dont_care3)) {}
 
 	ARRAY_INVOCATION(ARRAY_INVOCATION const & other) = default;
 	ARRAY_INVOCATION(ARRAY_INVOCATION && move) = default;

@@ -171,7 +171,7 @@ static parlex::production ARRAY_INVOCATION() {
 	parlex::reference const v4("IC");
 	parlex::repetition const v5("ic", v4);
 	parlex::sequence const v6({v3, v5});
-	parlex::optional const v7(v6);
+	parlex::optional const v7("arguments", v6);
 	parlex::literal const v8(U"]");
 	parlex::sequence const v9("ARRAY_INVOCATION", {v0, v2, v7, v8});
 	return parlex::production("ARRAY_INVOCATION",v9);
@@ -2588,7 +2588,7 @@ static parlex::production PARENTHETICAL_INVOCATION() {
 	parlex::reference const v4("IC");
 	parlex::repetition const v5("ic", v4);
 	parlex::sequence const v6({v3, v5});
-	parlex::optional const v7(v6);
+	parlex::optional const v7("arguments", v6);
 	parlex::literal const v8(U")");
 	parlex::sequence const v9("PARENTHETICAL_INVOCATION", {v0, v2, v7, v8});
 	return parlex::production("PARENTHETICAL_INVOCATION",v9);
@@ -3387,7 +3387,7 @@ static parlex::production TYPE_INVOCATION() {
 	parlex::reference const v4("IC");
 	parlex::repetition const v5("ic", v4);
 	parlex::sequence const v6({v3, v5});
-	parlex::optional const v7(v6);
+	parlex::optional const v7("arguments", v6);
 	parlex::literal const v8(U">");
 	parlex::sequence const v9("TYPE_INVOCATION", {v0, v2, v7, v8});
 	return parlex::production("TYPE_INVOCATION",v9);

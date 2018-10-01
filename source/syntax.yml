@@ -83,7 +83,7 @@ ARRAY_INDEXER:
 
 ARRAY_INVOCATION:
     syntax: >
-        "[" %ic{IC} [$ARRAY_ARGUMENTS %ic{IC}] "]"
+        "[" %ic{IC} %arguments[$ARRAY_ARGUMENTS %ic{IC}] "]"
 
 ARRAY_ARGUMENTS:
     syntax: >
@@ -1344,7 +1344,7 @@ PARENTHETICAL:
 
 PARENTHETICAL_INVOCATION:
     syntax: >
-        "(" %ic{IC} [$STANDARD_ARGUMENTS %ic{IC}] ")"
+        "(" %ic{IC} %arguments[$STANDARD_ARGUMENTS %ic{IC}] ")"
 
 PAYLOAD:
     syntax: >
@@ -1659,7 +1659,7 @@ TYPE_DEREFERENCE:
 
 TYPE_INVOCATION:
     syntax: >
-        "<" %ic{IC} [$STANDARD_ARGUMENTS %ic{IC}] ">"
+        "<" %ic{IC} %arguments[$STANDARD_ARGUMENTS %ic{IC}] ">"
 
 TYPE_SCOPE:
     syntax: >
