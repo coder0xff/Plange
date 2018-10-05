@@ -19,6 +19,13 @@
 #include "module.hpp"
 #include "plc_utils.hpp"
 
+
+#ifdef _MSC_VER
+#	define EXECUTABLE_EXTENSION ".exe"
+#else
+#	define EXECUTABLE_EXTENSION ""
+#endif
+
 static std::string const & stdlibs_dir() {
 	static auto result = to_utf8(canonical(std::experimental::filesystem::path(__FILE__).remove_filename().append("/../../stdlib/"))) + std::string("/");
 	return result;
@@ -107,6 +114,15 @@ TEST(PlcCompiler, ParseAddAssign2) {
 	auto ast = assl.tree();
 }
 
+TEST(PlcCompiler, ParseTypeWithMemberOffset) {
+	auto const source = U"type {<a>b@0;};";
+	parlex::detail::parser p(1);
+	auto assl = p.parse(plc::plange_grammar::get(), source);
+	ASSERT_TRUE(assl.is_rooted());
+	ASSERT_TRUE(assl.variation_count() == 1);
+	auto ast = assl.tree();
+}
+
 TEST(PlcCompiler, ParseCStdLibGenerated) {
 	auto const filePathname = stdlibs_dir() + "Plange.CStdLib.Generated._pg";
 	static parlex::detail::parser p;
@@ -167,3 +183,17 @@ TEST(PlcCompiler, LoadIntToStringExample) {
 //
 //	parse_example("intToStringStressTest.pge");
 //}
+
+static void run_example(std::string const & exampleName, std::string const & expectedOutput) {
+	auto const tempDir = to_utf8(canonical(std::experimental::filesystem::temp_directory_path()));
+	auto const outputFilename = tempDir + "/" + exampleName + EXECUTABLE_EXTENSION;
+	plc::compiler::build(outputFilename, { examples_dir() + exampleName });
+	auto const result = exec(outputFilename);
+	ASSERT_EQ(0, result.second);
+	ASSERT_EQ(expectedOutput, result.first);
+	std::experimental::filesystem::remove(outputFilename);
+}
+
+TEST(PlcCompiler, PutsHelloWorld) {
+	run_example("putsHelloWorld.pge", "Hello, world!");
+}

@@ -2,7 +2,14 @@
 
 #pragma warning(push, 0)
 #include <experimental/filesystem>
+
+#include "llvm/IR/Constants.h"
 #include "llvm/IR/IRBuilder.h"
+#include "llvm/Support/TargetRegistry.h"
+#include "llvm/Support/TargetSelect.h"
+#include "llvm/Target/TargetMachine.h"
+#include "llvm/Target/TargetOptions.h"
+#include "llvm/tools/bugpoint/ToolRunner.h"
 #pragma warning(pop)
 
 #include "utf.hpp"
@@ -17,13 +24,17 @@
 #include "XML_DOC_STRING.hpp"
 #include "XML_DOC_STRING_INTERIOR.hpp"
 #include "errors.hpp"
+#include "EMBEDDED_STRING_INTERIOR.hpp"
+#include "PAYLOAD.hpp"
+#include "EMBEDDED_NEWLINE_STRING_INTERIOR.hpp"
+#include "EMBEDDED_COMMENT_INTERIOR.hpp"
 
 
 using namespace std::experimental::filesystem;
 
 namespace plc {
 
-std::shared_ptr<analytic_value> do_concrete_invoke(llvm::Function * function, std::vector<llvm::Value *> arguments, scope& parent, llvm::BasicBlock * unwindDest, llvm::IRBuilder<> & builder) {
+std::shared_ptr<analytic_value> do_concrete_invoke(llvm::Function * function, std::vector<llvm::Value *> arguments, scope & parent, llvm::BasicBlock * unwindDest, llvm::IRBuilder<> & builder) {
 	ERROR(NotImplemented, "");
 	/*auto nextBlock = llvm::BasicBlock::Create(llvmContext, "", &parent.getLLVMFunction(), nullptr);
 	auto result = std::static_pointer_cast<analytic_value>(std::make_shared<natural_value>(builder.CreateInvoke(function, nextBlock, unwindDest, arguments, "")));
@@ -31,9 +42,9 @@ std::shared_ptr<analytic_value> do_concrete_invoke(llvm::Function * function, st
 	return result;*/
 }
 
-std::shared_ptr<analytic_value> eval_expression(source_code const& source, std::vector<parlex::detail::match> const& parts, scope& parent, llvm::BasicBlock & unwindDest, llvm::IRBuilder<> & builder);
+std::shared_ptr<analytic_value> eval_expression(source_code const & source, std::vector<parlex::detail::match> const & parts, scope & parent, llvm::BasicBlock & unwindDest, llvm::IRBuilder<> & builder);
 
-std::shared_ptr<analytic_value> eval_parenthetical_invocation(source_code const& source, std::vector<parlex::detail::match> const& parts, scope& parent, llvm::BasicBlock & unwindDest, llvm::IRBuilder<> & builder) {
+std::shared_ptr<analytic_value> eval_parenthetical_invocation(source_code const & source, std::vector<parlex::detail::match> const & parts, scope & parent, llvm::BasicBlock & unwindDest, llvm::IRBuilder<> & builder) {
 	ERROR(NotImplemented, "");
 	/*
 	std::vector<llvm::Value *> arguments;
@@ -220,27 +231,27 @@ std::shared_ptr<analytic_value> eval_parenthetical_invocation(source_code const&
 // */
 // }
 
-symbol_table flatten_symbol_tables(symbol_table const & parent, symbol_table const & child) {
-	symbol_table results;
-	for (auto const & i : parent) {
-		auto const emplaceResult = results.emplace(i.first, std::move(i.second.delocalize())).second;
-		throw_assert(emplaceResult);
-	}
-	for (auto symbol : child) {
-		auto const i = results.find(symbol.first);
-		if (i == results.end()) {
-			results.emplace(symbol.first, symbol.second);
-		} else {
-			if (!!i->second.value && symbol.second.is_variable) {
-				ERROR(CannotAssignToConstant, to_utf8(symbol.first));
-			}
-			if (!!symbol.second.value) {
-				ERROR(RedifinitionOfSymbol, to_utf8(symbol.first));
-			}
-		}
-	}
-	return results;
-}
+//symbol_table flatten_symbol_tables(symbol_table const & parent, symbol_table const & child) {
+//	symbol_table results;
+//	for (auto const & i : parent) {
+//		auto const emplaceResult = results.emplace(i.first, i.second.delocalize()).second;
+//		throw_assert(emplaceResult);
+//	}
+//	for (auto symbol : child) {
+//		auto const i = results.find(symbol.first);
+//		if (i == results.end()) {
+//			results.emplace(symbol.first, symbol.second);
+//		} else {
+//			if (!!i->second.get_value() && symbol.second.get_is_variable()) {
+//				ERROR(CannotAssignToConstant, to_utf8(symbol.first));
+//			}
+//			if (!!symbol.second.get_value()) {
+//				ERROR(RedefinitionOfSymbol, to_utf8(symbol.first));
+//			}
+//		}
+//	}
+//	return results;
+//}
 
 // symbol_table compute_assignment_chain_symbol_table(source_code const& source, std::vector<parlex::detail::match> const& parts) {
 // 	symbol_table results;
@@ -330,7 +341,7 @@ symbol_table flatten_symbol_tables(symbol_table const & parent, symbol_table con
 // 	return flatten_symbol_tables(parent.symbols, results);
 // }
 
-std::shared_ptr<analytic_value> eval_statement_scope(source_code const & source, std::vector<parlex::detail::match> const& parts, scope& parent, llvm::BasicBlock & unwindBlock) {
+std::shared_ptr<analytic_value> eval_statement_scope(source_code const & source, std::vector<parlex::detail::match> const & parts, scope & parent, llvm::BasicBlock & unwindBlock) {
 	ERROR(NotImplemented, "");
 	/*
 	auto result = std::make_shared<scope>(source, parent);
@@ -379,32 +390,65 @@ STATEMENT_SCOPE compiler::parse(std::u32string const & source) {
 	return source_code::parse(source);
 }
 
-static std::u32string extract_payload(std::u32string const & document, std::vector<parlex::detail::document::text<parlex::detail::all_t>> const & characters) {
-	std::basic_stringstream<char32_t> buffer;
-	for (auto const & character : characters) {
-		buffer << document[character.document_position];
-	}
-	return buffer.str();
-}
-
-static std::u32string extract_xml_doc_string_payload(std::u32string const & document, XML_DOC_STRING_INTERIOR const * xmlDocStringInterior) {
-	while (true) {
-		if (std::holds_alternative<XML_DOC_STRING_INTERIOR_t>(*xmlDocStringInterior)) {
-			XML_DOC_STRING_INTERIOR_t const & x = std::get<XML_DOC_STRING_INTERIOR_t>(*xmlDocStringInterior);
-			xmlDocStringInterior = &*x.field_1;
-			continue;
-		}
-		typedef std::vector<parlex::detail::document::text<parlex::detail::all_t>> characters_t;
-		// 		if (std::holds_alternative<characters_t>(*xmlDocStringInterior)) {
-		// 			return extract_payload(document, std::get<characters_t>(*xmlDocStringInterior));
-		// 		}
-		ERROR(Unknown, "invalid value");
+void compiler::build_impl(std::string const & outputFilename, std::set<std::string> const & inputFiles) {
+	std::map<std::string, module> modules;
+	for (auto const & inputFile : inputFiles) {
+		auto s = make_val<source_code const>(inputFile);
+		auto & module = modules.emplace(std::piecewise_construct, std::forward_as_tuple(inputFile), std::forward_as_tuple(*this, s)).first->second;
+		inject_std_lib(module);
+		ERROR(NotImplemented, "");
 	}
 }
 
-std::u32string compiler::extract_xml_doc_string(std::u32string const & document, XML_DOC_STRING const & xmlDocString) {
-	auto const & interior = *xmlDocString.field_1;
-	return extract_xml_doc_string_payload(document, &interior);
+void compiler::build(std::string const & outputFilename, std::set<std::string> const & inputFiles) {
+	compiler c;
+	c.build_impl(outputFilename, inputFiles);
+}
+
+static void init_llvm() {
+	static std::once_flag llvmInit;
+
+	std::call_once(llvmInit, []
+	{
+		llvm::InitializeAllTargetInfos();
+		llvm::InitializeAllTargets();
+		llvm::InitializeAllTargetMCs();
+		llvm::InitializeAllAsmParsers();
+		llvm::InitializeAllAsmPrinters();
+	});
+}
+
+static std::string get_default_target_triple() {
+	init_llvm();
+	return llvm::sys::getDefaultTargetTriple();
+}
+
+static llvm::TargetMachine * get_default_target_machine() {
+	init_llvm();
+	auto const targetTriple = get_default_target_triple();
+	std::string error;
+	auto const target = llvm::TargetRegistry::lookupTarget(targetTriple, error);
+
+	if (!target) {
+		ERROR(Unknown, error);
+	}
+
+	auto const cpu = "generic";
+	auto const features = "";
+	llvm::TargetOptions const opt;
+	auto const rm = llvm::Optional<llvm::Reloc::Model>();
+	return target->createTargetMachine(targetTriple, cpu, features, opt, rm);
+}
+
+compiler::compiler() : target_triple(get_default_target_triple()), target_machine(get_default_target_machine()) {}
+
+llvm::LLVMContext & compiler::get_llvm_context()
+{
+	return llvm_context;
+}
+
+llvm::TargetMachine & compiler::get_target_machine() const {
+	return *target_machine;
 }
 
 // The ._pg extension ensures that parent namespaces are alphabetically sorted before their children
@@ -424,7 +468,7 @@ std::set<std::string> enumerate_std_lib_sources() {
 }
 
 static std::list<std::u32string> namespace_string_to_namespaces(std::u32string namespaceString) {
-	replace(namespaceString.begin(), namespaceString.end(), '.', '\n');  // replace '.' by ' '
+	replace(namespaceString.begin(), namespaceString.end(), '.', '\n'); // replace '.' by ' '
 	std::list<std::u32string> result;
 	std::basic_istringstream<char32_t> in(namespaceString);
 	std::u32string line;
@@ -437,43 +481,67 @@ static std::list<std::u32string> namespace_string_to_namespaces(std::u32string n
 void compiler::inject_std_lib(module & m) {
 	for (auto const & filename : enumerate_std_lib_sources()) {
 		auto const ext = path(filename).extension().string();
-		if (ext == "._pg") { // file is a namespace
-			source_code sourceCode(filename);
+		if (ext == "._pg") {
+			// file is a namespace
+			auto sourceCode = make_val<source_code>(filename);
 			auto namespaceNames(namespace_string_to_namespaces(to_utf32(path(filename).stem().string())));
 			throw_assert(namespaceNames.front() == U"Plange");
 			namespaceNames.pop_front();
-			auto currentScope = &m.plange;
-			scope * parentScope = nullptr;
+			ptr<scope> currentScope = m.plange;
+			std::optional<ptr<scope>> parentScope = std::nullopt;
 			for (auto i = namespaceNames.begin(); i != namespaceNames.end(); ++i) {
-				auto namespaceName = *i;
+				std::u32string namespaceName = *i;
 				auto k = i;
 				++k;
 				auto const isNamespaceOfFile = k == namespaceNames.end();
 				auto j = currentScope->symbols.find(*i);
-				if (j == currentScope->symbols.end()) { // is namespace not yet created?
-					auto const newScope = new scope(m, isNamespaceOfFile ? &sourceCode : nullptr, parentScope, sourceCode.representation);
-					std::shared_ptr<analytic_value> namespace_(newScope);
-					currentScope->symbols.emplace(std::piecewise_construct, make_tuple(namespaceName), make_tuple(namespaceName, namespace_, false));
+				if (j == currentScope->symbols.end()) {
+					// namespace not yet created
+					ptr<source_code const> a = sourceCode;
+					val<scope> newScope = make_val<scope>(m, isNamespaceOfFile ? nptr<source_code const>(a) : std::nullopt, parentScope);
+					scope::load_dom(newScope, sourceCode->get_representation());
+					symbol s(
+						namespaceName,
+						*newScope,
+						std::nullopt,
+						*parentScope,
+						true,
+						true,
+						U"",
+						{},
+						visibility::PUBLIC,
+						false,
+						false,
+						false
+					);
+					currentScope->symbols.emplace(std::piecewise_construct, make_tuple(namespaceName), std::make_tuple(s));
 					parentScope = currentScope;
 					currentScope = newScope;
+				} else {
+					// symbol already exists
+					throw_assert(!isNamespaceOfFile); // This filename represents this scope. Make sure the scope is not already created.
+					std::optional<val<analytic_value>> a = j->second->get_value();
+					if (a.has_value()) {
+						parentScope = currentScope;
+						currentScope = ptr<scope const>(*a);
+						
+					} else {
+						ERROR(NotImplemented, "");
+					}
 				}
-				else { // symbol already exists
-					throw_assert(isNamespaceOfFile == false); // This filename represents this scope. Make sure the scope has not already created.
-					auto const asScopePtr = dynamic_cast<scope *>(j->second.value->collapse());
-					throw_assert(asScopePtr != nullptr);
-					parentScope = currentScope;
-					currentScope = asScopePtr;
-				}
-
 			}
-		}
-		else if (ext == ".pgo") { // file is an object literal
+			if (namespaceNames == std::list<std::u32string>{U"Plange", U"CStdLib", U"Generated"}) {
+				// We need not only standard handling, but also to treat these a c declarations
+				ERROR(NotImplemented, "");
+			}
+		} else if (ext == ".pgo") {
+			// file is an object literal
 			ERROR(NotImplemented, "");
-		}
-		else if (ext == ".pge") { // file is regular code
+		} else if (ext == ".pge") {
+			// file is regular code
 			ERROR(NotImplemented, "");
-		}
-		else {
+		} else {
+			ERROR(UnexpectedStandardLibraryFileExtension, filename);
 			// ignore unrecognized file extensions
 		}
 	}

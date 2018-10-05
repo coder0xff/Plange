@@ -6,7 +6,7 @@
 
 namespace plc {
 
-std::map<std::string, std::unique_ptr<analytic_value>> natural_value::get_constrained_symbols() const
+std::map<std::string, val<analytic_value>> natural_value::get_constrained_symbols() const
 {
 	ERROR(NotImplemented, "");
 }
@@ -15,6 +15,12 @@ std::map<std::string, std::unique_ptr<analytic_value>> natural_value::get_constr
 natural_value * natural_value::collapse()
 {
 	return this;
+}
+
+
+std::optional<val<analytic_value>> natural_value::get_type() const
+{
+	return type;
 }
 
 void natural_value::value_deleter::operator()(llvm::Value* ptr) const
