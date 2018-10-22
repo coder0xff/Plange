@@ -13,7 +13,7 @@ plc::FUNCTION_MODIFIER_ATOMIC::field_1_t plc::FUNCTION_MODIFIER_ATOMIC::field_1_
 	auto v0 = parlex::detail::document::element<val<IC>>::build(&*children[0], w);
 	auto v1 = parlex::detail::document::element<std::vector<val<IC>>>::build(&*children[1], w);
 	auto v2 = parlex::detail::document::element<val<FUNCTION_MODIFIER_3>>::build(&*children[2], w);
-	return field_1_t(std::move(v0), std::move(v1), std::move(v2));
+	return field_1_t(v0, v1, v2);
 }
 
 plc::FUNCTION_MODIFIER_ATOMIC plc::FUNCTION_MODIFIER_ATOMIC::build(parlex::detail::ast_node const & n) {
@@ -22,7 +22,7 @@ plc::FUNCTION_MODIFIER_ATOMIC plc::FUNCTION_MODIFIER_ATOMIC::build(parlex::detai
 	auto const & children = b->children;
 	auto v0 = parlex::detail::document::element<parlex::detail::document::text<literal_atomic_t>>::build(&*children[0], w);
 	auto v1 = parlex::detail::document::element<std::optional<field_1_t>>::build(&*children[1], w);
-	return FUNCTION_MODIFIER_ATOMIC(n.document_position, n.consumed_character_count, std::move(v0), std::move(v1));
+	return FUNCTION_MODIFIER_ATOMIC(n.document_position, n.consumed_character_count, v0, v1);
 }
 
 

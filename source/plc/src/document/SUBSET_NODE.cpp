@@ -13,7 +13,7 @@ plc::SUBSET_NODE::field_2_t plc::SUBSET_NODE::field_2_t::build(parlex::detail::n
 	auto const & children = b->children;
 	auto v0 = parlex::detail::document::element<std::vector<val<IC>>>::build(&*children[0], w);
 	auto v1 = parlex::detail::document::element<val<SUBSET_NODE>>::build(&*children[1], w);
-	return field_2_t(std::move(v0), std::move(v1));
+	return field_2_t(v0, v1);
 }
 
 plc::SUBSET_NODE plc::SUBSET_NODE::build(parlex::detail::ast_node const & n) {
@@ -30,7 +30,7 @@ plc::SUBSET_NODE plc::SUBSET_NODE::build(parlex::detail::ast_node const & n) {
 	auto v1 = parlex::detail::document::element<std::vector<val<IC>>>::build(&*children[1], w);
 	auto v2 = parlex::detail::document::element<val<EXPRESSION>>::build(&*children[2], w);
 	auto v3 = parlex::detail::document::element<std::optional<field_2_t>>::build(&*children[3], w);
-	return SUBSET_NODE(n.document_position, n.consumed_character_count, std::move(v0), std::move(v1), std::move(v2), std::move(v3));
+	return SUBSET_NODE(n.document_position, n.consumed_character_count, v0, v1, v2, v3);
 }
 
 

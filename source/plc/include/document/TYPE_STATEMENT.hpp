@@ -35,12 +35,10 @@ struct TYPE_STATEMENT {
 	
 	
 		explicit field_1_t1
-			(val<VISIBILITY_MODIFIER> && field_1, std::vector<val<IC>> && field_2, parlex::detail::document::text<literal_0x3A_t> && dont_care2)
-			: field_1(std::move(field_1)), field_2(std::move(field_2)), dont_care2(std::move(dont_care2)) {}
+			(val<VISIBILITY_MODIFIER> const & field_1, std::vector<val<IC>> const & field_2, parlex::detail::document::text<literal_0x3A_t> const & dont_care2)
+			: field_1(field_1), field_2(field_2), dont_care2(dont_care2) {}
 	
 		field_1_t1(field_1_t1 const & other) = default;
-		field_1_t1(field_1_t1 && move) = default;
-	
 		static field_1_t1 build(parlex::detail::node const * b, parlex::detail::document::walk & w);
 	};
 
@@ -59,12 +57,10 @@ struct TYPE_STATEMENT {
 	field_1_t1,
 	val<TYPE_SCOPE_TYPE_CONSTRAINT>,
 	val<STATEMENT>
-> && field_1, parlex::detail::document::text<literal_0x3B_t> && dont_care1)
-		: document_position(documentPosition), consumed_character_count(consumedCharacterCount), field_1(std::move(field_1)), dont_care1(std::move(dont_care1)) {}
+> const & field_1, parlex::detail::document::text<literal_0x3B_t> const & dont_care1)
+		: document_position(documentPosition), consumed_character_count(consumedCharacterCount), field_1(field_1), dont_care1(dont_care1) {}
 
 	TYPE_STATEMENT(TYPE_STATEMENT const & other) = default;
-	TYPE_STATEMENT(TYPE_STATEMENT && move) = default;
-
 	static TYPE_STATEMENT build(parlex::detail::ast_node const & n);
 	static parlex::detail::acceptor const & acceptor();
 

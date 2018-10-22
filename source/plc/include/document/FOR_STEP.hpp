@@ -33,12 +33,10 @@ struct FOR_STEP {
 
 
 	explicit FOR_STEP
-		(int32_t documentPosition, int32_t consumedCharacterCount, val<IDENTIFIER> && identifier, std::vector<val<IC>> && ic, val<FOR_STEP_NODE> && for_step_node)
-		: document_position(documentPosition), consumed_character_count(consumedCharacterCount), identifier(std::move(identifier)), ic(std::move(ic)), for_step_node(std::move(for_step_node)) {}
+		(int32_t documentPosition, int32_t consumedCharacterCount, val<IDENTIFIER> const & identifier, std::vector<val<IC>> const & ic, val<FOR_STEP_NODE> const & for_step_node)
+		: document_position(documentPosition), consumed_character_count(consumedCharacterCount), identifier(identifier), ic(ic), for_step_node(for_step_node) {}
 
 	FOR_STEP(FOR_STEP const & other) = default;
-	FOR_STEP(FOR_STEP && move) = default;
-
 	static FOR_STEP build(parlex::detail::ast_node const & n);
 	static parlex::detail::acceptor const & acceptor();
 

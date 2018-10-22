@@ -15,7 +15,7 @@ plc::TYPE_STATEMENT::field_1_t1 plc::TYPE_STATEMENT::field_1_t1::build(parlex::d
 	auto v0 = parlex::detail::document::element<val<VISIBILITY_MODIFIER>>::build(&*children[0], w);
 	auto v1 = parlex::detail::document::element<std::vector<val<IC>>>::build(&*children[1], w);
 	auto v2 = parlex::detail::document::element<parlex::detail::document::text<literal_0x3A_t>>::build(&*children[2], w);
-	return field_1_t1(std::move(v0), std::move(v1), std::move(v2));
+	return field_1_t1(v0, v1, v2);
 }
 
 plc::TYPE_STATEMENT plc::TYPE_STATEMENT::build(parlex::detail::ast_node const & n) {
@@ -28,7 +28,7 @@ plc::TYPE_STATEMENT plc::TYPE_STATEMENT::build(parlex::detail::ast_node const & 
 		val<STATEMENT>
 	>>::build(&*children[0], w);
 	auto v1 = parlex::detail::document::element<parlex::detail::document::text<literal_0x3B_t>>::build(&*children[1], w);
-	return TYPE_STATEMENT(n.document_position, n.consumed_character_count, std::move(v0), std::move(v1));
+	return TYPE_STATEMENT(n.document_position, n.consumed_character_count, v0, v1);
 }
 
 

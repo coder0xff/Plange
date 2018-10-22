@@ -31,12 +31,10 @@ struct UNIT_MULTIPLICATION {
 
 
 	explicit UNIT_MULTIPLICATION
-		(int32_t documentPosition, int32_t consumedCharacterCount, val<DIMENSION> && field_1, parlex::detail::document::text<literal_0x2A_t> && dont_care1, val<DIMENSION> && field_2)
-		: document_position(documentPosition), consumed_character_count(consumedCharacterCount), field_1(std::move(field_1)), dont_care1(std::move(dont_care1)), field_2(std::move(field_2)) {}
+		(int32_t documentPosition, int32_t consumedCharacterCount, val<DIMENSION> const & field_1, parlex::detail::document::text<literal_0x2A_t> const & dont_care1, val<DIMENSION> const & field_2)
+		: document_position(documentPosition), consumed_character_count(consumedCharacterCount), field_1(field_1), dont_care1(dont_care1), field_2(field_2) {}
 
 	UNIT_MULTIPLICATION(UNIT_MULTIPLICATION const & other) = default;
-	UNIT_MULTIPLICATION(UNIT_MULTIPLICATION && move) = default;
-
 	static UNIT_MULTIPLICATION build(parlex::detail::ast_node const & n);
 	static parlex::detail::acceptor const & acceptor();
 

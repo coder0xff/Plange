@@ -14,14 +14,14 @@ plc::TYPE_SCOPE_TYPE_CONSTRAINT_DECLARATION::args_t plc::TYPE_SCOPE_TYPE_CONSTRA
 	auto const & children = b->children;
 	auto v0 = parlex::detail::document::element<std::vector<val<IC>>>::build(&*children[0], w);
 	auto v1 = parlex::detail::document::element<val<PARENTHETICAL_INVOCATION>>::build(&*children[1], w);
-	return args_t(std::move(v0), std::move(v1));
+	return args_t(v0, v1);
 }
 
 plc::TYPE_SCOPE_TYPE_CONSTRAINT_DECLARATION::field_1_t plc::TYPE_SCOPE_TYPE_CONSTRAINT_DECLARATION::field_1_t::build(parlex::detail::node const * b, parlex::detail::document::walk & w) {
 	auto const & children = b->children;
 	auto v0 = parlex::detail::document::element<std::vector<val<IC>>>::build(&*children[0], w);
 	auto v1 = parlex::detail::document::element<val<MEMBER_OFFSET>>::build(&*children[1], w);
-	return field_1_t(std::move(v0), std::move(v1));
+	return field_1_t(v0, v1);
 }
 
 plc::TYPE_SCOPE_TYPE_CONSTRAINT_DECLARATION plc::TYPE_SCOPE_TYPE_CONSTRAINT_DECLARATION::build(parlex::detail::ast_node const & n) {
@@ -31,7 +31,7 @@ plc::TYPE_SCOPE_TYPE_CONSTRAINT_DECLARATION plc::TYPE_SCOPE_TYPE_CONSTRAINT_DECL
 	auto v0 = parlex::detail::document::element<val<IDENTIFIER_SPECIFICATION>>::build(&*children[0], w);
 	auto v1 = parlex::detail::document::element<std::optional<args_t>>::build(&*children[1], w);
 	auto v2 = parlex::detail::document::element<std::optional<field_1_t>>::build(&*children[2], w);
-	return TYPE_SCOPE_TYPE_CONSTRAINT_DECLARATION(n.document_position, n.consumed_character_count, std::move(v0), std::move(v1), std::move(v2));
+	return TYPE_SCOPE_TYPE_CONSTRAINT_DECLARATION(n.document_position, n.consumed_character_count, v0, v1, v2);
 }
 
 

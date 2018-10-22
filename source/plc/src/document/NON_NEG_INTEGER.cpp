@@ -22,7 +22,7 @@ plc::NON_NEG_INTEGER1_t plc::NON_NEG_INTEGER1_t::build(parlex::detail::node cons
 	auto const & children = b->children;
 	auto v0 = parlex::detail::document::element<val<NON_ZERO_DECIMAL_DIGIT>>::build(&*children[0], w);
 	auto v1 = parlex::detail::document::element<std::vector<parlex::detail::document::text<parlex::detail::decimal_digit_t>>>::build(&*children[1], w);
-	return NON_NEG_INTEGER1_t(std::move(v0), std::move(v1));
+	return NON_NEG_INTEGER1_t(v0, v1);
 }
 
 

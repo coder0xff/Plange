@@ -31,12 +31,10 @@ struct ASM_PTR_ARITHMETIC_ATT1_t {
 
 
 	explicit ASM_PTR_ARITHMETIC_ATT1_t
-		(val<ASM_IDENTIFIER> && field_1, parlex::detail::document::text<literal_0x3A_t> && dont_care1, val<NON_FRACTIONAL> && field_2)
-		: field_1(std::move(field_1)), dont_care1(std::move(dont_care1)), field_2(std::move(field_2)) {}
+		(val<ASM_IDENTIFIER> const & field_1, parlex::detail::document::text<literal_0x3A_t> const & dont_care1, val<NON_FRACTIONAL> const & field_2)
+		: field_1(field_1), dont_care1(dont_care1), field_2(field_2) {}
 
 	ASM_PTR_ARITHMETIC_ATT1_t(ASM_PTR_ARITHMETIC_ATT1_t const & other) = default;
-	ASM_PTR_ARITHMETIC_ATT1_t(ASM_PTR_ARITHMETIC_ATT1_t && move) = default;
-
 	static ASM_PTR_ARITHMETIC_ATT1_t build(parlex::detail::node const * b, parlex::detail::document::walk & w);
 };
 
@@ -52,12 +50,10 @@ struct ASM_PTR_ARITHMETIC_ATT2_t {
 
 
 	explicit ASM_PTR_ARITHMETIC_ATT2_t
-		(val<ASM_IDENTIFIER> && field_1, parlex::detail::document::text<literal_0x3A_t> && dont_care1, val<NON_FRACTIONAL> && field_2, val<ASM_PTR_ARITHMETIC_ATT_REG> && field_3)
-		: field_1(std::move(field_1)), dont_care1(std::move(dont_care1)), field_2(std::move(field_2)), field_3(std::move(field_3)) {}
+		(val<ASM_IDENTIFIER> const & field_1, parlex::detail::document::text<literal_0x3A_t> const & dont_care1, val<NON_FRACTIONAL> const & field_2, val<ASM_PTR_ARITHMETIC_ATT_REG> const & field_3)
+		: field_1(field_1), dont_care1(dont_care1), field_2(field_2), field_3(field_3) {}
 
 	ASM_PTR_ARITHMETIC_ATT2_t(ASM_PTR_ARITHMETIC_ATT2_t const & other) = default;
-	ASM_PTR_ARITHMETIC_ATT2_t(ASM_PTR_ARITHMETIC_ATT2_t && move) = default;
-
 	static ASM_PTR_ARITHMETIC_ATT2_t build(parlex::detail::node const * b, parlex::detail::document::walk & w);
 };
 
@@ -69,12 +65,10 @@ struct ASM_PTR_ARITHMETIC_ATT3_t {
 
 
 	explicit ASM_PTR_ARITHMETIC_ATT3_t
-		(val<NON_FRACTIONAL> && field_1, val<ASM_PTR_ARITHMETIC_ATT_REG> && field_2)
-		: field_1(std::move(field_1)), field_2(std::move(field_2)) {}
+		(val<NON_FRACTIONAL> const & field_1, val<ASM_PTR_ARITHMETIC_ATT_REG> const & field_2)
+		: field_1(field_1), field_2(field_2) {}
 
 	ASM_PTR_ARITHMETIC_ATT3_t(ASM_PTR_ARITHMETIC_ATT3_t const & other) = default;
-	ASM_PTR_ARITHMETIC_ATT3_t(ASM_PTR_ARITHMETIC_ATT3_t && move) = default;
-
 	static ASM_PTR_ARITHMETIC_ATT3_t build(parlex::detail::node const * b, parlex::detail::document::walk & w);
 };
 

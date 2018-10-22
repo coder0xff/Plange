@@ -15,28 +15,28 @@ plc::IDENTIFIER_SPECIFICATION::attributes_t plc::IDENTIFIER_SPECIFICATION::attri
 	auto const & children = b->children;
 	auto v0 = parlex::detail::document::element<val<ATTRIBUTE>>::build(&*children[0], w);
 	auto v1 = parlex::detail::document::element<std::vector<val<IC>>>::build(&*children[1], w);
-	return attributes_t(std::move(v0), std::move(v1));
+	return attributes_t(v0, v1);
 }
 
 plc::IDENTIFIER_SPECIFICATION::visibility_t plc::IDENTIFIER_SPECIFICATION::visibility_t::build(parlex::detail::node const * b, parlex::detail::document::walk & w) {
 	auto const & children = b->children;
 	auto v0 = parlex::detail::document::element<val<VISIBILITY_MODIFIER>>::build(&*children[0], w);
 	auto v1 = parlex::detail::document::element<std::vector<val<IC>>>::build(&*children[1], w);
-	return visibility_t(std::move(v0), std::move(v1));
+	return visibility_t(v0, v1);
 }
 
 plc::IDENTIFIER_SPECIFICATION::static__t plc::IDENTIFIER_SPECIFICATION::static__t::build(parlex::detail::node const * b, parlex::detail::document::walk & w) {
 	auto const & children = b->children;
 	auto v0 = parlex::detail::document::element<parlex::detail::document::text<literal_static_t>>::build(&*children[0], w);
 	auto v1 = parlex::detail::document::element<std::vector<val<IC>>>::build(&*children[1], w);
-	return static__t(std::move(v0), std::move(v1));
+	return static__t(v0, v1);
 }
 
 plc::IDENTIFIER_SPECIFICATION::extern__t plc::IDENTIFIER_SPECIFICATION::extern__t::build(parlex::detail::node const * b, parlex::detail::document::walk & w) {
 	auto const & children = b->children;
 	auto v0 = parlex::detail::document::element<parlex::detail::document::text<literal_extern_t>>::build(&*children[0], w);
 	auto v1 = parlex::detail::document::element<std::vector<val<IC>>>::build(&*children[1], w);
-	return extern__t(std::move(v0), std::move(v1));
+	return extern__t(v0, v1);
 }
 
 plc::IDENTIFIER_SPECIFICATION plc::IDENTIFIER_SPECIFICATION::build(parlex::detail::ast_node const & n) {
@@ -49,7 +49,7 @@ plc::IDENTIFIER_SPECIFICATION plc::IDENTIFIER_SPECIFICATION::build(parlex::detai
 	auto v3 = parlex::detail::document::element<std::optional<static__t>>::build(&*children[3], w);
 	auto v4 = parlex::detail::document::element<std::optional<extern__t>>::build(&*children[4], w);
 	auto v5 = parlex::detail::document::element<val<IDENTIFIER>>::build(&*children[5], w);
-	return IDENTIFIER_SPECIFICATION(n.document_position, n.consumed_character_count, std::move(v0), std::move(v1), std::move(v2), std::move(v3), std::move(v4), std::move(v5));
+	return IDENTIFIER_SPECIFICATION(n.document_position, n.consumed_character_count, v0, v1, v2, v3, v4, v5);
 }
 
 

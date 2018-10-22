@@ -16,7 +16,7 @@ plc::STANDARD_ARGUMENTS::tail_t::field_1_t plc::STANDARD_ARGUMENTS::tail_t::fiel
 		val<EXPRESSION>,
 		val<ARGUMENT_PACK>
 	>>::build(&*children[1], w);
-	return field_1_t(std::move(v0), std::move(v1));
+	return field_1_t(v0, v1);
 }
 
 plc::STANDARD_ARGUMENTS::tail_t plc::STANDARD_ARGUMENTS::tail_t::build(parlex::detail::node const * b, parlex::detail::document::walk & w) {
@@ -24,7 +24,7 @@ plc::STANDARD_ARGUMENTS::tail_t plc::STANDARD_ARGUMENTS::tail_t::build(parlex::d
 	auto v0 = parlex::detail::document::element<std::vector<val<IC>>>::build(&*children[0], w);
 	auto v1 = parlex::detail::document::element<parlex::detail::document::text<literal_0x2C_t>>::build(&*children[1], w);
 	auto v2 = parlex::detail::document::element<std::optional<field_1_t>>::build(&*children[2], w);
-	return tail_t(std::move(v0), std::move(v1), std::move(v2));
+	return tail_t(v0, v1, v2);
 }
 
 plc::STANDARD_ARGUMENTS plc::STANDARD_ARGUMENTS::build(parlex::detail::ast_node const & n) {
@@ -36,7 +36,7 @@ plc::STANDARD_ARGUMENTS plc::STANDARD_ARGUMENTS::build(parlex::detail::ast_node 
 		val<ARGUMENT_PACK>
 	>>>::build(&*children[0], w);
 	auto v1 = parlex::detail::document::element<std::vector<tail_t>>::build(&*children[1], w);
-	return STANDARD_ARGUMENTS(n.document_position, n.consumed_character_count, std::move(v0), std::move(v1));
+	return STANDARD_ARGUMENTS(n.document_position, n.consumed_character_count, v0, v1);
 }
 
 

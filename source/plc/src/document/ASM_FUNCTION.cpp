@@ -16,7 +16,7 @@ plc::ASM_FUNCTION::field_1_t::field_2_t::field_1_t plc::ASM_FUNCTION::field_1_t:
 	auto v1 = parlex::detail::document::element<parlex::detail::document::text<literal_0x2C_t>>::build(&*children[1], w);
 	auto v2 = parlex::detail::document::element<std::vector<val<IC>>>::build(&*children[2], w);
 	auto v3 = parlex::detail::document::element<val<PARAMETER>>::build(&*children[3], w);
-	return field_1_t(std::move(v0), std::move(v1), std::move(v2), std::move(v3));
+	return field_1_t(v0, v1, v2, v3);
 }
 
 plc::ASM_FUNCTION::field_1_t::field_2_t plc::ASM_FUNCTION::field_1_t::field_2_t::build(parlex::detail::node const * b, parlex::detail::document::walk & w) {
@@ -24,7 +24,7 @@ plc::ASM_FUNCTION::field_1_t::field_2_t plc::ASM_FUNCTION::field_1_t::field_2_t:
 	auto v0 = parlex::detail::document::element<val<PARAMETER>>::build(&*children[0], w);
 	auto v1 = parlex::detail::document::element<std::vector<field_1_t>>::build(&*children[1], w);
 	auto v2 = parlex::detail::document::element<std::vector<val<IC>>>::build(&*children[2], w);
-	return field_2_t(std::move(v0), std::move(v1), std::move(v2));
+	return field_2_t(v0, v1, v2);
 }
 
 plc::ASM_FUNCTION::field_1_t plc::ASM_FUNCTION::field_1_t::build(parlex::detail::node const * b, parlex::detail::document::walk & w) {
@@ -34,7 +34,7 @@ plc::ASM_FUNCTION::field_1_t plc::ASM_FUNCTION::field_1_t::build(parlex::detail:
 	auto v2 = parlex::detail::document::element<std::optional<field_2_t>>::build(&*children[2], w);
 	auto v3 = parlex::detail::document::element<parlex::detail::document::text<literal_0x29_t>>::build(&*children[3], w);
 	auto v4 = parlex::detail::document::element<std::vector<val<IC>>>::build(&*children[4], w);
-	return field_1_t(std::move(v0), std::move(v1), std::move(v2), std::move(v3), std::move(v4));
+	return field_1_t(v0, v1, v2, v3, v4);
 }
 
 plc::ASM_FUNCTION plc::ASM_FUNCTION::build(parlex::detail::ast_node const & n) {
@@ -48,7 +48,7 @@ plc::ASM_FUNCTION plc::ASM_FUNCTION::build(parlex::detail::ast_node const & n) {
 	auto v4 = parlex::detail::document::element<parlex::detail::document::text<literal_0x7B_t>>::build(&*children[4], w);
 	auto v5 = parlex::detail::document::element<val<ASM_SCOPE>>::build(&*children[5], w);
 	auto v6 = parlex::detail::document::element<parlex::detail::document::text<literal_0x7D_t>>::build(&*children[6], w);
-	return ASM_FUNCTION(n.document_position, n.consumed_character_count, std::move(v0), std::move(v1), std::move(v2), std::move(v3), std::move(v4), std::move(v5), std::move(v6));
+	return ASM_FUNCTION(n.document_position, n.consumed_character_count, v0, v1, v2, v3, v4, v5, v6);
 }
 
 

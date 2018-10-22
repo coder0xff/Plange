@@ -34,12 +34,10 @@ struct NEAREST_INTEGER1_t {
 
 
 	explicit NEAREST_INTEGER1_t
-		(parlex::detail::document::text<literal_0xE20x8C0x8A_t> && dont_care0, std::vector<val<IC>> && field_1, val<EXPRESSION> && field_2, std::vector<val<IC>> && field_3, parlex::detail::document::text<literal_0xE20x8C0x89_t> && dont_care4)
-		: dont_care0(std::move(dont_care0)), field_1(std::move(field_1)), field_2(std::move(field_2)), field_3(std::move(field_3)), dont_care4(std::move(dont_care4)) {}
+		(parlex::detail::document::text<literal_0xE20x8C0x8A_t> const & dont_care0, std::vector<val<IC>> const & field_1, val<EXPRESSION> const & field_2, std::vector<val<IC>> const & field_3, parlex::detail::document::text<literal_0xE20x8C0x89_t> const & dont_care4)
+		: dont_care0(dont_care0), field_1(field_1), field_2(field_2), field_3(field_3), dont_care4(dont_care4) {}
 
 	NEAREST_INTEGER1_t(NEAREST_INTEGER1_t const & other) = default;
-	NEAREST_INTEGER1_t(NEAREST_INTEGER1_t && move) = default;
-
 	static NEAREST_INTEGER1_t build(parlex::detail::node const * b, parlex::detail::document::walk & w);
 };
 
@@ -57,12 +55,10 @@ struct NEAREST_INTEGER2_t {
 
 
 	explicit NEAREST_INTEGER2_t
-		(parlex::detail::document::text<literal_0x7C__t> && dont_care0, std::vector<val<IC>> && field_1, val<EXPRESSION> && field_2, std::vector<val<IC>> && field_3, parlex::detail::document::text<literal_0x270x7C_t> && dont_care4)
-		: dont_care0(std::move(dont_care0)), field_1(std::move(field_1)), field_2(std::move(field_2)), field_3(std::move(field_3)), dont_care4(std::move(dont_care4)) {}
+		(parlex::detail::document::text<literal_0x7C__t> const & dont_care0, std::vector<val<IC>> const & field_1, val<EXPRESSION> const & field_2, std::vector<val<IC>> const & field_3, parlex::detail::document::text<literal_0x270x7C_t> const & dont_care4)
+		: dont_care0(dont_care0), field_1(field_1), field_2(field_2), field_3(field_3), dont_care4(dont_care4) {}
 
 	NEAREST_INTEGER2_t(NEAREST_INTEGER2_t const & other) = default;
-	NEAREST_INTEGER2_t(NEAREST_INTEGER2_t && move) = default;
-
 	static NEAREST_INTEGER2_t build(parlex::detail::node const * b, parlex::detail::document::walk & w);
 };
 

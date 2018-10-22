@@ -16,7 +16,7 @@ plc::XML_DOC_STRING plc::XML_DOC_STRING::build(parlex::detail::ast_node const & 
 	auto v1 = parlex::detail::document::element<val<XML_DOC_STRING_INTERIOR>>::build(&*children[1], w);
 	auto v2 = parlex::detail::document::element<parlex::detail::document::text<literal_0x600x600x60_t>>::build(&*children[2], w);
 	auto v3 = parlex::detail::document::element<std::vector<val<IC>>>::build(&*children[3], w);
-	return XML_DOC_STRING(n.document_position, n.consumed_character_count, std::move(v0), std::move(v1), std::move(v2), std::move(v3));
+	return XML_DOC_STRING(n.document_position, n.consumed_character_count, v0, v1, v2, v3);
 }
 
 

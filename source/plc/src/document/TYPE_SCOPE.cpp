@@ -12,7 +12,7 @@ plc::TYPE_SCOPE::field_2_t plc::TYPE_SCOPE::field_2_t::build(parlex::detail::nod
 	auto const & children = b->children;
 	auto v0 = parlex::detail::document::element<val<TYPE_STATEMENT>>::build(&*children[0], w);
 	auto v1 = parlex::detail::document::element<std::vector<val<IC>>>::build(&*children[1], w);
-	return field_2_t(std::move(v0), std::move(v1));
+	return field_2_t(v0, v1);
 }
 
 plc::TYPE_SCOPE plc::TYPE_SCOPE::build(parlex::detail::ast_node const & n) {
@@ -21,7 +21,7 @@ plc::TYPE_SCOPE plc::TYPE_SCOPE::build(parlex::detail::ast_node const & n) {
 	auto const & children = b->children;
 	auto v0 = parlex::detail::document::element<std::vector<val<IC>>>::build(&*children[0], w);
 	auto v1 = parlex::detail::document::element<std::vector<field_2_t>>::build(&*children[1], w);
-	return TYPE_SCOPE(n.document_position, n.consumed_character_count, std::move(v0), std::move(v1));
+	return TYPE_SCOPE(n.document_position, n.consumed_character_count, v0, v1);
 }
 
 

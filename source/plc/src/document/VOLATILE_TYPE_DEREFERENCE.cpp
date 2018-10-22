@@ -19,7 +19,7 @@ plc::VOLATILE_TYPE_DEREFERENCE plc::VOLATILE_TYPE_DEREFERENCE::build(parlex::det
 	auto v4 = parlex::detail::document::element<val<EXPRESSION>>::build(&*children[4], w);
 	auto v5 = parlex::detail::document::element<std::vector<val<IC>>>::build(&*children[5], w);
 	auto v6 = parlex::detail::document::element<parlex::detail::document::text<literal_0x3E_t>>::build(&*children[6], w);
-	return VOLATILE_TYPE_DEREFERENCE(n.document_position, n.consumed_character_count, std::move(v0), std::move(v1), std::move(v2), std::move(v3), std::move(v4), std::move(v5), std::move(v6));
+	return VOLATILE_TYPE_DEREFERENCE(n.document_position, n.consumed_character_count, v0, v1, v2, v3, v4, v5, v6);
 }
 
 

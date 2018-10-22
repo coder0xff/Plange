@@ -32,12 +32,10 @@ struct FREE {
 
 
 	explicit FREE
-		(int32_t documentPosition, int32_t consumedCharacterCount, parlex::detail::document::text<literal_free_t> && dont_care0, std::vector<val<IC>> && ic, val<EXPRESSION> && field_1)
-		: document_position(documentPosition), consumed_character_count(consumedCharacterCount), dont_care0(std::move(dont_care0)), ic(std::move(ic)), field_1(std::move(field_1)) {}
+		(int32_t documentPosition, int32_t consumedCharacterCount, parlex::detail::document::text<literal_free_t> const & dont_care0, std::vector<val<IC>> const & ic, val<EXPRESSION> const & field_1)
+		: document_position(documentPosition), consumed_character_count(consumedCharacterCount), dont_care0(dont_care0), ic(ic), field_1(field_1) {}
 
 	FREE(FREE const & other) = default;
-	FREE(FREE && move) = default;
-
 	static FREE build(parlex::detail::ast_node const & n);
 	static parlex::detail::acceptor const & acceptor();
 

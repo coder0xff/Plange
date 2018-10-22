@@ -15,7 +15,7 @@ plc::BIT_NOT plc::BIT_NOT::build(parlex::detail::ast_node const & n) {
 	auto v0 = parlex::detail::document::element<parlex::detail::document::text<literal_0x7E0x7E_t>>::build(&*children[0], w);
 	auto v1 = parlex::detail::document::element<std::vector<val<IC>>>::build(&*children[1], w);
 	auto v2 = parlex::detail::document::element<val<EXPRESSION>>::build(&*children[2], w);
-	return BIT_NOT(n.document_position, n.consumed_character_count, std::move(v0), std::move(v1), std::move(v2));
+	return BIT_NOT(n.document_position, n.consumed_character_count, v0, v1, v2);
 }
 
 

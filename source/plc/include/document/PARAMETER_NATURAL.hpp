@@ -32,12 +32,10 @@ struct PARAMETER_NATURAL1_t {
 	
 	
 		explicit field_1_t
-			(val<TYPE_DEREFERENCE> && field_1, std::vector<val<IC>> && field_2)
-			: field_1(std::move(field_1)), field_2(std::move(field_2)) {}
+			(val<TYPE_DEREFERENCE> const & field_1, std::vector<val<IC>> const & field_2)
+			: field_1(field_1), field_2(field_2) {}
 	
 		field_1_t(field_1_t const & other) = default;
-		field_1_t(field_1_t && move) = default;
-	
 		static field_1_t build(parlex::detail::node const * b, parlex::detail::document::walk & w);
 	};
 
@@ -50,12 +48,10 @@ struct PARAMETER_NATURAL1_t {
 
 
 	explicit PARAMETER_NATURAL1_t
-		(std::optional<field_1_t> && field_1, val<IDENTIFIER> && field_2, std::optional<parlex::detail::document::text<literal_0x2E0x2E0x2E_t>> && field_3)
-		: field_1(std::move(field_1)), field_2(std::move(field_2)), field_3(std::move(field_3)) {}
+		(std::optional<field_1_t> const & field_1, val<IDENTIFIER> const & field_2, std::optional<parlex::detail::document::text<literal_0x2E0x2E0x2E_t>> const & field_3)
+		: field_1(field_1), field_2(field_2), field_3(field_3) {}
 
 	PARAMETER_NATURAL1_t(PARAMETER_NATURAL1_t const & other) = default;
-	PARAMETER_NATURAL1_t(PARAMETER_NATURAL1_t && move) = default;
-
 	static PARAMETER_NATURAL1_t build(parlex::detail::node const * b, parlex::detail::document::walk & w);
 };
 
@@ -74,12 +70,10 @@ struct PARAMETER_NATURAL2_t {
 			(std::variant<
 		val<TYPE_DEREFERENCE>,
 		val<IMPLICIT_TYPE_DEREFERENCE>
-	> && field_1, std::vector<val<IC>> && field_2)
-			: field_1(std::move(field_1)), field_2(std::move(field_2)) {}
+	> const & field_1, std::vector<val<IC>> const & field_2)
+			: field_1(field_1), field_2(field_2) {}
 	
 		field_1_t(field_1_t const & other) = default;
-		field_1_t(field_1_t && move) = default;
-	
 		static field_1_t build(parlex::detail::node const * b, parlex::detail::document::walk & w);
 	};
 
@@ -102,12 +96,10 @@ struct PARAMETER_NATURAL2_t {
 
 
 	explicit PARAMETER_NATURAL2_t
-		(std::optional<field_1_t> && field_1, val<IDENTIFIER> && field_2, std::optional<parlex::detail::document::text<literal_0x2E0x2E0x2E_t>> && field_3, std::vector<val<IC>> && field_4, parlex::detail::document::text<literal_0x3D_t> && dont_care4, std::vector<val<IC>> && field_5, val<EXPRESSION> && field_6, std::optional<parlex::detail::document::text<literal_0x2E0x2E0x2E_t>> && field_7)
-		: field_1(std::move(field_1)), field_2(std::move(field_2)), field_3(std::move(field_3)), field_4(std::move(field_4)), dont_care4(std::move(dont_care4)), field_5(std::move(field_5)), field_6(std::move(field_6)), field_7(std::move(field_7)) {}
+		(std::optional<field_1_t> const & field_1, val<IDENTIFIER> const & field_2, std::optional<parlex::detail::document::text<literal_0x2E0x2E0x2E_t>> const & field_3, std::vector<val<IC>> const & field_4, parlex::detail::document::text<literal_0x3D_t> const & dont_care4, std::vector<val<IC>> const & field_5, val<EXPRESSION> const & field_6, std::optional<parlex::detail::document::text<literal_0x2E0x2E0x2E_t>> const & field_7)
+		: field_1(field_1), field_2(field_2), field_3(field_3), field_4(field_4), dont_care4(dont_care4), field_5(field_5), field_6(field_6), field_7(field_7) {}
 
 	PARAMETER_NATURAL2_t(PARAMETER_NATURAL2_t const & other) = default;
-	PARAMETER_NATURAL2_t(PARAMETER_NATURAL2_t && move) = default;
-
 	static PARAMETER_NATURAL2_t build(parlex::detail::node const * b, parlex::detail::document::walk & w);
 };
 

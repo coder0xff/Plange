@@ -33,12 +33,10 @@ struct ASSIGNMENT {
 
 
 	explicit ASSIGNMENT
-		(int32_t documentPosition, int32_t consumedCharacterCount, val<IDENTIFIER_SPECIFICATION> && identifier_specification, std::vector<val<IC>> && ic, val<ASSIGNMENT_NODE> && assignment_node)
-		: document_position(documentPosition), consumed_character_count(consumedCharacterCount), identifier_specification(std::move(identifier_specification)), ic(std::move(ic)), assignment_node(std::move(assignment_node)) {}
+		(int32_t documentPosition, int32_t consumedCharacterCount, val<IDENTIFIER_SPECIFICATION> const & identifier_specification, std::vector<val<IC>> const & ic, val<ASSIGNMENT_NODE> const & assignment_node)
+		: document_position(documentPosition), consumed_character_count(consumedCharacterCount), identifier_specification(identifier_specification), ic(ic), assignment_node(assignment_node) {}
 
 	ASSIGNMENT(ASSIGNMENT const & other) = default;
-	ASSIGNMENT(ASSIGNMENT && move) = default;
-
 	static ASSIGNMENT build(parlex::detail::ast_node const & n);
 	static parlex::detail::acceptor const & acceptor();
 

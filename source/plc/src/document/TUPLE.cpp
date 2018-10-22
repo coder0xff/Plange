@@ -14,7 +14,7 @@ plc::TUPLE::field_3_t plc::TUPLE::field_3_t::build(parlex::detail::node const * 
 	auto v1 = parlex::detail::document::element<parlex::detail::document::text<literal_0x2C_t>>::build(&*children[1], w);
 	auto v2 = parlex::detail::document::element<std::vector<val<IC>>>::build(&*children[2], w);
 	auto v3 = parlex::detail::document::element<val<EXPRESSION>>::build(&*children[3], w);
-	return field_3_t(std::move(v0), std::move(v1), std::move(v2), std::move(v3));
+	return field_3_t(v0, v1, v2, v3);
 }
 
 plc::TUPLE plc::TUPLE::build(parlex::detail::ast_node const & n) {
@@ -27,7 +27,7 @@ plc::TUPLE plc::TUPLE::build(parlex::detail::ast_node const & n) {
 	auto v3 = parlex::detail::document::element<std::vector<field_3_t>>::build(&*children[3], w);
 	auto v4 = parlex::detail::document::element<std::vector<val<IC>>>::build(&*children[4], w);
 	auto v5 = parlex::detail::document::element<parlex::detail::document::text<literal_0x7C0x29_t>>::build(&*children[5], w);
-	return TUPLE(n.document_position, n.consumed_character_count, std::move(v0), std::move(v1), std::move(v2), std::move(v3), std::move(v4), std::move(v5));
+	return TUPLE(n.document_position, n.consumed_character_count, v0, v1, v2, v3, v4, v5);
 }
 
 

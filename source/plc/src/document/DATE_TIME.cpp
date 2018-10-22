@@ -15,7 +15,7 @@ plc::DATE_TIME plc::DATE_TIME::build(parlex::detail::ast_node const & n) {
 	auto v0 = parlex::detail::document::element<val<DATE>>::build(&*children[0], w);
 	auto v1 = parlex::detail::document::element<parlex::detail::document::text<literal_T_t>>::build(&*children[1], w);
 	auto v2 = parlex::detail::document::element<val<TIME>>::build(&*children[2], w);
-	return DATE_TIME(n.document_position, n.consumed_character_count, std::move(v0), std::move(v1), std::move(v2));
+	return DATE_TIME(n.document_position, n.consumed_character_count, v0, v1, v2);
 }
 
 

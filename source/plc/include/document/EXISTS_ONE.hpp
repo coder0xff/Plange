@@ -38,12 +38,10 @@ struct EXISTS_ONE {
 		(int32_t documentPosition, int32_t consumedCharacterCount, std::variant<
 	parlex::detail::document::text<literal_0xE20x880x830x21_t>,
 	parlex::detail::document::text<literal_exists0x21_t>
-> && field_1, std::vector<val<IC>> && field_2, val<EXPRESSION> && field_3)
-		: document_position(documentPosition), consumed_character_count(consumedCharacterCount), field_1(std::move(field_1)), field_2(std::move(field_2)), field_3(std::move(field_3)) {}
+> const & field_1, std::vector<val<IC>> const & field_2, val<EXPRESSION> const & field_3)
+		: document_position(documentPosition), consumed_character_count(consumedCharacterCount), field_1(field_1), field_2(field_2), field_3(field_3) {}
 
 	EXISTS_ONE(EXISTS_ONE const & other) = default;
-	EXISTS_ONE(EXISTS_ONE && move) = default;
-
 	static EXISTS_ONE build(parlex::detail::ast_node const & n);
 	static parlex::detail::acceptor const & acceptor();
 

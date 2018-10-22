@@ -14,7 +14,7 @@ plc::ARRAY::field_2_t::field_1_t plc::ARRAY::field_2_t::field_1_t::build(parlex:
 	auto v1 = parlex::detail::document::element<parlex::detail::document::text<literal_0x2C_t>>::build(&*children[1], w);
 	auto v2 = parlex::detail::document::element<std::vector<val<IC>>>::build(&*children[2], w);
 	auto v3 = parlex::detail::document::element<val<EXPRESSION>>::build(&*children[3], w);
-	return field_1_t(std::move(v0), std::move(v1), std::move(v2), std::move(v3));
+	return field_1_t(v0, v1, v2, v3);
 }
 
 plc::ARRAY::field_2_t plc::ARRAY::field_2_t::build(parlex::detail::node const * b, parlex::detail::document::walk & w) {
@@ -22,7 +22,7 @@ plc::ARRAY::field_2_t plc::ARRAY::field_2_t::build(parlex::detail::node const * 
 	auto v0 = parlex::detail::document::element<val<EXPRESSION>>::build(&*children[0], w);
 	auto v1 = parlex::detail::document::element<std::vector<field_1_t>>::build(&*children[1], w);
 	auto v2 = parlex::detail::document::element<std::vector<val<IC>>>::build(&*children[2], w);
-	return field_2_t(std::move(v0), std::move(v1), std::move(v2));
+	return field_2_t(v0, v1, v2);
 }
 
 plc::ARRAY plc::ARRAY::build(parlex::detail::ast_node const & n) {
@@ -33,7 +33,7 @@ plc::ARRAY plc::ARRAY::build(parlex::detail::ast_node const & n) {
 	auto v1 = parlex::detail::document::element<std::vector<val<IC>>>::build(&*children[1], w);
 	auto v2 = parlex::detail::document::element<std::optional<field_2_t>>::build(&*children[2], w);
 	auto v3 = parlex::detail::document::element<parlex::detail::document::text<literal_0x5D_t>>::build(&*children[3], w);
-	return ARRAY(n.document_position, n.consumed_character_count, std::move(v0), std::move(v1), std::move(v2), std::move(v3));
+	return ARRAY(n.document_position, n.consumed_character_count, v0, v1, v2, v3);
 }
 
 

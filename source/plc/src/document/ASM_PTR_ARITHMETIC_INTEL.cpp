@@ -18,21 +18,21 @@ plc::ASM_PTR_ARITHMETIC_INTEL::field_1_t plc::ASM_PTR_ARITHMETIC_INTEL::field_1_
 		parlex::detail::document::text<literal_QWORD_t>
 	>>::build(&*children[0], w);
 	auto v1 = parlex::detail::document::element<parlex::detail::document::text<literal_0x20PTR_t>>::build(&*children[1], w);
-	return field_1_t(std::move(v0), std::move(v1));
+	return field_1_t(v0, v1);
 }
 
 plc::ASM_PTR_ARITHMETIC_INTEL::field_2_t plc::ASM_PTR_ARITHMETIC_INTEL::field_2_t::build(parlex::detail::node const * b, parlex::detail::document::walk & w) {
 	auto const & children = b->children;
 	auto v0 = parlex::detail::document::element<val<ASM_IDENTIFIER>>::build(&*children[0], w);
 	auto v1 = parlex::detail::document::element<parlex::detail::document::text<literal_0x3A_t>>::build(&*children[1], w);
-	return field_2_t(std::move(v0), std::move(v1));
+	return field_2_t(v0, v1);
 }
 
 plc::ASM_PTR_ARITHMETIC_INTEL::field_4_t::field_2_t plc::ASM_PTR_ARITHMETIC_INTEL::field_4_t::field_2_t::build(parlex::detail::node const * b, parlex::detail::document::walk & w) {
 	auto const & children = b->children;
 	auto v0 = parlex::detail::document::element<parlex::detail::document::text<literal_0x2A_t>>::build(&*children[0], w);
 	auto v1 = parlex::detail::document::element<val<NON_NEG_NON_FRACTIONAL>>::build(&*children[1], w);
-	return field_2_t(std::move(v0), std::move(v1));
+	return field_2_t(v0, v1);
 }
 
 plc::ASM_PTR_ARITHMETIC_INTEL::field_4_t plc::ASM_PTR_ARITHMETIC_INTEL::field_4_t::build(parlex::detail::node const * b, parlex::detail::document::walk & w) {
@@ -40,7 +40,7 @@ plc::ASM_PTR_ARITHMETIC_INTEL::field_4_t plc::ASM_PTR_ARITHMETIC_INTEL::field_4_
 	auto v0 = parlex::detail::document::element<parlex::detail::document::text<literal_0x2B_t>>::build(&*children[0], w);
 	auto v1 = parlex::detail::document::element<val<ASM_IDENTIFIER>>::build(&*children[1], w);
 	auto v2 = parlex::detail::document::element<std::optional<field_2_t>>::build(&*children[2], w);
-	return field_4_t(std::move(v0), std::move(v1), std::move(v2));
+	return field_4_t(v0, v1, v2);
 }
 
 plc::ASM_PTR_ARITHMETIC_INTEL::field_5_t plc::ASM_PTR_ARITHMETIC_INTEL::field_5_t::build(parlex::detail::node const * b, parlex::detail::document::walk & w) {
@@ -50,7 +50,7 @@ plc::ASM_PTR_ARITHMETIC_INTEL::field_5_t plc::ASM_PTR_ARITHMETIC_INTEL::field_5_
 		parlex::detail::document::text<literal_0x2D_t>
 	>>::build(&*children[0], w);
 	auto v1 = parlex::detail::document::element<val<NON_NEG_INTEGER>>::build(&*children[1], w);
-	return field_5_t(std::move(v0), std::move(v1));
+	return field_5_t(v0, v1);
 }
 
 plc::ASM_PTR_ARITHMETIC_INTEL plc::ASM_PTR_ARITHMETIC_INTEL::build(parlex::detail::ast_node const & n) {
@@ -64,7 +64,7 @@ plc::ASM_PTR_ARITHMETIC_INTEL plc::ASM_PTR_ARITHMETIC_INTEL::build(parlex::detai
 	auto v4 = parlex::detail::document::element<std::optional<field_4_t>>::build(&*children[4], w);
 	auto v5 = parlex::detail::document::element<std::optional<field_5_t>>::build(&*children[5], w);
 	auto v6 = parlex::detail::document::element<parlex::detail::document::text<literal_0x5D_t>>::build(&*children[6], w);
-	return ASM_PTR_ARITHMETIC_INTEL(n.document_position, n.consumed_character_count, std::move(v0), std::move(v1), std::move(v2), std::move(v3), std::move(v4), std::move(v5), std::move(v6));
+	return ASM_PTR_ARITHMETIC_INTEL(n.document_position, n.consumed_character_count, v0, v1, v2, v3, v4, v5, v6);
 }
 
 

@@ -33,12 +33,10 @@ struct SUBSET {
 
 
 	explicit SUBSET
-		(int32_t documentPosition, int32_t consumedCharacterCount, val<EXPRESSION> && expression, std::vector<val<IC>> && ic, val<SUBSET_NODE> && subset_node)
-		: document_position(documentPosition), consumed_character_count(consumedCharacterCount), expression(std::move(expression)), ic(std::move(ic)), subset_node(std::move(subset_node)) {}
+		(int32_t documentPosition, int32_t consumedCharacterCount, val<EXPRESSION> const & expression, std::vector<val<IC>> const & ic, val<SUBSET_NODE> const & subset_node)
+		: document_position(documentPosition), consumed_character_count(consumedCharacterCount), expression(expression), ic(ic), subset_node(subset_node) {}
 
 	SUBSET(SUBSET const & other) = default;
-	SUBSET(SUBSET && move) = default;
-
 	static SUBSET build(parlex::detail::ast_node const & n);
 	static parlex::detail::acceptor const & acceptor();
 

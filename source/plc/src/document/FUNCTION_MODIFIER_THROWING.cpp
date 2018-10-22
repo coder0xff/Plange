@@ -13,7 +13,7 @@ plc::FUNCTION_MODIFIER_THROWING::field_1_t plc::FUNCTION_MODIFIER_THROWING::fiel
 	auto const & children = b->children;
 	auto v0 = parlex::detail::document::element<std::vector<val<IC>>>::build(&*children[0], w);
 	auto v1 = parlex::detail::document::element<val<ARRAY>>::build(&*children[1], w);
-	return field_1_t(std::move(v0), std::move(v1));
+	return field_1_t(v0, v1);
 }
 
 plc::FUNCTION_MODIFIER_THROWING::field_2_t plc::FUNCTION_MODIFIER_THROWING::field_2_t::build(parlex::detail::node const * b, parlex::detail::document::walk & w) {
@@ -21,7 +21,7 @@ plc::FUNCTION_MODIFIER_THROWING::field_2_t plc::FUNCTION_MODIFIER_THROWING::fiel
 	auto v0 = parlex::detail::document::element<val<IC>>::build(&*children[0], w);
 	auto v1 = parlex::detail::document::element<std::vector<val<IC>>>::build(&*children[1], w);
 	auto v2 = parlex::detail::document::element<val<FUNCTION_MODIFIER_2>>::build(&*children[2], w);
-	return field_2_t(std::move(v0), std::move(v1), std::move(v2));
+	return field_2_t(v0, v1, v2);
 }
 
 plc::FUNCTION_MODIFIER_THROWING plc::FUNCTION_MODIFIER_THROWING::build(parlex::detail::ast_node const & n) {
@@ -31,7 +31,7 @@ plc::FUNCTION_MODIFIER_THROWING plc::FUNCTION_MODIFIER_THROWING::build(parlex::d
 	auto v0 = parlex::detail::document::element<parlex::detail::document::text<literal_throwing_t>>::build(&*children[0], w);
 	auto v1 = parlex::detail::document::element<std::optional<field_1_t>>::build(&*children[1], w);
 	auto v2 = parlex::detail::document::element<std::optional<field_2_t>>::build(&*children[2], w);
-	return FUNCTION_MODIFIER_THROWING(n.document_position, n.consumed_character_count, std::move(v0), std::move(v1), std::move(v2));
+	return FUNCTION_MODIFIER_THROWING(n.document_position, n.consumed_character_count, v0, v1, v2);
 }
 
 

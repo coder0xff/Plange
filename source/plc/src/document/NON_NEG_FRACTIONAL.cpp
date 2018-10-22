@@ -22,7 +22,7 @@ plc::NON_NEG_FRACTIONAL1_t plc::NON_NEG_FRACTIONAL1_t::build(parlex::detail::nod
 	auto v1 = parlex::detail::document::element<std::vector<parlex::detail::document::text<parlex::detail::decimal_digit_t>>>::build(&*children[1], w);
 	auto v2 = parlex::detail::document::element<parlex::detail::document::text<literal_0x2E_t>>::build(&*children[2], w);
 	auto v3 = parlex::detail::document::element<std::vector<parlex::detail::document::text<parlex::detail::decimal_digit_t>>>::build(&*children[3], w);
-	return NON_NEG_FRACTIONAL1_t(std::move(v0), std::move(v1), std::move(v2), std::move(v3));
+	return NON_NEG_FRACTIONAL1_t(v0, v1, v2, v3);
 }
 
 plc::NON_NEG_FRACTIONAL2_t plc::NON_NEG_FRACTIONAL2_t::build(parlex::detail::node const * b, parlex::detail::document::walk & w) {
@@ -30,7 +30,7 @@ plc::NON_NEG_FRACTIONAL2_t plc::NON_NEG_FRACTIONAL2_t::build(parlex::detail::nod
 	auto v0 = parlex::detail::document::element<parlex::detail::document::text<literal_0x2E_t>>::build(&*children[0], w);
 	auto v1 = parlex::detail::document::element<parlex::detail::document::text<parlex::detail::decimal_digit_t>>::build(&*children[1], w);
 	auto v2 = parlex::detail::document::element<std::vector<parlex::detail::document::text<parlex::detail::decimal_digit_t>>>::build(&*children[2], w);
-	return NON_NEG_FRACTIONAL2_t(std::move(v0), std::move(v1), std::move(v2));
+	return NON_NEG_FRACTIONAL2_t(v0, v1, v2);
 }
 
 

@@ -14,7 +14,7 @@ plc::INHERITANCE_ITEM_PREFIX::field_1_t2 plc::INHERITANCE_ITEM_PREFIX::field_1_t
 	auto v1 = parlex::detail::document::element<val<IC>>::build(&*children[1], w);
 	auto v2 = parlex::detail::document::element<std::vector<val<IC>>>::build(&*children[2], w);
 	auto v3 = parlex::detail::document::element<parlex::detail::document::text<literal_diamond_t>>::build(&*children[3], w);
-	return field_1_t2(std::move(v0), std::move(v1), std::move(v2), std::move(v3));
+	return field_1_t2(v0, v1, v2, v3);
 }
 
 plc::INHERITANCE_ITEM_PREFIX plc::INHERITANCE_ITEM_PREFIX::build(parlex::detail::ast_node const & n) {
@@ -28,7 +28,7 @@ plc::INHERITANCE_ITEM_PREFIX plc::INHERITANCE_ITEM_PREFIX::build(parlex::detail:
 	>>::build(&*children[0], w);
 	auto v1 = parlex::detail::document::element<val<IC>>::build(&*children[1], w);
 	auto v2 = parlex::detail::document::element<std::vector<val<IC>>>::build(&*children[2], w);
-	return INHERITANCE_ITEM_PREFIX(n.document_position, n.consumed_character_count, std::move(v0), std::move(v1), std::move(v2));
+	return INHERITANCE_ITEM_PREFIX(n.document_position, n.consumed_character_count, v0, v1, v2);
 }
 
 

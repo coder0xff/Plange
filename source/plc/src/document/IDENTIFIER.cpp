@@ -18,7 +18,7 @@ plc::IDENTIFIER plc::IDENTIFIER::build(parlex::detail::ast_node const & n) {
 		parlex::detail::document::text<parlex::detail::number_t>,
 		parlex::detail::document::text<literal___t>
 	>>>::build(&*children[1], w);
-	return IDENTIFIER(n.document_position, n.consumed_character_count, std::move(v0), std::move(v1));
+	return IDENTIFIER(n.document_position, n.consumed_character_count, v0, v1);
 }
 
 

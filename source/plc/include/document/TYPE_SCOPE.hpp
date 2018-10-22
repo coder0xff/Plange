@@ -31,12 +31,10 @@ struct TYPE_SCOPE {
 	
 	
 		explicit field_2_t
-			(val<TYPE_STATEMENT> && field_1, std::vector<val<IC>> && field_2)
-			: field_1(std::move(field_1)), field_2(std::move(field_2)) {}
+			(val<TYPE_STATEMENT> const & field_1, std::vector<val<IC>> const & field_2)
+			: field_1(field_1), field_2(field_2) {}
 	
 		field_2_t(field_2_t const & other) = default;
-		field_2_t(field_2_t && move) = default;
-	
 		static field_2_t build(parlex::detail::node const * b, parlex::detail::document::walk & w);
 	};
 
@@ -47,12 +45,10 @@ struct TYPE_SCOPE {
 
 
 	explicit TYPE_SCOPE
-		(int32_t documentPosition, int32_t consumedCharacterCount, std::vector<val<IC>> && field_1, std::vector<field_2_t> && field_2)
-		: document_position(documentPosition), consumed_character_count(consumedCharacterCount), field_1(std::move(field_1)), field_2(std::move(field_2)) {}
+		(int32_t documentPosition, int32_t consumedCharacterCount, std::vector<val<IC>> const & field_1, std::vector<field_2_t> const & field_2)
+		: document_position(documentPosition), consumed_character_count(consumedCharacterCount), field_1(field_1), field_2(field_2) {}
 
 	TYPE_SCOPE(TYPE_SCOPE const & other) = default;
-	TYPE_SCOPE(TYPE_SCOPE && move) = default;
-
 	static TYPE_SCOPE build(parlex::detail::ast_node const & n);
 	static parlex::detail::acceptor const & acceptor();
 

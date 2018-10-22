@@ -21,7 +21,7 @@ plc::BIT_XOR_ASSIGNMENT plc::BIT_XOR_ASSIGNMENT::build(parlex::detail::ast_node 
 	>>::build(&*children[3], w);
 	auto v4 = parlex::detail::document::element<std::vector<val<IC>>>::build(&*children[4], w);
 	auto v5 = parlex::detail::document::element<val<EXPRESSION>>::build(&*children[5], w);
-	return BIT_XOR_ASSIGNMENT(n.document_position, n.consumed_character_count, std::move(v0), std::move(v1), std::move(v2), std::move(v3), std::move(v4), std::move(v5));
+	return BIT_XOR_ASSIGNMENT(n.document_position, n.consumed_character_count, v0, v1, v2, v3, v4, v5);
 }
 
 

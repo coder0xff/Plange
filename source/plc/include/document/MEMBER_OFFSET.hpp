@@ -32,12 +32,10 @@ struct MEMBER_OFFSET {
 
 
 	explicit MEMBER_OFFSET
-		(int32_t documentPosition, int32_t consumedCharacterCount, parlex::detail::document::text<literal_0x40_t> && at, std::vector<val<IC>> && ic, val<NATURAL_NUMBER> && offset)
-		: document_position(documentPosition), consumed_character_count(consumedCharacterCount), at(std::move(at)), ic(std::move(ic)), offset(std::move(offset)) {}
+		(int32_t documentPosition, int32_t consumedCharacterCount, parlex::detail::document::text<literal_0x40_t> const & at, std::vector<val<IC>> const & ic, val<NATURAL_NUMBER> const & offset)
+		: document_position(documentPosition), consumed_character_count(consumedCharacterCount), at(at), ic(ic), offset(offset) {}
 
 	MEMBER_OFFSET(MEMBER_OFFSET const & other) = default;
-	MEMBER_OFFSET(MEMBER_OFFSET && move) = default;
-
 	static MEMBER_OFFSET build(parlex::detail::ast_node const & n);
 	static parlex::detail::acceptor const & acceptor();
 

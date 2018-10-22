@@ -24,7 +24,7 @@ plc::XML_DOC_STRING_INTERIOR_t plc::XML_DOC_STRING_INTERIOR_t::build(parlex::det
 	auto v0 = parlex::detail::document::element<parlex::detail::document::text<literal_0x60_t>>::build(&*children[0], w);
 	auto v1 = parlex::detail::document::element<val<XML_DOC_STRING_INTERIOR>>::build(&*children[1], w);
 	auto v2 = parlex::detail::document::element<parlex::detail::document::text<literal_0x60_t>>::build(&*children[2], w);
-	return XML_DOC_STRING_INTERIOR_t(std::move(v0), std::move(v1), std::move(v2));
+	return XML_DOC_STRING_INTERIOR_t(v0, v1, v2);
 }
 
 

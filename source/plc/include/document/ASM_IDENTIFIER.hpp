@@ -29,12 +29,10 @@ struct ASM_IDENTIFIER {
 
 
 	explicit ASM_IDENTIFIER
-		(int32_t documentPosition, int32_t consumedCharacterCount, std::optional<parlex::detail::document::text<literal_0x25_t>> && field_1, val<IDENTIFIER> && field_2)
-		: document_position(documentPosition), consumed_character_count(consumedCharacterCount), field_1(std::move(field_1)), field_2(std::move(field_2)) {}
+		(int32_t documentPosition, int32_t consumedCharacterCount, std::optional<parlex::detail::document::text<literal_0x25_t>> const & field_1, val<IDENTIFIER> const & field_2)
+		: document_position(documentPosition), consumed_character_count(consumedCharacterCount), field_1(field_1), field_2(field_2) {}
 
 	ASM_IDENTIFIER(ASM_IDENTIFIER const & other) = default;
-	ASM_IDENTIFIER(ASM_IDENTIFIER && move) = default;
-
 	static ASM_IDENTIFIER build(parlex::detail::ast_node const & n);
 	static parlex::detail::acceptor const & acceptor();
 

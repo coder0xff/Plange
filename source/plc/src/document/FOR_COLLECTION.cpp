@@ -18,14 +18,14 @@ plc::FOR_COLLECTION::declaration::field_1_t plc::FOR_COLLECTION::declaration::fi
 		val<IMPLICIT_TYPE_DEREFERENCE>
 	>>::build(&*children[0], w);
 	auto v1 = parlex::detail::document::element<std::vector<val<IC>>>::build(&*children[1], w);
-	return field_1_t(std::move(v0), std::move(v1));
+	return field_1_t(v0, v1);
 }
 
 plc::FOR_COLLECTION::declaration plc::FOR_COLLECTION::declaration::build(parlex::detail::node const * b, parlex::detail::document::walk & w) {
 	auto const & children = b->children;
 	auto v0 = parlex::detail::document::element<std::optional<field_1_t>>::build(&*children[0], w);
 	auto v1 = parlex::detail::document::element<val<IDENTIFIER>>::build(&*children[1], w);
-	return declaration(std::move(v0), std::move(v1));
+	return declaration(v0, v1);
 }
 
 plc::FOR_COLLECTION plc::FOR_COLLECTION::build(parlex::detail::ast_node const & n) {
@@ -51,7 +51,7 @@ plc::FOR_COLLECTION plc::FOR_COLLECTION::build(parlex::detail::ast_node const & 
 	auto v10 = parlex::detail::document::element<parlex::detail::document::text<literal_0x29_t>>::build(&*children[10], w);
 	auto v11 = parlex::detail::document::element<std::vector<val<IC>>>::build(&*children[11], w);
 	auto v12 = parlex::detail::document::element<val<EXPRESSION>>::build(&*children[12], w);
-	return FOR_COLLECTION(n.document_position, n.consumed_character_count, std::move(v0), std::move(v1), std::move(v2), std::move(v3), std::move(v4), std::move(v5), std::move(v6), std::move(v7), std::move(v8), std::move(v9), std::move(v10), std::move(v11), std::move(v12));
+	return FOR_COLLECTION(n.document_position, n.consumed_character_count, v0, v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11, v12);
 }
 
 

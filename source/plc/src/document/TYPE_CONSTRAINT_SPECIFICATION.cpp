@@ -18,28 +18,28 @@ plc::TYPE_CONSTRAINT_SPECIFICATION::attributes_t plc::TYPE_CONSTRAINT_SPECIFICAT
 	auto const & children = b->children;
 	auto v0 = parlex::detail::document::element<val<ATTRIBUTE>>::build(&*children[0], w);
 	auto v1 = parlex::detail::document::element<std::vector<val<IC>>>::build(&*children[1], w);
-	return attributes_t(std::move(v0), std::move(v1));
+	return attributes_t(v0, v1);
 }
 
 plc::TYPE_CONSTRAINT_SPECIFICATION::visibility_t plc::TYPE_CONSTRAINT_SPECIFICATION::visibility_t::build(parlex::detail::node const * b, parlex::detail::document::walk & w) {
 	auto const & children = b->children;
 	auto v0 = parlex::detail::document::element<val<VISIBILITY_MODIFIER>>::build(&*children[0], w);
 	auto v1 = parlex::detail::document::element<std::vector<val<IC>>>::build(&*children[1], w);
-	return visibility_t(std::move(v0), std::move(v1));
+	return visibility_t(v0, v1);
 }
 
 plc::TYPE_CONSTRAINT_SPECIFICATION::static__t plc::TYPE_CONSTRAINT_SPECIFICATION::static__t::build(parlex::detail::node const * b, parlex::detail::document::walk & w) {
 	auto const & children = b->children;
 	auto v0 = parlex::detail::document::element<parlex::detail::document::text<literal_static_t>>::build(&*children[0], w);
 	auto v1 = parlex::detail::document::element<std::vector<val<IC>>>::build(&*children[1], w);
-	return static__t(std::move(v0), std::move(v1));
+	return static__t(v0, v1);
 }
 
 plc::TYPE_CONSTRAINT_SPECIFICATION::extern__t plc::TYPE_CONSTRAINT_SPECIFICATION::extern__t::build(parlex::detail::node const * b, parlex::detail::document::walk & w) {
 	auto const & children = b->children;
 	auto v0 = parlex::detail::document::element<parlex::detail::document::text<literal_extern_t>>::build(&*children[0], w);
 	auto v1 = parlex::detail::document::element<std::vector<val<IC>>>::build(&*children[1], w);
-	return extern__t(std::move(v0), std::move(v1));
+	return extern__t(v0, v1);
 }
 
 plc::TYPE_CONSTRAINT_SPECIFICATION plc::TYPE_CONSTRAINT_SPECIFICATION::build(parlex::detail::ast_node const & n) {
@@ -57,7 +57,7 @@ plc::TYPE_CONSTRAINT_SPECIFICATION plc::TYPE_CONSTRAINT_SPECIFICATION::build(par
 		val<IMPLICIT_TYPE_DEREFERENCE>,
 		val<VOLATILE_IMPLICIT_TYPE_DEREFERENCE>
 	>>::build(&*children[5], w);
-	return TYPE_CONSTRAINT_SPECIFICATION(n.document_position, n.consumed_character_count, std::move(v0), std::move(v1), std::move(v2), std::move(v3), std::move(v4), std::move(v5));
+	return TYPE_CONSTRAINT_SPECIFICATION(n.document_position, n.consumed_character_count, v0, v1, v2, v3, v4, v5);
 }
 
 

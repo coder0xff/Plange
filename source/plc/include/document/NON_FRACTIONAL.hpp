@@ -29,12 +29,10 @@ struct NON_FRACTIONAL {
 
 
 	explicit NON_FRACTIONAL
-		(int32_t documentPosition, int32_t consumedCharacterCount, std::optional<parlex::detail::document::text<literal_0x2D_t>> && field_1, val<NON_NEG_NON_FRACTIONAL> && field_2)
-		: document_position(documentPosition), consumed_character_count(consumedCharacterCount), field_1(std::move(field_1)), field_2(std::move(field_2)) {}
+		(int32_t documentPosition, int32_t consumedCharacterCount, std::optional<parlex::detail::document::text<literal_0x2D_t>> const & field_1, val<NON_NEG_NON_FRACTIONAL> const & field_2)
+		: document_position(documentPosition), consumed_character_count(consumedCharacterCount), field_1(field_1), field_2(field_2) {}
 
 	NON_FRACTIONAL(NON_FRACTIONAL const & other) = default;
-	NON_FRACTIONAL(NON_FRACTIONAL && move) = default;
-
 	static NON_FRACTIONAL build(parlex::detail::ast_node const & n);
 	static parlex::detail::acceptor const & acceptor();
 

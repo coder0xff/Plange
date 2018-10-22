@@ -32,12 +32,10 @@ struct ARGUMENT_PACK {
 
 
 	explicit ARGUMENT_PACK
-		(int32_t documentPosition, int32_t consumedCharacterCount, val<EXPRESSION> && expression, std::vector<val<IC>> && field_1, parlex::detail::document::text<literal_0x2E0x2E0x2E_t> && dont_care2)
-		: document_position(documentPosition), consumed_character_count(consumedCharacterCount), expression(std::move(expression)), field_1(std::move(field_1)), dont_care2(std::move(dont_care2)) {}
+		(int32_t documentPosition, int32_t consumedCharacterCount, val<EXPRESSION> const & expression, std::vector<val<IC>> const & field_1, parlex::detail::document::text<literal_0x2E0x2E0x2E_t> const & dont_care2)
+		: document_position(documentPosition), consumed_character_count(consumedCharacterCount), expression(expression), field_1(field_1), dont_care2(dont_care2) {}
 
 	ARGUMENT_PACK(ARGUMENT_PACK const & other) = default;
-	ARGUMENT_PACK(ARGUMENT_PACK && move) = default;
-
 	static ARGUMENT_PACK build(parlex::detail::ast_node const & n);
 	static parlex::detail::acceptor const & acceptor();
 

@@ -17,7 +17,7 @@ plc::CONTINUE::field_1_t1 plc::CONTINUE::field_1_t1::build(parlex::detail::node 
 	auto v3 = parlex::detail::document::element<val<EXPRESSION>>::build(&*children[3], w);
 	auto v4 = parlex::detail::document::element<std::vector<val<IC>>>::build(&*children[4], w);
 	auto v5 = parlex::detail::document::element<parlex::detail::document::text<literal_0x5D_t>>::build(&*children[5], w);
-	return field_1_t1(std::move(v0), std::move(v1), std::move(v2), std::move(v3), std::move(v4), std::move(v5));
+	return field_1_t1(v0, v1, v2, v3, v4, v5);
 }
 
 plc::CONTINUE::field_1_t2 plc::CONTINUE::field_1_t2::build(parlex::detail::node const * b, parlex::detail::document::walk & w) {
@@ -25,7 +25,7 @@ plc::CONTINUE::field_1_t2 plc::CONTINUE::field_1_t2::build(parlex::detail::node 
 	auto v0 = parlex::detail::document::element<val<IC>>::build(&*children[0], w);
 	auto v1 = parlex::detail::document::element<std::vector<val<IC>>>::build(&*children[1], w);
 	auto v2 = parlex::detail::document::element<val<IDENTIFIER>>::build(&*children[2], w);
-	return field_1_t2(std::move(v0), std::move(v1), std::move(v2));
+	return field_1_t2(v0, v1, v2);
 }
 
 plc::CONTINUE plc::CONTINUE::build(parlex::detail::ast_node const & n) {
@@ -37,7 +37,7 @@ plc::CONTINUE plc::CONTINUE::build(parlex::detail::ast_node const & n) {
 		field_1_t1,
 		field_1_t2
 	>>>::build(&*children[1], w);
-	return CONTINUE(n.document_position, n.consumed_character_count, std::move(v0), std::move(v1));
+	return CONTINUE(n.document_position, n.consumed_character_count, v0, v1);
 }
 
 

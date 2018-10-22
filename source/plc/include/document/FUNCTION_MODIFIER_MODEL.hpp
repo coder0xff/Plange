@@ -33,12 +33,10 @@ struct FUNCTION_MODIFIER_MODEL {
 	
 	
 		explicit field_1_t
-			(val<IC> && field_1, std::vector<val<IC>> && field_2, val<FUNCTION_MODIFIER_CALLING_CONVENTION> && field_3)
-			: field_1(std::move(field_1)), field_2(std::move(field_2)), field_3(std::move(field_3)) {}
+			(val<IC> const & field_1, std::vector<val<IC>> const & field_2, val<FUNCTION_MODIFIER_CALLING_CONVENTION> const & field_3)
+			: field_1(field_1), field_2(field_2), field_3(field_3) {}
 	
 		field_1_t(field_1_t const & other) = default;
-		field_1_t(field_1_t && move) = default;
-	
 		static field_1_t build(parlex::detail::node const * b, parlex::detail::document::walk & w);
 	};
 
@@ -57,12 +55,10 @@ struct FUNCTION_MODIFIER_MODEL {
 	parlex::detail::document::text<literal_pure_t>,
 	parlex::detail::document::text<literal_imperative_t>,
 	parlex::detail::document::text<literal_opaque_t>
-> && model, std::optional<field_1_t> && field_1)
-		: document_position(documentPosition), consumed_character_count(consumedCharacterCount), model(std::move(model)), field_1(std::move(field_1)) {}
+> const & model, std::optional<field_1_t> const & field_1)
+		: document_position(documentPosition), consumed_character_count(consumedCharacterCount), model(model), field_1(field_1) {}
 
 	FUNCTION_MODIFIER_MODEL(FUNCTION_MODIFIER_MODEL const & other) = default;
-	FUNCTION_MODIFIER_MODEL(FUNCTION_MODIFIER_MODEL && move) = default;
-
 	static FUNCTION_MODIFIER_MODEL build(parlex::detail::ast_node const & n);
 	static parlex::detail::acceptor const & acceptor();
 

@@ -13,7 +13,7 @@ plc::MAPS_TO::field_1_t plc::MAPS_TO::field_1_t::build(parlex::detail::node cons
 	auto v0 = parlex::detail::document::element<parlex::detail::document::text<literal_volatile_t>>::build(&*children[0], w);
 	auto v1 = parlex::detail::document::element<val<IC>>::build(&*children[1], w);
 	auto v2 = parlex::detail::document::element<std::vector<val<IC>>>::build(&*children[2], w);
-	return field_1_t(std::move(v0), std::move(v1), std::move(v2));
+	return field_1_t(v0, v1, v2);
 }
 
 plc::MAPS_TO::field_2_t plc::MAPS_TO::field_2_t::build(parlex::detail::node const * b, parlex::detail::document::walk & w) {
@@ -21,7 +21,7 @@ plc::MAPS_TO::field_2_t plc::MAPS_TO::field_2_t::build(parlex::detail::node cons
 	auto v0 = parlex::detail::document::element<parlex::detail::document::text<literal_const_t>>::build(&*children[0], w);
 	auto v1 = parlex::detail::document::element<val<IC>>::build(&*children[1], w);
 	auto v2 = parlex::detail::document::element<std::vector<val<IC>>>::build(&*children[2], w);
-	return field_2_t(std::move(v0), std::move(v1), std::move(v2));
+	return field_2_t(v0, v1, v2);
 }
 
 plc::MAPS_TO plc::MAPS_TO::build(parlex::detail::ast_node const & n) {
@@ -38,7 +38,7 @@ plc::MAPS_TO plc::MAPS_TO::build(parlex::detail::ast_node const & n) {
 	>>::build(&*children[4], w);
 	auto v5 = parlex::detail::document::element<std::vector<val<IC>>>::build(&*children[5], w);
 	auto v6 = parlex::detail::document::element<val<EXPRESSION>>::build(&*children[6], w);
-	return MAPS_TO(n.document_position, n.consumed_character_count, std::move(v0), std::move(v1), std::move(v2), std::move(v3), std::move(v4), std::move(v5), std::move(v6));
+	return MAPS_TO(n.document_position, n.consumed_character_count, v0, v1, v2, v3, v4, v5, v6);
 }
 
 

@@ -37,16 +37,14 @@ struct IDENTIFIER {
 		(int32_t documentPosition, int32_t consumedCharacterCount, std::variant<
 	parlex::detail::document::text<parlex::detail::letter_t>,
 	parlex::detail::document::text<literal___t>
-> && head, std::vector<std::variant<
+> const & head, std::vector<std::variant<
 	parlex::detail::document::text<parlex::detail::letter_t>,
 	parlex::detail::document::text<parlex::detail::number_t>,
 	parlex::detail::document::text<literal___t>
->> && tail)
-		: document_position(documentPosition), consumed_character_count(consumedCharacterCount), head(std::move(head)), tail(std::move(tail)) {}
+>> const & tail)
+		: document_position(documentPosition), consumed_character_count(consumedCharacterCount), head(head), tail(tail) {}
 
 	IDENTIFIER(IDENTIFIER const & other) = default;
-	IDENTIFIER(IDENTIFIER && move) = default;
-
 	static IDENTIFIER build(parlex::detail::ast_node const & n);
 	static parlex::detail::acceptor const & acceptor();
 

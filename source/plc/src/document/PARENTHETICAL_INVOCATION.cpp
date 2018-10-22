@@ -12,7 +12,7 @@ plc::PARENTHETICAL_INVOCATION::arguments_t plc::PARENTHETICAL_INVOCATION::argume
 	auto const & children = b->children;
 	auto v0 = parlex::detail::document::element<val<STANDARD_ARGUMENTS>>::build(&*children[0], w);
 	auto v1 = parlex::detail::document::element<std::vector<val<IC>>>::build(&*children[1], w);
-	return arguments_t(std::move(v0), std::move(v1));
+	return arguments_t(v0, v1);
 }
 
 plc::PARENTHETICAL_INVOCATION plc::PARENTHETICAL_INVOCATION::build(parlex::detail::ast_node const & n) {
@@ -23,7 +23,7 @@ plc::PARENTHETICAL_INVOCATION plc::PARENTHETICAL_INVOCATION::build(parlex::detai
 	auto v1 = parlex::detail::document::element<std::vector<val<IC>>>::build(&*children[1], w);
 	auto v2 = parlex::detail::document::element<std::optional<arguments_t>>::build(&*children[2], w);
 	auto v3 = parlex::detail::document::element<parlex::detail::document::text<literal_0x29_t>>::build(&*children[3], w);
-	return PARENTHETICAL_INVOCATION(n.document_position, n.consumed_character_count, std::move(v0), std::move(v1), std::move(v2), std::move(v3));
+	return PARENTHETICAL_INVOCATION(n.document_position, n.consumed_character_count, v0, v1, v2, v3);
 }
 
 

@@ -33,12 +33,10 @@ struct GREATER {
 
 
 	explicit GREATER
-		(int32_t documentPosition, int32_t consumedCharacterCount, val<EXPRESSION> && expression, std::vector<val<IC>> && field_1, val<GREATER_NODE> && greater_node)
-		: document_position(documentPosition), consumed_character_count(consumedCharacterCount), expression(std::move(expression)), field_1(std::move(field_1)), greater_node(std::move(greater_node)) {}
+		(int32_t documentPosition, int32_t consumedCharacterCount, val<EXPRESSION> const & expression, std::vector<val<IC>> const & field_1, val<GREATER_NODE> const & greater_node)
+		: document_position(documentPosition), consumed_character_count(consumedCharacterCount), expression(expression), field_1(field_1), greater_node(greater_node) {}
 
 	GREATER(GREATER const & other) = default;
-	GREATER(GREATER && move) = default;
-
 	static GREATER build(parlex::detail::ast_node const & n);
 	static parlex::detail::acceptor const & acceptor();
 

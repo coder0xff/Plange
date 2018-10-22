@@ -14,7 +14,7 @@ plc::UNIT_DIVISION plc::UNIT_DIVISION::build(parlex::detail::ast_node const & n)
 	auto v0 = parlex::detail::document::element<val<DIMENSION>>::build(&*children[0], w);
 	auto v1 = parlex::detail::document::element<parlex::detail::document::text<literal_0x2F_t>>::build(&*children[1], w);
 	auto v2 = parlex::detail::document::element<val<DIMENSION>>::build(&*children[2], w);
-	return UNIT_DIVISION(n.document_position, n.consumed_character_count, std::move(v0), std::move(v1), std::move(v2));
+	return UNIT_DIVISION(n.document_position, n.consumed_character_count, v0, v1, v2);
 }
 
 

@@ -210,7 +210,7 @@ static std::string generate_struct_constructor_parameters(
 			                       } else {
 				                       needsComma = true;
 			                       }
-			                       ss << t.name << " && " << flattenedDataMember.first;
+			                       ss << t.name << " const & " << flattenedDataMember.first;
 		                       }
 		);
 	}
@@ -230,8 +230,8 @@ static std::string generate_struct_constructor_initializers(
 			                       } else {
 				                       needsComma = true;
 			                       }
-			                       ss << flattenedDataMember.first << "(std::move(" << flattenedDataMember.first <<
-				                       "))";
+			                       ss << flattenedDataMember.first << "(" << flattenedDataMember.first <<
+				                       ")";
 		                       }
 		);
 	}
@@ -271,7 +271,7 @@ static std::string generate_struct_build_moves(detail::aggregate::data_members_t
 			                       } else {
 				                       needsComma = true;
 			                       }
-			                       ss << "std::move(v" << counter++ << ")";
+			                       ss << "v" << counter++;
 		                       }
 		);
 	}
@@ -516,7 +516,6 @@ static std::string generate_struct_declaration(bool const isProduction, std::str
 	}
 	declaration << " {}\n\n";
 	declaration << "\t" << name << "(" << name << " const & other) = default;\n";
-	declaration << "\t" << name << "(" << name << " && move) = default;\n\n";
 	declaration << "\tstatic " << name << " build(";
 	declaration << generate_struct_build_parameters(isProduction);
 	declaration << ");\n";

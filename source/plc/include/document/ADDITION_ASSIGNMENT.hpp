@@ -40,16 +40,14 @@ struct ADDITION_ASSIGNMENT {
 
 
 	explicit ADDITION_ASSIGNMENT
-		(int32_t documentPosition, int32_t consumedCharacterCount, val<EXPRESSION> && field_1, std::vector<val<IC>> && field_2, std::variant<
+		(int32_t documentPosition, int32_t consumedCharacterCount, val<EXPRESSION> const & field_1, std::vector<val<IC>> const & field_2, std::variant<
 	parlex::detail::document::text<literal_0x2B0x3C0x2D_t>,
 	parlex::detail::document::text<literal_0x2B0xE20x860x90_t>,
 	parlex::detail::document::text<literal_0xE20xA50x86_t>
-> && field_3, std::vector<val<IC>> && field_4, val<EXPRESSION> && field_5)
-		: document_position(documentPosition), consumed_character_count(consumedCharacterCount), field_1(std::move(field_1)), field_2(std::move(field_2)), field_3(std::move(field_3)), field_4(std::move(field_4)), field_5(std::move(field_5)) {}
+> const & field_3, std::vector<val<IC>> const & field_4, val<EXPRESSION> const & field_5)
+		: document_position(documentPosition), consumed_character_count(consumedCharacterCount), field_1(field_1), field_2(field_2), field_3(field_3), field_4(field_4), field_5(field_5) {}
 
 	ADDITION_ASSIGNMENT(ADDITION_ASSIGNMENT const & other) = default;
-	ADDITION_ASSIGNMENT(ADDITION_ASSIGNMENT && move) = default;
-
 	static ADDITION_ASSIGNMENT build(parlex::detail::ast_node const & n);
 	static parlex::detail::acceptor const & acceptor();
 

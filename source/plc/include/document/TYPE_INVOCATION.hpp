@@ -31,12 +31,10 @@ struct TYPE_INVOCATION {
 	
 	
 		explicit arguments_t
-			(val<STANDARD_ARGUMENTS> && standard_arguments, std::vector<val<IC>> && ic)
-			: standard_arguments(std::move(standard_arguments)), ic(std::move(ic)) {}
+			(val<STANDARD_ARGUMENTS> const & standard_arguments, std::vector<val<IC>> const & ic)
+			: standard_arguments(standard_arguments), ic(ic) {}
 	
 		arguments_t(arguments_t const & other) = default;
-		arguments_t(arguments_t && move) = default;
-	
 		static arguments_t build(parlex::detail::node const * b, parlex::detail::document::walk & w);
 	};
 
@@ -51,12 +49,10 @@ struct TYPE_INVOCATION {
 
 
 	explicit TYPE_INVOCATION
-		(int32_t documentPosition, int32_t consumedCharacterCount, parlex::detail::document::text<literal_0x3C_t> && dont_care0, std::vector<val<IC>> && ic, std::optional<arguments_t> && arguments, parlex::detail::document::text<literal_0x3E_t> && dont_care3)
-		: document_position(documentPosition), consumed_character_count(consumedCharacterCount), dont_care0(std::move(dont_care0)), ic(std::move(ic)), arguments(std::move(arguments)), dont_care3(std::move(dont_care3)) {}
+		(int32_t documentPosition, int32_t consumedCharacterCount, parlex::detail::document::text<literal_0x3C_t> const & dont_care0, std::vector<val<IC>> const & ic, std::optional<arguments_t> const & arguments, parlex::detail::document::text<literal_0x3E_t> const & dont_care3)
+		: document_position(documentPosition), consumed_character_count(consumedCharacterCount), dont_care0(dont_care0), ic(ic), arguments(arguments), dont_care3(dont_care3) {}
 
 	TYPE_INVOCATION(TYPE_INVOCATION const & other) = default;
-	TYPE_INVOCATION(TYPE_INVOCATION && move) = default;
-
 	static TYPE_INVOCATION build(parlex::detail::ast_node const & n);
 	static parlex::detail::acceptor const & acceptor();
 

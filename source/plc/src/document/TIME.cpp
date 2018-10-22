@@ -10,7 +10,7 @@ plc::TIME::field_08_t plc::TIME::field_08_t::build(parlex::detail::node const * 
 	auto v0 = parlex::detail::document::element<parlex::detail::document::text<literal_0x2E_t>>::build(&*children[0], w);
 	auto v1 = parlex::detail::document::element<parlex::detail::document::text<parlex::detail::decimal_digit_t>>::build(&*children[1], w);
 	auto v2 = parlex::detail::document::element<std::vector<parlex::detail::document::text<parlex::detail::decimal_digit_t>>>::build(&*children[2], w);
-	return field_08_t(std::move(v0), std::move(v1), std::move(v2));
+	return field_08_t(v0, v1, v2);
 }
 
 plc::TIME::field_09_t2::field_4_t plc::TIME::field_09_t2::field_4_t::build(parlex::detail::node const * b, parlex::detail::document::walk & w) {
@@ -18,7 +18,7 @@ plc::TIME::field_09_t2::field_4_t plc::TIME::field_09_t2::field_4_t::build(parle
 	auto v0 = parlex::detail::document::element<parlex::detail::document::text<literal_0x3A_t>>::build(&*children[0], w);
 	auto v1 = parlex::detail::document::element<parlex::detail::document::text<parlex::detail::decimal_digit_t>>::build(&*children[1], w);
 	auto v2 = parlex::detail::document::element<parlex::detail::document::text<parlex::detail::decimal_digit_t>>::build(&*children[2], w);
-	return field_4_t(std::move(v0), std::move(v1), std::move(v2));
+	return field_4_t(v0, v1, v2);
 }
 
 plc::TIME::field_09_t2 plc::TIME::field_09_t2::build(parlex::detail::node const * b, parlex::detail::document::walk & w) {
@@ -30,7 +30,7 @@ plc::TIME::field_09_t2 plc::TIME::field_09_t2::build(parlex::detail::node const 
 	auto v1 = parlex::detail::document::element<parlex::detail::document::text<parlex::detail::decimal_digit_t>>::build(&*children[1], w);
 	auto v2 = parlex::detail::document::element<parlex::detail::document::text<parlex::detail::decimal_digit_t>>::build(&*children[2], w);
 	auto v3 = parlex::detail::document::element<std::optional<field_4_t>>::build(&*children[3], w);
-	return field_09_t2(std::move(v0), std::move(v1), std::move(v2), std::move(v3));
+	return field_09_t2(v0, v1, v2, v3);
 }
 
 plc::TIME plc::TIME::build(parlex::detail::ast_node const & n) {
@@ -51,7 +51,7 @@ plc::TIME plc::TIME::build(parlex::detail::ast_node const & n) {
 		parlex::detail::document::text<literal_Z_t>,
 		field_09_t2
 	>>>::build(&*children[10], w);
-	return TIME(n.document_position, n.consumed_character_count, std::move(v0), std::move(v1), std::move(v2), std::move(v3), std::move(v4), std::move(v5), std::move(v6), std::move(v7), std::move(v8), std::move(v9), std::move(v10));
+	return TIME(n.document_position, n.consumed_character_count, v0, v1, v2, v3, v4, v5, v6, v7, v8, v9, v10);
 }
 
 

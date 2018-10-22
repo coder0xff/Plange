@@ -93,12 +93,10 @@ struct STATEMENT {
 	val<TYPE_CONSTRAINT>,
 	val<WRITE_LOCK>,
 	val<USING>
-> && value, std::vector<val<IC>> && ic, parlex::detail::document::text<literal_0x3B_t> && dont_care2)
-		: document_position(documentPosition), consumed_character_count(consumedCharacterCount), value(std::move(value)), ic(std::move(ic)), dont_care2(std::move(dont_care2)) {}
+> const & value, std::vector<val<IC>> const & ic, parlex::detail::document::text<literal_0x3B_t> const & dont_care2)
+		: document_position(documentPosition), consumed_character_count(consumedCharacterCount), value(value), ic(ic), dont_care2(dont_care2) {}
 
 	STATEMENT(STATEMENT const & other) = default;
-	STATEMENT(STATEMENT && move) = default;
-
 	static STATEMENT build(parlex::detail::ast_node const & n);
 	static parlex::detail::acceptor const & acceptor();
 

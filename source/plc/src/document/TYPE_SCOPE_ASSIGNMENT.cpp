@@ -14,7 +14,7 @@ plc::TYPE_SCOPE_ASSIGNMENT::field_1_t plc::TYPE_SCOPE_ASSIGNMENT::field_1_t::bui
 	auto const & children = b->children;
 	auto v0 = parlex::detail::document::element<val<MEMBER_OFFSET>>::build(&*children[0], w);
 	auto v1 = parlex::detail::document::element<std::vector<val<IC>>>::build(&*children[1], w);
-	return field_1_t(std::move(v0), std::move(v1));
+	return field_1_t(v0, v1);
 }
 
 plc::TYPE_SCOPE_ASSIGNMENT plc::TYPE_SCOPE_ASSIGNMENT::build(parlex::detail::ast_node const & n) {
@@ -25,7 +25,7 @@ plc::TYPE_SCOPE_ASSIGNMENT plc::TYPE_SCOPE_ASSIGNMENT::build(parlex::detail::ast
 	auto v1 = parlex::detail::document::element<std::vector<val<IC>>>::build(&*children[1], w);
 	auto v2 = parlex::detail::document::element<std::optional<field_1_t>>::build(&*children[2], w);
 	auto v3 = parlex::detail::document::element<val<TYPE_SCOPE_ASSIGNMENT_NODE>>::build(&*children[3], w);
-	return TYPE_SCOPE_ASSIGNMENT(n.document_position, n.consumed_character_count, std::move(v0), std::move(v1), std::move(v2), std::move(v3));
+	return TYPE_SCOPE_ASSIGNMENT(n.document_position, n.consumed_character_count, v0, v1, v2, v3);
 }
 
 

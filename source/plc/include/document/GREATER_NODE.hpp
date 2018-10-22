@@ -32,12 +32,10 @@ struct GREATER_NODE {
 	
 	
 		explicit field_3_t
-			(std::vector<val<IC>> && field_1, val<GREATER_NODE> && greater_node)
-			: field_1(std::move(field_1)), greater_node(std::move(greater_node)) {}
+			(std::vector<val<IC>> const & field_1, val<GREATER_NODE> const & greater_node)
+			: field_1(field_1), greater_node(greater_node) {}
 	
 		field_3_t(field_3_t const & other) = default;
-		field_3_t(field_3_t && move) = default;
-	
 		static field_3_t build(parlex::detail::node const * b, parlex::detail::document::walk & w);
 	};
 
@@ -62,12 +60,10 @@ struct GREATER_NODE {
 	parlex::detail::document::text<literal_0x3E_t>,
 	parlex::detail::document::text<literal_0x3D0x3E_t>,
 	parlex::detail::document::text<literal_0xE20x890xA5_t>
-> && field_1, std::vector<val<IC>> && field_2, val<EXPRESSION> && expression, std::optional<field_3_t> && field_3)
-		: document_position(documentPosition), consumed_character_count(consumedCharacterCount), field_1(std::move(field_1)), field_2(std::move(field_2)), expression(std::move(expression)), field_3(std::move(field_3)) {}
+> const & field_1, std::vector<val<IC>> const & field_2, val<EXPRESSION> const & expression, std::optional<field_3_t> const & field_3)
+		: document_position(documentPosition), consumed_character_count(consumedCharacterCount), field_1(field_1), field_2(field_2), expression(expression), field_3(field_3) {}
 
 	GREATER_NODE(GREATER_NODE const & other) = default;
-	GREATER_NODE(GREATER_NODE && move) = default;
-
 	static GREATER_NODE build(parlex::detail::ast_node const & n);
 	static parlex::detail::acceptor const & acceptor();
 

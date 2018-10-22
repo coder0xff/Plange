@@ -30,12 +30,10 @@ struct EMBEDDED_COMMENT_INTERIOR_t {
 
 
 	explicit EMBEDDED_COMMENT_INTERIOR_t
-		(parlex::detail::document::text<literal_0x2A_t> && dont_care0, val<EMBEDDED_COMMENT_INTERIOR> && field_1, parlex::detail::document::text<literal_0x2A_t> && dont_care2)
-		: dont_care0(std::move(dont_care0)), field_1(std::move(field_1)), dont_care2(std::move(dont_care2)) {}
+		(parlex::detail::document::text<literal_0x2A_t> const & dont_care0, val<EMBEDDED_COMMENT_INTERIOR> const & field_1, parlex::detail::document::text<literal_0x2A_t> const & dont_care2)
+		: dont_care0(dont_care0), field_1(field_1), dont_care2(dont_care2) {}
 
 	EMBEDDED_COMMENT_INTERIOR_t(EMBEDDED_COMMENT_INTERIOR_t const & other) = default;
-	EMBEDDED_COMMENT_INTERIOR_t(EMBEDDED_COMMENT_INTERIOR_t && move) = default;
-
 	static EMBEDDED_COMMENT_INTERIOR_t build(parlex::detail::node const * b, parlex::detail::document::walk & w);
 };
 

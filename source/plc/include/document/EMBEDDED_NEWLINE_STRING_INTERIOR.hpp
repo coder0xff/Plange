@@ -30,12 +30,10 @@ struct EMBEDDED_NEWLINE_STRING_INTERIOR1_t {
 
 
 	explicit EMBEDDED_NEWLINE_STRING_INTERIOR1_t
-		(parlex::detail::document::text<literal_0x0A_t> && dont_care0, val<PAYLOAD> && payload, parlex::detail::document::text<literal_0x0A_t> && dont_care2)
-		: dont_care0(std::move(dont_care0)), payload(std::move(payload)), dont_care2(std::move(dont_care2)) {}
+		(parlex::detail::document::text<literal_0x0A_t> const & dont_care0, val<PAYLOAD> const & payload, parlex::detail::document::text<literal_0x0A_t> const & dont_care2)
+		: dont_care0(dont_care0), payload(payload), dont_care2(dont_care2) {}
 
 	EMBEDDED_NEWLINE_STRING_INTERIOR1_t(EMBEDDED_NEWLINE_STRING_INTERIOR1_t const & other) = default;
-	EMBEDDED_NEWLINE_STRING_INTERIOR1_t(EMBEDDED_NEWLINE_STRING_INTERIOR1_t && move) = default;
-
 	static EMBEDDED_NEWLINE_STRING_INTERIOR1_t build(parlex::detail::node const * b, parlex::detail::document::walk & w);
 };
 
@@ -49,12 +47,10 @@ struct EMBEDDED_NEWLINE_STRING_INTERIOR2_t {
 
 
 	explicit EMBEDDED_NEWLINE_STRING_INTERIOR2_t
-		(parlex::detail::document::text<literal_0x22_t> && dont_care0, val<EMBEDDED_NEWLINE_STRING_INTERIOR> && field_1, parlex::detail::document::text<literal_0x22_t> && dont_care2)
-		: dont_care0(std::move(dont_care0)), field_1(std::move(field_1)), dont_care2(std::move(dont_care2)) {}
+		(parlex::detail::document::text<literal_0x22_t> const & dont_care0, val<EMBEDDED_NEWLINE_STRING_INTERIOR> const & field_1, parlex::detail::document::text<literal_0x22_t> const & dont_care2)
+		: dont_care0(dont_care0), field_1(field_1), dont_care2(dont_care2) {}
 
 	EMBEDDED_NEWLINE_STRING_INTERIOR2_t(EMBEDDED_NEWLINE_STRING_INTERIOR2_t const & other) = default;
-	EMBEDDED_NEWLINE_STRING_INTERIOR2_t(EMBEDDED_NEWLINE_STRING_INTERIOR2_t && move) = default;
-
 	static EMBEDDED_NEWLINE_STRING_INTERIOR2_t build(parlex::detail::node const * b, parlex::detail::document::walk & w);
 };
 

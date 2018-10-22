@@ -35,12 +35,10 @@ struct INHERITANCE_ITEM_PREFIX {
 	
 	
 		explicit field_1_t2
-			(val<VISIBILITY_MODIFIER> && field_1, val<IC> && field_2, std::vector<val<IC>> && field_3, parlex::detail::document::text<literal_diamond_t> && diamond)
-			: field_1(std::move(field_1)), field_2(std::move(field_2)), field_3(std::move(field_3)), diamond(std::move(diamond)) {}
+			(val<VISIBILITY_MODIFIER> const & field_1, val<IC> const & field_2, std::vector<val<IC>> const & field_3, parlex::detail::document::text<literal_diamond_t> const & diamond)
+			: field_1(field_1), field_2(field_2), field_3(field_3), diamond(diamond) {}
 	
 		field_1_t2(field_1_t2 const & other) = default;
-		field_1_t2(field_1_t2 && move) = default;
-	
 		static field_1_t2 build(parlex::detail::node const * b, parlex::detail::document::walk & w);
 	};
 
@@ -61,12 +59,10 @@ struct INHERITANCE_ITEM_PREFIX {
 	val<VISIBILITY_MODIFIER>,
 	field_1_t2,
 	parlex::detail::document::text<literal_diamond_t>
-> && field_1, val<IC> && field_2, std::vector<val<IC>> && field_3)
-		: document_position(documentPosition), consumed_character_count(consumedCharacterCount), field_1(std::move(field_1)), field_2(std::move(field_2)), field_3(std::move(field_3)) {}
+> const & field_1, val<IC> const & field_2, std::vector<val<IC>> const & field_3)
+		: document_position(documentPosition), consumed_character_count(consumedCharacterCount), field_1(field_1), field_2(field_2), field_3(field_3) {}
 
 	INHERITANCE_ITEM_PREFIX(INHERITANCE_ITEM_PREFIX const & other) = default;
-	INHERITANCE_ITEM_PREFIX(INHERITANCE_ITEM_PREFIX && move) = default;
-
 	static INHERITANCE_ITEM_PREFIX build(parlex::detail::ast_node const & n);
 	static parlex::detail::acceptor const & acceptor();
 

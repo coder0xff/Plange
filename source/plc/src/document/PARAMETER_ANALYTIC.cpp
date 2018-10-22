@@ -14,7 +14,7 @@ plc::PARAMETER_ANALYTIC::field_2_t plc::PARAMETER_ANALYTIC::field_2_t::build(par
 	auto v1 = parlex::detail::document::element<parlex::detail::document::text<literal_0x3D_t>>::build(&*children[1], w);
 	auto v2 = parlex::detail::document::element<std::vector<val<IC>>>::build(&*children[2], w);
 	auto v3 = parlex::detail::document::element<val<EXPRESSION>>::build(&*children[3], w);
-	return field_2_t(std::move(v0), std::move(v1), std::move(v2), std::move(v3));
+	return field_2_t(v0, v1, v2, v3);
 }
 
 plc::PARAMETER_ANALYTIC plc::PARAMETER_ANALYTIC::build(parlex::detail::ast_node const & n) {
@@ -23,7 +23,7 @@ plc::PARAMETER_ANALYTIC plc::PARAMETER_ANALYTIC::build(parlex::detail::ast_node 
 	auto const & children = b->children;
 	auto v0 = parlex::detail::document::element<val<EXPRESSION>>::build(&*children[0], w);
 	auto v1 = parlex::detail::document::element<std::optional<field_2_t>>::build(&*children[1], w);
-	return PARAMETER_ANALYTIC(n.document_position, n.consumed_character_count, std::move(v0), std::move(v1));
+	return PARAMETER_ANALYTIC(n.document_position, n.consumed_character_count, v0, v1);
 }
 
 

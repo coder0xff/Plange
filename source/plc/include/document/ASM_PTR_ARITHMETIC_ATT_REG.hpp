@@ -32,12 +32,10 @@ struct ASM_PTR_ARITHMETIC_ATT_REG {
 		
 		
 			explicit field_1_t
-				(parlex::detail::document::text<literal_0x2C_t> && dont_care0, val<NON_NEG_NON_FRACTIONAL> && field_1)
-				: dont_care0(std::move(dont_care0)), field_1(std::move(field_1)) {}
+				(parlex::detail::document::text<literal_0x2C_t> const & dont_care0, val<NON_NEG_NON_FRACTIONAL> const & field_1)
+				: dont_care0(dont_care0), field_1(field_1) {}
 		
 			field_1_t(field_1_t const & other) = default;
-			field_1_t(field_1_t && move) = default;
-		
 			static field_1_t build(parlex::detail::node const * b, parlex::detail::document::walk & w);
 		};
 	
@@ -50,12 +48,10 @@ struct ASM_PTR_ARITHMETIC_ATT_REG {
 	
 	
 		explicit field_2_t
-			(parlex::detail::document::text<literal_0x2C_t> && dont_care0, val<ASM_IDENTIFIER> && asm_identifier, std::optional<field_1_t> && field_1)
-			: dont_care0(std::move(dont_care0)), asm_identifier(std::move(asm_identifier)), field_1(std::move(field_1)) {}
+			(parlex::detail::document::text<literal_0x2C_t> const & dont_care0, val<ASM_IDENTIFIER> const & asm_identifier, std::optional<field_1_t> const & field_1)
+			: dont_care0(dont_care0), asm_identifier(asm_identifier), field_1(field_1) {}
 	
 		field_2_t(field_2_t const & other) = default;
-		field_2_t(field_2_t && move) = default;
-	
 		static field_2_t build(parlex::detail::node const * b, parlex::detail::document::walk & w);
 	};
 
@@ -70,12 +66,10 @@ struct ASM_PTR_ARITHMETIC_ATT_REG {
 
 
 	explicit ASM_PTR_ARITHMETIC_ATT_REG
-		(int32_t documentPosition, int32_t consumedCharacterCount, parlex::detail::document::text<literal_0x28_t> && dont_care0, std::optional<val<ASM_IDENTIFIER>> && field_1, std::optional<field_2_t> && field_2, parlex::detail::document::text<literal_0x29_t> && dont_care3)
-		: document_position(documentPosition), consumed_character_count(consumedCharacterCount), dont_care0(std::move(dont_care0)), field_1(std::move(field_1)), field_2(std::move(field_2)), dont_care3(std::move(dont_care3)) {}
+		(int32_t documentPosition, int32_t consumedCharacterCount, parlex::detail::document::text<literal_0x28_t> const & dont_care0, std::optional<val<ASM_IDENTIFIER>> const & field_1, std::optional<field_2_t> const & field_2, parlex::detail::document::text<literal_0x29_t> const & dont_care3)
+		: document_position(documentPosition), consumed_character_count(consumedCharacterCount), dont_care0(dont_care0), field_1(field_1), field_2(field_2), dont_care3(dont_care3) {}
 
 	ASM_PTR_ARITHMETIC_ATT_REG(ASM_PTR_ARITHMETIC_ATT_REG const & other) = default;
-	ASM_PTR_ARITHMETIC_ATT_REG(ASM_PTR_ARITHMETIC_ATT_REG && move) = default;
-
 	static ASM_PTR_ARITHMETIC_ATT_REG build(parlex::detail::ast_node const & n);
 	static parlex::detail::acceptor const & acceptor();
 

@@ -30,12 +30,10 @@ struct EMBEDDED_STRING_INTERIOR_t {
 
 
 	explicit EMBEDDED_STRING_INTERIOR_t
-		(parlex::detail::document::text<literal_0x22_t> && dont_care0, val<EMBEDDED_STRING_INTERIOR> && field_1, parlex::detail::document::text<literal_0x22_t> && dont_care2)
-		: dont_care0(std::move(dont_care0)), field_1(std::move(field_1)), dont_care2(std::move(dont_care2)) {}
+		(parlex::detail::document::text<literal_0x22_t> const & dont_care0, val<EMBEDDED_STRING_INTERIOR> const & field_1, parlex::detail::document::text<literal_0x22_t> const & dont_care2)
+		: dont_care0(dont_care0), field_1(field_1), dont_care2(dont_care2) {}
 
 	EMBEDDED_STRING_INTERIOR_t(EMBEDDED_STRING_INTERIOR_t const & other) = default;
-	EMBEDDED_STRING_INTERIOR_t(EMBEDDED_STRING_INTERIOR_t && move) = default;
-
 	static EMBEDDED_STRING_INTERIOR_t build(parlex::detail::node const * b, parlex::detail::document::walk & w);
 };
 

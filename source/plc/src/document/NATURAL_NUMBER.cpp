@@ -11,7 +11,7 @@ plc::NATURAL_NUMBER plc::NATURAL_NUMBER::build(parlex::detail::ast_node const & 
 	auto const & children = b->children;
 	auto v0 = parlex::detail::document::element<parlex::detail::document::text<parlex::detail::decimal_digit_t>>::build(&*children[0], w);
 	auto v1 = parlex::detail::document::element<std::vector<parlex::detail::document::text<parlex::detail::decimal_digit_t>>>::build(&*children[1], w);
-	return NATURAL_NUMBER(n.document_position, n.consumed_character_count, std::move(v0), std::move(v1));
+	return NATURAL_NUMBER(n.document_position, n.consumed_character_count, v0, v1);
 }
 
 

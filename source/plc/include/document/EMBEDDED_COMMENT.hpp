@@ -31,12 +31,10 @@ struct EMBEDDED_COMMENT {
 
 
 	explicit EMBEDDED_COMMENT
-		(int32_t documentPosition, int32_t consumedCharacterCount, parlex::detail::document::text<literal_0x2F0x2A0x2A0x2A_t> && dont_care0, val<EMBEDDED_COMMENT_INTERIOR> && field_1, parlex::detail::document::text<literal_0x2A0x2A0x2A0x2F_t> && dont_care2)
-		: document_position(documentPosition), consumed_character_count(consumedCharacterCount), dont_care0(std::move(dont_care0)), field_1(std::move(field_1)), dont_care2(std::move(dont_care2)) {}
+		(int32_t documentPosition, int32_t consumedCharacterCount, parlex::detail::document::text<literal_0x2F0x2A0x2A0x2A_t> const & dont_care0, val<EMBEDDED_COMMENT_INTERIOR> const & field_1, parlex::detail::document::text<literal_0x2A0x2A0x2A0x2F_t> const & dont_care2)
+		: document_position(documentPosition), consumed_character_count(consumedCharacterCount), dont_care0(dont_care0), field_1(field_1), dont_care2(dont_care2) {}
 
 	EMBEDDED_COMMENT(EMBEDDED_COMMENT const & other) = default;
-	EMBEDDED_COMMENT(EMBEDDED_COMMENT && move) = default;
-
 	static EMBEDDED_COMMENT build(parlex::detail::ast_node const & n);
 	static parlex::detail::acceptor const & acceptor();
 

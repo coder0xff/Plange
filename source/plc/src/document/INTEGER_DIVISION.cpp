@@ -17,7 +17,7 @@ plc::INTEGER_DIVISION plc::INTEGER_DIVISION::build(parlex::detail::ast_node cons
 	auto v2 = parlex::detail::document::element<parlex::detail::document::text<literal_0x5C_t>>::build(&*children[2], w);
 	auto v3 = parlex::detail::document::element<std::vector<val<IC>>>::build(&*children[3], w);
 	auto v4 = parlex::detail::document::element<val<EXPRESSION>>::build(&*children[4], w);
-	return INTEGER_DIVISION(n.document_position, n.consumed_character_count, std::move(v0), std::move(v1), std::move(v2), std::move(v3), std::move(v4));
+	return INTEGER_DIVISION(n.document_position, n.consumed_character_count, v0, v1, v2, v3, v4);
 }
 
 

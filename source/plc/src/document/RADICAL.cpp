@@ -18,7 +18,7 @@ plc::RADICAL plc::RADICAL::build(parlex::detail::ast_node const & n) {
 	>>::build(&*children[0], w);
 	auto v1 = parlex::detail::document::element<std::vector<val<IC>>>::build(&*children[1], w);
 	auto v2 = parlex::detail::document::element<val<EXPRESSION>>::build(&*children[2], w);
-	return RADICAL(n.document_position, n.consumed_character_count, std::move(v0), std::move(v1), std::move(v2));
+	return RADICAL(n.document_position, n.consumed_character_count, v0, v1, v2);
 }
 
 

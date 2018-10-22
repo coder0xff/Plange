@@ -13,7 +13,7 @@ plc::TYPE_CONSTRAINT_DECLARATION::args_t plc::TYPE_CONSTRAINT_DECLARATION::args_
 	auto const & children = b->children;
 	auto v0 = parlex::detail::document::element<std::vector<val<IC>>>::build(&*children[0], w);
 	auto v1 = parlex::detail::document::element<val<PARENTHETICAL_INVOCATION>>::build(&*children[1], w);
-	return args_t(std::move(v0), std::move(v1));
+	return args_t(v0, v1);
 }
 
 plc::TYPE_CONSTRAINT_DECLARATION plc::TYPE_CONSTRAINT_DECLARATION::build(parlex::detail::ast_node const & n) {
@@ -22,7 +22,7 @@ plc::TYPE_CONSTRAINT_DECLARATION plc::TYPE_CONSTRAINT_DECLARATION::build(parlex:
 	auto const & children = b->children;
 	auto v0 = parlex::detail::document::element<val<IDENTIFIER_SPECIFICATION>>::build(&*children[0], w);
 	auto v1 = parlex::detail::document::element<std::optional<args_t>>::build(&*children[1], w);
-	return TYPE_CONSTRAINT_DECLARATION(n.document_position, n.consumed_character_count, std::move(v0), std::move(v1));
+	return TYPE_CONSTRAINT_DECLARATION(n.document_position, n.consumed_character_count, v0, v1);
 }
 
 

@@ -24,7 +24,7 @@ plc::EMBEDDED_STRING_INTERIOR_t plc::EMBEDDED_STRING_INTERIOR_t::build(parlex::d
 	auto v0 = parlex::detail::document::element<parlex::detail::document::text<literal_0x22_t>>::build(&*children[0], w);
 	auto v1 = parlex::detail::document::element<val<EMBEDDED_STRING_INTERIOR>>::build(&*children[1], w);
 	auto v2 = parlex::detail::document::element<parlex::detail::document::text<literal_0x22_t>>::build(&*children[2], w);
-	return EMBEDDED_STRING_INTERIOR_t(std::move(v0), std::move(v1), std::move(v2));
+	return EMBEDDED_STRING_INTERIOR_t(v0, v1, v2);
 }
 
 

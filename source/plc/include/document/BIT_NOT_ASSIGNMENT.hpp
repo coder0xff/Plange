@@ -37,15 +37,13 @@ struct BIT_NOT_ASSIGNMENT {
 
 
 	explicit BIT_NOT_ASSIGNMENT
-		(int32_t documentPosition, int32_t consumedCharacterCount, val<EXPRESSION> && field_1, std::vector<val<IC>> && field_2, parlex::detail::document::text<literal_0x7E0x7E_t> && dont_care2, std::variant<
+		(int32_t documentPosition, int32_t consumedCharacterCount, val<EXPRESSION> const & field_1, std::vector<val<IC>> const & field_2, parlex::detail::document::text<literal_0x7E0x7E_t> const & dont_care2, std::variant<
 	parlex::detail::document::text<literal_0x3C0x2D_t>,
 	parlex::detail::document::text<literal_0xE20x860x90_t>
-> && field_3)
-		: document_position(documentPosition), consumed_character_count(consumedCharacterCount), field_1(std::move(field_1)), field_2(std::move(field_2)), dont_care2(std::move(dont_care2)), field_3(std::move(field_3)) {}
+> const & field_3)
+		: document_position(documentPosition), consumed_character_count(consumedCharacterCount), field_1(field_1), field_2(field_2), dont_care2(dont_care2), field_3(field_3) {}
 
 	BIT_NOT_ASSIGNMENT(BIT_NOT_ASSIGNMENT const & other) = default;
-	BIT_NOT_ASSIGNMENT(BIT_NOT_ASSIGNMENT && move) = default;
-
 	static BIT_NOT_ASSIGNMENT build(parlex::detail::ast_node const & n);
 	static parlex::detail::acceptor const & acceptor();
 

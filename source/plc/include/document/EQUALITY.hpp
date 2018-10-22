@@ -33,12 +33,10 @@ struct EQUALITY {
 
 
 	explicit EQUALITY
-		(int32_t documentPosition, int32_t consumedCharacterCount, val<EXPRESSION> && expression, std::vector<val<IC>> && field_1, val<EQUALITY_NODE> && equality_node)
-		: document_position(documentPosition), consumed_character_count(consumedCharacterCount), expression(std::move(expression)), field_1(std::move(field_1)), equality_node(std::move(equality_node)) {}
+		(int32_t documentPosition, int32_t consumedCharacterCount, val<EXPRESSION> const & expression, std::vector<val<IC>> const & field_1, val<EQUALITY_NODE> const & equality_node)
+		: document_position(documentPosition), consumed_character_count(consumedCharacterCount), expression(expression), field_1(field_1), equality_node(equality_node) {}
 
 	EQUALITY(EQUALITY const & other) = default;
-	EQUALITY(EQUALITY && move) = default;
-
 	static EQUALITY build(parlex::detail::ast_node const & n);
 	static parlex::detail::acceptor const & acceptor();
 

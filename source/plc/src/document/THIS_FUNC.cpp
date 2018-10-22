@@ -16,7 +16,7 @@ plc::THIS_FUNC::field_1_t plc::THIS_FUNC::field_1_t::build(parlex::detail::node 
 	auto v3 = parlex::detail::document::element<val<EXPRESSION>>::build(&*children[3], w);
 	auto v4 = parlex::detail::document::element<std::vector<val<IC>>>::build(&*children[4], w);
 	auto v5 = parlex::detail::document::element<parlex::detail::document::text<literal_0x5D_t>>::build(&*children[5], w);
-	return field_1_t(std::move(v0), std::move(v1), std::move(v2), std::move(v3), std::move(v4), std::move(v5));
+	return field_1_t(v0, v1, v2, v3, v4, v5);
 }
 
 plc::THIS_FUNC plc::THIS_FUNC::build(parlex::detail::ast_node const & n) {
@@ -25,7 +25,7 @@ plc::THIS_FUNC plc::THIS_FUNC::build(parlex::detail::ast_node const & n) {
 	auto const & children = b->children;
 	auto v0 = parlex::detail::document::element<parlex::detail::document::text<literal_this_func_t>>::build(&*children[0], w);
 	auto v1 = parlex::detail::document::element<std::optional<field_1_t>>::build(&*children[1], w);
-	return THIS_FUNC(n.document_position, n.consumed_character_count, std::move(v0), std::move(v1));
+	return THIS_FUNC(n.document_position, n.consumed_character_count, v0, v1);
 }
 
 

@@ -33,12 +33,10 @@ struct SUPERSET {
 
 
 	explicit SUPERSET
-		(int32_t documentPosition, int32_t consumedCharacterCount, val<EXPRESSION> && expression, std::vector<val<IC>> && ic, val<SUPERSET_NODE> && superset_node)
-		: document_position(documentPosition), consumed_character_count(consumedCharacterCount), expression(std::move(expression)), ic(std::move(ic)), superset_node(std::move(superset_node)) {}
+		(int32_t documentPosition, int32_t consumedCharacterCount, val<EXPRESSION> const & expression, std::vector<val<IC>> const & ic, val<SUPERSET_NODE> const & superset_node)
+		: document_position(documentPosition), consumed_character_count(consumedCharacterCount), expression(expression), ic(ic), superset_node(superset_node) {}
 
 	SUPERSET(SUPERSET const & other) = default;
-	SUPERSET(SUPERSET && move) = default;
-
 	static SUPERSET build(parlex::detail::ast_node const & n);
 	static parlex::detail::acceptor const & acceptor();
 

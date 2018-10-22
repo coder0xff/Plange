@@ -12,7 +12,7 @@ plc::END_OF_LINE_COMMENT plc::END_OF_LINE_COMMENT::build(parlex::detail::ast_nod
 	auto v0 = parlex::detail::document::element<parlex::detail::document::text<literal_0x2F0x2F_t>>::build(&*children[0], w);
 	auto v1 = parlex::detail::document::element<std::vector<parlex::detail::document::text<parlex::detail::not_newline_t>>>::build(&*children[1], w);
 	auto v2 = parlex::detail::document::element<parlex::detail::document::text<literal_0x0A_t>>::build(&*children[2], w);
-	return END_OF_LINE_COMMENT(n.document_position, n.consumed_character_count, std::move(v0), std::move(v1), std::move(v2));
+	return END_OF_LINE_COMMENT(n.document_position, n.consumed_character_count, v0, v1, v2);
 }
 
 

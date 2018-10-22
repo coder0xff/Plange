@@ -32,12 +32,10 @@ struct TYPE_CONSTRAINT_DECLARATION {
 	
 	
 		explicit args_t
-			(std::vector<val<IC>> && ic, val<PARENTHETICAL_INVOCATION> && parenthetical_invocation)
-			: ic(std::move(ic)), parenthetical_invocation(std::move(parenthetical_invocation)) {}
+			(std::vector<val<IC>> const & ic, val<PARENTHETICAL_INVOCATION> const & parenthetical_invocation)
+			: ic(ic), parenthetical_invocation(parenthetical_invocation) {}
 	
 		args_t(args_t const & other) = default;
-		args_t(args_t && move) = default;
-	
 		static args_t build(parlex::detail::node const * b, parlex::detail::document::walk & w);
 	};
 
@@ -48,12 +46,10 @@ struct TYPE_CONSTRAINT_DECLARATION {
 
 
 	explicit TYPE_CONSTRAINT_DECLARATION
-		(int32_t documentPosition, int32_t consumedCharacterCount, val<IDENTIFIER_SPECIFICATION> && identifier_specification, std::optional<args_t> && args)
-		: document_position(documentPosition), consumed_character_count(consumedCharacterCount), identifier_specification(std::move(identifier_specification)), args(std::move(args)) {}
+		(int32_t documentPosition, int32_t consumedCharacterCount, val<IDENTIFIER_SPECIFICATION> const & identifier_specification, std::optional<args_t> const & args)
+		: document_position(documentPosition), consumed_character_count(consumedCharacterCount), identifier_specification(identifier_specification), args(args) {}
 
 	TYPE_CONSTRAINT_DECLARATION(TYPE_CONSTRAINT_DECLARATION const & other) = default;
-	TYPE_CONSTRAINT_DECLARATION(TYPE_CONSTRAINT_DECLARATION && move) = default;
-
 	static TYPE_CONSTRAINT_DECLARATION build(parlex::detail::ast_node const & n);
 	static parlex::detail::acceptor const & acceptor();
 

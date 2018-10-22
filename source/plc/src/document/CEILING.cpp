@@ -26,7 +26,7 @@ plc::CEILING1_t plc::CEILING1_t::build(parlex::detail::node const * b, parlex::d
 	auto v2 = parlex::detail::document::element<val<EXPRESSION>>::build(&*children[2], w);
 	auto v3 = parlex::detail::document::element<std::vector<val<IC>>>::build(&*children[3], w);
 	auto v4 = parlex::detail::document::element<parlex::detail::document::text<literal_0xE20x8C0x89_t>>::build(&*children[4], w);
-	return CEILING1_t(std::move(v0), std::move(v1), std::move(v2), std::move(v3), std::move(v4));
+	return CEILING1_t(v0, v1, v2, v3, v4);
 }
 
 plc::CEILING2_t plc::CEILING2_t::build(parlex::detail::node const * b, parlex::detail::document::walk & w) {
@@ -36,7 +36,7 @@ plc::CEILING2_t plc::CEILING2_t::build(parlex::detail::node const * b, parlex::d
 	auto v2 = parlex::detail::document::element<val<EXPRESSION>>::build(&*children[2], w);
 	auto v3 = parlex::detail::document::element<std::vector<val<IC>>>::build(&*children[3], w);
 	auto v4 = parlex::detail::document::element<parlex::detail::document::text<literal_0x270x7C_t>>::build(&*children[4], w);
-	return CEILING2_t(std::move(v0), std::move(v1), std::move(v2), std::move(v3), std::move(v4));
+	return CEILING2_t(v0, v1, v2, v3, v4);
 }
 
 

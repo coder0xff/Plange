@@ -27,12 +27,10 @@ struct NON_NEG_INTEGER1_t {
 
 
 	explicit NON_NEG_INTEGER1_t
-		(val<NON_ZERO_DECIMAL_DIGIT> && field_1, std::vector<parlex::detail::document::text<parlex::detail::decimal_digit_t>> && field_2)
-		: field_1(std::move(field_1)), field_2(std::move(field_2)) {}
+		(val<NON_ZERO_DECIMAL_DIGIT> const & field_1, std::vector<parlex::detail::document::text<parlex::detail::decimal_digit_t>> const & field_2)
+		: field_1(field_1), field_2(field_2) {}
 
 	NON_NEG_INTEGER1_t(NON_NEG_INTEGER1_t const & other) = default;
-	NON_NEG_INTEGER1_t(NON_NEG_INTEGER1_t && move) = default;
-
 	static NON_NEG_INTEGER1_t build(parlex::detail::node const * b, parlex::detail::document::walk & w);
 };
 

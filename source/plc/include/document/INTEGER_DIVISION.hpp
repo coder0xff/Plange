@@ -36,12 +36,10 @@ struct INTEGER_DIVISION {
 
 
 	explicit INTEGER_DIVISION
-		(int32_t documentPosition, int32_t consumedCharacterCount, val<EXPRESSION> && field_1, std::vector<val<IC>> && field_2, parlex::detail::document::text<literal_0x5C_t> && dont_care2, std::vector<val<IC>> && field_3, val<EXPRESSION> && field_4)
-		: document_position(documentPosition), consumed_character_count(consumedCharacterCount), field_1(std::move(field_1)), field_2(std::move(field_2)), dont_care2(std::move(dont_care2)), field_3(std::move(field_3)), field_4(std::move(field_4)) {}
+		(int32_t documentPosition, int32_t consumedCharacterCount, val<EXPRESSION> const & field_1, std::vector<val<IC>> const & field_2, parlex::detail::document::text<literal_0x5C_t> const & dont_care2, std::vector<val<IC>> const & field_3, val<EXPRESSION> const & field_4)
+		: document_position(documentPosition), consumed_character_count(consumedCharacterCount), field_1(field_1), field_2(field_2), dont_care2(dont_care2), field_3(field_3), field_4(field_4) {}
 
 	INTEGER_DIVISION(INTEGER_DIVISION const & other) = default;
-	INTEGER_DIVISION(INTEGER_DIVISION && move) = default;
-
 	static INTEGER_DIVISION build(parlex::detail::ast_node const & n);
 	static parlex::detail::acceptor const & acceptor();
 

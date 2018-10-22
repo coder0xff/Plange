@@ -32,12 +32,10 @@ struct COMPLEMENT {
 
 
 	explicit COMPLEMENT
-		(int32_t documentPosition, int32_t consumedCharacterCount, val<EXPRESSION> && field_1, std::vector<val<IC>> && field_2, parlex::detail::document::text<literal_0xE10xB60x9C_t> && dont_care2)
-		: document_position(documentPosition), consumed_character_count(consumedCharacterCount), field_1(std::move(field_1)), field_2(std::move(field_2)), dont_care2(std::move(dont_care2)) {}
+		(int32_t documentPosition, int32_t consumedCharacterCount, val<EXPRESSION> const & field_1, std::vector<val<IC>> const & field_2, parlex::detail::document::text<literal_0xE10xB60x9C_t> const & dont_care2)
+		: document_position(documentPosition), consumed_character_count(consumedCharacterCount), field_1(field_1), field_2(field_2), dont_care2(dont_care2) {}
 
 	COMPLEMENT(COMPLEMENT const & other) = default;
-	COMPLEMENT(COMPLEMENT && move) = default;
-
 	static COMPLEMENT build(parlex::detail::ast_node const & n);
 	static parlex::detail::acceptor const & acceptor();
 

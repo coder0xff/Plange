@@ -15,7 +15,7 @@ plc::PRE_INC plc::PRE_INC::build(parlex::detail::ast_node const & n) {
 	auto v0 = parlex::detail::document::element<parlex::detail::document::text<literal_0x2B0x2B_t>>::build(&*children[0], w);
 	auto v1 = parlex::detail::document::element<std::vector<val<IC>>>::build(&*children[1], w);
 	auto v2 = parlex::detail::document::element<val<EXPRESSION>>::build(&*children[2], w);
-	return PRE_INC(n.document_position, n.consumed_character_count, std::move(v0), std::move(v1), std::move(v2));
+	return PRE_INC(n.document_position, n.consumed_character_count, v0, v1, v2);
 }
 
 

@@ -34,12 +34,10 @@ struct XML_DOC_STRING {
 
 
 	explicit XML_DOC_STRING
-		(int32_t documentPosition, int32_t consumedCharacterCount, parlex::detail::document::text<literal_0x600x600x60_t> && dont_care0, val<XML_DOC_STRING_INTERIOR> && interior, parlex::detail::document::text<literal_0x600x600x60_t> && dont_care2, std::vector<val<IC>> && ic)
-		: document_position(documentPosition), consumed_character_count(consumedCharacterCount), dont_care0(std::move(dont_care0)), interior(std::move(interior)), dont_care2(std::move(dont_care2)), ic(std::move(ic)) {}
+		(int32_t documentPosition, int32_t consumedCharacterCount, parlex::detail::document::text<literal_0x600x600x60_t> const & dont_care0, val<XML_DOC_STRING_INTERIOR> const & interior, parlex::detail::document::text<literal_0x600x600x60_t> const & dont_care2, std::vector<val<IC>> const & ic)
+		: document_position(documentPosition), consumed_character_count(consumedCharacterCount), dont_care0(dont_care0), interior(interior), dont_care2(dont_care2), ic(ic) {}
 
 	XML_DOC_STRING(XML_DOC_STRING const & other) = default;
-	XML_DOC_STRING(XML_DOC_STRING && move) = default;
-
 	static XML_DOC_STRING build(parlex::detail::ast_node const & n);
 	static parlex::detail::acceptor const & acceptor();
 

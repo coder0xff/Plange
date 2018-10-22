@@ -22,7 +22,7 @@ plc::INVOCATION plc::INVOCATION::build(parlex::detail::ast_node const & n) {
 		val<ARRAY_INVOCATION>,
 		val<TYPE_INVOCATION>
 	>>::build(&*children[2], w);
-	return INVOCATION(n.document_position, n.consumed_character_count, std::move(v0), std::move(v1), std::move(v2));
+	return INVOCATION(n.document_position, n.consumed_character_count, v0, v1, v2);
 }
 
 

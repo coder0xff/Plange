@@ -39,16 +39,14 @@ struct INVOCATION {
 
 
 	explicit INVOCATION
-		(int32_t documentPosition, int32_t consumedCharacterCount, val<EXPRESSION> && expression, std::vector<val<IC>> && ic, std::variant<
+		(int32_t documentPosition, int32_t consumedCharacterCount, val<EXPRESSION> const & expression, std::vector<val<IC>> const & ic, std::variant<
 	val<PARENTHETICAL_INVOCATION>,
 	val<ARRAY_INVOCATION>,
 	val<TYPE_INVOCATION>
-> && args)
-		: document_position(documentPosition), consumed_character_count(consumedCharacterCount), expression(std::move(expression)), ic(std::move(ic)), args(std::move(args)) {}
+> const & args)
+		: document_position(documentPosition), consumed_character_count(consumedCharacterCount), expression(expression), ic(ic), args(args) {}
 
 	INVOCATION(INVOCATION const & other) = default;
-	INVOCATION(INVOCATION && move) = default;
-
 	static INVOCATION build(parlex::detail::ast_node const & n);
 	static parlex::detail::acceptor const & acceptor();
 

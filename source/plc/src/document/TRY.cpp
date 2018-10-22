@@ -13,7 +13,7 @@ plc::TRY::field_06_t plc::TRY::field_06_t::build(parlex::detail::node const * b,
 	auto v0 = parlex::detail::document::element<parlex::detail::document::text<literal_catch_t>>::build(&*children[0], w);
 	auto v1 = parlex::detail::document::element<std::vector<val<IC>>>::build(&*children[1], w);
 	auto v2 = parlex::detail::document::element<val<EXPRESSION>>::build(&*children[2], w);
-	return field_06_t(std::move(v0), std::move(v1), std::move(v2));
+	return field_06_t(v0, v1, v2);
 }
 
 plc::TRY::field_07_t plc::TRY::field_07_t::build(parlex::detail::node const * b, parlex::detail::document::walk & w) {
@@ -22,7 +22,7 @@ plc::TRY::field_07_t plc::TRY::field_07_t::build(parlex::detail::node const * b,
 	auto v1 = parlex::detail::document::element<parlex::detail::document::text<literal_finally_t>>::build(&*children[1], w);
 	auto v2 = parlex::detail::document::element<std::vector<val<IC>>>::build(&*children[2], w);
 	auto v3 = parlex::detail::document::element<val<EXPRESSION>>::build(&*children[3], w);
-	return field_07_t(std::move(v0), std::move(v1), std::move(v2), std::move(v3));
+	return field_07_t(v0, v1, v2, v3);
 }
 
 plc::TRY plc::TRY::build(parlex::detail::ast_node const & n) {
@@ -38,7 +38,7 @@ plc::TRY plc::TRY::build(parlex::detail::ast_node const & n) {
 	auto v6 = parlex::detail::document::element<val<EXPRESSION>>::build(&*children[6], w);
 	auto v7 = parlex::detail::document::element<std::vector<field_06_t>>::build(&*children[7], w);
 	auto v8 = parlex::detail::document::element<std::optional<field_07_t>>::build(&*children[8], w);
-	return TRY(n.document_position, n.consumed_character_count, std::move(v0), std::move(v1), std::move(v2), std::move(v3), std::move(v4), std::move(v5), std::move(v6), std::move(v7), std::move(v8));
+	return TRY(n.document_position, n.consumed_character_count, v0, v1, v2, v3, v4, v5, v6, v7, v8);
 }
 
 

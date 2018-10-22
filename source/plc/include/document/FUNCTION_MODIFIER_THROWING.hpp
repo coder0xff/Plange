@@ -32,12 +32,10 @@ struct FUNCTION_MODIFIER_THROWING {
 	
 	
 		explicit field_1_t
-			(std::vector<val<IC>> && field_1, val<ARRAY> && field_2)
-			: field_1(std::move(field_1)), field_2(std::move(field_2)) {}
+			(std::vector<val<IC>> const & field_1, val<ARRAY> const & field_2)
+			: field_1(field_1), field_2(field_2) {}
 	
 		field_1_t(field_1_t const & other) = default;
-		field_1_t(field_1_t && move) = default;
-	
 		static field_1_t build(parlex::detail::node const * b, parlex::detail::document::walk & w);
 	};
 
@@ -51,12 +49,10 @@ struct FUNCTION_MODIFIER_THROWING {
 	
 	
 		explicit field_2_t
-			(val<IC> && field_1, std::vector<val<IC>> && field_2, val<FUNCTION_MODIFIER_2> && field_3)
-			: field_1(std::move(field_1)), field_2(std::move(field_2)), field_3(std::move(field_3)) {}
+			(val<IC> const & field_1, std::vector<val<IC>> const & field_2, val<FUNCTION_MODIFIER_2> const & field_3)
+			: field_1(field_1), field_2(field_2), field_3(field_3) {}
 	
 		field_2_t(field_2_t const & other) = default;
-		field_2_t(field_2_t && move) = default;
-	
 		static field_2_t build(parlex::detail::node const * b, parlex::detail::document::walk & w);
 	};
 
@@ -69,12 +65,10 @@ struct FUNCTION_MODIFIER_THROWING {
 
 
 	explicit FUNCTION_MODIFIER_THROWING
-		(int32_t documentPosition, int32_t consumedCharacterCount, parlex::detail::document::text<literal_throwing_t> && throwing, std::optional<field_1_t> && field_1, std::optional<field_2_t> && field_2)
-		: document_position(documentPosition), consumed_character_count(consumedCharacterCount), throwing(std::move(throwing)), field_1(std::move(field_1)), field_2(std::move(field_2)) {}
+		(int32_t documentPosition, int32_t consumedCharacterCount, parlex::detail::document::text<literal_throwing_t> const & throwing, std::optional<field_1_t> const & field_1, std::optional<field_2_t> const & field_2)
+		: document_position(documentPosition), consumed_character_count(consumedCharacterCount), throwing(throwing), field_1(field_1), field_2(field_2) {}
 
 	FUNCTION_MODIFIER_THROWING(FUNCTION_MODIFIER_THROWING const & other) = default;
-	FUNCTION_MODIFIER_THROWING(FUNCTION_MODIFIER_THROWING && move) = default;
-
 	static FUNCTION_MODIFIER_THROWING build(parlex::detail::ast_node const & n);
 	static parlex::detail::acceptor const & acceptor();
 

@@ -16,7 +16,7 @@ plc::FUNCTION::field_1_t::field_2_t::field_1_t plc::FUNCTION::field_1_t::field_2
 	auto v1 = parlex::detail::document::element<parlex::detail::document::text<literal_0x2C_t>>::build(&*children[1], w);
 	auto v2 = parlex::detail::document::element<std::vector<val<IC>>>::build(&*children[2], w);
 	auto v3 = parlex::detail::document::element<val<PARAMETER>>::build(&*children[3], w);
-	return field_1_t(std::move(v0), std::move(v1), std::move(v2), std::move(v3));
+	return field_1_t(v0, v1, v2, v3);
 }
 
 plc::FUNCTION::field_1_t::field_2_t plc::FUNCTION::field_1_t::field_2_t::build(parlex::detail::node const * b, parlex::detail::document::walk & w) {
@@ -24,7 +24,7 @@ plc::FUNCTION::field_1_t::field_2_t plc::FUNCTION::field_1_t::field_2_t::build(p
 	auto v0 = parlex::detail::document::element<val<PARAMETER>>::build(&*children[0], w);
 	auto v1 = parlex::detail::document::element<std::vector<field_1_t>>::build(&*children[1], w);
 	auto v2 = parlex::detail::document::element<std::vector<val<IC>>>::build(&*children[2], w);
-	return field_2_t(std::move(v0), std::move(v1), std::move(v2));
+	return field_2_t(v0, v1, v2);
 }
 
 plc::FUNCTION::field_1_t plc::FUNCTION::field_1_t::build(parlex::detail::node const * b, parlex::detail::document::walk & w) {
@@ -34,14 +34,14 @@ plc::FUNCTION::field_1_t plc::FUNCTION::field_1_t::build(parlex::detail::node co
 	auto v2 = parlex::detail::document::element<std::optional<field_2_t>>::build(&*children[2], w);
 	auto v3 = parlex::detail::document::element<parlex::detail::document::text<literal_0x29_t>>::build(&*children[3], w);
 	auto v4 = parlex::detail::document::element<std::vector<val<IC>>>::build(&*children[4], w);
-	return field_1_t(std::move(v0), std::move(v1), std::move(v2), std::move(v3), std::move(v4));
+	return field_1_t(v0, v1, v2, v3, v4);
 }
 
 plc::FUNCTION::field_2_t plc::FUNCTION::field_2_t::build(parlex::detail::node const * b, parlex::detail::document::walk & w) {
 	auto const & children = b->children;
 	auto v0 = parlex::detail::document::element<val<FUNCTION_MODIFIER_0>>::build(&*children[0], w);
 	auto v1 = parlex::detail::document::element<std::vector<val<IC>>>::build(&*children[1], w);
-	return field_2_t(std::move(v0), std::move(v1));
+	return field_2_t(v0, v1);
 }
 
 plc::FUNCTION plc::FUNCTION::build(parlex::detail::ast_node const & n) {
@@ -51,7 +51,7 @@ plc::FUNCTION plc::FUNCTION::build(parlex::detail::ast_node const & n) {
 	auto v0 = parlex::detail::document::element<std::optional<field_1_t>>::build(&*children[0], w);
 	auto v1 = parlex::detail::document::element<std::optional<field_2_t>>::build(&*children[1], w);
 	auto v2 = parlex::detail::document::element<val<BLOCK>>::build(&*children[2], w);
-	return FUNCTION(n.document_position, n.consumed_character_count, std::move(v0), std::move(v1), std::move(v2));
+	return FUNCTION(n.document_position, n.consumed_character_count, v0, v1, v2);
 }
 
 

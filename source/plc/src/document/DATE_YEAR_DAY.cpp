@@ -17,7 +17,7 @@ plc::DATE_YEAR_DAY plc::DATE_YEAR_DAY::build(parlex::detail::ast_node const & n)
 	auto v5 = parlex::detail::document::element<parlex::detail::document::text<parlex::detail::decimal_digit_t>>::build(&*children[5], w);
 	auto v6 = parlex::detail::document::element<parlex::detail::document::text<parlex::detail::decimal_digit_t>>::build(&*children[6], w);
 	auto v7 = parlex::detail::document::element<parlex::detail::document::text<parlex::detail::decimal_digit_t>>::build(&*children[7], w);
-	return DATE_YEAR_DAY(n.document_position, n.consumed_character_count, std::move(v0), std::move(v1), std::move(v2), std::move(v3), std::move(v4), std::move(v5), std::move(v6), std::move(v7));
+	return DATE_YEAR_DAY(n.document_position, n.consumed_character_count, v0, v1, v2, v3, v4, v5, v6, v7);
 }
 
 

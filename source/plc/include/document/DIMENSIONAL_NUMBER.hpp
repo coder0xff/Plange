@@ -30,12 +30,10 @@ struct DIMENSIONAL_NUMBER {
 
 
 	explicit DIMENSIONAL_NUMBER
-		(int32_t documentPosition, int32_t consumedCharacterCount, val<NON_NEG_NUMBER> && field_1, val<DIMENSION> && field_2)
-		: document_position(documentPosition), consumed_character_count(consumedCharacterCount), field_1(std::move(field_1)), field_2(std::move(field_2)) {}
+		(int32_t documentPosition, int32_t consumedCharacterCount, val<NON_NEG_NUMBER> const & field_1, val<DIMENSION> const & field_2)
+		: document_position(documentPosition), consumed_character_count(consumedCharacterCount), field_1(field_1), field_2(field_2) {}
 
 	DIMENSIONAL_NUMBER(DIMENSIONAL_NUMBER const & other) = default;
-	DIMENSIONAL_NUMBER(DIMENSIONAL_NUMBER && move) = default;
-
 	static DIMENSIONAL_NUMBER build(parlex::detail::ast_node const & n);
 	static parlex::detail::acceptor const & acceptor();
 
