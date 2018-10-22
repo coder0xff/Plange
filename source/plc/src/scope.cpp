@@ -10,23 +10,7 @@
 #include "scope.hpp"
 #include "visibility.hpp"
 
-#include "ASSIGNMENT.hpp"
-#include "ASSIGNMENT_NODE.hpp"
-#include "ATTRIBUTE.hpp"
-#include "DEFINITION.hpp"
-#include "EXPRESSION.hpp"
-#include "IDENTIFIER.hpp"
-#include "IDENTIFIER_SPECIFICATION.hpp"
-#include "PARENTHETICAL_INVOCATION.hpp"
-#include "STATEMENT.hpp"
-#include "TYPE_CONSTRAINT.hpp"
-#include "TYPE_CONSTRAINT_ELEMENT.hpp"
-#include "TYPE_CONSTRAINT_SPECIFICATION.hpp"
-#include "TYPE_DEREFERENCE.hpp"
-#include "VOLATILE_TYPE_DEREFERENCE.hpp"
-#include "TYPE_CONSTRAINT_DECLARATION.hpp"
-#include "STANDARD_ARGUMENTS.hpp"
-#include "MAPS_TO.hpp"
+#include "plange_grammar.hpp"
 
 namespace plc {
 

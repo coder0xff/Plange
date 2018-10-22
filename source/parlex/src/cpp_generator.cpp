@@ -1072,6 +1072,9 @@ std::string generate_grammar_hpp_inc(std::string const & name, std::list<std::st
 	header << "#include \"parlex/detail/builtins.hpp\"\n";
 	header << "#include \"parlex/detail/grammar.hpp\"\n\n";
 	header << "#include \"_" << name << "_literals.hpp\"\n\n";
+	for (production const & x : b.productions) {
+		header << "#include \"" << toupper(x.name) << ".hpp\"\n";
+	}
 	header << namespaces_start(namespaces) << "\n";
 	header << "class " << fullName << " : public parlex::detail::grammar {\n";
 	header << "public:\n";
