@@ -77,6 +77,10 @@ TEST(PlcCompiler, ParseHelloWorld) {
 	auto result = plc::compiler::parse(U"print(\"Hello, world!\");");
 }
 
+TEST(PlcCompiler, ParseDefinition) {
+	auto result = plc::compiler::parse(U"x:=1;");
+}
+
 TEST(PlcCompiler, ParseType) {
 	auto const source = U"myType := type {"
 		"    public <Int> aVariable;"
@@ -88,6 +92,21 @@ TEST(PlcCompiler, ParseType) {
 TEST(PlcCompiler, ParseFILEPointer) {
 	auto const source = U"FILEPointer := type_abstraction(Pointer<Void>);\n";
 	auto result = plc::compiler::parse(source);
+}
+
+TEST(PlcCompiler, ParseInvocation) {
+	auto const source = U"x()";
+	plc::source_code::parse<plc::INVOCATION>(source);
+}
+
+TEST(PlcCompiler, ParentheticalInvocation) {
+	auto const source = U"()";
+	plc::source_code::parse<plc::PARENTHETICAL_INVOCATION>(source);
+}
+
+TEST(PlcCompiler, ParseIdentifier) {
+	auto const source = U"x";
+	plc::source_code::parse<plc::IDENTIFIER>(source);
 }
 
 TEST(PlcCompiler, ParsePrintHelloWorld) {

@@ -105,7 +105,7 @@ TEST(ValTest, val_assignment_test_1) {
 	EXPECT_EQ(5, y->value1);
 }
 
-TEST(ValTest, val_upstract_test1) {
+TEST(ValTest, val_abstract_test1) {
 	val<abstract1> x((concrete1()));
 	EXPECT_EQ(1337, x->operator ()());
 }
@@ -128,4 +128,21 @@ TEST(PtrTest, ptr_upcast_test_1) {
 	ptr<derived2> y(x);
 	ptr<base1> z(y);
 	EXPECT_EQ(1, z->value1);
+}
+
+TEST(ValTest, val_collection_test_1) {
+	std::vector<val<base1>> v;
+	v.push_back(make_val<derived2>());
+}
+
+TEST(ValTest, val_move_test_1) {
+	// Move is not supported. This should compile to a copy construction
+	auto x = make_val<base1>();
+	val<base1> y(std::move(x));
+}
+
+TEST(ValTest, val_move_test_2) {
+	// Move is not supported. This should compile to copy construction
+	std::vector<val<base1>> x = { make_val<base1>() };
+	std::vector<val<base1>> y(std::move(x));
 }

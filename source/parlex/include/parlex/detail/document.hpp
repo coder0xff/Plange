@@ -34,6 +34,7 @@ namespace parlex::detail::document {
 	template<typename T>
 	struct element<text<T>> {
 		static text<T> build(node const * b, walk & w) {
+			throw_assert(w.pos != w.end);
 			text<T> result{ w.pos->document_position, w.pos->consumed_character_count };
 			++w.pos;
 			return result;
@@ -55,7 +56,8 @@ namespace parlex::detail::document {
 			auto const * asLeaf = dynamic_cast<leaf const *>(b);
 			throw_assert(asLeaf != nullptr);
 			throw_assert(asLeaf == w.pos->l);
-			return T::build(*w.pos++);
+			val<T> temp = T::build(*w.pos++);
+			return temp;
 		}
 	};
 
@@ -98,9 +100,7 @@ namespace parlex::detail::document {
 		typedef std::map<node const *, t_variant(*)(node const * b, walk & w)> t_table;
 
 		template<typename T>
-		static t_variant wrapper(node const * b, walk & w) {
-			return t_variant(element<T>::build(b, w));
-		}
+		static t_variant wrapper(node const * b, walk & w);
 
 		template<typename T>
 		t_table operator()(t_table && accumulator, val<node> const & b) {
@@ -110,10 +110,20 @@ namespace parlex::detail::document {
 
 	};
 
+	template <typename ... Ts>
+	template <typename T>
+	typename variant_helper<Ts...>::t_variant variant_helper<Ts...>::wrapper(node const * b, walk & w) {
+		throw_assert(w.pos != w.end);
+		T a = element<T>::build(b, w);
+		auto result = t_variant(a);
+		return result;
+	}
+
 	template<typename... Ts>
 	struct element<std::variant<Ts...>> {
 		static std::variant<Ts...> build(node const * b, walk & w) {
 			throw_assert(dynamic_cast<choice const *>(b) != nullptr);
+			throw_assert(w.pos != w.end);
 			using t_variant = std::variant<Ts...>;
 			using functor_t = variant_helper<Ts...>;
 			auto const & childBehaviors = b->children;

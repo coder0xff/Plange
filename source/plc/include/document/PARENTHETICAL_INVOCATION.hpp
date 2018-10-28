@@ -52,7 +52,7 @@ struct PARENTHETICAL_INVOCATION {
 		(int32_t documentPosition, int32_t consumedCharacterCount, parlex::detail::document::text<literal_0x28_t> const & dont_care0, std::vector<val<IC>> const & ic, std::optional<arguments_t> const & arguments, parlex::detail::document::text<literal_0x29_t> const & dont_care3)
 		: document_position(documentPosition), consumed_character_count(consumedCharacterCount), dont_care0(dont_care0), ic(ic), arguments(arguments), dont_care3(dont_care3) {}
 
-	PARENTHETICAL_INVOCATION(PARENTHETICAL_INVOCATION const & other) = default;
+	PARENTHETICAL_INVOCATION(PARENTHETICAL_INVOCATION const & other);
 	static PARENTHETICAL_INVOCATION build(parlex::detail::ast_node const & n);
 	static parlex::detail::acceptor const & acceptor();
 

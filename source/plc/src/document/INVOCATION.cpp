@@ -12,12 +12,14 @@
 #include "TYPE_INVOCATION.hpp"
 
 plc::INVOCATION plc::INVOCATION::build(parlex::detail::ast_node const & n) {
+	std::string check = n.to_dot(plange_grammar::get());
 	static auto const * b = acceptor().behavior;
 	parlex::detail::document::walk w{ n.children.cbegin(), n.children.cend() };
 	auto const & children = b->children;
 	auto v0 = parlex::detail::document::element<val<EXPRESSION>>::build(&*children[0], w);
 	auto v1 = parlex::detail::document::element<std::vector<val<IC>>>::build(&*children[1], w);
-	auto v2 = parlex::detail::document::element<std::variant<
+	throw_assert(w.pos != w.end);
+	auto v2 = parlex::detail::document::element < std::variant <
 		val<PARENTHETICAL_INVOCATION>,
 		val<ARRAY_INVOCATION>,
 		val<TYPE_INVOCATION>

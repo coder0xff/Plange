@@ -39,7 +39,7 @@ namespace val_detail {
 		void decrement() {
 			if (count.fetch_sub(1) == 1) {
 				delete this;
-			};
+			}
 		}
 	};
 
@@ -141,7 +141,7 @@ namespace val_detail {
 	struct emit_heap_warning_imp {
 		static void emit_heap_warning(char const * const u_name) {
 #if !NDEBUG
-			std::cerr << "Warning: a val allocated heap storage. Use the SmallStorageSize type parameter to improve locality. Type T is unknown. Type U is " << u_name << ".\n";
+			//std::cerr << "Warning: a val allocated heap storage. Use the SmallStorageSize type parameter to improve locality. Type T is unknown. Type U is " << u_name << ".\n";
 #endif
 		}
 	};
@@ -150,7 +150,7 @@ namespace val_detail {
 	struct emit_heap_warning_imp<T, typename std::enable_if<is_defined<T>, T>::type> {
 		static void emit_heap_warning(char const * const u_name) {
 #if !NDEBUG
-			std::cerr << "Warning: a val allocated heap storage. Use the SmallStorageSize type parameter to improve locality. Type T is " << typeid(T).name() << ". Type U is " << u_name << ".\n";
+			//std::cerr << "Warning: a val allocated heap storage. Use the SmallStorageSize type parameter to improve locality. Type T is " << typeid(T).name() << ". Type U is " << u_name << ".\n";
 #endif
 		}
 	};
@@ -163,7 +163,7 @@ namespace val_detail {
 	template <typename T, typename U>
 	void emit_heap_warning2() {
 #if !NDEBUG
-		std::cerr << "Warning: a val allocated heap storage. Use the SmallStorageSize type parameter to improve locality. Type T is " << typeid(T).name() << ". Type U is " << typeid(U).name() << ".\n";
+		//std::cerr << "Warning: a val allocated heap storage. Use the SmallStorageSize type parameter to improve locality. Type T is " << typeid(T).name() << ". Type U is " << typeid(U).name() << ".\n";
 #endif
 	}
 }
@@ -321,6 +321,7 @@ class val {  // NOLINT(cppcoreguidelines-special-member-functions, cppcoreguidel
 	using op_sig = val_detail::block;
 
 	void * emplacement_ptr(size_t dataSize) {
+		return nullptr;
 		if (dataSize <= SmallStorageSize) {
 			return reinterpret_cast<void *>(&small_storage);
 		}
