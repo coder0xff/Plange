@@ -30,7 +30,8 @@ public:
 		return underlying;
 	}
 
-	friend void swap(pointer &, pointer &) noexcept;
+	template<typename U>
+	friend void swap(pointer<U> &, pointer<U> &) noexcept;
 };
 
 template<typename T>
