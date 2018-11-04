@@ -67,7 +67,7 @@ std::vector<val<analytic_value>> evaluate_standard_arguments(scope & s, STANDARD
 struct value_specification {
 	std::optional<std::u32string> xml_doc_string;
 	std::vector<val<analytic_value>> attributes;
-	std::optional<visibility> visibility;
+	std::optional<visibility> vis;
 	bool is_static;
 	bool is_extern;
 
@@ -75,7 +75,7 @@ struct value_specification {
 		xml_doc_string(v.doc.has_value()
 			               ? std::optional<std::u32string>(source->get_xml_doc_string(**v.doc))
 			               : std::nullopt),
-		visibility(v.visibility.has_value()
+		vis(v.visibility.has_value()
 			           ? std::optional<plc::visibility>(visibility_from_ast(*(*v.visibility).visibility_modifier))
 			           : std::nullopt),
 		is_static(v.static_.has_value()),
@@ -90,7 +90,7 @@ struct value_specification {
 		xml_doc_string(v.doc.has_value()
 			               ? std::optional<std::u32string>(source->get_xml_doc_string(**v.doc))
 			               : std::nullopt),
-		visibility(v.visibility.has_value()
+		vis(v.visibility.has_value()
 			           ? std::optional<plc::visibility>(visibility_from_ast(*(*v.visibility).visibility_modifier))
 			           : std::nullopt),
 		is_static(v.static_.has_value()),
@@ -106,8 +106,8 @@ struct value_specification {
 		if (other.xml_doc_string.has_value()) {
 			result.xml_doc_string = *other.xml_doc_string;
 		}
-		if (other.visibility.has_value()) {
-			result.visibility = *other.visibility;
+		if (other.vis.has_value()) {
+			result.vis = *other.vis;
 		}
 		result.is_static |= other.is_static;
 		result.is_extern |= other.is_extern;
@@ -258,7 +258,7 @@ struct statement_visitor {
 			true,
 			a.xml_doc_string.value_or(U""),
 			a.attributes,
-			a.visibility.value_or(visibility::PUBLIC),
+			a.vis.value_or(visibility::PUBLIC),
 			a.is_extern,
 			a.is_static,
 			false
