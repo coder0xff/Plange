@@ -16,14 +16,14 @@ class analytic_value;
 class symbol {
 public:
 	symbol(
-		std::u32string const & name,
-		std::optional<val<analytic_value>> const & value,
-		std::optional<val<analytic_value>> const & type,
+		std::u32string name,
+		std::optional<val<analytic_value>> value,
+		std::optional<val<analytic_value>> type,
 		ptr<analytic_value> const & scope,
 		bool is_variable,
 		bool is_local,
 		std::u32string xml_doc_string,
-		std::vector<val<analytic_value>> const & attributes,
+		std::vector<val<analytic_value>> attributes,
 		visibility visibility,
 		bool is_extern,
 		bool is_static,
@@ -41,19 +41,19 @@ public:
 
 private:
 	//is unbound if is_variable && value.get() == nullptr
-	std::u32string name;
-	std::optional<val<analytic_value>> value;
-	std::optional<val<analytic_value>> type;
-	ptr<analytic_value> scope;
-	bool is_variable; // constant if false
-	bool is_local;
-	std::u32string xml_doc_string;
-	std::vector<val<analytic_value>> attributes;
-	visibility visibility;
-	bool is_extern;
-	bool is_static;
-	bool is_volatile;
-	std::optional<int> member_offset;
+	std::u32string name_;
+	std::optional<val<analytic_value>> value_;
+	std::optional<val<analytic_value>> type_;
+	ptr<analytic_value> scope_;
+	bool is_variable_; // constant if false
+	bool is_local_;
+	std::u32string xml_doc_string_;
+	std::vector<val<analytic_value>> attributes_;
+	visibility visibility_;
+	bool is_extern_;
+	bool is_static_;
+	bool is_volatile_;
+	std::optional<int> member_offset_;
 };
 
 }
