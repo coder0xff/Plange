@@ -441,7 +441,7 @@ llvm::LLVMContext & compiler::get_llvm_context()
 	return llvm_context;
 }
 
-llvm::TargetMachine & compiler::get_target_machine() const {
+llvm::TargetMachine & compiler::get_target_machine() {
 	return *target_machine;
 }
 

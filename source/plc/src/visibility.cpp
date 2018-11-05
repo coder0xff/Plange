@@ -1,4 +1,5 @@
 #include "visibility.hpp"
+#include "parlex/detail/document.hpp"
 
 #include "grammar.hpp"
 

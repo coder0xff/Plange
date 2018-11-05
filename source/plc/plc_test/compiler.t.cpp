@@ -5,7 +5,6 @@
 #include "gtest/gtest.h"
 
 #include "parlex/detail/parser.hpp"
-#include "perf_timer.hpp"
 #include "utf.hpp"
 
 #include "grammar.hpp"

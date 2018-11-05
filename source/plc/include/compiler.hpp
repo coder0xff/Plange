@@ -33,10 +33,10 @@ public:
 	static void build(std::string const & outputFilename, std::set<std::string> const & inputFiles);
 
 	llvm::LLVMContext & get_llvm_context();
-	llvm::TargetMachine & get_target_machine() const;
+	llvm::TargetMachine & get_target_machine();
 private:
 	std::string target_triple;
-	pointer<llvm::TargetMachine> target_machine;
+	val<llvm::TargetMachine> target_machine;
 	llvm::LLVMContext llvm_context;
 
 	static void inject_std_lib(module & m);
