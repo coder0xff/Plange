@@ -51,11 +51,13 @@ node const * node::follow_or_nullptr(leaf const * l) const {
 
 leaf::leaf(std::string const & tag) : node(tag, {}), recognizer_index(std::numeric_limits<uint16_t>::max()) {}
 
+leaf::leaf() : node("", {}), recognizer_index(std::numeric_limits<uint16_t>::max()) {}
+
 bool leaf::is_leaf() const { return true; }
 
 } // namespace detail
 
-literal::literal(std::u32string const & content) : leaf(""), content(content) {}
+literal::literal(std::u32string const & content) : content(content) {}
 
 literal::literal(std::string const & tag, std::u32string const & content) : leaf(tag), content(content) {}
 

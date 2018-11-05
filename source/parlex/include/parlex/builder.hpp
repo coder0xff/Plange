@@ -43,6 +43,7 @@ struct leaf : node {
 	bool is_leaf() const override;
 protected:
 	explicit leaf(std::string const & tag);
+	explicit leaf();
 private:
 	automaton to_nfa() const override;
 };

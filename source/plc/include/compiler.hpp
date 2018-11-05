@@ -15,15 +15,12 @@
 #include "source_code.hpp"
 
 namespace plc {
-struct PAYLOAD;
 
 class module;
-struct XML_DOC_STRING;
 
 class compiler {
 public:
 	static STATEMENT_SCOPE parse(std::u32string const & source);
-	static std::u32string extract_xml_doc_string(std::u32string const & document, XML_DOC_STRING const & xmlDocString);
 
 	template <typename T>
 	static T parse(std::u32string const & document) {
@@ -35,9 +32,9 @@ public:
 	llvm::LLVMContext & get_llvm_context();
 	llvm::TargetMachine & get_target_machine();
 private:
-	std::string target_triple;
-	val<llvm::TargetMachine> target_machine;
-	llvm::LLVMContext llvm_context;
+	std::string target_triple_;
+	val<llvm::TargetMachine> target_machine_;
+	llvm::LLVMContext llvm_context_;
 
 	static void inject_std_lib(module & m);
 	compiler();

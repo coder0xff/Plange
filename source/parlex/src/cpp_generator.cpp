@@ -317,7 +317,7 @@ static std::string generate_grammar_builder_initializer(std::stringstream * resu
 	return name;
 }
 
-// Generate the portion of the cpp.inc that constructs the parlex grammar.
+// Generate the portion of the cpp that constructs the parlex grammar.
 static std::string generate_production_builder_initializer(production const & p) {
 	std::stringstream ss;
 	int dontCare = 0;

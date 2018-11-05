@@ -434,15 +434,15 @@ static llvm::TargetMachine * get_default_target_machine() {
 	return target->createTargetMachine(targetTriple, cpu, features, opt, rm);
 }
 
-compiler::compiler() : target_triple(get_default_target_triple()), target_machine(get_default_target_machine()) {}
+compiler::compiler() : target_triple_(get_default_target_triple()), target_machine_(get_default_target_machine()) {}
 
 llvm::LLVMContext & compiler::get_llvm_context()
 {
-	return llvm_context;
+	return llvm_context_;
 }
 
 llvm::TargetMachine & compiler::get_target_machine() {
-	return *target_machine;
+	return *target_machine_;
 }
 
 // The ._pg extension ensures that parent namespaces are alphabetically sorted before their children

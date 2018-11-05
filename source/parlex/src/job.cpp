@@ -86,17 +86,7 @@ void job::update_progress(uint32_t const completed)
 	}
 }
 
-//void job::fast_breakout() {
-//	for (auto & pair : producers) {
-//		auto const & matchClass = pair.first;
-//		auto & producer = *pair.second;
-//		if (g.is_recognizer_left_recursive(matchClass.recognizer_index)) {
-//			producer.terminate(*this, matchClass);
-//		}
-//	}
-//}
-
-bool job::full_breakout() {
+bool job::breakout() {
 	std::vector<match_class> vertices;
 	std::map<match_class, size_t> lookup;
 	for (auto const & pair : producers) {
@@ -142,21 +132,15 @@ bool job::full_breakout() {
 }
 
 bool job::handle_deadlocks() {
-	//perf_timer perf(__func__);
-
-	//fast_breakout();
-
-	// Did fast_breakout free up any nodes to do some work?
 	if (!owner->work.empty()) {
 		return false;
 	}
 
-	return full_breakout();
+	return breakout();
 }
 
 //Construct an ASS, and if a solution was found, prunes unreachable nodes
 abstract_syntax_semilattice job::construct_result(match const & m) {
-	//perf_timer timer(__FUNCTION__);
 	auto result = abstract_syntax_semilattice(m);
 	for (auto const & pair : producers) {
 		auto const & matchClass = pair.first;
@@ -184,7 +168,6 @@ abstract_syntax_semilattice job::construct_result(match const & m) {
 
 
 abstract_syntax_semilattice job::construct_result_and_postprocess(uint16_t const overrideRootRecognizerIndex, std::vector<post_processor> const & posts, std::u32string const & document) {
-	//perf_timer perf(__func__);
 	auto result = construct_result(match(0, overrideRootRecognizerIndex, uint32_t(document.size())));
 	if (!posts.empty()) {
 		for (auto const & post : posts) {
