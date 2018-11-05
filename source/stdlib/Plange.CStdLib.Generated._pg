@@ -1,4 +1,3 @@
-/*
 extern <Pointer<Const<Char>> -> CInt> remove;
 extern <Pointer<Const<Char>> * Pointer<Const<Char>> -> CInt> rename;
 extern <CInt * Pointer<Const<Char>> * CInt * Pointer<Const<Char>> -> CInt> renameat;
@@ -38,11 +37,7 @@ extern <Pointer<Pointer<Char>> * Pointer<CInt> * CInt * FILEPointer -> CUnsigned
 extern <Pointer<Pointer<Char>> * Pointer<CInt> * CInt * FILEPointer -> CUnsignedInt> getdelim;
 extern <Pointer<Pointer<Char>> * Pointer<CInt> * FILEPointer -> CUnsignedInt> getline;
 extern <Pointer<Const<Char>> * FILEPointer -> CInt> fputs;
-*/
-
 extern <Pointer<Const<Char>> -> CInt> puts;
-
-/*
 extern <CInt * FILEPointer -> CInt> ungetc;
 extern <Pointer<Void> * CInt * CInt * FILEPointer -> CInt> fread;
 extern <Pointer<Const<Void>> * CInt * CInt * FILEPointer -> CInt> fwrite;
@@ -275,4 +270,3 @@ extern <CInt * CInt * ConstitimerspecPointer * itimerspecPointer -> CInt> timer_
 extern <CInt * itimerspecPointer -> CInt> timer_gettime;
 extern <CInt -> CInt> timer_getoverrun;
 extern <timespecPointer * CInt -> CInt> timespec_get;
-*/
