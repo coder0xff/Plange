@@ -10,34 +10,6 @@
 
 #include "grammar.hpp"
 
-//filter super delimiters
-//Any PAYLOAD that fully contains another PAYLOAD is not a PAYLOAD
-//static void payload_postprocess(parlex::detail::abstract_syntax_semilattice & asg) {
-//	std::set<parlex::detail::match> payloadMatches;
-//	for (auto const & entry : asg.derivations_of_matches) {
-//		if (entry.first.recognizer_index == plc::plange_grammar::get().PAYLOAD) {
-//			payloadMatches.insert(entry.first);
-//		}
-//	}
-//	std::set<parlex::detail::match> payloadsToCut;
-//	for (auto const & i : payloadMatches) {
-//		for (auto const & j : payloadMatches) {
-//			if (i < j || j < i) {
-//				int const iSpanLeft = i.document_position;
-//				int const iSpanRight = i.document_position + i.consumed_character_count - 1;
-//				int const jSpanLeft = j.document_position;
-//				int const jSpanRight = j.document_position + j.consumed_character_count - 1;
-//				if (iSpanLeft < jSpanLeft && iSpanRight >= jSpanLeft) {
-//					payloadsToCut.insert(i);
-//				} else if (iSpanLeft == jSpanLeft && iSpanRight > jSpanRight) {
-//					payloadsToCut.insert(i);
-//				}
-//			}
-//		}
-//	}
-//	asg.cut(payloadsToCut);
-//}
-
 static std::vector<std::set<parlex::detail::match>> matches_by_height(parlex::detail::abstract_syntax_semilattice const & asg) {
 	std::map<parlex::detail::match, std::set<parlex::detail::match>> reversedDependencies;
 	std::set<parlex::detail::match> pending;
