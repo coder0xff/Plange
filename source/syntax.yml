@@ -676,11 +676,11 @@ EXPONENTIATION_ASSIGNMENT:
 
 EXPRESSION:
     syntax: >
-        ARRAY | ASM_FUNCTION | BINARY_OP | BOOL | CAST | CEILING | COMPLEMENT | CONDITIONAL | DATE | DATE_TIME | DELTA | DIMENSIONAL_NUMBER | EMBEDDED_STRING | ENUM | EQUALITY | FLOOR | FUNCTION | GREATER | IDENTIFIER | IF | INVOCATION | LESSER | LIST | MAGNITUDE | MAP | MEMBER_ACCESS | NEAREST_INTEGER | NON_NEG_NUMBER | OBJECT | PARENTHETICAL | RANGE | REGEX | SET | SET_COMPREHENSION | SUBSET | SUPERSET | SWIZZLE | THIS | THIS_FUNC | THIS_TYPE | TIME | TUPLE | TYPE | UNARY_OP | VECTOR_NORM | "context" | "null" | c_string 
+        ARRAY | ASM_FUNCTION | BINARY_OP | BOOL | CAST | CEILING | COMPLEMENT | CONDITIONAL | DATE | DATE_TIME | DELTA | DIMENSIONAL_NUMBER | EMBEDDED_STRING | ENUM | EQUALITY | FLOOR | FUNCTION | GREATER | IDENTIFIER | IF | INVOCATION | LESSER | LIST | MAGNITUDE | MAP | MEMBER_ACCESS | NEAREST_INTEGER | NON_NEG_NUMBER | OBJECT | PARENTHETICAL | RANGE | REGEX | SET | SET_COMPREHENSION | SUBSET | SUPERSET | SWIZZLE | THIS | THIS_FUNC | THIS_TYPE | TIME | TUPLE | TYPE | UNARY_OP | VECTOR_NORM | "context" | "null" | "unit" | c_string 
     doc: >
-        a linearization of an evaluation tree containing constants, variables, operators, invocations, and sub expressions
+        an evaluation tree containing constants, variables, operators, invocations, and sub expressions
     notes: >
-        null is a literal and so is included in the syntax similarly to true, false and numeric literals (and unlike constants)
+        Context, null, and unit are literals and included in the syntax similarly to true, false and numeric literals (and unlike constants like "pi")
 
 FACTORIAL:
     syntax: >

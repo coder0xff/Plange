@@ -367,6 +367,8 @@ struct literal_true_t { };
 struct literal_try_t { };
 // "type"
 struct literal_type_t { };
+// "unit"
+struct literal_unit_t { };
 // "unstable"
 struct literal_unstable_t { };
 // "until"
@@ -3649,6 +3651,7 @@ typedef std::variant<
 	val<VECTOR_NORM>,
 	parlex::detail::document::text<literal_context_t>,
 	parlex::detail::document::text<literal_null_t>,
+	parlex::detail::document::text<literal_unit_t>,
 	parlex::detail::document::text<void>
 > EXPRESSION_base;
 
