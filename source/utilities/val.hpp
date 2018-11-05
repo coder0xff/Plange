@@ -354,30 +354,46 @@ public:
 
 	// ReSharper disable CppPossiblyUninitializedMember
 	// ReSharper disable CppNonExplicitConvertingConstructor
-	val(T const & v) : data(new val_detail::block(construct(v)), 0, &val_detail::op<T>) {}
+	val(T const & v) : data(new val_detail::block(construct(v)), 0, &val_detail::op<T>) {
+		memset(small_storage, 0, sizeof(small_storage) * sizeof(decltype(*small_storage)));
+	}
 
-	val(T && v) : data(new val_detail::block(construct(std::forward<T>(v))), 0, &val_detail::op<T>) {}
+	val(T && v) : data(new val_detail::block(construct(std::forward<T>(v))), 0, &val_detail::op<T>) {
+		memset(small_storage, 0, sizeof(small_storage) * sizeof(decltype(*small_storage)));
+	}
 
-	val(val const & other) : data(other.data.clone(0, emplacement_ptr(val_detail::small_storage_size<SIZE_MAX, T>))) {}
+	val(val const & other) : data(other.data.clone(0, emplacement_ptr(val_detail::small_storage_size<SIZE_MAX, T>))) {
+		memset(small_storage, 0, sizeof(small_storage) * sizeof(decltype(*small_storage)));
+	}
 
-	val(T * v) : data(new val_detail::block(v), 0, &val_detail::op<T>) {}
+	val(T * v) : data(new val_detail::block(v), 0, &val_detail::op<T>) {
+		memset(small_storage, 0, sizeof(small_storage) * sizeof(decltype(*small_storage)));
+	}
 	
 	// construct from type U that inherits T
 	template <typename U, typename std::enable_if<std::is_base_of<T, U>::value, int>::type = 0>
-	val(U const & v) : data(new val_detail::block(construct(v)), val_detail::compute_upcast_offset<T, U>, &val_detail::op<U>) {}
+	val(U const & v) : data(new val_detail::block(construct(v)), val_detail::compute_upcast_offset<T, U>, &val_detail::op<U>) {
+		memset(small_storage, 0, sizeof(small_storage) * sizeof(decltype(*small_storage)));
+	}
 
 	// construct from type U that inherits T
 	template <typename U, typename std::enable_if<std::is_base_of<T, U>::value, int>::type = 0>
 	// ReSharper disable once CppNonExplicitConvertingConstructor
-	val(U && v) : data(new val_detail::block(construct(v)), val_detail::compute_upcast_offset<T, U>, &val_detail::op<U>) {}  // NOLINT(misc-forwarding-reference-overload)
+	val(U && v) : data(new val_detail::block(construct(v)), val_detail::compute_upcast_offset<T, U>, &val_detail::op<U>) {
+		memset(small_storage, 0, sizeof(small_storage) * sizeof(decltype(*small_storage)));
+	}  // NOLINT(misc-forwarding-reference-overload)
 
 	// construct from val<U> where U inherits T
 	template <typename U, size_t SmallStorageSizeU, typename std::enable_if<std::is_base_of<T, U>::value, int>::type = 0>
-	val(val<U, SmallStorageSizeU> const & other) : data(other.data.clone(val_detail::compute_upcast_offset<T, U>, emplacement_ptr(other.data.get_size_of_data()))) {}
+	val(val<U, SmallStorageSizeU> const & other) : data(other.data.clone(val_detail::compute_upcast_offset<T, U>, emplacement_ptr(other.data.get_size_of_data()))) {
+		memset(small_storage, 0, sizeof(small_storage) * sizeof(decltype(*small_storage)));
+	}
 
 	// construct from val<U> where U inherits T
 	template <typename U, size_t SmallStorageSizeU, typename std::enable_if<std::is_base_of<U, T>::value && !std::is_same<T, U>::value, int>::type = 0>
-	val(val<U, SmallStorageSizeU> const & other) : data(other.data.clone(val_detail::compute_upcast_offset<T, U>, emplacement_ptr(other.data.get_size_of_data()))) {}
+	val(val<U, SmallStorageSizeU> const & other) : data(other.data.clone(val_detail::compute_upcast_offset<T, U>, emplacement_ptr(other.data.get_size_of_data()))) {
+		memset(small_storage, 0, sizeof(small_storage) * sizeof(decltype(*small_storage)));
+	}
 
 	// ReSharper restore CppPossiblyUninitializedMember
 	// ReSharper restore CppNonExplicitConvertingConstructor
