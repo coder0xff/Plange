@@ -7,7 +7,8 @@
 #include "errors.hpp"
 #include "plc_utils.hpp"
 #include "scope.hpp"
-#include "utf.hpp"
+
+#include "grammar.hpp"
 
 //filter super delimiters
 //Any PAYLOAD that fully contains another PAYLOAD is not a PAYLOAD
@@ -73,7 +74,9 @@ static std::vector<std::set<parlex::detail::match>> matches_by_height(parlex::de
 	return result;
 }
 
-plc::source_code::source_code(std::string const & pathname, std::u32string const & document) :
+namespace plc {
+
+source_code::source_code(std::string const & pathname, std::u32string const & document) :
 	pathname(pathname),
 	document(document),
 	line_number_by_first_character(construct_line_number_by_first_character(document)),
@@ -81,10 +84,14 @@ plc::source_code::source_code(std::string const & pathname, std::u32string const
 	representation(STATEMENT_SCOPE::build(ast)) {
 }
 
-plc::source_code::source_code(std::string const & pathname) : source_code(pathname, plc::read_utf_file(pathname)) {
+source_code::source_code(std::string const & pathname) : source_code(pathname, read_utf_file(pathname)) {
 }
 
-std::pair<uint32_t, uint32_t> plc::source_code::get_line_number_and_column(std::map<uint32_t, uint32_t> const & lineNumberByFirstCharacter, uint32_t const charIndex)
+STATEMENT_SCOPE source_code::get_representation() const {
+	return representation;
+}
+
+std::pair<uint32_t, uint32_t> source_code::get_line_number_and_column(std::map<uint32_t, uint32_t> const & lineNumberByFirstCharacter, uint32_t const charIndex)
 {
 	auto i = lineNumberByFirstCharacter.lower_bound(charIndex);
 	if (i != lineNumberByFirstCharacter.cend() && i->first == charIndex) {
@@ -96,16 +103,35 @@ std::pair<uint32_t, uint32_t> plc::source_code::get_line_number_and_column(std::
 
 }
 
-std::pair<uint32_t, uint32_t> plc::source_code::get_line_number_and_column(uint32_t const charIndex) const {
+std::pair<uint32_t, uint32_t> source_code::get_line_number_and_column(uint32_t const charIndex) const {
 	return get_line_number_and_column(line_number_by_first_character, charIndex);
 }
 
 
-std::string plc::source_code::describe_code_span(parlex::detail::match const & m) const {
-	return describe_code_span(m, line_number_by_first_character, pathname);
+std::string source_code::describe_code_span(int32_t firstCharacter, int32_t lastCharacter) const {
+	return describe_code_span(firstCharacter, lastCharacter, line_number_by_first_character, pathname);
 }
 
-std::map<uint32_t, uint32_t> plc::source_code::construct_line_number_by_first_character(std::u32string const & document) {
+std::u32string source_code::get_xml_doc_string(XML_DOC_STRING const & v) const {
+	struct visitor {
+		XML_DOC_STRING_INTERIOR const * operator()(XML_DOC_STRING_INTERIOR_t const & v) const {
+			return &*v.interior;
+		}
+
+		XML_DOC_STRING_INTERIOR const *  operator()(val<PAYLOAD>) const {
+			return nullptr;
+		}
+	};
+	auto current = &*v.interior;
+	auto previous = current;
+	while ((current = std::visit(visitor(), *(XML_DOC_STRING_INTERIOR_base *)current))) {
+		previous = current;
+	}
+	auto const & payload = *std::get<val<PAYLOAD>>(*(XML_DOC_STRING_INTERIOR_base *)previous);
+	return get_substring(payload);
+}
+
+std::map<uint32_t, uint32_t> source_code::construct_line_number_by_first_character(std::u32string const & document) {
 	//compute line number lookup table
 	std::map<uint32_t, uint32_t> result;
 	intmax_t pos = 0;
@@ -117,12 +143,10 @@ std::map<uint32_t, uint32_t> plc::source_code::construct_line_number_by_first_ch
 	return result;
 }
 
-std::string plc::source_code::describe_code_span(parlex::detail::match const & m, std::map<uint32_t, uint32_t> const & lineNumberByFirstCharacter, std::string const & pathname)
-{
-	auto result = pathname.empty() ? "[generated]" : pathname;
-	result += ":";
-	auto const start = get_line_number_and_column(lineNumberByFirstCharacter, m.document_position);
-	auto const end = get_line_number_and_column(lineNumberByFirstCharacter, m.document_position + m.consumed_character_count - 1);
+std::string source_code::describe_code_span(int32_t firstCharacter, int32_t lastCharacter, std::map<uint32_t, uint32_t> const & lineNumberByFirstCharacter) {
+	std::string result;
+	auto const start = get_line_number_and_column(lineNumberByFirstCharacter, firstCharacter);
+	auto const end = get_line_number_and_column(lineNumberByFirstCharacter, lastCharacter);
 	result += std::to_string(start.first + 1) + ":" + std::to_string(start.second) + "-";
 	if (end.first == start.first) {
 		result += std::to_string(end.second);
@@ -130,10 +154,24 @@ std::string plc::source_code::describe_code_span(parlex::detail::match const & m
 		result += std::to_string(end.first + 1) + ":" + std::to_string(end.second);
 	}
 	return result;
-
 }
 
-parlex::detail::abstract_syntax_tree plc::source_code::construct_ast(std::u32string const & document, parlex::detail::recognizer const & recognizer, std::string const & pathname) {
+std::string source_code::describe_code_span(int32_t firstCharacter, int32_t lastCharacter, std::map<uint32_t, uint32_t> const & lineNumberByFirstCharacter, std::string const & pathname)
+{
+	auto result = pathname.empty() ? "[generated]" : pathname;
+	result += ":";
+	auto const start = get_line_number_and_column(lineNumberByFirstCharacter, firstCharacter);
+	auto const end = get_line_number_and_column(lineNumberByFirstCharacter, lastCharacter);
+	result += std::to_string(start.first + 1) + ":" + std::to_string(start.second) + "-";
+	if (end.first == start.first) {
+		result += std::to_string(end.second);
+	} else {
+		result += std::to_string(end.first + 1) + ":" + std::to_string(end.second);
+	}
+	return result;
+}
+
+parlex::detail::abstract_syntax_tree source_code::construct_ast(std::u32string const & document, parlex::detail::recognizer const & recognizer, std::string const & pathname) {
 	auto const lineNumberByFirstCharacter(construct_line_number_by_first_character(document));
 	static parlex::detail::parser p;
 	auto assl = p.parse(plange_grammar::get(), recognizer, document);
@@ -142,7 +180,7 @@ parlex::detail::abstract_syntax_tree plc::source_code::construct_ast(std::u32str
 		parlex::detail::match const * lastValidStatement =  nullptr;
 		for (auto const & tableEntry : assl.derivations_of_matches) {
 			auto const & m = tableEntry.first;
-			if (plc::plange_grammar::get().get_recognizer(m.recognizer_index).name == "STATEMENT") {
+			if (plange_grammar::get().get_recognizer(m.recognizer_index).name == "STATEMENT") {
 				if (lastValidStatement == nullptr || m.document_position + m.consumed_character_count > lastValidStatement->document_position + lastValidStatement->consumed_character_count) {
 					lastValidStatement = &m;
 				}
@@ -151,7 +189,9 @@ parlex::detail::abstract_syntax_tree plc::source_code::construct_ast(std::u32str
 		if (lastValidStatement == nullptr) {
 			ERROR(CouldNotParse, pathname);
 		} else {
-			auto const description = pathname + " last valid statement: " + describe_code_span(*lastValidStatement, lineNumberByFirstCharacter, pathname);
+			auto const firstCharacter = lastValidStatement->document_position;
+			auto const lastCharacter = lastValidStatement->document_position + lastValidStatement->consumed_character_count - 1;
+			auto const description = pathname + " last valid statement: " + describe_code_span(firstCharacter, lastCharacter, lineNumberByFirstCharacter, pathname);
 			ERROR(CouldNotParse, description);
 		}
 	}
@@ -168,16 +208,16 @@ parlex::detail::abstract_syntax_tree plc::source_code::construct_ast(std::u32str
 					auto const posEnd = get_line_number_and_column(lineNumberByFirstCharacter, m.document_position + m.consumed_character_count - 1);
 					std::string message;
 					if (posStart.first == posEnd.first) {
-						message = pathname + ":" + plc::plange_grammar::get().get_recognizer(m.recognizer_index).name + " at " + std::to_string(posStart.first + 1) + ":" + std::to_string(posStart.second + 1) + "-" + std::to_string(posEnd.second + 1);
+						message = pathname + ":" + plange_grammar::get().get_recognizer(m.recognizer_index).name + " at " + std::to_string(posStart.first + 1) + ":" + std::to_string(posStart.second + 1) + "-" + std::to_string(posEnd.second + 1);
 					}
 					else {
-						message = pathname + ":" + plc::plange_grammar::get().get_recognizer(m.recognizer_index).name + " at " + std::to_string(posStart.first + 1) + ":" + std::to_string(posStart.second + 1) + "-" + std::to_string(posEnd.first + 1) + ":" + std::to_string(posEnd.second + 1);
+						message = pathname + ":" + plange_grammar::get().get_recognizer(m.recognizer_index).name + " at " + std::to_string(posStart.first + 1) + ":" + std::to_string(posStart.second + 1) + "-" + std::to_string(posEnd.first + 1) + ":" + std::to_string(posEnd.second + 1);
 					}
 					for (auto const & derivation : derivations) {
 						message += "\n";
-						message += "derivation: ";
+						message += "derivation: \n";
 						for (auto const & childMatch : derivation) {
-							message += plc::plange_grammar::get().get_recognizer(childMatch.recognizer_index).name + " ";
+							message += "\t" + plange_grammar::get().get_recognizer(childMatch.recognizer_index).name + " (" + describe_code_span(childMatch.document_position, childMatch.document_position + childMatch.consumed_character_count - 1, lineNumberByFirstCharacter) + ")\n";
 						}
 						message = message.substr(0, message.length() - 1);
 					}
@@ -193,4 +233,8 @@ parlex::detail::abstract_syntax_tree plc::source_code::construct_ast(std::u32str
 	return assl.tree();
 }
 
+std::u32string const & source_code::get_document() const {
+	return document;
+}
 
+}

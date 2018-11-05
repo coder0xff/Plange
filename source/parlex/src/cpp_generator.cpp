@@ -210,7 +210,7 @@ static std::string generate_struct_constructor_parameters(
 			                       } else {
 				                       needsComma = true;
 			                       }
-			                       ss << t.name << " && " << flattenedDataMember.first;
+			                       ss << t.name << " const & " << flattenedDataMember.first;
 		                       }
 		);
 	}
@@ -230,8 +230,8 @@ static std::string generate_struct_constructor_initializers(
 			                       } else {
 				                       needsComma = true;
 			                       }
-			                       ss << flattenedDataMember.first << "(std::move(" << flattenedDataMember.first <<
-				                       "))";
+			                       ss << flattenedDataMember.first << "(" << flattenedDataMember.first <<
+				                       ")";
 		                       }
 		);
 	}
@@ -271,7 +271,7 @@ static std::string generate_struct_build_moves(detail::aggregate::data_members_t
 			                       } else {
 				                       needsComma = true;
 			                       }
-			                       ss << "std::move(v" << counter++ << ")";
+			                       ss << "v" << counter++;
 		                       }
 		);
 	}
@@ -367,7 +367,7 @@ static std::string generate_production_builder_initializer(production const & p)
 }
 
 // Generate a function that returns the grammar_builder.
-static std::string generate_x_builder_cpp_inc(builder const & b) {
+static std::string generate_builder(builder const & b) {
 	std::stringstream source;
 	for (auto const & p : b.productions) {
 		source << "static parlex::production " << p.name << "() {\n";
@@ -516,7 +516,6 @@ static std::string generate_struct_declaration(bool const isProduction, std::str
 	}
 	declaration << " {}\n\n";
 	declaration << "\t" << name << "(" << name << " const & other) = default;\n";
-	declaration << "\t" << name << "(" << name << " && move) = default;\n\n";
 	declaration << "\tstatic " << name << " build(";
 	declaration << generate_struct_build_parameters(isProduction);
 	declaration << ");\n";
@@ -921,35 +920,18 @@ static std::set<std::u32string> get_literals(builder const & b) {
 
 #pragma endregion
 
-cpp_generator::output_files generate_literals(std::string const & name, std::list<std::string> const & namespaces,
-                                              builder const & b, std::map<std::u32string, std::string> & mapping) {
-	cpp_generator::output_files results;
-	auto & headers = results.headers;
-
-	auto const headerName = "_" + name + "_literals" + ".hpp";
-
+void generate_literals(builder const & b, std::map<std::u32string, std::string> & mapping, std::string & hpp) {
 	auto literals = get_literals(b);
 	for (auto const & literal : literals) {
 		mapping[literal] = string_to_c_name("literal_", to_utf8(literal)) + "_t";
 	}
-
-	std::stringstream header;
-	header << include_guard_start(name + "_literals");
-	header << "#include \"parlex/detail/document.hpp\"\n\n";
-	header << namespaces_start(namespaces);
-	header << "\n";
-	header << generate_literal_declarations(mapping);
-	header << namespaces_end(namespaces);
-	header << include_guard_end(name + "_literals");
-	headers[headerName] = header.str();
-
-	return results;
+	hpp += generate_literal_declarations(mapping);
 }
 
 void tag_all_literals(val<detail::node> & n) {
 	auto asUnit = dynamic_cast<detail::unit *>(&*n);
 	if (asUnit != nullptr) {
-		if (asUnit->tag == "") {
+		if (asUnit->tag.empty()) {
 			auto const originalAsLiteral = dynamic_cast<literal const *>(&asUnit->original_leaf);
 			if (originalAsLiteral != nullptr) {
 				asUnit->tag = string_to_c_name("literal_", to_utf8(originalAsLiteral->content));
@@ -962,13 +944,9 @@ void tag_all_literals(val<detail::node> & n) {
 }
 
 // generate a production's .cpp and .hpp file
-static cpp_generator::output_files generate_production_struct(std::string const & grammarName,
+static void generate_production_struct(std::string const & grammarName,
                                                               std::list<std::string> const & namespaces,
-                                                              production const & p) {
-	cpp_generator::output_files results;
-	auto & headers = results.headers;
-	auto & sources = results.sources;
-
+                                                              production const & p, std::string & hpp, std::string & cpp) {
 	std::vector<std::string> subResults;
 	auto representation = compute_document_representation(p.behavior);
 	tag_all_literals(representation);
@@ -979,36 +957,8 @@ static cpp_generator::output_files generate_production_struct(std::string const 
 	                              builderDefinitions, fullyDefined);
 	std::stringstream header;
 	std::stringstream source;
-	auto headerName = p.name + ".hpp";
-	header << GENERATED_NOTICE;
-	source << GENERATED_NOTICE;
-	source << "#include \"" << headerName << "\"\n\n";
-	source << "#include \"" << grammar_header_name(grammarName) << "\"\n\n";
-	source << "#include \"parlex/detail/document.hpp\"\n";
-
-	header << include_guard_start(p.name);
-	header << "#include <optional>\n";
-	header << "#include <variant>\n";
-	header << "#include <vector>\n\n";
-	header << "#include \"val.hpp\"\n\n";
-	header << "#include \"parlex/detail/abstract_syntax_tree.hpp\"\n";
-	header << "#include \"parlex/detail/builtins.hpp\"\n";
-	header << "#include \"parlex/detail/document.hpp\"\n\n";
-	header << "#include \"" << grammarName << "_grammar.hpp\"\n\n";
-	header << namespaces_start(namespaces) << "\n";
 	covariant_invoke<void>(*flattened,
 	                       [&](type const & value) {
-		                       for (auto const & forwardDeclaration : forwardDeclarations) {
-			                       if (forwardDeclaration == "c_string") {
-				                       continue;
-			                       }
-			                       header << "struct " << forwardDeclaration << ";\n";
-			                       source << "#include \"" << forwardDeclaration << ".hpp\"\n";
-		                       }
-		                       if (!forwardDeclarations.empty()) {
-			                       header << "\n";
-			                       source << "\n";
-		                       }
 		                       for (auto const & subResult : subResults) {
 			                       header << subResult << "\n\n";
 		                       }
@@ -1023,7 +973,7 @@ static cpp_generator::output_files generate_production_struct(std::string const 
 			                       header << "\tstatic parlex::detail::acceptor const & acceptor();\n";
 			                       header << "};";
 
-			                       source << "#include \"" << headerName << "\"\n\n";
+			                       //source << "#include \"" << headerName << "\"\n\n";
 			                       source << namespaces_start(namespaces) << "\n";
 			                       source << p.name << " " << p.name <<
 				                       "::build(parlex::detail::ast_node const & n) {\n";
@@ -1038,7 +988,6 @@ static cpp_generator::output_files generate_production_struct(std::string const 
 		                       for (auto const & builderDefinition : builderDefinitions) {
 			                       source << builderDefinition << "\n";
 		                       }
-		                       source << "\n";
 		                       source << "parlex::detail::acceptor const & plc::" << p.name << "::acceptor() {\n";
 		                       source <<
 			                       "\tstatic auto const & result = *static_cast<parlex::detail::acceptor const *>(&"
@@ -1055,25 +1004,18 @@ static cpp_generator::output_files generate_production_struct(std::string const 
 		                       header << "};";
 	                       }
 	);
-	header << "\n" << namespaces_end(namespaces) << "\n";
-	header << include_guard_end(p.name);
-	headers[headerName] = header.str();
-	sources[p.name + ".cpp"] = source.str();
-	return results;
+
+	source << "\n";
+	header << "\n";
+	hpp += header.str();
+	cpp += source.str();
 }
 
 //generate text for the grammar's .hpp.inc file
-std::string generate_grammar_hpp_inc(std::string const & name, std::list<std::string> const & namespaces,
+std::string generate_hpp(std::string const & name, std::list<std::string> const & namespaces,
                                      builder const & b) {
 	auto const fullName = name + "_grammar";
 	std::stringstream header;
-	header << GENERATED_NOTICE;
-	header << include_guard_start(fullName);
-	header << "#include \"parlex/builder.hpp\"\n";
-	header << "#include \"parlex/detail/builtins.hpp\"\n";
-	header << "#include \"parlex/detail/grammar.hpp\"\n\n";
-	header << "#include \"_" << name << "_literals.hpp\"\n\n";
-	header << namespaces_start(namespaces) << "\n";
 	header << "class " << fullName << " : public parlex::detail::grammar {\n";
 	header << "public:\n";
 	header << "\tstatic " << fullName << " const & get() {\n";
@@ -1084,51 +1026,83 @@ std::string generate_grammar_hpp_inc(std::string const & name, std::list<std::st
 	header << "private:\n";
 	header << "\t" << fullName << "();\n\n";
 	header << "};\n\n";
-	header << namespaces_end(namespaces) << "\n";
-	header << include_guard_end(fullName);
 	return header.str();
 }
 
-//generate text for the grammar's .cpp.inc file
-std::string generate_grammar_cpp_inc(std::string const & name, builder const & b) {
+std::string generate_grammar(std::string const & name, builder const & b) {
 	auto const fullName = name + "_grammar";
-	auto const hppName = "_" + fullName + ".hpp.inc";
-	auto const builderCppName = "_" + fullName + "_builder.cpp.inc";
 
 	std::stringstream source;
-	source << "#include \"" << hppName << "\"\n";
-	source << "#include \"" << builderCppName << "\"\n\n";
 	source << fullName << "::" << fullName << "() : grammar(builder()),\n";
 	source << generate_production_member_initializers(b);
 	source << "\n{}";
 	return source.str();
 }
 
-cpp_generator::output_files generate_grammar(std::string const & name, std::list<std::string> const & namespaces,
-                                             builder const & b) {
-	cpp_generator::output_files results;
-	auto & headers = results.headers;
-	auto & sources = results.sources;
-
-	auto const fullName = "_" + name + "_grammar";
-
-	headers[fullName + ".hpp.inc"] = generate_grammar_hpp_inc(name, namespaces, b);
-	sources[fullName + "_builder.cpp.inc"] = generate_x_builder_cpp_inc(b);
-	sources[fullName + ".cpp.inc"] = generate_grammar_cpp_inc(name, b);
-
-	return results;
+void generate_grammar(std::string const & name, std::list<std::string> const & namespaces,
+                                             builder const & b, std::string & hpp, std::string & cpp) {
+	hpp += generate_hpp(name, namespaces, b);
+	cpp += generate_builder(b);
+	cpp += "\n";
+	cpp += generate_grammar(name, b);
 }
 
 cpp_generator::output_files cpp_generator::generate(std::string const & name,
                                                     std::list<std::string> const & namespaces, builder const & b) {
-	output_files results;
+	std::string hpp, cpp;
+
+	hpp += GENERATED_NOTICE;
+	hpp += include_guard_start(name);
+
+	hpp += "#include <optional>\n";
+	hpp += "#include <variant>\n";
+	hpp += "#include <vector>\n\n";
+	hpp += "#include \"val.hpp\"\n\n";
+	hpp += "#include \"parlex/detail/abstract_syntax_tree.hpp\"\n";
+	hpp += "#include \"parlex/detail/acceptor.hpp\"\n";
+	hpp += "#include \"parlex/detail/builtins.hpp\"\n";
+	hpp += "#include \"parlex/detail/document.hpp\"\n";
+	hpp += "#include \"parlex/detail/grammar.hpp\"\n";
+	hpp += "\n";
+
+	hpp += namespaces_start(namespaces) + "\n";
+
+	{
+		std::map<std::u32string, std::string> literalMap;
+		generate_literals(b, literalMap, hpp);
+	}
+	hpp += "\n";
 
 	for (auto const & production : b.productions) {
-		results.add(generate_production_struct(name, namespaces, production));
+		hpp += "struct " + production.name + ";\n";
 	}
-	std::map<std::u32string, std::string> literalMap;
-	results.add(generate_literals(name, namespaces, b, literalMap));
-	results.add(generate_grammar(name, namespaces, b));
+	hpp += "\n";
+
+	cpp += GENERATED_NOTICE;
+	cpp += "#include \"grammar.hpp\"\n\n";
+	cpp += "#include \"parlex/detail/document.hpp\"\n";
+	cpp += namespaces_start(namespaces) + "\n";
+
+	for (auto const & production : b.productions) {
+		generate_production_struct(name, {}, production, hpp, cpp);
+	}
+
+	generate_grammar(name, namespaces, b, hpp, cpp);
+
+	cpp += "\n";
+
+	hpp += namespaces_end(namespaces);
+	hpp += include_guard_end(name);
+
+	cpp += namespaces_end(namespaces);
+
+	output_files results;
+	results.headers["grammar.hpp"] = hpp;
+	results.sources["grammar.cpp"] = cpp;
+
+	//std::map<std::u32string, std::string> literalMap;
+	//results.add(generate_literals(name, namespaces, b, literalMap));
+	//results.add(generate_grammar(name, namespaces, b));
 
 	return results;
 }

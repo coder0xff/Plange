@@ -5,19 +5,18 @@
 #include "gtest/gtest.h"
 
 #include "parlex/detail/parser.hpp"
-#include "perf_timer.hpp"
 #include "utf.hpp"
 
-#include "BINARY_LOGICAL_OP.hpp"
-#include "BINARY_OP.hpp"
-#include "EXPRESSION.hpp"
-#include "MAPS_TO.hpp"
-#include "MULTIPLICATION.hpp"
-#include "STATEMENT.hpp"
-#include "TYPE_CONSTRAINT.hpp"
-
+#include "grammar.hpp"
 #include "module.hpp"
 #include "plc_utils.hpp"
+
+
+#ifdef _MSC_VER
+#	define EXECUTABLE_EXTENSION ".exe"
+#else
+#	define EXECUTABLE_EXTENSION ""
+#endif
 
 static std::string const & stdlibs_dir() {
 	static auto result = to_utf8(canonical(std::experimental::filesystem::path(__FILE__).remove_filename().append("/../../stdlib/"))) + std::string("/");
@@ -70,6 +69,10 @@ TEST(PlcCompiler, ParseHelloWorld) {
 	auto result = plc::compiler::parse(U"print(\"Hello, world!\");");
 }
 
+TEST(PlcCompiler, ParseDefinition) {
+	auto result = plc::compiler::parse(U"x:=1;");
+}
+
 TEST(PlcCompiler, ParseType) {
 	auto const source = U"myType := type {"
 		"    public <Int> aVariable;"
@@ -81,6 +84,21 @@ TEST(PlcCompiler, ParseType) {
 TEST(PlcCompiler, ParseFILEPointer) {
 	auto const source = U"FILEPointer := type_abstraction(Pointer<Void>);\n";
 	auto result = plc::compiler::parse(source);
+}
+
+TEST(PlcCompiler, ParseInvocation) {
+	auto const source = U"x()";
+	plc::source_code::parse<plc::INVOCATION>(source);
+}
+
+TEST(PlcCompiler, ParentheticalInvocation) {
+	auto const source = U"()";
+	plc::source_code::parse<plc::PARENTHETICAL_INVOCATION>(source);
+}
+
+TEST(PlcCompiler, ParseIdentifier) {
+	auto const source = U"x";
+	plc::source_code::parse<plc::IDENTIFIER>(source);
 }
 
 TEST(PlcCompiler, ParsePrintHelloWorld) {
@@ -100,6 +118,15 @@ TEST(PlcCompiler, ParseAddAssign) {
 
 TEST(PlcCompiler, ParseAddAssign2) {
 	auto const source = U"x←a+b;";
+	parlex::detail::parser p(1);
+	auto assl = p.parse(plc::plange_grammar::get(), source);
+	ASSERT_TRUE(assl.is_rooted());
+	ASSERT_TRUE(assl.variation_count() == 1);
+	auto ast = assl.tree();
+}
+
+TEST(PlcCompiler, ParseTypeWithMemberOffset) {
+	auto const source = U"type {<a>b@0;};";
 	parlex::detail::parser p(1);
 	auto assl = p.parse(plc::plange_grammar::get(), source);
 	ASSERT_TRUE(assl.is_rooted());
@@ -167,3 +194,17 @@ TEST(PlcCompiler, LoadIntToStringExample) {
 //
 //	parse_example("intToStringStressTest.pge");
 //}
+
+static void run_example(std::string const & exampleName, std::string const & expectedOutput) {
+	auto const tempDir = to_utf8(canonical(std::experimental::filesystem::temp_directory_path()));
+	auto const outputFilename = tempDir + "/" + exampleName + EXECUTABLE_EXTENSION;
+	plc::compiler::build(outputFilename, { examples_dir() + exampleName });
+	auto const result = exec(outputFilename);
+	ASSERT_EQ(0, result.second);
+	ASSERT_EQ(expectedOutput, result.first);
+	std::experimental::filesystem::remove(outputFilename);
+}
+
+TEST(PlcCompiler, PutsHelloWorld) {
+	run_example("putsHelloWorld.pge", "Hello, world!");
+}

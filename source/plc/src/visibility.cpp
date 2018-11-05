@@ -1,6 +1,7 @@
 #include "visibility.hpp"
+#include "parlex/detail/document.hpp"
 
-#include "VISIBILITY_MODIFIER.hpp"
+#include "grammar.hpp"
 
 namespace plc {
 

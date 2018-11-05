@@ -127,7 +127,7 @@ int main(int const argc, const char* argv[]) {
 	auto const g = parlex::wirth().load_grammar("STATEMENT_SCOPE", defs);
 	auto const files = parlex::cpp_generator::generate("plange", { "plc" }, g);
 
-	write_files(workingDir + "/plc/include/document", files.headers);
-	write_files(workingDir + "/plc/src/document", files.sources);
+	write_files(workingDir + "/plc/include", files.headers);
+	write_files(workingDir + "/plc/src", files.sources);
 
 }

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?> 
+<AutoVisualizer xmlns="http://schemas.microsoft.com/vstudio/debugger/natvis/2010">
+  <Type Name="val&lt;*&gt;">
+    <Expand>
+      <Item Name="data">($T1 *)(void*)((char *)(*((std::_Atomic_address*)&amp;data.descriptor.block_ptr->data))._My_val + data.descriptor.upcast_offset)
+      </Item>
+    </Expand>
+  </Type>
+
+  <Type Name="ptr&lt;*&gt;">
+    <Expand>
+      <Item Name="data">($T1 *)(void*)((char *)(*((std::_Atomic_address*)&amp;descriptor.block_ptr->data))._My_val + descriptor.upcast_offset)
+      </Item>
+    </Expand>
+  </Type>
+
+</AutoVisualizer>

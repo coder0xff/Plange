@@ -3,10 +3,11 @@
 
 #include <atomic>
 #include <cassert>
-#include <functional>
+#include <cstring>
 #include <iostream>
 #include <memory>
 #include <mutex>
+#include <optional>
 
 template <typename T>
 class ptr;
@@ -18,7 +19,6 @@ namespace val_detail {
 
 	enum operation {
 		CLONE,
-		MOVE,
 		DELETE,
 		DESTRUCT,
 		SIZE,
@@ -29,7 +29,9 @@ namespace val_detail {
 		std::atomic<intptr_t> count;
 		std::atomic<void *> data; // Ensure that propagation of this value to other threads is immediate
 
-		block(void * d) : count(0), data(d) {}
+		block(void * d) : count(0), data(d) {
+			assert(d);
+		}
 
 		void increment() {
 			count.fetch_add(1);
@@ -38,7 +40,7 @@ namespace val_detail {
 		void decrement() {
 			if (count.fetch_sub(1) == 1) {
 				delete this;
-			};
+			}
 		}
 	};
 
@@ -75,40 +77,19 @@ namespace val_detail {
 		}
 	};
 
-	template <typename T, bool IsMovable>
-	struct move_impl {
-		static_assert(IsMovable != IsMovable, "template specialization failed");
-	};
-
-	template <typename T>
-	struct move_impl<T, true> {
-		static T * move(T const * data, void * placement) {
-			if (placement == nullptr) {
-				return new T(std::move(*data));
-			}
-			return new (placement) T(std::move(*data));
-		}
-	};
-
-	template <typename T>
-	struct move_impl<T, false> {
-		static T * move(T const * data, void * placement) {
-			abort();
-		}
-	};
-
 	template <typename T>
 	static intptr_t op(operation o, void const * value, void * placement) {
 		auto const data = static_cast<T const *>(value);
 		switch (o) {
 		case CLONE:
+			assert(data);
 			return reinterpret_cast<intptr_t>(clone_impl<T, std::is_copy_constructible<T>::value>::clone(data, placement));
-		case MOVE:
-			return reinterpret_cast<intptr_t>(move_impl<T, std::is_move_constructible<T>::value>::move(data, placement));
 		case DELETE:
+			assert(data);
 			delete data; // virtual destruction is unneeded and bypassed because we always work with the most-derived perspective
 			return 0;
 		case DESTRUCT:
+			assert(data);
 			data->~T(); // virtual destruction is unneeded and bypassed because we always work with the most-derived perspective
 			return 0;
 		case SIZE:
@@ -121,10 +102,6 @@ namespace val_detail {
 
 	static void * clone(op_sig const & op_ptr, void const * value, void * placement) {
 		return reinterpret_cast<void *>(op_ptr(CLONE, value, placement));
-	}
-
-	static void * move(op_sig const & op_ptr, void const * value, void * placement) {
-		return reinterpret_cast<void *>(op_ptr(MOVE, value, placement));
 	}
 
 	static void delete_(op_sig const & op_ptr, void const * value) {
@@ -165,7 +142,7 @@ namespace val_detail {
 	struct emit_heap_warning_imp {
 		static void emit_heap_warning(char const * const u_name) {
 #if !NDEBUG
-			std::cerr << "Warning: a val allocated heap storage. Use the SmallStorageSize type parameter to improve locality. Type T is unknown. Type U is " << u_name << ".\n";
+			//std::cerr << "Warning: a val allocated heap storage. Use the SmallStorageSize type parameter to improve locality. Type T is unknown. Type U is " << u_name << ".\n";
 #endif
 		}
 	};
@@ -174,7 +151,7 @@ namespace val_detail {
 	struct emit_heap_warning_imp<T, typename std::enable_if<is_defined<T>, T>::type> {
 		static void emit_heap_warning(char const * const u_name) {
 #if !NDEBUG
-			std::cerr << "Warning: a val allocated heap storage. Use the SmallStorageSize type parameter to improve locality. Type T is " << typeid(T).name() << ". Type U is " << u_name << ".\n";
+			//std::cerr << "Warning: a val allocated heap storage. Use the SmallStorageSize type parameter to improve locality. Type T is " << typeid(T).name() << ". Type U is " << u_name << ".\n";
 #endif
 		}
 	};
@@ -187,7 +164,7 @@ namespace val_detail {
 	template <typename T, typename U>
 	void emit_heap_warning2() {
 #if !NDEBUG
-		std::cerr << "Warning: a val allocated heap storage. Use the SmallStorageSize type parameter to improve locality. Type T is " << typeid(T).name() << ". Type U is " << typeid(U).name() << ".\n";
+		//std::cerr << "Warning: a val allocated heap storage. Use the SmallStorageSize type parameter to improve locality. Type T is " << typeid(T).name() << ". Type U is " << typeid(U).name() << ".\n";
 #endif
 	}
 }
@@ -211,8 +188,8 @@ public:
 	// copy constructor
 	ptr(ptr const & other) {
 		const descriptor_t d = other.get_descriptor();
-		descriptor_ = d;
-		descriptor_.block_ptr->increment();
+		descriptor = d;
+		descriptor.block_ptr->increment();
 	}
 
 	ptr& operator =(ptr other) {
@@ -228,14 +205,13 @@ public:
 		d.block_ptr->decrement();
 	}
 
-	// construct from ref<U> where U inherits T
+	// construct from ptr<U> where U inherits T
 	template <typename U, typename std::enable_if<std::is_base_of<T, U>::value, int>::type = 0>
-	explicit ptr(ptr<U> const & other) {
-		descriptor_ = other.get_descriptor();
-		descriptor_.block_ptr->increment();
-		descriptor_.upcast_offset += val_detail::compute_upcast_offset<T, U>;
+	ptr(ptr<U> const & other) {
+		descriptor = other.get_descriptor();
+		descriptor.block_ptr->increment();
+		descriptor.upcast_offset += val_detail::compute_upcast_offset<T, U>;
 	}
-
 
 	template <typename U, typename std::enable_if<std::is_base_of<T, U>::value, int>::type = 0>
 	ptr& operator =(ptr<U> other) {
@@ -245,6 +221,35 @@ public:
 		auto old_descriptor = exchange_descriptor(new_descriptor);
 		old_descriptor.block_ptr->decrement();
 		return *this;
+	}
+
+	template <typename U, size_t SmallStorageSizeU, typename std::enable_if<std::is_base_of<T, U>::value, int>::type = 0>
+	ptr(val<U, SmallStorageSizeU> const & other) {
+		descriptor = other.data.get_descriptor();
+		descriptor.block_ptr->increment();
+		descriptor.upcast_offset += val_detail::compute_upcast_offset<T, U>;
+	}
+
+	template <typename U, size_t SmallStorageSizeU, typename std::enable_if<std::is_base_of<U, T>::value && !std::is_same<U, T>::value, int>::type = 0>
+	explicit ptr(val<U, SmallStorageSizeU> const & other) {
+		auto result = dynamic_cast<T*>(&*other);
+		if (result == nullptr) {
+			throw;
+		}
+		descriptor = other.data.get_descriptor();
+		descriptor.block_ptr->increment();
+		descriptor.upcast_offset -= val_detail::compute_upcast_offset<T, U>;
+	}
+
+	template <typename U, typename std::enable_if<std::is_base_of<U, T>::value, int>::type = 0>
+	explicit ptr(ptr<U> const & other) {
+		U * result = dynamic_cast<U*>(&*other);
+		if (result == nullptr) {
+			throw;
+		}
+		descriptor = other.get_descriptor();
+		descriptor.block_ptr->increment();
+		descriptor.upcast_offset -= val_detail::compute_upcast_offset<T, U>;
 	}
 
 	T* operator ->() const {
@@ -260,26 +265,26 @@ public:
 	}
 
 private:
-	descriptor_t descriptor_;
+	descriptor_t descriptor;
 	mutable std::mutex m;
 
-	explicit ptr(descriptor_t const & d) : descriptor_(d) {
+	explicit ptr(descriptor_t const & d) : descriptor(d) {
 		d.block_ptr->increment();
 	}
 
-	ptr(val_detail::block * b, size_t upcast_offset, val_detail::op_sig op_ptr) : descriptor_{ b, upcast_offset, op_ptr } {
+	ptr(val_detail::block * b, size_t upcast_offset, val_detail::op_sig op_ptr) : descriptor{ b, upcast_offset, op_ptr } {
 		b->increment();
 	}
 
 	descriptor_t get_descriptor() const {
 		std::unique_lock<std::mutex> lock(m);
-		return descriptor_;
+		return descriptor;
 	}
 
 	descriptor_t exchange_descriptor(descriptor_t const & v) {
 		std::unique_lock<std::mutex> lock(m);
-		const auto saved = descriptor_;
-		descriptor_ = v;
+		const auto saved = descriptor;
+		descriptor = v;
 		return saved;
 	}
 
@@ -289,7 +294,7 @@ private:
 			char const * const uName = val_detail::type(d.op_ptr);
 			val_detail::emit_heap_warning<T>(uName);
 		}
-		const auto cloned = val_detail::clone(d.op_ptr, static_cast<void *>(d.block_ptr->data), placement);
+		const auto cloned = val_detail::clone(d.op_ptr, d.block_ptr->data.load(), placement);
 		return descriptor_t{ new block(cloned), d.upcast_offset + upcast_offset, d.op_ptr };
 	}
 
@@ -300,10 +305,14 @@ private:
 
 };
 
+template<typename T>
+using nptr = std::optional<ptr<T>>;
 
 // value semantic type erasure via base types
 template<typename T, size_t SmallStorageSize = val_detail::small_storage_size<16, T>>
 class val {  // NOLINT(cppcoreguidelines-special-member-functions, cppcoreguidelines-special-member-functions, hicpp-special-member-functions)
+	template <typename>
+	friend class ptr;
 
 	template <typename, size_t>
 	friend class val;
@@ -313,6 +322,7 @@ class val {  // NOLINT(cppcoreguidelines-special-member-functions, cppcoreguidel
 	using op_sig = val_detail::block;
 
 	void * emplacement_ptr(size_t dataSize) {
+		return nullptr;
 		if (dataSize <= SmallStorageSize) {
 			return reinterpret_cast<void *>(&small_storage);
 		}
@@ -320,23 +330,23 @@ class val {  // NOLINT(cppcoreguidelines-special-member-functions, cppcoreguidel
 	}
 
 	template <typename U>
-	U * construct(U const & other) {
+	typename std::remove_const<U>::type * construct(U const & other) {
 		const auto ptr = emplacement_ptr(sizeof(U));
 		if (ptr == nullptr) {
 			val_detail::emit_heap_warning2<T, U>();
-			return new U(other);
+			return new typename std::remove_const<U>::type(other);
 		}
-		return new (ptr) U(other);
+		return new (ptr) typename std::remove_const<U>::type(other);
 	}
 
 	template <typename U>
-	U * construct(U && other) {
+	typename std::remove_const<U>::type * construct(U && other) {
 		const auto ptr = emplacement_ptr(sizeof(U));
 		if (ptr == nullptr) {
 			val_detail::emit_heap_warning2<T, U>();
-			return new U(std::forward<U>(other));
+			return new typename std::remove_const<U>::type(std::forward<U>(other));
 		}
-		return new (ptr) U(std::forward<U>(other));
+		return new (ptr) typename std::remove_const<U>::type(std::forward<U>(other));
 	}
 
 public:
@@ -345,63 +355,63 @@ public:
 
 	// ReSharper disable CppPossiblyUninitializedMember
 	// ReSharper disable CppNonExplicitConvertingConstructor
-	val(T const & v) : data(new val_detail::block(construct(v)), 0, &val_detail::op<T>) {}
+	val(T const & v) : data(new val_detail::block(construct(v)), 0, &val_detail::op<T>) {
+		memset(small_storage, 0, sizeof(small_storage) * sizeof(decltype(*small_storage)));
+	}
 
-	val(T && v) : data(new val_detail::block(construct(std::move(v))), 0, &val_detail::op<T>) {}
+	val(T && v) : data(new val_detail::block(construct(std::forward<T>(v))), 0, &val_detail::op<T>) {
+		memset(small_storage, 0, sizeof(small_storage) * sizeof(decltype(*small_storage)));
+	}
 
-	val(val const & other) : data(other.data.clone(0, emplacement_ptr(val_detail::small_storage_size<SIZE_MAX, T>))) {}
+	val(val const & other) : data(other.data.clone(0, emplacement_ptr(val_detail::small_storage_size<SIZE_MAX, T>))) {
+		memset(small_storage, 0, sizeof(small_storage) * sizeof(decltype(*small_storage)));
+	}
 
+	val(T * v) : data(new val_detail::block(v), 0, &val_detail::op<T>) {
+		memset(small_storage, 0, sizeof(small_storage) * sizeof(decltype(*small_storage)));
+	}
+	
 	// construct from type U that inherits T
 	template <typename U, typename std::enable_if<std::is_base_of<T, U>::value, int>::type = 0>
-	val(U const & v) : data(new val_detail::block(construct(v)), val_detail::compute_upcast_offset<T, U>, &val_detail::op<U>) {}
+	val(U const & v) : data(new val_detail::block(construct(v)), val_detail::compute_upcast_offset<T, U>, &val_detail::op<U>) {
+		memset(small_storage, 0, sizeof(small_storage) * sizeof(decltype(*small_storage)));
+	}
 
 	// construct from type U that inherits T
 	template <typename U, typename std::enable_if<std::is_base_of<T, U>::value, int>::type = 0>
 	// ReSharper disable once CppNonExplicitConvertingConstructor
-	val(U && v) : data(new val_detail::block(construct(v)), val_detail::compute_upcast_offset<T, U>, &val_detail::op<U>) {}  // NOLINT(misc-forwarding-reference-overload)
+	val(U && v) : data(new val_detail::block(construct(v)), val_detail::compute_upcast_offset<T, U>, &val_detail::op<U>) {
+		memset(small_storage, 0, sizeof(small_storage) * sizeof(decltype(*small_storage)));
+	}  // NOLINT(misc-forwarding-reference-overload)
 
 	// construct from val<U> where U inherits T
 	template <typename U, size_t SmallStorageSizeU, typename std::enable_if<std::is_base_of<T, U>::value, int>::type = 0>
-	explicit val(val<U, SmallStorageSizeU> const & other) : data(other.data.clone(val_detail::compute_upcast_offset<T, U>, emplacement_ptr(other.data.get_size_of_data()))) {}
+	val(val<U, SmallStorageSizeU> const & other) : data(other.data.clone(val_detail::compute_upcast_offset<T, U>, emplacement_ptr(other.data.get_size_of_data()))) {
+		memset(small_storage, 0, sizeof(small_storage) * sizeof(decltype(*small_storage)));
+	}
+
+	// construct from val<U> where U inherits T
+	template <typename U, size_t SmallStorageSizeU, typename std::enable_if<std::is_base_of<U, T>::value && !std::is_same<T, U>::value, int>::type = 0>
+	val(val<U, SmallStorageSizeU> const & other) : data(other.data.clone(val_detail::compute_upcast_offset<T, U>, emplacement_ptr(other.data.get_size_of_data()))) {
+		memset(small_storage, 0, sizeof(small_storage) * sizeof(decltype(*small_storage)));
+	}
 
 	// ReSharper restore CppPossiblyUninitializedMember
 	// ReSharper restore CppNonExplicitConvertingConstructor
 
 	~val() {
 		auto d = data.get_descriptor();
-		data.~ptr();
-		if (d.block_ptr->count > 0) {
-			abort(); // ptr objects still point to this value
-		}
-		assert(d.block_ptr != nullptr);
-		void * buffer = nullptr;
-		d.block_ptr->data = nullptr;
-		d.block_ptr->data.exchange(buffer);
+		auto & b = *d.block_ptr;
+		// b.data and b.count are sequentially consistent
+		void * buffer = b.data.exchange(nullptr);
+		assert(buffer);
+		assert(b.count == 1); // this->data should be the only ptr
 		if (buffer == &small_storage) {
 			val_detail::destruct(d.op_ptr, buffer);
 		} else {
 			val_detail::delete_(d.op_ptr, buffer);
 		}
 	}
-
-	// assignment from U where U inherits T
-	template <typename U, typename std::enable_if<std::is_base_of<T, U>::value, int>::type = 0>
-	val& operator =(U const & newValue) {
-		*data = newValue;
-		return *this;
-	}
-
-	// assignment operator from val<U> where U inherits T
-	template <typename U, size_t SmallStorageSizeU, typename std::enable_if<std::is_base_of<T, U>::value, int>::type = 0>
-	val& operator =(val<U, SmallStorageSizeU> rhs) {
-		*data = *rhs;
-		return *this;
-	}
-
-	//val& operator =(typename std::enable_if<std::is_base_of<T, T>::value, val>::type rhs) {
-	//	*data = *rhs;
-	//	return *this;
-	//}
 
 	T& operator *() { return *data; }
 	T* operator ->() {
@@ -417,7 +427,7 @@ public:
 
 	std::unique_ptr<T> clone() const {
 		auto d = data.clone(0, nullptr);
-		return std::unique_ptr<T>(reinterpret_cast<T*>(static_cast<int8_t*>(static_cast<void*>(d.block_ptr->data)) + d.upcast_offset));
+		return std::unique_ptr<T>(reinterpret_cast<T*>(static_cast<int8_t*>(d.block_ptr->data.load()) + d.upcast_offset));
 	}
 
 private:

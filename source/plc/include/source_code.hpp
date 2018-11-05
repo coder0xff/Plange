@@ -8,23 +8,19 @@
 
 #include <map>
 
-#include "STATEMENT_SCOPE.hpp"
+#include "grammar.hpp"
 
 namespace plc {
+	struct XML_DOC_STRING;
 
-class scope;
+	class scope;
 
 class source_code {
 public:
 	source_code(std::string const & pathname, std::u32string const & document);
 	explicit source_code(std::string const & pathname);
-	std::string const pathname;
-	std::u32string const document;
+	STATEMENT_SCOPE get_representation() const;
 
-private: // we need a certain initialization order for these const fields
-	std::map<uint32_t, uint32_t> const line_number_by_first_character;
-
-public:
 	template <typename T = STATEMENT_SCOPE>
 	static T parse(std::u32string const & source) {
 		parlex::detail::abstract_syntax_tree ast = construct_ast(source, T::acceptor(), "");
@@ -32,16 +28,33 @@ public:
 	}
 
 	static std::pair<uint32_t, uint32_t> get_line_number_and_column(std::map<uint32_t, uint32_t> const & lineNumberByFirstCharacter, uint32_t charIndex);
-	// For initialization of `line_number_by_first_character` data member, requires document already constructed
 	static std::map<uint32_t, uint32_t> construct_line_number_by_first_character(std::u32string const & document);
-	static std::string describe_code_span(parlex::detail::match const & m, std::map<uint32_t, uint32_t> const & lineNumberByFirstCharacter, std::string const & pathname = "");
+	static std::string describe_code_span(int32_t firstCharacter, int32_t lastCharacter, std::map<uint32_t, uint32_t> const& lineNumberByFirstCharacter);
+	static std::string describe_code_span(int32_t firstCharacter, int32_t lastCharacter, std::map<uint32_t, uint32_t> const & lineNumberByFirstCharacter, std::string const & pathname);
 	static parlex::detail::abstract_syntax_tree construct_ast(std::u32string const & document, parlex::detail::recognizer const & production, std::string const & pathname);
 
-	parlex::detail::abstract_syntax_tree const ast;
-	STATEMENT_SCOPE const representation;
-
+	std::u32string const & get_document() const;
 	std::pair<uint32_t, uint32_t> get_line_number_and_column(uint32_t charIndex) const;
-	std::string describe_code_span(parlex::detail::match const & m) const;
+	std::string describe_code_span(int32_t firstCharacter, int32_t lastCharacter) const;
+
+	template<typename T>
+	std::u32string get_substring(T const & syntaxElement) const {
+		return document.substr(syntaxElement.document_position, syntaxElement.consumed_character_count);
+	}
+
+	std::u32string get_xml_doc_string(XML_DOC_STRING const & v) const;
+
+	template<typename T>
+	std::string describe_code_span(T syntaxElement) const {
+		return describe_code_span(syntaxElement.document_position, syntaxElement.document_position + syntaxElement.consumed_character_count - 1);
+	}
+
+private:
+	std::string pathname;
+	std::u32string document;
+	std::map<uint32_t, uint32_t> line_number_by_first_character;
+	parlex::detail::abstract_syntax_tree ast;
+	STATEMENT_SCOPE representation;
 
 };
 
