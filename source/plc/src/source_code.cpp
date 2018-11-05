@@ -8,9 +8,7 @@
 #include "plc_utils.hpp"
 #include "scope.hpp"
 
-#include "PAYLOAD.hpp"
-#include "XML_DOC_STRING.hpp"
-#include "XML_DOC_STRING_INTERIOR.hpp"
+#include "grammar.hpp"
 
 //filter super delimiters
 //Any PAYLOAD that fully contains another PAYLOAD is not a PAYLOAD

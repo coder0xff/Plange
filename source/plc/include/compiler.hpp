@@ -11,12 +11,8 @@
 #include "llvm/Target/TargetMachine.h"
 #pragma warning(pop)
 
-#include "pointer.hpp"
-
+#include "grammar.hpp"
 #include "source_code.hpp"
-#include "EMBEDDED_COMMENT.hpp"
-#include "EMBEDDED_STRING.hpp"
-#include "EMBEDDED_NEWLINE_STRING.hpp"
 
 namespace plc {
 struct PAYLOAD;

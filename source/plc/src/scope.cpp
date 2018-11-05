@@ -10,8 +10,6 @@
 #include "scope.hpp"
 #include "visibility.hpp"
 
-#include "plange_grammar.hpp"
-
 namespace plc {
 
 scope::scope(module & m, nptr<source_code const> source, nptr<scope> parent) :

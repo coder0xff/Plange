@@ -8,7 +8,7 @@
 
 #include <map>
 
-#include "STATEMENT_SCOPE.hpp"
+#include "grammar.hpp"
 
 namespace plc {
 	struct XML_DOC_STRING;

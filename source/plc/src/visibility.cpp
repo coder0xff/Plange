@@ -1,6 +1,6 @@
 #include "visibility.hpp"
 
-#include "VISIBILITY_MODIFIER.hpp"
+#include "grammar.hpp"
 
 namespace plc {
 

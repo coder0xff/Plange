@@ -15,19 +15,13 @@
 #include "utf.hpp"
 #include "utils.hpp"
 
+#include "errors.hpp"
+#include "grammar.hpp"
 #include "module.hpp"
 #include "natural_value.hpp"
-#include "plange_grammar.hpp"
 #include "scope.hpp"
 #include "symbol.hpp"
 
-#include "XML_DOC_STRING.hpp"
-#include "XML_DOC_STRING_INTERIOR.hpp"
-#include "errors.hpp"
-#include "EMBEDDED_STRING_INTERIOR.hpp"
-#include "PAYLOAD.hpp"
-#include "EMBEDDED_NEWLINE_STRING_INTERIOR.hpp"
-#include "EMBEDDED_COMMENT_INTERIOR.hpp"
 
 
 using namespace std::experimental::filesystem;

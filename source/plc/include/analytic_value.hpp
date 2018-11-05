@@ -6,7 +6,7 @@
 
 #include "errors.hpp"
 
-#include "EXPRESSION.hpp"
+#include "grammar.hpp"
 
 namespace plc {
 

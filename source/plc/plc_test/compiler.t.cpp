@@ -8,14 +8,7 @@
 #include "perf_timer.hpp"
 #include "utf.hpp"
 
-#include "BINARY_LOGICAL_OP.hpp"
-#include "BINARY_OP.hpp"
-#include "EXPRESSION.hpp"
-#include "MAPS_TO.hpp"
-#include "MULTIPLICATION.hpp"
-#include "STATEMENT.hpp"
-#include "TYPE_CONSTRAINT.hpp"
-
+#include "grammar.hpp"
 #include "module.hpp"
 #include "plc_utils.hpp"
 
