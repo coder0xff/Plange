@@ -41,7 +41,7 @@ namespace plc {
 
 		natural_value* collapse() override;
 
-		static void load_dom(ptr<scope> s, STATEMENT_SCOPE const & dom);
+		static void load_dom(ptr<scope> s, ptr<source_code> c, STATEMENT_SCOPE const & dom);
 
 	};
 }

@@ -493,7 +493,7 @@ void compiler::inject_std_lib(module & m) {
 					// namespace not yet created
 					ptr<source_code const> a = sourceCode;
 					val<scope> newScope = make_val<scope>(m, isNamespaceOfFile ? nptr<source_code const>(a) : std::nullopt, parentScope);
-					scope::load_dom(newScope, sourceCode->get_representation());
+					scope::load_dom(newScope, sourceCode, sourceCode->get_representation());
 					symbol s(
 						namespaceName,
 						*newScope,

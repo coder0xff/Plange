@@ -69,12 +69,12 @@ struct value_specification {
 	bool is_static;
 	bool is_extern;
 
-	value_specification(ptr<source_code> source, ptr<scope> scope, IDENTIFIER_SPECIFICATION const & v) :
+	value_specification(const ptr<source_code> & source, const ptr<scope> & scope, IDENTIFIER_SPECIFICATION const & v) :
 		xml_doc_string(v.doc.has_value()
 			               ? std::optional<std::u32string>(source->get_xml_doc_string(**v.doc))
 			               : std::nullopt),
 		vis(v.visibility.has_value()
-			           ? std::optional<plc::visibility>(visibility_from_ast(*(*v.visibility).visibility_modifier))
+			           ? std::optional<visibility>(visibility_from_ast(*(*v.visibility).visibility_modifier))
 			           : std::nullopt),
 		is_static(v.static_.has_value()),
 		is_extern(v.extern_.has_value()) {
@@ -89,7 +89,7 @@ struct value_specification {
 			               ? std::optional<std::u32string>(source->get_xml_doc_string(**v.doc))
 			               : std::nullopt),
 		vis(v.visibility.has_value()
-			           ? std::optional<plc::visibility>(visibility_from_ast(*(*v.visibility).visibility_modifier))
+			           ? std::optional<visibility>(visibility_from_ast(*(*v.visibility).visibility_modifier))
 			           : std::nullopt),
 		is_static(v.static_.has_value()),
 		is_extern(v.extern_.has_value()) {
@@ -152,7 +152,7 @@ struct type_constraint_specification {
 	type_constraint type;
 	value_specification specification;
 
-	type_constraint_specification(ptr<source_code const> source, ptr<scope> s, TYPE_CONSTRAINT_SPECIFICATION const & v) :
+	type_constraint_specification(const ptr<source_code const> source, const ptr<scope> & s, TYPE_CONSTRAINT_SPECIFICATION const & v) :
 		type(std::visit(type_constraint_specification_visitor{s}, v.type_dereference)),
 		specification(value_specification(source, s, v)) { }
 };
@@ -350,13 +350,13 @@ struct statement_visitor {
 
 };
 
-void scope::load_dom(ptr<scope> s, STATEMENT_SCOPE const & dom)
+void scope::load_dom(ptr<scope> s, ptr<source_code> c, STATEMENT_SCOPE const & dom)
 {	
 	for (std::variant<val<IC>, val<STATEMENT>> const & entry : dom) {
 		val<STATEMENT> const * statementPtr = std::get_if<val<STATEMENT>>(&entry);
 		if (statementPtr != nullptr) {
 			STATEMENT const & statement = **statementPtr;
-			visit(statement_visitor{ s, *s->source }, statement.value);
+			visit(statement_visitor{ s, c }, statement.value);
 		}
 	}
 }
