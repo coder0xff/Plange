@@ -5,51 +5,95 @@
 
 #include "module.hpp"
 
-#include <fstream>
-
 #pragma warning(push, 0)
 #include "llvm/IR/Constants.h"
+#include "llvm/IR/LegacyPassManager.h"
+#include "llvm/Support/FileSystem.h"
+#include "llvm/Support/TargetRegistry.h"
+#include "llvm/Support/TargetSelect.h"
+#include "llvm/Target/TargetMachine.h"
+#include "llvm/Target/TargetOptions.h"
+#include "llvm/tools/bugpoint/ToolRunner.h"
 #pragma warning(pop)
-
 
 #include "compiler.hpp"
 #include "errors.hpp"
 #include "utf.hpp"
 
-plc::module::module(compiler * owner) : owner(*owner), llvm_module("module", owner->llvm_context), plange(*this, nullptr, nullptr)
-{
-	throw_assert(owner);
+namespace plc {
+
+module::module(compiler & owner, nptr<source_code const> source) : owner(owner), source(source), llvm_module("module", owner.get_llvm_context()), plange(make_val<scope>(*this, source, std::nullopt)) {
+	std::once_flag llvmInit;
+	std::call_once(llvmInit, []
+	{
+		llvm::InitializeAllTargetInfos();
+		llvm::InitializeAllTargets();
+		llvm::InitializeAllTargetMCs();
+		llvm::InitializeAllAsmParsers();
+		llvm::InitializeAllAsmPrinters();
+	});
+
+	auto const targetTriple = llvm::sys::getDefaultTargetTriple();
+	std::string error;
+	auto const target = llvm::TargetRegistry::lookupTarget(targetTriple, error);
+
+	if (!target) {
+		ERROR(Unknown, error);
+	}
+
+	auto const cpu = "generic";
+	auto const features = "";
+	llvm::TargetOptions const opt;
+	auto const rm = llvm::Optional<llvm::Reloc::Model>();
+	auto * targetMachine = target->createTargetMachine(targetTriple, cpu, features, opt, rm);
+	llvm_module.setDataLayout(targetMachine->createDataLayout());
+	llvm_module.setTargetTriple(targetTriple);
 }
 
-void plc::module::compile(std::string output_filename) const
-{
-	ERROR(NotImplemented, "");
+void module::compile(std::string const & outputFilename) {
+	std::error_code errorCode;
+	llvm::raw_fd_ostream dest(outputFilename, errorCode, llvm::sys::fs::OpenFlags::F_None);
+
+	if (errorCode) {
+		ERROR(CouldNotOpenFile, errorCode.message());
+	}
+	llvm::legacy::PassManager pass;
+	auto const fileType = llvm::TargetMachine::CGFT_ObjectFile;
+
+	if (owner.get_target_machine().addPassesToEmitFile(pass, dest, fileType)) {
+		ERROR(Unknown, "TargetMachine can't emit a file of this type");
+	}
+
+	pass.run(llvm_module);
+	dest.flush();
 }
 
-plc::source_code const & plc::module::add_source(std::string pathname) {
-	sources.emplace_back(pathname);
-	return sources.back();
-}
-
-llvm::Module const & plc::module::get_llvm_module() const
-{
+llvm::Module const & module::get_llvm_module() const {
 	return llvm_module;
 }
 
-llvm::Module & plc::module::get_llvm_module()
-{
+llvm::Module & module::get_llvm_module() {
 	return llvm_module;
 }
 
-llvm::GlobalVariable * plc::module::get_or_add_global_string(std::u32string const& s)
-{
+compiler & module::get_compiler() const {
+	return owner;
+}
+
+nptr<source_code const> module::get_source() const {
+	return source;
+}
+
+llvm::GlobalVariable * module::get_or_add_global_string(std::u32string const & s) {
 	auto const i = global_strings.find(s);
 	if (i != global_strings.end()) return i->second;
 	llvm::StringRef const str(to_utf8(s));
-	auto const strConstant = llvm::ConstantDataArray::getString(owner.llvm_context, str);
+	auto const strConstant = llvm::ConstantDataArray::getString(owner.get_llvm_context(), str);
 	auto gv = new llvm::GlobalVariable(llvm_module, strConstant->getType(), true, llvm::GlobalValue::PrivateLinkage, strConstant);
 	auto const name = "str" + std::to_string(global_strings.size());
 	gv->setName(name);
 	//gv->setUnnamedAddr(true)
 	return global_strings[s] = gv;
+}
+
 }

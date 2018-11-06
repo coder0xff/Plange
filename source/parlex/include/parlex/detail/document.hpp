@@ -5,7 +5,7 @@
 #include <variant>
 #include <vector>
 
-#include "erased.hpp"
+#include "val.hpp"
 #include "mpl_fold_vx.hpp"
 
 #include "parlex/builder.hpp"
@@ -50,12 +50,13 @@ namespace parlex::detail::document {
 	};
 
 	template<typename T>
-	struct element<erased<T>> {
-		static erased<T> build(node const * b, walk & w) {
+	struct element<val<T>> {
+		static val<T> build(node const * b, walk & w) {
 			auto const * asLeaf = dynamic_cast<leaf const *>(b);
 			throw_assert(asLeaf != nullptr);
 			throw_assert(asLeaf == w.pos->l);
-			return T::build(*w.pos++);
+			val<T> temp = T::build(*w.pos++);
+			return temp;
 		}
 	};
 
@@ -98,22 +99,27 @@ namespace parlex::detail::document {
 		typedef std::map<node const *, t_variant(*)(node const * b, walk & w)> t_table;
 
 		template<typename T>
-		static t_variant wrapper(node const * b, walk & w) {
-			return t_variant(element<T>::build(b, w));
-		}
+		static t_variant wrapper(node const * b, walk & w);
 
 		template<typename T>
-		t_table operator()(t_table && accumulator, erased<node> const & b) {
+		t_table operator()(t_table && accumulator, val<node> const & b) {
 			accumulator[&*b] = &wrapper<T>;
 			return accumulator;
 		}
 
 	};
 
+	template <typename ... Ts>
+	template <typename T>
+	typename variant_helper<Ts...>::t_variant variant_helper<Ts...>::wrapper(node const * b, walk & w) {
+		T a = element<T>::build(b, w);
+		auto result = t_variant(a);
+		return result;
+	}
+
 	template<typename... Ts>
 	struct element<std::variant<Ts...>> {
 		static std::variant<Ts...> build(node const * b, walk & w) {
-			throw_assert(dynamic_cast<choice const *>(b) != nullptr);
 			using t_variant = std::variant<Ts...>;
 			using functor_t = variant_helper<Ts...>;
 			auto const & childBehaviors = b->children;
@@ -121,7 +127,6 @@ namespace parlex::detail::document {
 			//TODO: cache this
 			typename functor_t::t_table table = mpl::fold_vx<mpl::list<Ts...>>(functor, typename functor_t::t_table(), childBehaviors);
 			auto child = b->follow_or_nullptr(w.pos->l);
-			throw_assert(child != nullptr);
 			typename functor_t::t_table::iterator i = table.find(child);
 			throw_assert(i != table.end());
 			return i->second(child, w);

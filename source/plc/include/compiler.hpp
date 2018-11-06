@@ -8,27 +8,37 @@
 
 #pragma warning(push, 0)
 #include "llvm/IR/LLVMContext.h"
+#include "llvm/Target/TargetMachine.h"
 #pragma warning(pop)
 
+#include "grammar.hpp"
 #include "source_code.hpp"
 
 namespace plc {
 
 class module;
-struct XML_DOC_STRING;
 
 class compiler {
 public:
-	static void inject_std_lib(module & m);
 	static STATEMENT_SCOPE parse(std::u32string const & source);
-	static std::u32string extract_xml_doc_string(std::u32string const & document, XML_DOC_STRING const & xmlDocString);
 
 	template <typename T>
 	static T parse(std::u32string const & document) {
 		return source_code::parse<T>(document);
-	}
+	};
 
-	llvm::LLVMContext llvm_context;
+	static void build(std::string const & outputFilename, std::set<std::string> const & inputFiles);
+
+	llvm::LLVMContext & get_llvm_context();
+	llvm::TargetMachine & get_target_machine();
+private:
+	std::string target_triple_;
+	val<llvm::TargetMachine> target_machine_;
+	llvm::LLVMContext llvm_context_;
+
+	static void inject_std_lib(module & m);
+	compiler();
+	void build_impl(std::string const & outputFilename, std::set<std::string> const & inputFiles);
 };
 
 }

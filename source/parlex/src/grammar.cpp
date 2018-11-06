@@ -25,7 +25,7 @@ acceptor const & grammar::production::get_acceptor() const {
 }
 
 
-void grammar::production::set_behavior(grammar const & g, erased<node> const & behavior) {
+void grammar::production::set_behavior(grammar const & g, val<node> const & behavior) {
 	this->behavior = behavior.clone();
 
 	// assign the recognizer_index field of each leaf

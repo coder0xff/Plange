@@ -13,15 +13,14 @@ set (SOURCES
 set (HEADERS
 	"bits.hpp"
 	"covariant_invoke.hpp"
-	"erased.hpp"
 	"graphviz_dot.hpp"
 	"logging.hpp"
 	"perf_timer.hpp"
-	"pointer.hpp"
 	"tarjan.hpp"
 	"thread_pool.hpp"
 	"utf.hpp"
 	"utils.hpp"
+	"val.hpp"
 	"wait_flag.hpp"
 )
 	

@@ -5,15 +5,15 @@
 #include <string>
 #include <vector>
 
+#ifdef _MSC_VER
+#   include <Windows.h>
+#endif
+
 #include "utils.hpp"
 
 void debugger() {
 #ifdef _MSC_VER
-#   ifdef _WIN64
-	throw std::runtime_error("inline asm in unsupported on this platform");
-#   else
-	__asm int 3
-#   endif
+	DebugBreak();
 #else
 	raise(SIGTRAP);
 #endif
@@ -108,6 +108,26 @@ std::string toupper(std::string const & in) {
 std::string tolower(std::string const & in) {
 	auto result = in;
 	for (auto & c : result) c = tolower(c);
+	return result;
+}
+
+std::pair<std::string, char> exec(std::string const & executable) {
+	auto const popenFunction =
+#ifdef _MSC_VER
+	_popen
+#else
+	popen
+#endif
+		;
+
+	std::string output;
+	std::unique_ptr<FILE> stdoutPipe(popenFunction(executable.c_str(), "r"));
+	throw_assert(!stdoutPipe);
+	int c;
+	while ((c = fgetc(stdoutPipe.get())) != EOF) {
+		output += char(c);
+	}
+	auto result = std::make_pair(output, feof(stdoutPipe.get()));
 	return result;
 }
 

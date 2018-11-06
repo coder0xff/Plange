@@ -147,14 +147,15 @@ set(SOURCES
 	"src/analytic_value.cpp"
 	"src/compiler.cpp"
 	"src/errors.cpp"
+	"src/grammar.cpp"
 	"src/module.cpp"
 	"src/natural_value.cpp"
-	"src/plange_grammar.cpp"
 	"src/plc_main.cpp"
 	"src/plc_utils.cpp"
 	"src/scope.cpp"
 	"src/source_code.cpp"
 	"src/symbol.cpp"
+	"src/visibility.cpp"
 	"src/warnings.cpp"
 )
 
@@ -162,19 +163,17 @@ set(HEADERS
 	"include/analytic_value.hpp"
 	"include/compiler.hpp"
 	"include/errors.hpp"
+	"include/grammar.hpp"
 	"include/module.hpp"
 	"include/natural_value.hpp"
-	"include/plange_grammar.hpp"
 	"include/plc_utils.hpp"
 	"include/relation.hpp"
 	"include/scope.hpp"
 	"include/source_code.hpp"
 	"include/symbol.hpp"
+	"include/visibility.hpp"
 	"include/warnings.hpp"
 )
-
-FILE(GLOB DOCUMENT_SOURCES "src/document/*.cpp*") 
-FILE(GLOB DOCUMENT_HEADERS "include/document/*.hpp*")
 
 set (TEST_SOURCES
 	"plc_test/compiler.t.cpp"

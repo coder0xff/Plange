@@ -20,11 +20,12 @@ class natural_value : public analytic_value {
 public:
 	explicit natural_value(llvm::Value * llvmValue);
 
-	// this value is statically known if llvm_value is non-null 
 	std::unique_ptr<llvm::Value, value_deleter> const llvm_value;
-	std::map<std::string, std::unique_ptr<analytic_value>> get_constrained_symbols() const final;
+	std::map<std::string, val<analytic_value>> get_constrained_symbols() const final;
+	std::optional<val<analytic_value>> type;
 
 	natural_value * collapse() override;
+	std::optional<val<analytic_value>> get_type() const final;
 
 };
 

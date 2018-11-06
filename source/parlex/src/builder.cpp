@@ -11,11 +11,11 @@
 namespace parlex {
 namespace detail {
 
-node::node(std::initializer_list<erased<node>> const & children) : children(children) {}
+node::node(std::initializer_list<val<node>> const & children) : children(children) {}
 
-node::node(std::string const & tag, std::initializer_list<erased<node>> const & children) : tag(tag), children(children) {}
+node::node(std::string const & tag, std::initializer_list<val<node>> const & children) : tag(tag), children(children) {}
 
-void node::add_child(erased<node> const & child) {
+void node::add_child(val<node> const & child) {
 	children.push_back(child);
 	children.back()->parent = this;
 }
@@ -51,11 +51,13 @@ node const * node::follow_or_nullptr(leaf const * l) const {
 
 leaf::leaf(std::string const & tag) : node(tag, {}), recognizer_index(std::numeric_limits<uint16_t>::max()) {}
 
+leaf::leaf() : node("", {}), recognizer_index(std::numeric_limits<uint16_t>::max()) {}
+
 bool leaf::is_leaf() const { return true; }
 
 } // namespace detail
 
-literal::literal(std::u32string const & content) : leaf(to_utf8(content)), content(content) {}
+literal::literal(std::u32string const & content) : content(content) {}
 
 literal::literal(std::string const & tag, std::u32string const & content) : leaf(tag), content(content) {}
 
@@ -64,7 +66,7 @@ reference::reference(std::string const & target) : leaf(""), target(target) {}
 reference::reference(std::string const & tag, std::string const & target) : leaf(tag), target(target) {
 }
 
-production::production(std::string const & name, erased<detail::node> const & behavior, associativity const assoc /*= associativity::none*/, filter_function const & filter /*= filter_function()*/, std::set<std::string> const & precedences /*= set<string>() */) : name(name), behavior(behavior), filter(filter), assoc(assoc), precedences(precedences) {
+production::production(std::string const & name, val<detail::node> const & behavior, associativity const assoc /*= associativity::none*/, filter_function const & filter /*= filter_function()*/, std::set<std::string> const & precedences /*= set<string>() */) : name(name), behavior(behavior), filter(filter), assoc(assoc), precedences(precedences) {
 	this->behavior->tag = name;
 }
 

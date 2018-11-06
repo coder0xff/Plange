@@ -69,13 +69,9 @@ AND_ASSIGNMENT:
     see:
         - AND
 
-ARGUMENT:
-    syntax: >
-        EXPRESSION
-
 ARGUMENT_PACK:
     syntax: >
-        EXPRESSION {IC} "..."
+        $EXPRESSION {IC} "..."
 
 ARRAY:
     syntax: >
@@ -83,11 +79,15 @@ ARRAY:
 
 ARRAY_INDEXER:
     syntax: >
-        {IC} (ARGUMENT|ARGUMENT_PACK|SLICE)
+        EXPRESSION | ARGUMENT_PACK | SLICE
 
 ARRAY_INVOCATION:
     syntax: >
-        %target(EXPRESSION) "[" %argsHead[$ARRAY_INDEXER] %argsTail{{IC} "," [$ARRAY_INDEXER]} {IC} "]"
+        "[" %ic{IC} %arguments[$ARRAY_ARGUMENTS %ic{IC}] "]"
+
+ARRAY_ARGUMENTS:
+    syntax: >
+        %head[$ARRAY_INDEXER] %tail{%ic{IC} %comma"," [%ic{IC} $ARRAY_INDEXER]}
 
 ASM_EXPRESSION:
     syntax: >
@@ -125,10 +125,10 @@ ASM_STATEMENT:
     syntax: >
         ASM_OP [{IC} ASM_EXPRESSION {{IC} "," [{IC} ASM_EXPRESSION]}] {IC} "\n"
 
-ASSIGNMENT_CHAIN:
+ASSIGNMENT:
     syntax: >
-        [$XML_DOC_STRING {IC}] $IDENTIFIER {IC} ("←"|"<-") {IC} ($EXPRESSION|ASSIGNMENT_CHAIN)
-    precedes: [EXPRESSION, LESSER_CHAIN]
+        $IDENTIFIER_SPECIFICATION %ic{IC} $ASSIGNMENT_NODE
+    precedes: [EXPRESSION, LESSER]
     doc: >
         place the given value(s) into the given variable(s)
     example: |
@@ -145,9 +145,13 @@ ASSIGNMENT_CHAIN:
             <pre>a ← b ← c;</pre>
         </div>
 
+ASSIGNMENT_NODE:
+    syntax: >
+        ("←"|"<-") %ic{IC} %value($EXPRESSION | $IDENTIFIER_SPECIFICATION %ic{IC} %next(ASSIGNMENT_NODE))
+
 ATTRIBUTE:
     syntax: >
-        "@" {IC} EXPRESSION {IC} "@"
+        "@" {IC} $EXPRESSION {IC} "@"
 
 BIJECTION:
     syntax: >
@@ -382,6 +386,7 @@ COMPOUND_ASSIGNMENT:
 COMMENT:
     syntax: >
         "/*" {all} "*/"
+    filter: shortest
     doc: >
         an inline comment
 
@@ -470,33 +475,9 @@ DATE_TIME:
     syntax: >
         DATE "T" TIME
 
-DECLARATION:
-    syntax: >
-        [$XML_DOC_STRING {IC}] $IDENTIFIER
-    doc: >
-        declare a variable and optionally assign a value to it
-    examples:
-        - |
-            <Number> x <- 100;
-        - |
-            <> name <- "Alice"; //implicitly type String
-        - |
-            object <- {
-                "employees":[
-                    (|"John", "Doe"|),
-                    (|"Anna", "Smith"|),
-                    (|"Peter", Jones"|)],
-                "contractors":[
-                    (|"Matt", "Williams"|)]
-            };
-
-            object <- (x) { return x*2; }; //no type constraint
-    see:
-        - STATEMENT
-
 DEFINITION:
     syntax: >
-        [$XML_DOC_STRING {IC}] $IDENTIFIER {IC} ":=" {IC} $EXPRESSION
+        $IDENTIFIER_SPECIFICATION {IC} ":=" {IC} $EXPRESSION
     doc: >
         define a constant, an alias for the valuation of a specified expression
     example: >
@@ -631,12 +612,12 @@ ENUM:
         
 ENUM_ELEMENT:
     syntax: >
-        $IDENTIFIER [{IC} ":=" {IC} $EXPRESSION]
+        %doc[$XML_DOC_STRING] $IDENTIFIER [{IC} ":=" {IC} $EXPRESSION]
         
-EQUALITY_CHAIN:
+EQUALITY:
     syntax: >
-        $EXPRESSION {IC} $EQUALITY_CHAIN_LOOP
-    precedes: [GREATER_CHAIN, LESSER_CHAIN, SUBSET_CHAIN, SUPERSET_CHAIN]
+        $EXPRESSION {IC} $EQUALITY_NODE
+    precedes: [GREATER, LESSER, SUBSET, SUPERSET]
     doc: >
         one or more equality relations
     examples:
@@ -645,12 +626,12 @@ EQUALITY_CHAIN:
         - |
             X = Y = Z;
 
-EQUALITY_CHAIN_LOOP:
+EQUALITY_NODE:
     syntax: >
-        "=" {IC} $EXPRESSION [{IC} $EQUALITY_CHAIN_LOOP]
+        "=" {IC} $EXPRESSION [{IC} $EQUALITY_NODE]
     precedes: [EXPRESSION]
     see:
-        - EQUALITY_CHAIN
+        - EQUALITY
 
 EXACTLY:
     syntax: >
@@ -695,16 +676,11 @@ EXPONENTIATION_ASSIGNMENT:
 
 EXPRESSION:
     syntax: >
-        ARRAY | ASM_FUNCTION | BINARY_OP | BOOL | CAST | CEILING | COMPLEMENT | CONDITIONAL | DATE | DATE_TIME | DELTA | DIMENSIONAL_NUMBER | EMBEDDED_STRING | ENUM | EQUALITY_CHAIN | FLOOR | FUNCTION | GREATER_CHAIN | IDENTIFIER | IF | INVOCATION | LESSER_CHAIN | LIST | MAGNITUDE | MAP | MEMBER_ACCESS | NEAREST_INTEGER | NON_NEG_NUMBER | OBJECT | PARENTHETICAL | RANGE | REGEX | SET | SET_COMPREHENSION | SUBSET_CHAIN | SUPERSET_CHAIN | SWIZZLE | THIS | THIS_FUNC | THIS_TYPE | TIME | TUPLE | TYPE | UNARY_OP | VECTOR_NORM | "context" | "null" | c_string 
+        ARRAY | ASM_FUNCTION | BINARY_OP | BOOL | CAST | CEILING | COMPLEMENT | CONDITIONAL | DATE | DATE_TIME | DELTA | DIMENSIONAL_NUMBER | EMBEDDED_STRING | ENUM | EQUALITY | FLOOR | FUNCTION | GREATER | IDENTIFIER | IF | INVOCATION | LESSER | LIST | MAGNITUDE | MAP | MEMBER_ACCESS | NEAREST_INTEGER | NON_NEG_NUMBER | OBJECT | PARENTHETICAL | RANGE | REGEX | SET | SET_COMPREHENSION | SUBSET | SUPERSET | SWIZZLE | THIS | THIS_FUNC | THIS_TYPE | TIME | TUPLE | TYPE | UNARY_OP | VECTOR_NORM | "context" | "null" | "unit" | c_string 
     doc: >
-        a linearization of an evaluation tree containing constants, variables, operators, invocations, and sub expressions
+        an evaluation tree containing constants, variables, operators, invocations, and sub expressions
     notes: >
-        null is a literal and so is included in the syntax similarly to true, false and numeric literals (and unlike constants)
-
-EXTERN:
-    syntax: >
-        "extern"
-    precedes: [IDENTIFIER]
+        Context, null, and unit are literals and included in the syntax similarly to true, false and numeric literals (and unlike constants like "pi")
 
 FACTORIAL:
     syntax: >
@@ -724,7 +700,7 @@ FLOOR:
 
 FOR:
     syntax: >
-        "for" {IC} "(" {IC} %initializer[ (STATEMENT_SCOPE) {IC} ] %condition(EXPRESSION) {IC} ";" {IC} %step[ ASSIGNMENT_CHAIN {{IC} "," {IC} ASSIGNMENT_CHAIN} {IC} ] ")" {IC} EXPRESSION
+        "for" %ic1{IC} "(" %ic2{IC} %initializer[$STATEMENT_SCOPE %ic{IC}] %condition(EXPRESSION) %ic3{IC} ";" %ic4{IC} %step[ $FOR_STEP_LIST %ic{IC} ] ")" %ic5{IC} EXPRESSION
     doc: >
         evaluate the last expression repeatedly while the second expression is true, all after evaluating the optional STATEMENT_SCOPE
     examples:
@@ -767,9 +743,23 @@ FOR:
                     return result;
                 }
 
+FOR_STEP:
+    syntax: >
+        $IDENTIFIER %ic{IC} $FOR_STEP_NODE
+
+FOR_STEP_LIST:
+    syntax: >
+        $FOR_STEP %tail{%ic1{IC} %comma"," %ic2{IC} $FOR_STEP}
+    see:
+        - FOR
+
+FOR_STEP_NODE:
+    syntax: >
+        ("←"|"<-") %ic{IC} %value($EXPRESSION | $IDENTIFIER %ic{IC} %next(FOR_STEP_NODE))
+
 FOR_COLLECTION:
     syntax: >
-        "for" {IC} "(" {IC} (%declaration([ (TYPE_DEREFERENCE | IMPLICIT_TYPE_DEREFERENCE) {IC} ] IDENTIFIER ) | $EXPRESSION ) {IC} ("in"|"∈") {IC} %collection(EXPRESSION) {IC} ")" {IC} %invoke(EXPRESSION)
+        "for" %ic1{IC} "(" %ic2{IC} (%declaration([ (TYPE_DEREFERENCE | IMPLICIT_TYPE_DEREFERENCE) %ic{IC} ] $IDENTIFIER ) | $EXPRESSION ) %ic3{IC} ("in"|"∈") %ic4{IC} %collection(EXPRESSION) %ic5{IC} ")" %ic6{IC} $EXPRESSION
     doc: >
         evaluate the last expression repeatedly while iterating over the elements of the specified Collection
     examples:
@@ -785,7 +775,7 @@ FOR_COLLECTION:
 
 FREE:
     syntax: >
-        "free" {IC} EXPRESSION
+        "free" %ic{IC} EXPRESSION
 
 FUNCTION_MODIFIER_0:
     syntax: >
@@ -854,9 +844,9 @@ FUNCTION:
             <Collection<T> → T> head := (a&b) { return a; }
         - | 
 
-GREATER_CHAIN:
+GREATER:
     syntax: >
-        $EXPRESSION {IC} $GREATER_CHAIN_LOOP
+        $EXPRESSION {IC} $GREATER_NODE
     doc: >
         one or more greater, greater or equals, or equals relations
     examples:
@@ -865,11 +855,11 @@ GREATER_CHAIN:
         - |
             X > Y ≥ 0;
 
-GREATER_CHAIN_LOOP:
+GREATER_NODE:
     syntax: >
-        ("="|">"|"=>"|"≥") {IC} $EXPRESSION [{IC} $GREATER_CHAIN_LOOP]
+        ("="|">"|"=>"|"≥") {IC} $EXPRESSION [{IC} $GREATER_NODE]
     see:
-        - GREATER_CHAIN
+        - GREATER
 
 HAS:
     syntax: >
@@ -898,7 +888,7 @@ IDENTIFIER:
     doc: >
         text that uniquely identifies a constant or variable within a scope
     notes: |
-        <p>The first character must be a letter character. Note that the character groups "letter" and "number" are inclusive of many unicode characters beyond the conventional a-z, A-Z and 0-9. Specifically, all unicode codepoints in a letter or number category may be used in an identifier.</p>
+        <p>The first character must be a letter character. All unicode codepoints in a letter or number category may be used in an identifier.</p>
         <p>Examples of valid identifiers:</p>
         <code>
             <ul>
@@ -918,6 +908,10 @@ IDENTIFIER:
                 <li>1stValue</li>
             </ul>
         </code>
+
+IDENTIFIER_SPECIFICATION:
+    syntax: >
+        %doc[$XML_DOC_STRING] %attributes{$ATTRIBUTE %ic{IC}} %visibility[$VISIBILITY_MODIFIER %ic{IC}] %static_["static" {IC}] %extern_["extern" {IC}] $IDENTIFIER
 
 IF:
     syntax: >
@@ -1028,7 +1022,7 @@ INTERSECTION_ASSIGNMENT:
 
 INVOCATION:
     syntax: >
-        PARENTHETICAL_INVOCATION | ARRAY_INVOCATION | TYPE_INVOCATION
+        $EXPRESSION %ic{IC} %args(PARENTHETICAL_INVOCATION | ARRAY_INVOCATION | TYPE_INVOCATION)
     precedes: [RADICAL, NEGATION, BINARY_OP]
     doc: >
         invoke a function, type-function or array-function
@@ -1054,9 +1048,9 @@ KLEENE_STAR:
     example:
         all_strings := char*;
 
-LESSER_CHAIN:
+LESSER:
     syntax: >
-        EXPRESSION {IC} LESSER_CHAIN_LOOP
+        $EXPRESSION %ic{IC} $LESSER_NODE
     doc:
         one or more lesser, lesser or equals, or equals relations
     examples:
@@ -1065,11 +1059,11 @@ LESSER_CHAIN:
         - |
             X < Y ≤ 0;
 
-LESSER_CHAIN_LOOP:
+LESSER_NODE:
     syntax: >
-        ("="|"<"|"=<"|"≤") {IC} EXPRESSION [{IC} LESSER_CHAIN_LOOP]
+        ("="|"<"|"=<"|"≤") %ic{IC} $EXPRESSION [%ic{IC} $LESSER_NODE]
     see:
-        - LESSER_CHAIN
+        - LESSER
 
 LIST:
     syntax: >
@@ -1120,7 +1114,7 @@ MAP:
 
 MAPS_TO:
     syntax: >
-        EXPRESSION {IC} ("→"|"->") {IC} EXPRESSION
+        ["volatile" IC {IC}] ["const" IC {IC}] %lhs(EXPRESSION) %ic1{IC} ("→"|"->") %ic2{IC} %rhs(EXPRESSION)
     assoc: right
     doc: >
         function type builder
@@ -1132,7 +1126,7 @@ MEMBER_ACCESS:
 
 MEMBER_OFFSET:
     syntax: >
-        "@" {IC} WHOLE_NUMBER
+        %at"@" %ic{IC} %offset(NATURAL_NUMBER)
 
 MODULATION:
     syntax: >
@@ -1181,6 +1175,10 @@ NAND_ASSIGNMENT:
     doc: Nand the two operands and assign the result to the first.
     see:
         - NAND
+
+NATURAL_NUMBER:
+    syntax: >
+        decimal_digit {decimal_digit}
 
 NEAREST_INTEGER:
     syntax: >
@@ -1346,7 +1344,7 @@ PARENTHETICAL:
 
 PARENTHETICAL_INVOCATION:
     syntax: >
-        %target(EXPRESSION) {IC} "(" %argsHead[{IC} (ARGUMENT|ARGUMENT_PACK)] %argsTail{{IC} "," [{IC} (ARGUMENT|ARGUMENT_PACK)]} {IC} ")"
+        "(" %ic{IC} %arguments[$STANDARD_ARGUMENTS %ic{IC}] ")"
 
 PAYLOAD:
     syntax: >
@@ -1500,9 +1498,13 @@ SLICE:
     doc: >
         used in ARRAY_INVOCATION
 
+STANDARD_ARGUMENTS:
+    syntax: >
+        %head[%argument(EXPRESSION|ARGUMENT_PACK)] %tail{%ic{IC} "," [%ic{IC} %argument(EXPRESSION|ARGUMENT_PACK)]}
+
 STATEMENT:
     syntax: >
-        %value( ASSIGNMENT_CHAIN | BREAK | CONTINUE | DEFINITION | DO | EXPRESSION | FOR | FOR_COLLECTION | FREE | IMPORT | LOCK | LOOP | OP_ASSIGNMENT | READ_LOCK | RETURN | THROW | TRY | TYPE_CONSTRAINT | WRITE_LOCK | USING ) %ic{IC} ";"
+        %value( ASSIGNMENT | BREAK | CONTINUE | DEFINITION | DO | EXPRESSION | FOR | FOR_COLLECTION | FREE | IMPORT | LOCK | LOOP | OP_ASSIGNMENT | READ_LOCK | RETURN | THROW | TRY | TYPE_CONSTRAINT | WRITE_LOCK | USING ) %ic{IC} ";"
     doc: >
         top-level statement syntax
 
@@ -1512,14 +1514,9 @@ STATEMENT_SCOPE:
     doc: >
         zero or more statements, the top level syntax rule for source files
 
-STATIC:
+SUBSET:
     syntax: >
-        "static"
-    precedes: [IDENTIFIER] 
-
-SUBSET_CHAIN:
-    syntax: >
-        EXPRESSION {IC} SUBSET_CHAIN_LOOP
+        $EXPRESSION %ic{IC} $SUBSET_NODE
     doc: >
         One or more subset, proper subset, or equality relations
     examples:
@@ -1528,12 +1525,12 @@ SUBSET_CHAIN:
         - |
             S ⊆ T ⊂ U = V;
 
-SUBSET_CHAIN_LOOP:
+SUBSET_NODE:
     syntax: >
-        ("="|"⊆"|"subs"|"⊂"|"psubs") {IC} EXPRESSION [{IC} SUBSET_CHAIN_LOOP]
+        ("="|"⊆"|"subs"|"⊂"|"psubs") %ic{IC} $EXPRESSION [%ic{IC} $SUBSET_NODE]
     precedes: [EXPRESSION]
     see:
-        - SUBSET_CHAIN
+        - SUBSET
 
 SUBTRACTION_ASSIGNMENT:
     syntax: >
@@ -1547,9 +1544,9 @@ SUBTRACTION:
         EXPRESSION {IC} "-" {IC} EXPRESSION
     assoc: left
 
-SUPERSET_CHAIN:
+SUPERSET:
     syntax: >
-        EXPRESSION {IC} SUPERSET_CHAIN_LOOP
+        $EXPRESSION %ic{IC} $SUPERSET_NODE
     doc: >
         One or more superset, proper superset, or equality relations
     examples:
@@ -1558,12 +1555,12 @@ SUPERSET_CHAIN:
         - |
             S ⊇ T ⊃ U = V;
 
-SUPERSET_CHAIN_LOOP:
+SUPERSET_NODE:
     syntax: >
-        ("="|"⊇"|"sups"|"⊃"|"psups") {IC} EXPRESSION [{IC} SUPERSET_CHAIN_LOOP]
+        ("="|"⊇"|"sups"|"⊃"|"psups") %ic{IC} $EXPRESSION [%ic{IC} $SUPERSET_NODE]
     precedes: [EXPRESSION]
     see:
-        - SUPERSET_CHAIN
+        - SUPERSET
 
 SWIZZLE:
     syntax: >
@@ -1639,26 +1636,30 @@ TYPE:
 
 TYPE_CONSTRAINT:
     syntax: >
-        TYPE_CONSTRAINT_HEAD {IC} TYPE_CONSTRAINT_CHAIN
+        %specification(TYPE_CONSTRAINT_SPECIFICATION) %ic{IC} %head(TYPE_CONSTRAINT_ELEMENT) %tail{%ic1{IC} %comma"," %ic2{IC} $TYPE_CONSTRAINT_ELEMENT}
     precedes: [EXPRESSION]
 
-TYPE_CONSTRAINT_CHAIN:
+TYPE_CONSTRAINT_DECLARATION:
     syntax: >
-        (DECLARATION|ASSIGNMENT_CHAIN|DEFINITION) [{IC} "," {IC} TYPE_CONSTRAINT_CHAIN]
+        $IDENTIFIER_SPECIFICATION %args[%ic{IC} $PARENTHETICAL_INVOCATION]
 
-TYPE_CONSTRAINT_HEAD:
+TYPE_CONSTRAINT_ELEMENT:
     syntax: >
-        [$XML_DOC_STRING {IC}] {ATTRIBUTE {IC}} [$VISIBILITY_MODIFIER {IC}] [STATIC {IC}] [EXTERN {IC}] %type_dereference(TYPE_DEREFERENCE | VOLATILE_TYPE_DEREFERENCE | IMPLICIT_TYPE_DEREFERENCE | VOLATILE_IMPLICIT_TYPE_DEREFERENCE)
+        TYPE_CONSTRAINT_DECLARATION | ASSIGNMENT | DEFINITION
+
+TYPE_CONSTRAINT_SPECIFICATION:
+    syntax: >
+        %doc[$XML_DOC_STRING] %attributes{$ATTRIBUTE %ic{IC}} %visibility[$VISIBILITY_MODIFIER %ic{IC}] %static_["static" {IC}] %extern_["extern" {IC}] %type_dereference(TYPE_DEREFERENCE | VOLATILE_TYPE_DEREFERENCE | IMPLICIT_TYPE_DEREFERENCE | VOLATILE_IMPLICIT_TYPE_DEREFERENCE)
 
 TYPE_DEREFERENCE:
     syntax: >
-        "<" {IC} EXPRESSION {IC} ">"
+        "<" %ic1{IC} $EXPRESSION %ic2{IC} ">"
     doc: >
         use a variable/constant as a typename
 
 TYPE_INVOCATION:
     syntax: >
-        %target(EXPRESSION) ( "<" %argsHead[{IC} (ARGUMENT|ARGUMENT_PACK)] %argsTail{{IC} "," [{IC} (ARGUMENT|ARGUMENT_PACK)]} {IC} ">" )
+        "<" %ic{IC} %arguments[$STANDARD_ARGUMENTS %ic{IC}] ">"
 
 TYPE_SCOPE:
     syntax: >
@@ -1668,27 +1669,31 @@ TYPE_SCOPE:
     notes: >
         Any use of the assignment operator indicates an instance member declaration. Any use of the definition operator indicates a static member of the class, since it is immutable it will not vary between instances. Like in statement_scope, an execution context is available and will execute any top-level statements inside the type.
 
-TYPE_SCOPE_ASSIGNMENT_CHAIN:
+TYPE_SCOPE_ASSIGNMENT:
     syntax: >
-        [XML_DOC_STRING {IC}] IDENTIFIER [{IC} MEMBER_OFFSET] {IC} ("←"|"<-") {IC} (EXPRESSION|ASSIGNMENT_CHAIN)
+        $IDENTIFIER_SPECIFICATION %ic{IC} [$MEMBER_OFFSET %ic{IC}] $TYPE_SCOPE_ASSIGNMENT_NODE
     precedes: [EXPRESSION]
 
-TYPE_SCOPE_DECLARATION:
+TYPE_SCOPE_ASSIGNMENT_NODE:
     syntax: >
-        [XML_DOC_STRING {IC}] IDENTIFIER [{IC} MEMBER_OFFSET]
+        ("←"|"<-") %ic{IC} ($EXPRESSION | ($IDENTIFIER_SPECIFICATION [MEMBER_OFFSET %ic{IC}] {IC} %next(TYPE_SCOPE_ASSIGNMENT_NODE)))
 
 TYPE_SCOPE_TYPE_CONSTRAINT:
     syntax: >
-        TYPE_CONSTRAINT_HEAD {IC} TYPE_SCOPE_TYPE_CONSTRAINT_CHAIN
+        %constraint(TYPE_CONSTRAINT_SPECIFICATION) %ic{IC} %head(TYPE_SCOPE_TYPE_CONSTRAINT_ELEMENT) %tail{%ic1{IC} %comma"," %ic2{IC} TYPE_SCOPE_TYPE_CONSTRAINT_ELEMENT}
     precedes: [TYPE_CONSTRAINT]
 
-TYPE_SCOPE_TYPE_CONSTRAINT_CHAIN:
+TYPE_SCOPE_TYPE_CONSTRAINT_DECLARATION:
     syntax: >
-        [XML_DOC_STRING {IC}] (TYPE_SCOPE_DECLARATION|TYPE_SCOPE_ASSIGNMENT_CHAIN|DEFINITION) [{IC} "," {IC} TYPE_SCOPE_TYPE_CONSTRAINT_CHAIN]
+        $IDENTIFIER_SPECIFICATION %args[%ic{IC} (PARENTHETICAL_INVOCATION)] [%ic{IC} $MEMBER_OFFSET]
+
+TYPE_SCOPE_TYPE_CONSTRAINT_ELEMENT:
+    syntax: >
+        TYPE_SCOPE_TYPE_CONSTRAINT_DECLARATION | TYPE_SCOPE_ASSIGNMENT | DEFINITION
 
 TYPE_STATEMENT:
     syntax: >
-        (VISIBILITY_MODIFIER {IC} ":") | TYPE_SCOPE_TYPE_CONSTRAINT | STATEMENT
+        ((VISIBILITY_MODIFIER {IC} ":") | TYPE_SCOPE_TYPE_CONSTRAINT | STATEMENT) ";"
     doc: >
         top-level type syntax
 
@@ -1773,11 +1778,11 @@ VOLATILE_IMPLICIT_TYPE_DEREFERENCE:
 
 VOLATILE_TYPE_DEREFERENCE:
     syntax: >
-        "<" {IC} "volatile" {IC} EXPRESSION {IC} ">"
+        "<" %ic1{IC} "volatile" %ic2{IC} $EXPRESSION %ic3{IC} ">"
 
 WHOLE_NUMBER:
     syntax: >
-        ("1"|"2"|"3"|"4"|"5"|"6"|"7"|"8"|"9") {"0"|"1"|"2"|"3"|"4"|"5"|"6"|"7"|"8"|"9"}
+        {"0"} (NON_ZERO_DECIMAL_DIGIT) {decimal_digit}
     see:
         - TYPE_SCOPE
 
@@ -1794,13 +1799,13 @@ WS:
 
 XML_DOC_STRING:
     syntax: >
-        "```" XML_DOC_STRING_INTERIOR "```"
+        "```" %interior(XML_DOC_STRING_INTERIOR) "```" %ic{IC}
     doc: >
         documentation string bounded by arbirtrarily-sized delimiters
 
 XML_DOC_STRING_INTERIOR:
     syntax: >
-        $PAYLOAD | ("`" XML_DOC_STRING_INTERIOR "`")
+        $PAYLOAD | ("`" %interior(XML_DOC_STRING_INTERIOR) "`")
     precedes: [PAYLOAD]
 
 XOR_ASSIGNMENT:

@@ -38,6 +38,7 @@ set (HEADERS
 	"mpl_indices.hpp" # operations on template<size_t...> lists
 	"mpl_is_const.hpp"
 	"mpl_is_copyable.hpp"
+	"mpl_is_defined.hpp"
 	"mpl_is_invocable.hpp"
 	"mpl_is_movable.hpp"
 	"mpl_list.hpp"
