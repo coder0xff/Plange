@@ -12,26 +12,33 @@
 
 
 namespace plc {
-	static llvm::FunctionType make_function_type(std::vector<argument> const & types) {
-		std::vector<llvm::Type *> extracted;
-		for (auto t : types) {
-			if (std::holds_alternative<>())
-		}
-			llvm::FunctionType::get()
+	static std::vector<argument> make_arguments(type const & lhs, function_type const & rhs)
+	{
+		std::vector<argument> results;
+		results.push_back({ std::nullopt, lhs });
+		auto rhs_args = rhs.get_arguments();
+		results.insert(results.end(), rhs_args.begin(), rhs_args.end());
+		return results;
 	}
 
 	static llvm::FunctionType * make_function_type(type const & lhs, function_type const & rhs) {
-		std::vector<arg_or_pack> arguments;
-		arguments.push_back(argument{ std::nullopt, val<analytic_value>(rhs) });
-		arguments.insert(arguments.end(), rhs.arguments.begin(), rhs.arguments.end());
-		return arguments;
+		std::vector<llvm::Type *> types;
+		for (argument const & arg : make_arguments(lhs, rhs))
+		{
+			types.push_back(arg.type->get_llvm_type());
+		}
+		return llvm::FunctionType::get(rhs.get_return_type().get_llvm_type(), types, false);
+	}
+
+	static llvm::FunctionType * make_function_type(type const & lhs, type const & rhs) {
+		return llvm::FunctionType::get(rhs.get_llvm_type(), { lhs.get_llvm_type() }, false);
 	}
 
 
-	function_type::function_type(bool isVolatile, bool isConst, type const & lhs, function_type const & rhs) : type(isVolatile, isConst, ) {
+	function_type::function_type(bool isVolatile, bool isConst, type const & lhs, function_type const & rhs) : type(isVolatile, isConst, make_function_type(lhs, rhs)), return_type_(rhs.get_return_type()), arguments_(make_arguments(lhs, rhs)) {
 	}
 
-	function_type::function_type(bool isVolatile, bool isConst, type const & lhs, type const & rhs) : isVolatile(isVolatile), isConst(isConst), arguments{ argument{ std::nullopt, lhs }, argument{ std::nullopt, rhs} } {
+	function_type::function_type(bool isVolatile, bool isConst, type const & lhs, type const & rhs) : type(isVolatile, isConst, make_function_type(lhs, rhs)), return_type_(rhs), arguments_({ argument{ std::nullopt, lhs } }) {
 
 	}
 
@@ -48,4 +55,13 @@ namespace plc {
 		ERROR(NotImplemented, "");
 	}
 
+	std::vector<argument> function_type::get_arguments() const
+	{
+		return arguments_;
+	}
+
+	type const & function_type::get_return_type() const
+	{
+		return *return_type_;
+	}
 }

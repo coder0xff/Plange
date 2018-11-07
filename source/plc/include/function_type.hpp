@@ -17,10 +17,12 @@ namespace plc {
 		std::map<std::string, val<analytic_value>> get_constrained_symbols() const override;
 		natural_value* collapse() override;
 		std::optional<val<analytic_value>> get_type() const override;
+		std::vector<argument> get_arguments() const;
+		type const & get_return_type() const;
 
 	private:
 		val<type> return_type_;
-		std::vector<argument> types_;
+		std::vector<argument> arguments_;
 	};
 }
 
