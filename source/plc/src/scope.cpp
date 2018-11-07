@@ -4,11 +4,12 @@
 // This will silence those errors so we can build while treating warnings as errors
 #define _SILENCE_CXX17_ITERATOR_BASE_CLASS_DEPRECATION_WARNING
 
-#include "compiler.hpp"
 #include "errors.hpp"
 #include "module.hpp"
 #include "scope.hpp"
+#include "type.hpp"
 #include "visibility.hpp"
+#include "function_type.hpp"
 
 namespace plc {
 
@@ -233,125 +234,125 @@ struct type_constraint_element_visitor {
 	}
 };
 
-struct statement_visitor {
-	ptr<scope> s;
-	ptr<source_code const> source;
-
-	void operator()(val<ASSIGNMENT> const & value) { throw std::logic_error("not implemented"); }
-	void operator()(val<BREAK> const & value) { throw std::logic_error("not implemented"); }
-	void operator()(val<CONTINUE> const & value) { throw std::logic_error("not implemented"); }
-
-	void operator()(val<DEFINITION> const & definition) {
-		std::u32string const & document = source->get_document();
-		std::optional<std::u32string> documentation_string;
-		auto a = value_specification(source, s, *definition->identifier_specification);
-		std::u32string name = source->get_substring(*definition->identifier_specification->identifier);
-		val<analytic_value> value = s->evaluate(*definition->expression);
-		auto const result = s->add_symbol(symbol(
-			name,
-			value,
-			value->get_type(),
-			s,
-			false,
-			true,
-			a.xml_doc_string.value_or(U""),
-			a.attributes,
-			a.vis.value_or(visibility::PUBLIC),
-			a.is_extern,
-			a.is_static,
-			false
-		));
-		if (!result.second) {
-			auto const location = source->describe_code_span(*definition);
-			ERROR(RedefinitionOfSymbol, location);
-		}
-
-	}
-
-	void operator()(val<DO> const & value) {
-		ERROR(NotImplemented, "");
-	}
-
-	void operator()(val<EXPRESSION> const & value) {
-		ERROR(NotImplemented, "");
-	}
-
-	void operator()(val<FOR> const & value) {
-		ERROR(NotImplemented, "");
-	}
-
-	void operator()(val<FOR_COLLECTION> const & value) {
-		ERROR(NotImplemented, "");
-	}
-
-	void operator()(val<FREE> const & value) {
-		ERROR(NotImplemented, "");
-	}
-
-	void operator()(val<IMPORT> const & value) {
-		ERROR(NotImplemented, "");
-	}
-
-	void operator()(val<LOCK> const & value) {
-		ERROR(NotImplemented, "");
-	}
-
-	void operator()(val<LOOP> const & value) {
-		ERROR(NotImplemented, "");
-	}
-
-	void operator()(val<OP_ASSIGNMENT> const & value) {
-		ERROR(NotImplemented, "");
-	}
-
-	void operator()(val<READ_LOCK> const & value) {
-		ERROR(NotImplemented, "");
-	}
-
-	void operator()(val<RETURN> const & value) {
-		ERROR(NotImplemented, "");
-	}
-
-	void operator()(val<THROW> const & value) {
-		ERROR(NotImplemented, "");
-	}
-
-	void operator()(val<TRY> const & value) {
-		ERROR(NotImplemented, "");
-	}
-
-	void operator()(val<TYPE_CONSTRAINT> const & value) {
-		TYPE_CONSTRAINT const & v = *value;
-		// All variables in this type constraint will have these properties, possibly extended or overriden by any per-identifier properties.
-		type_constraint_specification common_specification = type_constraint_specification(
-			source, s, *v.specification);
-
-		TYPE_CONSTRAINT_ELEMENT const & head = *value->head;
-		type_constraint_element_visitor visitor{common_specification, s, source};
-		std::variant<
-			val<TYPE_CONSTRAINT_DECLARATION>,
-			val<ASSIGNMENT>,
-			val<DEFINITION>
-		> a = head;
-		std::visit(visitor, *(TYPE_CONSTRAINT_ELEMENT_base *)&head);
-
-		for (TYPE_CONSTRAINT::tail_t const & element : v.tail) {
-			std::visit(visitor, *(TYPE_CONSTRAINT_ELEMENT_base *)&element.type_constraint_element);
-		}
-	}
-
-	void operator()(val<WRITE_LOCK> const & value) {
-		ERROR(NotImplemented, "");
-	}
-
-	void operator()(val<USING> const & value) {
-		ERROR(NotImplemented, "");
-	}
-
-};
 
 void scope::load_dom(ptr<scope> s, ptr<source_code> c, STATEMENT_SCOPE const & dom)
 {	
+	struct statement_visitor {
+		ptr<scope> s;
+		ptr<source_code const> source;
+
+		void operator()(val<ASSIGNMENT> const & value) { throw std::logic_error("not implemented"); }
+		void operator()(val<BREAK> const & value) { throw std::logic_error("not implemented"); }
+		void operator()(val<CONTINUE> const & value) { throw std::logic_error("not implemented"); }
+
+		void operator()(val<DEFINITION> const & definition) {
+			std::u32string const & document = source->get_document();
+			std::optional<std::u32string> documentation_string;
+			auto a = value_specification(source, s, *definition->identifier_specification);
+			std::u32string name = source->get_substring(*definition->identifier_specification->identifier);
+			val<analytic_value> value = s->evaluate(*definition->expression);
+			auto const result = s->add_symbol(symbol(
+				name,
+				value,
+				value->get_type(),
+				s,
+				false,
+				true,
+				a.xml_doc_string.value_or(U""),
+				a.attributes,
+				a.vis.value_or(visibility::PUBLIC),
+				a.is_extern,
+				a.is_static,
+				false
+			));
+			if (!result.second) {
+				auto const location = source->describe_code_span(*definition);
+				ERROR(RedefinitionOfSymbol, location);
+			}
+
+		}
+
+		void operator()(val<DO> const & value) {
+			ERROR(NotImplemented, "");
+		}
+
+		void operator()(val<EXPRESSION> const & value) {
+			ERROR(NotImplemented, "");
+		}
+
+		void operator()(val<FOR> const & value) {
+			ERROR(NotImplemented, "");
+		}
+
+		void operator()(val<FOR_COLLECTION> const & value) {
+			ERROR(NotImplemented, "");
+		}
+
+		void operator()(val<FREE> const & value) {
+			ERROR(NotImplemented, "");
+		}
+
+		void operator()(val<IMPORT> const & value) {
+			ERROR(NotImplemented, "");
+		}
+
+		void operator()(val<LOCK> const & value) {
+			ERROR(NotImplemented, "");
+		}
+
+		void operator()(val<LOOP> const & value) {
+			ERROR(NotImplemented, "");
+		}
+
+		void operator()(val<OP_ASSIGNMENT> const & value) {
+			ERROR(NotImplemented, "");
+		}
+
+		void operator()(val<READ_LOCK> const & value) {
+			ERROR(NotImplemented, "");
+		}
+
+		void operator()(val<RETURN> const & value) {
+			ERROR(NotImplemented, "");
+		}
+
+		void operator()(val<THROW> const & value) {
+			ERROR(NotImplemented, "");
+		}
+
+		void operator()(val<TRY> const & value) {
+			ERROR(NotImplemented, "");
+		}
+
+		void operator()(val<TYPE_CONSTRAINT> const & value) {
+			TYPE_CONSTRAINT const & v = *value;
+			// All variables in this type constraint will have these properties, possibly extended or overriden by any per-identifier properties.
+			type_constraint_specification common_specification = type_constraint_specification(
+				source, s, *v.specification);
+
+			TYPE_CONSTRAINT_ELEMENT const & head = *value->head;
+			type_constraint_element_visitor visitor{common_specification, s, source};
+			std::variant<
+				val<TYPE_CONSTRAINT_DECLARATION>,
+				val<ASSIGNMENT>,
+				val<DEFINITION>
+			> a = head;
+			std::visit(visitor, *(TYPE_CONSTRAINT_ELEMENT_base *)&head);
+
+			for (TYPE_CONSTRAINT::tail_t const & element : v.tail) {
+				std::visit(visitor, *(TYPE_CONSTRAINT_ELEMENT_base *)&element.type_constraint_element);
+			}
+		}
+
+		void operator()(val<WRITE_LOCK> const & value) {
+			ERROR(NotImplemented, "");
+		}
+
+		void operator()(val<USING> const & value) {
+			ERROR(NotImplemented, "");
+		}
+
+	};
 	for (std::variant<val<IC>, val<STATEMENT>> const & entry : dom) {
 		val<STATEMENT> const * statementPtr = std::get_if<val<STATEMENT>>(&entry);
 		if (statementPtr != nullptr) {
@@ -373,8 +374,117 @@ std::pair<symbol_table::iterator, bool> scope::add_symbol(symbol const & s) {
 //
 //}
 
-val<analytic_value> scope::evaluate(EXPRESSION const & expression) {
+val<analytic_value> evaluate(scope & s, MAPS_TO const & value) {
+	auto is_volatile = value.field_1.has_value();
+	auto is_const = value.field_2.has_value();
+	val<analytic_value> lhs = s.evaluate(*value.lhs);
+	val<analytic_value> rhs = s.evaluate(*value.rhs);
+	type const * lhs_as_t = dynamic_cast<type const *>(&*lhs);
+	if (lhs_as_t != nullptr) {
+		type const * rhs_as_t = dynamic_cast<type const *>(&*rhs);
+		if (rhs_as_t != nullptr) {
+			// Dealing with the function type meaning
+			function_type const * rhs_as_ft = dynamic_cast<function_type const *>(&*rhs);
+			if (rhs_as_ft != nullptr) {
+				return function_type(is_volatile, is_const, *lhs_as_t, *rhs_as_ft);
+			}
+			return function_type(is_volatile, is_const, *lhs_as_t, *rhs_as_t);
+		}
+	}
 	ERROR(NotImplemented, "");
+}
+
+val<analytic_value> evaluate(scope & s, BINARY_LOGICAL_OP const & value) {
+	struct visitor {
+		scope & s;
+		val<analytic_value> operator()(val<AND> const & value) { ERROR(NotImplemented, ""); }
+		val<analytic_value> operator()(val<IFF> const & value) { ERROR(NotImplemented, ""); }
+		val<analytic_value> operator()(val<IMPLICATION> const & value) { ERROR(NotImplemented, ""); }
+		val<analytic_value> operator()(val<MAPS_TO> const & value) {
+			return evaluate(s, *value);
+		}
+		val<analytic_value> operator()(val<NAND> const & value) { ERROR(NotImplemented, ""); }
+		val<analytic_value> operator()(val<NOR> const & value) { ERROR(NotImplemented, ""); }
+		val<analytic_value> operator()(val<OR> const & value) { ERROR(NotImplemented, ""); }
+		val<analytic_value> operator()(val<XOR> const & value) { ERROR(NotImplemented, ""); }
+	};
+
+	return std::visit(visitor{ s }, static_cast<BINARY_LOGICAL_OP_base>(value));
+}
+
+val<analytic_value> evaluate(scope & s, BINARY_OP const & value) {
+	struct visitor {
+		scope & s;
+		val<analytic_value> operator()(val<BINARY_ARITHMETIC_OP> const & value) { ERROR(NotImplemented, ""); }
+		val<analytic_value> operator()(val<BINARY_COLLECTION_OP> const & value) { ERROR(NotImplemented, ""); }
+		val<analytic_value> operator()(val<BINARY_LOGICAL_OP> const & value) {
+			return evaluate(s, *value);
+		}
+		val<analytic_value> operator()(val<BITWISE_OP> const & value) { ERROR(NotImplemented, ""); }
+		val<analytic_value> operator()(val<CONSTRUCTIVE_OP> const & value) { ERROR(NotImplemented, ""); }
+		val<analytic_value> operator()(val<RELATIONAL_OP> const & value) { ERROR(NotImplemented, ""); }
+	};
+
+	return std::visit(visitor{ s }, static_cast<BINARY_OP_base>(value));
+}
+
+val<analytic_value> scope::evaluate(EXPRESSION const & expression) {
+	struct visitor {
+		scope & s;
+		val<analytic_value> operator()(val<ARRAY> const & value) { ERROR(NotImplemented, ""); }
+		val<analytic_value> operator()(val<ASM_FUNCTION> const & value) { ERROR(NotImplemented, ""); }
+		val<analytic_value> operator()(val<BINARY_OP> const & value) {
+			return plc::evaluate(s, *value);
+		}
+		val<analytic_value> operator()(val<BOOL> const & value) { ERROR(NotImplemented, ""); }
+		val<analytic_value> operator()(val<CAST> const & value) { ERROR(NotImplemented, ""); }
+		val<analytic_value> operator()(val<CEILING> const & value) { ERROR(NotImplemented, ""); }
+		val<analytic_value> operator()(val<COMPLEMENT> const & value) { ERROR(NotImplemented, ""); }
+		val<analytic_value> operator()(val<CONDITIONAL> const & value) { ERROR(NotImplemented, ""); }
+		val<analytic_value> operator()(val<DATE> const & value) { ERROR(NotImplemented, ""); }
+		val<analytic_value> operator()(val<DATE_TIME> const & value) { ERROR(NotImplemented, ""); }
+		val<analytic_value> operator()(val<DELTA> const & value) { ERROR(NotImplemented, ""); }
+		val<analytic_value> operator()(val<DIMENSIONAL_NUMBER> const & value) { ERROR(NotImplemented, ""); }
+		val<analytic_value> operator()(val<EMBEDDED_STRING> const & value) { ERROR(NotImplemented, ""); }
+		val<analytic_value> operator()(val<ENUM> const & value) { ERROR(NotImplemented, ""); }
+		val<analytic_value> operator()(val<EQUALITY> const & value) { ERROR(NotImplemented, ""); }
+		val<analytic_value> operator()(val<FLOOR> const & value) { ERROR(NotImplemented, ""); }
+		val<analytic_value> operator()(val<FUNCTION> const & value) { ERROR(NotImplemented, ""); }
+		val<analytic_value> operator()(val<GREATER> const & value) { ERROR(NotImplemented, ""); }
+		val<analytic_value> operator()(val<IDENTIFIER> const & value) { ERROR(NotImplemented, ""); }
+		val<analytic_value> operator()(val<IF> const & value) { ERROR(NotImplemented, ""); }
+		val<analytic_value> operator()(val<INVOCATION> const & value) { ERROR(NotImplemented, ""); }
+		val<analytic_value> operator()(val<LESSER> const & value) { ERROR(NotImplemented, ""); }
+		val<analytic_value> operator()(val<LIST> const & value) { ERROR(NotImplemented, ""); }
+		val<analytic_value> operator()(val<MAGNITUDE> const & value) { ERROR(NotImplemented, ""); }
+		val<analytic_value> operator()(val<MAP> const & value) { ERROR(NotImplemented, ""); }
+		val<analytic_value> operator()(val<MEMBER_ACCESS> const & value) { ERROR(NotImplemented, ""); }
+		val<analytic_value> operator()(val<NEAREST_INTEGER> const & value) { ERROR(NotImplemented, ""); }
+		val<analytic_value> operator()(val<NON_NEG_NUMBER> const & value) { ERROR(NotImplemented, ""); }
+		val<analytic_value> operator()(val<OBJECT> const & value) { ERROR(NotImplemented, ""); }
+		val<analytic_value> operator()(val<PARENTHETICAL> const & value) { ERROR(NotImplemented, ""); }
+		val<analytic_value> operator()(val<RANGE> const & value) { ERROR(NotImplemented, ""); }
+		val<analytic_value> operator()(val<REGEX> const & value) { ERROR(NotImplemented, ""); }
+		val<analytic_value> operator()(val<SET> const & value) { ERROR(NotImplemented, ""); }
+		val<analytic_value> operator()(val<SET_COMPREHENSION> const & value) { ERROR(NotImplemented, ""); }
+		val<analytic_value> operator()(val<SUBSET> const & value) { ERROR(NotImplemented, ""); }
+		val<analytic_value> operator()(val<SUPERSET> const & value) { ERROR(NotImplemented, ""); }
+		val<analytic_value> operator()(val<SWIZZLE> const & value) { ERROR(NotImplemented, ""); }
+		val<analytic_value> operator()(val<THIS> const & value) { ERROR(NotImplemented, ""); }
+		val<analytic_value> operator()(val<THIS_FUNC> const & value) { ERROR(NotImplemented, ""); }
+		val<analytic_value> operator()(val<THIS_TYPE> const & value) { ERROR(NotImplemented, ""); }
+		val<analytic_value> operator()(val<TIME> const & value) { ERROR(NotImplemented, ""); }
+		val<analytic_value> operator()(val<TUPLE> const & value) { ERROR(NotImplemented, ""); }
+		val<analytic_value> operator()(val<TYPE> const & value) { ERROR(NotImplemented, ""); }
+		val<analytic_value> operator()(val<UNARY_OP> const & value) { ERROR(NotImplemented, ""); }
+		val<analytic_value> operator()(val<VECTOR_NORM> const & value) { ERROR(NotImplemented, ""); }
+		val<analytic_value> operator()(parlex::detail::document::text<literal_context_t> const & value) { ERROR(NotImplemented, ""); }
+		val<analytic_value> operator()(parlex::detail::document::text<literal_null_t> const & value) { ERROR(NotImplemented, ""); }
+		val<analytic_value> operator()(parlex::detail::document::text<literal_unit_t> const & value) { ERROR(NotImplemented, ""); }
+		val<analytic_value> operator()(parlex::detail::document::text<void> const & value) { ERROR(NotImplemented, ""); }
+	};
+
+	return std::visit(visitor{ *this }, static_cast<EXPRESSION_base>(expression));
 }
 
 val<analytic_value> scope::construct(val<analytic_value> const & type, std::vector<val<analytic_value>> const & arguments) {

@@ -147,6 +147,7 @@ set(SOURCES
 	"src/analytic_value.cpp"
 	"src/compiler.cpp"
 	"src/errors.cpp"
+	"src/function_type.cpp"
 	"src/grammar.cpp"
 	"src/module.cpp"
 	"src/natural_value.cpp"
@@ -155,6 +156,7 @@ set(SOURCES
 	"src/scope.cpp"
 	"src/source_code.cpp"
 	"src/symbol.cpp"
+	"src/type.cpp"
 	"src/visibility.cpp"
 	"src/warnings.cpp"
 )
@@ -163,6 +165,7 @@ set(HEADERS
 	"include/analytic_value.hpp"
 	"include/compiler.hpp"
 	"include/errors.hpp"
+	"include/function_type.hpp"
 	"include/grammar.hpp"
 	"include/module.hpp"
 	"include/natural_value.hpp"
@@ -171,6 +174,7 @@ set(HEADERS
 	"include/scope.hpp"
 	"include/source_code.hpp"
 	"include/symbol.hpp"
+	"include/type.hpp"
 	"include/visibility.hpp"
 	"include/warnings.hpp"
 )
