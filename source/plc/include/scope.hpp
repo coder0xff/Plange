@@ -31,10 +31,11 @@ namespace plc {
 		symbol_table symbols;
 
 		std::pair<symbol_table::iterator, bool> add_symbol(symbol const & s);
+		symbol & get_symbol(std::u32string const & name);
 		bool is_descendent_of(scope const & s);
 		bool can_execute(scope const & s);
 
-		val<analytic_value> evaluate(EXPRESSION const & expression);
+		val<analytic_value> evaluate(source_code const & code, EXPRESSION const & expression);
 		val<analytic_value> construct(val<analytic_value> const & type, std::vector<val<analytic_value>> const & arguments);
 
 		std::map<std::string, val<analytic_value>> get_constrained_symbols() const override;

@@ -21,6 +21,7 @@ public:
 		std::optional<val<analytic_value>> type,
 		ptr<analytic_value> const & scope,
 		bool is_variable,
+		// False if the symbol exists in the scope because it exists in an ancestral scope
 		bool is_local,
 		std::u32string xml_doc_string,
 		std::vector<val<analytic_value>> attributes,
