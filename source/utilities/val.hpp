@@ -55,6 +55,40 @@ namespace val_detail {
 	template<typename T, typename U>
 	size_t compute_upcast_offset = (size_t)((T*)((U*)1)) - 1;
 
+	template<typename T, typename = void>
+	struct is_defined_impl : std::false_type { };
+
+	template<typename T>
+	struct is_defined_impl<T, typename std::enable_if<(sizeof(T) - sizeof(T)) == 0>::type> : std::true_type {};
+
+	template<typename T>
+	constexpr bool is_defined = is_defined_impl<T>::value;
+
+	template<typename DefaultSize, typename T, typename = void>
+	struct helper_impl {
+		static constexpr size_t small_storage_size = DefaultSize::value;
+		static constexpr bool allow_copy = true;
+		static constexpr bool allow_move = true;
+
+	};
+
+	template<typename DefaultSize, typename T>
+	struct helper_impl<DefaultSize, T, typename std::enable_if<is_defined<T>>::type> {
+		static constexpr size_t small_storage_size = sizeof T;
+		static constexpr bool allow_copy = std::is_copy_constructible<T>::value;
+		static constexpr bool allow_move = std::is_constructible<T, T&&>::value; //is_move_constructible is broken in VS 2017
+	};
+
+	template<size_t DefaultSize, typename T>
+	constexpr size_t small_storage_size = helper_impl<std::integral_constant<size_t, DefaultSize>, T>::small_storage_size;
+
+	template<typename T>
+	constexpr bool allow_copy = helper_impl<std::integral_constant<size_t, 0>, T>::allow_copy;
+
+	template<typename T>
+	constexpr bool allow_move = helper_impl<std::integral_constant<size_t, 0>, T>::allow_move;
+
+
 	template<typename T, bool IsClonable>
 	struct clone_impl {
 		static_assert(IsClonable != IsClonable, "template specialization failed");
@@ -83,7 +117,7 @@ namespace val_detail {
 		switch (o) {
 		case CLONE:
 			assert(data);
-			return reinterpret_cast<intptr_t>(clone_impl<T, std::is_copy_constructible<T>::value>::clone(data, placement));
+			return reinterpret_cast<intptr_t>(clone_impl<T, val_detail::allow_copy<T>>::clone(data, placement));
 		case DELETE:
 			assert(data);
 			delete data; // virtual destruction is unneeded and bypassed because we always work with the most-derived perspective
@@ -119,38 +153,6 @@ namespace val_detail {
 	static char const * type(op_sig const & op_ptr) {
 		return reinterpret_cast<char const *>(op_ptr(TYPE, nullptr, nullptr));
 	}
-
-	template<typename T, typename = void>
-	struct is_defined_impl : std::false_type { };
-
-	template<typename T>
-	struct is_defined_impl<T, typename std::enable_if<(sizeof(T) - sizeof(T)) == 0>::type> : std::true_type {};
-
-	template<typename T>
-	constexpr bool is_defined = is_defined_impl<T>::value;
-
-	template<typename DefaultSize, typename T, typename = void>
-	struct props_impl {
-		static constexpr size_t small_storage_size = DefaultSize::value;
-		static constexpr bool allow_copy = true;
-		static constexpr bool allow_move = true;
-	};
-
-	template<typename DefaultSize, typename T>
-	struct props_impl<DefaultSize, T, typename std::enable_if<is_defined<T>>::type> {
-		static constexpr size_t small_storage_size = sizeof T;
-		static constexpr bool allow_copy = std::is_copy_constructible<T>::value;
-		static constexpr bool allow_move = std::is_constructible<T, T&&>::value; //is_move_constructible is broken in VS 2017
-	};
-
-	template<size_t DefaultSize, typename T>
-	constexpr size_t small_storage_size = props_impl<std::integral_constant<size_t, DefaultSize>, T>::small_storage_size;
-
-	template<typename T>
-	constexpr bool allow_copy = props_impl<std::integral_constant<size_t, 0>, T>::allow_copy;
-
-	template<typename T>
-	constexpr bool allow_move = props_impl<std::integral_constant<size_t, 0>, T>::allow_move;
 
 	template<typename T, typename = void>
 	struct emit_heap_warning_imp {
