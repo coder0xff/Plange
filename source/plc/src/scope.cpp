@@ -19,7 +19,17 @@ namespace plc {
 		m(m),
 		source(std::move(source)),
 		parent(std::move(parent)) {
-		
+		if (parent.has_value()) {
+			scope & p = **this->parent;
+			outer_scope_symbols = p.outer_scope_symbols;
+			auto i = p.symbols.begin();
+			auto end = p.symbols.end();
+			auto j = i;
+			++j;
+			for (; i != end; ++i) {
+				outer_scope_symbols[i->first] = i->second;
+			}
+		}
 	}
 
 	//struct invocation_visitor {
@@ -30,14 +40,15 @@ namespace plc {
 	//	}
 	//};
 
-	std::vector<val<analytic_value>> evaluate_standard_arguments(scope & s, STANDARD_ARGUMENTS const & v) {
+	std::vector<val<analytic_value>> evaluate_standard_arguments(scope & s, source_code const & source, STANDARD_ARGUMENTS const & v) {
 		std::vector<val<analytic_value>> results;
 
 		struct arg_visitor {
 			scope & s;
+			source_code const & source;
 
 			std::vector<val<analytic_value>> operator()(val<EXPRESSION> const & v) const {
-				return {s.evaluate(*v)};
+				return {s.evaluate(source, *v)};
 			}
 
 			std::vector<val<analytic_value>> operator()(val<ARGUMENT_PACK> const & v) const {
@@ -45,7 +56,7 @@ namespace plc {
 			}
 		};
 
-		arg_visitor visitor{s};
+		arg_visitor visitor{s, source};
 
 		std::optional<std::variant<val<EXPRESSION>, val<ARGUMENT_PACK>>> maybe_head = v.head;
 		if (maybe_head.has_value()) {
@@ -74,9 +85,9 @@ namespace plc {
 		bool is_static;
 		bool is_extern;
 
-		value_specification(const ptr<source_code> & source, const ptr<scope> & scope, IDENTIFIER_SPECIFICATION const & v) :
+		value_specification(scope & scope, source_code const & source, IDENTIFIER_SPECIFICATION const & v) :
 			xml_doc_string(v.doc.has_value()
-				               ? std::optional<std::u32string>(source->get_xml_doc_string(**v.doc))
+				               ? std::optional<std::u32string>(source.get_xml_doc_string(**v.doc))
 				               : std::nullopt),
 			vis(v.visibility.has_value()
 				    ? std::optional<visibility>(visibility_from_ast(*(*v.visibility).visibility_modifier))
@@ -85,13 +96,13 @@ namespace plc {
 			is_extern(v.extern_.has_value()) {
 			for (auto const & attributeContainer : v.attributes) {
 				auto attribute = *attributeContainer.attribute;
-				attributes.push_back(scope->evaluate(*attribute.expression));
+				attributes.push_back(scope.evaluate(source, *attribute.expression));
 			}
 		}
 
-		value_specification(ptr<source_code> source, ptr<scope> scope, TYPE_CONSTRAINT_SPECIFICATION const & v) :
+		value_specification(scope & s, source_code const & source, TYPE_CONSTRAINT_SPECIFICATION const & v) :
 			xml_doc_string(v.doc.has_value()
-				               ? std::optional<std::u32string>(source->get_xml_doc_string(**v.doc))
+				               ? std::optional<std::u32string>(source.get_xml_doc_string(**v.doc))
 				               : std::nullopt),
 			vis(v.visibility.has_value()
 				    ? std::optional<visibility>(visibility_from_ast(*(*v.visibility).visibility_modifier))
@@ -100,7 +111,7 @@ namespace plc {
 			is_extern(v.extern_.has_value()) {
 			for (auto const & attributeContainer : v.attributes) {
 				auto attribute = *attributeContainer.attribute;
-				attributes.push_back(scope->evaluate(*attribute.expression));
+				attributes.push_back(s.evaluate(source, *attribute.expression));
 			}
 		}
 
@@ -132,16 +143,17 @@ namespace plc {
 
 	struct type_constraint_specification {
 		struct type_constraint_specification_visitor {
-			ptr<scope> s;
+			scope & s;
+			source_code const & source;
 
 			type_constraint operator()(val<TYPE_DEREFERENCE> const & value) const {
 				auto const & unpacked = *value;
-				return type_constraint(s->evaluate(*unpacked.expression), false, false);
+				return type_constraint(s.evaluate(source, *unpacked.expression), false, false);
 			}
 
 			type_constraint operator()(val<VOLATILE_TYPE_DEREFERENCE> const & value) const {
 				auto const & unpacked = *value;
-				return type_constraint(s->evaluate(*unpacked.expression), true, false);
+				return type_constraint(s.evaluate(source, *unpacked.expression), true, false);
 			}
 
 			type_constraint operator()(val<IMPLICIT_TYPE_DEREFERENCE> const & value) const {
@@ -157,18 +169,18 @@ namespace plc {
 		type_constraint type;
 		value_specification specification;
 
-		type_constraint_specification(const ptr<source_code const> source, const ptr<scope> & s, TYPE_CONSTRAINT_SPECIFICATION const & v) :
-			type(std::visit(type_constraint_specification_visitor{s}, v.type_dereference)),
-			specification(value_specification(source, s, v)) { }
+		type_constraint_specification(scope & s, source_code const & source, TYPE_CONSTRAINT_SPECIFICATION const & v) :
+			type(std::visit(type_constraint_specification_visitor{s, source}, v.type_dereference)),
+			specification(value_specification(s, source, v)) { }
 	};
 
 	struct type_constraint_element_visitor {
 		type_constraint_specification common;
-		ptr<scope> s;
-		ptr<source_code const> source;
+		scope & s;
+		source_code const & source;
 
 		symbol make_symbol(IDENTIFIER_SPECIFICATION const & v, val<analytic_value> const & value) {
-			value_specification specification(source, s, v);
+			value_specification specification(s, source, v);
 			auto combined = specification.combine(common.specification);
 			//return
 			//	symbol(
@@ -198,9 +210,11 @@ namespace plc {
 				std::optional<PARENTHETICAL_INVOCATION::arguments_t> c = b.arguments;
 				if (c.has_value()) {
 					PARENTHETICAL_INVOCATION::arguments_t d = *c;
-					const std::vector<val<analytic_value>> arguments = evaluate_standard_arguments(*s, *d.standard_arguments);
+					const std::vector<val<analytic_value>> arguments = evaluate_standard_arguments(s, source, *d.standard_arguments);
 					if (common.type.value.has_value()) {
-						return {make_symbol(*v->identifier_specification, s->construct(*common.type.value, arguments))};
+						std::vector<symbol> results;
+						results.emplace_back(std::move(make_symbol(*v->identifier_specification, s.construct(*common.type.value, arguments))));
+						return results;
 					} else {
 						ERROR(NotImplemented, "");
 					}
@@ -220,10 +234,10 @@ namespace plc {
 			while ((next = std::get_if<ASSIGNMENT_NODE::value_t>(&current->value))) {
 				current = &*next->next;
 			}
-			auto const value = s->evaluate(*std::get<val<EXPRESSION>>(current->value));
+			auto const value = s.evaluate(source, *std::get<val<EXPRESSION>>(current->value));
 
 			// Create a symbol for the head identifier
-			results.push_back(make_symbol(*v->identifier_specification, value));
+			results.emplace_back(std::move(make_symbol(*v->identifier_specification, value)));
 
 			current = &*v->assignment_node;
 			while ((next = std::get_if<ASSIGNMENT_NODE::value_t>(&current->value))) {
@@ -234,31 +248,33 @@ namespace plc {
 		}
 
 		std::vector<symbol> operator()(val<DEFINITION> const & v) {
-			return {make_symbol(*v->identifier_specification, s->evaluate(*v->expression))};
+			std::vector<symbol> results;
+			results.emplace_back(std::move(make_symbol(*v->identifier_specification, s.evaluate(source, *v->expression))));
+			return results;
 		}
 	};
 
 
-	void scope::load_dom(ptr<scope> s, ptr<source_code> c, STATEMENT_SCOPE const & dom) {
+	void scope::load_dom(scope & s, source_code const & c, STATEMENT_SCOPE const & dom) {
 		struct statement_visitor {
-			ptr<scope> s;
-			ptr<source_code const> source;
+			scope & s;
+			source_code const & source;
 
 			void operator()(val<ASSIGNMENT> const & value) { throw std::logic_error("not implemented"); }
 			void operator()(val<BREAK> const & value) { throw std::logic_error("not implemented"); }
 			void operator()(val<CONTINUE> const & value) { throw std::logic_error("not implemented"); }
 
 			void operator()(val<DEFINITION> const & definition) {
-				std::u32string const & document = source->get_document();
+				std::u32string const & document = source.get_document();
 				std::optional<std::u32string> documentation_string;
-				auto a = value_specification(source, s, *definition->identifier_specification);
-				std::u32string name = source->get_substring(*definition->identifier_specification->identifier);
-				val<analytic_value> value = s->evaluate(*definition->expression);
-				auto const result = s->add_symbol(symbol(
+				auto a = value_specification(s, source, *definition->identifier_specification);
+				std::u32string name = source.get_substring(*definition->identifier_specification->identifier);
+				val<analytic_value> value = s.evaluate(source, *definition->expression);
+				auto const result = s.add_symbol(symbol(
 					name,
 					value,
 					value->get_type(),
-					s,
+					s.ptr_from_this(),
 					false,
 					true,
 					a.xml_doc_string.value_or(U""),
@@ -269,7 +285,7 @@ namespace plc {
 					false
 				));
 				if (!result.second) {
-					auto const location = source->describe_code_span(*definition);
+					auto const location = source.describe_code_span(*definition);
 					ERROR(RedefinitionOfSymbol, location);
 				}
 
@@ -330,8 +346,7 @@ namespace plc {
 			void operator()(val<TYPE_CONSTRAINT> const & value) {
 				TYPE_CONSTRAINT const & v = *value;
 				// All variables in this type constraint will have these properties, possibly extended or overriden by any per-identifier properties.
-				type_constraint_specification common_specification = type_constraint_specification(
-					source, s, *v.specification);
+				type_constraint_specification common_specification = type_constraint_specification(s, source, *v.specification);
 
 				TYPE_CONSTRAINT_ELEMENT const & head = *value->head;
 				type_constraint_element_visitor visitor{common_specification, s, source};
@@ -365,14 +380,17 @@ namespace plc {
 		}
 	}
 
-	std::pair<symbol_table::iterator, bool> scope::add_symbol(symbol const & s) {
-		return symbols.emplace(std::piecewise_construct, forward_as_tuple(s.get_name()), std::forward_as_tuple(s));
+	std::pair<symbol_table::iterator, bool> scope::add_symbol(symbol && s) {
+		return symbols.emplace(std::piecewise_construct, forward_as_tuple(s.get_name()), std::move(s));
 	}
 
 	symbol & scope::get_symbol(std::u32string const & name) {
-		
+		auto i = symbols.find(name);
+		if (i == symbols.end()) {
+			auto j = outer_scope_symbols.find(name);
+		}
+		ERROR(NotImplemented, "");
 	}
-
 
 
 	//val<natural_value> scope::getFunctionType(MAPS_TO const & v) {
@@ -385,8 +403,8 @@ namespace plc {
 
 	val<analytic_value> evaluate(scope & s, MAPS_TO const & value);
 
-	val<analytic_value> evaluate(scope & s, INVOCATION const & value) {
-		auto function = s.evaluate(*value.expression);
+	val<analytic_value> evaluate(scope & s, source_code const & source, INVOCATION const & value) {
+		auto function = s.evaluate(source, *value.expression);
 		struct visitor {
 			scope & s;
 
@@ -404,7 +422,7 @@ namespace plc {
 
 		};
 
-		return std::visit(visitor{ s }, value.args);
+		return std::visit(visitor{s}, value.args);
 
 	}
 
@@ -480,14 +498,14 @@ namespace plc {
 		return std::visit(visitor{s}, static_cast<BINARY_OP_base>(value));
 	}
 
-	val<analytic_value> evaluate(scope & s, MAPS_TO const & value) {
+	val<analytic_value> evaluate(scope & s, source_code const & source, MAPS_TO const & value) {
 		auto const is_volatile = value.field_1.has_value();
-		auto is_const = value.field_2.has_value();
-		val<analytic_value> lhs = s.evaluate(*value.lhs);
-		val<analytic_value> rhs = s.evaluate(*value.rhs);
-		type const * lhs_as_t = dynamic_cast<type const *>(&*lhs);
+		const auto is_const = value.field_2.has_value();
+		auto lhs = s.evaluate(source, *value.lhs);
+		auto rhs = s.evaluate(source, *value.rhs);
+		auto const * lhs_as_t = dynamic_cast<type const *>(&*lhs);
 		if (lhs_as_t != nullptr) {
-			type const * rhs_as_t = dynamic_cast<type const *>(&*rhs);
+			auto const * rhs_as_t = dynamic_cast<type const *>(&*rhs);
 			if (rhs_as_t != nullptr) {
 				// Dealing with the function type meaning
 				auto const * rhs_as_ft = dynamic_cast<function_type const *>(&*rhs);
@@ -500,10 +518,10 @@ namespace plc {
 		ERROR(NotImplemented, "");
 	}
 
-	val<analytic_value> scope::evaluate(source_code const & code, EXPRESSION const & expression) {
+	val<analytic_value> scope::evaluate(source_code const & source, EXPRESSION const & expression) {
 		struct visitor {
 			scope & s;
-			source_code const & code;
+			source_code const & source;
 
 			val<analytic_value> operator()(val<ARRAY> const & value) {
 				ERROR(NotImplemented, "");
@@ -578,8 +596,9 @@ namespace plc {
 			}
 
 			val<analytic_value> operator()(val<IDENTIFIER> const & value) {
-				auto const name = code.get_substring(*value);
+				auto const name = source.get_substring(*value);
 				symbol const & sym = s.get_symbol(name);
+				ERROR(NotImplemented, "");
 			}
 
 			val<analytic_value> operator()(val<IF> const & value) {
@@ -587,7 +606,7 @@ namespace plc {
 			}
 
 			val<analytic_value> operator()(val<INVOCATION> const & value) {
-				return plc::evaluate(s, *value);
+				return plc::evaluate(s, source, *value);
 			}
 
 			val<analytic_value> operator()(val<LESSER> const & value) {
@@ -703,7 +722,7 @@ namespace plc {
 			}
 		};
 
-		return std::visit(visitor{*this, code}, static_cast<EXPRESSION_base>(expression));
+		return std::visit(visitor{*this, source}, static_cast<EXPRESSION_base>(expression));
 	}
 
 	val<analytic_value> scope::construct(val<analytic_value> const & type, std::vector<val<analytic_value>> const & arguments) {

@@ -146,3 +146,25 @@ TEST(ValTest, val_move_test_2) {
 	std::vector<val<base1>> x = { make_val<base1>() };
 	std::vector<val<base1>> y(std::move(x));
 }
+
+TEST(ValTest, ptr_const_1) {
+	auto x = make_val<base1>();
+	ptr<base1> y((x));
+	ptr<base1 const> z((y));
+}
+
+TEST(ValTest, val_const_1) {
+	auto x = make_val<base1>();
+	val<base1 const> y((x));
+}
+
+TEST(ValTest, ptr_from_this_1) {
+	struct a : enable_ptr_from_this<a> {
+		a() : x(5) {}
+		int x;
+	};
+
+	val<a> b((a()));
+	ptr<a> c(b->ptr_from_this());
+	EXPECT_EQ(5, c->x);
+}

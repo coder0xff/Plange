@@ -14,7 +14,7 @@ namespace plc {
 
 	class natural_value;
 
-	class analytic_value : virtual public std::enable_shared_from_this<analytic_value> {
+	class analytic_value : virtual public enable_ptr_from_this<analytic_value> {
 	public:
 		virtual ~analytic_value() {}
 		virtual std::map<std::string, val<analytic_value>> get_constrained_symbols() const = 0;

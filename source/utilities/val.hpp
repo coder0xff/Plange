@@ -130,13 +130,27 @@ namespace val_detail {
 	constexpr bool is_defined = is_defined_impl<T>::value;
 
 	template<typename DefaultSize, typename T, typename = void>
-	struct small_storage_size_impl : DefaultSize { };
+	struct props_impl {
+		static constexpr size_t small_storage_size = DefaultSize::value;
+		static constexpr bool allow_copy = true;
+		static constexpr bool allow_move = true;
+	};
 
 	template<typename DefaultSize, typename T>
-	struct small_storage_size_impl<DefaultSize, T, typename std::enable_if<is_defined<T>>::type> : std::integral_constant<size_t, sizeof(T)> {};
+	struct props_impl<DefaultSize, T, typename std::enable_if<is_defined<T>>::type> {
+		static constexpr size_t small_storage_size = sizeof T;
+		static constexpr bool allow_copy = std::is_copy_constructible<T>::value;
+		static constexpr bool allow_move = std::is_constructible<T, T&&>::value; //is_move_constructible is broken in VS 2017
+	};
 
 	template<size_t DefaultSize, typename T>
-	constexpr size_t small_storage_size = small_storage_size_impl<std::integral_constant<size_t, DefaultSize>, T>::value;
+	constexpr size_t small_storage_size = props_impl<std::integral_constant<size_t, DefaultSize>, T>::small_storage_size;
+
+	template<typename T>
+	constexpr bool allow_copy = props_impl<std::integral_constant<size_t, 0>, T>::allow_copy;
+
+	template<typename T>
+	constexpr bool allow_move = props_impl<std::integral_constant<size_t, 0>, T>::allow_move;
 
 	template<typename T, typename = void>
 	struct emit_heap_warning_imp {
@@ -167,7 +181,37 @@ namespace val_detail {
 		//std::cerr << "Warning: a val allocated heap storage. Use the SmallStorageSize type parameter to improve locality. Type T is " << typeid(T).name() << ". Type U is " << typeid(U).name() << ".\n";
 #endif
 	}
+
+	template<typename U, typename V>
+	using is_same_ignore_const = std::is_same<typename std::remove_const<U>::type, typename std::remove_const<V>::type>;
+
 }
+
+template<typename T>
+class enable_ptr_from_this {
+public:
+	enable_ptr_from_this() {
+		memset(&descriptor_, 0, sizeof descriptor_);
+	}
+
+	ptr<T> ptr_from_this() {
+		return ptr<T>(descriptor_);
+	}
+
+	ptr<T const> ptr_from_this() const {
+		return ptr<T>(descriptor_);
+	}
+
+private:
+	template<typename, size_t>
+	friend class val;
+
+	explicit enable_ptr_from_this(val_detail::descriptor_t const & descriptor)
+		: descriptor_(descriptor) {}
+
+	val_detail::descriptor_t descriptor_;
+};
+
 
 // non-nullable weak pointer to val objects
 template<typename T>
@@ -193,6 +237,13 @@ public:
 		descriptor.block_ptr->increment();
 	}
 
+	//template<typename U, typename std::enable_if<std::is_const<T>::value, int>::type = 0>
+	//ptr(ptr<typename std::remove_const<T>::type> const & other) {
+	//	const descriptor_t d = other.get_descriptor();
+	//	descriptor = d;
+	//	descriptor.block_ptr->increment();
+	//}
+
 	ptr & operator =(ptr other) {
 		auto new_descriptor = other.get_descriptor();
 		new_descriptor.block_ptr->increment();
@@ -214,7 +265,7 @@ public:
 		descriptor.upcast_offset += val_detail::compute_upcast_offset<T, U>;
 	}
 
-	template <typename U, typename std::enable_if<std::is_base_of<T, U>::value, int>::type = 0>
+	template<typename U, typename std::enable_if<std::is_base_of<T, U>::value, int>::type = 0>
 	ptr & operator =(ptr<U> other) {
 		auto new_descriptor = other.get_descriptor();
 		new_descriptor.block_ptr->increment();
@@ -231,6 +282,7 @@ public:
 		descriptor.upcast_offset += val_detail::compute_upcast_offset<T, U>;
 	}
 
+
 	template<typename U, size_t SmallStorageSizeU, typename std::enable_if<std::is_base_of<U, T>::value && !std::is_same<U, T>::value, int>::type = 0>
 	explicit ptr(val<U, SmallStorageSizeU> const & other) {
 		auto result = dynamic_cast<T*>(&*other);
@@ -242,7 +294,7 @@ public:
 		descriptor.upcast_offset -= val_detail::compute_upcast_offset<T, U>;
 	}
 
-	template<typename U, typename std::enable_if<std::is_base_of<U, T>::value, int>::type = 0>
+	template<typename U, typename std::enable_if<std::is_base_of<U, T>::value && !val_detail::is_same_ignore_const<T, U>::value, int>::type = 0>
 	explicit ptr(ptr<U> const & other) {
 		U * result = dynamic_cast<U*>(&*other);
 		if (result == nullptr) {
@@ -266,6 +318,9 @@ public:
 	}
 
 private:
+	template<typename U>
+	friend class enable_ptr_from_this;
+
 	descriptor_t descriptor;
 	mutable std::mutex m;
 
@@ -309,7 +364,7 @@ private:
 template<typename T>
 using nptr = std::optional<ptr<T>>;
 
-// value semantic type erasure via base types
+// value semantic polymorphic type erasure
 template<typename T, size_t SmallStorageSize = val_detail::small_storage_size<16, T>>
 class val {
 	// NOLINT(cppcoreguidelines-special-member-functions, cppcoreguidelines-special-member-functions, hicpp-special-member-functions)
@@ -351,51 +406,57 @@ class val {
 		return new(ptr) typename std::remove_const<U>::type(std::forward<U>(other));
 	}
 
+	void init_ptr_from_this() {
+		if constexpr (std::is_base_of<enable_ptr_from_this<T>, T>::value) {
+			enable_ptr_from_this<T> & base = *static_cast<enable_ptr_from_this<T> *>(&**this);
+			base.descriptor_ = data.get_descriptor();
+		}	
+	}
+
 public:
 	typedef T value_type;
 	static constexpr size_t small_storage_size = SmallStorageSize;
 
 	// ReSharper disable CppPossiblyUninitializedMember
 	// ReSharper disable CppNonExplicitConvertingConstructor
-	val(T const & v) : data(new val_detail::block(construct(v)), 0, &val_detail::op<T>) {
-		memset(small_storage, 0, sizeof(small_storage) * sizeof(decltype(*small_storage)));
+	template<typename = typename std::enable_if<val_detail::allow_copy<T>>::type>
+	val(T const & v) : small_storage{0}, data(new val_detail::block(construct(v)), 0, &val_detail::op<T>) {
+		init_ptr_from_this();
 	}
 
-	val(T && v) : data(new val_detail::block(construct(std::forward<T>(v))), 0, &val_detail::op<T>) {
-		memset(small_storage, 0, sizeof(small_storage) * sizeof(decltype(*small_storage)));
+	template<typename = typename std::enable_if<val_detail::allow_move<T>>::type>
+	val(T && v) : small_storage{0}, data(new val_detail::block(construct(std::forward<T>(v))), 0, &val_detail::op<T>) {
+		init_ptr_from_this();
 	}
 
-	val(val const & other) : data(other.data.clone(0, emplacement_ptr(val_detail::small_storage_size<SIZE_MAX, T>))) {
-		memset(small_storage, 0, sizeof(small_storage) * sizeof(decltype(*small_storage)));
-	}
-
-	val(T * v) : data(new val_detail::block(v), 0, &val_detail::op<T>) {
-		memset(small_storage, 0, sizeof(small_storage) * sizeof(decltype(*small_storage)));
-	}
-
-	// construct from type U that inherits T
-	template<typename U, typename std::enable_if<std::is_base_of<T, U>::value, int>::type = 0>
-	val(U const & v) : data(new val_detail::block(construct(v)), val_detail::compute_upcast_offset<T, U>, &val_detail::op<U>) {
-		memset(small_storage, 0, sizeof(small_storage) * sizeof(decltype(*small_storage)));
+	template<typename = typename std::enable_if<val_detail::allow_copy<T>>::type>
+	val(val const & other) : small_storage{0}, data(other.data.clone(0, emplacement_ptr(val_detail::small_storage_size<SIZE_MAX, T>))) {
+		init_ptr_from_this();
 	}
 
 	// construct from type U that inherits T
-	template<typename U, typename std::enable_if<std::is_base_of<T, U>::value, int>::type = 0>
+	template<typename U, typename std::enable_if<std::is_base_of<T, U>::value && val_detail::allow_copy<U>, int>::type = 0>
+	val(U const & v) : small_storage{0}, data(new val_detail::block(construct(v)), val_detail::compute_upcast_offset<T, U>, &val_detail::op<U>) {
+		init_ptr_from_this();
+	}
+
+	// construct from type U that inherits T
+	template<typename U, typename std::enable_if<std::is_base_of<T, U>::value && val_detail::allow_copy<U>, int>::type = 0>
 	// ReSharper disable once CppNonExplicitConvertingConstructor
-	val(U && v) : data(new val_detail::block(construct(v)), val_detail::compute_upcast_offset<T, U>, &val_detail::op<U>) {
-		memset(small_storage, 0, sizeof(small_storage) * sizeof(decltype(*small_storage)));
+	val(U && v) : small_storage{0}, data(new val_detail::block(construct(v)), val_detail::compute_upcast_offset<T, U>, &val_detail::op<U>) {
+		init_ptr_from_this();
 	} // NOLINT(misc-forwarding-reference-overload)
 
 	// construct from val<U> where U inherits T
-	template<typename U, size_t SmallStorageSizeU, typename std::enable_if<std::is_base_of<T, U>::value, int>::type = 0>
-	val(val<U, SmallStorageSizeU> const & other) : data(other.data.clone(val_detail::compute_upcast_offset<T, U>, emplacement_ptr(other.data.get_size_of_data()))) {
-		memset(small_storage, 0, sizeof(small_storage) * sizeof(decltype(*small_storage)));
+	template<typename U, size_t SmallStorageSizeU, typename std::enable_if<std::is_base_of<T, U>::value && val_detail::allow_copy<U>, int>::type = 0>
+	val(val<U, SmallStorageSizeU> const & other) : small_storage{0}, data(other.data.clone(val_detail::compute_upcast_offset<T, U>, emplacement_ptr(other.data.get_size_of_data()))) {
+		init_ptr_from_this();
 	}
 
 	// construct from val<U> where U inherits T
-	template<typename U, size_t SmallStorageSizeU, typename std::enable_if<std::is_base_of<U, T>::value && !std::is_same<T, U>::value, int>::type = 0>
-	val(val<U, SmallStorageSizeU> const & other) : data(other.data.clone(val_detail::compute_upcast_offset<T, U>, emplacement_ptr(other.data.get_size_of_data()))) {
-		memset(small_storage, 0, sizeof(small_storage) * sizeof(decltype(*small_storage)));
+	template<typename U, size_t SmallStorageSizeU, typename std::enable_if<std::is_base_of<U, T>::value && !val_detail::is_same_ignore_const<T, U>::value && val_detail::allow_copy<U>, int>::type = 0>
+	val(val<U, SmallStorageSizeU> const & other) : small_storage{0}, data(other.data.clone(val_detail::compute_upcast_offset<T, U>, emplacement_ptr(other.data.get_size_of_data()))) {
+		init_ptr_from_this();
 	}
 
 	// ReSharper restore CppPossiblyUninitializedMember

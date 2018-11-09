@@ -16,7 +16,8 @@ namespace plc {
 
 	class module;
 
-	typedef std::unordered_map<std::u32string, val<symbol>> symbol_table;
+	typedef std::map<std::u32string, val<symbol>> symbol_table;
+	typedef std::unordered_map<std::u32string, ptr<symbol>> symbol_ptr_table;
 
 	class scope : public analytic_value {
 	public:
@@ -29,8 +30,9 @@ namespace plc {
 		std::vector<val<scope>> children;
 
 		symbol_table symbols;
+		symbol_ptr_table outer_scope_symbols;
 
-		std::pair<symbol_table::iterator, bool> add_symbol(symbol const & s);
+		std::pair<symbol_table::iterator, bool> add_symbol(symbol && s);
 		symbol & get_symbol(std::u32string const & name);
 		bool is_descendent_of(scope const & s);
 		bool can_execute(scope const & s);
@@ -42,7 +44,7 @@ namespace plc {
 
 		natural_value* collapse() override;
 
-		static void load_dom(ptr<scope> s, ptr<source_code> c, STATEMENT_SCOPE const & dom);
+		static void load_dom(scope & s, source_code const & c, STATEMENT_SCOPE const & dom);
 
 	};
 }
