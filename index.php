@@ -29,17 +29,20 @@
 		
 		
 		
-		<h1>Introduction</h1>
-		<p>The Plange language is an extensible, mixed language of proof and type systems, solvers, and functional and imperative programs on variables, functions, types, and other objects. See the <a href="goals/">goals</a> page. It is traditional to start with the <u>Hello World</u> program.</p>
-		
-		<div class="code2">
-			<pre>
+		<p>
+			goals:
+			<ul>
+				<li>Be extensible</li>
+				<li>Mix paradigms</li>
+				<li>Provide a lot</li>
+			</ul>
+			<div class="code2">
+				<pre>
 print("Hello, world!");
-			</pre>
-		</div>
-
-		<p>Comments are created using two syntactic variations.</p>
-		
+				</pre>
+			</div>
+		</p>
+	
 		<div class="code2">
 			<p>End of line comment (red is comment text)</p>
 			<pre>
@@ -54,11 +57,10 @@ getRandomNumber := { return 4; <span style="color: red">/*choosen by fair dice r
 			</pre>
 		</div>
 		
-		
-		
-		<h2>Special Characters</h2>
 		<p>Some Unicode characters are included for completeness. Many have typable equivalents. For example, implication can be typed as <code>⇒</code> or <code>=></code>. Unicode characters will be used in documentation. See the <a href="/documentation/operators.php">partial list</a>.</p>
 		
+		operators:
+		<?php include('./documentation/operators_printer.php') ?>
 		
 		<h2>Variables and Memory Model</h2>
 		<p>A variable may take place in a constraint system, be free or bound, and may have storage allocated to it. A variable can be assigned a value and be changed freely using the assignment operator <code>←</code>, or <code>&lt;-</code>.</p>
