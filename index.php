@@ -100,15 +100,12 @@ color ← "Red";
 x ← 2.718281;
 &lt;Pointer&lt;Float&gt;&gt;x_ptr = &x;
 			</pre>
-		<p>Values may be stored on the stack, heap, reference counted heap, or garbage collected heap. The Pointer type provides addressing of memory.</p>
-
-		<p>Unbound variables can be targets for symbolic or numerical solutions. In specific normal and canonical forms, constraints on variables define a problem space for which solutions are desired. The capabilities are limited by availability and applicability of known processes, such as those upon convergent power series, linear systems, etc.</p>
 
 		<div class="code2">
 			<p>Symbolic manipulation</p>
 			<pre>
 x = 1337;
-tan(y*2) = x;
+tan(y*2) = x; // y is a free variable
 print y; // arctan(1337) / 2 = { 1.570048, -1.571544 };
 			</pre>
 		</div>
