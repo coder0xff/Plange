@@ -65,10 +65,10 @@ getRandomNumber := { return 4; <span style="color: red">/*choosen by fair dice r
 		<div class="code2">
 			<p>print the voltage across a discharging capacitor</p>
 			<pre>
-V := coerce&gt;Real&lt;(input("Volts: "));
-R := coerce&gt;Real&lt;(input("Ohms: "));
-C := coerce&gt;Real&lt;(input("Farads: "));
-𝑡 := coerce&gt;Real&lt;(input("Seconds: "));
+V := coerce&lt;Real&gt;(input("Volts: "));
+R := coerce&lt;Real&gt;(input("Ohms: "));
+C := coerce&lt;Real&gt;(input("Farads: "));
+𝑡 := coerce&lt;Real&gt;(input("Seconds: "));
 
 𝜏 := R * C;
 print(V * 𝑒^(-𝑡/𝜏));
@@ -98,7 +98,8 @@ color ← "Red";
 			<p>Memory Model</p>
 			<pre>
 x ← 2.718281;
-&lt;Pointer&lt;Float&gt;&gt;x_ptr = &x;
+&lt;Pointer&lt;Float&gt;&gt; x_ptr = address_of(x);
+echo(dereference(x_ptr));
 			</pre>
 		</div>
 
@@ -107,7 +108,7 @@ x ← 2.718281;
 			<pre>
 x = 1337;
 tan(y*2) = x; // y is a free variable
-print y; // arctan(1337) / 2 = { 1.570048, -1.571544 };
+echo(y); // arctan(1337) / 2 = { 1.570048, -1.571544 };
 			</pre>
 		</div>
 		
@@ -119,7 +120,7 @@ print y; // arctan(1337) / 2 = { 1.570048, -1.571544 };
 		<div class="code2">
 			<p>Example</p>
 			<pre>
-print(π); //print pi
+echo(π);
 			</pre>
 		</div>
 
