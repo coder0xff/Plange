@@ -65,13 +65,13 @@ getRandomNumber := { return 4; <span style="color: red">/*choosen by fair dice r
 		<div class="code2">
 			<p>print the voltage across a discharging capacitor</p>
 			<pre>
-				V := coerce&gt;Real&lt;(input("Volts: "));
-				R := coerce&gt;Real&lt;(input("Ohms: "));
-				C := coerce&gt;Real&lt;(input("Farads: "));
-				𝑡 := coerce&gt;Real&lt;(input("Seconds: "));
+V := coerce&gt;Real&lt;(input("Volts: "));
+R := coerce&gt;Real&lt;(input("Ohms: "));
+C := coerce&gt;Real&lt;(input("Farads: "));
+𝑡 := coerce&gt;Real&lt;(input("Seconds: "));
 
-				𝜏 := R * C;
-				print(V * 𝑒^(-𝑡/𝜏));
+𝜏 := R * C;
+print(V * 𝑒^(-𝑡/𝜏));
 			</pre>
 		</div>
 
@@ -97,8 +97,8 @@ color ← "Red";
 		<div class="code2">
 			<p>Memory Model</p>
 			<pre>
-				x ← 2.718281;
-				x_ptr = &
+x ← 2.718281;
+&lt;Pointer&lt;Float&gt;&gt;x_ptr = &x;
 			</pre>
 		<p>Values may be stored on the stack, heap, reference counted heap, or garbage collected heap. The Pointer type provides addressing of memory.</p>
 
