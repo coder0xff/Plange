@@ -10,9 +10,16 @@
 	<body>
 		<?php require('header.php') ?>
 
+		<h1>Declaration of Intent</h1>
+		<p>
+		I was born at the cusp of the Millenial generation. I remember my parent's early home computers, and the seminal communities that arose in the pre-dawn of the World Wide Web. I received my first cell phone as a mid-teen, when access to the internet was distributed on physical CDs, printed in millions. Today, we are connected by technology so powerful as to deeply transform the human condition in the span of a single generation. Our voices have become multiplied, and divided. Our individual experiences have become the shared experiences of the world. Our thoughts, in a gesture, have become actions. This change, though unprecedented, is the exponential growth of science and technology predicted long ago, and long manifested. Modern, young minds see inspiration and opportunity to find purpose in a new future. A command of our modern world is desirable both professionally, and personally-the once arcane knowledge of the venerable ancients is, in a word, cool!</p>
+
+		<p>As more of us master the way in which we build our new experiences-programming, making, and collaboration-a measured dose of caution is warranted. We see that our haste to embrace these new ideas has left us compromised and vulnerable. Citizens are defrauded by nefarious agents, goverments are swayed by global propoganda, and the rise of the artificially intelligent may serve to decimate the middle class. As a practitioner of engineering, and a life long student of the application of critical thinking and problem solving, I feel it's my duty to work diligently and purposefully to prevent the abuse of careless mistakes. Compromised technologies and paradigms are not justifiable means to quick ends. Open, formal, and rigorous application of the best engineering practices (followed by regular maintenance and audit), are the bare minimum of a sound global software infrastructure. Like with medical devices, bridges, and clean water, we should accept no failures in the systems that are essential to our modern way of living. The teething infant of computational science and engineering is no different, and has very big shoes to fill.</p>
+
+		<p>I am privileged to witness the explosive development of human intellectual endeavor, and I feel inspired to build an ecosystem of technology that is safe, fair, sohpisticated, and for the benefit of all. I ask you to join me.</p>
 
 		<div style="padding:1em;font-size:1.6em">
-			Plange is an open-source project to create a development suite including a programming language, standard library, runtime, and a toplevel (repl).
+			Plange is an open-source project to create a robust and comprehensive development suite including a programming language, standard library, runtime, and a toplevel (repl).
 		</div>
 		<p>This site is for developer reference only, and may change at any time.</p>
 		<ul>
@@ -25,9 +32,6 @@
 				[<a href="http://www.internationalphoneticalphabet.org/ipa-sounds/ipa-chart-with-sounds/">ipa</a>]
 			</li>
 		</ul>
-		<hr>
-		
-		
 		
 		<p>
 			goals:
@@ -35,6 +39,7 @@
 				<li>Be extensible</li>
 				<li>Mix paradigms</li>
 				<li>Provide a lot</li>
+				<li>Do it the right way</li>
 			</ul>
 			<div class="code2">
 				<pre>
@@ -51,26 +56,28 @@ print("My name is HAL 9000."); <span style="color: red">//only kidding!</span>
 		</div>
 		
 		<div class="code2">
-			<p>Inline comment (red is comment text) <small><small><small><a href="https://www.xkcd.com/221/">source</a></small></small></small></p>
+			<p>Inline comment (red is comment text) <small><small><small><a href="https://www.xkcd.com/221/">xkcd.com</a></small></small></small></p>
 			<pre>
 getRandomNumber := { return 4; <span style="color: red">/*choosen by fair dice roll*/</span> }; <span style="color: red">//guaranteed to be random</span>
 			</pre>
 		</div>
 		
-		<p>Some Unicode characters are included for completeness. Many have typable equivalents. For example, implication can be typed as <code>⇒</code> or <code>=></code>. Unicode characters will be used in documentation. See the <a href="/documentation/operators.php">partial list</a>.</p>
-		
-		operators:
-		<?php include('./documentation/operators_printer.php') ?>
-		
-		<h2>Variables and Memory Model</h2>
-		<p>A variable may take place in a constraint system, be free or bound, and may have storage allocated to it. A variable can be assigned a value and be changed freely using the assignment operator <code>←</code>, or <code>&lt;-</code>.</p>
 		<div class="code2">
-			<p>Assign a value to a variable</p>
+			<p>print the voltage across a discharging capacitor</p>
 			<pre>
-x ← 1337;
+				V := coerce&gt;Real&lt;(input("Volts: "));
+				R := coerce&gt;Real&lt;(input("Ohms: "));
+				C := coerce&gt;Real&lt;(input("Farads: "));
+				𝑡 := coerce&gt;Real&lt;(input("Seconds: "));
+
+				𝜏 := R * C;
+				print(V * 𝑒^(-𝑡/𝜏));
 			</pre>
 		</div>
 
+		operators:
+		<?php include('./documentation/operators_printer.php') ?>
+		
 		<p>Variables can be reassigned.</p>
 		<div class="code2">
 			<p>Reassign a variable</p>
@@ -80,8 +87,6 @@ color ← "Red";
 			</pre>
 		</div>
 
-		<p>A variable may be constrained to a type.</p>
-
 		<div class="code2">
 			<p>Type constraint on a variable</p>
 			<pre>
@@ -89,6 +94,12 @@ color ← "Red";
 			</pre>
 		</div>
 
+		<div class="code2">
+			<p>Memory Model</p>
+			<pre>
+				x ← 2.718281;
+				x_ptr = &
+			</pre>
 		<p>Values may be stored on the stack, heap, reference counted heap, or garbage collected heap. The Pointer type provides addressing of memory.</p>
 
 		<p>Unbound variables can be targets for symbolic or numerical solutions. In specific normal and canonical forms, constraints on variables define a problem space for which solutions are desired. The capabilities are limited by availability and applicability of known processes, such as those upon convergent power series, linear systems, etc.</p>
