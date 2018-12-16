@@ -100,6 +100,7 @@ color ← "Red";
 x ← 2.718281;
 &lt;Pointer&lt;Float&gt;&gt;x_ptr = &x;
 			</pre>
+		</div>
 
 		<div class="code2">
 			<p>Symbolic manipulation</p>
