@@ -28,8 +28,8 @@
         <p>Introspection and meta-programming facilitate extensibility and DSLs.(see <a href="https://en.wikipedia.org/wiki/Metaobject">metaobject</a> on Wikipedia). See the <a href="metaobjects.php">metaobjects page</a>.</p>
 
         <h2>Verification</h2>
-        A programming language has zero or more algebraic systems for the verification of programs. Haskell has types. Java has exception declarations. Rust has sound mutability. Prolog has predicate logic. Javascript has none at all. Languages are designed around the algebraic systems they leverage, if any, and appeasing these systems is required to produce a functional program. The effect is robustness, but a lack of flexibility and power. A language that offers many algebras and calculi, but doesn't mandate their use, is desirable. Coupled with extensibility, a new type of developer exerience is realized. As the developer explores the languages capabilities, they discover new potential domains rather than boundaries.
-
+        A programming language has zero or more algebraic systems for the verification of programs. Haskell has types. Java has exception declarations. Rust has sound mutability. Prolog has predicate logic. Javascript has none at all. Languages are designed around the algebraic systems they leverage, if any, and appeasing these systems is required to produce a functional program. The effect is robustness, but a lack of flexibility and power. A language that offers many algebras and calculi, but doesn't mandate their use, is desirable. 
+        
         <h2>Multi-Paradigm</h2>
         <p>Useful semantic features are included from each <a href="https://en.wikipedia.org/wiki/Programming_language_generations">generation of programming languages</a>.</p>
         <ul>
