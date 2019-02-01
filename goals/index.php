@@ -70,7 +70,7 @@
         </ul>
 
         <h2>Solver and C.A.S.</h2>
-        <p>Constraints on systems, in the form of expressions in predicate logic, differentials, and other problem domains are solved symbolically, or numeric methods are used at runtime. The user may initiate symbolic evaluation within the IDE, especially for techniques that may have unbounded running time.</p>
+        <p>Constraints on systems, in the form of expressions in predicate logic, differentials, and other problem domains are solved symbolically, or numeric methods are used at runtime. The user may initiate and abort symbolic evaluation within the IDE, especially for techniques that may have unbounded running time.</p>
 
         <h2>Scripting friendly</h2>
         <p>Simple problems should have simple solutions. The "Hello World" program must be one line of source code. As such, functions for printing, manipulating files, and other basic operations are automatically in scope of each translation unit. See the <a href="/documentation/standard-library.php">standard library</a>. Further, the barrier to entry must be low. Install once, configure by a gui, no package management</p>
