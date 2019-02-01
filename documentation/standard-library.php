@@ -92,7 +92,7 @@
 				<tr><td>args</td><td></td><td></td><td>the command line arguments</td></tr>
 				<tr><td>env</td><td></td><td></td><td>the environment variables</td></tr>
 				<tr><td>false</td><td></td><td></td><td>one of two values that a Bool may take, the other being true</td></tr>
-				<tr><td>endline</td><td>the platform-specific endline string</td></tr>
+				<tr><td>endline</td><td></td><td></td><td>the platform-specific endline string</td></tr>
 				<tr><td>null</td><td></td><td></td><td>the null pointer</td></tr>
 				<tr><td>true</td><td></td><td></td><td>one of two values that a Bool may take, the other being false</td></tr>
 				<tr><td>π</td><td>pi</td><td>(<a href="http://www.fileformat.info/info/unicode/char/03c0/index.htm">GREEK SMALL LETTER PI U+03CO</a>)</td><td>pi mathematical constant</td></tr>
