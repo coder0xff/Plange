@@ -1,15 +1,16 @@
 <meta charset='utf-8'/>
 <meta name="viewport" content="width=device-width, initial-scale=0.6">
 <html>
-    <head>
-        <title>Goals - Plange</title>
-        <link rel=StyleSheet href='../css/general.css' type='text/css' />
-    </head>
-    <body>
-        <?php require('../header.php') ?>
+	<head>
+		<title>Computer Algebra - Plange</title>
+		<link rel=StyleSheet href='../css/general.css' type='text/css' />
+	</head>
+	<body>
+		<?php require('../header.php') ?>
+		
+		<p>Solvers are very limited. Numeric methods also require domain knowledge. Each algebra operates on expressions within its normal form. Normalization is left to the programmer except in specific supported cases. Some algebras have bounded execution times, such as Risch integration. In general, an algebra may offer no such guarantees.</p>
 
-
-        Solvers are very limited, unfortunately. Numeric methods also require domain knowledge. Each algebra operates when presented with an expression within its required normal form. Normalization is left to the programmer. Some algebra have bounded execution times, such as Risch integration. In general, some algebra may offer no such guarantees.
+		<h4>Example</h4>
 
 		<p>One well studied domain is <a href="https://en.wikipedia.org/wiki/Initial_value_problem">initial value problems</a>. An ordinary differential equation is given with boundary conditions on free variables:</p>
 
@@ -64,6 +65,6 @@ projectilePosition := (
 
 
 
-        <?php require('../footer.php') ?>
-    </body>
+		<?php require('../footer.php') ?>
+	</body>
 </html>

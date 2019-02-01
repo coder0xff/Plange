@@ -10,37 +10,30 @@
 	<body>
 		<?php require('header.php') ?>
 
-		<h1>Declaration of Intent</h1>
-		<p>
-		I was born at the cusp of the Millennial generation. I remember my parents' early home computers, and the seminal communities that paved the way for the World Wide Web. I received my first cell phone as a mid-teen, when access to the internet was distributed on physical CDs, printed in millions. Today, we are connected by technology so powerful as to deeply transform the human condition in the span of a single generation. Our voices have become multiplied, and divided. Our individual experiences have become the shared experiences of the world. Our thoughts, in a gesture, have become actions. This change, though unprecedented, is the exponential growth of science and technology predicted long ago, and long manifested. Modern young minds see inspiration and opportunity in pursuit of a new future. A command of our modern world is desirable both professionally and personally&mdash;the once arcane knowledge of the venerable ancients is, in a word, cool!</p>
-
-		<p>As more of us master the way in which we build our new experiences&mdash;programming, making, and collaboration&mdash;a measure of caution is warranted. We see that our haste to embrace these new ideas has left us compromised and vulnerable. Citizens are defrauded by nefarious agents, goverments are swayed by global propaganda, and the rise of the artificially intelligent may serve to decimate the middle class. As a practitioner of engineering, and a lifelong student of the application of critical thinking and problem solving, I feel it's my duty to work diligently and purposefully to prevent the exploitation of careless mistakes. Compromised technologies and paradigms are not justifiable means to quick ends. Rigorous and transparent application of the best engineering practices are essential to a sound global software infrastructure. As with medical devices, bridges, and clean water, we should accept no failure in the systems essential to our modern way of living. The teething infant of computational science and engineering is no different.</p>
-
-		<p>I am privileged to witness this explosive development of human intellectual endeavor, and I aspire to build an ecosystem of technology that is safe, fair, sophisticated, and for the benefit of all. I ask you to join me.</p>
-
 		<div style="padding:1em;font-size:1.6em">
-			Plange is an open-source project to create a robust and comprehensive development suite including a programming language, standard library, runtime, and a toplevel (repl).
+			Plange is an open-source development suite.
+			<ul>
+				<li>language</li>
+				<li>standard library</li>
+				<li>documentation</li>
+				<li>integrated development environment</li>
+				<li>top-level (repl)</li>
+				<li>web services</li>
+				<li>compute resources</li>
+				<li>support</li>
+			</ul>
 		</div>
-		<p>This site is for developer reference only, and may change at any time.</p>
+		<p>This site is for developer reference and may change at any time.</p>
 		<ul>
 			<li>license: <a href="https://tldrlegal.com/license/bsd-3-clause-license-(revised)#fulltext">New BSD</a></li>
 			<li>source code: <a href="https://github.com/coder0xff/Plange">git repository</a></li>
 			<li>status: pre-alpha</li>
-			<li>monetization: compute resources and pro support</li>
-			<li>pronunciation:
-				plænd͡ʒ
-				[<a href="http://www.internationalphoneticalphabet.org/ipa-sounds/ipa-chart-with-sounds/">ipa</a>]
-			</li>
+			<li>pronunciation<sup>[<a href="http://www.internationalphoneticalphabet.org/ipa-sounds/ipa-chart-with-sounds/">ipa</a>]</sup>: plænd͡ʒ</li>
 		</ul>
 		
+		<a href="goals/index.php">Goals</a>
+
 		<p>
-			goals:
-			<ul>
-				<li>Be extensible</li>
-				<li>Mix paradigms</li>
-				<li>Provide a lot</li>
-				<li>Do it the right way</li>
-			</ul>
 			<div class="code2">
 				<pre>
 print("Hello, world!");

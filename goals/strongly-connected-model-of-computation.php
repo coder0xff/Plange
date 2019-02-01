@@ -17,9 +17,8 @@
 		<h2>Advantages</h2>
 		<ul>
 			<li>Improves upon Eval using homoiconicity and metaobject concepts (everything is data)</li>
-			<li>Mutable introspection </li>
-			<li>process-time profile-guided optimization.</li>
-			<li>The number of nodes in a program's dependency graph is unbounded, and can become as interconnected or modular, as complex or as simple as desired, but is always strong because all nodes can use the toplevel.</li>
+			<li>Mutable introspection</li>
+			<li>profile-guided optimization applied live.</li>
 			<li>Moving up and down levels up abstraction does not break the strong property.</li>
 		</ul>
 		<h2>Disadvantages</h2>
@@ -27,12 +26,6 @@
 			<li>The requirement for the digraph to be strong makes it more difficult to design, build and maintain.</li>
 			<li>Complicated security requirements</li>
 		</ul>
-		<p>Note that if the runtime is internally transparent and mutable, meaning that all code and data for the runtime can be read and written by the runtime, then it can build copies of itself from its own introspection.</p>
-		<h2>Optimization Time</h2>
-		<p>Optimization is usually done during compile time. In plange, optimization is done whenever possible. A program can be executed by the plange interpreter, or it can be compiled. This decision can be made at runtime. To permit the highest level of flexibility, distributables may include an interpretable representation of the program. This enables the runtime to maintain the strongly connected digraph in deployment environments. A side affect of this arrangement is that dynamic recompilation can be performed (permitting full dependency injection support) and enhanced profile guided optimizations are enabled. Notably, since the optimizations may be performed at run time, there may be a "warm up" period before sustained performance is achieved. The runtime may be permitted to cache optimized binary portions to alleviate warm up.</p>
-		<p>See also: <a href="/goals/metaobjects.php">Metaobjects</a>
-		</p>
-
 
 		<?php require('../footer.php') ?>
 	</body>
