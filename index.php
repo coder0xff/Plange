@@ -31,8 +31,6 @@
 			<li>pronunciation<sup>[<a href="http://www.internationalphoneticalphabet.org/ipa-sounds/ipa-chart-with-sounds/">ipa</a>]</sup>: plænd͡ʒ</li>
 		</ul>
 		
-		<a href="goals/index.php">Goals</a>
-
 		<p>
 			<div class="code2">
 				<pre>
