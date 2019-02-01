@@ -103,7 +103,7 @@
 				<tr><td>ℝ</td><td>RR</td><td>(<a href="http://www.fileformat.info/info/unicode/char/211d/index.htm">DOUBLE-STRUCK CAPITAL R U+211D</a>)</td><td>real numbers</td></tr>
 				<tr><td>ℤ</td><td>ZZ</td><td>(<a href="http://www.fileformat.info/info/unicode/char/2124/index.htm">DOUBLE-STRUCK CAPITAL Z U+2124</a>)</td><td>integers</td></tr>
 				<tr><td>ℵ(n)</td><td></td><td>(<a href="http://www.fileformat.info/info/unicode/char/2135/index.htm">ALEF SYMBOL U+2135</a>)</td><td>When n = 0, the cardinality of ℕ, |ℕ|</td></tr>
-				<tr><td>ⅈ</td><td>ii</td><td>(<a href="http://www.fileformat.info/info/unicode/char/2148/index.htm">DOUBLE-STRUCK ITALIC SMALL I U+2148</a>)</td><td>imaginary unit</td></tr>
+				<tr><td>𝑖</td><td>ii</td><td>(<a href="http://www.fileformat.info/info/unicode/char/1d456/index.htm">MATHEMATICAL ITALIC SMALL I U+1D456</a>)</td><td>imaginary unit</td></tr>
 				<tr><td>∅</td><td>{||}</td><td>(<a href="http://www.fileformat.info/info/unicode/char/2205/index.htm">EMPTY SET U+2205</a>)</td><td>the empty set</td></tr>
 				<tr><td>𝑒</td><td>e</td><td>(<a href="http://www.fileformat.info/info/unicode/char/1d452/index.htm">MATHEMATICAL ITALIC SMALL E U+1D452</a>)</td><td>e mathematical constant</td></tr>
 				<tr><td>𝔹</td><td>BB</td><td>(<a href="http://www.fileformat.info/info/unicode/char/1d539/index.htm">MATHEMATICA DOUBLE-STRUCK CAPITAL B U+1D539</a>)</td><td>booleans</td></tr>
