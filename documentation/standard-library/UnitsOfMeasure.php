@@ -45,8 +45,8 @@
 		</ul>
 		<h2>Derived units</h2>
 		<ul>
-			<li>rad - radians</li>
-			<li>sr - steradians</li>
+			<li>rad - radians<sup>†</sup></li>
+			<li>sr - steradians<sup>†</sup></li>
 			<li>Hz - hertz</li>
 			<li>N - newtons</li>
 			<li>Pa - pascals</li>

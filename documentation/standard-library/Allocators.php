@@ -14,8 +14,9 @@
 		<h2>Types</h2>
 		<code>
 			<table style="width:2000px;">
-				<tr><td>BuddySystem</td></tr>
+				<tr><td>Buddy</td></tr>
 				<tr><td>Heap</td></tr>
+				<tr><td>Slab</td></tr>
 			</table>
 		</code>
 		
