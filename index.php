@@ -10,24 +10,14 @@
 	<body>
 		<?php require('header.php') ?>
 
-		<div style="padding:1em;font-size:1.6em">
-			Plange is an open-source development suite.
-			<ul>
-				<li>language</li>
-				<li>standard library</li>
-				<li>documentation</li>
-				<li>integrated development environment</li>
-				<li>top-level (repl)</li>
-				<li>web services</li>
-				<li>compute resources</li>
-				<li>support</li>
-			</ul>
-		</div>
-		<p>This site is for developer reference and may change at any time.</p>
+		<p>
+			Plange is an open-source development suite. The language consists of semantics from imperative, functional, and constraint-based programming. ODE solving, first-order logic, and type checking are examples of the available algebra and calculuses. A hybrid memory model supports garbage collection and native pointers. Many abstractions are available including inline multi-platform assembler, algebraic types, database records, code-level reflection and docstrings. The IDE communicates the success of verification, compilation, and validation steps to the user though real-time feedback, and also displays the results of symbolic workloads. This web domain hosts documentation, standard and third-party import libraries, cloud resources, a support community, and more.
+		</p>
 		<ul>
+
+			<li>The status of the project is pre-alpha.</li>
 			<li>license: <a href="https://tldrlegal.com/license/bsd-3-clause-license-(revised)#fulltext">New BSD</a></li>
 			<li>source code: <a href="https://github.com/coder0xff/Plange">git repository</a></li>
-			<li>status: pre-alpha</li>
 			<li>pronunciation<sup>[<a href="http://www.internationalphoneticalphabet.org/ipa-sounds/ipa-chart-with-sounds/">ipa</a>]</sup>: plænd͡ʒ</li>
 		</ul>
 		
