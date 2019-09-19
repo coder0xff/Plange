@@ -262,6 +262,12 @@ Ref <- (<Type> T) {
 	}
 }
 
+```Display
+Show <- (T) {
+	<String> text = coerce(T);
+	throw NotImplementedException();
+}
+
 ```Break a compound value into its constituent values.```
 separate <- Math.Algebra.inverse_function(combine);
 
