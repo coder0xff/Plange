@@ -15,3 +15,6 @@
 	url = https://github.com/jbeder/yaml-cpp.git
 	branch = yaml-cpp-0.6.2
 	
+[submodule "source/grammar_gen/elkhound"]
+	path = source/grammar_gen/elkhound
+	url = https://github.com/coder0xff/elkhound.git
