@@ -10,6 +10,7 @@
 *.sh text eol=lf
 *.txt text eol=lf
 *.wsn text eol=lf
+*.svg text eol=lf
 
 README.md text eol=lf
 aclocal.m4 text eol=lf
