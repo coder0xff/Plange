@@ -458,18 +458,23 @@ CROSS_PRODUCT_ASSIGNMENT:
 DATE:
     syntax: >
         DATE_YEAR_MONTH_DAY | DATE_YEAR_DAY
+    doc: >
+        1. A date literal in ISO 8601 extended date format, except day of month is not optional
+        2. A date literal in ISO 8601 ordinal date format
 
 DATE_YEAR_MONTH_DAY:
     syntax: >
         decimal_digit decimal_digit decimal_digit decimal_digit "-" decimal_digit decimal_digit "-" decimal_digit decimal_digit
     precedes: [SUBTRACTION]
     doc: >
-        a date literal
+        A date literal in ISO 8601 extended date format, except day of month is not optional
 
 DATE_YEAR_DAY:
     syntax: >
         decimal_digit decimal_digit decimal_digit decimal_digit "-" decimal_digit decimal_digit decimal_digit
     precedes: [SUBTRACTION]
+    doc: >
+        A date literal in ISO 8601 ordinal date format
 
 DATE_TIME:
     syntax: >
@@ -540,6 +545,32 @@ DOT_PRODUCT:
 DOWNCASTS:
     syntax: >
         EXPRESSION {IC} "downcasts" {IC} EXPRESSION
+
+DURATION_SECONDS:
+    syntax: >
+        NON_NEG_NUMBER "S"
+
+DURATION_MINUTES:
+    syntax: >
+        (NON_NEG_NUMBER "M") | ([NON_NEG_INTEGER "M"] DURATION_SECONDS)
+
+DURATION_HOURS:
+    syntax: >
+        (NON_NEG_NUMBER "H") | ([NON_NEG_INTEGER "H"] DURATION_MINUTES)
+
+DURATION_DAYS:
+    syntax: >
+        (NON_NEG_NUMBER "D") | ([NON_NEG_INTEGER "D"] "T" DURATION_HOURS)
+
+DURATION_MONTHS:
+    syntax: >
+        (NON_NEG_INTEGER "M") | ([NON_NEG_INTERGER "M"] DURATION_DAYS)
+
+DURATION:
+    syntax: >
+        "P" ((NON_NEG_INTEGER "Y") | ([NON_NEG_INTEGER "Y"] DURATION_MONTHS)
+    doc: >
+        A duration literal in ISO 8601 format, excluding fractional years and months, and fractions may not be delimited by a comma
 
 EMBEDDED_COMMENT:
     syntax: >
@@ -1027,6 +1058,17 @@ INTERSECTION_ASSIGNMENT:
     doc: Set intersect the two operands and assign the result to the first.
     see:
         - INTERSECTION
+
+INTERVAL:
+    syntax: >
+        (DATE_TIME "/" DATE_TIME) |
+        (DATE_TIME "/" DURATION) |
+        (DURATION "/" DATE_TIME)
+    doc: >
+        An interval literal in ISO 8601 format, with limitations inherited from DATE_TIME and DURATION
+    see:
+        - DATE_TIME
+        - DURATION
 
 INVOCATION:
     syntax: >
@@ -1627,7 +1669,9 @@ THROW:
 
 TIME:
     syntax: >
-        ["-"] decimal_digit decimal_digit ":" decimal_digit decimal_digit ":" decimal_digit decimal_digit ["." decimal_digit {decimal_digit}] ["Z" | (("+"|"-") decimal_digit decimal_digit [":" decimal_digit decimal_digit])]
+        decimal_digit decimal_digit ":" decimal_digit decimal_digit ":" decimal_digit decimal_digit ["." decimal_digit {decimal_digit}] ["Z" | (("+"|"-") decimal_digit decimal_digit [":" decimal_digit decimal_digit])]
+    doc: >
+        A time literal in ISO 8601 extended time format with no optional components (except timezone), and fractional seconds may not be delimited by a comma
 
 TRY:
     syntax: >
