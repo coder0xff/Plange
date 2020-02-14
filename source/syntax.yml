@@ -529,7 +529,7 @@ DIVISION_ASSIGNMENT:
         EXPRESSION {IC} ("÷"|"/" ) ("<-"|"←") {IC} EXPRESSION
     doc: Add the two operands and assign the result to the first.
     see:
-        - 
+        - DIVISION
 
 DO:
     syntax: >
