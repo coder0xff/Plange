@@ -1362,6 +1362,11 @@ OR:
         EXPRESSION {IC} ("∨"|"or") {IC} EXPRESSION
     assoc: either
     precedes: [IMPLICATION, XOR, IFF]
+    doc:
+        1. Boolean or
+        2. If both operands are types, the result is a variant type
+        3. If both operands are functions, the result is an overloaded function
+        4. If one operand in a type, and another is a function, the result is a parametric type
 
 OR_ASSIGNMENT:
     syntax: >
