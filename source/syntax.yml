@@ -1465,6 +1465,13 @@ SET_COMPREHENSION:
     example: |
         { x | x ∈ ℝ ∧ x < 3 }
 
+SHELL:
+    syntax: >
+        "`" {all} "`"
+    doc: Run the specified command in the system shell and evaluates to the output of the command. This operation is inherently non-portable.
+    filter:
+        shortest
+
 SHIFTL_ASSIGNMENT:
     syntax: >
         EXPRESSION {IC} "<<" ("<-"|"←") {IC} EXPRESSION
