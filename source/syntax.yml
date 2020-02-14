@@ -518,7 +518,11 @@ DIVISION:
     assoc: left
     precedes: [INTEGER_DIVISION, MAPS_TO, MODULATION, SUBTRACTION, ADDITION, ADD_SUB]
     doc: >
-        division or splits the left hand side collection into a collection of collections each the size of the right hand side
+        1. Numeric division
+        2. Split the left hand side collection into a collection of collections each the size of the right hand side
+        3. If the left operand is a namespace, n/x is equivalent to n.x because namespaces are sometimes directories
+    see:
+        - MODULATION
 
 DIVISION_ASSIGNMENT:
     syntax: >
