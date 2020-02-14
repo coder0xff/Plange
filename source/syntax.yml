@@ -327,7 +327,7 @@ BITWISE_OP:
 
 BLOCK:
     syntax: >
-        "{" STATEMENT_SCOPE "}"
+        "{" (STATEMENT_SCOPE | UNPARSED) "}"
 
 BOOL:
     syntax: >
@@ -843,6 +843,14 @@ FUNCTION:
         - |
             <Collection<T> → T> head := (a&b) { return a; }
         - | 
+
+UNPARSED:
+    syntax: >
+        { all }
+    doc: >
+        A placeholder for text that cannot be parsed
+
+        User-defined syntax must be parsed in stages. This placeholder allows us to extract meaningful information from documents, and make progress, even while some portions cannot be parsed. It also gives us additional information about the nested structure of the document for error output when parsing has ultimately failed.
 
 GREATER:
     syntax: >
@@ -1519,6 +1527,8 @@ STATEMENT:
 STATEMENT_SCOPE:
     syntax: >
         {IC | STATEMENT}
+    precedes:
+        [UNPARSED]
     doc: >
         zero or more statements, the top level syntax rule for source files
 
@@ -1634,7 +1644,7 @@ TUPLE:
 
 TYPE:
     syntax: >
-        "type" {IC} ["inheriting" {IC} INHERITANCE_LIST {IC}] ["implementing" {IC} INHERITANCE_LIST {IC}] "{" TYPE_SCOPE "}"
+        "type" {IC} ["inheriting" {IC} INHERITANCE_LIST {IC}] ["implementing" {IC} INHERITANCE_LIST {IC}] "{" (TYPE_SCOPE | UNPARSED) "}"
     doc: >
         create a type
     example: |
@@ -1672,10 +1682,12 @@ TYPE_INVOCATION:
 TYPE_SCOPE:
     syntax: >
         {IC} {TYPE_STATEMENT {IC}}
+    precedes:
+        [UNPARSED]
     doc: >
         zero or more statements or member declarations/definitions, used strictly in the TYPE syntax only
     notes: >
-        Any use of the assignment operator indicates an instance member declaration. Any use of the definition operator indicates a static member of the class, since it is immutable it will not vary between instances. Like in statement_scope, an execution context is available and will execute any top-level statements inside the type.
+        Any use of the assignment operator indicates an instance member declaration. Any use of the definition operator indicates a static member of the class, since it is immutable it will not vary between instances. Like in STATEMENT_SCOPE, an execution context is available and will execute any top-level statements inside the type.
 
 TYPE_SCOPE_ASSIGNMENT:
     syntax: >
