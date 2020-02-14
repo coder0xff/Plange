@@ -1134,7 +1134,8 @@ MODULATION:
     assoc: left
     precedes: [SUBTRACTION, ADDITION, ADD_SUB]
     doc: >
-        mod operator or returns a collection containing the elements that would not be consumed from the end of the left hand side by taking the chunk of the right hand side
+        1. The remained of the left operand divided by the right operand. The value's sign will be negative if either, not both, of the operands are negative.
+        2. If the left operand is a list, the collection containing the last N elements, where N = left.size() % right, of the left operand
 
 MODULATION_ASSIGNMENT:
     syntax: >
