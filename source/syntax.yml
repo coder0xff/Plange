@@ -1628,7 +1628,22 @@ SUPERSET_NODE:
 
 SWIZZLE:
     syntax: >
-        EXPRESSION {IC} ("⋮" | "_swiz_") {IC} EXPRESSION
+        EXPRESSION {IC} (
+            (("⋮"|"_swiz_") {letter}) |
+            ({("⋮"|"_swiz_") identifier})
+    doc: >
+        If the swizzle operator only appears once in an expression, and is followed only by letters, those letters each represent a single-character-name member.
+    examples:
+        - |
+            Vector3 v = |0, 1, 2|;
+            print(v⋮xz); // |0, 2|
+            print(|v.x, v.z|); // |0, 2|
+            v = v⋮xzy;
+            print(v); // |0, 2, 1|
+        - |
+            HSLColor c = |0, 1, 0|;
+            print(|c.hue, c.luminance|); // |0, 0|
+            print(v⋮hue⋮luminance); // |0, 0|
 
 SYMMETRIC_DIFFERENCE_ASSIGNMENT:
     syntax: >
