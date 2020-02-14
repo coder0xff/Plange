@@ -1755,7 +1755,7 @@ TYPE_SCOPE:
     doc: >
         zero or more statements or member declarations/definitions, used strictly in the TYPE syntax only
     notes: >
-        Any use of the assignment operator indicates an instance member declaration. Any use of the definition operator indicates a static member of the class, since it is immutable it will not vary between instances. Like in STATEMENT_SCOPE, an execution context is available and will execute any top-level statements inside the type.
+        Any use of the assignment operator indicates an instance member declaration with a default value. Any use of the definition operator indicates a static member of the class, since it is immutable it will not vary between instances. Like in STATEMENT_SCOPE, an execution context is available and will execute any top-level statements inside the type.
 
 TYPE_SCOPE_ASSIGNMENT:
     syntax: >
