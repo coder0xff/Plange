@@ -23,6 +23,21 @@ function(add_yaml_cpp)
 endfunction(add_yaml_cpp)
 add_yaml_cpp()
 
+function(add_elkhound)
+	set(BUILD_TESTING OFF CACHE BOOL "")
+	set(EXTRAS OFF CACHE BOOL "")
+	set(OCAML OFF CACHE BOOL "")
+	add_subdirectory(elkhound/src)
+
+	mark_as_advanced(
+		FORCE
+		BUILD_TESTING
+		EXTRAS
+		OCAML
+	)
+endfunction(add_elkhound)
+add_elkhound()
+
 set(SOURCES	"main.cpp")
 
 add_executable(grammar_gen ${SOURCES})
@@ -30,7 +45,6 @@ source_group("src" FILES ${SOURCES})
 include_directories("${CMAKE_SOURCE_DIR}/source/mpl")
 include_directories("${CMAKE_SOURCE_DIR}/source/utilities")
 include_directories("${PROJECT_SOURCE_DIR}/source/collections")
-include_directories("${CMAKE_SOURCE_DIR}/source/parlex/include")
-target_link_libraries(grammar_gen utilities parlex yaml-cpp)
+target_link_libraries(grammar_gen utilities yaml-cpp)
 set_property(TARGET grammar_gen PROPERTY CXX_STANDARD 17)
 set_property(TARGET grammar_gen PROPERTY CXX_STANDARD_REQUIRED ON)

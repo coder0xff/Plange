@@ -140,7 +140,6 @@ include_directories("${CMAKE_CURRENT_SOURCE_DIR}") #for tclap
 include_directories("${PROJECT_SOURCE_DIR}/source/utilities")
 include_directories("${PROJECT_SOURCE_DIR}/source/mpl")
 include_directories("${PROJECT_SOURCE_DIR}/source/collections")
-include_directories("${PROJECT_SOURCE_DIR}/source/parlex/include")
 include_directories("${CMAKE_BINARY_DIR}/source/plc/llvm/include")
 
 set(SOURCES
@@ -197,7 +196,6 @@ endif()
 #add_precompiled_header(plc "include/stdafx.hpp" FORCEINCLUDE SOURCE_CXX "src/stdafx.cpp")
 target_link_libraries(
 	plc
-	parlex
 	utilities
 	LLVMAnalysis
 	LLVMAsmParser
