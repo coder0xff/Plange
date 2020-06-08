@@ -1,3 +1,6 @@
+// Copyright Brent Lewis 2020
+// Released under MIT license
+
 #ifndef INCLUDED_UTILITIES_VAL_HPP
 #define INCLUDED_UTILITIES_VAL_HPP
 
